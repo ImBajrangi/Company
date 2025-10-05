@@ -241,6 +241,7 @@
 
             if (appState.activeChat.type === 'group') {
               // Public Group Chat path: /artifacts/{appId}/public/data/group_messages
+              // __app_id is either provided by the environment or set statically for local testing.
               const publicPath = `artifacts/${__app_id}/public/data/group_messages`;
               return collection(db, publicPath);
             } else if (appState.activeChat.type === 'private' && appState.activeChat.partnerId) {
@@ -368,6 +369,7 @@
 
             // Initialize scanner if it hasn't been already
             if (!html5QrcodeScanner) {
+                // The 'reader' div ID is used here
                 html5QrcodeScanner = new Html5Qrcode("reader");
             }
             
@@ -739,28 +741,44 @@
          * Main authentication and initialization process.
          */
         const initializeAppAndAuth = async () => {
-            if (!window.__firebase_config || Object.keys(JSON.parse(window.__firebase_config)).length === 0) {
-                setError("Firebase configuration is missing or invalid.");
-                return;
-            }
+            // =========================================================================
+            // === FIREBASE CONFIGURATION FOR LOCAL DEVELOPMENT ===
+            // This entire block replaces the environment-provided credentials for local testing.
             
             // 1. Initialize Firebase
-            const firebaseConfig = JSON.parse(window.__firebase_config);
+            // *** PASTE YOUR FIREBASE CONFIGURATION HERE ***
+            const firebaseConfig = {
+                apiKey: "AIzaSyB-Wd4gZ2J9P9ycaHKwK-EHnNfdg7z9gWI", // <-- REPLACE THIS WITH YOUR ACTUAL API KEY
+                authDomain: "vrindopnishad-d3497.firebaseapp.com", // REPLACE THIS
+                projectId: "vrindopnishad-d3497", // REPLACE THIS
+                storageBucket: "vrindopnishad-d3497.firebasestorage.app", // REPLACE THIS
+                appId: "1:768939105927:web:114a8abf022e6debcf2222", // REPLACE THIS
+                measurementId: "G-HP730QLRL9"
+            };
+            
+            // IMPORTANT: Define a static appId for use in the database paths 
+            // This is needed because the environment variable __app_id is not available locally.
+            if (typeof window.__app_id === 'undefined') {
+                window.__app_id = "my-local-gchat-test"; 
+            }
+            
+            // Fallback for configuration check (only needed if the original environment check wasn't removed)
+            if (typeof firebaseConfig.apiKey === 'undefined' || firebaseConfig.apiKey.includes('YOUR_API_KEY')) {
+                 setError("Firebase configuration is missing or invalid. Please update the firebaseConfig object in initializeAppAndAuth.");
+                 return;
+            }
+
             const firebaseApp = initializeApp(firebaseConfig);
             db = getFirestore(firebaseApp);
             auth = getAuth(firebaseApp);
             
-            // 2. Authentication
-            const initialAuthToken = window.__initial_auth_token;
+            // 2. Authentication: Use Anonymous Sign-in for simple local testing.
             try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                await signInAnonymously(auth);
             } catch (e) {
                 console.error("Firebase Auth Error:", e);
             }
+            // =========================================================================
 
             // 3. Auth State Listener
             onAuthStateChanged(auth, (user) => {
@@ -818,7 +836,7 @@
                 
             } catch (e) {
                 console.error("Error adding document: ", e);
-                setError("Failed to send message. Permission denied.");
+                setError("Failed to send message. Permission denied. Check Firebase rules.");
             }
         };
         
