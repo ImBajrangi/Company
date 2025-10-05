@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gallery - Explore Spiritual Collection</title>
+    <meta name="description" content="Explore our curated gallery of spiritual texts, wisdom and ancient knowledge.">
+    <meta name="keywords" content="gallery, spiritual texts, ancient wisdom, books, spirituality">
+    <link rel="stylesheet" href="/Custom/custom-cursor.css" class="css">
+    <link rel="stylesheet" href="/Gallery/css/Gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+    
+    <!-- Header Navigation -->
+    <header class="navigation">
+        <div class="nav-glass-effect"></div>
+        <div class="logo">
+            <div class="logo-glow"></div>
+            <a href="../Home/home.html">
+                <img src="../assets/logo.svg" alt="Logo">
+                <h1>Spiritual<span class="accent-text">Texts</span></h1>
+            </a>
+        </div>
+        
+        <div class="digital-clock">
+            <span class="time">00:00:00</span>
+            <span class="pulse-dot"></span>
+        </div>
+
+        <div class="search-bar desktop-search">
+            <input type="text" placeholder="Search for books, authors, genres...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+
+        <ul class="main-menu">
+            <li class="active">
+                <a href="../Home/home.html">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <i class="icon fas fa-home"></i>
+                    </div>
+                    <span class="text">Home</span>
+                    <div class="menu-notification">
+                        <div class="notification-glass"></div>
+                        <img src="../assets/menu/home.jpg" alt="">
+                        <p>Return to the main portal</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="../about code/about.html">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <i class="icon fas fa-info-circle"></i>
+                    </div>
+                    <span class="text">About</span>
+                    <div class="menu-notification">
+                        <div class="notification-glass"></div>
+                        <img src="../assets/menu/about.jpg" alt="">
+                        <p>Learn about our mission</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="../Gallery/Gallery.html">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <i class="icon fas fa-image"></i>
+                    </div>
+                    <span class="text">Gallery</span>
+                    <div class="menu-notification">
+                        <div class="notification-glass"></div>
+                        <img src="../assets/menu/gallery.jpg" alt="">
+                        <p>Browse visual teachings</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="../Stack/stack.html">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <i class="icon fas fa-layer-group"></i>
+                    </div>
+                    <span class="text">Collection</span>
+                    <div class="menu-notification">
+                        <div class="notification-glass"></div>
+                        <img src="../assets/menu/collection.jpg" alt="">
+                        <p>Explore our text collection</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="../book-content/book.html">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <i class="icon fas fa-book"></i>
+                    </div>
+                    <span class="text">Books</span>
+                    <div class="menu-notification">
+                        <div class="notification-glass"></div>
+                        <img src="../assets/menu/books.jpg" alt="">
+                        <p>Discover sacred books</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="../admins code/pdf-collection.html">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <i class="icon fas fa-file-pdf"></i>
+                    </div>
+                    <span class="text">PDF Library</span>
+                    <div class="menu-notification">
+                        <div class="notification-glass"></div>
+                        <img src="../assets/menu/pdf.jpg" alt="">
+                        <p>Access downloadable wisdom</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <button class="menu-toggle">
+            <div class="menu-toggle-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        
+        <button class="search-toggle mobile-only">
+            <i class="fas fa-search"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Search Container -->
+    <div class="mobile-search-container">
+        <button class="back-to-menu"><i class="fas fa-arrow-left"></i></button>
+        <div class="search-bar mobile-search">
+            <input type="text" placeholder="किताबें, लेखक, विषय खोजें..." aria-label="Search books, authors, genres">
+            <button class="clear-search-btn" style="display: none;"><i class="fas fa-times"></i></button>
+            <button class="search-button" aria-label="Search"><i class="fas fa-search"></i></button>
+            <div class="search-loading">
+                <div class="search-loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skip to Content Link for Accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to Content</a>
+
+    <!-- Page Loader -->
+    <div class="loader-container">
+        <div class="book-loader">
+            <div class="book" style="animation-play-state: paused">
+                <div class="book-cover" style="animation-play-state: paused">
+                    <div class="sacred-symbol"></div>
+                    <div class="sacred-symbol"></div>
+                    <div class="sacred-symbol"></div>
+                    <div class="sacred-symbol"></div>
+                    <div class="book-spine"></div>
+                    <div class="book-front">
+                        <div class="book-title">Literary Hub</div>
+                        <div class="book-subtitle">A Journey Through Words</div>
+                    </div>
+                </div>
+                <div class="book-pages" style="animation-play-state: paused">
+                    <div class="book-page" style="animation-play-state: paused">
+                        <div class="sanskrit-text">
+                            अथातो ब्रह्म जिज्ञासा। जन्माद्यस्य यतः। शास्त्रयोनित्वात्।
+                            तत्तु समन्वयात्। ईक्षतेर्नाशब्दम्।
+                            गौणश्चेन्नात्मशब्दात्। तद्धेतुव्यपदेशाच्च। स्वाप्ययात्। 
+                            न चाधिकारिकमपि परनिराकरणं सर्वगतत्वाच्च।
+                        </div>
+                    </div>
+                    <div class="book-page" style="animation-play-state: paused">
+                        <div class="sanskrit-text">
+                            योगश्चित्तवृत्तिनिरोधः। तदा द्रष्टुः स्वरूपेऽवस्थानम्।
+                            वृत्तिसारूप्यमितरत्र। अभ्यासवैराग्याभ्यां तन्निरोधः।
+                            तत्र स्थितौ यत्नोऽभ्यासः। 
+                            स तु दीर्घकालनैरन्तर्यसत्कारासेवितो दृढभूमिः।
+                        </div>
+                    </div>
+                    <div class="book-page" style="animation-play-state: paused">
+                        <div class="sanskrit-text">
+                            अथ योगानुशासनम्। योगः समाधिः। 
+                            तच्छिद्रेषु प्रत्ययान्तराणि संस्कारेभ्यः।
+                            क्षीणवृत्तेरभिजातस्येव मणेर्ग्रहीतृग्रहणग्राह्येषु 
+                            तत्स्थतदञ्जनता समापत्तिः।
+                            स्मृतिपरिशुद्धौ स्वरूपशून्येवार्थमात्रनिर्भासा निर्वितर्का।
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="magical-content">
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-particle" style="animation-play-state: paused"></div>
+                <div class="divine-message" style="animation-play-state: paused">Unlocking the wisdom of ages</div>
+                <div class="divine-ray" style="animation-play-state: paused"></div>
+                <div class="divine-ray" style="animation-play-state: paused"></div>
+                <div class="divine-ray" style="animation-play-state: paused"></div>
+                <div class="divine-ray" style="animation-play-state: paused"></div>
+                <div class="divine-ray" style="animation-play-state: paused"></div>
+                <div class="mandala-bg" style="animation-play-state: paused"></div>
+            </div>
+        </div>
+        <div class="loading-text">
+            Loading <span class="dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+    </div>
+
+    <!-- Hero Section with Animated Background -->
+    <section class="hero" id="main-content" style="padding-top: 180px;">
+        <div class="animated-bg">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="animate-fade-in">Discover Your Next Literary Adventure</h2>
+                <p class="animate-slide-up">Explore our vast collection of books spanning various genres, authors, and time periods. From classic literature to contemporary bestsellers, find your perfect read.</p>
+                <button class="cta-btn animate-slide-up">Explore Collection</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section" style="padding-top: 20px;">
+        <div class="container">
+            <h3>Browse by Category</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Books</button>
+                <button class="filter-btn" data-filter="fiction">Fiction</button>
+                <button class="filter-btn" data-filter="non-fiction">Non-Fiction</button>
+                <button class="filter-btn" data-filter="poetry">Poetry</button>
+                <button class="filter-btn" data-filter="educational">Educational</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section (Moved from navigation) -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <h3>Find Your Next Book <span class="hindi-text">अपनी अगली किताब खोजें</span></h3>
+                <div class="search-instructions">
+                    <div class="search-icon-large">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <p>खोजें अपनी पसंद की किताब, लेखक या विषय</p>
+                </div>
+                <!-- Desktop Search -->
+                <div class="search-bar desktop-search">
+                    <div class="search-tooltip">Click here to search or press Enter after typing</div>
+                    <input type="text" id="searchInput" placeholder="Search books, authors, genres..." aria-label="Search books, authors, genres">
+                    <button class="clear-search-btn" style="display: none; position: absolute; right: 50px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; padding: 0 10px;"><i class="fas fa-times"></i></button>
+                    <button class="search-button" aria-label="Search"><i class="fas fa-search"></i></button>
+                    <div class="search-loading">
+                        <div class="search-loading-spinner"></div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Search -->
+                <div class="search-bar mobile-search">
+                    <div class="search-tooltip">यहां खोजने के लिए क्लिक करें या टाइप करने के बाद एंटर दबाएं</div>
+                    <input type="text" id="mobileSearchInput" placeholder="किताबें, लेखक, विषय खोजें..." aria-label="Search books, authors, genres">
+                    <button class="clear-search-btn" style="display: none; position: absolute; right: 50px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; padding: 0 10px;"><i class="fas fa-times"></i></button>
+                    <button class="search-button" aria-label="Search"><i class="fas fa-search"></i></button>
+                    <div class="search-loading">
+                        <div class="search-loading-spinner"></div>
+                    </div>
+                </div>
+                <p class="search-hint">अपना खोज शब्द टाइप करें और एंटर दबाएं या खोज आइकन पर क्लिक करें</p>
+                <div class="search-examples">
+                    <span class="search-tag">हैरी पॉटर</span>
+                    <span class="search-tag">विज्ञान कथा</span>
+                    <span class="search-tag">प्रेमचंद</span>
+                    <span class="search-tag">रहस्य</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books Section -->
+    <section class="gallery">
+        <div class="container">
+            <div class="blocks-container">
+                <!-- Book Block 1 -->
+                <div class="block" data-category="fiction">
+                    <div class="block-img">
+                        <img src="image/Books/book1.jpg" alt="The Great Gatsby">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>The Great Gatsby</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(4.5/5)</span>
+                        </div>
+                        <p>A classic novel by F. Scott Fitzgerald that explores themes of decadence, idealism, social upheaval, and excess, creating a portrait of the Jazz Age.</p>
+                        <div class="block-tags">
+                            <span class="tag">Classic</span>
+                            <span class="tag">F. Scott Fitzgerald</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Book Block 2 -->
+                <div class="block" data-category="fiction">
+                    <div class="block-img">
+                        <img src="image/Books/book2.jpg" alt="To Kill a Mockingbird">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>To Kill a Mockingbird</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(5.0/5)</span>
+                        </div>
+                        <p>Harper Lee's Pulitzer Prize-winning masterwork of honor and injustice in the deep South—and the heroism of one man in the face of blind hatred.</p>
+                        <div class="block-tags">
+                            <span class="tag">Classic</span>
+                            <span class="tag">Harper Lee</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Book Block 3 -->
+                <div class="block" data-category="non-fiction">
+                    <div class="block-img">
+                        <img src="image/Books/book3.jpg" alt="Sapiens: A Brief History of Humankind">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>Sapiens: A Brief History of Humankind</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(4.7/5)</span>
+                        </div>
+                        <p>A groundbreaking narrative of humanity's creation and evolution that explores how biology and history have defined us.</p>
+                        <div class="block-tags">
+                            <span class="tag">History</span>
+                            <span class="tag">Yuval Noah Harari</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Book Block 4 -->
+                <div class="block" data-category="fiction">
+                    <div class="block-img">
+                        <img src="image/Books/book4.jpg" alt="1984">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>1984</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(4.9/5)</span>
+                        </div>
+                        <p>George Orwell's dystopian masterpiece, depicting a terrifying vision of a totalitarian future where critical thought is suppressed.</p>
+                        <div class="block-tags">
+                            <span class="tag">Dystopian</span>
+                            <span class="tag">George Orwell</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Book Block 5 -->
+                <div class="block" data-category="poetry">
+                    <div class="block-img">
+                        <img src="image/Books/book5.jpg" alt="Milk and Honey">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>Milk and Honey</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="rating-count">(4.0/5)</span>
+                        </div>
+                        <p>A collection of poetry and prose about survival, the experience of violence, abuse, love, loss, and femininity.</p>
+                        <div class="block-tags">
+                            <span class="tag">Poetry</span>
+                            <span class="tag">Rupi Kaur</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Book Block 6 -->
+                <div class="block" data-category="educational">
+                    <div class="block-img">
+                        <img src="image/Books/book6.jpg" alt="A Brief History of Time">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>A Brief History of Time</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(4.6/5)</span>
+                        </div>
+                        <p>Stephen Hawking's landmark work on our understanding of the universe, from the Big Bang to black holes and beyond.</p>
+                        <div class="block-tags">
+                            <span class="tag">Science</span>
+                            <span class="tag">Stephen Hawking</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Collections Section -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="heading-container">
+                <div class="heading-glow"></div>
+                <h3 id="featured-heading">Featured Collections</h3>
+            </div>
+            <div class="featured-container">
+                <!-- Featured Card 1 -->
+                <div class="featured-card" data-card-index="0">
+                    <div class="card-3d-wrapper">
+                        <div class="card-front">
+                            <div class="featured-content">
+                                <h4>Award Winners</h4>
+                                <p>Explore books that have won prestigious literary awards including the Pulitzer Prize, Man Booker Prize, and National Book Award.</p>
+                                <ul>
+                                    <li>Pulitzer Prize Winners</li>
+                                    <li>Man Booker Prize Winners</li>
+                                    <li>National Book Award Winners</li>
+                                    <li>Nobel Prize in Literature</li>
+                                </ul>
+                                <button class="featured-btn">View Collection</button>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="featured-content">
+                                <h4>Recent Additions</h4>
+                                <p>The latest award-winning titles added to our collection this month:</p>
+                                <ul>
+                                    <li>The Overstory by Richard Powers</li>
+                                    <li>The Testaments by Margaret Atwood</li>
+                                    <li>The Night Watchman by Louise Erdrich</li>
+                                    <li>Shuggie Bain by Douglas Stuart</li>
+                                </ul>
+                                <button class="featured-btn">Browse All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Card 2 -->
+                <div class="featured-card" data-card-index="1">
+                    <div class="card-3d-wrapper">
+                        <div class="card-front">
+                            <div class="featured-content">
+                                <h4>Classic Literature</h4>
+                                <p>Timeless works that have shaped literary history and continue to inspire readers and writers today.</p>
+                                <ul>
+                                    <li>19th Century Classics</li>
+                                    <li>20th Century Masterpieces</li>
+                                    <li>Ancient Literature</li>
+                                    <li>Renaissance Works</li>
+                                </ul>
+                                <button class="featured-btn">View Collection</button>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="featured-content">
+                                <h4>Must-Read Classics</h4>
+                                <p>Essential classics every book lover should read:</p>
+                                <ul>
+                                    <li>Pride and Prejudice by Jane Austen</li>
+                                    <li>Crime and Punishment by Fyodor Dostoevsky</li>
+                                    <li>One Hundred Years of Solitude by Gabriel García Márquez</li>
+                                    <li>Moby-Dick by Herman Melville</li>
+                                </ul>
+                                <button class="featured-btn">Browse All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Card 3 -->
+                <div class="featured-card" data-card-index="2">
+                    <div class="card-3d-wrapper">
+                        <div class="card-front">
+                            <div class="featured-content">
+                                <h4>Contemporary Bestsellers</h4>
+                                <p>The most popular and critically acclaimed books published in the last few years.</p>
+                                <ul>
+                                    <li>Fiction Bestsellers</li>
+                                    <li>Non-Fiction Highlights</li>
+                                    <li>Book Club Favorites</li>
+                                    <li>Trending New Releases</li>
+                                </ul>
+                                <button class="featured-btn">View Collection</button>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="featured-content">
+                                <h4>Top Picks This Month</h4>
+                                <p>Readers' favorite contemporary titles:</p>
+                                <ul>
+                                    <li>Where the Crawdads Sing by Delia Owens</li>
+                                    <li>Educated by Tara Westover</li>
+                                    <li>The Silent Patient by Alex Michaelides</li>
+                                    <li>Becoming by Michelle Obama</li>
+                                </ul>
+                                <button class="featured-btn">Browse All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-content">
+                <h3>Stay Updated with Our Latest Additions</h3>
+                <p>Subscribe to our newsletter to receive updates on new books, author spotlights, and exclusive reading recommendations tailored to your interests.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Literary Hub</h3>
+                    <p>Literary Hub is a curated collection of books spanning various genres, authors, and time periods. Our mission is to connect readers with their next literary adventure.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Books</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Authors</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Genres</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@literaryhub.com</li>
+                        <li><i class="fas fa-clock"></i> Mon - Fri: 9:00 AM - 8:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Literary Hub. All Rights Reserved. | Designed with <i class="fas fa-heart"></i> for book lovers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Book Preview Modal -->
+    <div class="modal" id="bookPreviewModal">
+        <div class="modal-content book-preview">
+            <span class="close-modal">&times;</span>
+            <div class="book-preview-content">
+                <div class="book-cover">
+                    <img src="image/Books/book1.jpg" alt="Book Cover">
+                </div>
+                <div class="book-details">
+                    <h2 class="book-title">The Great Gatsby</h2>
+                    <h3 class="book-author">by F. Scott Fitzgerald</h3>
+                    <div class="book-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">(4.5/5)</span>
+                    </div>
+                    <p class="book-description">A classic novel by F. Scott Fitzgerald that explores themes of decadence, idealism, social upheaval, and excess, creating a portrait of the Jazz Age. Set in the summer of 1922, the novel tells the story of millionaire Jay Gatsby and his pursuit of Daisy Buchanan, a wealthy young woman whom he loved in his youth.</p>
+                    <div class="book-metadata">
+                        <div class="metadata-item">
+                            <span class="label">Published</span>
+                            <span class="value">1925</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="label">Pages</span>
+                            <span class="value">180</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="label">Genre</span>
+                            <span class="value">Classic, Fiction</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="label">Language</span>
+                            <span class="value">English</span>
+                        </div>
+                    </div>
+                    <div class="book-actions">
+                        <button class="preview-btn">Read Sample</button>
+                        <button class="add-to-list-btn">Add to Reading List</button>
+                    </div>
+                </div>
+            </div>
+            <div class="book-sample">
+                <h3>Sample from The Great Gatsby</h3>
+                <div class="sample-content">
+                    <p>In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.</p>
+                    <p>"Whenever you feel like criticizing anyone," he told me, "just remember that all the people in this world haven't had the advantages that you've had."</p>
+                    <p>He didn't say any more, but we've always been unusually communicative in a reserved way, and I understood that he meant a great deal more than that. In consequence, I'm inclined to reserve all judgments, a habit that has opened up many curious natures to me and also made me the victim of not a few veteran bores.</p>
+                </div>
+                <button class="read-more-btn">Read More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Settings</h2>
+            <div class="settings-section">
+                <h3>Theme</h3>
+                <div class="theme-options">
+                    <button class="theme-btn active" data-theme="dark">Dark</button>
+                    <button class="theme-btn" data-theme="light-mode">Light</button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>Font Size</h3>
+                <div class="font-options">
+                    <button class="font-btn" data-font="small">Small</button>
+                    <button class="font-btn active" data-font="medium">Medium</button>
+                    <button class="font-btn" data-font="large">Large</button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>Animation Speed</h3>
+                <input type="range" min="0.5" max="2" step="0.1" value="1" class="animation-speed" id="animationSpeed">
+                <span class="speed-value">1x</span>
+            </div>
+            <button class="save-settings">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- API Integration Script -->
+    <script>
+        // API Base URL
+        const API_BASE_URL = 'https://your-backend-domain.com/api';
+        
+        // Get token from localStorage
+        const getToken = () => localStorage.getItem('token');
+        
+        // Headers with authentication
+        const getAuthHeaders = () => {
+            const token = getToken();
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            return headers;
+        };
+        
+        // Books API
+        const booksAPI = {
+            // Get all books with optional filters
+            async getBooks(filters = {}) {
+                try {
+                    // Build query string from filters
+                    const queryParams = new URLSearchParams();
+                    Object.keys(filters).forEach(key => {
+                        if (filters[key]) {
+                            queryParams.append(key, filters[key]);
+                        }
+                    });
+                    
+                    const queryString = queryParams.toString() ? `?${queryParams.toString()}` : '';
+                    const response = await fetch(`${API_BASE_URL}/books${queryString}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch books');
+                    }
+                    
+                    const data = await response.json();
+                    return data.data;
+                } catch (error) {
+                    console.error('Error fetching books:', error);
+                    return [];
+                }
+            },
+            
+            // Get a single book by ID
+            async getBook(id) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/books/${id}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch book');
+                    }
+                    
+                    const data = await response.json();
+                    return data.data;
+                } catch (error) {
+                    console.error(`Error fetching book ${id}:`, error);
+                    return null;
+                }
+            }
+        };
+        
+        // Auth API
+        const authAPI = {
+            // Check if user is logged in
+            isLoggedIn() {
+                return !!getToken();
+            },
+            
+            // Get current user profile
+            async getCurrentUser() {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+                        headers: getAuthHeaders()
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to get user profile');
+                    }
+                    
+                    const data = await response.json();
+                    return data.data;
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                    return null;
+                }
+            },
+            
+            // Login user
+            async login(email, password) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Login failed');
+                    }
+                    
+                    // Save token to localStorage
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
+                    }
+                    
+                    return data;
+                } catch (error) {
+                    console.error('Error logging in:', error);
+                    throw error;
+                }
+            },
+            
+            // Logout user
+            async logout() {
+                try {
+                    // Clear token from localStorage
+                    localStorage.removeItem('token');
+                    
+                    // Call logout endpoint
+                    await fetch(`${API_BASE_URL}/auth/logout`, {
+                        headers: getAuthHeaders()
+                    });
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error logging out:', error);
+                    return false;
+                }
+            }
+        };
+        
+        // Initialize the page with data from the API
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Check if user is logged in
+                if (authAPI.isLoggedIn()) {
+                    const user = await authAPI.getCurrentUser();
+                    if (user) {
+                        console.log('Logged in as:', user.username);
+                        // Update UI for logged in user
+                        updateUIForLoggedInUser(user);
+                    }
+                }
+                
+                // Load books from API
+                const books = await booksAPI.getBooks();
+                if (books && books.length > 0) {
+                    // Update the gallery with books from the API
+                    updateGalleryWithBooks(books);
+                }
+            } catch (error) {
+                console.error('Error initializing page:', error);
+            }
+        });
+        
+        // Function to update UI for logged in user
+        function updateUIForLoggedInUser(user) {
+            // Add user profile link to navigation
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks) {
+                // Check if profile link already exists
+                if (!document.querySelector('.nav-links .profile-link')) {
+                    const profileLi = document.createElement('li');
+                    profileLi.className = 'profile-link';
+                    profileLi.innerHTML = `
+                        <a href="#profile">
+                            <i class="fas fa-user"></i>
+                            <span>${user.username}</span>
+                        </a>
+                    `;
+                    navLinks.appendChild(profileLi);
+                }
+                
+                // Check if logout button already exists
+                if (!document.querySelector('.nav-links .logout-link')) {
+                    const logoutLi = document.createElement('li');
+                    logoutLi.className = 'logout-link';
+                    logoutLi.innerHTML = `
+                        <a href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    `;
+                    navLinks.appendChild(logoutLi);
+                    
+                    // Add logout event listener
+                    document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        await authAPI.logout();
+                        window.location.reload();
+                    });
+                }
+            }
+        }
+        
+        // Function to update gallery with books from API
+        function updateGalleryWithBooks(books) {
+            const galleryContainer = document.querySelector('.gallery-container');
+            if (!galleryContainer) return;
+            
+            // Clear existing content if needed
+            // galleryContainer.innerHTML = '';
+            
+            // Create book elements and add to gallery
+            books.forEach(book => {
+                // Check if book already exists in gallery
+                const existingBook = document.querySelector(`.gallery-item[data-id="${book._id}"]`);
+                if (existingBook) return;
+                
+                const bookElement = document.createElement('div');
+                bookElement.className = 'gallery-item';
+                bookElement.setAttribute('data-id', book._id);
+                bookElement.setAttribute('data-category', book.genre.toLowerCase());
+                
+                bookElement.innerHTML = `
+                    <div class="gallery-item-inner">
+                        <img src="${book.coverImage}" alt="${book.title}" loading="lazy">
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>${book.title}</h3>
+                                <p>${book.author}</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>${book.rating}</span>
+                                </div>
+                                <button class="view-details-btn" data-id="${book._id}">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                galleryContainer.appendChild(bookElement);
+                
+                // Add click event to view details button
+                const viewDetailsBtn = bookElement.querySelector('.view-details-btn');
+                viewDetailsBtn.addEventListener('click', function() {
+                    const bookId = this.getAttribute('data-id');
+                    showBookDetails(bookId);
+                });
+            });
+            
+            // Re-initialize gallery filters if needed
+            if (typeof filterGallery === 'function') {
+                filterGallery('all');
+            }
+        }
+        
+        // Function to show book details
+        async function showBookDetails(bookId) {
+            try {
+                const book = await booksAPI.getBook(bookId);
+                if (!book) {
+                    console.error('Book not found');
+                    return;
+                }
+                
+                // Show book details in modal
+                const modal = document.getElementById('bookModal');
+                if (!modal) return;
+                
+                const modalContent = modal.querySelector('.modal-content');
+                modalContent.innerHTML = `
+                    <span class="close-modal">&times;</span>
+                    <div class="book-details">
+                        <div class="book-cover">
+                            <img src="${book.coverImage}" alt="${book.title}">
+                        </div>
+                        <div class="book-info">
+                            <h2>${book.title}</h2>
+                            <h3>${book.author}</h3>
+                            <div class="book-meta">
+                                <div class="book-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>${book.rating}</span>
+                                </div>
+                                <div class="book-genre">${book.genre}</div>
+                                <div class="book-year">${book.publishedYear}</div>
+                            </div>
+                            <div class="book-description">
+                                <p>${book.description}</p>
+                            </div>
+                            <div class="book-details-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Pages:</span>
+                                    <span class="meta-value">${book.pages}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Language:</span>
+                                    <span class="meta-value">${book.language}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Publisher:</span>
+                                    <span class="meta-value">${book.publisher}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">ISBN:</span>
+                                    <span class="meta-value">${book.isbn}</span>
+                                </div>
+                            </div>
+                            ${authAPI.isLoggedIn() ? `
+                                <div class="book-actions">
+                                    <button class="add-to-reading-list" data-id="${book._id}">
+                                        <i class="fas fa-bookmark"></i> Add to Reading List
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="book-reviews">
+                        <h3>Reviews</h3>
+                        ${book.reviews && book.reviews.length > 0 ? `
+                            <div class="reviews-list">
+                                ${book.reviews.map(review => `
+                                    <div class="review">
+                                        <div class="review-header">
+                                            <div class="review-author">${review.username}</div>
+                                            <div class="review-rating">
+                                                ${Array(Math.floor(review.rating)).fill('<i class="fas fa-star"></i>').join('')}
+                                                ${review.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                                                ${Array(Math.floor(5 - review.rating)).fill('<i class="far fa-star"></i>').join('')}
+                                            </div>
+                                        </div>
+                                        <div class="review-text">${review.text}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '<p>No reviews yet. Be the first to review this book!</p>'}
+                        
+                        ${authAPI.isLoggedIn() ? `
+                            <div class="add-review">
+                                <h4>Add Your Review</h4>
+                                <form id="reviewForm">
+                                    <div class="form-group">
+                                        <label for="reviewRating">Rating</label>
+                                        <select id="reviewRating" required>
+                                            <option value="5">5 - Excellent</option>
+                                            <option value="4">4 - Very Good</option>
+                                            <option value="3">3 - Good</option>
+                                            <option value="2">2 - Fair</option>
+                                            <option value="1">1 - Poor</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reviewText">Your Review</label>
+                                        <textarea id="reviewText" rows="4" required></textarea>
+                                    </div>
+                                    <button type="submit" class="submit-review">Submit Review</button>
+                                </form>
+                            </div>
+                        ` : '<p>Please <a href="#login" class="login-link">login</a> to add a review.</p>'}
+                    </div>
+                `;
+                
+                // Show modal
+                modal.style.display = 'block';
+                
+                // Close modal when clicking on close button
+                const closeBtn = modal.querySelector('.close-modal');
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+                
+                // Close modal when clicking outside of it
+                window.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+                
+                // Add event listener for review form submission
+                const reviewForm = document.getElementById('reviewForm');
+                if (reviewForm) {
+                    reviewForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        
+                        const rating = parseFloat(document.getElementById('reviewRating').value);
+                        const text = document.getElementById('reviewText').value;
+                        
+                        try {
+                            await booksAPI.addReview(bookId, { rating, text });
+                            // Refresh book details to show new review
+                            showBookDetails(bookId);
+                        } catch (error) {
+                            console.error('Error adding review:', error);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error showing book details:', error);
+            }
+        }
+    </script>
+
+    <!-- Books Data Loading Script -->
+    <script>
+        // Load books data from JSON
+        async function loadBooksData() {
+            try {
+                const response = await fetch('/class/json/books-data.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load books data');
+                }
+                const data = await response.json();
+                return data.books;
+            } catch (error) {
+                console.error('Error loading books:', error);
+                return [];
+            }
+        }
+
+        // Update gallery with books
+        function updateGalleryWithBooks(books) {
+            const blocksContainer = document.querySelector('.blocks-container');
+            if (!blocksContainer) return;
+
+            blocksContainer.innerHTML = books.map(book => `
+                <div class="block" data-category="${book.category}">
+                    <div class="block-img">
+                        <img src="${book.cover}" alt="${book.title}">
+                        <div class="bookmark-btn" aria-label="Bookmark this book">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <h4>${book.title}</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(4.5/5)</span>
+                        </div>
+                        <p>${book.description}</p>
+                        <div class="block-tags">
+                            <span class="tag">${book.category}</span>
+                            <span class="tag">${book.author}</span>
+                        </div>
+                        <div class="block-buttons">
+                            <button class="block-btn preview-btn">Preview</button>
+                            <button class="block-btn add-btn">Add to List</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+
+    <script type="module" src="/Custom/custom-Cursor.js"></script>
+    <script src="/Gallery/js/Gallery.js"></script>
+</body>
+</html>

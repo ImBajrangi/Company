@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad - Paath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #000621;
+            --text-light: #ffffff;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(45deg, #000621, #1b0036, #1d0043, #2c0044);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            width: 300px;
+            height: calc(100vh - 80px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .category-filter {
+            margin-bottom: 2rem;
+        }
+
+        .category-filter h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-purple);
+        }
+
+        .category-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            border-color: transparent;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .content-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .content-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-purple);
+        }
+
+        .content-card p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .content-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .reader-view {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reader-view.active {
+            display: block;
+        }
+
+        .reader-header {
+            margin-bottom: 3rem;
+        }
+
+        .reader-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .reader-meta {
+            display: flex;
+            gap: 2rem;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        .reader-content {
+            font-size: 1.2rem;
+            line-height: 2;
+            white-space: pre-wrap;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                top: 70px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">वृंदोपनिषद्</div>
+        <div class="header-controls">
+            <button class="control-btn menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="control-btn" id="backBtn" style="display: none;">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <div class="category-filter">
+            <h3>Categories</h3>
+            <button class="category-btn active" data-category="all">All Content</button>
+            <div id="categoryList"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="gridView" class="content-grid"></div>
+        <div id="readerView" class="reader-view"></div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" id="fontDown">A-</button>
+        <button class="control-btn" id="fontUp">A+</button>
+        <button class="control-btn" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <script>
+        // OPTION 1: Paste your JSON data directly here
+        const EMBEDDED_DATA = {
+            "collection": {
+                "name": "Default Collection",
+                "entries": []
+                // Paste your entire JSON collection.entries array here
+            }
+        };
+
+        // OPTION 2: Or use external files (requires web server)
+        const JSON_FILES = [
+            "/class/json/Default Collection-2025-09-24T15-20-20.json"
+            // 'Default Collection-2025-09-24T15-20-20.json'
+        ];
+
+        // Set to true to use embedded data, false to load from files
+        const USE_EMBEDDED = false;
+
+        // Global state
+        let allEntries = [];
+        let filteredEntries = [];
+        let currentEntry = null;
+        let currentIndex = 0;
+        let categories = new Set();
+
+        // DOM elements
+        const gridView = document.getElementById('gridView');
+        const readerView = document.getElementById('readerView');
+        const categoryList = document.getElementById('categoryList');
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+        const backBtn = document.getElementById('backBtn');
+
+        // Load all JSON files
+        async function loadAllData() {
+            gridView.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading content...</p>';
+            
+            try {
+                // Use embedded data if enabled
+                if (USE_EMBEDDED && EMBEDDED_DATA?.collection?.entries?.length > 0) {
+                    allEntries = EMBEDDED_DATA.collection.entries;
+                    console.log(`✓ Loaded embedded data with ${allEntries.length} entries`);
+                    
+                    // Extract categories
+                    allEntries.forEach(entry => {
+                        if (entry.category) {
+                            categories.add(entry.category);
+                        }
+                    });
+
+                    renderCategories();
+                    filterByCategory('all');
+                    return;
+                }
+
+                // Otherwise try to load from files
+                if (JSON_FILES.length === 0) {
+                    throw new Error('No JSON files configured. Either:\n1. Set USE_EMBEDDED = true and paste data in EMBEDDED_DATA\n2. Add file paths to JSON_FILES array and run with a web server');
+                }
+
+                const promises = JSON_FILES.map(async (file) => {
+                    try {
+                        const response = await fetch(file);
+                        
+                        // Check if response is OK
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${file} not found`);
+                        }
+                        
+                        // Check if response is JSON
+                        const contentType = response.headers.get('content-type');
+                        if (!contentType || !contentType.includes('application/json')) {
+                            throw new Error(`${file} is not a JSON file`);
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        console.error(`Failed to load ${file}:`, error.message);
+                        return null;
+                    }
+                });
+                
+                const results = await Promise.all(promises);
+                
+                // Process valid results
+                let loadedCount = 0;
+                results.forEach((data, index) => {
+                    if (data?.collection?.entries) {
+                        allEntries.push(...data.collection.entries);
+                        loadedCount++;
+                    }
+                });
+
+                if (allEntries.length === 0) {
+                    throw new Error('No valid entries found. Please check:\n1. JSON file paths are correct\n2. Files exist in the same directory as this HTML\n3. File structure matches the expected format\n4. You are running this through a web server (not file:///)');
+                }
+
+                console.log(`✓ Loaded ${loadedCount} file(s) with ${allEntries.length} total entries`);
+
+                // Extract categories
+                allEntries.forEach(entry => {
+                    if (entry.category) {
+                        categories.add(entry.category);
+                    }
+                });
+
+                renderCategories();
+                filterByCategory('all');
+            } catch (error) {
+                console.error('Error loading data:', error);
+                gridView.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;">
+                        <h3 style="color: #ef4444; margin-bottom: 1rem;">Error Loading Content</h3>
+                        <p style="margin-bottom: 1rem; white-space: pre-line;">${error.message}</p>
+                        <p style="opacity: 0.7; font-size: 0.9rem;">Check the browser console (F12) for more details.</p>
+                        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <div style="text-align: left; font-size: 0.85rem; opacity: 0.6; max-width: 600px; margin: 0 auto;">
+                            <p><strong>Quick Fix Options:</strong></p>
+                            <ol style="padding-left: 1.5rem; line-height: 1.8;">
+                                <li>Set <code>USE_EMBEDDED = true</code> and paste your JSON in <code>EMBEDDED_DATA</code></li>
+                                <li>Start a local web server (see instructions below)</li>
+                                <li>Use an online editor like CodePen or JSFiddle</li>
+                            </ol>
+                            <p style="margin-top: 1rem;"><strong>Local Web Server:</strong></p>
+                            <p>Python: <code>python -m http.server 8000</code></p>
+                            <p>Node.js: <code>npx http-server</code></p>
+                            <p>Then open: <code>http://localhost:8000</code></p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Render category buttons
+        function renderCategories() {
+            categories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.className = 'category-btn';
+                btn.textContent = category;
+                btn.dataset.category = category;
+                btn.onclick = () => filterByCategory(category);
+                categoryList.appendChild(btn);
+            });
+        }
+
+        // Filter entries by category
+        function filterByCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
+            });
+
+            if (category === 'all') {
+                filteredEntries = allEntries;
+            } else {
+                filteredEntries = allEntries.filter(e => e.category === category);
+            }
+
+            renderGrid();
+            sidebar.classList.remove('active');
+        }
+
+        // Render grid view
+        function renderGrid() {
+            gridView.innerHTML = filteredEntries.map((entry, index) => `
+                <div class="content-card" onclick="openReader('${entry.id}')">
+                    <h3>${entry.title || 'Untitled'}</h3>
+                    <p>${entry.description || entry.content?.excerpt || ''}</p>
+                    ${entry.tags?.length ? `
+                        <div class="tags">
+                            ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Open reader view
+        function openReader(entryId) {
+            currentEntry = allEntries.find(e => e.id === entryId);
+            currentIndex = filteredEntries.findIndex(e => e.id === entryId);
+            
+            if (!currentEntry) return;
+
+            const content = currentEntry.content?.content || '';
+            
+            readerView.innerHTML = `
+                <div class="reader-header">
+                    <h1 class="reader-title">${currentEntry.title || 'Untitled'}</h1>
+                    <div class="reader-meta">
+                        <span>${currentEntry.category || ''}</span>
+                        <span>${currentEntry.content?.status || ''}</span>
+                    </div>
+                    ${currentEntry.tags?.length ? `
+                        <div class="tags">
+                            ${currentEntry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="reader-content">${content}</div>
+                <div class="navigation">
+                    <button class="nav-btn" ${currentIndex === 0 ? 'disabled' : ''} onclick="navigate(-1)">
+                        ← Previous
+                    </button>
+                    <button class="nav-btn" ${currentIndex === filteredEntries.length - 1 ? 'disabled' : ''} onclick="navigate(1)">
+                        Next →
+                    </button>
+                </div>
+            `;
+
+            gridView.style.display = 'none';
+            readerView.classList.add('active');
+            backBtn.style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Navigate between entries
+        function navigate(direction) {
+            currentIndex += direction;
+            if (currentIndex >= 0 && currentIndex < filteredEntries.length) {
+                openReader(filteredEntries[currentIndex].id);
+            }
+        }
+
+        // Close reader view
+        backBtn.onclick = () => {
+            readerView.classList.remove('active');
+            gridView.style.display = 'grid';
+            backBtn.style.display = 'none';
+        };
+
+        // Menu toggle
+        menuToggle.onclick = () => {
+            sidebar.classList.toggle('active');
+        };
+
+        // Font controls
+        document.getElementById('fontDown').onclick = () => {
+            const content = document.querySelector('.reader-content');
+            if (content) {
+                const size = parseFloat(getComputedStyle(content).fontSize);
+                content.style.fontSize = Math.max(size * 0.9, 16) + 'px';
+            }
+        };
+
+        document.getElementById('fontUp').onclick = () => {
+            const content = document.querySelector('.reader-content');
+            if (content) {
+                const size = parseFloat(getComputedStyle(content).fontSize);
+                content.style.fontSize = Math.min(size * 1.1, 40) + 'px';
+            }
+        };
+
+        // Theme toggle
+        let isDark = true;
+        document.getElementById('themeToggle').onclick = () => {
+            isDark = !isDark;
+            document.getElementById('themeToggle').innerHTML = 
+                isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        };
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (readerView.classList.contains('active')) {
+                if (e.key === 'ArrowLeft' && currentIndex > 0) navigate(-1);
+                if (e.key === 'ArrowRight' && currentIndex < filteredEntries.length - 1) navigate(1);
+                if (e.key === 'Escape') backBtn.click();
+            }
+        });
+
+        // Initialize
+        loadAllData();
+    </script>
+</body>
+</html>

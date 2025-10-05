@@ -1,0 +1,85 @@
+/* Notification Styles */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(30, 42, 53, 0.9);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 9999;
+    font-family: var(--font-secondary, 'Montserrat', 'Helvetica Neue', sans-serif);
+    font-size: 0.95rem;
+    max-width: 300px;
+    border-left: 4px solid var(--accent-color, #f6ee5c);
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.notification.success {
+    border-left-color: var(--success-color, #4caf50);
+}
+
+.notification.error {
+    border-left-color: var(--error-color, #f44336);
+}
+
+.notification.warning {
+    border-left-color: var(--warning-color, #ff9800);
+}
+
+.notification.info {
+    border-left-color: var(--info-color, #2196f3);
+}
+
+/* Dark mode styles */
+[data-theme="dark"] .notification {
+    background: rgba(20, 20, 20, 0.9);
+    color: #f5f5f5;
+}
+
+/* Light mode styles */
+[data-theme="light"] .notification {
+    background: rgba(240, 240, 240, 0.9);
+    color: #333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for notification */
+@keyframes notification-in {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes notification-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    .notification {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+} 

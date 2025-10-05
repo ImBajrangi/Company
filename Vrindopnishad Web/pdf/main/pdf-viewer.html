@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PDF Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/pdf/css/pdf-viewer.css?v=1.4">
+    <script src="/pdf/libs/pdf.min.js"></script>
+    <script src="/pdf/js/three.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf/libs/pdf.worker.min.js';
+    </script>
+</head>
+<body class="dark-theme">
+    <div class="particles-background" id="particles-background"></div>
+    <div class="constellation-lines" id="space-background"></div>
+    
+    <div class="app-container">
+        <header>
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-file-pdf"></i>
+                    <h1>PDF <span>Viewer</span></h1>
+                </div>
+                <div class="file-name" id="file-name">No file selected</div>
+            </div>
+            <div class="header-right">
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button id="open-file-btn" class="primary-btn">
+                    <i class="fas fa-folder-open"></i>
+                    <span class="btn-text">Open PDF</span>
+                </button>
+                <input type="file" id="file-input" accept="application/pdf" class="hidden">
+            </div>
+        </header>
+        
+        <main>
+            <div class="toolbar">
+                <div class="zoom-controls">
+                    <button id="zoom-out" class="tool-btn" disabled title="Zoom Out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <span id="zoom-level">100%</span>
+                    <button id="zoom-in" class="tool-btn" disabled title="Zoom In">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                </div>
+                
+                <div class="page-controls">
+                    <button id="prev-page" class="tool-btn" disabled title="Previous Page">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="page-info">
+                        <span id="current-page">0</span> / <span id="total-pages">0</span>
+                    </div>
+                    <button id="next-page" class="tool-btn" disabled title="Next Page">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="view-controls">
+                    <button id="rotate-btn" class="tool-btn" disabled title="Rotate">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button id="fullscreen-btn" class="tool-btn" disabled title="Fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button id="download-btn" class="tool-btn" disabled title="Download">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button id="print-btn" class="tool-btn" disabled title="Print">
+                        <i class="fas fa-print"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="pdf-container">
+                <canvas id="pdf-canvas"></canvas>
+                
+                <div class="nav-arrows">
+                    <div class="nav-arrow prev" id="left-arrow" title="Previous Page">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="nav-arrow next" id="right-arrow" title="Next Page">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="keyboard-hint">
+                    <span>←</span> Previous | <span>→</span> Next | <span>+</span> Zoom In | <span>-</span> Zoom Out | <span>F</span> Fullscreen | <span>T</span> Theme
+                </div>
+            </div>
+            
+            <div class="drop-area" id="drop-area">
+                <div class="drop-message">
+                    <i class="fas fa-file-pdf"></i>
+                    <h2>Open a PDF File</h2>
+                    <p>Drag & drop your PDF here or click below to browse</p>
+                    <label class="file-input-label" for="file-input">Select PDF</label>
+                </div>
+            </div>
+        </main>
+        
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>Pages</h3>
+                <button id="close-sidebar" class="icon-btn" title="Close Sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="thumbnails" id="thumbnails-container"></div>
+        </div>
+        
+        <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle Thumbnails">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <div class="loader-text">Loading PDF...</div>
+        </div>
+    </div>
+    
+    <div class="modal" id="error-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Error</h3>
+                <button class="close-modal-btn icon-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="primary-btn close-modal-btn">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/pdf/js/pdf-viewer.js"></script>
+    
+    <!-- Books Data Loading Script -->
+    <script>
+        // Load books data from JSON
+        async function loadBooksData() {
+            try {
+                const response = await fetch('/class/json/books-data.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load books data');
+                }
+                const data = await response.json();
+                return data.books;
+            } catch (error) {
+                console.error('Error loading books:', error);
+                return [];
+            }
+        }
+
+        // Get PDF path from book ID
+        function getPdfPathFromId(books, bookId) {
+            const book = books.find(b => b.id === parseInt(bookId));
+            if (book && book.format.includes('pdf')) {
+                return `../pdfs/${book.title.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+            }
+            return null;
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            const books = await loadBooksData();
+            
+            // Get book ID from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('book');
+            
+            if (bookId && books.length > 0) {
+                const pdfPath = getPdfPathFromId(books, bookId);
+                if (pdfPath) {
+                    // Update file name display
+                    const fileNameElement = document.getElementById('file-name');
+                    const book = books.find(b => b.id === parseInt(bookId));
+                    if (fileNameElement && book) {
+                        fileNameElement.textContent = book.title;
+                    }
+                    
+                    // Load the PDF
+                    loadPdf(pdfPath);
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

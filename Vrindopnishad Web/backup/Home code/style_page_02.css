@@ -1,0 +1,298 @@
+@import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
+@import url('https://fonts.cdnfonts.com/css/poppins');
+
+body {
+    background-image:
+        repeating-linear-gradient(
+            to right, transparent 0 100px,
+            #25283b22 100px 101px
+        ),
+        repeating-linear-gradient(
+            to bottom, transparent 0 100px,
+            #25283b22 100px 101px
+        );
+    animation: backgroundAnimation 20s infinite; /* Add animation to the background */
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100px;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.banner{
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner .slider {
+    position: absolute;
+    width: 400px; /* Increased width */
+    height: 500px; /* Increased height */
+    top: 10%;
+    left: calc(50% - 200px); /* Adjusted to center the larger slider */
+    transform-style: preserve-3d;
+    transform: perspective(5900px) rotateX(50deg) rotateY(49deg) rotateZ(-89deg); /* Start with the final state */
+    animation: autoRun 15s cubic-bezier(0.25, 0.125, 0.5, 2) infinite; /* Enhance animation */
+    z-index: 2;
+}
+
+.banner .slider.stop-animation {
+    animation: none;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap; /* Wrap items to the next line */
+    justify-content: center; /* Center the items */
+    gap: 20px; /* Add gap between items */
+}
+
+.banner .slider.stop-animation .item {
+    position: relative;
+    transform: none; /* Remove the 3D transformation */
+    margin: 10px; /* Add margin to create spacing between items */
+    display: inline-block; /* Display items inline */
+    width: calc(100% / 5 - 20px); /* Adjust width to fit 5 items per row with spacing */
+    height: auto; /* Adjust height to maintain aspect ratio */
+}
+
+@keyframes autoRun {
+    0% {
+        transform: perspective(3000px) rotateX(20deg) rotateY(-96deg) rotateZ(-89deg);
+    }
+    10% {
+        transform: perspective(3900px) rotateX(20deg) rotateY(-36deg) rotateZ(-9deg);
+    }
+    20% {
+        transform: perspective(-6000px) rotateX(-49deg) rotateY(-45deg) rotateZ(-80deg);
+    }
+    30% {
+        transform: perspective(1000px) rotateX(-25deg) rotateY(-41deg) rotateZ(-90deg);
+    }
+    40% {
+        transform: perspective(-6500px) rotateX(-19deg) rotateY(45deg) rotateZ(15deg);
+    }
+    60% {
+        transform: perspective(7500px) rotateX(-19deg) rotateY(35deg) rotateZ(-35deg);
+    }
+    80% {
+        transform: perspective(5000px) rotateX(40deg) rotateY(360deg);
+    }
+    100% {
+        transform: perspective(3000px) rotateX(19deg) rotateY(-96deg) rotateZ(-80deg);
+    }
+}
+
+.banner .slider .item {
+    position: absolute;
+    inset: 0 0 0 0;
+    transform: 
+        rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+        translateZ(550px);
+    margin: 0 20px; /* Add margin to create distance between items */
+}
+
+.banner .slider .item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: transparent; /* Make the picture's background invisible */
+    transition: transform 0.5s ease-in-out; /* Add transition for zoom effect */
+}
+
+.banner .slider .item:hover img {
+    transform: scale(1.1); /* Add zoom effect on hover */
+}
+
+.banner .slider.stop-animation .item {
+    position: relative;
+    transform: none; /* Remove the 3D transformation */
+    margin: 10px; /* Add margin to create spacing between items */
+    display: inline-block; /* Display items inline */
+    width: calc(100% / 5 - 20px); /* Adjust width to fit 5 items per row with spacing */
+    height: auto; /* Adjust height to maintain aspect ratio */
+}
+
+.banner .content{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1400px, 100vw);
+    height: max-content;
+    padding-bottom: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+}
+.banner .content h1{
+    font-family: 'ICA Rubrik';
+    font-size: 16em;
+    line-height: 1em;
+    color: #fdf926;
+    position: relative;
+    margin-left: 0; /* Center the text */
+    text-align: center; /* Center align the text */
+}
+.banner .content h1::after{
+    position: absolute;
+    inset: 0 0 0 0;
+    content: attr(data-content);
+    z-index: 2;
+    -webkit-text-stroke: 2px #f4f8a1;
+    color: transparent;
+}
+.banner .content .author{
+    font-family: Poppins;
+    text-align: right;
+    max-width: 200px;
+}
+.banner .content h2{
+    font-size: 3em;
+}
+.banner .content .model{
+    background-image: url(images_page_02/img_k2.png);
+    width: 100%;
+    height: 75vh;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-size: auto 130%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    z-index: 1;
+    transition: transform 0.5s ease-in-out; /* Add transition for zoom effect */
+}
+
+.banner .content .model:hover {
+    transform: scale(1.18); /* Add zoom effect on hover */
+}
+
+@media screen and (max-width: 1023px) {
+    .banner .slider{
+        width: 320px; /* Adjusted width for smaller screens */
+        height: 400px; /* Adjusted height for smaller screens */
+        left: calc(50% - 160px);
+    }
+    .banner .slider .item{
+        transform: 
+            rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+            translateZ(300px);
+    }
+    .banner .content h1{
+        text-align: center;
+        width: 100%;
+        text-shadow: 0 10px 20px #000;
+        font-size: 7em;
+    }
+    .banner .content .author{
+        color: #fff;
+        padding: 20px;
+        text-shadow: 0 10px 20px #000;
+        z-index: 2;
+        max-width: unset;
+        width: 100%;
+        text-align: center;
+        padding: 0 30px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .banner .slider{
+        width: 200px; /* Adjusted width for smaller screens */
+        height: 300px; /* Adjusted height for smaller screens */
+        left: calc(50% - 100px);
+    }
+    .banner .slider .item{
+        transform: 
+            rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+            translateZ(180px);
+    }
+    .banner .content h1{
+        font-size: 5em;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner .slider {
+        display: none; /* Remove the group of pictures for mobile mode */
+    }
+    .control-button {
+        display: none; /* Remove the stop/start animation button */
+    }
+}
+
+@media (min-width: 769px) {
+    .soft-cornered-blocks {
+        display: none; /* Hide blocks for desktop and tablet modes */
+    }
+}
+
+footer {
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+    backdrop-filter: blur(30px) saturate(180%); /* Apply blur and saturation effect */
+    box-shadow: -1px -5px -10px rgba(243, 231, 56, 0.9); /* Subtle shadow */
+    border: 1px solid rgba(94, 77, 1, 0.1); /* Light border */
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px; /* Add margin to push the footer lower */
+    position: fixed; /* Fix the footer at the bottom */
+    bottom: -100px; /* Initially hide the footer */  
+    width: 100%;  
+    transition: bottom 0.3s ease; /* Smooth transition for bottom position */  
+    visibility: hidden; /* Hide the footer initially */
+}
+
+.show-footer footer {  
+    visibility: visible; /* Show the footer when the class is added */  
+    bottom: 0; /* Ensure the footer is visible */
+}
+
+.footer-container {  
+    max-width: 1200px;  
+    margin: 0 auto;  
+    padding: 0 20px;
+}
+
+.footer-content {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links li {
+    display: inline;
+}
+
+.footer-links a {
+    color: #fd630a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #045a82;
+}

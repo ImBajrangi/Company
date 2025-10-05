@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-user-select: none; 
+        }
+        
+        /* Launcher Button Styles */
+        #chatbot-launcher {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            background-color: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 9998;
+        }
+
+        #chatbot-launcher:hover {
+            transform: scale(1.1);
+        }
+
+        /* Chatbot Widget Container Styles */
+        #chatbot-widget-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            max-width: min(24rem, calc(100vw - 2rem)); /* Ensure it fits on small screens */
+            height: 70vh;
+            max-height: min(43.75rem, calc(100vh - 2rem)); /* Ensure it fits on small screens */
+            min-width: 320px;
+            min-height: 400px;
+            border-radius: 1.5rem;
+            border: 1px solid #e5e7eb; /* Add a subtle border for definition */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            
+            /* Visibility Logic */
+            opacity: 0;
+            transform: translate(-50%, -48%) scale(0.95);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        #chatbot-widget-container.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Draggable Header */
+        #chatbot-header {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: default; /* Changed from move to default */
+            flex-shrink: 0;
+        }
+        
+        #chatbot-header h2 {
+            font-weight: 600;
+        }
+
+        #chatbot-header-buttons button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.25rem;
+            border-radius: 9999px;
+            transition: background-color 0.2s;
+        }
+
+        #chatbot-header-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #chatbot-iframe-container {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        #chatbot-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Resizing Handle */
+        #resize-handle {
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            right: 0;
+            bottom: 0;
+            cursor: nwse-resize;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold mb-4">Your Awesome Website</h1>
+        <p class="text-lg mb-4">This is a sample page demonstrating how the chatbot can be embedded.</p>
+        <p>The chatbot window is now resizable!</p>
+    </div>
+
+    <!-- === CHATBOT EMBED CODE START === -->
+
+    <button id="chatbot-launcher">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+    </button>
+
+    <div id="chatbot-widget-container">
+        <!-- 1. Draggable Header -->
+        <div id="chatbot-header">
+            <h2>Vrindopnishad Support</h2>
+            <div id="chatbot-header-buttons">
+                <button id="close-widget-btn" aria-label="Close Chat">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Iframe Container -->
+        <div id="chatbot-iframe-container">
+            <iframe id="chatbot-iframe" src="animated-chatbot.html" title="Service Chatbot"></iframe>
+            <!-- 3. Resize Handle -->
+            <div id="resize-handle"></div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const launcherButton = document.getElementById('chatbot-launcher');
+        const widgetContainer = document.getElementById('chatbot-widget-container');
+        const closeButton = document.getElementById('close-widget-btn');
+        
+        // --- Window Management ---
+        const header = document.getElementById('chatbot-header');
+        const resizeHandle = document.getElementById('resize-handle');
+        
+        let isResizing = false;
+        let resizeStartX = 0, resizeStartY = 0;
+        let startWidth = 0, startHeight = 0;
+
+        // --- Toggle Visibility ---
+        launcherButton.addEventListener('click', () => {
+            // When opening, just make it visible. It will appear where it was last, or centered by default CSS on first open.
+            widgetContainer.classList.add('visible');
+        });
+        closeButton.addEventListener('click', () => widgetContainer.classList.remove('visible'));
+
+        // --- Resizing Logic ---
+        resizeHandle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            isResizing = true;
+            widgetContainer.style.transition = 'none'; // Disable transition for smooth resizing
+
+            // On resize start, lock the current size in pixels to override CSS percentages
+            startWidth = widgetContainer.offsetWidth;
+            startHeight = widgetContainer.offsetHeight;
+            widgetContainer.style.width = `${startWidth}px`;
+            widgetContainer.style.height = `${startHeight}px`;
+            widgetContainer.style.maxWidth = 'none'; // And remove max-width constraint
+
+            resizeStartX = e.clientX;
+            resizeStartY = e.clientY;
+
+            // Switch to pixel-based positioning if not already, to ensure smooth resizing
+            if (widgetContainer.style.transform) {
+                 const rect = widgetContainer.getBoundingClientRect();
+                 widgetContainer.style.left = `${rect.left}px`;
+                 widgetContainer.style.top = `${rect.top}px`;
+                 widgetContainer.style.transform = '';
+            }
+
+            document.addEventListener('mousemove', onResizeMove);
+            document.addEventListener('mouseup', onResizeEnd);
+        });
+
+        function onResizeMove(e) {
+            if (!isResizing) return;
+            const dx = e.clientX - resizeStartX;
+            const dy = e.clientY - resizeStartY;
+            const viewportMargin = 16; // A 1rem (16px) margin from the edge
+            
+            // Calculate new dimensions, enforcing min values
+            let newWidth = Math.max(320, startWidth + dx);
+            let newHeight = Math.max(400, startHeight + dy);
+
+            // Constrain resizing to stay within viewport with a margin
+            const rect = widgetContainer.getBoundingClientRect();
+            if (rect.left + newWidth > window.innerWidth - viewportMargin) {
+                newWidth = window.innerWidth - rect.left - viewportMargin;
+            }
+            if (rect.top + newHeight > window.innerHeight - viewportMargin) {
+                newHeight = window.innerHeight - rect.top - viewportMargin;
+            }
+
+            widgetContainer.style.width = `${newWidth}px`;
+            widgetContainer.style.height = `${newHeight}px`;
+        }
+
+        function onResizeEnd() {
+            isResizing = false;
+            widgetContainer.style.transition = ''; // Re-enable transition for other effects
+            document.removeEventListener('mousemove', onResizeMove);
+            document.removeEventListener('mouseup', onResizeEnd);
+        }
+
+    </script>
+    <!-- === CHATBOT EMBED CODE END === -->
+
+</body>
+</html>

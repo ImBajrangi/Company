@@ -1,0 +1,228 @@
+/* Enhanced Header with Bootstrap Integration and Advanced Animation Effects */
+.divine-gallery-header {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(8, 8, 24, 0.95), rgba(5, 5, 15, 0.95));
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(114, 186, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+/* Animated Particles Container */
+.header-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Main heading with gradient animation */
+.divine-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 4.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(
+    to right,
+    #fff 0%,
+    #72baff 20%,
+    #9f5afd 40%,
+    #c582ff 60%,
+    #72baff 80%,
+    #fff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 6s linear infinite;
+  text-shadow: 0 0 20px rgba(114, 186, 255, 0.2);
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+/* Animated subtitle with Bootstrap integration */
+.divine-header-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Interactive cards container */
+.divine-gallery-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+}
+
+/* Individual interactive card */
+.divine-gallery-card {
+  width: 250px;
+  height: 300px;
+  background: rgba(8, 8, 24, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid rgba(114, 186, 255, 0.15);
+  cursor: pointer;
+}
+
+.divine-gallery-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(114, 186, 255, 0.3);
+}
+
+.divine-gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.divine-gallery-card:hover img {
+  transform: scale(1.1);
+}
+
+.divine-gallery-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 1.5rem 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
+  transform: translateY(40px);
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.divine-gallery-card:hover .divine-gallery-card-content {
+  transform: translateY(0);
+}
+
+.divine-gallery-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.divine-gallery-card-description {
+  font-size: 0.9rem;
+  font-weight: 300;
+  opacity: 0.8;
+}
+
+/* Bootstrap integration */
+.divine-cta-button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(45deg, #3f88f5, #9f5afd);
+  color: white;
+  font-weight: 500;
+  border-radius: 30px;
+  text-decoration: none;
+  margin-top: 2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(63, 136, 245, 0.4);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.divine-cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(63, 136, 245, 0.6);
+  color: white;
+}
+
+.divine-cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #9f5afd, #3f88f5);
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.divine-cta-button:hover::before {
+  opacity: 1;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .divine-header-title {
+    font-size: 3.5rem;
+  }
+  
+  .divine-gallery-card {
+    width: 220px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .divine-header-title {
+    font-size: 2.8rem;
+  }
+  
+  .divine-header-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .divine-gallery-cards {
+    gap: 1.5rem;
+  }
+  
+  .divine-gallery-card {
+    width: calc(50% - 1.5rem);
+    height: 250px;
+  }
+}
+
+@media (max-width: 576px) {
+  .divine-gallery-header {
+    padding: 3rem 1rem;
+  }
+  
+  .divine-header-title {
+    font-size: 2.2rem;
+  }
+  
+  .divine-gallery-card {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .divine-cta-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+} 

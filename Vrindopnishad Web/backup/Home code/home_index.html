@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad</title>
+    <link rel="stylesheet" href="home_style.css">
+    <link rel="stylesheet" href="style_page_02.css">
+    <link rel="stylesheet" href="style_page_03.css">
+    <link rel="stylesheet" href="style_page_04.css">
+    <link rel="shortcut icon" href="image/icon_main_02.png" type="image/x-icon">
+    <style>
+        @media (max-width: 768px) {
+            .banner .slider {
+                display: none; /* Remove the group of pictures for mobile mode */
+            }
+            .block {
+                flex: 0 0 auto;
+                width: 150px;
+                margin-right: 10px;
+                border-radius: 15px; /* Add rounded corners */
+            }
+            .block img {
+                border-radius: 25px; /* Add rounded corners */
+            }
+            .control-button {
+                display: none; /* Remove the stop/start animation button */
+            }
+        }
+        @media (min-width: 769px) {
+            .soft-cornered-blocks {
+                display: none; /* Hide blocks for desktop and tablet modes */
+            }
+        }
+        .thumbnail .item, .carousel .list .item {
+            cursor: pointer; /* Add pointer cursor */
+        }
+        .carousel .list .item {
+            pointer-events: none; /* Make the big picture non-reactable */
+        }
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgb(213, 240, 243);
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 25px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .notification img {
+            width: 50%; /* Reduce the size of the image */
+            height: auto;
+            border-radius: 15px;
+        }
+        .notification-text {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .notification button {
+            margin-right: 20px; /* Increase margin to create distance */
+            padding: 7.5px 15px; /* Increase padding */
+            font-size: 1.1rem; /* Increase font size */
+            background: rgb(248, 239, 104);
+            color: rgb(3, 90, 114);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 0px 40px rgba(16, 240, 244, 0.9);
+            transition: transform 0.6s ease, box-shadow 0.6s ease; /* Add transition for hover effect */
+        }
+        .notification button:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0px 100px rgb(255, 243, 107);
+        }
+        .notification .close-button {
+            background: rgb(42, 42, 1);
+            color: rgb(243, 251, 103);
+        }
+        .cross-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            color: rgb(244, 247, 198);
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .no-interaction {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include menubar HTML -->
+    <div class="navigation">
+        <div class="search-bar">
+            <input type="text" placeholder="Search...💛">
+            <button type="submit">
+                <ion-icon name="search-outline"></ion-icon>
+            </button>
+        </div>
+        <ul>
+            <li class="active" style="--clr:#f44336">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="documents-outline"></ion-icon>
+                    </span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li style="--clr:#ffa117">
+                <a href="#/about/about.html">
+                    <span class="icon">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </span>
+                    <span class="text">About</span>
+                </a>
+            </li>
+            <li style="--clr:#00CBFF">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                    </span>
+                    <span class="text">Message</span>
+                </a>
+            </li>
+            <li style="--clr:#b145e9">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="camera-outline"></ion-icon>
+                    </span>
+                    <span class="text">Photos</span>
+                </a>
+            </li>
+            <li style="--clr:#2196f3">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </span>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Add the hamburger menu for mobile mode -->
+    <div class="shyam">
+        <div class="bar"></div>
+    </div>
+
+    <!-- semi-transparent bar with background blur -->
+    <div class="semi-transparent-bar"></div>
+
+    <!-- carousel -->
+    <div class="carousel">
+        <!-- list item -->
+        <div class="list">
+            <div class="item" data-type="image">
+                <img src="image/img1.jpg">
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">DESIGN SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="item" data-type="video" data-video="video/video1.mp4">
+                <video src="video/video1.mp4" muted></video>
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">VIDEO SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>-->
+            <div class="item" data-type="video" data-video="./Screen Recording.mov">
+                <video src="./Screen Recording.mov" muted></video>
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">SCREEN RECORDING</div>
+                    <div class="topic">TUTORIAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img2.jpg">
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">DESIGN SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img3.jpg">
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">DESIGN SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img4.jpg">
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">DESIGN SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img5.jpg">
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">DESIGN SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img6.jpg">
+                <div class="content">
+                    <div class="author">LUNDEV</div>
+                    <div class="title">DESIGN SLIDER</div>
+                    <div class="topic">ANIMAL</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- list thumbnail -->
+        <div class="thumbnail">
+            <div class="item">
+                <img src="image/img1.jpg">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img2.jpg">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img3.jpg">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img4.jpg">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img5.jpg">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img6.jpg">
+                <div class="content">
+                    <div class="title">
+                        Name Slider
+                    </div>
+                    <div class="description">
+                        Description
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- next prev -->
+        <div class="arrows">
+            <button id="prev">
+                <span class="icon">←</span>
+            </button>
+            <button id="next">
+                <span class="icon">→</span>
+            </button>
+        </div>
+    </div>
+    <button id="control" class="control-button" style="position: absolute; bottom: -20px; left: 20px; box-sizing: 100;">Stop Animation</button>
+
+    <!-- Add space between the two pages -->
+    <div style="height: 1px;"></div>
+
+    <!-- Second page content -->
+    <div class="banner">
+        <div class="slider" style="--quantity: 11"> <!-- Adjusted quantity to match the number of pictures -->
+            <div class="item" style="--position: 1"><img src="images_page_02/img_bs1.jpg" alt=""></div>
+            <div class="item" style="--position: 2"><img src="images_page_02/img_n1.jpg" alt=""></div>
+            <div class="item" style="--position: 3"><img src="images_page_02/img_n2.jpg" alt=""></div>
+            <div class="item" style="--position: 4"><img src="images_page_02/img_rp1.jpg" alt=""></div>
+            <div class="item" style="--position: 5"><img src="images_page_02/img_rp3.jpg" alt=""></div>
+            <div class="item" style="--position: 6"><img src="images_page_02/img_rp4.jpg" alt=""></div>
+            <div class="item" style="--position: 7"><img src="images_page_02/img_rv2.jpg" alt=""></div>
+            <div class="item" style="--position: 8"><img src="images_page_02/img_rv3.jpg" alt=""></div>
+            <div class="item" style="--position: 9"><img src="images_page_02/img_rv4.jpg" alt=""></div>
+            <div class="item" style="--position: 10"><img src="images_page_02/img_s2.jpg" alt=""></div>
+            <div class="item" style="--position: 11"><img src="images_page_02/img_s3.jpg" alt=""></div>
+        </div>
+        <div class="content">
+            <h1 data-content=RADHE-KRISHN>
+                RADHE-KRISHN
+            </h1>
+            <div class="author">
+                <h2>Bajrangi</h2>
+                <p><b>Social Worker</b></p>
+                <p>
+                    <b>Location:</b> India, <b>Age:</b> 18+, <b>Experience:</b> 0 years<b>.</b>
+                </p>
+            </div>
+            <div class="model"></div>
+        </div>
+    </div>
+
+    <!-- Synchronize vertical scroll with horizontal scroll -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const softCorneredBlocks = document.querySelector('.soft-cornered-blocks');
+            const scrollPosition = window.scrollY;
+            softCorneredBlocks.scrollLeft = scrollPosition;
+    });
+    </script>
+
+    <!-- Spline Viewer Page -->
+    <div style="height: 80vh; position: relative; z-index: 100;"> <!-- Reduced height -->
+        <spline-viewer
+            id="splineViewer"
+            url="https://prod.spline.design/TAZADm8fBaDCvCsQ/scene.splinecode"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        ></spline-viewer>
+        <div class="content" style="position: absolute; bottom: 0px; right: 1%; display: fixed; flex-direction: column; align-items: flex-end; z-index: 101;">
+            <h1 data-content="3D Animation" style="font-family: 'ICA Rubrik'; font-size: 7em; line-height: 1em; color: #25283B; text-align: right;">
+                3D Animation--
+            </h1>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blank page -->
+    <div style="height: 1px;"></div>
+
+    <!-- Fourth page content -->
+    <div class="page-four">
+        <div class="container">
+            <div class="box" data-video="./Screen Recording.mov">
+                <div class="content">
+                    <h2>1 </h2>
+                    <p>Radhe-Krishn</p>
+                </div>
+                <!-- Adding four <span></span> elements under the box -->
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="box" data-video="./Screen Recording.mov">
+                <div class="content">
+                    <h2>2</h2>
+                    <p>Radhe-Krishn</p>
+                </div>
+                <!-- Adding four <span></span> elements under the box -->
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="box" data-video="./Screen Recording.mov">
+                <div class="content">
+                    <h2>3</h2>
+                    <p>Radhe-Krishn</p>
+                </div>
+                <!-- Adding four <span></span> elements under the box -->
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <video id="videoPlayer" controls autoplay loop style="width: 100%; height: 100%;">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p class="scroll-text">Scroll To Stay Back</p>
+            <button id="closeVideoModal" class="close-button">Cross</button> <!-- Update this line -->
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.54/build/spline-viewer.js"></script>
+    <script src="home_app.js"></script>
+    <script>
+        document.getElementById('menu-toggle').onclick = function() {
+            var menuBar = document.getElementById('menu-bar');
+            if (menuBar.style.display === 'flex') {
+                menuBar.style.display = 'none';
+            } else {
+                menuBar.style.display = 'flex';
+            }
+        };
+        // Function to update the website URL
+        function updateWebsiteURL(newURL) {
+            var websiteLink = document.getElementById('website-link');
+            websiteLink.href = newURL;
+            websiteLink.textContent = newURL;
+        }
+
+        // Example usage: updateWebsiteURL('https://www.new-url.com');
+
+        const viewer = document.getElementById('splineViewer');
+
+        // Wait for the Spline Viewer to load
+        viewer.addEventListener('load', () => {
+            console.log('Spline Viewer Loaded');
+
+            // Access the runtime
+            const runtime = viewer.runtime;
+
+            runtime.onReady(() => {
+                console.log('Runtime Ready');
+
+                // Find the object in the Spline scene
+                const headObject = runtime.findObjectByName('Head'); // Replace 'Head' with your object's name
+
+                if (headObject) {
+                    console.log('Head object found:', headObject);
+
+                    // Add mousemove listener
+                    window.addEventListener('mousemove', (event) => {
+                        const mouseX = (event.clientX / window.innerWidth) * 2 - 1; // Normalize X
+                        const mouseY = -(event.clientY / window.innerHeight) * 2 + 1; // Normalize Y
+
+                        // Rotate the head object based on mouse position
+                        headObject.rotation.x = mouseY * 0.5; // Adjust sensitivity
+                        headObject.rotation.y = mouseX * 0.5; // Adjust sensitivity
+                    });
+                } else {
+                    console.error('Head object not found. Please ensure it has the correct name in the Spline editor.');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItems = document.querySelectorAll('.navigation ul li');
+            let delay = 0;
+
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('hover');
+                    setTimeout(() => {
+                        item.classList.remove('hover');
+                        if (index === menuItems.length - 1) {
+                            setTimeout(() => {
+                                menuItems[1].classList.add('active');
+                            }, 500);
+                        }
+                    }, 500);
+                }, delay);
+                delay += 1000; // Increase delay to ensure visibility
+            });
+        });
+
+        // Synchronize vertical scroll with horizontal scroll
+        window.addEventListener('scroll', () => {
+            const softCorneredBlocks = document.querySelector('.soft-cornered-blocks');
+            const scrollPosition = window.scrollY;
+            softCorneredBlocks.scrollLeft = scrollPosition;
+        });
+
+        // Add click event to thumbnail items
+        document.querySelectorAll('.thumbnail .item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                const textContent = item.querySelector('.title').textContent;
+
+                // Show notification with the image and text
+                showNotification(imgSrc, textContent);
+            });
+        });
+
+        // Add click event to carousel items
+        document.querySelectorAll('.carousel .list .item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                const textContent = item.querySelector('.title').textContent;
+
+                // Show notification with the image and text
+                showNotification(imgSrc, textContent);
+            });
+        });
+
+        function showNotification(imgSrc, textContent) {
+            // Remove existing notification (if any)
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) existingNotification.remove();
+
+            // Remove existing cross button (if any)
+            const existingCrossButton = document.querySelector('.cross-button');
+            if (existingCrossButton) existingCrossButton.remove();
+
+            // Create notification container
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+
+            // Add image to the notification
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = 'Notification Image';
+
+            // Add text to the notification
+            const text = document.createElement('div');
+            text.classList.add('notification-text');
+            text.textContent = textContent;
+
+            // Add buttons to the notification
+            const actionButton = document.createElement('button');
+            actionButton.textContent = 'Action';
+            actionButton.addEventListener('click', () => {
+                window.open('https://heyzine.com/flip-book/f1c121acb6.html', '_blank'); // Open e-book link in a new tab
+            });
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = 'Close';
+            closeButton.classList.add('close-button');
+            closeButton.addEventListener('click', () => {
+                notification.remove();
+                overlay.remove(); // Remove overlay when notification is closed
+                crossButton.remove(); // Remove cross button when notification is closed
+                document.body.classList.remove('no-interaction'); // Re-enable interactions
+            });
+
+            // Add cross button to the notification
+            const crossButton = document.createElement('span');
+            crossButton.classList.add('cross-button');
+            crossButton.textContent = '×';
+            crossButton.addEventListener('click', () => {
+                notification.remove();
+                overlay.remove(); // Remove overlay when notification is closed
+                crossButton.remove(); // Remove cross button when notification is closed
+                document.body.classList.remove('no-interaction'); // Re-enable interactions
+            });
+
+            // Append elements to the notification
+            notification.appendChild(img);
+            notification.appendChild(text);
+            notification.appendChild(actionButton);
+            notification.appendChild(closeButton);
+
+            // Append the notification and cross button to the body
+            document.body.appendChild(notification);
+            document.body.appendChild(crossButton);
+
+            // Add overlay to dim the background
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+            overlay.addEventListener('click', () => {
+                notification.remove();
+                crossButton.remove();
+                overlay.remove();
+                document.body.classList.remove('no-interaction'); // Re-enable interactions
+            });
+            document.body.appendChild(overlay);
+
+            // Disable interactions on the background
+            document.body.classList.add('no-interaction');
+        }
+
+        window.addEventListener('scroll', () => {
+            const footer = document.querySelector('footer');
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) { // Adjust the threshold
+                footer.classList.add('show-footer');
+            } else {
+                footer.classList.remove('show-footer');
+            }
+        });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        const list = document.querySelectorAll('li');
+        function activeLink() {
+            list.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+        }
+        list.forEach(item => item.addEventListener('click', activeLink));
+    </script>
+</body>
+</html>

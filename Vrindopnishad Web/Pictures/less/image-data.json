@@ -1,0 +1,257 @@
+{
+    "categories": [
+        {
+            "id": "all",
+            "name": "All",
+            "count": 0
+        },
+        {
+            "id": "anime",
+            "name": "Anime",
+            "count": 0
+        },
+        {
+            "id": "landscape",
+            "name": "Landscape",
+            "count": 0
+        },
+        {
+            "id": "nature",
+            "name": "Nature",
+            "count": 0
+        },
+        {
+            "id": "spiritual",
+            "name": "Spiritual",
+            "count": 0
+        }
+    ],
+    "images": [
+        {
+            "id": "1",
+            "src": "https://i.postimg.cc/y6nMpbfG/1.avif",
+            "alt": "Beautiful Anime Scene",
+            "category": "anime",
+            "title": "Beautiful Anime Scene",
+            "description": "A stunning anime landscape with vibrant colors"
+        },
+        {
+            "id": "2",
+            "src": "https://i.postimg.cc/D0CRWSJh/2.avif",
+            "alt": "Shri Rasik Bihari Ji",
+            "category": "spiritual",
+            "title": "Shri Rasik Bihari Ji",
+            "description": "Divine spiritual artwork"
+        },
+        {
+            "id": 3,
+            "url": "https://i.postimg.cc/ncz6yGgh/3.avif",
+            "thumbnail": "https://i.postimg.cc/ncz6yGgh/3.avif",
+            "title": "Anime Character",
+            "description": "Beautiful anime character illustration",
+            "category": "Anime",
+            "tags": ["anime", "character", "illustration"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 4,
+            "url": "https://i.postimg.cc/d3Qzt20n/4.avif",
+            "thumbnail": "https://i.postimg.cc/d3Qzt20n/4.avif",
+            "title": "Scenic Landscape",
+            "description": "Breathtaking natural landscape view",
+            "category": "Landscape",
+            "tags": ["landscape", "nature", "scenic"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 5,
+            "url": "https://i.postimg.cc/wjYQX6XY/5.avif",
+            "thumbnail": "https://i.postimg.cc/wjYQX6XY/5.avif",
+            "title": "Anime Art",
+            "description": "Colorful anime artwork",
+            "category": "Anime",
+            "tags": ["anime", "art", "colorful"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 6,
+            "url": "https://i.postimg.cc/PfpyhkC8/1.avif",
+            "thumbnail": "https://i.postimg.cc/PfpyhkC8/1.avif",
+            "title": "Anime Scene",
+            "description": "Dynamic anime scene",
+            "category": "Anime",
+            "tags": ["anime", "scene", "dynamic"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 7,
+            "url": "https://i.postimg.cc/jSdJxzMk/10.avif",
+            "thumbnail": "https://i.postimg.cc/jSdJxzMk/10.avif",
+            "title": "Mountain View",
+            "description": "Majestic mountain landscape",
+            "category": "Landscape",
+            "tags": ["landscape", "mountain", "nature"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 8,
+            "url": "https://i.postimg.cc/9XYMDDw3/11.avif",
+            "thumbnail": "https://i.postimg.cc/9XYMDDw3/11.avif",
+            "title": "Anime Fantasy",
+            "description": "Fantasy anime illustration",
+            "category": "Anime",
+            "tags": ["anime", "fantasy", "illustration"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 9,
+            "url": "https://i.postimg.cc/V6TFMKV6/12.avif",
+            "thumbnail": "https://i.postimg.cc/V6TFMKV6/12.avif",
+            "title": "Natural Beauty",
+            "description": "Beautiful nature scene",
+            "category": "Nature",
+            "tags": ["nature", "beautiful", "scenic"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 10,
+            "url": "https://i.postimg.cc/TP3js881/13.avif",
+            "thumbnail": "https://i.postimg.cc/TP3js881/13.avif",
+            "title": "Anime Portrait",
+            "description": "Stunning anime character portrait",
+            "category": "Anime",
+            "tags": ["anime", "portrait", "character"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 11,
+            "url": "https://i.postimg.cc/xT9X5vVT/14.avif",
+            "thumbnail": "https://i.postimg.cc/xT9X5vVT/14.avif",
+            "title": "Anime Style",
+            "description": "Modern anime style artwork",
+            "category": "Anime",
+            "tags": ["anime", "style", "modern"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 12,
+            "url": "https://i.postimg.cc/bN1RDHHy/15.avif",
+            "thumbnail": "https://i.postimg.cc/bN1RDHHy/15.avif",
+            "title": "Anime Design",
+            "description": "Creative anime design",
+            "category": "Anime",
+            "tags": ["anime", "design", "creative"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 13,
+            "url": "https://i.postimg.cc/dVvj8k48/16.avif",
+            "thumbnail": "https://i.postimg.cc/dVvj8k48/16.avif",
+            "title": "Panoramic View",
+            "description": "Wide panoramic landscape",
+            "category": "Landscape",
+            "tags": ["landscape", "panoramic", "wide"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 14,
+            "url": "https://i.postimg.cc/J0k5QjfQ/2.avif",
+            "thumbnail": "https://i.postimg.cc/J0k5QjfQ/2.avif",
+            "title": "Anime Collection",
+            "description": "Part of anime collection",
+            "category": "Anime",
+            "tags": ["anime", "collection", "art"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 15,
+            "url": "https://i.postimg.cc/HWwJbSKh/3.avif",
+            "thumbnail": "https://i.postimg.cc/HWwJbSKh/3.avif",
+            "title": "Forest Scene",
+            "description": "Peaceful forest environment",
+            "category": "Nature",
+            "tags": ["nature", "forest", "peaceful"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 16,
+            "url": "https://i.postimg.cc/ZnxCZRpS/4.avif",
+            "thumbnail": "https://i.postimg.cc/ZnxCZRpS/4.avif",
+            "title": "Anime World",
+            "description": "Immersive anime world",
+            "category": "Anime",
+            "tags": ["anime", "world", "immersive"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 17,
+            "url": "https://i.postimg.cc/C1y1qD40/5.avif",
+            "thumbnail": "https://i.postimg.cc/C1y1qD40/5.avif",
+            "title": "Anime Aesthetic",
+            "description": "Aesthetic anime artwork",
+            "category": "Anime",
+            "tags": ["anime", "aesthetic", "artwork"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 18,
+            "url": "https://i.postimg.cc/ZYGc5DNs/6.avif",
+            "thumbnail": "https://i.postimg.cc/ZYGc5DNs/6.avif",
+            "title": "Anime Vision",
+            "description": "Creative anime vision",
+            "category": "Anime",
+            "tags": ["anime", "vision", "creative"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 19,
+            "url": "https://i.postimg.cc/WbShHdsm/7.avif",
+            "thumbnail": "https://i.postimg.cc/WbShHdsm/7.avif",
+            "title": "Anime Dreams",
+            "description": "Dreamlike anime scene",
+            "category": "Anime",
+            "tags": ["anime", "dreams", "dreamlike"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 20,
+            "url": "https://i.postimg.cc/3xcW3z4d/8.avif",
+            "thumbnail": "https://i.postimg.cc/3xcW3z4d/8.avif",
+            "title": "Anime Magic",
+            "description": "Magical anime illustration",
+            "category": "Anime",
+            "tags": ["anime", "magic", "magical"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 21,
+            "url": "https://i.postimg.cc/mDhwtvVJ/9.avif",
+            "thumbnail": "https://i.postimg.cc/mDhwtvVJ/9.avif",
+            "title": "Anime Spirit",
+            "description": "Spiritual anime artwork",
+            "category": "Anime",
+            "tags": ["anime", "spirit", "spiritual"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 22,
+            "url": "https://i.postimg.cc/3wBhKcxP/17.avif",
+            "thumbnail": "https://i.postimg.cc/3wBhKcxP/17.avif",
+            "title": "Anime Journey",
+            "description": "Epic anime journey scene",
+            "category": "Anime",
+            "tags": ["anime", "journey", "epic"],
+            "date": "2025-09-07"
+        },
+        {
+            "id": 23,
+            "url": "https://i.postimg.cc/MKVKCt18/18.avif",
+            "thumbnail": "https://i.postimg.cc/MKVKCt18/18.avif",
+            "title": "Anime Adventure",
+            "description": "Adventure-themed anime art",
+            "category": "Anime",
+            "tags": ["anime", "adventure", "themed"],
+            "date": "2025-09-07"
+        }
+    ]
+}

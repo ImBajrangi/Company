@@ -1,0 +1,966 @@
+<!-- AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw gemini-2.5-flash-preview-05-20 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Chatbot</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        :root { 
+            font-family: 'Inter', sans-serif; 
+            /* Define a custom, softer shadow for modern lift */
+            --tw-shadow-3xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --tw-shadow-color: rgba(67, 56, 202, 0.2); /* Indigo 600 subtle */
+            
+            /* Custom properties for the dynamic AI glow effect */
+            --ai-glow-color: transparent; 
+            --ai-glow-spread: 0px;
+        }
+        
+        /* Updated shadow definition to include the dynamic AI glow with transition */
+        .shadow-3xl {
+            box-shadow: var(--tw-shadow-3xl), 
+                        0 0 40px -10px var(--tw-shadow-color),
+                        0 0 var(--ai-glow-spread) 0 var(--ai-glow-color);
+            transition: box-shadow 0.5s ease-in-out; /* Smooth transition for the glow */
+        }
+
+        /* Class added by JS when AI is processing */
+        .ai-active-glow {
+            --ai-glow-color: rgba(79, 70, 229, 0.6); /* Vibrant Indigo glow */
+            --ai-glow-spread: 10px;
+        }
+        
+        /* Custom scrollbar for chat history */
+        #chat-history::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-history::-webkit-scrollbar-thumb {
+            background-color: #94a3b8; /* slate-400 */
+            border-radius: 3px;
+        }
+        #chat-history::-webkit-scrollbar-track {
+            background-color: #f8fafc; /* slate-50 */
+        }
+        /* NEW: Custom scrollbar for modal body */
+        #modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        #modal-body::-webkit-scrollbar-thumb {
+            background-color: #94a3b8; /* slate-400 */
+            border-radius: 3px;
+        }
+        #modal-body::-webkit-scrollbar-track {
+            background-color: #f0f4ff; /* Lighter Indigo for contrast */
+        }
+        /* Style for the select element arrow override */
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23374151'%3e%3cpath d='M7 8l3 3 3-3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3e%3c/path%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em 1.5em;
+        }
+
+        /* === NEW: Message Entrance Animation (Simple Fade and Slide) === */
+        @keyframes fadeInMove {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in {
+            animation: fadeInMove 0.4s ease-out forwards;
+        }
+
+        /* === Typing Indicator Animation (Wave effect remains fluid) === */
+        @keyframes dotWave {
+            0%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+        }
+        .dot {
+            width: 7px;
+            height: 7px;
+            background-color: #4f46e5; /* Indigo 600 */
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: dotWave 0.8s infinite ease-in-out;
+        }
+        .dot-2 { animation-delay: 0.1s; }
+        .dot-3 { animation-delay: 0.2s; }
+
+        .typing-bubble {
+            background-color: #f0f4ff; /* Lighter Indigo */
+            border-radius: 12px 12px 12px 4px;
+            padding: 10px 14px;
+            width: 70px; 
+            display: flex;
+            align-items: flex-end; 
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Chatbot Container - NOW TARGETABLE FOR GLOW EFFECT -->
+    <div id="chatbot-container" class="w-full max-w-sm bg-white shadow-3xl rounded-3xl flex flex-col h-[90vh] max-h-[700px] overflow-hidden transition-all duration-300">
+        
+        <!-- Header - Subtle Gradient and Elevation -->
+        <header class="bg-gradient-to-r from-indigo-600 to-purple-700 p-5 text-white flex items-center rounded-t-3xl shadow-xl">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4 shadow-md">
+                <i data-lucide="bot" class="w-6 h-6 text-indigo-600"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">Vrindopnishad Support</h1>
+                <p class="text-xs opacity-90" id="header-status">Intake required to begin</p>
+            </div>
+        </header>
+        
+        <!-- === INTAKE FORM (Visible by default) === - Enhanced Padding and Focus -->
+        <div id="intake-form-container" class="p-8 overflow-y-auto flex-grow flex flex-col justify-center">
+            <h2 class="text-2xl font-extrabold text-gray-800 mb-6">Start Your Request</h2>
+            <form id="intake-form" class="space-y-5">
+                
+                <input type="text" id="customer-name" placeholder="Your Full Name" required
+                       class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                
+                <input type="email" id="customer-email" placeholder="Contact Email" required
+                       class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                
+                <select id="issue-category" required
+                        class="w-full p-4 border border-gray-200 rounded-xl bg-white focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm appearance-none text-gray-700">
+                    <option value="" disabled selected class="text-gray-500">Select Issue Category</option>
+                    <option value="Product Inquiry">Product Inquiry</option>
+                    <option value="Technical Support">Technical Support</option>
+                    <option value="Billing/Refunds">Billing & Refunds</option>
+                    <option value="General Complaint">General Complaint</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <textarea id="issue-description" placeholder="Briefly describe your issue..." rows="4" required
+                          class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm resize-none"></textarea>
+                
+                <button type="submit" 
+                        class="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold hover:bg-indigo-700 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Start Chat Session
+                </button>
+            </form>
+        </div>
+
+        <!-- === CHAT INTERFACE (Hidden by default) === -->
+        
+        <!-- Chat History - Softer Background -->
+        <div id="chat-history" class="hidden flex-grow p-6 space-y-4 overflow-y-auto bg-white">
+            <!-- Personalized welcome message will be injected here -->
+        </div>
+
+        <!-- Agent Toolbox (New LLM Features) -->
+        <div id="agent-toolbox" class="hidden p-4 border-t border-gray-100 bg-slate-50">
+            <h3 class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Agent Toolbox</h3>
+            <div class="flex space-x-2">
+                <button id="summarize-btn"
+                        class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">
+                    Summarize Chat ✨
+                </button>
+                <button id="escalate-btn"
+                        class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">
+                    Escalate to Email ✨
+                </button>
+            </div>
+        </div>
+
+        <!-- Input Area - Separated with subtle shadow -->
+        <div id="chat-input-area" class="hidden flex flex-col p-4 border-t border-gray-100 bg-white shadow-inner">
+            <!-- Image Preview Container -->
+            <div id="image-preview-container" class="hidden mb-2 p-2 border border-gray-200 rounded-lg relative w-fit">
+                <img id="image-preview" class="max-h-24 rounded-md">
+                <button id="remove-image-btn" class="absolute -top-2 -right-2 bg-gray-700 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none transition-colors">&times;</button>
+            </div>
+
+            <!-- Input Row -->
+            <div class="flex space-x-3 items-center">
+                 <!-- Hidden file input -->
+                <input type="file" id="image-upload" class="hidden" accept="image/*">
+                <!-- Attach button -->
+                <button id="attach-button" class="flex-shrink-0 p-2 text-gray-500 hover:text-indigo-600 transition duration-150 rounded-full hover:bg-gray-100">
+                    <i data-lucide="paperclip" class="w-5 h-5"></i>
+                </button>
+                <input 
+                    type="text" 
+                    id="user-input" 
+                    placeholder="Ask a follow-up question..." 
+                    class="flex-grow min-w-0 p-3 border-2 border-gray-200 rounded-full bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                    autocomplete="off"
+                >
+                <button 
+                    id="send-button"
+                    class="bg-indigo-600 text-white w-10 h-10 rounded-full hover:bg-indigo-700 active:bg-indigo-800 transition duration-150 flex-shrink-0 flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
+                >
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="hidden p-3 text-center bg-yellow-50 text-yellow-700 text-sm font-medium rounded-b-3xl">
+            Waiting for service response...
+        </div>
+    </div>
+
+    <!-- === MODAL POPUP (Hidden by default) === -->
+    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0 flex flex-col max-h-[90vh]" id="modal-content">
+            <header class="p-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center flex-shrink-0">
+                <h4 class="text-lg font-semibold text-gray-800" id="modal-title">Tool Output</h4>
+                <button onclick="hideModal()" class="text-gray-500 hover:text-gray-700 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </header>
+            <div id="modal-body" class="p-4 overflow-y-auto">
+                
+                <!-- Confirmation/Description Area -->
+                <p class="text-sm text-gray-700 mb-3" id="modal-description"></p>
+                
+                <!-- Subject Display Area -->
+                <div id="modal-subject-display-container" class="mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hidden">
+                    <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Subject:</p>
+                    <p id="modal-subject-value" class="text-sm font-medium text-gray-800"></p>
+                </div>
+
+                <!-- NEW: Image Display Area for Escalation -->
+                <div id="modal-image-display-container" class="hidden mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Image Provided by User:</p>
+                    <img id="modal-image-preview" class="rounded-lg max-w-full h-auto mb-3 border">
+                    <a id="modal-download-button" href="#" download="chat-image.png"
+                       class="w-full block text-center bg-gray-600 text-white p-2 rounded-lg font-semibold hover:bg-gray-700 transition duration-150 text-sm">
+                        Download Image
+                    </a>
+                </div>
+
+                <!-- Email Body / Content Area -->
+                <textarea id="modal-textarea" readonly rows="10" 
+                          class="w-full p-3 border border-gray-200 rounded-lg bg-gray-50 font-mono text-xs resize-none"></textarea>
+                
+                <!-- NEW: Image Permission Checkbox -->
+                <div id="modal-image-permission" class="hidden mt-3 p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
+                    <label class="flex items-center text-sm text-gray-800 font-medium cursor-pointer">
+                        <input type="checkbox" id="include-image-checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2">
+                        <span>Include a note that an image was provided</span>
+                    </label>
+                </div>
+
+                <!-- Dynamic Action Button -->
+                <button id="modal-action-button"
+                        class="mt-3 w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150 flex items-center justify-center">
+                    <i data-lucide="copy" class="w-4 h-4 mr-2"></i> Copy to Clipboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- Configuration ---
+        const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
+        const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
+        const API_KEY = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw"; // Canvas will provide this key at runtime
+        const VRINDOPNISHAD_SUPPORT_EMAIL = "vrinda.connect.us@gmail.com"; 
+
+        let chatHistory = [];
+        let systemPrompt = ""; 
+        let typingIndicatorElement = null; 
+        let attachedImageBase64 = null;
+        let attachedImageMimeType = null;
+
+        // --- UI Elements ---
+        const chatbotContainer = document.getElementById('chatbot-container'); // NEW: Reference for the glow effect
+        const headerStatus = document.getElementById('header-status');
+        const intakeFormContainer = document.getElementById('intake-form-container');
+        const intakeForm = document.getElementById('intake-form');
+        const chatHistoryDiv = document.getElementById('chat-history');
+        const chatInputArea = document.getElementById('chat-input-area');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const agentToolbox = document.getElementById('agent-toolbox');
+        const summarizeBtn = document.getElementById('summarize-btn');
+        const escalateBtn = document.getElementById('escalate-btn');
+        const attachButton = document.getElementById('attach-button');
+        const imageUpload = document.getElementById('image-upload');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+
+        // Modal Elements
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalTextarea = document.getElementById('modal-textarea');
+        const modalActionButton = document.getElementById('modal-action-button');
+        const modalSubjectDisplayContainer = document.getElementById('modal-subject-display-container');
+        const modalSubjectValue = document.getElementById('modal-subject-value');
+        const modalImageDisplayContainer = document.getElementById('modal-image-display-container');
+        const modalImagePreview = document.getElementById('modal-image-preview');
+        const modalDownloadButton = document.getElementById('modal-download-button');
+
+
+        // --- Intake Data Storage ---
+        let customerData = {};
+
+
+        // --- Utility Functions ---
+
+        /** Shows the animated typing indicator in the chat history. */
+        function showTypingIndicator() {
+            if (typingIndicatorElement) return;
+
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = 'flex justify-start'; 
+            
+            const typingBubble = document.createElement('div');
+            typingBubble.className = 'typing-bubble shadow-md';
+            typingBubble.innerHTML = `
+                <div class="dot dot-1"></div>
+                <div class="dot dot-2"></div>
+                <div class="dot dot-3"></div>
+            `;
+            
+            messageWrapper.appendChild(typingBubble);
+            chatHistoryDiv.appendChild(messageWrapper);
+            
+            typingIndicatorElement = messageWrapper;
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }
+
+        /** Hides/removes the animated typing indicator. */
+        function hideTypingIndicator() {
+            if (typingIndicatorElement && typingIndicatorElement.parentNode) {
+                typingIndicatorElement.parentNode.removeChild(typingIndicatorElement);
+                typingIndicatorElement = null;
+            }
+        }
+
+
+        /** Removes common Markdown characters (like *, #, [, ]) from text. */
+        function stripMarkdown(text) {
+            // Remove bold/emphasis asterisks
+            text = text.replace(/\*\*|__|\*/g, '');
+            // Remove list markers and trim whitespace
+            text = text.replace(/^- (.*)/gm, '$1').trim();
+            // Replace multiple newlines with single ones for cleaner email body
+            text = text.replace(/\n\s*\n/g, '\n\n'); 
+            return text;
+        }
+
+
+        /** Copies text from a textarea element to the clipboard. */
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            try {
+                document.execCommand('copy');
+                // Temporarily change button text to confirm
+                const copyButton = document.getElementById('modal-action-button');
+                copyButton.innerHTML = '<i data-lucide="check" class="w-4 h-4 mr-2"></i> Copied!';
+                lucide.createIcons(); // Re-render icon
+                setTimeout(() => {
+                    // Reset button to original text/icon handled by showModal logic
+                    showModal(modalTitle.textContent, modalDescription.innerHTML, modalTextarea.value, modalActionButton.dataset.action, modalSubjectValue.textContent);
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        }
+        window.copyToClipboard = copyToClipboard; // Expose to global scope for inline onclick
+
+
+        /** Sends the generated email draft using mailto link. */
+        function sendMail(subject, body) {
+            // Encode subject and body for the URL
+            const encodedSubject = encodeURIComponent(subject);
+            // encodeURIComponent correctly converts \n (newline) to %0A (line feed),
+            // which most modern email clients interpret as a line break within the email body.
+            const encodedBody = encodeURIComponent(body); 
+            
+            // Construct mailto link
+            const mailtoLink = `mailto:${VRINDOPNISHAD_SUPPORT_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+            
+            // Open the user's default email client
+            window.open(mailtoLink, '_blank');
+            hideModal();
+        }
+
+
+        /** Shows the modal with specific content and dynamic action. */
+        function showModal(title, descriptionHtml, content, actionType = 'copy', subject = null, options = {}) {
+            modalTitle.textContent = title;
+            modalTextarea.value = content;
+            
+            const imagePermissionContainer = document.getElementById('modal-image-permission');
+
+            // Reset visibility
+            modalSubjectDisplayContainer.classList.add('hidden');
+            imagePermissionContainer.classList.add('hidden');
+            modalImageDisplayContainer.classList.add('hidden'); // NEW: Hide image display
+            const imageCheckbox = document.getElementById('include-image-checkbox');
+            if(imageCheckbox) imageCheckbox.checked = false; // Reset checkbox
+
+            modalActionButton.onclick = null;
+            modalActionButton.innerHTML = '';
+            modalActionButton.dataset.action = actionType; // Store action type for copy reset
+
+            if (actionType === 'escalation') {
+                modalSubjectValue.textContent = subject || 'Escalation Draft';
+                modalSubjectDisplayContainer.classList.remove('hidden');
+
+                // Confirmation message for sending mail (Clean, non-Markdown message)
+                modalDescription.innerHTML = `This draft is ready for the support team. You can download any attached images below before sending the email via your default mail client to **${VRINDOPNISHAD_SUPPORT_EMAIL}**.`;
+                
+                // NEW: Show permission checkbox if an image was available in chat
+                if (options.imageAvailable && options.imageData) {
+                    imagePermissionContainer.classList.remove('hidden');
+                    // Automatically check the box if an image was provided
+                    if (imageCheckbox) imageCheckbox.checked = true;
+
+                    // NEW: Show the image and set up download
+                    modalImagePreview.src = options.imageData;
+                    modalDownloadButton.href = options.imageData;
+                    // Optionally set a better filename based on mime type
+                    const extension = options.imageData.split(';')[0].split('/')[1] || 'png';
+                    modalDownloadButton.download = `chat-image-${Date.now()}.${extension}`;
+                    modalImageDisplayContainer.classList.remove('hidden');
+                }
+
+                // Action button for sending mail
+                modalActionButton.innerHTML = '<i data-lucide="mail" class="w-4 h-4 mr-2"></i> Send to Support Team via Mail';
+                modalActionButton.onclick = () => {
+                    let finalBody = content;
+                    // NEW: Append note if checkbox is checked
+                    if (imageCheckbox && imageCheckbox.checked) {
+                         finalBody += "\n\n[Note: An image was provided by the user for additional context. Please review the full chat transcript to see the attachment.]";
+                    }
+                    sendMail(subject, finalBody);
+                };
+
+            } else { // Default to copy (for Summary)
+                modalDescription.innerHTML = descriptionHtml;
+                modalActionButton.innerHTML = '<i data-lucide="copy" class="w-4 h-4 mr-2"></i> Copy to Clipboard';
+                modalActionButton.onclick = () => copyToClipboard('modal-textarea');
+            }
+            
+            lucide.createIcons(); // Re-render icons after changing innerHTML
+
+            modalOverlay.classList.remove('hidden');
+            modalOverlay.classList.add('flex');
+            // Animate in
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+        
+        /** Hides the modal. */
+        function hideModal() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modalOverlay.classList.remove('flex');
+                modalOverlay.classList.add('hidden');
+            }, 300); // Wait for transition
+        }
+        window.hideModal = hideModal; // Expose to global scope for inline onclick
+
+
+        /** Appends a message to the chat history, optionally with an image. */
+        function appendMessage(text, sender, imageUrl = null) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = sender === 'user' 
+                ? 'flex justify-end' 
+                : 'flex justify-start animate-in';
+
+            const messageBubble = document.createElement('div');
+            
+            const baseClass = 'p-3 max-w-[80%] shadow-md transition duration-200 text-sm';
+            messageBubble.className = sender === 'user' 
+                ? `bg-indigo-600 text-white rounded-t-xl rounded-bl-xl rounded-br-md ${baseClass}`
+                : `bg-slate-100 text-gray-800 rounded-t-xl rounded-br-xl rounded-bl-md ${baseClass}`;
+            
+             // Add image if it exists
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.className = 'rounded-lg max-w-full h-auto mb-2';
+                messageBubble.appendChild(img);
+            }
+
+            if (text) {
+                // Format text to handle new lines and convert Markdown bold/emphasis to HTML tags
+                let renderedText = text.replace(/\n/g, '<br>'); 
+                renderedText = renderedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                renderedText = renderedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+                const textNode = document.createElement('div');
+                textNode.innerHTML = renderedText;
+                messageBubble.appendChild(textNode);
+            }
+            
+            messageWrapper.appendChild(messageBubble);
+            chatHistoryDiv.appendChild(messageWrapper);
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }
+
+        /**
+         * Parses the API response to extract text and grounding sources.
+         */
+        function parseResponse(result) {
+            const candidate = result.candidates?.[0];
+            const text = candidate?.content?.parts?.[0]?.text || "Sorry, I encountered an error and couldn't process that request.";
+            // NEW: Extract usage metadata which includes token counts
+            const usageMetadata = result.usageMetadata || { promptTokenCount: 0, candidatesTokenCount: 0, totalTokenCount: 0 };
+            return { text, sources: [], usageMetadata }; // Sources array is always empty now
+        }
+
+        /**
+         * Performs the API call with exponential backoff for retries.
+         */
+        async function fetchWithBackoff(payload, attempt = 1, useGrounding = true) {
+            const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
+            
+            if (useGrounding) {
+                 payload.tools = [{ "google_search": {} }];
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    console.error("API Error Response:", errorBody);
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorBody.error?.message || 'Unknown error'}`);
+                }
+
+                return await response.json();
+
+            } catch (error) {
+                console.error(`Attempt ${attempt} failed: ${error.message}`);
+                
+                if (attempt < 4) { // Max 4 attempts (1 original + 3 retries)
+                    const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff + jitter
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(payload, attempt + 1, useGrounding);
+                } else {
+                    throw new Error("API request failed after multiple retries.");
+                }
+            }
+        }
+
+        /** Serializes the chat history into a human-readable transcript. */
+        function getChatTranscript() {
+            let transcript = "--- Chat Transcript ---\n";
+            chatHistory.forEach(msg => {
+                const role = msg.role === 'user' ? customerData.name : 'Vrindopnishad Bot';
+                const text = msg.parts.find(p => p.text)?.text || '[Image was sent]';
+                // Skip the internal context messages that shouldn't be in the visible transcript
+                if (text.startsWith("Initial issue:") || text.startsWith("Hello ")) {
+                    return; 
+                }
+                transcript += `${role}: ${text}\n`;
+            });
+            transcript += "--- End Transcript ---\n";
+            return transcript.trim();
+        }
+        
+        // --- Core Chat Functions ---
+
+        // Company-specific knowledge injection
+        const VRINDOPNISHAD_KNOWLEDGE = `
+            Company Name: Vrindopnishad
+            Core Mission: Vrindopnishad provides specialized services for [Your Company's Services, e.g., cloud security, digital transformation, ethical clothing manufacturing, etc.].
+            Policy on External Queries: I am strictly an internal support bot for Vrindopnishad. I can ONLY answer questions related to Vrindopnishad's services, policies, and products. If a user asks about anything else (e.g., general knowledge, other companies, philosophy, my identity/creation), you MUST politely state: "I apologize, I can only provide support and information related to Vrindopnishad's services."
+        `.trim();
+
+
+        /**
+         * Initializes the chat session after the form submission.
+         */
+        function startChat(event) {
+            event.preventDefault(); // Prevent default form submission/page reload
+
+            // 1. Collect and store user data
+            customerData = {
+                name: document.getElementById('customer-name').value.trim(),
+                email: document.getElementById('customer-email').value.trim(),
+                category: document.getElementById('issue-category').value.trim(),
+                description: document.getElementById('issue-description').value.trim()
+            };
+
+            if (!customerData.name || !customerData.email || !customerData.category) {
+                return;
+            }
+
+            // 2. Hide form and show chat UI + toolbox
+            intakeFormContainer.classList.add('hidden');
+            chatHistoryDiv.classList.remove('hidden');
+            chatInputArea.classList.remove('hidden');
+            agentToolbox.classList.remove('hidden'); // Show the new toolbox
+            headerStatus.textContent = "Chatting with " + customerData.name + " (" + customerData.category + ")";
+            userInput.focus();
+
+            // 3. Define the dynamic SYSTEM PROMPT (UPDATED FOR VRINDOPNISHAD & IMAGES)
+            systemPrompt = `
+                ${VRINDOPNISHAD_KNOWLEDGE}
+                
+                You are currently assisting customer ${customerData.name} with an inquiry related to **${customerData.category}**. 
+                Their contact email is ${customerData.email}. Their initial problem description is: "${customerData.description}".
+                The user may provide images (like screenshots) to give more context about their problem. Analyze these images carefully to provide accurate support.
+
+                Your primary directive is to use the knowledge above to answer the query. You MUST NOT use the Google Search tool.
+                Start the conversation by politely acknowledging their issue and asking a clarifying follow-up question.
+            `.trim();
+            
+            // 4. Inject the initial personalized bot message (UPDATED RESPONSE)
+            const initialBotMessage = `Hello ${customerData.name}. Thank you for reaching out to **Vrindopnishad Support** regarding **${customerData.category}**. We understand your request concerning "${customerData.description}". 
+
+I have logged these details. To start, could you please provide a specific order number, product ID, or account reference number so I can pull up your records immediately?`;
+
+            appendMessage(initialBotMessage, 'bot');
+            
+            // 5. Add initial context to chat history
+            // We keep these two for chat history purposes, but filter them out for tool transcript creation
+            chatHistory.push({ role: "user", parts: [{ text: `Initial issue: ${customerData.description}` }] });
+            chatHistory.push({ role: "model", parts: [{ text: initialBotMessage }] });
+        }
+
+
+        async function sendMessage() {
+            const userQuery = userInput.value.trim();
+            if (userQuery === "" && !attachedImageBase64) return;
+
+            appendMessage(userQuery, 'user', attachedImageBase64);
+            userInput.value = '';
+
+             // --- Prepare message parts for API ---
+            const messageParts = [];
+            if (userQuery) {
+                messageParts.push({ text: userQuery });
+            }
+            if (attachedImageBase64) {
+                // Extract base64 data from the Data URL
+                const base64Data = attachedImageBase64.split(',')[1];
+                messageParts.push({
+                    inlineData: {
+                        mimeType: attachedImageMimeType,
+                        data: base64Data
+                    }
+                });
+            }
+
+            // Reset image preview state after preparing the message
+            if (attachedImageBase64) {
+                removeImageBtn.click();
+            }
+            
+            // Disable input and show loading
+            userInput.disabled = true;
+            sendButton.disabled = true;
+            loadingIndicator.classList.remove('hidden');
+            summarizeBtn.disabled = true;
+            escalateBtn.disabled = true;
+
+            chatHistory.push({ role: "user", parts: messageParts });
+            
+            // --- Show typing indicator and AI GLOW ---
+            showTypingIndicator();
+            chatbotContainer.classList.add('ai-active-glow');
+
+
+            const payload = {
+                contents: chatHistory,
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            try {
+                // IMPORTANT: Call fetchWithBackoff with useGrounding set to false 
+                const result = await fetchWithBackoff(payload, 1, false); 
+                const { text, usageMetadata } = parseResponse(result);
+                
+                // --- NEW: Log the token count to the developer console ---
+                console.log('Token Usage:', {
+                    prompt: usageMetadata.promptTokenCount,
+                    response: usageMetadata.candidatesTokenCount,
+                    total: usageMetadata.totalTokenCount
+                });
+
+                // --- Hide typing indicator before appending final message ---
+                hideTypingIndicator();
+
+                appendMessage(text, 'bot'); // No sources expected since grounding is off
+
+                chatHistory.push({ role: "model", parts: [{ text: text }] });
+
+            } catch (error) {
+                console.error("Chatbot operation failed:", error);
+                
+                // --- Hide typing indicator on error ---
+                hideTypingIndicator(); 
+                
+                appendMessage("I apologize, but I am currently experiencing technical difficulties. This conversation may need to be escalated to a human agent.", 'bot');
+            } finally {
+                // Re-enable input and hide loading
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                loadingIndicator.classList.add('hidden');
+                summarizeBtn.disabled = false;
+                escalateBtn.disabled = false;
+                userInput.focus();
+                
+                // --- Hide AI GLOW ---
+                chatbotContainer.classList.remove('ai-active-glow');
+            }
+        }
+        
+        /**
+         * LLM-powered function to summarize the current chat history.
+         */
+        async function summarizeChat() {
+            if (chatHistory.length < 2) {
+                showModal(
+                    "Error", 
+                    "Chat history is too short to summarize.", 
+                    "Please have at least one back-and-forth exchange before summarizing."
+                );
+                return;
+            }
+            
+            // Use the button itself for loading state
+            summarizeBtn.disabled = true;
+            const originalText = summarizeBtn.textContent;
+            summarizeBtn.textContent = 'Summarizing...';
+            chatbotContainer.classList.add('ai-active-glow');
+
+
+            const transcript = getChatTranscript();
+
+            const summaryPrompt = `
+                TASK: Summarize the following customer service interaction for Vrindopnishad.
+                
+                CUSTOMER DATA: 
+                Name: ${customerData.name}
+                Email: ${customerData.email}
+                Category: ${customerData.category}
+                Initial Description: ${customerData.description}
+
+                TRANSCRIPT:
+                ${transcript}
+
+                SUMMARY FORMAT: Provide a concise summary listing the Customer Name, Initial Issue Category, the Core Problem discussed, and the key outcome or last unresolved question. Ensure the output is clean text, suitable for a summary report.
+            `.trim();
+            
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: summaryPrompt }] }], // Send as a single user instruction
+                systemInstruction: {
+                    parts: [{ text: "You are a professional Vrindopnishad support analyst. Generate the requested summary based ONLY on the provided data." }]
+                },
+            };
+
+            try {
+                // Call API without grounding
+                const result = await fetchWithBackoff(payload, 1, false); 
+                const { text } = parseResponse(result);
+
+                showModal(
+                    "Conversation Summary",
+                    "A concise summary generated by the LLM for quick review:",
+                    text
+                );
+
+            } catch (error) {
+                console.error("Summarization failed:", error);
+                // Display a specific error message for tool failures
+                showModal(
+                    "Error", 
+                    "Sorry, the LLM failed to generate a summary.", 
+                    "Please ensure the conversation is long enough to summarize, or try again. Error details logged to console."
+                );
+            } finally {
+                summarizeBtn.textContent = originalText;
+                summarizeBtn.disabled = false;
+                chatbotContainer.classList.remove('ai-active-glow');
+            }
+        }
+
+        /**
+         * LLM-powered function to generate an email draft for human escalation.
+         */
+        async function generateEscalationEmail() {
+            if (chatHistory.length < 2) {
+                showModal(
+                    "Error", 
+                    "Chat history is too short for escalation.", 
+                    "Please have at least one back-and-forth exchange before escalating."
+                );
+                return;
+            }
+
+            // Use the button itself for loading state
+            escalateBtn.disabled = true;
+            const originalText = escalateBtn.textContent;
+            escalateBtn.textContent = 'Drafting...';
+            chatbotContainer.classList.add('ai-active-glow');
+
+            // NEW: Find the base64 data of the last image sent by the user
+            let lastImageData = null;
+            for (let i = chatHistory.length - 1; i >= 0; i--) {
+                const msg = chatHistory[i];
+                if (msg.role === 'user' && msg.parts.some(part => part.inlineData)) {
+                    const imagePart = msg.parts.find(part => part.inlineData);
+                    if (imagePart) {
+                        // Reconstruct the Data URL for use in the browser
+                        lastImageData = `data:${imagePart.inlineData.mimeType};base64,${imagePart.inlineData.data}`;
+                        break; // Found the last image
+                    }
+                }
+            }
+            const imageWasSent = !!lastImageData;
+
+            const transcript = getChatTranscript();
+
+            // We explicitly tell the LLM to format the body without Markdown list formatting (*)
+            const escalationPrompt = `
+                TASK: Draft a professional internal escalation email for Vrindopnishad based on the context provided below.
+                
+                CUSTOMER DATA: 
+                Name: ${customerData.name}
+                Email: ${customerData.email}
+                Category: ${customerData.category}
+                Initial Description: ${customerData.description}
+
+                TRANSCRIPT:
+                ${transcript}
+
+                EMAIL REQUIREMENTS: 
+                1. The output MUST start with 'SUBJECT: ' followed by a concise subject line.
+                2. The output MUST contain a blank line, and then start the email body with 'BODY: '.
+                3. The email body must NOT use bullet points or asterisks.
+                4. The email body must be addressed to 'Hi Vrindopnishad Support Team,'.
+                5. Include all Customer Data (Name, Email, Category) clearly formatted with colon/newline separation (not bullet points).
+                6. Provide a clear, brief summary of the issue and conversation flow.
+                7. State the Status: "Unresolved - Requires Tier 2".
+                8. End with a signature (e.g., "Thanks, Vrindopnishad Bot").
+            `.trim();
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: escalationPrompt }] }],
+                systemInstruction: {
+                    parts: [{ text: "You are a Vrindopnishad support automation tool. Generate the requested internal email draft in the specified SUBJECT/BODY format based ONLY on the provided data. DO NOT USE MARKDOWN BULLETS (*)." }]
+                },
+            };
+
+            try {
+                const result = await fetchWithBackoff(payload, 1, false); 
+                const { text } = parseResponse(result);
+
+                // --- NEW PARSING AND CLEANING LOGIC ---
+                const subjectMatch = text.match(/SUBJECT:\s*(.*?)(\n|$)/i);
+                const bodyMatch = text.match(/BODY:\s*([\s\S]*)/i);
+
+                let subject = `Escalation: ${customerData.category} for ${customerData.name}`;
+                let body = text; 
+                
+                if (subjectMatch && bodyMatch) {
+                    subject = subjectMatch[1].trim();
+                    body = bodyMatch[1].trim(); 
+                } else if (text.length > 50) {
+                     body = text;
+                }
+                
+                // FINAL CLEANUP: Strip remaining markdown from the body
+                const cleanedBody = stripMarkdown(body);
+                // --- END NEW PARSING AND CLEANING LOGIC ---
+                
+                // Show modal with new 'escalation' action type
+                showModal(
+                    "Escalation Email Draft",
+                    null, // Description is handled dynamically inside showModal
+                    cleanedBody,
+                    'escalation',
+                    subject,
+                    { imageAvailable: imageWasSent, imageData: lastImageData } // Pass the flag here
+                );
+
+            } catch (error) {
+                console.error("Escalation draft failed:", error);
+                // Display a specific error message for tool failures
+                showModal(
+                    "Error", 
+                    "Sorry, the LLM failed to generate the email draft.", 
+                    "Please ensure the conversation is long enough to escalate, or try again. Error details logged to console."
+                );
+            } finally {
+                escalateBtn.textContent = originalText;
+                escalateBtn.disabled = false;
+                chatbotContainer.classList.remove('ai-active-glow');
+            }
+        }
+        
+        // --- Event Listeners ---
+        
+        // 1. Handle form submission to start the chat
+        intakeForm.addEventListener('submit', startChat);
+
+        // 2. Handle send button click and Enter key press for the chat input
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // 3. Handle new Agent Toolbox buttons
+        summarizeBtn.addEventListener('click', summarizeChat);
+        escalateBtn.addEventListener('click', generateEscalationEmail);
+        
+        // 4. Handle Image Attachment
+        attachButton.addEventListener('click', () => imageUpload.click());
+        
+        removeImageBtn.addEventListener('click', () => {
+            attachedImageBase64 = null;
+            attachedImageMimeType = null;
+            imageUpload.value = ''; // Reset the file input
+            imagePreviewContainer.classList.add('hidden');
+        });
+
+        imageUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    attachedImageBase64 = e.target.result;
+                    attachedImageMimeType = file.type;
+                    imagePreview.src = attachedImageBase64;
+                    imagePreviewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+    </script>
+</body>
+</html>

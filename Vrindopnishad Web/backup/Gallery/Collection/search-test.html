@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Test</title>
+    <link rel="stylesheet" href="../search.css">
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Search Overlay -->
+    <div id="searchOverlay"></div>
+
+    <!-- Movable Search Button -->
+    <div class="movable-search-wrapper collapsed" id="movableSearch" style="opacity: 1; transform: translate(0, 0);">
+        <div class="movable-search">
+            <div class="search-icon" id="expandSearchIcon">
+                <i class="fas fa-search"></i>
+            </div>
+            <input type="text" class="search-input" id="movableSearchInput" placeholder="Search books, authors, genres...">
+            <div class="close-icon" id="collapseSearchIcon">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Search Button Test</h1>
+        <p>You should see a search button in the top-right corner of the screen.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded');
+            
+            const searchWrapper = document.getElementById('movableSearch');
+            const searchIcon = document.getElementById('expandSearchIcon');
+            const closeIcon = document.getElementById('collapseSearchIcon');
+            const searchInput = document.getElementById('movableSearchInput');
+            const searchOverlay = document.getElementById('searchOverlay');
+            
+            console.log('Search wrapper:', searchWrapper);
+            
+            // Position the search button in the top-right corner
+            function positionSearchButton() {
+                const right = 20;
+                const top = 20;
+                searchWrapper.style.transform = `translate(${window.innerWidth - searchWrapper.offsetWidth - right}px, ${top}px)`;
+            }
+            
+            // Call the function to position the button
+            setTimeout(positionSearchButton, 100);
+            
+            // Toggle search on icon click
+            searchIcon.addEventListener('click', function() {
+                searchWrapper.classList.add('expanded');
+                searchWrapper.classList.remove('collapsed');
+                searchInput.focus();
+                
+                // Show overlay
+                searchOverlay.style.display = 'block';
+                setTimeout(() => {
+                    searchOverlay.classList.add('active');
+                }, 10);
+            });
+            
+            // Close search on close icon click
+            closeIcon.addEventListener('click', function() {
+                searchWrapper.classList.remove('expanded');
+                searchWrapper.classList.add('collapsed');
+                
+                // Hide overlay
+                searchOverlay.classList.remove('active');
+                setTimeout(() => {
+                    searchOverlay.style.display = 'none';
+                }, 300);
+            });
+            
+            // Close search when clicking on overlay
+            searchOverlay.addEventListener('click', function() {
+                closeIcon.click();
+            });
+        });
+    </script>
+</body>
+</html> 

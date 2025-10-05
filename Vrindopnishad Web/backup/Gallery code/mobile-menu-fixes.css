@@ -1,0 +1,54 @@
+/* Mobile Menu Enhancements with Back Button */
+@media screen and (max-width: 768px) {
+  /* Mobile back button for full-screen menu */
+  .mobile-back-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(114, 186, 255, 0.1);
+    border: 1px solid rgba(114, 186, 255, 0.3);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .mobile-back-button:hover, 
+  .mobile-back-button:active {
+    background: rgba(114, 186, 255, 0.2);
+    transform: scale(1.05);
+  }
+  
+  .mobile-back-button i {
+    font-size: 20px;
+  }
+  
+  /* Position fixes for full-screen menu */
+  .cosmic-menu-fullscreen {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 70px;
+  }
+  
+  /* Ensure no content gets hidden behind fixed headers */
+  .fixed-header + .content-section {
+    padding-top: 60px;
+  }
+  
+  /* Improved mobile menu animation */
+  .menu-open .cosmic-menu-container {
+    animation: slideInMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  @keyframes slideInMenu {
+    from { transform: translateY(-5%); opacity: 0.5; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+} 

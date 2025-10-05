@@ -1,0 +1,75 @@
+/* Futuristic Blocks - Mobile Responsive Adjustments */
+
+/* Target mobile devices (screen width less than 768px) */
+@media (max-width: 767px) {
+  .uniform-block {
+    border-radius: 10px; /* Slightly less rounded on mobile */
+    margin-bottom: 20px; /* Adjust margin on mobile */
+  }
+
+  .image-container {
+    border-radius: 10px 10px 0 0; /* Match block border-radius */
+  }
+
+  .block-content {
+    padding: 15px; /* Reduced padding on mobile */
+  }
+
+  .block-title {
+    font-size: 1.2em; /* Smaller title on mobile */
+    margin-bottom: 8px;
+  }
+
+  .block-description {
+    font-size: 0.95em; /* Slightly smaller description */
+    line-height: 1.4;
+  }
+
+  .action-buttons {
+    margin-top: 15px; /* Adjust button margin on mobile */
+    flex-direction: row; /* Keep buttons in a row on mobile */
+    justify-content: flex-end; /* Keep buttons aligned to the right */
+    gap: 8px; /* Slightly smaller gap between buttons */
+  }
+
+  .action-button {
+    padding: 8px 14px; /* Smaller buttons on mobile */
+    font-size: 0.85em;
+  }
+}
+
+/* Tablet adjustments (screen width between 768px and 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .uniform-block {
+    border-radius: 11px; /* Slightly rounded for tablets */
+    margin-bottom: 22px; /* Adjust margin for tablets */
+  }
+
+  .image-container {
+    border-radius: 11px 11px 0 0; /* Match block border-radius */
+  }
+
+  .block-content {
+    padding: 18px; /* Adjusted padding for tablets */
+  }
+
+  .block-title {
+    font-size: 1.3em; /* Adjusted title size for tablets */
+    margin-bottom: 9px;
+  }
+
+  .block-description {
+    font-size: 0.98em; /* Adjusted description size for tablets */
+    line-height: 1.45;
+  }
+
+  .action-buttons {
+    margin-top: 18px; /* Adjust button margin for tablets */
+    gap: 9px; /* Slightly smaller gap for tablets */
+  }
+
+  .action-button {
+    padding: 9px 16px; /* Adjusted button size for tablets */
+    font-size: 0.9em;
+  }
+} 

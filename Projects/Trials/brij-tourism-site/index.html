@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brij 84 Kos Dhaam - Sacred Pilgrimage Tours</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-text">
+                        <div class="logo-devanagari">ब्रज ८४ कोस</div>
+                        <div class="logo-english">KOS DHAAM</div>
+                    </div>
+                </div>
+                
+                <nav class="nav" id="nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link" data-en="HOME" data-hi="होम">HOME</a></li>
+                        <li><a href="#about" class="nav-link" data-en="ABOUT BRIJ" data-hi="ब्रज के बारे में">ABOUT BRIJ</a></li>
+                        <li><a href="#tours" class="nav-link" data-en="TOUR PACKAGES" data-hi="यात्रा पैकेज">TOUR PACKAGES</a></li>
+                        <li><a href="#map" class="nav-link" data-en="GALLERY" data-hi="गैलरी">GALLERY</a></li>
+                        <li><a href="#contact" class="nav-link" data-en="CONTACT" data-hi="संपर्क">CONTACT</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-controls">
+                    <button class="language-toggle" id="languageToggle">हिंदी</button>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title" data-en="TOURS & TRAVELS GALLERY" data-hi="पर्यटन और यात्रा गैलरी">TOURS & TRAVELS GALLERY</h1>
+            <h2 class="hero-subtitle">श्री ब्रज चौरासी कोस धाम यात्रा</h2>
+            <button class="cta-button" data-en="PLAN YOUR JOURNEY" data-hi="अपनी यात्रा की योजना बनाएं">PLAN YOUR JOURNEY</button>
+        </div>
+    </section>
+
+    <!-- Tour Packages Section -->
+    <section class="tours" id="tours">
+        <div class="container">
+            <h2 class="section-title" data-en="SACRED PILGRIMAGE TOURS" data-hi="पवित्र तीर्थयात्रा">SACRED PILGRIMAGE TOURS</h2>
+            
+            <div class="tours-grid">
+                <div class="tour-card" data-tour="vrindavan">
+                    <div class="card-header">
+                        <h3 class="card-title">VRINDAVAN TEMPLE TOUR</h3>
+                        <div class="card-price">₹2,500</div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">Sacred journey through Krishna's divine land</p>
+                        <ul class="card-highlights">
+                            <li>Krishna Janmabhoomi</li>
+                            <li>Banke Bihari Temple</li>
+                            <li>ISKCON Temple</li>
+                            <li>Nidhivan</li>
+                        </ul>
+                        <div class="card-duration">Full Day</div>
+                    </div>
+                    <button class="card-button" data-en="Learn More" data-hi="और जानें">Learn More</button>
+                </div>
+
+                <div class="tour-card" data-tour="mathura">
+                    <div class="card-header">
+                        <h3 class="card-title">MATHURA HOLI CELEBRATIONS</h3>
+                        <div class="card-price">₹8,500</div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">Experience the colors of divine love</p>
+                        <ul class="card-highlights">
+                            <li>Holi Festival</li>
+                            <li>Cultural Programs</li>
+                            <li>Local Cuisine</li>
+                            <li>Lathmar Holi</li>
+                        </ul>
+                        <div class="card-duration">3 Days</div>
+                    </div>
+                    <button class="card-button" data-en="Learn More" data-hi="और जानें">Learn More</button>
+                </div>
+
+                <div class="tour-card" data-tour="govardhan">
+                    <div class="card-header">
+                        <h3 class="card-title">GOVARDHAN PARIKRAMA</h3>
+                        <div class="card-price">₹4,500</div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">Sacred circumambulation of Govardhan Hill</p>
+                        <ul class="card-highlights">
+                            <li>Govardhan Hill</li>
+                            <li>Radha Kund</li>
+                            <li>Shyam Kund</li>
+                            <li>Sacred Bathing</li>
+                        </ul>
+                        <div class="card-duration">2 Days</div>
+                    </div>
+                    <button class="card-button" data-en="Learn More" data-hi="और जानें">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="map-section" id="map">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    🦚 BRIJ 84 KOS DHAAM YATRA 🦚
+                </h2>
+            </div>
+            
+            <div class="map-container">
+                <div class="map" id="interactiveMap">
+                    <div class="location-marker" data-location="vrindavan" style="top: 30%; left: 60%;">
+                        <div class="marker-icon">🏛️</div>
+                        <div class="marker-label">VRINDAVAN</div>
+                    </div>
+                    <div class="location-marker" data-location="mathura" style="top: 50%; left: 45%;">
+                        <div class="marker-icon">🏛️</div>
+                        <div class="marker-label">MATHURA</div>
+                    </div>
+                    <div class="location-marker" data-location="gokul" style="top: 70%; left: 40%;">
+                        <div class="marker-icon">🏛️</div>
+                        <div class="marker-label">GOKUL</div>
+                    </div>
+                    <div class="location-marker" data-location="govardhan" style="top: 35%; left: 75%;">
+                        <div class="marker-icon">🏛️</div>
+                        <div class="marker-label">GOVARDHAN</div>
+                    </div>
+                    
+                    <!-- Golden pathways -->
+                    <svg class="pathways" viewBox="0 0 100 100">
+                        <path d="M60,30 Q52.5,40 45,50" stroke="#ffd700" stroke-width="0.5" fill="none" opacity="0.7"/>
+                        <path d="M45,50 Q42.5,60 40,70" stroke="#ffd700" stroke-width="0.5" fill="none" opacity="0.7"/>
+                        <path d="M60,30 Q67.5,32.5 75,35" stroke="#ffd700" stroke-width="0.5" fill="none" opacity="0.7"/>
+                    </svg>
+                </div>
+                
+                <div class="map-controls">
+                    <button class="map-control" id="zoomIn">🔍+</button>
+                    <button class="map-control" id="zoomOut">🔍-</button>
+                    <button class="map-control" id="filterTemples" data-en="Filter Temples" data-hi="मंदिर फिल्टर">Filter Temples</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title" data-en="OUR SERVICES" data-hi="हमारी सेवाएं">OUR SERVICES</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🕉️</div>
+                    <h3 class="service-title" data-en="Guided Pilgrimage" data-hi="गाइडेड तीर्थयात्रा">Guided Pilgrimage</h3>
+                    <p class="service-description" data-en="Expert spiritual guides for complete 84 Kos journey" data-hi="पूर्ण ८४ कोस यात्रा के लिए विशेषज्ञ आध्यात्मिक गाइड">Expert spiritual guides for complete 84 Kos journey</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🏛️</div>
+                    <h3 class="service-title" data-en="Sacred Accommodation" data-hi="पवित्र आवास">Sacred Accommodation</h3>
+                    <p class="service-description" data-en="Comfortable stays near temples with vegetarian meals" data-hi="शाकाहारी भोजन के साथ मंदिरों के पास आरामदायक रहना">Comfortable stays near temples with vegetarian meals</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🚌</div>
+                    <h3 class="service-title" data-en="Transportation" data-hi="परिवहन">Transportation</h3>
+                    <p class="service-description" data-en="AC buses and private vehicles for comfortable journey" data-hi="आरामदायक यात्रा के लिए AC बस और निजी वाहन">AC buses and private vehicles for comfortable journey</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🪔</div>
+                    <h3 class="service-title" data-en="Ritual Services" data-hi="अनुष्ठान सेवाएं">Ritual Services</h3>
+                    <p class="service-description" data-en="Complete puja arrangements and spiritual ceremonies" data-hi="पूर्ण पूजा व्यवस्था और आध्यात्मिक समारोह">Complete puja arrangements and spiritual ceremonies</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="booking">
+        <div class="container">
+            <h2 class="section-title">
+                🪷 <span data-en="PLAN YOUR JOURNEY" data-hi="अपनी यात्रा की योजना बनाएं">PLAN YOUR JOURNEY</span> 🪷
+            </h2>
+            
+            <form class="booking-form" id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="destination" data-en="Destination" data-hi="गंतव्य">Destination</label>
+                        <select id="destination" class="form-control" required>
+                            <option value="" data-en="Select Destination" data-hi="गंतव्य चुनें">Select Destination</option>
+                            <option value="vrindavan">Vrindavan Temple Tour</option>
+                            <option value="mathura">Mathura Holi Celebrations</option>
+                            <option value="govardhan">Govardhan Parikrama</option>
+                            <option value="complete">Complete 84 Kos Yatra</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="checkin" data-en="Check-in Date" data-hi="चेक-इन तिथि">Check-in Date</label>
+                        <input type="date" id="checkin" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pilgrims" data-en="Number of Pilgrims" data-hi="तीर्थयात्रियों की संख्या">Number of Pilgrims</label>
+                        <select id="pilgrims" class="form-control" required>
+                            <option value="">Select</option>
+                            <option value="1">1 Person</option>
+                            <option value="2">2 People</option>
+                            <option value="3-5">3-5 People</option>
+                            <option value="6-10">6-10 People</option>
+                            <option value="group">Group (10+)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="names" data-en="Names of Pilgrims" data-hi="तीर्थयात्रियों के नाम">Names of Pilgrims</label>
+                        <input type="text" id="names" class="form-control" placeholder="Enter names" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-button" data-en="SEARCH TOURS" data-hi="यात्रा खोजें">SEARCH TOURS</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-text">
+                            <div class="logo-devanagari">ब्रज ८४ कोस</div>
+                            <div class="logo-english">KOS DHAAM</div>
+                        </div>
+                    </div>
+                    <p class="footer-description" data-en="Experience the sacred journey through Lord Krishna's divine land" data-hi="भगवान कृष्ण की दिव्य भूमि के माध्यम से पवित्र यात्रा का अनुभव करें">Experience the sacred journey through Lord Krishna's divine land</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title" data-en="Contact Information" data-hi="संपर्क जानकारी">Contact Information</h3>
+                    <div class="contact-info">
+                        <p>📞 +91-9876543210</p>
+                        <p>✉️ info@brij84kos.com</p>
+                        <p>📍 Vrindavan, Mathura, Uttar Pradesh, India</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">📷</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">🎥</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="om-symbol">🕉️</div>
+                <p>&copy; 2024 Brij 84 Kos Dhaam. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Location Popup Modal -->
+    <div class="location-popup hidden" id="locationPopup">
+        <div class="popup-content">
+            <button class="popup-close" id="popupClose">×</button>
+            <h3 class="popup-title" id="popupTitle"></h3>
+            <p class="popup-description" id="popupDescription"></p>
+            <div class="popup-temples" id="popupTemples"></div>
+            <div class="popup-significance" id="popupSignificance"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

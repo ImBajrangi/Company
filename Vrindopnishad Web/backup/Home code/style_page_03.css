@@ -1,0 +1,105 @@
+/* General styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 206, 27, 0.785); /* Set the main background color to yellow */
+    background-image:
+        repeating-linear-gradient(
+            to right, transparent 0 100px,
+            #25283b22 100px 101px
+        ),
+        repeating-linear-gradient(
+            to bottom, transparent 0 100px,
+            #25283b22 100px 101px
+        );
+    animation: backgroundAnimation 20s infinite; /* Add animation to the background */
+    z-index: 1; /* Set z-index to 1 */
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100px 100px;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+spline-viewer {
+    display: block;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Hide the Spline Viewer logo */
+spline-viewer::part(brand) {
+  display: none;
+}
+
+/* Hide the Spline Viewer button */
+spline-viewer::part(button) {
+  display: none;
+}
+
+footer {
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+    backdrop-filter: blur(30px) saturate(180%); /* Apply blur and saturation effect */
+    box-shadow: -1px -5px -10px rgba(243, 231, 56, 0.9); /* Subtle shadow */
+    border: 1px solid rgba(94, 77, 1, 0.1); /* Light border */
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px; /* Add margin to push the footer lower */
+    position: fixed; /* Fix the footer at the bottom */
+    bottom: -100px; /* Initially hide the footer */  
+    width: 100%;  
+    transition: bottom 0.3s ease; /* Smooth transition for bottom position */  
+    visibility: hidden; /* Hide the footer initially */
+}
+
+.show-footer footer {  
+    visibility: visible; /* Show the footer when the class is added */  
+    bottom: 0; /* Ensure the footer is visible */
+}
+
+.footer-container {  
+    max-width: 1200px;  
+    margin: 0 auto;  
+    padding: 0 20px;
+}
+
+.footer-content {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links li {
+    display: inline;
+}
+
+.footer-links a {
+    color: #fd630a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #045a82;
+}

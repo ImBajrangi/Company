@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>भक्तवेब - आध्यात्मिक ज्ञान</title>
+    <link rel="stylesheet" href="info.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+    
+    <!-- Background canvas for Three.js -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Noise element for texture -->
+    <div class="noise"></div>
+    
+    <!-- Background elements -->
+    <div class="bg-element bg-element-1"></div>
+    <div class="bg-element bg-element-2"></div>
+    <div class="bg-element bg-element-3"></div>
+    
+    <!-- Scroll progress -->
+    <div class="scroll-progress"></div>
+    
+    <!-- Header with navigation -->
+    <header>
+        <a href="../index.html" class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/6597/6597133.png" alt="ॐ" class="logo-img">
+            <span>भक्त<span class="highlight">वेब</span></span>
+        </a>
+        
+        <!-- Main navigation (visible) -->
+        <div class="main-nav">
+            <ul>
+                <li><a href="../index.html">होम</a></li>
+                <li><a href="#" class="active">जानकारी</a></li>
+                <li><a href="../book-content/index.html">ग्रंथ</a></li>
+                <li><a href="../Bhakt Pic Collection/pic-collection.html">चित्र संग्रह</a></li>
+            </ul>
+        </div>
+        
+        <!-- Right side icons container -->
+        <div class="header-right">
+            <!-- Theme toggle icon -->
+            <div class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" role="button" tabindex="0">
+                <i class="fas fa-moon"></i>
+            </div>
+            
+            <!-- Tools shortcut icon -->
+            <div class="tools-icon" id="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <div class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu" role="button" tabindex="0">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Fullscreen Tools Menu -->
+    <div class="tools-menu">
+        <div class="tools-menu-header">
+            <div class="tools-menu-logo">भक्तवेब टूल्स</div>
+            <div class="tools-menu-close" aria-label="Close tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="tools-menu-content">
+            <div class="tools-grid">
+                <!-- Collection Tool -->
+                <div class="tool-item" data-bg-color="#8E7F7F" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>संग्रह</h3>
+                        <p>हमारे संग्रह का अन्वेषण करें</p>
+                    </div>
+                    <a href="../Collection.html" class="tool-link"></a>
+                </div>
+                
+                <!-- Photos Tool -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>फोटो गैलरी</h3>
+                        <p>हमारी फोटो गैलरी देखें</p>
+                    </div>
+                    <a href="../photos.html" class="tool-link"></a>
+                </div>
+                
+                <!-- PDF Library Tool -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#121212">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>पीडीएफ लाइब्रेरी</h3>
+                        <p>हमारे डिजिटल दस्तावेज़ों का संग्रह</p>
+                    </div>
+                    <a href="../admins code/pdf-collection.html" class="tool-link"></a>
+                </div>
+                
+                <!-- Spiritual Texts Tool -->
+                <div class="tool-item" data-bg-color="#78a4aa" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>आध्यात्मिक ग्रंथ</h3>
+                        <p>प्राचीन ज्ञान और शिक्षाओं का अन्वेषण</p>
+                    </div>
+                    <a href="../book-content/index.html" class="tool-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile navigation menu -->
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <div class="nav-logo">भक्तवेब</div>
+            <div class="nav-close" id="mobile-menu-close"><i class="fas fa-times"></i></div>
+        </div>
+        <ul>
+            <li><a href="../index.html"><i class="fas fa-home"></i> होम</a></li>
+            <li><a href="#" class="active"><i class="fas fa-info-circle"></i> जानकारी</a></li>
+            <li><a href="../book-content/index.html"><i class="fas fa-book"></i> ग्रंथ</a></li>
+            <li><a href="../Bhakt Pic Collection/pic-collection.html"><i class="fas fa-images"></i> चित्र संग्रह</a></li>
+            <li class="nav-divider"></li>
+            <li><a href="../Collection.html"><i class="fas fa-th-large"></i> संग्रह</a></li>
+            <li><a href="../photos.html"><i class="fas fa-camera"></i> फोटो गैलरी</a></li>
+            <li><a href="../admins code/pdf-collection.html"><i class="fas fa-file-pdf"></i> पीडीएफ लाइब्रेरी</a></li>
+        </ul>
+    </nav>
+
+    <!-- Menu overlay -->
+    <div class="menu-overlay"></div>
+
+    <!-- Main content container -->
+    <div class="container">
+        <!-- Hero section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-content">
+                <div class="hero-heading">
+                    <div class="decorative-line"></div>
+                    <h1 class="hero-title">
+                        <span class="greeting">नमस्ते 🙏</span>
+                        <span class="main-title">आध्यात्मिक <span class="highlight">ज्ञान</span> की दुनिया</span>
+                    </h1>
+                    <div class="decorative-line"></div>
+                </div>
+                <p class="hero-text">आध्यात्मिक ज्ञान, भक्ति और शांति की डिजिटल यात्रा का अनुभव करें</p>
+                <div class="hero-buttons">
+                    <a href="#articles" class="btn btn-primary">
+                        <span class="btn-text">लेख पढ़ें</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i>
+                        <span class="btn-text">संपर्क करें</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-decoration"></div>
+                <div class="box-container">
+                    <div class="box" id="box">
+                        <div class="box-inner">
+                            <span class="sno">[१]</span>
+                            <span class="title">आध्यात्मिक ज्ञान</span>
+                            <p class="box-text">हमारे लेखों के माध्यम से प्राचीन ज्ञान और आधुनिक अध्यात्म का अनुभव करें</p>
+                            <div class="box-icon">
+                                <i class="fas fa-om"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Articles section -->
+        <section id="articles" class="articles-section">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-feather-alt"></i></div>
+                <h2>हमारे प्रमुख लेख</h2>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="articles-grid">
+                <div class="article-card">
+                    <div class="article-image">
+                        <img src="" alt="योग का महत्व" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3>योग का महत्व</h3>
+                        <p>प्राचीन योग विद्या के माध्यम से जीवन में संतुलन और शांति कैसे प्राप्त करें।</p>
+                        <a href="#" class="article-link">अधिक पढ़ें <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1523281353252-5e14672131b0?q=80&w=500&auto=format&fit=crop" alt="ध्यान की शक्ति" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3>ध्यान की शक्ति</h3>
+                        <p>दैनिक ध्यान अभ्यास से जीवन में होने वाले सकारात्मक परिवर्तन।</p>
+                        <a href="#" class="article-link">अधिक पढ़ें <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1624628639856-100bf817fd35?q=80&w=500&auto=format&fit=crop" alt="भक्ति का मार्ग" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <h3>भक्ति का मार्ग</h3>
+                        <p>भक्ति के माध्यम से आंतरिक शांति और परम ज्ञान की प्राप्ति कैसे करें।</p>
+                        <a href="#" class="article-link">अधिक पढ़ें <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact section -->
+        <section id="contact" class="contact-section">
+            <div class="section-pattern top"></div>
+            <div class="section-content">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-envelope"></i></div>
+                    <h2>संपर्क करें</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <div class="contact-decoration"></div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>ईमेल</h3>
+                                <p>contact@bhaktweb.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>फोन</h3>
+                                <p>+91 9876543210</p>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="contact-form-container">
+                        <div class="contact-form-decoration"></div>
+                        <div class="contact-form">
+                            <form id="contact-form">
+                                <div class="form-group">
+                                    <label for="name">आपका नाम</label>
+                                    <input type="text" id="name" placeholder="अपना नाम दर्ज करें" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">आपका ईमेल</label>
+                                    <input type="email" id="email" placeholder="अपना ईमेल दर्ज करें" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">आपका संदेश</label>
+                                    <textarea id="message" placeholder="अपना संदेश दर्ज करें" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span class="btn-text">संदेश भेजें</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-pattern bottom"></div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-pattern"></div>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <a href="../index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                            <path fill="currentColor" d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8 s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z M15.88,8.29L15,7.4c-0.25-0.25-0.65-0.25-0.9,0L12,9.5l-2.12-2.12 c-0.25-0.25-0.65-0.25-0.9,0l-0.88,0.88c-0.25,0.25-0.25,0.65,0,0.9L10.23,12l-2.12,2.12c-0.25,0.25-0.25,0.65,0,0.9l0.88,0.88 c0.25,0.25,0.65,0.25,0.9,0L12,13.77l2.12,2.12c0.25,0.25,0.65,0.25,0.9,0l0.88-0.88c0.25-0.25,0.25-0.65,0-0.9L13.77,12l2.12-2.12 C16.13,8.94,16.13,8.54,15.88,8.29z"/>
+                        </svg>
+                        <span>भक्तवेब</span>
+                    </a>
+                    <p>आध्यात्मिक ज्ञान और शांति के लिए आपका विश्वसनीय डिजिटल मार्गदर्शक। हमारा लक्ष्य आपको शांति, ज्ञान और आध्यात्मिक समृद्धि के मार्ग पर आगे बढ़ने में सहायता करना है।</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>त्वरित लिंक</h3>
+                    <ul>
+                        <li><a href="../index.html">होम पेज</a></li>
+                        <li><a href="#articles">लेख और ज्ञान</a></li>
+                        <li><a href="../book-content/index.html">प्राचीन ग्रंथ</a></li>
+                        <li><a href="../Bhakt Pic Collection/pic-collection.html">चित्र संग्रह</a></li>
+                        <li><a href="#contact">संपर्क करें</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>उपयोगी टूल्स</h3>
+                    <ul>
+                        <li><a href="../Collection.html">संग्रह</a></li>
+                        <li><a href="../photos.html">फोटो गैलरी</a></li>
+                        <li><a href="../admins code/pdf-collection.html">पीडीएफ लाइब्रेरी</a></li>
+                        <li><a href="../book-content/index.html">आध्यात्मिक ग्रंथ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-newsletter">
+                    <h3>न्यूज़लेटर की सदस्यता लें</h3>
+                    <p>नवीनतम आध्यात्मिक अपडेट, लेख और समाचार प्राप्त करने के लिए हमारे न्यूज़लेटर की सदस्यता लें।</p>
+                    <form id="newsletter-form" class="newsletter-form">
+                        <input type="email" placeholder="अपना ईमेल दर्ज करें" required>
+                        <button type="submit">सदस्यता लें</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 भक्तवेब। सर्वाधिकार सुरक्षित। प्रेम और आध्यात्मिकता के साथ बनाया गया।</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification container -->
+    <div class="notifications" id="notifications"></div>
+
+    <!-- Scripts -->
+    <script src="info.js"></script>
+</body>
+</html>

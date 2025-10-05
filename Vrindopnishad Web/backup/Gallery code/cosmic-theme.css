@@ -1,0 +1,188 @@
+/* Cosmic Theme Integration - Matches cosmic background with UI elements */
+
+/* Typography with cosmic glow */
+.cosmic-text {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(114, 186, 255, 0.5);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.cosmic-text h1, .cosmic-text h2 {
+  background: linear-gradient(to right, #fff 20%, #7eb5ff 40%, #c582ff 60%, #fff 80%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+/* Buttons with cosmic styling */
+.cosmic-button {
+  background: rgba(11, 11, 34, 0.7);
+  color: white;
+  border: 1px solid rgba(114, 186, 255, 0.3);
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(114, 186, 255, 0.1);
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cosmic-button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(114, 186, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+.cosmic-button:hover {
+  box-shadow: 0 0 20px rgba(114, 186, 255, 0.3);
+  transform: translateY(-2px);
+  border-color: rgba(114, 186, 255, 0.6);
+}
+
+.cosmic-button:hover:before {
+  left: 100%;
+}
+
+/* Content blocks with nebula borders */
+.cosmic-block {
+  background: rgba(8, 8, 24, 0.7);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(113, 173, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.cosmic-block:before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #3f88f5, #0d0d30, #782dd7, #0d0d30, #3f88f5);
+  background-size: 400% 400%;
+  border-radius: 16px;
+  z-index: -1;
+  animation: cosmicBorder 10s ease infinite;
+}
+
+.cosmic-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes cosmicBorder {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Navigation with cosmic styling */
+.cosmic-nav {
+  background: rgba(8, 8, 24, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(114, 186, 255, 0.15);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+.cosmic-nav a {
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.cosmic-nav a:after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(114, 186, 255, 0.8), transparent);
+  transition: width 0.3s ease;
+}
+
+.cosmic-nav a:hover {
+  color: white;
+  text-shadow: 0 0 8px rgba(114, 186, 255, 0.5);
+}
+
+.cosmic-nav a:hover:after {
+  width: 80%;
+}
+
+.cosmic-nav a.active {
+  color: white;
+  text-shadow: 0 0 10px rgba(114, 186, 255, 0.7);
+}
+
+.cosmic-nav a.active:after {
+  width: 80%;
+  background: linear-gradient(to right, transparent, rgba(114, 186, 255, 1), transparent);
+}
+
+/* Images with cosmic glow */
+.cosmic-image {
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(114, 186, 255, 0.2);
+  transition: all 0.4s ease;
+}
+
+.cosmic-image:hover {
+  box-shadow: 0 0 30px rgba(114, 186, 255, 0.4);
+  transform: scale(1.02);
+}
+
+/* Cards with cosmic styling */
+.cosmic-card {
+  background: rgba(8, 8, 24, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(113, 173, 255, 0.1);
+  position: relative;
+}
+
+.cosmic-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 30%, rgba(114, 186, 255, 0.1), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cosmic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  border-color: rgba(113, 173, 255, 0.2);
+}
+
+.cosmic-card:hover:before {
+  opacity: 1;
+} 

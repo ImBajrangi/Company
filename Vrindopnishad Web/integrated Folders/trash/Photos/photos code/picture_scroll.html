@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="pic style.css">
+</head>
+<body>
+<div class="home-page">
+    <div class="navigation">
+        <ul>
+            <li style="--clr:#fcf9fc">
+                <a href="./Home/index.html">
+                    <span class="icon">
+                        <img src="./icons/home.png" alt="Home Icon" style="width: 24px; height: 24px;">
+                    </span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li style="--clr:#7CFFFA">
+                <a href="./Collection.html">
+                    <span class="icon">
+                        <img src="./icons/doc.png" alt="Documents Icon" style="width: 30px; height: 30px;">
+                    </span>
+                    <span class="text">Message</span>
+                </a>
+            </li>
+            <li class="active" style="--clr:#FFC70B"> <!-- Make Photos icon active -->
+                <a href="#">
+                    <span class="icon">
+                        <img src="./icons/gallery.png" alt="Gallery Icon" style="width: 20px; height: 20px;">
+                    </span>
+                    <span class="text">Photos</span>
+                </a>
+            </li>
+            <li style="--clr:#FFFE00">
+                <a href="#">
+                    <span class="icon">
+                        <img src="./icons/open-book.png" alt="Book Icon" style="width: 24px; height: 24px;">
+                    </span>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li style="--clr:#FFDDA0">
+                <a href="./about/about.html">
+                    <span class="icon">
+                        <img src="./icons/about.png" alt="About Icon" style="width: 26px; height: 26px;">
+                    </span>
+                    <span class="text">About</span>
+                </a>
+            </li>
+            <li class="search" style="--clr:#000">
+                <a href="#" id="searchIcon">
+                    <span class="icon">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="search-bar" id="searchBar">
+            <input type="text" placeholder="Search...💛" />
+            <span class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" style="width: 30px; height: 30px;">
+                    <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="images_page_02/Screen Recording.mov" type="video/mp4"> <!-- Add your video path here -->
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-gradient"></div> <!-- Add gradient overlay -->
+        <span>Granthi</span>
+    </div>
+    <div style="height: 10vh;"></div> <!-- Add a spacer to move the section down -->
+    <div class="image-gallery">
+        <span class="head">Image Gallery</span>
+        <div class="des">
+            <span class="des-head">Swagatam</span>
+            <span class="des-des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa delectus doloribus, ex fuga id incidunt quaerat quas, quasi qui quis, repellat sit voluptatum. Beatae deserunt doloremque ipsa modi repellat vitae?</span>
+        </div>
+        <img src="images_page_02/img_bs1.jpg" class="wam_1" alt="wamen_1">
+        <img src="images_page_02/img_k1.png" class="wam_2" alt="wamen_2">
+        <img src="images_page_02/img_rv3.jpg" class="wam_3" alt="wamen_3">
+        <img src="images_page_02/img_k2.png" class="wam_4" alt="wamen_4">
+        <img src="images_page_02/img_n2.jpg" class="wam_5" alt="wamen_5">
+        <img src="images_page_02/img_n1.jpg" class="wam_6" alt="wamen_6">
+        <img src="images_page_02/img_rp1.jpg" class="wam_7" alt="wamen_7">
+        <img src="images_page_02/img_rp3.jpg" class="wam_8" alt="wamen_8">
+        <img src="images_page_02/img_rp4.jpg" class="wam_9" alt="wamen_9">
+    </div>
+    <div class="the-end">
+        <span>The End</span>
+    </div>
+</div>
+<!--Scripts-->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="pic index.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

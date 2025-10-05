@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#8E7F7F">
+    <title>Vrindopnishad - About</title>
+    <link rel="shortcut icon" href="./image/icon_main_02.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./about_style.css">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <!-- Add noise element for texture -->
+    <div class="noise"></div>
+    
+    <!-- Background elements -->
+    <div class="bg-element bg-element-1" data-speed="0.05" data-scroll-speed="0.02"></div>
+    <div class="bg-element bg-element-2" data-speed="0.03" data-scroll-speed="0.05"></div>
+    <div class="bg-element bg-element-3" data-speed="0.07" data-scroll-speed="0.03"></div>
+
+    <!-- Scroll progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-text">
+            <span>Vrindopnishad</span>
+        </div>
+        <div class="counter">0%</div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">Vrindopnishad</div>
+            <div class="header-right">
+                <div class="tools-container">
+                    <div class="tools-icon magnetic">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.5 8.25H13.5M10.5 12H13.5M10.5 15.75H13.5M4.5 19.5H19.5C20.3284 19.5 21 18.8284 21 18V6C21 5.17157 20.3284 4.5 19.5 4.5H4.5C3.67157 4.5 3 5.17157 3 6V18C3 18.8284 3.67157 19.5 4.5 19.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="mobile-menu-btn magnetic">
+                        <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu overlay -->
+    <div class="menu-overlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-header">
+            <div class="nav-logo">Vrindopnishad</div>
+            <div class="nav-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="Collection.html">Collection</a></li>
+            <li><a href="photos.html">Photos</a></li>
+            <li><a href="Gallery.html">Gallery</a></li>
+            <li class="nav-divider"></li>
+            <!--<li class="language-item">
+                <div class="language-label">Language</div>
+                <div class="language-switch-nav">
+                    <button class="language-btn-nav active" data-lang="en">EN</button>
+                    <button class="language-btn-nav" data-lang="hi">HI</button>
+                </div>
+            </li>-->
+        </ul>
+    </nav>
+
+    <!-- Tools menu -->
+    <div class="tools-menu">
+        <div class="tools-menu-header">
+            <div class="tools-menu-logo">Tools</div>
+            <div class="tools-menu-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        <div class="tools-menu-content">
+            <div class="tools-grid">
+                <div class="tool-item" data-bg-color="#8E7F7F">
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Timer</h3>
+                        <p>Track your time</p>
+                    </div>
+                    <a href="#" class="tool-link"></a>
+                </div>
+                <div class="tool-item" data-bg-color="#4A4A4A">
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Notes</h3>
+                        <p>Quick notes</p>
+                    </div>
+                    <a href="#" class="tool-link"></a>
+                </div>
+                <div class="tool-item" data-bg-color="#D4AF37">
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Help</h3>
+                        <p>Get assistance</p>
+                    </div>
+                    <a href="#" class="tool-link"></a>
+                </div>
+            </div>
+            <div class="language-switch-tools">
+                <button class="language-btn-tools active" data-lang="en">English</button>
+                <button class="language-btn-tools" data-lang="hi">Hindi</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-title">
+                    <div class="row"><span>About</span></div>
+                    <div class="row"><span>Vrindopnishad</span></div>
+                    <div class="row"><span>Team</span></div>
+                </div>
+                <div class="hero-subtitle">
+                    <span>Discover our journey, mission, and the people behind Vrindopnishad</span>
+                </div>
+                <a href="#about-section" class="btn">Learn More</a>
+            </div>
+        </section>
+
+        <!-- Carousel Section -->
+        <section class="carousel-section">
+            <div class="carousel-container">
+                <div class="carousel-item">
+                    <img src="./image/Home Pics/img2.jpg" alt="Our Journey">
+                    <div class="carousel-caption">
+                        <h3>Our Journey</h3>
+                        <p>Explore the spiritual path that led us to create this divine platform.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="./image/Home Pics/img_rv04.png" alt="Our Vision">
+                    <div class="carousel-caption">
+                        <h3>Our Vision</h3>
+                        <p>Bridging ancient wisdom with modern technology for spiritual growth.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="./image/Home Pics/img4.jpg" alt="Our Community">
+                    <div class="carousel-caption">
+                        <h3>Our Community</h3>
+                        <p>Join our growing family of spiritual seekers and knowledge sharers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about-section">
+            <div class="container">
+                <h2 class="section-title">Our Story</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Sewak</h2>
+                        <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                           Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                            Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                           Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                            Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="reveal-mask"></div>
+                        <img src="./image/Home Pics/img_rv05.png" alt="About Vrindopnishad">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section" id="team">
+            <h2 class="section-title">Our Team</h2>
+            <!--<div class="scroll-indicator">
+                <span>Scroll or Drag →</span>
+            </div>-->
+            <div class="horizontal-content">
+                <div class="horizontal-item team-member">
+                    <div class="member-image">
+                        <img src="./image/Home Pics/img_sn02.png" alt="Team Member">
+                    </div>
+                    <div class="member-info">
+                        <div class="horizontal-title">Member</div>
+                        <div class="horizontal-text">
+                            <p>Coding is Art</p>
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="horizontal-item team-member">
+                    <div class="member-image">
+                        <img src="./image/Home Pics/img_rv05.png" alt="Team Member">
+                    </div>
+                    <div class="member-info">
+                        <div class="horizontal-title">Member</div>
+                        <div class="horizontal-text">
+                            <p>Coding is Passion</p>
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="horizontal-item team-member">
+                    <div class="member-image">
+                        <img src="./image/Home Pics/img4.jpg" alt="Team Member">
+                    </div>
+                    <div class="member-info">
+                        <div class="horizontal-title">Member</div>
+                        <div class="horizontal-text">
+                            <p>Coding makes Smart</p>
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="horizontal-item team-member">
+                    <div class="member-image">
+                        <img src="./image/images_page_02/img_n2.jpg" alt="Team Member">
+                    </div>
+                    <div class="member-info">
+                        <div class="horizontal-title">Member</div>
+                        <div class="horizontal-text">
+                            <p>Coding is Love</p>
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="projects">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <div class="project-list">
+                    <div class="project-item">
+                        <div class="project-title">Web Design</div>
+                        <div class="project-category">
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-title">Web Development</div>
+                        <div class="project-category">
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-title">UI/UX Design</div>
+                        <div class="project-category">
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-title">Mobile Development</div>
+                        <div class="project-category">
+                            <p>Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                              Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe,
+                               Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe Shri Radhe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="about">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <div class="contact-info">
+                            <h2>Get in Touch</h2>
+                            <p>Phone: +91 70*** *****</p>
+                            <p>Email: harshsharmag999@gmail.com</p>
+                            <p>Address: Mathura, Uttam-Pradesh, भारत</p>
+                            <p>Feel free to reach out to us with any questions or inquiries. We'd love to hear from you!</p>
+                        </div>
+                    </div>
+                    <form id="contact-form" class="contact-form">
+                        <h3>Send Message</h3>
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Vrindopnishad</div>
+                <div class="footer-text">
+                    <p>Shri Ji's Kripa</p>
+                    <p>Copyright © 2025 Vrindopnishad. All rights reserved</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Snapchat</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to our Newsletter</h3>
+                    <form id="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                        <button type="submit">
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <!--<div class="language-switch">
+                    <a href="#" class="active" data-lang="en">EN</a>
+                    <a href="#" data-lang="hi">HI</a>
+                </div>-->
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./about_app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if functions exist before calling them
+            if (typeof initLoader === 'function') initLoader();
+            if (typeof initCursor === 'function') initCursor();
+            if (typeof initScrollProgress === 'function') initScrollProgress();
+            if (typeof initParallaxBg === 'function') initParallaxBg();
+            if (typeof initNavigation === 'function') initNavigation();
+            if (typeof initToolsMenu === 'function') initToolsMenu();
+            if (typeof initRevealAnimations === 'function') initRevealAnimations();
+            if (typeof initCarousel === 'function') initCarousel();
+            if (typeof initImageHoverEffects === 'function') initImageHoverEffects();
+            if (typeof initScrollAnimations === 'function') initScrollAnimations();
+        });
+    </script>
+</body>
+</html>

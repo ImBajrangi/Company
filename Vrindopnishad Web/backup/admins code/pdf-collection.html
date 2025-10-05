@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4361EE">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="PDF Collection for Literary Hub">
+    <title>Literary Hub - PDF Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361EE;
+            --secondary-color: #3F37C9;
+            --accent-color: #e3792e;
+            --text-color: #333;
+            --background-color: #f8f9fa;
+            --card-background: #fff;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --transition-speed: 0.5s;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #4361EE;
+            --secondary-color: #3F37C9;
+            --accent-color: #f9e458;
+            --text-color: #f0f0f0;
+            --background-color: #1E2A35;
+            --card-background: #2D3748;
+            --border-color: #4A5568;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --success-color: #48BB78;
+            --error-color: #F56565;
+            --warning-color: #ECC94B;
+            --info-color: #4FD1C5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color var(--transition-speed) ease, 
+                        color var(--transition-speed) ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--card-background);
+            box-shadow: 0 2px 5px var(--shadow-color);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo em {
+            color: var(--accent-color);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .page-title {
+            margin: 20px 0;
+            font-size: 2rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 5px 10px;
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            padding: 5px;
+            width: 100%;
+            color: var(--text-color);
+        }
+        
+        .search-box i {
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+            outline: none;
+        }
+        
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pdf-card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pdf-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .pdf-thumbnail {
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pdf-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .pdf-thumbnail .default-thumbnail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .pdf-thumbnail .default-thumbnail span {
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .pdf-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pdf-title {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .pdf-description {
+            margin: 0 0 15px 0;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+        }
+        
+        .pdf-metadata {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: auto;
+        }
+        
+        .pdf-metadata span {
+            display: flex;
+            align-items: center;
+        }
+        
+        .pdf-metadata i {
+            margin-right: 5px;
+        }
+        
+        .pdf-actions {
+            display: flex;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .pdf-action-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pdf-action-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .pdf-action-btn i {
+            margin-right: 5px;
+        }
+        
+        .pdf-action-btn:not(:last-child) {
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-color);
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h2 {
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+        
+        .empty-state p {
+            margin: 0 0 20px 0;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+        
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-background);
+            color: var(--text-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .pagination-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            box-shadow: 0 -2px 5px var(--shadow-color);
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-box {
+                max-width: none;
+            }
+            
+            .pdf-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .pdf-thumbnail {
+                height: 150px;
+            }
+            
+            .pdf-title {
+                font-size: 1rem;
+            }
+            
+            .pdf-description {
+                -webkit-line-clamp: 2;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <header>
+        <div class="header-left">
+            <a href="../Home/home.html">वृन्दोपनिषद</a>
+        </div>
+        <div class="header-right">
+            <nav>
+                <li><a href="../Home/home.html">Home</a></li>
+                <li><a href="../Home/home_hindi.html">Hindi Home</a></li>
+                <li><a href="../Gallery/Gallery.html">Gallery</a></li>
+                <li><a href="../Stack/stack.html">Collection</a></li>
+                <li><a href="../about code/about.html">About</a></li>
+                <li><a href="admin.html" id="admin-link" style="display: none;">Admin Panel</a></li>
+            </nav>
+        </div>
+        <div class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h1 class="page-title">PDF Collection</h1>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search PDFs...">
+                </div>
+                
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="book">Books</option>
+                    <option value="article">Articles</option>
+                    <option value="document">Documents</option>
+                    <option value="manual">Manuals</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <select id="sort-by">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="title-asc">Title (A-Z)</option>
+                    <option value="title-desc">Title (Z-A)</option>
+                    <option value="most-viewed">Most Viewed</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="pdf-grid" class="pdf-grid">
+            <!-- PDF cards will be dynamically added here -->
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading PDFs...</p>
+        </div>
+        
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <i class="fas fa-file-pdf"></i>
+            <h2>No PDFs Found</h2>
+            <p>There are no PDFs matching your search criteria.</p>
+            <button id="reset-filters" class="btn btn-primary">Reset Filters</button>
+        </div>
+        
+        <div id="pagination" class="pagination">
+            <!-- Pagination buttons will be dynamically added here -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Literary Hub. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const pdfGrid = document.getElementById('pdf-grid');
+            const loadingElement = document.getElementById('loading');
+            const emptyStateElement = document.getElementById('empty-state');
+            const paginationElement = document.getElementById('pagination');
+            const searchInput = document.getElementById('search-input');
+            const categoryFilter = document.getElementById('category-filter');
+            const sortBySelect = document.getElementById('sort-by');
+            const resetFiltersButton = document.getElementById('reset-filters');
+            
+            // State variables
+            let allPdfs = [];
+            let filteredPdfs = [];
+            let currentPage = 1;
+            const itemsPerPage = 12;
+            let searchTerm = '';
+            let selectedCategory = '';
+            let sortBy = 'newest';
+            
+            // Fetch PDFs from API
+            async function fetchPDFs() {
+                try {
+                    loadingElement.style.display = 'block';
+                    pdfGrid.style.display = 'none';
+                    emptyStateElement.style.display = 'none';
+                    
+                    const response = await fetch('/api/pdfs');
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch PDFs');
+                    }
+                    
+                    allPdfs = await response.json();
+                    
+                    // Apply initial filters and sorting
+                    applyFiltersAndSort();
+                    
+                    loadingElement.style.display = 'none';
+                } catch (error) {
+                    console.error('Error:', error);
+                    loadingElement.style.display = 'none';
+                    emptyStateElement.style.display = 'block';
+                    emptyStateElement.querySelector('h2').textContent = 'Error Loading PDFs';
+                    emptyStateElement.querySelector('p').textContent = 'There was an error loading the PDFs. Please try again later.';
+                }
+            }
+            
+            // Apply filters and sorting
+            function applyFiltersAndSort() {
+                // Filter PDFs
+                filteredPdfs = allPdfs.filter(pdf => {
+                    const matchesSearch = searchTerm === '' || 
+                        pdf.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                        pdf.description.toLowerCase().includes(searchTerm.toLowerCase());
+                    
+                    const matchesCategory = selectedCategory === '' || pdf.category === selectedCategory;
+                    
+                    return matchesSearch && matchesCategory;
+                });
+                
+                // Sort PDFs
+                switch (sortBy) {
+                    case 'newest':
+                        filteredPdfs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                        break;
+                    case 'oldest':
+                        filteredPdfs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                        break;
+                    case 'title-asc':
+                        filteredPdfs.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                    case 'title-desc':
+                        filteredPdfs.sort((a, b) => b.title.localeCompare(a.title));
+                        break;
+                    case 'most-viewed':
+                        filteredPdfs.sort((a, b) => b.views - a.views);
+                        break;
+                }
+                
+                // Reset to first page
+                currentPage = 1;
+                
+                // Render PDFs and pagination
+                renderPDFs();
+                renderPagination();
+            }
+            
+            // Render PDFs
+            function renderPDFs() {
+                pdfGrid.innerHTML = '';
+                
+                if (filteredPdfs.length === 0) {
+                    pdfGrid.style.display = 'none';
+                    emptyStateElement.style.display = 'block';
+                    paginationElement.style.display = 'none';
+                    return;
+                }
+                
+                pdfGrid.style.display = 'grid';
+                emptyStateElement.style.display = 'none';
+                paginationElement.style.display = 'flex';
+                
+                // Calculate start and end index for current page
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = Math.min(startIndex + itemsPerPage, filteredPdfs.length);
+                
+                // Get PDFs for current page
+                const currentPdfs = filteredPdfs.slice(startIndex, endIndex);
+                
+                // Create PDF cards
+                currentPdfs.forEach(pdf => {
+                    const pdfCard = document.createElement('div');
+                    pdfCard.className = 'pdf-card';
+                    
+                    // Format category for display
+                    const formattedCategory = pdf.category.charAt(0).toUpperCase() + pdf.category.slice(1);
+                    
+                    pdfCard.innerHTML = `
+                        <div class="pdf-thumbnail">
+                            <div class="default-thumbnail">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>${formattedCategory}</span>
+                            </div>
+                        </div>
+                        <div class="pdf-info">
+                            <h3 class="pdf-title">${pdf.title}</h3>
+                            <p class="pdf-description">${pdf.description}</p>
+                            <div class="pdf-metadata">
+                                <span><i class="fas fa-eye"></i> ${pdf.views}</span>
+                                <span><i class="fas fa-calendar-alt"></i> ${pdf.formattedCreatedAt}</span>
+                            </div>
+                        </div>
+                        <div class="pdf-actions">
+                            <button class="pdf-action-btn view-pdf" data-id="${pdf.id}">
+                                <i class="fas fa-book-reader"></i> Read
+                            </button>
+                            <button class="pdf-action-btn download-pdf" data-id="${pdf.id}" data-url="${pdf.fileUrl}" data-title="${pdf.title}">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    `;
+                    
+                    pdfGrid.appendChild(pdfCard);
+                });
+                
+                // Add event listeners to buttons
+                document.querySelectorAll('.view-pdf').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const pdfId = this.getAttribute('data-id');
+                        window.location.href = `pdf-viewer.html?id=${pdfId}`;
+                    });
+                });
+                
+                document.querySelectorAll('.download-pdf').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const pdfId = this.getAttribute('data-id');
+                        const pdfUrl = this.getAttribute('data-url');
+                        const pdfTitle = this.getAttribute('data-title');
+                        
+                        // Create a temporary link to download the PDF
+                        const link = document.createElement('a');
+                        link.href = pdfUrl;
+                        link.download = `${pdfTitle}.pdf`;
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        // Update download count
+                        updateDownloadCount(pdfId);
+                    });
+                });
+            }
+            
+            // Render pagination
+            function renderPagination() {
+                paginationElement.innerHTML = '';
+                
+                if (filteredPdfs.length === 0) {
+                    return;
+                }
+                
+                const totalPages = Math.ceil(filteredPdfs.length / itemsPerPage);
+                
+                // Previous button
+                const prevButton = document.createElement('button');
+                prevButton.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+                prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevButton.disabled = currentPage === 1;
+                prevButton.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        renderPDFs();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    }
+                });
+                paginationElement.appendChild(prevButton);
+                
+                // Page buttons
+                const maxVisiblePages = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                
+                if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                    pageButton.textContent = i;
+                    pageButton.addEventListener('click', () => {
+                        currentPage = i;
+                        renderPDFs();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    });
+                    paginationElement.appendChild(pageButton);
+                }
+                
+                // Next button
+                const nextButton = document.createElement('button');
+                nextButton.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+                nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextButton.disabled = currentPage === totalPages;
+                nextButton.addEventListener('click', () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        renderPDFs();
+                        renderPagination();
+                        window.scrollTo(0, 0);
+                    }
+                });
+                paginationElement.appendChild(nextButton);
+            }
+            
+            // Update download count
+            async function updateDownloadCount(pdfId) {
+                try {
+                    await fetch(`/api/pdfs/${pdfId}/download`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error updating download count:', error);
+                }
+            }
+            
+            // Event listeners for filters
+            searchInput.addEventListener('input', function() {
+                searchTerm = this.value.trim();
+                applyFiltersAndSort();
+            });
+            
+            categoryFilter.addEventListener('change', function() {
+                selectedCategory = this.value;
+                applyFiltersAndSort();
+            });
+            
+            sortBySelect.addEventListener('change', function() {
+                sortBy = this.value;
+                applyFiltersAndSort();
+            });
+            
+            resetFiltersButton.addEventListener('click', function() {
+                searchInput.value = '';
+                categoryFilter.value = '';
+                sortBySelect.value = 'newest';
+                
+                searchTerm = '';
+                selectedCategory = '';
+                sortBy = 'newest';
+                
+                applyFiltersAndSort();
+            });
+            
+            // Set up theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            // Always set dark theme as default and save to localStorage
+            document.body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            
+            themeToggle.addEventListener('click', () => {
+                if (document.body.getAttribute('data-theme') === 'dark') {
+                    document.body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    document.body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+            
+            // Check if user is logged in
+            const token = localStorage.getItem('vrindopnishad_token');
+            const adminLink = document.getElementById('admin-link');
+            
+            if (token && adminLink) {
+                adminLink.style.display = 'block';
+            }
+            
+            // Initial fetch
+            fetchPDFs();
+        });
+    </script>
+</body>
+</html> 

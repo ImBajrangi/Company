@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collection</title>
+    <link rel="stylesheet" type="text/css" href="Collection_styles.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap">
+  </head>
+  <body>
+    <!-- Add the content from index_page_02.html -->
+    <div class="banner">
+      <div class="slider" style="--quantity: 10">
+        <div class="item" style="--position: 1"><img src="images_page_02/img_bs1.jpg" alt=""></div>
+        <div class="item" style="--position: 2"><img src="images_page_02/img_n1.jpg" alt=""></div>
+        <div class="item" style="--position: 3"><img src="images_page_02/img_n2.jpg" alt=""></div>
+        <div class="item" style="--position: 4"><img src="images_page_02/img_rp1.jpg" alt=""></div>
+        <div class="item" style="--position: 5"><img src="images_page_02/img_rp3.jpg" alt=""></div>
+        <div class="item" style="--position: 6"><img src="images_page_02/img_rp4.jpg" alt=""></div>
+        <div class="item" style="--position: 7"><img src="images_page_02/img_s2.jpg" alt=""></div>
+        <div class="item" style="--position: 8"><img src="images_page_02/img_s3.jpg" alt=""></div>
+        <div class="item" style="--position: 9"><img src="images_page_02/img_rv2.jpg" alt=""></div>
+        <div class="item" style="--position: 10"><img src="images_page_02/img_rv3.jpg" alt=""></div>
+      </div>
+      <div class="content">
+        <h1 data-content="Radhe Krishn">
+            Radhe Krishn
+        </h1>
+        <div class="author">
+          <h2>ra<span>dhe-sh</span>yam</h2>
+          <p><b>Web Design</b></p>
+          <p>
+            Subscribe to the channel to watch many interesting videos
+          </p>
+        </div>
+        <div class="model"></div>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <ul>
+        <li style="--clr:#fcf9fc">
+          <a href="./Home/index.html">
+            <span class="icon">
+              <img src="./icons/home.png" alt="Home Icon" style="width: 24px; height: 24px;">
+            </span>
+            <span class="text">Home</span>
+          </a>
+        </li>
+        <li class="active" style="--clr:#7CFFFA">
+          <a href="./Collection.html">
+            <span class="icon">
+              <img src="./icons/doc.png" alt="Documents Icon" style="width: 30px; height: 30px;">
+            </span>
+            <span class="text">Collection</span>
+          </a>
+        </li>
+        <li style="--clr:#FFC70B">
+          <a href="#">
+            <span class="icon">
+              <img src="./icons/gallery.png" alt="Gallery Icon" style="width: 20px; height: 20px;">
+            </span>
+            <span class="text">Photos</span>
+          </a>
+        </li>
+        <li style="--clr:#FFFE00">
+          <a href="#">
+            <span class="icon">
+              <img src="./icons/open-book.png" alt="Book Icon" style="width: 24px; height: 24px;">
+            </span>
+            <span class="text">Gallery</span>
+          </a>
+        </li>
+        <li style="--clr:#FFDDA0">
+          <a href="./about/about.html">
+            <span class="icon">
+              <img src="./icons/about.png" alt="About Icon" style="width: 26px; height: 26px;">
+            </span>
+            <span class="text">About</span>
+          </a>
+        </li>
+        <li class="search" style="--clr:#000">
+          <a href="#" id="searchIcon">
+            <span class="icon">
+              <ion-icon name="search-outline"></ion-icon>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="search-bar" id="searchBar">
+        <input type="text" placeholder="Search...💛" />
+        <span class="search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 30px; height: 30px;">
+            <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Collection Section -->
+    <section id="collection">
+      <div class="collection container">
+        <div class="collection-top" style="text-align: center; margin-top: 5px;">
+          <h1 class="section-title" style="height: auto;">Col<span>lec</span>tion</h1>
+        </div>
+        <div class="view" style="margin-top: 5px;"> <!-- Reduce the margin-top -->
+          <div class="block" href="./Main File/Home/index.html">
+            <img src="./images_page_02/img_k1.png" alt="Image 1">
+            <div class="text">Text for Image 1</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page2">
+            <img src="./images_page_02/img_n1.jpg" alt="Image 2">
+            <div class="text">Text for Image 2</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page3">
+            <img src="./images_page_02/img_n2.jpg" alt="Image 3">
+            <div class="text">Text for Image 3</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page4">
+            <img src="./images_page_02/img_rp1.jpg" alt="Image 4">
+            <div class="text">Text for Image 4</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page5">
+            <img src="./images_page_02/img_rp3.jpg" alt="Image 5">
+            <div class="text">Text for Image 5</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page6">
+            <img src="./images_page_02/img_rp4.jpg" alt="Image 6">
+            <div class="text">Text for Image 6</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page7">
+            <img src="./images_page_02/img_rv2.jpg" alt="Image 7">
+            <div class="text">Text for Image 7</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page8">
+            <img src="./images_page_02/img_rv3.jpg" alt="Image 8">
+            <div class="text">Text for Image 8</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page9">
+            <img src="./images_page_02/img_rv4.jpg" alt="Image 9">
+            <div class="text">Text for Image 9</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page10">
+            <img src="./images_page_02/img_s2.jpg" alt="Image 10">
+            <div class="text">Text for Image 10</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page11">
+            <img src="./images_page_02/img_s3.jpg" alt="Image 11">
+            <div class="text">Text for Image 11</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page12">
+            <img src="./images_page_02/model_k3.png" alt="Image 12">
+            <div class="text">Text for Image 12</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page13">
+            <img src="./images_page_02/model.png" alt="Image 13">
+            <div class="text">Text for Image 13</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page14">
+            <img src="path/to/image14.jpg" alt="Image 14">
+            <div class="text">Text for Image 14</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page15">
+            <img src="path/to/image15.jpg" alt="Image 15">
+            <div class="text">Text for Image 15</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page16">
+            <img src="path/to/image16.jpg" alt="Image 16">
+            <div class="text">Text for Image 16</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page17">
+            <img src="path/to/image17.jpg" alt="Image 17">
+            <div class="text">Text for Image 17</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page18">
+            <img src="path/to/image18.jpg" alt="Image 18">
+            <div class="text">Text for Image 18</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page19">
+            <img src="path/to/image19.jpg" alt="Image 19">
+            <div class="text">Text for Image 19</div>
+            <div class="action-button">Open</div>
+          </div>
+          <div class="block" data-link="https://example.com/page20">
+            <img src="path/to/image20.jpg" alt="Image 20">
+            <div class="text">Text for Image 20</div>
+            <div class="action-button">Open</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-content">
+          <p>&copy; 2023 Your Website. All rights reserved.</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+      const list = document.querySelectorAll('li');
+      function activeLink() {
+        list.forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
+      }
+      list.forEach(item => item.addEventListener('click', activeLink));
+
+      // Add scroll event listener
+      const blocks = document.querySelectorAll('.block');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          } else {
+            entry.target.classList.remove('in-view');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      blocks.forEach(block => {
+        observer.observe(block);
+      });
+
+      // Trigger animation on first scroll
+      window.addEventListener('scroll', () => {
+        blocks.forEach(block => {
+          if (block.getBoundingClientRect().top < window.innerHeight) {
+            block.classList.add('in-view');
+          }
+        });
+      });
+
+      // Show search bar on click
+      const searchIcon = document.getElementById('searchIcon');
+      const searchBar = document.getElementById('searchBar');
+      searchIcon.addEventListener('click', (e) => {
+        e.preventDefault();
+        searchBar.style.display = 'block';
+        searchBar.classList.add('fade-in'); // Add fade-in animation
+      });
+
+      // Ensure search bar opens correctly when clicking on the search icon
+      document.addEventListener('click', (e) => {
+        if (e.target.id === 'searchIcon' || e.target.closest('#searchIcon')) {
+          searchBar.style.display = 'block';
+          searchBar.classList.add('fade-in'); // Add fade-in animation
+        }
+      });
+
+      // Ensure search bar closes when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchBar.contains(e.target) && e.target.id !== 'searchIcon' && !e.target.closest('#searchIcon')) {
+          searchBar.style.display = 'none';
+          searchBar.classList.remove('fade-in'); // Remove fade-in animation
+          searchIcon.classList.remove('active'); // Remove active class from search icon
+        }
+      });
+
+      // Add background motion
+      document.addEventListener('mousemove', (e) => {
+        const moveX = (e.clientX / window.innerWidth) * 10 - 5;
+        const moveY = (e.clientY / window.innerHeight) * 10 - 5;
+        document.body.style.backgroundPosition = `${moveX}px ${moveY}px`;
+      });
+
+      // Ensure picture's movement in desktop mode
+      const sliderItems = document.querySelectorAll('.slider .item');
+      sliderItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          item.querySelector('img').style.transform = 'scale(1.1)';
+        });
+        item.addEventListener('mouseleave', () => {
+          item.querySelector('img').style.transform = 'scale(1)';
+        });
+      });
+    </script>
+    <script src="Collection.js"></script> <!-- Add the script for the collection page -->
+  </body>
+</html>

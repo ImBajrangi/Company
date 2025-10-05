@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tools - Vrindopnishad</title>
+    <link rel="icon" type="image/png" href="../../image/icon_main_02.png">
+    <!--<link rel="stylesheet" href="../../Home/styles.css">-->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="../index.html" class="back-btn" title="Go back to home">
+        <i class="fas fa-arrow-left"></i>
+        <span>Home</span>
+    </a>
+
+    <!-- Main Content -->
+    <main class="app-container">
+        <div class="time-tools-container glass-morphism">
+            <!-- Tool Selector -->
+            <div class="tool-selector">
+                <button class="tool-btn active" data-tool="clock">
+                    <i class="fas fa-clock"></i>
+                    Clock
+                </button>
+                <button class="tool-btn" data-tool="timer">
+                    <i class="fas fa-hourglass-half"></i>
+                    Timer
+                </button>
+                <button class="tool-btn" data-tool="stopwatch">
+                    <i class="fas fa-stopwatch"></i>
+                    Stopwatch
+                </button>
+            </div>
+
+            <!-- Clock Section -->
+            <div class="tool-section clock-section active" id="clock-section">
+                <div class="clock-display">
+                    <div class="clock-time">00:00:00</div>
+                    <div class="clock-date">Monday, January 1, 2024</div>
+                    <div class="clock-timezone">Your Local Time</div>
+                </div>
+                <div class="world-clock">
+                    <h3>World Clock</h3>
+                    <div class="world-clock-list">
+                        <!-- World clock items will be added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Section -->
+            <div class="tool-section timer-section" id="timer-section">
+                <div class="timer-header">
+                    <h1>Focus Timer</h1>
+                    <p>Set your time and stay focused</p>
+                </div>
+
+                <div class="timer-display">
+                    <div class="time-section">
+                        <input type="number" id="hours" min="0" max="23" value="0">
+                        <label>Hours</label>
+                    </div>
+                    <span class="time-separator">:</span>
+                    <div class="time-section">
+                        <input type="number" id="minutes" min="0" max="59" value="0">
+                        <label>Minutes</label>
+                    </div>
+                    <span class="time-separator">:</span>
+                    <div class="time-section">
+                        <input type="number" id="seconds" min="0" max="59" value="0">
+                        <label>Seconds</label>
+                    </div>
+                </div>
+
+                <div class="timer-progress">
+                    <svg class="progress-ring" width="300" height="300">
+                        <circle class="progress-ring-circle-bg" cx="150" cy="150" r="140"/>
+                        <circle class="progress-ring-circle" cx="150" cy="150" r="140"/>
+                    </svg>
+                    <div id="timer-time" class="timer-time">00:00:00</div>
+                </div>
+
+                <div class="timer-controls">
+                    <button id="timer-start-btn" class="btn primary-btn">
+                        <i class="fas fa-play"></i>
+                        Start
+                    </button>
+                    <button id="timer-pause-btn" class="btn secondary-btn" disabled>
+                        <i class="fas fa-pause"></i>
+                        Pause
+                    </button>
+                    <button id="timer-reset-btn" class="btn danger-btn">
+                        <i class="fas fa-redo"></i>
+                        Reset
+                    </button>
+                </div>
+
+                <div class="preset-times">
+                    <button class="preset-btn" data-minutes="5">5 min</button>
+                    <button class="preset-btn" data-minutes="10">10 min</button>
+                    <button class="preset-btn" data-minutes="15">15 min</button>
+                    <button class="preset-btn" data-minutes="25">25 min</button>
+                    <button class="preset-btn" data-minutes="30">30 min</button>
+                    <button class="preset-btn" data-minutes="60">1 hour</button>
+                </div>
+            </div>
+
+            <!-- Stopwatch Section -->
+            <div class="tool-section stopwatch-section" id="stopwatch-section">
+                <div class="stopwatch-display">
+                    <div class="stopwatch-time">00:00:00.000</div>
+                    <div class="lap-indicator">Lap 0</div>
+                </div>
+
+                <div class="stopwatch-controls">
+                    <button id="stopwatch-start-btn" class="btn primary-btn">
+                        <i class="fas fa-play"></i>
+                        Start
+                    </button>
+                    <button id="stopwatch-lap-btn" class="btn secondary-btn" disabled>
+                        <i class="fas fa-flag"></i>
+                        Lap
+                    </button>
+                    <button id="stopwatch-reset-btn" class="btn danger-btn" disabled>
+                        <i class="fas fa-redo"></i>
+                        Reset
+                    </button>
+                </div>
+
+                <div class="lap-times">
+                    <h3>Lap Times</h3>
+                    <div class="lap-list">
+                        <!-- Lap times will be added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keyboard Shortcuts -->
+            <div class="shortcut-hint">
+                <p>Keyboard Shortcuts:</p>
+                <ul>
+                    <li>Space - Start/Pause</li>
+                    <li>R - Reset</li>
+                    <li>L - Lap (Stopwatch)</li>
+                    <li>1-6 - Quick Presets (Timer)</li>
+                    <li>Tab - Switch Tools</li>
+                    <li>Esc - Go Back</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Vrindopnishad. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../ ../Home/animations.js"></script> 
+    <script src="../ ../Home/effects.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

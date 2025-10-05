@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neptune Wharf - Luxury Apartments in Deptford, London</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Neptune Wharf</h1>
+                </div>
+                
+                <nav class="nav" id="nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link active" data-page="home">HOME</a></li>
+                        <li><a href="#apartments" class="nav-link" data-page="apartments">APARTMENTS</a></li>
+                        <li><a href="#amenities" class="nav-link" data-page="amenities">AMENITIES</a></li>
+                        <li><a href="#neighbourhood" class="nav-link" data-page="neighbourhood">NEIGHBOURHOOD</a></li>
+                        <li><a href="#faqs" class="nav-link" data-page="faqs">FAQS</a></li>
+                        <li><a href="#contact" class="nav-link" data-page="contact">CONTACT US</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-contact">
+                    <a href="tel:02037702099" class="contact-phone">0203 770 2099</a>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section class="page home-page active" id="home">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">STYLE IN THE CITY</h1>
+                <h2 class="hero-subtitle">WELCOME TO NEPTUNE WHARF LIVING</h2>
+                <p class="hero-description">
+                    Discover modern apartments in the heart of Deptford's vibrant community. 
+                    Experience luxury living with stunning views, premium amenities, and 
+                    unparalleled convenience in one of London's most exciting neighborhoods.
+                </p>
+                <button class="cta-button" data-page="apartments">
+                    FIND YOUR APARTMENT
+                </button>
+            </div>
+        </div>
+
+        <!-- Apartment Preview -->
+        <section class="apartment-preview">
+            <div class="container">
+                <h2 class="section-title">FIND YOUR PERFECT APARTMENT</h2>
+                <div class="apartment-grid">
+                    <div class="apartment-card">
+                        <div class="apartment-image">
+                            <div class="apartment-placeholder">🏠</div>
+                        </div>
+                        <div class="apartment-content">
+                            <div class="apartment-header">
+                                <h3>1 BED</h3>
+                                <span class="apartment-status fully-let">FULLY LET</span>
+                            </div>
+                            <p class="apartment-size">Up to 703 SQFT</p>
+                            <p class="apartment-description">
+                                A perfect sanctuary for one or two, our one-bedroom apartments in Deptford 
+                                offer modern city living at its finest.
+                            </p>
+                            <div class="apartment-features">
+                                <span class="feature">FREE 1GB WI-FI</span>
+                                <span class="feature">FURNITURE PACKS AVAILABLE</span>
+                                <span class="feature">PRIVATE BALCONY</span>
+                                <span class="feature">SMEG INTEGRATED APPLIANCES</span>
+                            </div>
+                            <button class="apartment-btn" disabled>VIEW APARTMENT</button>
+                        </div>
+                    </div>
+
+                    <div class="apartment-card">
+                        <div class="apartment-image">
+                            <div class="apartment-placeholder">🏠</div>
+                        </div>
+                        <div class="apartment-content">
+                            <div class="apartment-header">
+                                <h3>2 BED</h3>
+                                <span class="apartment-status available">From £2,450 per month</span>
+                            </div>
+                            <p class="apartment-size">Up to 868 SQFT</p>
+                            <p class="apartment-description">
+                                Enjoy the added flexibility of our two bedroom apartments, where the extra 
+                                space can be tailored to your needs.
+                            </p>
+                            <div class="apartment-features">
+                                <span class="feature">FREE 1GB WI-FI</span>
+                                <span class="feature">FURNITURE PACKS AVAILABLE</span>
+                                <span class="feature">PRIVATE BALCONY</span>
+                                <span class="feature">SMEG INTEGRATED APPLIANCES</span>
+                            </div>
+                            <button class="apartment-btn">VIEW APARTMENT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-preview">
+            <div class="container">
+                <h2 class="section-title">LUXURY LIVING FEATURES</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i data-lucide="eye"></i>
+                        <span>OVERLOOKING DEPTFORD PARK</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="wifi"></i>
+                        <span>FREE 1GB WI-FI</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="sofa"></i>
+                        <span>FLEXIBLE FURNITURE OPTIONS</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="car"></i>
+                        <span>PARKING AVAILABLE</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="baby"></i>
+                        <span>CHILDREN'S PLAYGROUND</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="bike"></i>
+                        <span>SECURE BIKE STORAGE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Apartments Page -->
+    <section class="page apartments-page" id="apartments">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">APARTMENTS</h1>
+                <p class="page-subtitle">Discover your new home in Deptford</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="apartments-grid">
+                <div class="apartment-card detailed">
+                    <div class="apartment-image">
+                        <div class="apartment-placeholder">🏠</div>
+                        <div class="apartment-status-overlay fully-let">FULLY LET</div>
+                    </div>
+                    <div class="apartment-content">
+                        <div class="apartment-header">
+                            <h3>1 BED APARTMENT</h3>
+                            <span class="apartment-size">Up to 703 SQFT</span>
+                        </div>
+                        <p class="apartment-description">
+                            A perfect sanctuary for one or two, our one-bedroom apartments in Deptford offer 
+                            modern city living at its finest. With bespoke furnishings, floor-to-ceiling 
+                            windows, and premium appliances, you'll find everything you need in the heart 
+                            of Deptford's vibrant new rental community.
+                        </p>
+                        <div class="apartment-features">
+                            <span class="feature">FREE 1GB WI-FI</span>
+                            <span class="feature">FURNITURE PACKS AVAILABLE</span>
+                            <span class="feature">PRIVATE BALCONY</span>
+                            <span class="feature">SMEG INTEGRATED APPLIANCES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="apartment-card detailed">
+                    <div class="apartment-image">
+                        <div class="apartment-placeholder">🏠</div>
+                        <div class="apartment-status-overlay available">From £2,450 per month</div>
+                    </div>
+                    <div class="apartment-content">
+                        <div class="apartment-header">
+                            <h3>2 BED APARTMENT</h3>
+                            <span class="apartment-size">Up to 868 SQFT</span>
+                        </div>
+                        <p class="apartment-description">
+                            Enjoy the added flexibility of our two bedroom apartments, where the extra space 
+                            can be tailored to your needs. Whether used as a cozy second bedroom, a convenient 
+                            home office, or a luxurious walk-in wardrobe, this adaptable area enhances your 
+                            living experience.
+                        </p>
+                        <div class="apartment-uses">
+                            <span class="use">HOME OFFICE</span>
+                            <span class="use">KIDS BEDROOM</span>
+                            <span class="use">WALK-IN WARDROBE</span>
+                            <span class="use">SECOND BEDROOM</span>
+                        </div>
+                        <div class="apartment-features">
+                            <span class="feature">FREE 1GB WI-FI</span>
+                            <span class="feature">FURNITURE PACKS AVAILABLE</span>
+                            <span class="feature">PRIVATE BALCONY</span>
+                            <span class="feature">SMEG INTEGRATED APPLIANCES</span>
+                        </div>
+                        <button class="apartment-btn">ENQUIRE NOW</button>
+                    </div>
+                </div>
+
+                <div class="apartment-card detailed">
+                    <div class="apartment-image">
+                        <div class="apartment-placeholder">🏠</div>
+                        <div class="apartment-status-overlay available">From £2,630 per month</div>
+                    </div>
+                    <div class="apartment-content">
+                        <div class="apartment-header">
+                            <h3>2 BED PLUS APARTMENT</h3>
+                            <span class="apartment-size">Up to 1010 SQFT</span>
+                        </div>
+                        <p class="apartment-description">
+                            Calm, refined, and spacious, our two-bedroom plus apartments in Deptford provide 
+                            plenty of room to enjoy urban living together or relax in private. With abundant 
+                            natural light and striking views over Deptford Park and Canary Wharf.
+                        </p>
+                        <div class="apartment-features">
+                            <span class="feature">FREE 1GB WI-FI</span>
+                            <span class="feature">FURNITURE PACKS AVAILABLE</span>
+                            <span class="feature">PRIVATE BALCONY</span>
+                            <span class="feature">SMEG INTEGRATED APPLIANCES</span>
+                        </div>
+                        <button class="apartment-btn">ENQUIRE NOW</button>
+                    </div>
+                </div>
+
+                <div class="apartment-card detailed">
+                    <div class="apartment-image">
+                        <div class="apartment-placeholder">🏠</div>
+                        <div class="apartment-status-overlay fully-let">FULLY LET</div>
+                    </div>
+                    <div class="apartment-content">
+                        <div class="apartment-header">
+                            <h3>3 BED APARTMENT</h3>
+                            <span class="apartment-size">Up to 801 SQFT</span>
+                        </div>
+                        <p class="apartment-description">
+                            The ideal blend of space and style, our three-bedroom apartments in Deptford are 
+                            perfect for families or professionals. Located in a thriving new rental community, 
+                            these homes feature balconies and full-height glazing throughout.
+                        </p>
+                        <div class="apartment-features">
+                            <span class="feature">FREE 1GB WI-FI</span>
+                            <span class="feature">FURNITURE PACKS AVAILABLE</span>
+                            <span class="feature">PRIVATE BALCONY</span>
+                            <span class="feature">SMEG INTEGRATED APPLIANCES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Page -->
+    <section class="page amenities-page" id="amenities">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">AMENITIES</h1>
+                <p class="page-subtitle">Exceptional facilities for modern living</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="amenities-grid">
+                <div class="amenity-card">
+                    <i data-lucide="briefcase"></i>
+                    <h3>CO-WORKING SPACES</h3>
+                    <p>Professional workspace for remote work and productivity</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="gamepad-2"></i>
+                    <h3>GAMES</h3>
+                    <p>Entertainment facilities for leisure and socializing</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="users"></i>
+                    <h3>ORGANISED SOCIAL EVENTS</h3>
+                    <p>Regular community events to meet your neighbors</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="smartphone"></i>
+                    <h3>RESIDENTS APP</h3>
+                    <p>Digital platform for building services and community</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="baby"></i>
+                    <h3>CHILDREN'S PLAYGROUND</h3>
+                    <p>Safe outdoor play area for families with children</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="sofa"></i>
+                    <h3>COMMUNAL LOUNGE</h3>
+                    <p>Comfortable shared space for relaxation</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="film"></i>
+                    <h3>CINEMA ROOM</h3>
+                    <p>Private screening room for movie nights</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="shopping-bag"></i>
+                    <h3>ON-SITE SHOPPING</h3>
+                    <p>Convenient retail options within the building</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="user-check"></i>
+                    <h3>ON-SITE MANAGEMENT</h3>
+                    <p>Dedicated building management for your needs</p>
+                </div>
+                <div class="amenity-card">
+                    <i data-lucide="trees"></i>
+                    <h3>LANDSCAPED COURTYARDS</h3>
+                    <p>Beautiful outdoor spaces for relaxation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neighbourhood Page -->
+    <section class="page neighbourhood-page" id="neighbourhood">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">NEIGHBOURHOOD</h1>
+                <p class="page-subtitle">Deptford, London</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="neighbourhood-content">
+                <div class="neighbourhood-description">
+                    <p>
+                        Immerse yourself in a neighbourhood brimming with the vibrant energy of urban 
+                        street life. This area is filled with bustling market stalls, artsy bars and 
+                        a wide array of unique coffee spots and eateries.
+                    </p>
+                </div>
+                
+                <div class="neighbourhood-categories">
+                    <div class="category-grid">
+                        <div class="category-item">
+                            <i data-lucide="palette"></i>
+                            <span>ARTS & CULTURE</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="beer"></i>
+                            <span>BARS & PUBS</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="coffee"></i>
+                            <span>COFFEE SHOPS</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="utensils"></i>
+                            <span>DINING & RESTAURANTS</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="trees"></i>
+                            <span>GREEN SPACES</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="shopping-bag"></i>
+                            <span>SHOPS</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="heart"></i>
+                            <span>HEALTH & WELLBEING</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="train"></i>
+                            <span>TRANSPORT</span>
+                        </div>
+                        <div class="category-item">
+                            <i data-lucide="graduation-cap"></i>
+                            <span>EDUCATION</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transport-section">
+                    <h3>TRAVEL CALCULATOR</h3>
+                    <div class="transport-grid">
+                        <div class="transport-item">
+                            <span class="destination">Canary Wharf</span>
+                            <span class="time">30 minutes</span>
+                        </div>
+                        <div class="transport-item">
+                            <span class="destination">Bank Station</span>
+                            <span class="time">40 minutes</span>
+                        </div>
+                        <div class="transport-item">
+                            <span class="destination">Waterloo</span>
+                            <span class="time">30 minutes</span>
+                        </div>
+                        <div class="transport-item">
+                            <span class="destination">London Bridge</span>
+                            <span class="time">30 minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Page -->
+    <section class="page faqs-page" id="faqs">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">FREQUENTLY ASKED QUESTIONS</h1>
+                <p class="page-subtitle">Everything you need to know</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="faqs-content">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What amenities are included?</h3>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All apartments include access to co-working spaces, communal lounge, cinema room, children's playground, landscaped courtyards, and on-site management. Free 1GB Wi-Fi and furniture packs are available.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Are pets allowed?</h3>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, pets are welcome free of charge at Neptune Wharf. We understand that pets are part of the family and welcome them in our community.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is parking available?</h3>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, parking spaces are available for residents. Please contact our leasing office for availability and pricing information.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I apply for an apartment?</h3>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can contact us directly at 0203 770 2099 or send an inquiry through our contact form. Our leasing team will guide you through the application process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Page -->
+    <section class="page contact-page" id="contact">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">CONTACT US</h1>
+                <p class="page-subtitle">Get in touch with our team</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i data-lucide="phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>0203 770 2099</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i data-lucide="mail"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@neptunewharflondon.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i data-lucide="map-pin"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>Neptune Wharf, Grinstead Road, London SE8 5FN</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="interest">Interest</label>
+                                <select id="interest" name="interest" class="form-control">
+                                    <option value="">Select Interest</option>
+                                    <option value="1-bed">1 Bed Apartment</option>
+                                    <option value="2-bed">2 Bed Apartment</option>
+                                    <option value="2-bed-plus">2 Bed Plus Apartment</option>
+                                    <option value="3-bed">3 Bed Apartment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" class="form-control" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 0203 770 2099</p>
+                        <p><strong>Email:</strong> info@neptunewharflondon.com</p>
+                        <p><strong>Address:</strong> Neptune Wharf, Grinstead Road, London SE8 5FN</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Social Media</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i data-lucide="facebook"></i> FACEBOOK</a>
+                        <a href="https://instagram.com" target="_blank"><i data-lucide="instagram"></i> INSTAGRAM</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Documents</h4>
+                    <div class="document-links">
+                        <a href="#" target="_blank"><i data-lucide="file-text"></i> SITEPLAN PDF</a>
+                        <a href="#" target="_blank"><i data-lucide="file-text"></i> FLOORPLANS PDF</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <div class="legal-links">
+                        <a href="#" target="_blank">TERMS</a>
+                        <a href="#" target="_blank">PRIVACY</a>
+                        <a href="#" target="_blank">DISCLAIMER</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Neptune Wharf London. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

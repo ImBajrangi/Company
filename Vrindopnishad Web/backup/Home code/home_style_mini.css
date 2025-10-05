@@ -1,0 +1,119 @@
+
+@media (max-width: 768px) {
+    .banner .slider {
+        display: none; /* Remove the group of pictures for mobile mode */
+    }
+    .block {
+        flex: 0 0 auto;
+        width: 150px;
+        margin-right: 10px;
+        border-radius: 15px; /* Add rounded corners */
+    }
+    .block img {
+        border-radius: 25px; /* Add rounded corners */
+    }
+    .control-button {
+        display: none; /* Remove the stop/start animation button */
+    }
+} 
+@media (min-width: 769px) {
+    .soft-cornered-blocks {
+        display: none; /* Hide blocks for desktop and tablet modes */
+    }
+    
+}
+.thumbnail .item, .carousel .list .item {
+    cursor: pointer; /* Add pointer cursor */
+}
+.carousel .list .item {
+    pointer-events: none; /* Make the big picture non-reactable */
+}
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(213, 240, 243);
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    text-align: center;
+    z-index: 1000;
+}
+.notification img {
+    width: 50%; /* Reduce the size of the image */
+    height: auto;
+    border-radius: 15px;
+}
+.notification-text {
+    margin: 15px 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+.notification button {
+    margin-right: 20px; /* Increase margin to create distance */
+    padding: 7.5px 15px; /* Increase padding */
+    font-size: 1.1rem; /* Increase font size */
+    background: rgb(248, 239, 104);
+    color: rgb(3, 90, 114);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0px 40px rgba(16, 240, 244, 0.9);
+    transition: transform 0.6s ease, box-shadow 0.6s ease; /* Add transition for hover effect */
+}
+.notification button:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0px 100px rgb(255, 243, 107);
+}
+.notification .close-button {
+    background: rgb(42, 42, 1);
+    color: rgb(243, 251, 103);
+}
+.cross-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 1001;
+    color: rgb(244, 247, 198);
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+.no-interaction {
+    pointer-events: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out;
+}

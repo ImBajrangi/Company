@@ -1,0 +1,316 @@
+/* Enhanced Cosmic Footer - Modern & Futuristic - Refined Version */
+.cosmic-footer {
+  position: relative;
+  background: linear-gradient(to bottom, rgba(8, 8, 24, 0.95), rgba(3, 3, 15, 0.98));
+  backdrop-filter: blur(10px);
+  padding: 70px 0 40px;
+  color: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(114, 186, 255, 0.15);
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  z-index: 10;
+  display: block !important;
+  visibility: visible !important;
+  margin-top: 80px;
+  clear: both;
+  letter-spacing: 0.3px;
+  text-align: left;
+}
+
+/* Ensure footer is not hidden by other elements */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.cosmic-footer {
+  margin-top: auto;
+}
+
+/* Refined glowing accent line */
+.footer-accent-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(114, 186, 255, 0) 0%, 
+    rgba(114, 186, 255, 0.7) 50%, 
+    rgba(114, 186, 255, 0) 100%);
+  box-shadow: 0 0 15px rgba(114, 186, 255, 0.5);
+}
+
+/* Animated background elements */
+.footer-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Improved footer grid layout */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 50px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  position: relative;
+  z-index: 2;
+  align-items: start;
+}
+
+/* Footer sections with improved spacing and alignment */
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Refined section titles */
+.footer-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: white;
+  position: relative;
+  padding-bottom: 12px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 45px;
+  height: 2px;
+  background: linear-gradient(to right, #72baff, #9f5afd);
+  border-radius: 2px;
+}
+
+/* About section with improved text alignment */
+.footer-about p {
+  line-height: 1.7;
+  margin-bottom: 22px;
+  text-align: left;
+  font-size: 14px;
+  max-width: 95%;
+}
+
+.footer-logo {
+  display: block;
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+/* Quick links with better alignment */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.footer-link:hover {
+  color: #72baff;
+  transform: translateX(3px);
+}
+
+.footer-link i {
+  margin-right: 10px;
+  font-size: 14px;
+  color: rgba(114, 186, 255, 0.8);
+  width: 20px;
+  text-align: center;
+}
+
+/* Social media links with improved spacing */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+.social-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(114, 186, 255, 0.2);
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  background: rgba(114, 186, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Newsletter form alignment */
+.newsletter-form {
+  position: relative;
+  margin-top: 18px;
+  width: 100%;
+  text-align: left;
+}
+
+.footer-section p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.newsletter-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(114, 186, 255, 0.2);
+  border-radius: 30px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-align: left;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: rgba(114, 186, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(114, 186, 255, 0.2);
+}
+
+.newsletter-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: linear-gradient(to right, #3f88f5, #9f5afd);
+  border: none;
+  height: calc(100% - 10px);
+  padding: 0 20px;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.newsletter-button:hover {
+  opacity: 0.9;
+  transform: translateX(-2px);
+}
+
+/* Copyright bar alignment */
+.footer-bottom {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.footer-bottom a {
+  color: #72baff;
+  text-decoration: none;
+}
+
+/* Improved responsive adjustments */
+@media (max-width: 768px) {
+  .cosmic-footer {
+    padding: 50px 0 30px;
+    margin-top: 60px;
+    text-align: center;
+  }
+  
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 20px;
+    align-items: center;
+  }
+  
+  .footer-section {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-title {
+    text-align: center;
+  }
+  
+  .footer-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .footer-about p {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  .footer-links {
+    align-items: center;
+  }
+  
+  .footer-link {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+  
+  .newsletter-form {
+    text-align: center;
+  }
+  
+  .footer-section p {
+    text-align: center;
+  }
+  
+  .newsletter-input {
+    text-align: center;
+  }
+  
+  .newsletter-button {
+    position: relative;
+    right: 0;
+    top: 0;
+    width: 100%;
+    margin-top: 10px;
+    height: 45px;
+  }
+} 

@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebCraft Studio - Professional Website Development</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --color-primary: #6B46C1;
+      --color-primary-hover: #8B5CF6;
+      --color-primary-light: #A78BFA;
+      --color-bg-light: #ffffff;
+      --color-text: #000000;
+      --color-text-secondary: #666666;
+      --color-bg-1: rgba(59, 130, 246, 0.08);
+      --color-bg-2: rgba(245, 158, 11, 0.08);
+      --color-bg-3: rgba(34, 197, 94, 0.08);
+      --color-bg-4: rgba(239, 68, 68, 0.08);
+      --color-bg-5: rgba(147, 51, 234, 0.08);
+      --color-bg-6: rgba(249, 115, 22, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--color-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(30px) saturate(180%);
+      border-bottom: 1px solid rgba(107, 70, 193, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3);
+    }
+
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-list {
+      display: flex;
+      list-style: none;
+      gap: 48px;
+    }
+
+    .nav-list a {
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-list a:hover {
+      color: var(--color-primary);
+    }
+
+    .nav-list a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #6B46C1, #8B5CF6);
+      transition: width 0.3s ease;
+    }
+
+    .nav-list a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      background: none;
+      border: none;
+      cursor: pointer;
+      gap: 4px;
+      padding: 8px;
+    }
+
+    .mobile-menu-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--color-text);
+      transition: all 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      background: linear-gradient(135deg, rgba(107, 70, 193, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(107, 70, 193, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -50px) rotate(120deg); }
+      66% { transform: translate(-20px, 20px) rotate(240deg); }
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(107, 70, 193, 0.1);
+      border: 1px solid rgba(107, 70, 193, 0.2);
+      border-radius: 50px;
+      color: var(--color-primary);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 32px;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6, #A78BFA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(18px, 3vw, 24px);
+      color: var(--color-text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.5;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    .hero-actions {
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 22px 40px; /* Increased padding for prominence */
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button.primary {
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      color: #ffffff;
+      box-shadow: 0 8px 32px rgba(107, 70, 193, 0.3);
+    }
+
+    .cta-button.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(107, 70, 193, 0.5);
+    }
+
+    .cta-button.secondary {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+      backdrop-filter: blur(10px);
+    }
+
+    .cta-button.secondary:hover {
+      background: var(--color-primary);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(107, 70, 193, 0.3);
+    }
+
+    /* Code Window with Apple-style Bar */
+    .code-window-container {
+      margin-top: 80px;
+      animation: fadeInUp 1s ease-out 0.8s both;
+    }
+
+    .code-window {
+      background: linear-gradient(135deg, #1e1e2e 0%, #27293d 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .window-bar {
+      background: linear-gradient(to bottom, #3d3d4f 0%, #2d2d3f 100%);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .control-btn.close {
+      background: linear-gradient(135deg, #ff5f57 0%, #ff4747 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .control-btn.minimize {
+      background: linear-gradient(135deg, #ffbd2e 0%, #ffaa00 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .control-btn.maximize {
+      background: linear-gradient(135deg, #28ca42 0%, #1fb037 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .window-title {
+      flex: 1;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .code-content {
+      padding: 32px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #e0e0e0;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .code-line {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+
+    .line-number {
+      color: rgba(255, 255, 255, 0.3);
+      user-select: none;
+      min-width: 30px;
+      text-align: right;
+    }
+
+    .code-text {
+      flex: 1;
+    }
+
+    .code-keyword { color: #c792ea; }
+    .code-function { color: #82aaff; }
+    .code-string { color: #c3e88d; }
+    .code-variable { color: #f07178; }
+    .code-comment { color: #546e7a; font-style: italic; }
+    .code-tag { color: #89ddff; }
+    .code-attr { color: #ffcb6b; }
+
+    /* Template Selector button */
+    .template-selector-btn-container {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .template-selector-btn {
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #2D3E50, #4A6078);
+      color: #ffffff;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(45, 62, 80, 0.2);
+    }
+
+    .template-selector-btn:hover {
+      background: linear-gradient(135deg, #4A6078, #2D3E50);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(45, 62, 80, 0.3);
+    }
+    
+    /* NEW INFO BAR STYLES */
+    #templateInfoBar {
+        display: none;
+        padding: 16px 24px;
+        margin-bottom: 40px;
+        background: rgba(107, 70, 193, 0.1);
+        border: 1px solid rgba(107, 70, 193, 0.3);
+        border-radius: 12px;
+        color: var(--color-primary);
+        font-weight: 600;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+    
+    #templateInfoBar.show {
+        display: block;
+        opacity: 1;
+    }
+    /* END NEW INFO BAR STYLES */
+
+    /* Template Showcase */
+    .templates {
+      padding: 120px 0;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section-title {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--color-text-secondary);
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+    }
+
+    .template-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(107, 70, 193, 0.1);
+      position: relative;
+      /* FIX 2: Ensure cards are visible by default before JS initializes observer */
+      opacity: 1; 
+      transform: translateY(0);
+    }
+
+    /* AI Recommendation Highlight */
+    .template-card.highlighted {
+      transform: scale(1.05) translateY(-15px);
+      box-shadow: 0 0 0 5px var(--color-primary-light), 0 30px 90px rgba(107, 70, 193, 0.4);
+      z-index: 10;
+    }
+
+    .template-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(139, 92, 246, 0.1));
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 0;
+    }
+
+    .template-card:hover:not(.highlighted)::before {
+      opacity: 1;
+    }
+    
+    .template-card:hover:not(.highlighted) {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 30px 80px rgba(107, 70, 193, 0.2);
+      border-color: rgba(107, 70, 193, 0.3);
+    }
+
+    .template-image {
+      width: 100%;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      position: relative;
+      overflow: hidden;
+      color: var(--color-primary);
+      background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));
+    }
+
+    .template-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(107, 70, 193, 0.95), rgba(139, 92, 246, 0.95));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .template-card:hover .template-overlay,
+    .template-card.highlighted .template-overlay {
+      opacity: 1;
+    }
+
+    .template-overlay button {
+      padding: 14px 28px;
+      background: #ffffff;
+      color: var(--color-primary);
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .template-overlay button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .template-content {
+      padding: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .template-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--color-text);
+    }
+
+    .template-description {
+      font-size: 16px;
+      color: var(--color-text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .template-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 6px 14px;
+      background: rgba(107, 70, 193, 0.1);
+      border: 1px solid rgba(107, 70, 193, 0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    /* Services Section */
+    .services {
+      padding: 120px 0;
+      background: linear-gradient(135deg, rgba(107, 70, 193, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .service-card {
+      padding: 48px 40px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(107, 70, 193, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(107, 70, 193, 0.05) 0%, transparent 70%);
+      transition: all 0.6s;
+    }
+
+    .service-card:hover::before {
+      top: -60%;
+      right: -60%;
+    }
+
+    .service-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 30px 80px rgba(107, 70, 193, 0.15);
+      border-color: rgba(107, 70, 193, 0.3);
+    }
+
+    .service-icon {
+      font-size: 52px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--color-text);
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-description {
+      font-size: 16px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 120px 0;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contact-form {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(30px);
+      padding: 48px;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(107, 70, 193, 0.1);
+      border: 1px solid rgba(107, 70, 193, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      border: 2px solid rgba(107, 70, 193, 0.2);
+      border-radius: 12px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(107, 70, 193, 0.1);
+      background: #ffffff;
+    }
+
+    textarea.form-control {
+      min-height: 250px; /* Increased height for better readability of the summary/log */
+      resize: vertical;
+      white-space: pre-wrap; /* Ensure pre-formatted text wraps */
+    }
+
+    select.form-control {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B46C1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 16px;
+      padding-right: 48px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .submit-button {
+      /* FIX: Ensure button content is perfectly centered */
+      width: 100%; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px; 
+      padding: 22px; /* Increased padding for better visibility (from 20px) */
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .submit-button:hover::before {
+      left: 100%;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(107, 70, 193, 0.4);
+    }
+    
+    /* Animation for the sending state */
+    .submit-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .submit-button .fa-spin {
+        animation: spin 1s linear infinite;
+    }
+
+
+    .contact-info {
+      margin-top: 48px;
+      text-align: center;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      border: 1px solid rgba(107, 70, 193, 0.1);
+    }
+
+    .contact-info-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--color-text);
+    }
+
+    .contact-methods {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .contact-method {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+    }
+
+    .contact-method i {
+      font-size: 28px;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    /* Footer */
+    .footer {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #ffffff;
+      padding: 60px 0 30px;
+      text-align: center;
+    }
+
+    .footer-content {
+      margin-bottom: 24px;
+    }
+
+    .footer-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-text {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 32px;
+      font-size: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .social-link {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 18px;
+    }
+
+    .social-link:hover {
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(107, 70, 193, 0.4);
+      border-color: transparent;
+    }
+
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+    }
+
+    /* Success Message */
+    .success-message {
+      display: none;
+      padding: 16px 24px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      border-radius: 12px;
+      color: #059669;
+      margin-bottom: 24px;
+      font-weight: 500;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    /* AI Chatbot Styles */
+    #aiChatButton {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(107, 70, 193, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 1000;
+    }
+
+    #aiChatButton:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(107, 70, 193, 0.6);
+    }
+
+    #aiChatModal {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 380px;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      transform: scale(0.8);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      border: 1px solid rgba(107, 70, 193, 0.1);
+      overflow: hidden;
+    }
+
+    #aiChatModal.open {
+      transform: scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .chat-header {
+      padding: 16px;
+      background: linear-gradient(90deg, #6B46C1, #8B5CF6);
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .chat-header button:hover {
+      opacity: 1;
+    }
+
+    #chatBody {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f7f9fc;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    /* --- CHAT MESSAGE UI IMPROVEMENTS --- */
+
+    .chat-message {
+      max-width: 85%;
+      padding: 10px 14px; /* Reduced padding slightly for density */
+      border-radius: 18px; /* More rounded corners */
+      line-height: 1.4;
+      word-wrap: break-word;
+      font-size: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* subtle shadow */
+    }
+
+    .message-user {
+      background-color: var(--color-primary);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px; /* Tail effect */
+    }
+
+    .message-ai {
+      background-color: #ffffff; /* White background for better contrast */
+      border: 1px solid #e2e8f0;
+      color: var(--color-text);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px; /* Tail effect */
+      padding-left: 14px; 
+      position: relative;
+    }
+    
+    .message-ai i {
+      color: var(--color-primary);
+      font-size: 16px;
+      margin-right: 6px; /* Adjusted spacing */
+    }
+
+    .chat-input-container {
+      padding: 12px;
+      background-color: white;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center; /* Ensure vertical alignment */
+    }
+
+    #chatInput {
+      /* FIX: Use flex-grow for the input to take all remaining space, 
+              but ensure a reasonable min-width for usability */
+      flex: 1; /* Allows it to grow and shrink */
+      min-width: 100px; /* Ensures it doesn't disappear */
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px; /* Highly rounded input field */
+      font-family: inherit;
+      font-size: 15px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    #chatInput:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(107, 70, 193, 0.2);
+    }
+
+    #chatSendButton {
+      /* FIX: Explicitly set fixed dimensions to prevent shrinking */
+      flex-shrink: 0; 
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #6B46C1, #8B5CF6);
+      color: white;
+      border: none;
+      border-radius: 50%; /* Circular button */
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* ENHANCED SHADOW for better visibility on desktop/laptop */
+      box-shadow: 0 6px 15px rgba(107, 70, 193, 0.4);
+      /* FIX: Explicitly set icon size for consistency */
+      font-size: 18px; 
+    }
+
+    #chatSendButton:hover {
+      background: linear-gradient(135deg, #8B5CF6, #6B46C1);
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(107, 70, 193, 0.5); /* Slightly stronger hover shadow */
+    }
+    
+    /* --- END CHAT MESSAGE UI IMPROVEMENTS --- */
+
+    .loading-indicator {
+      align-self: flex-start;
+      color: var(--color-primary);
+      font-style: italic;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .loading-indicator span {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin: 0 2px;
+        background-color: var(--color-primary);
+        border-radius: 50%;
+        animation: dot-blink 1s infinite steps(1, start);
+    }
+    
+    .loading-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dot-blink {
+        0%, 80%, 100% { opacity: 0; }
+        40% { opacity: 1; }
+    }
+
+    .escalate-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #fca5a5;
+      color: #7f1d1d;
+      border: 1px solid #f87171;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .escalate-button:hover {
+      background-color: #fecaca;
+    }
+
+    /* Mobile adjustments for Chatbot */
+    @media (max-width: 768px) {
+      .code-window-container {
+        display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+      }
+
+      .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .nav.open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .nav-list {
+        flex-direction: column;
+        gap: 0;
+        padding: 20px;
+      }
+
+      .nav-list a {
+        display: block;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .templates-grid,
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-form {
+        padding: 32px 24px;
+      }
+
+      .contact-methods {
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+
+      .hero {
+        padding-top: 64px;
+      }
+
+      .hero-badge {
+        font-size: 12px;
+        padding: 6px 16px;
+      }
+      
+      /* Full screen chat on mobile */
+      #aiChatModal {
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        right: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      #aiChatButton {
+        width: 50px;
+        height: 50px;
+        bottom: 16px;
+        right: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h1>Web<span>Craft</span> Studio</h1>
+        </div>
+        <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="nav" id="nav">
+          <ul class="nav-list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#templates">Templates</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-star"></i> Premium Web Development
+        </div>
+        <h2 class="hero-title">Build Your Dream <span class="highlight">Website</span></h2>
+        <p class="hero-subtitle">Professional web design and development services tailored to your business needs. From stunning templates to custom solutions that make an impact.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="cta-button primary">
+            <i class="fas fa-rocket"></i> Get Started
+          </a>
+          <a href="#templates" class="cta-button secondary">
+            <i class="fas fa-eye"></i> View Templates
+          </a>
+        </div>
+
+        <!-- Code Window (Desktop Only) -->
+        <div class="code-window-container">
+          <div class="code-window">
+            <div class="window-bar">
+              <div class="window-controls">
+                <button class="control-btn close"></button>
+                <button class="control-btn minimize"></button>
+                <button class="control-btn maximize"></button>
+              </div>
+              <div class="window-title">WebCraft Studio — index.html</div>
+              <div style="width: 68px;"></div>
+            </div>
+            <div class="code-content">
+              <div class="code-line">
+                <span class="line-number">1</span>
+                <span class="code-text"><span class="code-comment">// Welcome to WebCraft Studio</span></span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="code-text"><span class="code-keyword">const</span> <span class="code-variable">website</span> = {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="code-text">  <span class="code-attr">design</span>: <span class="code-string">'beautiful'</span>,</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="code-text">  <span class="code-attr">performance</span>: <span class="code-string">'lightning-fast'</span>,</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="code-text">  <span class="code-attr">responsive</span>: <span class="code-keyword">true</span>,</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="code-text">  <span class="code-attr">seo</span>: <span class="code-string">'optimized'</span></span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">7</span>
+                <span class="code-text">};</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">8</span>
+                <span class="code-text"></span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">9</span>
+                <span class="code-text"><span class="code-keyword">function</span> <span class="code-function">buildWebsite</span>() {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">10</span>
+                <span class="code-text">  <span class="code-keyword">return</span> <span class="code-string">'Your vision, our expertise!'</span>;</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">11</span>
+                <span class="code-text">}</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">12</span>
+                <span class="code-text"></span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">13</span>
+                <span class="code-text"><span class="code-comment">// Ready to start your project?</span></span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">14</span>
+                <span class="code-text"><span class="code-function">buildWebsite</span>();</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Templates Section -->
+  <section class="templates" id="templates">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Website Templates</h2>
+        <p class="section-subtitle">Choose from our collection of professionally designed templates</p>
+      </div>
+      
+      <!-- New Information Bar -->
+      <div id="templateInfoBar">
+          <i class="fas fa-info-circle"></i> **Template Customization Selected:** View template details below and click 'Select Template' to automatically update the form!
+      </div>
+      <!-- End New Information Bar -->
+
+      <!-- AI Template Selector Button -->
+      <div class="template-selector-btn-container">
+        <!-- Event handler updated to call the new global App method -->
+        <button class="template-selector-btn" onclick="app.templateManager.startTemplateRecommendation()">
+          <i class="fas fa-robot"></i> Use AI to Find My Perfect Template
+        </button>
+      </div>
+      
+      <div class="templates-grid" id="templatesGrid">
+        <div class="template-card" data-template-name="Business Pro">
+          <div class="template-image" style="background: var(--color-bg-1);">
+            <i class="fas fa-briefcase"></i>
+            <div class="template-overlay">
+              <button onclick="app.templateManager.selectTemplate('Business Pro')">Select Template</button>
+            </div>
+          </div>
+          <div class="template-content">
+            <h3 class="template-title">Business Pro</h3>
+            <p class="template-description">Perfect for corporate websites and professional services</p>
+            <div class="template-tags">
+              <span class="tag">Corporate</span>
+              <span class="tag">Modern</span>
+              <span class="tag">Responsive</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card" data-template-name="E-Commerce Plus">
+          <div class="template-image" style="background: var(--color-bg-2);">
+            <i class="fas fa-shopping-cart"></i>
+            <div class="template-overlay">
+              <button onclick="app.templateManager.selectTemplate('E-Commerce Plus')">Select Template</button>
+            </div>
+          </div>
+          <div class="template-content">
+            <h3 class="template-title">E-Commerce Plus</h3>
+            <p class="template-description">Complete online store solution with shopping cart</p>
+            <div class="template-tags">
+              <span class="tag">Shop</span>
+              <span class="tag">Payment</span>
+              <span class="tag">Inventory</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card" data-template-name="Restaurant Deluxe">
+          <div class="template-image" style="background: var(--color-bg-3);">
+            <i class="fas fa-utensils"></i>
+            <div class="template-overlay">
+              <button onclick="app.templateManager.selectTemplate('Restaurant Deluxe')">Select Template</button>
+            </div>
+          </div>
+          <div class="template-content">
+            <h3 class="template-title">Restaurant Deluxe</h3>
+            <p class="template-description">Beautiful design for cafes and restaurants</p>
+            <div class="template-tags">
+              <span class="tag">Menu</span>
+              <span class="tag">Booking</span>
+              <span class="tag">Gallery</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card" data-template-name="Portfolio Creative">
+          <div class="template-image" style="background: var(--color-bg-4);">
+            <i class="fas fa-camera"></i>
+            <div class="template-overlay">
+              <button onclick="app.templateManager.selectTemplate('Portfolio Creative')">Select Template</button>
+            </div>
+          </div>
+          <div class="template-content">
+            <h3 class="template-title">Portfolio Creative</h3>
+            <p class="template-description">Showcase your work in stunning visual layout</p>
+            <div class="template-tags">
+              <span class="tag">Gallery</span>
+              <span class="tag">Minimalist</span>
+              <span class="tag">Artists</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card" data-template-name="Blog Master">
+          <div class="template-image" style="background: var(--color-bg-5);">
+            <i class="fas fa-pen-nib"></i>
+            <div class="template-overlay">
+              <button onclick="app.templateManager.selectTemplate('Blog Master')">Select Template</button>
+            </div>
+          </div>
+          <div class="template-content">
+            <h3 class="template-title">Blog Master</h3>
+            <p class="template-description">Clean and modern blog platform</p>
+            <div class="template-tags">
+              <span class="tag">Content</span>
+              <span class="tag">SEO</span>
+              <span class="tag">Social</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card" data-template-name="Real Estate Hub">
+          <div class="template-image" style="background: var(--color-bg-6);">
+            <i class="fas fa-home"></i>
+            <div class="template-overlay">
+              <button onclick="app.templateManager.selectTemplate('Real Estate Hub')">Select Template</button>
+            </div>
+          </div>
+          <div class="template-content">
+            <h3 class="template-title">Real Estate Hub</h3>
+            <p class="template-description">Property listings and agent portfolio</p>
+            <div class="template-tags">
+              <span class="tag">Listings</span>
+              <span class="tag">Search</span>
+              <span class="tag">Maps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Comprehensive web solutions for your business</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-palette"></i></div>
+          <h3 class="service-title">Custom Design</h3>
+          <p class="service-description">Unique, brand-focused designs tailored to your vision and business goals.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-bolt"></i></div>
+          <h3 class="service-title">Fast Development</h3>
+          <p class="service-description">Quick turnaround times without compromising on quality or performance.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3 class="service-title">Responsive Design</h3>
+          <p class="service-description">Perfect display on all devices - desktop, tablet, and mobile.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-search"></i></div>
+          <h3 class="service-title">SEO Optimization</h3>
+          <p class="service-description">Built-in SEO best practices to help your site rank higher.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-tools"></i></div>
+          <h3 class="service-title">Maintenance & Support</h3>
+          <p class="service-description">Ongoing support and updates to keep your site running smoothly.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-rocket"></i></div>
+          <h3 class="service-title">Performance Optimization</h3>
+          <p class="service-description">Lightning-fast loading speeds for better user experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-content">
+        <div class="section-header">
+          <h2 class="section-title">Let's Build Together</h2>
+          <p class="section-subtitle">Tell us about your project and we'll get back to you within 24 hours</p>
+        </div>
+
+        <div class="contact-form">
+          <div class="success-message" id="successMessage">
+            ✓ Thank you! Your message has been sent successfully. We'll contact you soon.
+          </div>
+
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="name">Name *</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="service">Service Type *</label>
+                <select id="service" name="service" class="form-control" required>
+                  <option value="">Select a service</option>
+                  <option value="template">Template Customization</option>
+                  <option value="custom">Custom Website</option>
+                  <option value="ecommerce">E-Commerce</option>
+                  <option value="redesign">Website Redesign</option>
+                  <option value="maintenance">Maintenance</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="budget">Budget Range</label>
+              <select id="budget" name="budget" class="form-control">
+                <option value="">Select budget range</option>
+                <option value="small">$500 - $1,000</option>
+                <option value="medium">$1,000 - $3,000</option>
+                <option value="large">$3,000 - $5,000</option>
+                <option value="enterprise">$5,000+</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="message">Project Details *</label>
+              <textarea id="message" name="message" class="form-control" required placeholder="Tell us about your project, goals, and any specific requirements..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+
+        <div class="contact-info">
+          <h3 class="contact-info-title">Other Ways to Reach Us</h3>
+          <div class="contact-methods">
+            <div class="contact-method">
+              <i class="fas fa-envelope"></i>
+              <span>info@webcraft.studio</span>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-phone"></i>
+              <span>+1 (555) 123-4567</span>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-comments"></i>
+              <span>Live Chat Available (via AI Assistant)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <h3 class="footer-title">WebCraft Studio</h3>
+        <p class="footer-text">Creating beautiful, functional websites for businesses worldwide.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 WebCraft Studio. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AI Chatbot Floating Button -->
+  <!-- Event handler updated to call the new global App method -->
+  <button id="aiChatButton" aria-label="Open AI Chatbot" onclick="app.chatManager.toggleChat(true)">
+    <i class="fas fa-robot"></i>
+  </button>
+
+  <!-- AI Chatbot Modal -->
+  <div id="aiChatModal">
+    <div class="chat-header">
+      <span><i class="fas fa-headset"></i> WebCraft AI Assistant</span>
+      <!-- Event handler updated to call the new global App method -->
+      <button onclick="app.chatManager.toggleChat(false)"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="chatBody">
+      <!-- Initial AI Message is now loaded dynamically in the ChatManager -->
+    </div>
+    <div class="chat-input-container">
+      <!-- Event handler updated to call the new global App method -->
+      <button class="escalate-button" onclick="app.chatManager.escalateToTeam()">
+        <i class="fas fa-user-headset"></i> Escalate to Team
+      </button>
+      <div class="chat-input-row">
+        <!-- Event listener for Enter key is now handled in JS -->
+        <input type="text" id="chatInput" placeholder="Ask a question or type 'recommend'...">
+        <!-- Event handler updated to call the new global App method -->
+        <button id="chatSendButton" onclick="app.chatManager.handleSend()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      <div class="loading-indicator" id="loadingIndicator">
+        AI is typing<span>.</span><span>.</span><span>.</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variable to hold the main application instance
+    let app; 
+
+    // --- Developer-Friendly Code Structure (Modular Classes) ---
+
+    // 1. ChatManager Class: Handles all AI interaction, chat UI updates, and history management.
+    class ChatManager {
+      constructor(app) {
+        this.app = app;
+        this.chatBody = document.getElementById('chatBody');
+        this.chatInput = document.getElementById('chatInput');
+        this.loadingIndicator = document.getElementById('loadingIndicator');
+        this.aiChatModal = document.getElementById('aiChatModal');
+        this.aiChatButton = document.getElementById('aiChatButton');
+        
+        this.chatHistory = [];
+        this.initialAiMessage = "Hello! I'm your WebCraft AI Assistant. I can answer questions about our services, templates, pricing, and more. How can I help you today?";
+        
+        // API Configuration (centralized for easy updating)
+        this.model = 'gemini-2.5-flash-preview-05-20';
+        this.apiKey = ""; 
+        this.apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent?key=${this.apiKey}`;
+        this.systemPrompt = this.generateSystemPrompt();
+
+        this.initializeChat();
+        this.bindInputEvents();
+      }
+
+      generateSystemPrompt() {
+          const availableTemplates = this.app.templateManager.availableTemplates;
+          return `You are the WebCraft Studio AI Assistant. Your goal is to guide prospective clients to the best web solution for their needs.
+          1. Knowledge Base: You are an expert on WebCraft Studio services and templates. The available templates are: ${availableTemplates.join(', ')}.
+          2. Template Recommendation: If the user asks for a recommendation, ask follow-up questions about their business type, main goal, and budget. When you have enough information, recommend ONE of the listed templates and explain why.
+          3. Output Format: If you recommend a template, your answer MUST end with the exact, un-modified phrase: [[RECOMMEND:Template Name]] (e.g., [[RECOMMEND:Business Pro]]). Do NOT include this phrase if you are just answering a general question.
+          4. General Inquiries: Answer questions about services, pricing, and process concisely and professionally. Use the Google Search grounding tool only for questions requiring up-to-date, real-time knowledge.
+          5. Contact: If the user seems frustrated or asks to speak to a person, recommend they use the "Escalate to Team" button above the input box.`;
+      }
+
+      initializeChat() {
+          this.chatHistory.push({ role: "model", parts: [{ text: this.initialAiMessage }] });
+          this.appendMessage('ai', this.initialAiMessage);
+          console.log('[DEV LOG] ChatManager initialized and system prompt set.');
+      }
+      
+      bindInputEvents() {
+          this.chatInput.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') {
+                  this.handleSend();
+              }
+          });
+      }
+
+      toggleChat(open) {
+          if (typeof open === 'boolean') {
+              this.aiChatModal.classList.toggle('open', open);
+              this.aiChatButton.style.display = open ? 'none' : 'flex';
+          } else {
+              this.aiChatModal.classList.toggle('open');
+              this.aiChatButton.style.display = this.aiChatModal.classList.contains('open') ? 'none' : 'flex';
+          }
+          if (this.aiChatModal.classList.contains('open')) {
+              this.chatInput.focus();
+              this.scrollToBottom();
+          }
+          console.log(`[DEV LOG] Chatbot visibility: ${this.aiChatModal.classList.contains('open') ? 'Open' : 'Closed'}`);
+      }
+
+      scrollToBottom() {
+          this.chatBody.scrollTop = this.chatBody.scrollHeight;
+      }
+
+      appendMessage(role, text, sources = []) {
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add('chat-message');
+          messageDiv.classList.add(role === 'user' ? 'message-user' : 'message-ai');
+          
+          const formattedText = text
+              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+              .replace(/\n/g, '<br>');
+
+          let htmlContent = role === 'ai' ? `<i class="fas fa-robot"></i> ${formattedText}` : formattedText;
+
+          if (sources.length > 0) {
+              htmlContent += '<br><br><small>Sources:';
+              sources.forEach((s, index) => {
+                  htmlContent += ` <a href="${s.uri}" target="_blank" style="color: inherit; text-decoration: underline;">[${index + 1}]</a>`;
+              });
+              htmlContent += '</small>';
+          }
+
+          messageDiv.innerHTML = htmlContent;
+          this.chatBody.appendChild(messageDiv);
+          this.scrollToBottom();
+      }
+      
+      handleSend(initialPrompt = null) {
+          const query = initialPrompt || this.chatInput.value.trim();
+          if (!query) return;
+
+          this.appendMessage('user', query);
+          this.chatInput.value = '';
+          this.processChat(query);
+      }
+
+      async processChat(query) {
+          this.chatInput.disabled = true;
+          document.getElementById('chatSendButton').disabled = true;
+          this.loadingIndicator.style.display = 'block';
+          this.scrollToBottom();
+          
+          const userMessage = { role: "user", parts: [{ text: query }] };
+          this.chatHistory.push(userMessage);
+
+          try {
+              const { text, sources } = await this._geminiApiCall();
+
+              // Check for template recommendation command
+              const recommendMatch = text.match(/\[\[RECOMMEND:(.+)\]\]/i);
+              let cleanedText = text;
+              
+              if (recommendMatch) {
+                  const recommendedTemplateName = recommendMatch[1].trim();
+                  cleanedText = text.replace(recommendMatch[0], '').trim();
+                  
+                  // Notify the TemplateManager and update the UI
+                  this.app.templateManager.selectTemplate(recommendedTemplateName, true);
+
+                  // Add a link button inside the chat for user convenience
+                  const link = `<a href="#templates" onclick="app.templateManager.selectTemplate('${recommendedTemplateName}', true)" style="color: var(--color-primary); font-weight: 600;">View Template</a>`;
+                  cleanedText += `\n\n**Recommendation:** ${recommendedTemplateName} is the perfect fit. ${link}`;
+                  
+                  console.log(`[DEV LOG] AI Recommended Template: ${recommendedTemplateName}.`);
+              }
+
+              const aiMessage = { role: "model", parts: [{ text: cleanedText }] };
+              this.chatHistory.push(aiMessage);
+              
+              this.appendMessage('ai', cleanedText, sources);
+
+          } catch (error) {
+              console.error("[DEV LOG] Gemini API call failed:", error);
+              this.appendMessage('ai', "Sorry, I ran into an error. Please try again or click the 'Escalate to Team' button.");
+              this.chatHistory.push({ role: "model", parts: [{ text: "API Error." }] });
+          } finally {
+              this.chatInput.disabled = false;
+              document.getElementById('chatSendButton').disabled = false;
+              this.loadingIndicator.style.display = 'none';
+              this.chatInput.focus();
+              this.scrollToBottom();
+          }
+      }
+      
+      // Exponential backoff retry logic for API call
+      async _retryFetch(url, options, maxRetries = 5) {
+        for (let i = 0; i < maxRetries; i++) {
+          try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response;
+          } catch (error) {
+            if (i === maxRetries - 1) throw error; 
+            const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+        }
+      }
+      
+      async _geminiApiCall() {
+          // The API expects the latest turn to be complete.
+          const contents = this.chatHistory;
+
+          const payload = {
+              contents: contents,
+              tools: [{ "google_search": {} }],
+              systemInstruction: {
+                  parts: [{ text: this.systemPrompt }]
+              },
+          };
+
+          const response = await this._retryFetch(this.apiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+          const candidate = result.candidates?.[0];
+
+          if (candidate && candidate.content?.parts?.[0]?.text) {
+              const text = candidate.content.parts[0].text;
+              let sources = [];
+              const groundingMetadata = candidate.groundingMetadata;
+              
+              if (groundingMetadata && groundingMetadata.groundingAttributions) { 
+                  sources = groundingMetadata.groundingAttributions
+                      .map(attribution => ({
+                          uri: attribution.web?.uri,
+                          title: attribution.web?.title,
+                      }))
+                      .filter(source => source.uri && source.title);
+              }
+              
+              return { text, sources };
+          } else {
+              throw new Error("API returned no content or unexpected structure.");
+          }
+      }
+
+
+      // Function to handle the escalate button
+      escalateToTeam() {
+          // 1. Generate a human-readable summary
+          const summary = this.summarizeChat(this.chatHistory);
+
+          // 2. Process chat history into an easily readable log format (optional/for debugging)
+          const formattedLog = this.chatHistory.map(m => {
+              const speaker = m.role.toUpperCase() === 'MODEL' ? 'AI ASSISTANT' : 'CLIENT';
+              const text = m.parts[0].text.replace(/\n/g, ' '); 
+              return `${speaker}: ${text}`;
+          }).join('\n--- \n'); 
+          
+          this.toggleChat(false);
+          document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+          
+          setTimeout(() => {
+              const messageField = document.getElementById('message');
+              
+              // NEW FORMAT: Summary first, clear separator, then optional log.
+              messageField.value = 
+`[URGENT: AI CHAT ESCALATION - HUMAN ASSISTANCE REQUIRED]
+
+--- CLIENT SUMMARY (GENERATED BY AI) ---
+${summary}
+
+--- FULL CHAT LOG (FOR TEAM REFERENCE) ---
+${formattedLog}`;
+
+              document.getElementById('service').value = 'other';
+              messageField.focus();
+              
+              // CRITICAL DEV LOG for team visibility
+              console.warn('[DEV LOG - ESCALATION] User escalated to team. Summary and log pre-filled.');
+          }, 800);
+      }
+      
+      // New helper method to summarize the conversation (improved logic)
+      summarizeChat(history) {
+          const userMessages = history.filter(m => m.role.toUpperCase() === 'USER');
+          const lastUserMessage = userMessages.length > 0 ? userMessages[userMessages.length - 1].parts[0].text : null;
+          
+          const repeatedTemplateRequest = userMessages.filter(m => 
+              m.parts[0].text.toLowerCase().includes('recommending a template')
+          ).length >= 2;
+
+          let summary = '';
+
+          if (repeatedTemplateRequest) {
+              summary = "The client repeatedly initiated the **Template Recommendation** process. The AI assistant was actively trying to gather key details (business type, goal, budget) but the conversation broke off during this data-gathering phase. This suggests the client requires direct human assistance to clarify their project needs and proceed with template selection.";
+          } else if (lastUserMessage && lastUserMessage.length > 50) {
+              summary = `The client's last topic of interest was: "${lastUserMessage.substring(0, 100)}...". The full conversation log suggests they were exploring general information.`;
+          } else {
+              summary = "The client had a general conversation with the AI Assistant but explicitly requested to speak with a human team member. Please review the full log below to understand the context of the escalation.";
+          }
+
+          return summary;
+      }
+    }
+
+    // 2. TemplateManager Class: Handles template selection and UI feedback.
+    class TemplateManager {
+      constructor(app) {
+          this.app = app;
+          this.availableTemplates = [
+              'Business Pro', 'E-Commerce Plus', 'Restaurant Deluxe', 
+              'Portfolio Creative', 'Blog Master', 'Real Estate Hub'
+          ];
+          this.bindEvents();
+          this.bindServiceSelection(); 
+      }
+
+      bindEvents() {
+        // Find all template buttons and bind events if not already inline
+        document.querySelectorAll('.template-card button').forEach(button => {
+            // Check if the button already has an onclick (from template card, which we want to keep)
+            if (button.onclick === null) {
+              const templateName = button.closest('.template-card').dataset.templateName;
+              button.onclick = () => this.selectTemplate(templateName);
+            }
+        });
+      }
+      
+      // Handle the service dropdown changing
+      bindServiceSelection() {
+          const serviceSelect = document.getElementById('service');
+          serviceSelect.addEventListener('change', () => {
+              if (serviceSelect.value === 'template') {
+                  this.showTemplateGuide();
+              } else {
+                  // Hide info bar if another service is selected
+                  document.getElementById('templateInfoBar').classList.remove('show');
+                  document.querySelectorAll('.template-card').forEach(card => card.classList.remove('highlighted'));
+              }
+          });
+      }
+      
+      showTemplateGuide() {
+          const infoBar = document.getElementById('templateInfoBar');
+          
+          // 1. Scroll to the templates section immediately
+          document.getElementById('templates').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // 2. Show the info bar smoothly
+          // Use setTimeout for visibility only, ensures CSS transition works
+          setTimeout(() => {
+              infoBar.classList.add('show');
+              console.log('[DEV LOG] Service selected as Template. Guide bar shown.');
+          }, 100); // 100ms delay to ensure scroll is initiated
+
+          // 3. Hide the info bar after 5 seconds
+          setTimeout(() => {
+              infoBar.classList.remove('show');
+          }, 5000);
+      }
+
+      startTemplateRecommendation() {
+          const initialPrompt = "I need help recommending a template. Please ask me about my business type, main goal (e.g., selling products, showcasing portfolio, blogging), and approximate budget. Then recommend the best template.";
+          
+          this.app.chatManager.toggleChat(true);
+          // Simulate user prompt directly to the chat manager
+          this.app.chatManager.handleSend(initialPrompt);
+
+          console.log('[DEV LOG] AI Template Recommendation started by user action.');
+      }
+      
+      selectTemplate(templateName, isAiRecommendation = false) {
+          // 1. UI Feedback: Remove highlight from all cards
+          document.querySelectorAll('.template-card').forEach(card => card.classList.remove('highlighted'));
+
+          // 2. Highlight the selected card
+          const selectedCard = document.querySelector(`[data-template-name="${templateName}"]`);
+          if (selectedCard) {
+              selectedCard.classList.add('highlighted');
+          }
+
+          // 3. Scroll to contact form for next action
+          document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+          
+          // 4. Pre-fill the contact form fields after scroll completes
+          setTimeout(() => {
+              const serviceSelect = document.getElementById('service');
+              const messageField = document.getElementById('message');
+              
+              serviceSelect.value = 'template';
+              const recommendationNote = isAiRecommendation ? " (Recommended by AI based on chat history)" : "";
+              messageField.value = `I'm interested in the ${templateName} template${recommendationNote}. `;
+              messageField.focus();
+              
+              // CRITICAL DEV LOG
+              console.log(`[DEV LOG] User selected template: ${templateName}. AI recommendation used: ${isAiRecommendation}`);
+          }, 800);
+      }
+    }
+
+    // 3. WebCraftStudioApp Class: Main controller for global events and initialization.
+    class WebCraftStudioApp {
+        constructor() {
+            // Initialize Managers
+            this.templateManager = new TemplateManager(this);
+            // ChatManager requires TemplateManager to generate its system prompt
+            this.chatManager = new ChatManager(this); 
+            
+            // Bind Global UI Events
+            this.bindNavigationEvents();
+            this.bindFormSubmission();
+            this.bindScrollEffects();
+
+            console.log('[DEV LOG] WebCraftStudioApp initialized successfully.');
+        }
+        
+        bindNavigationEvents() {
+            const menuToggle = document.getElementById('menuToggle');
+            const nav = document.getElementById('nav');
+
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('open');
+                menuToggle.classList.toggle('open');
+                console.log('[DEV LOG] Mobile menu toggled.');
+            });
+
+            // Close menu when clicking on a link
+            document.querySelectorAll('.nav-list a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                    menuToggle.classList.remove('open');
+                });
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        console.log(`[DEV LOG] Scrolling to: ${this.getAttribute('href')}`);
+                    }
+                });
+            });
+        }
+
+        bindFormSubmission() {
+            const contactForm = document.getElementById('contactForm');
+            const submitButton = contactForm.querySelector('.submit-button');
+            const successMessage = document.getElementById('successMessage');
+
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending...';
+
+                const formData = new FormData(contactForm);
+                const data = Object.fromEntries(formData.entries());
+                
+                // CRITICAL DEV LOG for team follow-up
+                console.log('[DEV LOG - LEAD] Attempting to send Contact Form data:', data);
+
+                // --- START: REAL-WORLD INTEGRATION ---
+                // NOTE FOR DEVELOPERS: 
+                // In a real application, replace this placeholder URL with your actual CRM endpoint, 
+                // serverless function, or email service webhook (e.g., Zapier, Google Cloud Functions).
+                const webhookUrl = 'https://httpbin.org/post'; // Placeholder for demonstration
+                
+                try {
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        // Handle server-side errors (e.g., 400, 500)
+                        throw new Error(`Server responded with status: ${response.status}`);
+                    }
+
+                    // FIX 1: Provide clear instructions for developers on where the data went.
+                    console.log(`[DEV LOG - LEAD] Form submission successful. Data sent to placeholder webhook: ${webhookUrl}. 
+***DEVELOPER ACTION REQUIRED: Replace 'https://httpbin.org/post' with your live CRM or email submission endpoint.***`);
+                    
+                    successMessage.textContent = '✓ Success! Your request has been sent to the team. We will contact you soon.';
+                    successMessage.classList.add('show');
+                    successMessage.style.backgroundColor = 'rgba(34, 197, 94, 0.1)'; // Reset to green
+                    successMessage.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+                    successMessage.style.color = '#059669';
+                    
+                    // Reset form fields
+                    contactForm.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 5000);
+                    
+                } catch (error) {
+                    // Failure handling (network error or non-2xx response)
+                    console.error('[DEV LOG - LEAD ERROR] Failed to send form data:', error);
+                    successMessage.textContent = '✗ Error! The request failed. Please check your network or try emailing us directly.';
+                    // Set error specific styles
+                    successMessage.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; 
+                    successMessage.style.borderColor = 'rgba(239, 68, 68, 0.3)'; 
+                    successMessage.style.color = '#B91C1C';
+                    successMessage.classList.add('show');
+
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                        // Restore default success styles
+                        successMessage.style.cssText = ''; 
+                    }, 5000);
+                } finally {
+                    // Restore button state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+        
+        bindScrollEffects() {
+            const header = document.querySelector('.header');
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            // Header Shadow
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                if (currentScroll > 0) {
+                    header.style.boxShadow = '0 4px 30px rgba(107, 70, 193, 0.1)';
+                } else {
+                    header.style.boxShadow = 'none';
+                }
+            });
+
+            // Scroll animations for cards
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.template-card, .service-card').forEach(card => {
+                // FIX 2: Only apply the animation properties via JS. 
+                // The CSS ensures default visibility (opacity: 1, transform: translateY(0)).
+                // We reset these properties before observing to allow the animation to play once.
+                card.style.opacity = '1'; 
+                card.style.transform = 'translateY(0)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                // Set the initial invisible state *only* if we want the animation to run on load.
+                // Since the user reported invisible elements, we will set them to visible, 
+                // but let the IntersectionObserver re-apply the fade-in if needed (for elements below the fold).
+                // Let's re-add the initial hidden state to enable the fade-in when scrolling down.
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                observer.observe(card);
+            });
+        }
+    }
+
+    // Initialize the application when the DOM is fully loaded.
+    document.addEventListener('DOMContentLoaded', () => {
+        app = new WebCraftStudioApp();
+    });
+    
+  </script>
+</body>
+</html>

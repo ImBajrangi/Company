@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="/Pictures/css/pic-collection.css">
+    <link rel="stylesheet" href="/Pictures/css/lazy-load.css">
+</head>
+<body>
+<div class="app-container">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo magnetic" data-magnetic-strength="0.3">
+            <i class="fas fa-image"></i>
+            <h1>Vrindopnishad</h1>
+        </div>
+        <div class="header-right">
+            <!-- Tools shortcut icon -->
+            <div class="tools-icon magnetic" data-magnetic-strength="0.5" aria-label="Open tools menu" role="button" tabindex="0">
+                <i class="fas fa-cog"></i>
+                <span class="visually-hidden">Open Tools Menu</span>
+            </div>
+            
+            <div class="theme-toggle magnetic" data-magnetic-strength="0.5">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Fullscreen Tools Menu -->
+    <div class="tools-menu">
+        <div class="tools-menu-header">
+            <div class="tools-menu-logo">Vrindopnishad Tools</div>
+            <div class="tools-menu-close" aria-label="Close tools menu" role="button" tabindex="0">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <div class="tools-menu-content">
+            <div class="tools-grid">
+
+                <!-- Home -->
+                <div class="tool-item" data-bg-color="#121212" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Home</h3>
+                        <p>Return to main page</p>
+                    </div>
+                    <a href="../../home.html" class="tool-link"></a>
+                </div>
+                
+                <!-- Collection Tool -->
+                <div class="tool-item" data-bg-color="#8E7F7F" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Collection</h3>
+                        <p>Browse our curated collections</p>
+                    </div>
+                    <a href="../../Collection.html" class="tool-link"></a>
+                </div>
+                
+                <!-- Photos Tool -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Photos</h3>
+                        <p>Explore our photo gallery</p>
+                    </div>
+                    <a href="../../photos.html" class="tool-link"></a>
+                </div>
+                
+                <!-- PDF Library Tool -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#121212">
+                    <div class="tool-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="tool-info">
+                        <h3>PDF Library</h3>
+                        <p>Access our digital document collection</p>
+                    </div>
+                    <a href="../../admins code/pdf-collection.html" class="tool-link"></a>
+                </div>
+                
+                <!-- Spiritual Texts Tool -->
+                <div class="tool-item" data-bg-color="#78a4aa" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Spiritual Texts</h3>
+                        <p>Explore ancient wisdom and teachings</p>
+                    </div>
+                    <a href="../book-content/index.html" class="tool-link"></a>
+                </div>
+                
+                <!-- Articles Tool -->
+                <div class="tool-item" data-bg-color="#e9d0a4" data-text-color="#121212">
+                    <div class="tool-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Articles</h3>
+                        <p>Read our insightful articles</p>
+                    </div>
+                    <a href="../information/index.html" class="tool-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-container">
+        <div class="search-box magnetic" data-magnetic-strength="0.2">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Search images...">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active magnetic" data-magnetic-strength="0.3" data-filter="all">All</button>
+            <button class="filter-btn magnetic" data-magnetic-strength="0.3" data-filter="anime">Anime</button>
+            <button class="filter-btn magnetic" data-magnetic-strength="0.3" data-filter="landscape">Landscape</button>
+            <button class="filter-btn magnetic" data-magnetic-strength="0.3" data-filter="nature">Nature</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="home-page">
+        <div class="masonry-layout">
+        <!-- Images will be generated from JSON -->
+        <div class="lightbox">
+            <!-- Keep your existing lightbox HTML -->
+        </div>
+    </div>
+
+    <!-- <div class="masonry-layout"> -->
+            <!-- Each image now has data-category attribute for filtering -->
+        <!-- <div class="image-card" data-category="anime">
+                <img src="https://i.postimg.cc/y6nMpbfG/1.avif" alt="Anime wallpaper">
+                <div class="image-overlay">
+                    <div class="image-actions">
+                        <button class="action-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-heart"></i></button>
+                        <button class="action-btn view-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-expand"></i></button>
+                        <button class="action-btn download-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="image-card" data-category="anime">
+                <img src="https://i.postimg.cc/D0CRWSJh/2.avif" alt="Shri Rasik Bihari Ji">
+                <div class="image-overlay">
+                    <div class="image-actions">
+                        <button class="action-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-heart"></i></button>
+                        <button class="action-btn view-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-expand"></i></button>
+                        <button class="action-btn download-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="image-card" data-category="anime">
+                <img src="https://i.postimg.cc/MKVKCt18/18.avif" alt="Anime wallpaper">
+                <div class="image-overlay">
+                    <div class="image-actions">
+                        <button class="action-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-heart"></i></button>
+                        <button class="action-btn view-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-expand"></i></button>
+                        <button class="action-btn download-btn magnetic" data-magnetic-strength="0.6"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Lightbox with properly positioned navigation buttons -- -->
+            <!-- <div class="lightbox">
+                <div class="lightbox-content">
+                    <img class="lightbox-img" src="" alt="Lightbox image">
+                    <button class="lightbox-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="lightbox-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                    <span class="close-lightbox"><i class="fas fa-times"></i></span>
+                    <div class="lightbox-caption"></div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Bhakt Pic Collection. All images are property of their respective owners.</p>
+        <div class="social-links">
+            <a data-link="facebook" class="social-link magnetic" data-magnetic-strength="0.5">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a data-link="instagram" class="social-link magnetic" data-magnetic-strength="0.5">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a data-link="youtube" class="social-link magnetic" data-magnetic-strength="0.5">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a data-link="pinterest" class="social-link magnetic" data-magnetic-strength="0.5">
+                <i class="fab fa-pinterest"></i>
+            </a>
+        </div>
+    </footer>
+</div>
+
+<!--Scripts-->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="/Pictures/js/immediate-loader.js"></script>
+<script src="/Pictures/js/pic-collection.js"></script>
+<script src="/Pictures/js/pic-simple.js"></script>
+<script src="/Pictures/js/notifications.js"></script> 
+<script src="/Security/disable-right-click.js"></script>
+<script src="/Security/image-protection.js"></script>
+<script src="/Security/watermark.js"></script>
+<script src="/web-extentions/links/link-handler.js" defer></script>
+</body>
+</html>

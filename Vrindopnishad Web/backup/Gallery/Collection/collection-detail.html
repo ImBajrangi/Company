@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Literary Hub - Book Collection</title>
+    
+    <!-- Essential Meta Tags -->
+    <meta name="description" content="Explore a curated collection of literary masterpieces across various genres">
+    <meta name="keywords" content="books, literature, book collection, reading, library">
+    
+    <!-- Accessibility Meta Tags -->
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#8b5cf6">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="collection-detail.css">
+    <link rel="stylesheet" href="../search.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animista/1.0.0/animista.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add preconnect for performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- jQuery for better loader handling -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body class="no-js">
+    <!-- Add skip link -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+    <!-- Reading Progress Tracker -->
+    <div class="reading-progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="reading-progress-bar" id="readingProgressBar"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="se-pre-con loader-container">
+        <div class="book-loader">
+            <div class="book">
+                <div class="book-cover">
+                    <div class="sacred-symbol"></div>
+                    <div class="sacred-symbol"></div>
+                    <div class="sacred-symbol"></div>
+                    <div class="sacred-symbol"></div>
+                </div>
+                <div class="book-pages">
+                    <div class="book-page">
+                        <div class="sanskrit-text">
+                            ॐ सर्वे भवन्तु सुखिनः
+                        </div>
+                    </div>
+                    <div class="book-page">
+                        <div class="sanskrit-text">
+                            सर्वे सन्तु निरामयाः
+                        </div>
+                    </div>
+                    <div class="book-page">
+                        <div class="sanskrit-text">
+                            सर्वे भद्राणि पश्यन्तु
+                        </div>
+                    </div>
+                </div>
+                <div class="magical-content">
+                    <div class="divine-particle"></div>
+                    <div class="divine-particle"></div>
+                    <div class="divine-particle"></div>
+                    <div class="divine-particle"></div>
+                    <div class="divine-particle"></div>
+                    <div class="divine-particle"></div>
+                    <div class="divine-message">Unlocking the wisdom of ages</div>
+                    <div class="divine-ray"></div>
+                    <div class="divine-ray"></div>
+                    <div class="divine-ray"></div>
+                    <div class="divine-ray"></div>
+                    <div class="divine-ray"></div>
+                    <div class="mandala-bg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="loading-text">
+            Loading <span class="dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+    </div>
+
+    <!-- Improve navigation accessibility -->
+    <nav class="navigation" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+                <img src="../image/logos/logo.png" alt="Literary Hub Logo">
+                <span>Literary<em>Hub</em></span>
+        </div>
+        
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#home" aria-current="page">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span class="nav-label">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#books">
+                    <i class="fas fa-book" aria-hidden="true"></i>
+                    <span class="nav-label">Books</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#genres">
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                    <span class="nav-label">Genres</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#about">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    <span class="nav-label">About</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    <span class="nav-label">Contact</span>
+                </a>
+            </li>
+            <li class="theme-toggle nav-item">
+                <button id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                    <span class="theme-label">Dark Mode</span>
+                </button>
+            </li>
+        </ul>
+        
+        <div class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+                <span></span>
+                <span></span>
+                <span></span>
+        </div>
+    </nav>
+
+    <!-- Add proper landmarks -->
+    <main id="main-content" role="main">
+        <!-- Remove the floating search button -->
+        
+        <section class="books-section" aria-label="Book collection">
+            <div class="books-container">
+                <!-- Books Grid Section -->
+                <div class="books-content">
+                    <h1>Book Collection</h1>
+                    
+                    <!-- Collection Sharing Feature -->
+                    <div class="collection-actions">
+                        <button id="shareCollection" class="share-collection-btn" aria-label="Share collection">
+                            <i class="fas fa-share-alt" aria-hidden="true"></i> Share Collection
+                        </button>
+                        <button id="exportCollection" class="export-collection-btn" aria-label="Export collection as PDF">
+                            <i class="fas fa-file-export" aria-hidden="true"></i> Export as PDF
+                        </button>
+                    </div>
+                    
+                    <!-- Search and Filter Controls -->
+                    <div class="books-controls" aria-label="Filter and sort controls">
+                        <!-- Normal Search Bar -->
+                        <div class="normal-search-container">
+                            <form class="normal-search-form" role="search" aria-label="Search books">
+                                <div class="normal-search-input-wrapper">
+                                    <input type="text" class="normal-search-input" id="normalSearchInput" placeholder="Search books, authors, genres..." aria-label="Search books, authors, genres">
+                                    <button type="submit" class="normal-search-button" aria-label="Search">
+                                        <i class="fas fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="filter-sort-container">
+                            <div class="filter-buttons" role="group" aria-label="Filter by genre">
+                                <button class="filter-btn active" data-genre="all" aria-pressed="true">All Books</button>
+                                <button class="filter-btn" data-genre="fiction" aria-pressed="false">Fiction</button>
+                                <button class="filter-btn" data-genre="non-fiction" aria-pressed="false">Non-Fiction</button>
+                                <button class="filter-btn" data-genre="poetry" aria-pressed="false">Poetry</button>
+                            </div>
+                        
+                            <select id="sort-select" aria-label="Sort books by">
+                                <option value="rating">Sort by Rating</option>
+                                <option value="newest">Sort by Newest</option>
+                                <option value="title">Sort by Title</option>
+                            </select>
+                        </div>
+
+                        <!-- Advanced Filters Section -->
+                        <div class="advanced-filters-toggle">
+                            <button id="toggleAdvancedFilters" aria-expanded="false" aria-controls="advancedFiltersPanel">
+                                <i class="fas fa-sliders-h" aria-hidden="true"></i> Advanced Filters
+                            </button>
+                        </div>
+                        
+                        <div id="advancedFiltersPanel" class="advanced-filters-panel" aria-label="Advanced filters" hidden>
+                            <div class="filter-row">
+                                <div class="filter-group">
+                                    <label for="yearRangeMin">Publication Year</label>
+                                    <div class="range-slider">
+                                        <span class="range-value" id="yearRangeValue" aria-live="polite">1900 - 2024</span>
+                                        <div class="slider-container">
+                                            <input type="range" id="yearRangeMin" min="1900" max="2024" value="1900" class="range-slider-input" aria-label="Minimum publication year">
+                                            <input type="range" id="yearRangeMax" min="1900" max="2024" value="2024" class="range-slider-input" aria-label="Maximum publication year">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <label for="ratingRange">Minimum Rating</label>
+                                    <div class="rating-filter">
+                                        <input type="range" id="ratingRange" min="1" max="5" step="0.5" value="1" class="rating-slider" aria-label="Minimum rating">
+                                        <span class="rating-value" id="ratingValue" aria-live="polite">1.0+</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-row">
+                                <div class="filter-group">
+                                    <fieldset>
+                                        <legend>Book Length</legend>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="length" value="short"> Short (<200 pages)
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="length" value="medium"> Medium (200-400 pages)
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="length" value="long"> Long (>400 pages)
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <fieldset>
+                                        <legend>Availability</legend>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="availability" value="ebook"> E-Book
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="availability" value="audiobook"> Audiobook
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="availability" value="paperback"> Paperback
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-actions">
+                                <button id="applyFilters" class="btn-primary">Apply Filters</button>
+                                <button id="resetFilters" class="btn-secondary">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Books Grid -->
+                    <div class="books-grid" id="booksGrid" role="list" aria-label="Book collection grid">
+                        <!-- Book cards will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Sidebar for Recommendations -->
+                <aside class="books-sidebar" aria-labelledby="recommendationsHeading">
+                    <h3 id="recommendationsHeading">Recommended Books</h3>
+                    <div id="recommendedBooksList" class="recommended-books" role="list">
+                        <!-- Dynamic content will be added here, but here's the template structure: -->
+                        <div class="recommended-book-card" role="listitem">
+                            <img src="../image/Books/book1.jpg" alt="Book cover of The Great Gatsby">
+                            <div class="recommended-book-info">
+                                <div>
+                                    <h4>The Great Gatsby</h4>
+                                    <p>F. Scott Fitzgerald</p>
+                                    <div class="recommended-book-meta">
+                                        <span class="recommended-book-rating" aria-label="Rating: 4.5 out of 5 stars">
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <span>4.5</span>
+                                        </span>
+                                        <span class="book-badge">Classic</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- More recommended books will be added dynamically -->
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <!-- Improve modal accessibility -->
+    <div id="bookDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalBookTitle">
+        <div class="modal-content">
+            <span class="close-modal" aria-label="Close modal">&times;</span>
+            <div class="modal-book-details">
+                <!-- Book details will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Collection Modal -->
+    <div id="shareCollectionModal" class="share-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shareModalTitle">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 id="shareModalTitle">Share Book Collection</h3>
+                <button class="share-modal-close" aria-label="Close share modal">&times;</button>
+            </div>
+            <p>Share this collection with friends and fellow book lovers:</p>
+            <div class="share-options" role="group" aria-label="Share options">
+                <div class="share-option" data-platform="facebook" role="button" tabindex="0" aria-label="Share on Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                    <span>Facebook</span>
+                </div>
+                <div class="share-option" data-platform="twitter" role="button" tabindex="0" aria-label="Share on Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                    <span>Twitter</span>
+                </div>
+                <div class="share-option" data-platform="whatsapp" role="button" tabindex="0" aria-label="Share on WhatsApp">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    <span>WhatsApp</span>
+                </div>
+                <div class="share-option" data-platform="email" role="button" tabindex="0" aria-label="Share via Email">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    <span>Email</span>
+                </div>
+            </div>
+            <div class="share-link-container">
+                <h4 id="shareLinkLabel">Or copy this link:</h4>
+                <div class="share-link-input">
+                    <input type="text" id="shareLink" readonly aria-labelledby="shareLinkLabel">
+                    <button id="copyShareLink" aria-label="Copy link to clipboard">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add proper footer landmarks -->
+    <footer role="contentinfo">
+        <div class="container">
+        <div class="footer-content">
+                <div class="footer-section about">
+                <h3>About Literary Hub</h3>
+                    <p>A digital sanctuary for book lovers, connecting readers with extraordinary stories from around the world.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section quick-links">
+                <h3>Quick Links</h3>
+                <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> Books</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> Genres</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> About</a></li>
+                </ul>
+            </div>
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> 123 Book Street, Literary Lane</li>
+                        <li><i class="fas fa-phone" aria-hidden="true"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:contact@literaryhub.com">contact@literaryhub.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest book recommendations and updates.</p>
+                <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" aria-label="Email for newsletter">
+                        <button type="submit">Subscribe</button>
+                </form>
+                </div>
+            </div>
+        <div class="footer-bottom">
+                <p>&copy; 2024 Literary Hub. All Rights Reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification container for system messages -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="collection-detail.js"></script>
+    <script src="../Gallery.js"></script>
+    <script>
+        // Add js class to body for progressive enhancement
+        document.body.classList.remove('no-js');
+        document.body.classList.add('js');
+        
+        // Use jQuery for better cross-browser compatibility with loader
+        $(document).ready(function() {
+            // Ensure all animations are running
+            setTimeout(function() {
+                $(".se-pre-con").fadeOut("slow");
+                document.body.classList.add('loaded');
+            }, 3000);
+        });
+        
+        // Make navigation icons interactive
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item a, .nav-item button');
+            
+            navItems.forEach(item => {
+                // Add pulse animation on click
+                item.addEventListener('click', function(e) {
+                    const icon = this.querySelector('i');
+                    if (icon) {
+                        // Remove animation if it exists
+                        icon.classList.remove('icon-pulse');
+                        
+                        // Trigger reflow to restart animation
+                        void icon.offsetWidth;
+                        
+                        // Add animation class
+                        icon.classList.add('icon-pulse');
+                    }
+                });
+                
+                // Add hover effect for better visual feedback
+                item.addEventListener('mouseenter', function() {
+                    this.classList.add('nav-hover');
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.classList.remove('nav-hover');
+                });
+            });
+        });
+
+        // API Integration
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
+        // Get token from localStorage
+        const getToken = () => localStorage.getItem('token');
+        
+        // Headers with authentication
+        const getAuthHeaders = () => {
+            const token = getToken();
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            return headers;
+        };
+        
+        // Fetch collection details
+        async function fetchCollectionDetails(collectionId) {
+            if (!collectionId) {
+                showNotification('Collection ID not found in URL', 'error');
+                return null;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/collections/${collectionId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch collection details');
+                }
+                
+                const data = await response.json();
+                return data.data;
+            } catch (error) {
+                console.error('Error fetching collection details:', error);
+                showNotification('Error loading collection details', 'error');
+                return null;
+            }
+        }
+        
+        // Render collection details
+        function renderCollectionDetails(collection) {
+            if (!collection) return;
+            
+            // Update page title
+            document.title = `${collection.name} - Literary Hub`;
+            
+            // Update collection header
+            const collectionTitle = document.querySelector('h1');
+            if (collectionTitle) {
+                collectionTitle.textContent = collection.name;
+            }
+            
+            // Render books in the collection
+            const booksGrid = document.getElementById('booksGrid');
+            if (booksGrid && collection.books && collection.books.length > 0) {
+                booksGrid.innerHTML = '';
+                
+                collection.books.forEach(book => {
+                    const bookCard = createBookCard(book);
+                    booksGrid.appendChild(bookCard);
+                });
+            } else if (booksGrid) {
+                booksGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-book-open"></i>
+                        <h3>No books in this collection</h3>
+                        <p>This collection is empty</p>
+                    </div>
+                `;
+            }
+            
+            // Update recommended books if available
+            updateRecommendedBooks(collection);
+        }
+        
+        // Create book card element
+        function createBookCard(book) {
+            const bookCard = document.createElement('div');
+            bookCard.className = 'book-card';
+            bookCard.setAttribute('role', 'listitem');
+            bookCard.setAttribute('data-id', book._id || book.id);
+            
+            bookCard.innerHTML = `
+                <div class="book-cover">
+                    <img src="${book.coverImage}" alt="${book.title}" loading="lazy" class="lazy-image">
+                </div>
+                <div class="book-info">
+                    <h3>${book.title}</h3>
+                    <h4>${book.author}</h4>
+                    <div class="book-meta">
+                        <div class="book-rating">
+                            <i class="fas fa-star"></i>
+                            <span>${book.rating}</span>
+                        </div>
+                    </div>
+                    ${book.tags && book.tags.length > 0 ? `
+                        <div class="book-tags">
+                            ${book.tags.slice(0, 2).map(tag => `<span class="book-tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            // Add click event to show book details
+            bookCard.addEventListener('click', () => {
+                showBookDetails(book._id || book.id);
+            });
+            
+            return bookCard;
+        }
+        
+        // Update recommended books section
+        function updateRecommendedBooks(collection) {
+            const recommendedBooksList = document.getElementById('recommendedBooksList');
+            if (!recommendedBooksList) return;
+            
+            // Clear existing content
+            recommendedBooksList.innerHTML = '';
+            
+            // Get books for recommendations (using first 3 books or all if less than 3)
+            const recommendedBooks = collection.books ? collection.books.slice(0, 3) : [];
+            
+            if (recommendedBooks.length === 0) {
+                recommendedBooksList.innerHTML = '<p>No recommended books available</p>';
+                return;
+            }
+            
+            // Add recommended books
+            recommendedBooks.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'recommended-book-card';
+                bookCard.setAttribute('role', 'listitem');
+                
+                bookCard.innerHTML = `
+                    <img src="${book.coverImage}" alt="Book cover of ${book.title}">
+                    <div class="recommended-book-info">
+                        <div>
+                            <h4>${book.title}</h4>
+                            <p>${book.author}</p>
+                            <div class="recommended-book-meta">
+                                <span class="recommended-book-rating" aria-label="Rating: ${book.rating} out of 5 stars">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <span>${book.rating}</span>
+                                </span>
+                                ${book.genre ? `<span class="book-badge">${book.genre}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                recommendedBooksList.appendChild(bookCard);
+            });
+        }
+        
+        // Initialize page with collection data
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Get IDs from URL
+                const { collectionId, bookId } = getIdFromUrl();
+                
+                if (bookId) {
+                    // If bookId is present, show single book details
+                    await showBookDetails(bookId);
+                    return;
+                }
+                
+                if (collectionId) {
+                    // If only collectionId is present, show collection
+                    const collection = await fetchCollectionDetails(collectionId);
+                    if (collection) {
+                        renderCollectionDetails(collection);
+                    }
+                } else {
+                    // No valid IDs found
+                    showNotification('No collection or book ID found in URL', 'error');
+                }
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showNotification('Error loading page data', 'error');
+            }
+        });
+        
+        // Get collection or book ID from URL
+        function getIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const collectionId = urlParams.get('id');
+            const bookId = urlParams.get('bookId');
+            
+            return { collectionId, bookId };
+        }
+
+        // Show book details
+        async function showBookDetails(bookId) {
+            try {
+                // Fetch book details from API
+                const response = await fetch(`${API_BASE_URL}/books/${bookId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch book details');
+                }
+                
+                const data = await response.json();
+                const book = data.data;
+                
+                if (!book) {
+                    showNotification('Book not found', 'error');
+                    return;
+                }
+                
+                // Update page title
+                document.title = `${book.title} - Literary Hub`;
+                
+                // Show book details in modal
+                const modal = document.getElementById('bookDetailsModal');
+                const modalContent = modal.querySelector('.modal-book-details');
+                
+                modalContent.innerHTML = `
+                    <div class="modal-book-header">
+                        <h2 id="modalBookTitle">${book.title}</h2>
+                        <p class="modal-book-author">by ${book.author}</p>
+                    </div>
+                    <div class="modal-book-content">
+                        <div class="modal-book-image">
+                            <img src="${book.coverImage}" alt="Cover of ${book.title}">
+                        </div>
+                        <div class="modal-book-info">
+                            <div class="modal-book-meta">
+                                <span class="modal-book-rating">
+                                    <i class="fas fa-star"></i> ${book.rating || '4.5'}
+                                </span>
+                                <span class="modal-book-genre">${book.genre || 'Fiction'}</span>
+                                <span class="modal-book-pages">${book.pages || '320'} pages</span>
+                            </div>
+                            <div class="modal-book-description">
+                                <h3>Description</h3>
+                                <p>${book.description}</p>
+                            </div>
+                            <div class="modal-book-actions">
+                                <button class="modal-action-btn add-to-reading-list" data-id="${book._id}">
+                                    <i class="fas fa-bookmark"></i> Add to Reading List
+                                </button>
+                                <button class="modal-action-btn share-book" data-id="${book._id}">
+                                    <i class="fas fa-share-alt"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="related-books-section">
+                        <h3>Related Books</h3>
+                        <div class="related-books-container" id="relatedBooksContainer">
+                            <div class="loading-related">Loading related books...</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Show modal
+                modal.classList.add('show');
+                modal.setAttribute('aria-hidden', 'false');
+                
+                // Add event listeners
+                const closeBtn = modal.querySelector('.close-modal');
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('show');
+                    modal.setAttribute('aria-hidden', 'true');
+                });
+                
+                // Close on outside click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('show');
+                        modal.setAttribute('aria-hidden', 'true');
+                    }
+                });
+                
+                // Add reading list functionality
+                const addToReadingListBtn = modal.querySelector('.add-to-reading-list');
+                if (addToReadingListBtn) {
+                    addToReadingListBtn.addEventListener('click', () => {
+                        toggleReadingList(book._id, addToReadingListBtn);
+                    });
+                }
+                
+                // Add share functionality
+                const shareBookBtn = modal.querySelector('.share-book');
+                if (shareBookBtn) {
+                    shareBookBtn.addEventListener('click', () => {
+                        shareBook(book);
+                    });
+                }
+                
+                // Fetch and display related books
+                fetchRelatedBooks(book);
+                
+            } catch (error) {
+                console.error('Error showing book details:', error);
+                showNotification('Error loading book details', 'error');
+            }
+        }
+        
+        // Fetch related books based on genre or author
+        async function fetchRelatedBooks(book) {
+            try {
+                // Fetch books with the same genre or by the same author
+                const genreResponse = await fetch(`${API_BASE_URL}/books?genre=${encodeURIComponent(book.genre)}&limit=3`);
+                const authorResponse = await fetch(`${API_BASE_URL}/books?author=${encodeURIComponent(book.author)}&limit=3`);
+                
+                let relatedBooks = [];
+                
+                if (genreResponse.ok) {
+                    const genreData = await genreResponse.json();
+                    relatedBooks = [...relatedBooks, ...genreData.data.filter(b => b._id !== book._id)];
+                }
+                
+                if (authorResponse.ok) {
+                    const authorData = await authorResponse.json();
+                    // Add books by the same author that aren't already in the list
+                    authorData.data.forEach(authorBook => {
+                        if (authorBook._id !== book._id && !relatedBooks.some(b => b._id === authorBook._id)) {
+                            relatedBooks.push(authorBook);
+                        }
+                    });
+                }
+                
+                // Limit to 4 related books
+                relatedBooks = relatedBooks.slice(0, 4);
+                
+                // Display related books
+                displayRelatedBooks(relatedBooks);
+                
+            } catch (error) {
+                console.error('Error fetching related books:', error);
+                const relatedBooksContainer = document.getElementById('relatedBooksContainer');
+                if (relatedBooksContainer) {
+                    relatedBooksContainer.innerHTML = '<p>Could not load related books</p>';
+                }
+            }
+        }
+        
+        // Display related books in the modal
+        function displayRelatedBooks(books) {
+            const relatedBooksContainer = document.getElementById('relatedBooksContainer');
+            if (!relatedBooksContainer) return;
+            
+            if (!books || books.length === 0) {
+                relatedBooksContainer.innerHTML = '<p>No related books found</p>';
+                return;
+            }
+            
+            let html = '<div class="related-books-grid">';
+            
+            books.forEach(book => {
+                html += `
+                    <div class="related-book-card" data-id="${book._id}">
+                        <div class="related-book-cover">
+                            <img src="${book.coverImage}" alt="Cover of ${book.title}" loading="lazy">
+                        </div>
+                        <div class="related-book-info">
+                            <h4>${book.title}</h4>
+                            <p>${book.author}</p>
+                            <div class="related-book-rating">
+                                <i class="fas fa-star"></i> ${book.rating || '4.5'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            relatedBooksContainer.innerHTML = html;
+            
+            // Add click event to related books
+            const relatedBookCards = relatedBooksContainer.querySelectorAll('.related-book-card');
+            relatedBookCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const bookId = card.dataset.id;
+                    // Close current modal
+                    const modal = document.getElementById('bookDetailsModal');
+                    modal.classList.remove('show');
+                    modal.setAttribute('aria-hidden', 'true');
+                    
+                    // Show details for the clicked related book
+                    setTimeout(() => {
+                        showBookDetails(bookId);
+                    }, 300);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

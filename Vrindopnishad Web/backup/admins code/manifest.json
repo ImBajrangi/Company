@@ -1,0 +1,64 @@
+{
+  "name": "Vrindopnishad Admin",
+  "short_name": "VrindAdmin",
+  "description": "Admin panel for Vrindopnishad website",
+  "start_url": "./admin.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4361EE",
+  "icons": [
+    {
+      "src": "./icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "any",
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "categories": ["admin", "books", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Gallery Management",
+      "short_name": "Gallery",
+      "description": "Manage gallery items",
+      "url": "./admin.html#gallery",
+      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Books Management",
+      "short_name": "Books",
+      "description": "Manage books in the system",
+      "url": "./admin.html#books",
+      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Collections Management",
+      "short_name": "Collections",
+      "description": "Manage book collections",
+      "url": "./admin.html#collections",
+      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "PDFs Management",
+      "short_name": "PDFs",
+      "description": "Manage PDF documents",
+      "url": "./admin.html#pdfs",
+      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Users Management",
+      "short_name": "Users",
+      "description": "Manage system users",
+      "url": "./admin.html#users",
+      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+} 

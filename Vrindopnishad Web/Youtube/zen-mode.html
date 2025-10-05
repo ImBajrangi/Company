@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen - AI Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #65adff;
+            --accent-hover: #1e8fff3c;
+            --border: #2a2a2a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-hover: rgba(4, 0, 75, 0.08);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(74, 158, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(74, 158, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 20%, rgba(74, 158, 255, 0.08) 0%, transparent 50%);
+            animation: float 20s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.1) translateY(-20px); }
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-container {
+            margin-bottom: 3rem;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), #6bb6ff);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 10px 40px rgba(74, 158, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 15px 10px 100px rgba(57, 146, 248, 0.5);
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        .search-wrapper {
+            position: relative;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-wrapper:hover,
+        .search-wrapper:focus-within {
+            background: var(--glass-hover);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 60px rgba(74, 158, 255, 0.2);
+        }
+
+        .search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 18px;
+            outline: none;
+            padding: 0.5rem 2.5rem 0.5rem 0;
+            font-weight: 400;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+            transition: opacity 0.3s;
+        }
+
+        .search-input:focus::placeholder {
+            opacity: 0.5;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-button:hover {
+            color: var(--accent);
+            background: var(--glass);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .search-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .suggestions {
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            animation: slideUp 0.5s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .suggestion {
+            padding: 0.6rem 1.2rem;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .suggestion::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, var(--accent-hover) 0%, transparent 90%);
+            transition: width 0.5s, height 0.5s;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .suggestion:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .suggestion:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            transform: translateY(-1px) scale(1.05);
+            background: var(--glass-hover);
+            z-index: 1;
+        }
+
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        /* Floating particles animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 10s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-input {
+                font-size: 16px;
+            }
+            
+            .suggestions {
+                gap: 0.5rem;
+            }
+            
+            .suggestion {
+                font-size: 12px;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo">Z</div>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" placeholder="Ask anything..." autofocus>
+                <button class="search-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="suggestions">
+            <div class="suggestion">Explain quantum computing</div>
+            <div class="suggestion">Latest AI breakthroughs</div>
+            <div class="suggestion">Climate change solutions</div>
+            <div class="suggestion">Space exploration updates</div>
+            <div class="suggestion">Future of technology</div>
+            <div class="suggestion">Scientific discoveries</div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div>Zen Mode - Distraction-free AI search</div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">About</a>
+            <a href="#" class="footer-link">Privacy</a>
+            <a href="#" class="footer-link">Terms</a>
+            <a href="#" class="footer-link">Help</a>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 30;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Handle search
+        const searchInput = document.querySelector('.search-input');
+        const searchButton = document.querySelector('.search-button');
+        const suggestions = document.querySelectorAll('.suggestion');
+        
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // Animate the search action
+                searchButton.style.transform = 'translateY(-50%) scale(0.8)';
+                setTimeout(() => {
+                    searchButton.style.transform = 'translateY(-50%)';
+                }, 200);
+                
+                // In a real implementation, this would send the search query
+                console.log('Searching for:', query);
+                
+                // Visual feedback
+                const wrapper = document.querySelector('.search-wrapper');
+                wrapper.style.background = 'rgba(74, 158, 255, 0.1)';
+                setTimeout(() => {
+                    wrapper.style.background = '';
+                }, 300);
+            }
+        }
+        
+        searchButton.addEventListener('click', performSearch);
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Handle suggestion clicks
+        suggestions.forEach(suggestion => {
+            suggestion.addEventListener('click', () => {
+                searchInput.value = suggestion.textContent;
+                searchInput.focus();
+                
+                // Ripple effect
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.background = 'rgba(74, 158, 255, 0.5)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                
+                const rect = suggestion.getBoundingClientRect();
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                
+                suggestion.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+        
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                0% {
+                    width: 20px;
+                    height: 20px;
+                    opacity: 0.5;
+                }
+                100% {
+                    width: 200px;
+                    height: 200px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Dynamic typing effect for placeholder
+        const placeholders = [
+            'Ask anything...',
+            'Search the web intelligently...',
+            'Discover insights...',
+            'Explore ideas...',
+            'Find answers...'
+        ];
+        
+        let currentPlaceholder = 0;
+        
+        setInterval(() => {
+            if (!searchInput.value) {
+                searchInput.style.opacity = '0.7';
+                setTimeout(() => {
+                    currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
+                    searchInput.placeholder = placeholders[currentPlaceholder];
+                    searchInput.style.opacity = '1';
+                }, 300);
+            }
+        }, 4000);
+    </script>
+</body>
+</html>

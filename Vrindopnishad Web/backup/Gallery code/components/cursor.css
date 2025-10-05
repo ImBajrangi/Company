@@ -1,0 +1,102 @@
+/* Advanced custom cursor styling */
+.cosmic-cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+  mix-blend-mode: difference;
+}
+
+.cosmic-cursor-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  filter: drop-shadow(0 0 4px rgba(114, 186, 255, 0.8));
+}
+
+.cosmic-cursor-circle {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border 0.3s;
+  filter: drop-shadow(0 0 8px rgba(114, 186, 255, 0.4));
+}
+
+/* Hover state */
+.cosmic-cursor-container.cursor-hover .cosmic-cursor-dot {
+  width: 12px;
+  height: 12px;
+  background: #7eb5ff;
+}
+
+.cosmic-cursor-container.cursor-hover .cosmic-cursor-circle {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(126, 181, 255, 0.6);
+  border-width: 3px;
+}
+
+/* View state (for gallery images) */
+.cosmic-cursor-container.cursor-view .cosmic-cursor-dot {
+  width: 10px;
+  height: 10px;
+  background: #c582ff;
+}
+
+.cosmic-cursor-container.cursor-view .cosmic-cursor-circle {
+  width: 70px;
+  height: 70px;
+  border-color: rgba(197, 130, 255, 0.6);
+  border-width: 2px;
+}
+
+.cosmic-cursor-container.cursor-view .cosmic-cursor-circle:before {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+/* Link state */
+.cosmic-cursor-container.cursor-link .cosmic-cursor-circle {
+  width: 55px;
+  height: 55px;
+  border-color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 0;
+}
+
+/* Click state */
+.cosmic-cursor-container.cursor-click .cosmic-cursor-dot {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.cosmic-cursor-container.cursor-click .cosmic-cursor-circle {
+  transform: translate(-50%, -50%) scale(0.8);
+  border-width: 3px;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .cosmic-cursor-container {
+    display: none;
+  }
+  
+  body {
+    cursor: auto !important;
+  }
+} 

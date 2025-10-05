@@ -1,0 +1,357 @@
+/* General reset and base styling */
+.page-four * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Consolas, monospace;
+}
+
+.page-four {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgba(76, 8, 8, 0.00001);
+}
+
+.page-four .container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 12px; /* Reduce gap */
+    width: 200%; /* Increase width */
+    max-width: 1200px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    height: 150vh; /* Increase height */
+}
+
+.page-four .container .box {
+    position: relative;
+    width: 380px; /* Increase width */
+    height: 480px; /* Increase height */
+    margin: 20px; /* Reduce margin */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1a1a1f;
+    overflow: hidden;
+    border-radius: 25px; /* Rounded corners */
+    transition: 0.5s;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6); /* Match shadow */
+    z-index: 0; /* Shift the boxes' z-index under the menubar */
+}
+
+.page-four .container .box:hover {
+    background: #03f4f494;
+    z-index: 1; /* Ensure the hovered box is above others but still under the menubar */
+    box-shadow: 
+        0 5px 25px #03e9f4,
+        0 0 50px #03e9f4,
+        0 0 200px #03e9f4;
+}
+
+.page-four .container .box:nth-child(2):hover {
+    background: #f9fc63; /* Yellow */
+    box-shadow: 
+        0 5px 25px #f9fc63,
+        0 0 50px #f9fc63,
+        0 0 200px #f9fc63;
+}
+
+.page-four .container .box:nth-child(1):hover {
+    background: #62fbe7; /* Green */
+    box-shadow: 
+        0 5px 25px #62fbe7,
+        0 0 50px #62fbe7,
+        0 0 200px #62fbe7;
+}
+
+.page-four .container .box:nth-child(3):hover {
+    background: #fb932b; /* Orange */
+    box-shadow: 
+        0 5px 25px #fb932b,
+        0 0 50px #fb932b,
+        0 0 200px #fb932b;
+}
+
+.page-four .container .box:hover .content {
+    color: #000; /* Change text color on hover */
+}
+
+.page-four .container .box .content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #03e9f4;
+    text-align: center;
+}
+
+.page-four .container .box .content h2 {
+    font-size: 2.5em; /* Increase font size */
+    margin-bottom: 10px;
+}
+
+.page-four .container .box .content p {
+    line-height: 1.6;
+    font-size: 1.1rem; /* Increase font size */
+    text-align: justify;
+}
+
+/* Styling and animation for border effects */
+.page-four .container .box span {
+    position: absolute;
+    display: block;
+    pointer-events: none;
+}
+
+/* Top border animation */
+.page-four .container .box span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 105%; /* Extend slightly to prevent gaps */
+    height: 7px; /* Thin border */
+    background: linear-gradient(90deg, transparent, #03e9f4, transparent);
+    animation: animate1 2s linear infinite;
+    animation-delay: 2s;
+}
+
+.page-four .container .box span:nth-child(1):hover {
+    background-color: #ff0000; /* Red */
+}
+
+/* Right border animation */
+.page-four .container .box span:nth-child(2) { /*not working*/
+    top: -100px; /* Slight adjustment for seamless visibility */
+    right: 0;
+    width: 7px; /* Thin border */
+    height: 105%; /* Extend slightly to prevent gaps */
+    background: linear-gradient(180deg, transparent, #f0095a, transparent);
+    animation: animate2 2s linear infinite;
+    animation-delay: 0s;
+}
+
+.page-four .container .box span:nth-child(2):hover {
+    background-color: #fffc50; /* Green */
+}
+
+/* Bottom border animation */
+.page-four .container .box span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 105%; /* Extend slightly to prevent gaps */
+    height: 7px; /* Thin border */
+    background: linear-gradient(270deg, transparent, #f607d6, transparent);
+    animation: animate3 2s linear infinite;
+    animation-delay: 0.8s;
+}
+
+.page-four .container .box span:nth-child(3):hover {
+    background-color: #ff00ff; /* Blue */
+}
+
+/* Left border animation */
+.page-four .container .box span:nth-child(4) {
+    bottom: -100px; /* Slight adjustment for seamless visibility */
+    left: 0;
+    width: 7px; /* Thin border */
+    height: 105%; /* Extend slightly to prevent gaps */
+    background: linear-gradient(360deg, transparent, #c16a00, transparent);
+    animation: animate4 2s linear infinite;
+    animation-delay: 1.55s;
+}
+
+.page-four .container .box span:nth-child(4):hover {
+    background-color: #ff00ff; /* Magenta */
+}
+
+/* Keyframes for animations */
+@keyframes animate1 {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes animate2 {
+    0% {
+        top: -100%;
+    }
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes animate3 {
+    0% {
+        right: -100%;
+    }
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes animate4 {
+    0% {
+        bottom: -100%;
+    }
+    100% {
+        bottom: 100%;
+    }
+}
+
+.video-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+    animation: fadeIn 0.5s ease-in-out; /* Add fade-in animation */
+}
+
+.video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%; /* Increase width */
+    max-width: 2500px; /* Increase max-width */
+    background-color: transparent; /* Dark background */
+    border-radius: 20px; /* Slightly rounded corners */
+    animation: slideIn 0.6s ease-in-out; /* Add slide-in animation */
+    border: none; /* Remove border */
+    transition: all 0.8s ease-in-out; /* Smooth transition */
+    height: 90vh; /* Increase height */
+}
+
+video {
+    width: 100%;
+    height: 100%; /* Increase height */
+    border-radius: 30px;
+    box-shadow: 0 0px 15px rgba(129, 128, 128, 0.3); /* Add shadow to video */
+}
+
+@media (max-width: 1024px) {
+    .video-modal-content {
+        width: 90%; /* Adjust width for tablets */
+        height: 85vh; /* Increase height for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .video-modal-content {
+        width: 100%; /* Adjust width for mobile */
+        height: 80vh; /* Increase height for mobile */
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f7e57e; /* Make the button white */
+    color: #000; /* Make the text black */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 15px; /* Add rounded corners */
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 1001;
+    transition: background 0.3s ease;
+}
+
+.close-button:hover {
+    background: #f2dc7d; /* Change background on hover */
+}
+
+.video-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 10px;
+    border-radius: 10px; /* Rounded corners */
+}
+
+.video-controls button,
+.video-controls input[type="range"] {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.video-controls button:hover,
+.video-controls input[type="range"]:hover {
+    background: #555555;
+}
+
+.video-controls input[type="range"] {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.video-controls span {
+    color: #f8fa9d; /* Change text color to white */
+    font-size: 14px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cursor-circle {
+    display: none; /* Hide the circle */
+}
+
+.cursor-circle img {
+    width: 20px;
+    height: 20px;
+}
+
+.video-modal .cursor-circle {
+    display: flex; /* Show the circle only on the video modal */
+}
+
+.scroll-text {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    color: #f8c454;
+    font-size: 1.2rem;
+    font-family: Consolas, monospace;
+    padding: 1px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+}

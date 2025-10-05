@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad</title>
+    <link rel="shortcut icon" href="./image/icon_main_02.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        :root {
+            --primary-color: #f9d423;
+            --secondary-color: #ff4e50;
+            --dark-bg: #0a0a1f;
+            --font-primary: 'Space Grotesk', sans-serif;
+        }
+
+        @font-face {
+            font-family: 'Voyage';
+            src: url('https://cdn.jsdelivr.net/gh/marioecg/voyage-font/Voyage-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--dark-bg);
+            font-family: var(--font-primary);
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background-color: rgba(105, 233, 227, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            width: 24px;
+            height: 24px;
+            background-color: rgba(105, 233, 227, 0.7);
+        }
+
+        .cursor.click {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(105, 233, 227, 0.9);
+            transition: width 0.1s ease, height 0.1s ease;
+        }
+
+        /* Improved cursor follower with elastic bubble effect */
+        .cursor-follower {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #f1e041;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.7;
+            mix-blend-mode: difference;
+            filter: blur(1px);
+            transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        opacity 0.3s ease,
+                        background-color 0.3s ease;
+            transform-origin: center center;
+            animation: cursorPulse 2s infinite alternate;
+        }
+
+        /* Elastic animation for cursor follower */
+        @keyframes cursorPulse {
+            0% {
+                transform: scale(1) translate(-50%, -50%);
+            }
+            50% {
+                transform: scale(1.1) translate(-45%, -45%);
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+            }
+        }
+
+        .cursor-follower.hover {
+            width: 16px;
+            height: 16px;
+            opacity: 0.9;
+            background-color: #f1e041;
+            animation: cursorElastic 1s infinite alternate;
+        }
+
+        /* Elastic animation for hover state */
+        @keyframes cursorElastic {
+            0% {
+                transform: scale(1) translate(-50%, -50%);
+                border-radius: 50%;
+            }
+            25% {
+                transform: scale(1.2) translate(-40%, -40%);
+                border-radius: 40%;
+            }
+            50% {
+                transform: scale(1.1) translate(-45%, -45%);
+                border-radius: 45%;
+            }
+            75% {
+                transform: scale(1.15) translate(-43%, -43%);
+                border-radius: 42%;
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+                border-radius: 50%;
+            }
+        }
+
+        .cursor-follower.click {
+            width: 6px;
+            height: 6px;
+            opacity: 1;
+            transition: all 0.1s ease;
+        }
+
+        /* Main container */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Canvas background */
+        .webgl {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Loader card */
+        .loader-card {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background: transparent;
+            z-index: 2;
+        }
+
+        .loader-inner {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            text-align: center;
+        }
+
+        .loader-inner.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            height: 90px;
+        }
+
+        .logo-text {
+            font-family: 'Voyage', serif;
+            font-size: 4rem;
+            color: #fff;
+            line-height: 1;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .logo-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--dark-bg);
+            transform: translateY(100%);
+            z-index: 2;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: #fff;
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .language-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .language-btn {
+            position: relative;
+            padding: 12px 30px;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            overflow: hidden;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            border-color: #fff;
+        }
+
+        .language-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .language-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        /* Text animation */
+        .split-word {
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .split-word span {
+            display: inline-block;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .split-word.active span {
+            transform: translateY(0);
+        }
+
+        .split-word:nth-child(1) span { transition-delay: 0.1s; }
+        .split-word:nth-child(2) span { transition-delay: 0.2s; }
+
+        /* Background noise effect */
+        .noise {
+            position: fixed;
+            top: -400px;
+            left: -400px;
+            right: -400px;
+            bottom: -400px;
+            background: url('data:image/png;base64,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');
+            opacity: 0.02;
+            z-index: 1;
+            animation: noise 8s steps(10) infinite;
+        }
+
+        @keyframes noise {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(-10%, 5%); }
+            30% { transform: translate(5%, -10%); }
+            40% { transform: translate(-5%, 15%); }
+            50% { transform: translate(-10%, 5%); }
+            60% { transform: translate(15%, 0); }
+            70% { transform: translate(0, 10%); }
+            80% { transform: translate(-15%, 0); }
+            90% { transform: translate(10%, 5%); }
+        }
+
+        /* Mobile menu styles */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        body.menu-open .menu-overlay {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile responsive improvements */
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 3rem;
+            }
+            
+            .language-options {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .language-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 2.5rem;
+            }
+            
+            .logo-container {
+                height: 70px;
+                margin-bottom: 30px;
+            }
+            
+            .loading-text {
+                font-size: 0.85rem;
+                margin-bottom: 30px;
+            }
+            
+            .language-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile menu button styles */
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer !important;
+            z-index: 9999;
+            transition: transform 0.3s ease;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            margin: -15px;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* Mobile menu button animation */
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* Navigation styles */
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: rgba(10, 10, 31, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1), visibility 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            z-index: 9998;
+            padding: 80px 30px 30px;
+            overflow-y: auto;
+            visibility: hidden;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        nav.active {
+            transform: translateX(0);
+            visibility: visible;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        nav a {
+            font-size: 1.2rem;
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.8;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            transform: translateX(10px);
+        }
+
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .nav-close {
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-close:hover {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Menu overlay for mobile -->
+    <div class="menu-overlay"></div>
+    
+    <!-- Background noise effect -->
+    <div class="noise"></div>
+    
+    <!-- Canvas background -->
+    <canvas class="webgl"></canvas>
+    
+    <div class="container">
+        <div class="loader-card">
+            <div class="loader-inner">
+                <div class="logo-container">
+                    <h1 class="logo-text">
+                        <div class="split-word"><span>Vrind</span></div>
+                        <div class="split-word"><span>opnishad</span></div>
+                    </h1>
+                    <div class="logo-mask"></div>
+                </div>
+                
+                <div class="loading-text">Loading experience</div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu button for mobile -->
+    <div class="mobile-menu-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation menu -->
+    <nav aria-hidden="true">
+        <ul>
+            <li><a href="home.html" class="text-hover">Home</a></li>
+            <li><a href="home.html#projects" class="text-hover">Work</a></li>
+            <li><a href="home.html#about" class="text-hover">About</a></li>
+            <li><a href="home.html#contact" class="text-hover">Contact</a></li>
+            <li class="nav-divider"></li>
+            <li class="language-item">
+                <span class="language-label">Language</span>
+                <div class="language-switch-nav">
+                    <a href="home.html" class="language-btn-nav">English</a>
+                    <a href="home_hindi.html" class="language-btn-nav">हिंदी</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Animation sequence with language selection
+        const loaderInner = document.querySelector('.loader-inner');
+        const progressBar = document.querySelector('.progress-bar');
+        const splitWords = document.querySelectorAll('.split-word');
+        const logoMask = document.querySelector('.logo-mask');
+        
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        if (cursor && cursorFollower) {
+            let mouseX = 0;
+            let mouseY = 0;
+            let cursorX = 0;
+            let cursorY = 0;
+            let followerX = 0;
+            let followerY = 0;
+            let speed = 0.2; // Cursor speed
+            let followerSpeed = 0.1; // Follower speed (slower for elastic effect)
+            
+            // Spring effect variables
+            let springFactor = 0.08;
+            let dx = 0;
+            let dy = 0;
+            let tx = 0;
+            let ty = 0;
+            
+            // Update cursor position with animation frame for smooth movement
+            const updateCursor = () => {
+                // Calculate cursor position with simple lerp
+                cursorX += (mouseX - cursorX) * speed;
+                cursorY += (mouseY - cursorY) * speed;
+                
+                // Apply cursor position
+                cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+                
+                // Calculate spring physics for follower
+                dx = mouseX - followerX;
+                dy = mouseY - followerY;
+                
+                // Add spring effect
+                tx = dx * springFactor;
+                ty = dy * springFactor;
+                
+                // Apply spring physics to follower position
+                followerX += tx;
+                followerY += ty;
+                
+                // Apply follower position with transform translate for better performance
+                cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px) translate(-50%, -50%)`;
+                
+                // Continue animation loop
+                requestAnimationFrame(updateCursor);
+            };
+            
+            // Track mouse position
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            // Handle hover states
+            const hoverElements = document.querySelectorAll('a, button, .btn, .language-btn-nav, .nav-close');
+            
+            hoverElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                    cursorFollower.classList.add('hover');
+                    // Increase spring factor for more elasticity on hover
+                    springFactor = 0.15;
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                    cursorFollower.classList.remove('hover');
+                    // Reset spring factor
+                    springFactor = 0.08;
+                });
+            });
+            
+            // Handle click states
+            document.addEventListener('mousedown', () => {
+                cursor.classList.add('click');
+                cursorFollower.classList.add('click');
+                // Add squish effect on click
+                cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px) translate(-50%, -50%) scale(0.8)`;
+            });
+            
+            document.addEventListener('mouseup', () => {
+                cursor.classList.remove('click');
+                cursorFollower.classList.remove('click');
+                // Reset scale
+                cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px) translate(-50%, -50%)`;
+            });
+            
+            // Start animation loop
+            updateCursor();
+            
+            // Hide cursor when leaving window
+            document.addEventListener('mouseleave', () => {
+                cursor.style.opacity = '0';
+                cursorFollower.style.opacity = '0';
+            });
+            
+            document.addEventListener('mouseenter', () => {
+                cursor.style.opacity = '1';
+                cursorFollower.style.opacity = '1';
+            });
+        }
+        
+        // Animation sequence
+        window.addEventListener('load', () => {
+            // Show loader with delay
+            setTimeout(() => {
+                loaderInner.classList.add('show');
+            }, 300);
+            
+            // Animate logo text
+            setTimeout(() => {
+                splitWords.forEach(word => {
+                    word.classList.add('active');
+                });
+                
+                // Animate logo mask
+                setTimeout(() => {
+                    logoMask.style.transform = 'translateY(0%)';
+                    
+                    // Animate progress bar
+                    setTimeout(() => {
+                        let width = 0;
+                        const interval = setInterval(() => {
+                            if (width >= 100) {
+                                clearInterval(interval);
+                                
+                                // Auto redirect after animation completes
+                                setTimeout(() => {
+                                    // Check if user has previously selected a language
+                                    const selectedLang = localStorage.getItem('preferredLanguage');
+                                    
+                                    if (selectedLang) {
+                                        // Use the stored preference
+                                        if (selectedLang === 'hindi') {
+                                            window.location.href = 'home_hindi.html';
+                                        } else {
+                                            window.location.href = 'home.html';
+                                        }
+                                    } else {
+                                        // Check browser language
+                                        const userLang = navigator.language || navigator.userLanguage;
+                                        if (userLang.startsWith('hi')) {
+                                            window.location.href = 'home_hindi.html';
+                                        } else {
+                                            window.location.href = 'home.html';
+                                        }
+                                    }
+                                }, 500);
+                                
+                            } else {
+                                width++;
+                                progressBar.style.width = width + '%';
+                            }
+                        }, 20);
+                    }, 400);
+                }, 800);
+            }, 600);
+        });
+        
+        // Three.js background
+        const canvas = document.querySelector('.webgl');
+        const scene = new THREE.Scene();
+        
+        // Camera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+        scene.add(camera);
+        
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            antialias: true,
+            alpha: true
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        // Create particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 10000;
+        
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 20;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        // Materials
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.015,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.6
+        });
+        
+        // Mesh
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+        
+        // Mouse movement effect
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - window.innerWidth / 2) / 100;
+            mouseY = (event.clientY - window.innerHeight / 2) / 100;
+        }
+        
+        document.addEventListener('mousemove', onDocumentMouseMove);
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            // Update camera
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            
+            // Update renderer
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        });
+        
+        // Animation
+        const clock = new THREE.Clock();
+        
+        const animate = () => {
+            const elapsedTime = clock.getElapsedTime();
+            
+            // Rotate particle mesh
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+            
+            // Move particle mesh with mouse
+            particlesMesh.rotation.y += mouseX * 0.01;
+            particlesMesh.rotation.x += mouseY * 0.01;
+            
+            // Subtle wave effect
+            particlesMesh.position.y = Math.sin(elapsedTime * 0.3) * 0.1;
+            
+            // Render
+            renderer.render(scene, camera);
+            
+            // Call animate again on the next frame
+            window.requestAnimationFrame(animate);
+        };
+        
+        animate();
+
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('nav');
+            const menuOverlay = document.querySelector('.menu-overlay');
+            const navClose = document.querySelector('.nav-close');
+            
+            function openMenu() {
+                mobileMenuBtn.classList.add('active');
+                nav.classList.add('active');
+                document.body.classList.add('menu-open');
+            }
+            
+            function closeMenu() {
+                mobileMenuBtn.classList.remove('active');
+                nav.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+            
+            if (mobileMenuBtn && nav) {
+                // Toggle menu on hamburger click
+                mobileMenuBtn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (nav.classList.contains('active')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+                
+                // Close menu when clicking on close button
+                if (navClose) {
+                    navClose.addEventListener('click', () => {
+                        closeMenu();
+                    });
+                }
+                
+                // Close menu when clicking on overlay
+                if (menuOverlay) {
+                    menuOverlay.addEventListener('click', () => {
+                        closeMenu();
+                    });
+                }
+                
+                // Close menu when clicking on links
+                const navLinks = document.querySelectorAll('nav a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        closeMenu();
+                    });
+                });
+                
+                // Add touch events for mobile
+                mobileMenuBtn.addEventListener('touchstart', (event) => {
+                    event.preventDefault();
+                    if (nav.classList.contains('active')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                }, { passive: false });
+                
+                // Handle swipe to close menu
+                let touchStartX = 0;
+                nav.addEventListener('touchstart', (event) => {
+                    touchStartX = event.touches[0].clientX;
+                }, { passive: true });
+                
+                nav.addEventListener('touchmove', (event) => {
+                    if (!nav.classList.contains('active')) return;
+                    
+                    const touchX = event.touches[0].clientX;
+                    const diff = touchStartX - touchX;
+                    
+                    // If swiping left (diff > 0) and more than 50px
+                    if (diff > 50) {
+                        closeMenu();
+                    }
+                }, { passive: true });
+            }
+        });
+
+        // Store language preference when a language is selected
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishBtn = document.querySelector('.language-btn-nav[href="home.html"]');
+            const hindiBtn = document.querySelector('.language-btn-nav[href="home_hindi.html"]');
+            
+            if (englishBtn) {
+                englishBtn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLanguage', 'english');
+                });
+            }
+            
+            if (hindiBtn) {
+                hindiBtn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLanguage', 'hindi');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

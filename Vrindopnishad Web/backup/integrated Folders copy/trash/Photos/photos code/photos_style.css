@@ -1,0 +1,360 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: 0;
+    font-family: sans-serif;
+}
+
+.home-page {
+    background-color: #f9ed67;
+    overflow-x: auto;
+    
+    background-image:
+        repeating-linear-gradient(
+            to right, transparent 0 100px,
+            #25283b22 100px 101px
+        ),
+        repeating-linear-gradient(
+            to bottom, transparent 0 100px,
+            #25283b22 100px 101px
+        );
+        animation: backgroundAnimation 20s infinite; /* Add animation to the background */
+    
+}
+
+.hero {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to top, #f9ed67, transparent), url("https://w.wallhaven.cc/full/2y/wallhaven-2yxp16.jpg") center no-repeat;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, #f9ed67, transparent);
+    z-index: 2;
+}
+
+.hero span {
+    font-size: 128px;
+    color: #88825e;
+    font-weight: 700;
+    font-family: "Protest Strike", sans-serif;
+    z-index: 3;
+}
+
+.image-gallery {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background-size: 5% 5%;
+    background-image: linear-gradient(rgba(240, 234, 214, 0.05) 1.5px,
+    transparent 1.5px, transparent calc(100% - 1.5px),
+    rgba(240, 234, 214, 0.05) calc(100% - 1.5px)),
+    linear-gradient(90deg, rgba(240, 234, 214, 0.05) 1.5px,
+            transparent 1.5px,
+            transparent calc(100% - 1.5px),
+            rgba(240, 234, 214, 0.05) calc(100% - 1.5px));
+    color: #006061;
+    padding-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.image-gallery .head {
+    font-size: 104px;
+    font-weight: 700;
+}
+
+.image-gallery .des {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 40vw;
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
+}
+
+.image-gallery .des .des-head {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.image-gallery img {
+    height: 500px;
+    width: 450px;
+    position: absolute;
+    box-shadow: 0 0 3px 10px rgb(35, 87, 86);
+    object-fit: cover;
+}
+
+.image-gallery img:nth-child(odd) {
+    bottom: -65%;
+    left: 10%;
+    rotate: -5deg;
+}
+
+.image-gallery img:nth-child(even) {
+    bottom: -65%;
+    right: 10%;
+    rotate: 5deg;
+}
+
+.the-end {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(to bottom, #f9ed67, transparent), url("https://w.wallhaven.cc/full/rr/wallhaven-rrl8rw.png") center no-repeat;
+    background-size: cover;
+}
+
+.the-end span {
+    font-size: 128px;
+    color: #0f4354;
+    font-weight: 700;
+    font-family: "Protest Strike", sans-serif;
+}
+
+.navigation {
+    position: fixed; /* Fix the position */
+    top: 0; /* Align to the top */
+    width: 100%; /* Full width */
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+    backdrop-filter: blur(30px) saturate(180%); /* Apply blur and saturation effect */
+    box-shadow: 0 5px 10px rgba(248, 231, 43, 0.9); /* Subtle shadow */
+    border: 1px solid rgba(94, 77, 1, 0.1); /* Light border */
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+.navigation ul {
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    gap: 20px; /* Default gap between items */
+    padding: 0;
+    transition: gap 0.3s ease; /* Smooth transition for gap */
+}
+
+@media (max-width: 1024px) {
+    .navigation ul {
+        gap: 20px; /* Reduce gap for tablet */
+    }
+}
+
+@media (max-width: 767px) {
+    .navigation ul {
+        gap: 10px; /* Reduce gap for mobile */
+    }
+}
+
+.navigation ul li {
+    position: relative;
+    list-style: none;
+    width: auto;
+    height: auto;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
+.navigation ul li:hover {
+    background: var(--clr);
+    transform: translateY(-6px); /* Slight lift on hover */
+    box-shadow: 0 0 5px var(--clr); /* Enhance shadow effect on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.navigation ul li:active {
+    transform: translateY(-3px); /* Slight lift on click */
+    box-shadow: 0 0 20px var(--clr); /* Enhance shadow effect on click */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for transform and shadow */
+}
+
+.navigation ul li.active a {
+    width: 100%;
+}
+
+.navigation ul li.active::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -5px;
+    width: 100%;
+    height: 100%;
+    background: var(--clr);
+    border-radius: 30px;
+    filter: blur(8px);
+    opacity: 0.25;
+    transition: 0.5s;
+}
+
+.navigation ul li.active {
+    background: rgb(240, 124, 1);
+    transform: translateY(5px); /* Slight lift on active */
+    box-shadow: 0 0px 5px var(--clr); /* Enhance shadow effect on active */
+    transition: transform 0.5s ease, box-shadow 0.5s ease; /* Smooth transition for transform and shadow */
+}
+
+.navigation ul li a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    text-decoration: none; /* Remove the blue thin line under the text */
+}
+
+.navigation ul li a .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333; /* Default color */
+    font-size: 1.5em;
+    transition: color 0.3s ease; /* Smooth transition for color */
+    margin-right: 10px;
+}
+
+.navigation ul li a .icon:hover {
+    color: #f5e570; /* Change color on hover */
+    transform: scale(1.15); /* Increase zooming effect */
+    transition: transform 0.9s ease, color 0.9s ease; /* Smooth transition for transform and color */
+}
+
+.navigation ul li a .search-icon {
+    color: #000; /* Make search icon more visible */
+    height: 30;
+    width: 30;
+    background-color: #fdf09f; /* Add background color for better visibility */
+    border-radius: 50%; /* Make it circular */
+    padding: 5px; /* Add padding */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background and color */
+}
+
+.navigation ul li a .search-icon:hover {
+    height: 30;
+    width: 30;
+    background-color: #fcee90; /* Change background color on hover */
+    color: #352a3a; /* Change color on hover */
+}
+
+.navigation ul li.active a .icon {
+    color: #fff;
+}
+
+.navigation ul li a .text {
+    display: none; /* Hide text initially */
+    margin-left: 10px;
+}
+
+.navigation ul li.active a .text {
+    display: inline; /* Show text when active */
+}
+
+.navigation ul li a .text {
+    display: flex;
+    align-items: center;
+    color: #4b4101;
+}
+
+.search-bar {
+    display: none; /* Hide search bar initially */
+    position: absolute;
+    top: 80px; /* Position search bar much lower to the menu bar */
+    right: 10px; /* Align to the right */
+    width: 75%; /* Reduce the width of the search bar */
+    max-width: 600px; /* Set a maximum width */
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+    border-radius: 25px; /* Round the corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure the search bar is above other elements */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+.search-bar input {
+    flex: 1; /* Take up remaining space */
+    padding: 10px;
+    border: 2px solid #dddddd1e; /* Default border color */
+    border-radius: 25px; /* Default border radius */
+    font-size: 1.3em; /* Increase font size */
+    margin-right: -10px; /* Add margin to separate from the icon */
+}
+
+.search-bar .search-icon {
+    color: #2e200b; /* Default color */
+    font-size: 1.7em; /* Make search icon bigger */
+    cursor: pointer;
+}
+
+@media (min-width: 1025px) {
+    .search-bar {
+        display: none; /* Hide search bar initially */
+        position: absolute;
+        top: 80px; /* Position search bar much lower to the menu bar */
+        right: 10px; /* Align to the right */
+        width: 75%; /* Reduce the width of the search bar */
+        max-width: 600px; /* Set a maximum width */
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+        border-radius: 25px; /* Round the corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000; /* Ensure the search bar is above other elements */
+    }
+
+    .search-bar input {
+        width: calc(100% - 30px); /* Adjust width to fit the search icon */
+        padding: 10px;
+        border: 2px solid #5e17011e; /* Default border color */
+        border-radius: 25px; /* Default border radius */
+        font-size: 1.3em; /* Increase font size */
+    }
+
+    .search-bar .search-icon {
+        position: absolute;
+        top: 50%; /* Center vertically */
+        right: 22px;
+        transform: translateY(-50%); /* Center vertically */
+        color: #2e200b; /* Default color */
+        font-size: 1.7em; /* Make search icon bigger */
+        cursor: pointer;
+    }
+
+    .search-bar .close-icon {
+        position: absolute;
+        top: 15px; /* Fix position to the top left corner */
+        left: -1px;
+        color: #854e9e; /* Change color on animation */
+        font-size: 1.5em; /* Make close icon bigger */
+        cursor: pointer;
+    }
+}

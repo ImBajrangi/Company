@@ -1,0 +1,354 @@
+{
+  "siteConfig": {
+    "siteName": "Vrindopnishad",
+    "siteIcon": "fas fa-photo-video",
+    "tagline": "Spiritual & Divine Collection",
+    "description": "Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art."
+  },
+  "navigation": [
+    { "name": "Home", "href": "#", "active": true },
+    { "name": "Collections", "href": "#", "active": false },
+    { "name": "My List", "href": "#", "active": false },
+    { "name": "Browse by Category", "href": "#", "active": false }
+  ],
+  "heroSection": {
+    "title": "Spiritual & Divine Collection",
+    "description": "Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art.",
+    "backgroundImage": "/class/iage/Home Pics/img_sn01.png",
+    "buttons": [
+      {
+        "text": "Explore Now",
+        "icon": "fas fa-play",
+        "type": "primary",
+        "action": "explore"
+      },
+      {
+        "text": "More Info",
+        "icon": "fas fa-info-circle",
+        "type": "secondary",
+        "action": "info"
+      }
+    ]
+  },
+  "collections": {
+    "featured": {
+      "title": "Featured Collections",
+      "items": [
+        {
+          "id": "sacred-temples",
+          "title": "Sacred Temples",
+          "description": "Ancient temples and spiritual architecture",
+          "count": 45,
+          "rating": 4.8,
+          "image": "https://images.unsplash.com/photo-1604608672908-3b1f1aeb8f9b?w=800&h=450&fit=crop",
+          "category": "architecture",
+          "featured": true
+        },
+        {
+          "id": "divine-portraits",
+          "title": "Divine Portraits",
+          "description": "Beautiful deity artwork and paintings",
+          "count": 67,
+          "rating": 4.9,
+          "image": "https://i.postimg.cc/D0CRWSJh/2.avif",
+          "category": "art",
+          "featured": true
+        },
+        {
+          "id": "spiritual-landscapes",
+          "title": "Spiritual Landscapes",
+          "description": "Sacred places and holy sites",
+          "count": 34,
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=450&fit=crop",
+          "category": "nature",
+          "featured": true
+        },
+        {
+          "id": "festival-moments",
+          "title": "Festival Moments",
+          "description": "Captured spiritual celebrations",
+          "count": 89,
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=450&fit=crop",
+          "category": "events",
+          "featured": true
+        },
+        {
+          "id": "meditation-spaces",
+          "title": "Meditation Spaces",
+          "description": "Peaceful environments for contemplation",
+          "count": 23,
+          "rating": 4.8,
+          "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop",
+          "category": "nature",
+          "featured": true
+        }
+      ]
+    },
+    "popular": {
+      "title": "Popular Right Now",
+      "items": [
+        {
+          "id": "trending-now",
+          "title": "Trending Now",
+          "description": "Most viewed this week",
+          "count": 156,
+          "rating": 4.5,
+          "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=340&fit=crop",
+          "category": "trending",
+          "views": 15600
+        },
+        {
+          "id": "rising-stars",
+          "title": "Rising Stars",
+          "description": "Newly popular collections",
+          "count": 78,
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1506943303086-2b2d4d31f99e?w=600&h=340&fit=crop",
+          "category": "new",
+          "views": 8900
+        },
+        {
+          "id": "community-favorites",
+          "title": "Community Favorites",
+          "description": "Highly rated by users",
+          "count": 234,
+          "rating": 4.9,
+          "image": "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&h=340&fit=crop",
+          "category": "community",
+          "views": 23400
+        },
+        {
+          "id": "editors-choice",
+          "title": "Editor's Choice",
+          "description": "Curated by our team",
+          "count": 123,
+          "rating": 4.8,
+          "image": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&h=340&fit=crop",
+          "category": "editorial",
+          "views": 12300
+        },
+        {
+          "id": "most-downloaded",
+          "title": "Most Downloaded",
+          "description": "Popular downloads",
+          "count": 345,
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1519988085374-a73ed4d11658?w=600&h=340&fit=crop",
+          "category": "downloads",
+          "views": 34500
+        }
+      ]
+    },
+    "nature": {
+      "title": "Nature & Landscapes",
+      "items": [
+        {
+          "id": "mountain-vistas",
+          "title": "Mountain Vistas",
+          "description": "Breathtaking mountain landscapes",
+          "count": 67,
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=340&fit=crop",
+          "category": "mountains"
+        },
+        {
+          "id": "ocean-views",
+          "title": "Ocean Views",
+          "description": "Stunning seascapes and beaches",
+          "count": 89,
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&h=340&fit=crop",
+          "category": "ocean"
+        },
+        {
+          "id": "forest-paths",
+          "title": "Forest Paths",
+          "description": "Mystical forest photography",
+          "count": 45,
+          "rating": 4.8,
+          "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=340&fit=crop",
+          "category": "forest"
+        },
+        {
+          "id": "desert-landscapes",
+          "title": "Desert Landscapes",
+          "description": "Vast desert scenery",
+          "count": 34,
+          "rating": 4.5,
+          "image": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&h=340&fit=crop",
+          "category": "desert"
+        },
+        {
+          "id": "wildlife",
+          "title": "Wildlife",
+          "description": "Amazing animal photography",
+          "count": 123,
+          "rating": 4.9,
+          "image": "https://images.unsplash.com/photo-1506943303086-2b2d4d31f99e?w=600&h=340&fit=crop",
+          "category": "animals"
+        }
+      ]
+    },
+    "anime": {
+      "title": "Anime & Art",
+      "items": [
+        {
+          "id": "classic-anime",
+          "title": "Classic Anime",
+          "description": "Timeless anime artwork",
+          "count": 234,
+          "rating": 4.8,
+          "image": "https://i.postimg.cc/y6nMpbfG/1.avif",
+          "category": "classic"
+        },
+        {
+          "id": "modern-art",
+          "title": "Modern Art",
+          "description": "Contemporary anime styles",
+          "count": 145,
+          "rating": 4.7,
+          "image": "https://i.postimg.cc/MKVKCt18/18.avif",
+          "category": "modern"
+        },
+        {
+          "id": "character-art",
+          "title": "Character Art",
+          "description": "Detailed character illustrations",
+          "count": 178,
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=340&fit=crop",
+          "category": "characters"
+        },
+        {
+          "id": "fantasy-worlds",
+          "title": "Fantasy Worlds",
+          "description": "Magical anime landscapes",
+          "count": 89,
+          "rating": 4.9,
+          "image": "https://images.unsplash.com/photo-1607970579142-5de9a982c1f4?w=600&h=340&fit=crop",
+          "category": "fantasy"
+        },
+        {
+          "id": "abstract-designs",
+          "title": "Abstract Designs",
+          "description": "Artistic interpretations",
+          "count": 67,
+          "rating": 4.5,
+          "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=600&h=340&fit=crop",
+          "category": "abstract"
+        }
+      ]
+    },
+    "architecture": {
+      "title": "Architecture & Urban",
+      "items": [
+      {
+          "id": "modern-buildings",
+          "title": "Modern Buildings",
+          "description": "Contemporary architecture",
+          "count": 89,
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1486718448742-163732cd1544?w=600&h=340&fit=crop",
+          "category": "architecture",
+          "views": 15600
+      },
+      {
+          "id": "historic-structures",
+          "title": "Historic Structures",
+          "description": "Ancient architectural marvels",
+          "count": 67,
+          "rating": 4.8,
+          "image": "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=600&h=340&fit=crop",
+          "category": "architecture",
+          "views": 12300
+      },
+      {
+          "id": "city-skylines",
+          "title": "City Skylines",
+          "description": "Urban landscape photography",
+          "count": 123,
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=340&fit=crop",
+          "category": "architecture",
+          "views": 18900
+      },
+      {
+          "id": "bridges-roads",
+          "title": "Bridges & Roads",
+          "description": "Infrastructure photography",
+          "count": 45,
+          "rating": 4.5,
+          "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=340&fit=crop",
+          "category": "architecture",
+          "views": 9800
+      },
+      {
+          "id": "interior-design",
+          "title": "Interior Design",
+          "description": "Beautiful indoor spaces",
+          "count": 78,
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=340&fit=crop",
+          "category": "architecture",
+          "views": 14500
+      },
+        {
+          "id": "modern-buildings",
+          "title": "Modern Buildings",
+          "description": "Contemporary architecture",
+          "count": 89,
+          "rating": 4.6,
+          "image": "https://images.unsplash.com/photo-1486718448742-163732cd1544?w=600&h=340&fit=crop",
+          "category": "modern"
+        },
+        {
+          "id": "historic-structures",
+          "title": "Historic Structures",
+          "description": "Ancient architectural marvels",
+          "count": 67,
+          "rating": 4.8,
+          "image": "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=600&h=340&fit=crop",
+          "category": "historic"
+        },
+        {
+          "id": "city-skylines",
+          "title": "City Skylines",
+          "description": "Urban landscape photography",
+          "count": 123,
+          "rating": 4.7,
+          "image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=340&fit=crop",
+          "category": "urban"
+        },
+        {
+          "id": "bridges-roads",
+          "title": "Bridges & Roads",
+          "description": "Infrastructure photography",
+          "count": 45,
+          "rating": 4.5,
+          "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=340&fit=crop",
+          "category": "infrastructure"
+        },
+        {
+          "id": "interior-design",
+          "title": "Interior Design",
+          "description": "Beautiful indoor spaces",
+          "count": 78,
+          "rating": 4.4,
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=340&fit=crop",
+          "category": "interior"
+        }
+      ]
+    }
+  },
+  "socialLinks": [
+    { "platform": "facebook", "icon": "fab fa-facebook", "url": "#" },
+    { "platform": "instagram", "icon": "fab fa-instagram", "url": "#" },
+    { "platform": "pinterest", "icon": "fab fa-pinterest", "url": "#" },
+    { "platform": "youtube", "icon": "fab fa-youtube", "url": "#" }
+  ],
+  "footer": {
+    "copyrightText": "© 2025 Vrindopnishad Collection. All images are property of their respective owners."
+  }
+}

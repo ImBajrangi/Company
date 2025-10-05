@@ -1,0 +1,717 @@
+<!-- AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Chatbot</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        :root { 
+            font-family: 'Inter', sans-serif; 
+            --tw-shadow-3xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --tw-shadow-color: rgba(67, 56, 202, 0.2);
+            --ai-glow-color: transparent; 
+            --ai-glow-spread: 0px;
+        }
+        
+        .shadow-3xl {
+            box-shadow: var(--tw-shadow-3xl), 
+                        0 0 40px -10px var(--tw-shadow-color),
+                        0 0 var(--ai-glow-spread) 0 var(--ai-glow-color);
+            transition: box-shadow 0.5s ease-in-out;
+        }
+
+        .ai-active-glow {
+            --ai-glow-color: rgba(79, 70, 229, 0.6);
+            --ai-glow-spread: 10px;
+        }
+        
+        #chat-history::-webkit-scrollbar { width: 6px; }
+        #chat-history::-webkit-scrollbar-thumb { background-color: #94a3b8; border-radius: 3px; }
+        #chat-history::-webkit-scrollbar-track { background-color: #f8fafc; }
+
+        @keyframes fadeInMove {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in { animation: fadeInMove 0.4s ease-out forwards; }
+
+        @keyframes dotWave {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+        }
+        .dot {
+            width: 7px; height: 7px; background-color: #4f46e5;
+            border-radius: 50%; display: inline-block; margin: 0 2px;
+            animation: dotWave 0.8s infinite ease-in-out;
+        }
+        .dot-2 { animation-delay: 0.1s; }
+        .dot-3 { animation-delay: 0.2s; }
+
+        .typing-bubble {
+            background-color: #f0f4ff; border-radius: 12px 12px 12px 4px;
+            padding: 10px 14px; width: 70px; display: flex;
+            align-items: flex-end; justify-content: space-around;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Auth Container -->
+    <div id="auth-container" class="w-full max-w-sm">
+        <div class="bg-white shadow-3xl rounded-3xl p-8">
+            <!-- Login Form -->
+            <form id="login-form">
+                <h2 class="text-2xl font-extrabold text-gray-800 mb-6 text-center">Welcome Back</h2>
+                <div id="login-error" class="text-red-500 text-sm mb-4 text-center"></div>
+                <div class="space-y-5">
+                    <input type="email" id="login-email" placeholder="Email Address" required class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                    <input type="password" id="login-password" placeholder="Password" required class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                    <button type="submit" class="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold hover:bg-indigo-700 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Login</button>
+                </div>
+
+                <div class="relative my-6">
+                  <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-white text-gray-500"> Or continue with </span>
+                  </div>
+                </div>
+
+                <div>
+                  <button type="button" id="google-signin-btn" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                    <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
+                      <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path>
+                      <path fill="#FF3D00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path>
+                      <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.222 0-9.618-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path>
+                      <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.012 35.195 44 30.023 44 24c0-1.341-.138-2.65-.389-3.917z"></path>
+                    </svg>
+                    Google
+                  </button>
+                </div>
+
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    Don't have an account? <a href="#" id="show-signup" class="font-semibold text-indigo-600 hover:underline">Sign Up</a>
+                </p>
+            </form>
+
+            <!-- Signup Form (hidden by default) -->
+            <form id="signup-form" class="hidden">
+                <h2 class="text-2xl font-extrabold text-gray-800 mb-6 text-center">Create Account</h2>
+                <div id="signup-error" class="text-red-500 text-sm mb-4 text-center"></div>
+                <div class="space-y-5">
+                    <input type="text" id="signup-name" placeholder="Full Name" required class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                    <input type="email" id="signup-email" placeholder="Email Address" required class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                    <input type="password" id="signup-password" placeholder="Password" required class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+                    <button type="submit" class="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold hover:bg-indigo-700 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Sign Up</button>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    Already have an account? <a href="#" id="show-login" class="font-semibold text-indigo-600 hover:underline">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="hidden w-full max-w-sm bg-white shadow-3xl rounded-3xl flex flex-col h-[90vh] max-h-[700px] overflow-hidden transition-all duration-300">
+        
+        <header class="bg-gradient-to-r from-indigo-600 to-purple-700 p-5 text-white flex items-center justify-between rounded-t-3xl shadow-xl">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4 shadow-md">
+                    <i data-lucide="bot" class="w-6 h-6 text-indigo-600"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Vrindopnishad Support</h1>
+                    <p class="text-xs opacity-90" id="header-status">Welcome!</p>
+                </div>
+            </div>
+            <button id="logout-button" class="text-white hover:bg-white/20 rounded-full p-2 transition-colors">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+            </button>
+        </header>
+        
+        <div id="chat-history" class="flex-grow p-6 space-y-4 overflow-y-auto bg-white">
+            <!-- Chat messages will be injected here -->
+        </div>
+
+        <div id="agent-toolbox" class="p-4 border-t border-gray-100 bg-slate-50">
+            <h3 class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Agent Toolbox</h3>
+            <div class="flex space-x-2">
+                <button id="summarize-btn" class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">Summarize Chat ✨</button>
+                <button id="escalate-btn" class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">Escalate to Email ✨</button>
+            </div>
+        </div>
+
+        <div id="chat-input-area" class="flex flex-col p-4 border-t border-gray-100 bg-white shadow-inner">
+            <div id="image-preview-container" class="hidden mb-2 p-2 border border-gray-200 rounded-lg relative w-fit">
+                <img id="image-preview" class="max-h-24 rounded-md">
+                <button id="remove-image-btn" class="absolute -top-2 -right-2 bg-gray-700 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none transition-colors">&times;</button>
+            </div>
+            <div class="flex space-x-3 items-center">
+                <input type="file" id="image-upload" class="hidden" accept="image/*">
+                <button id="attach-button" class="flex-shrink-0 p-2 text-gray-500 hover:text-indigo-600 transition duration-150 rounded-full hover:bg-gray-100"><i data-lucide="paperclip" class="w-5 h-5"></i></button>
+                <input type="text" id="user-input" placeholder="Ask a follow-up question..." class="flex-grow min-w-0 p-3 border-2 border-gray-200 rounded-full bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" autocomplete="off">
+                <button id="send-button" class="bg-indigo-600 text-white w-10 h-10 rounded-full hover:bg-indigo-700 active:bg-indigo-800 transition duration-150 flex-shrink-0 flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"><i data-lucide="send" class="w-5 h-5"></i></button>
+            </div>
+        </div>
+
+        <div id="loading-indicator" class="hidden p-3 text-center bg-yellow-50 text-yellow-700 text-sm font-medium rounded-b-3xl">
+            Waiting for service response...
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <header class="p-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
+                <h4 class="text-lg font-semibold text-gray-800" id="modal-title">Tool Output</h4>
+                <button onclick="hideModal()" class="text-gray-500 hover:text-gray-700 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </header>
+            <div class="p-4">
+                <p class="text-sm text-gray-700 mb-3" id="modal-description"></p>
+                <div id="modal-subject-display-container" class="mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hidden">
+                    <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Subject:</p>
+                    <p id="modal-subject-value" class="text-sm font-medium text-gray-800"></p>
+                </div>
+                <textarea id="modal-textarea" readonly rows="10" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-50 font-mono text-xs resize-none"></textarea>
+                <div id="modal-image-permission" class="hidden mt-3 p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
+                    <label class="flex items-center text-sm text-gray-800 font-medium cursor-pointer">
+                        <input type="checkbox" id="include-image-checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2">
+                        <span>Include a note that an image was provided</span>
+                    </label>
+                </div>
+                <button id="modal-action-button" class="mt-3 w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150 flex items-center justify-center"><i data-lucide="copy" class="w-4 h-4 mr-2"></i> Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            onAuthStateChanged, 
+            signOut,
+            signInAnonymously,
+            signInWithCustomToken,
+            GoogleAuthProvider,
+            signInWithPopup
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc,
+            collection
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        lucide.createIcons();
+
+        // --- Firebase Config ---
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- Chatbot Config ---
+        const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
+        const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
+        const API_KEY = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw";
+        const VRINDOPNISHAD_SUPPORT_EMAIL = "vrinda.connect.us@gmail.com"; 
+
+        // --- Global State ---
+        let chatHistory = [];
+        let systemPrompt = ""; 
+        let typingIndicatorElement = null; 
+        let attachedImageBase64 = null;
+        let attachedImageMimeType = null;
+        let customerData = {};
+
+        // --- UI Elements ---
+        const authContainer = document.getElementById('auth-container');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginError = document.getElementById('login-error');
+        const signupError = document.getElementById('signup-error');
+        const showSignupBtn = document.getElementById('show-signup');
+        const showLoginBtn = document.getElementById('show-login');
+        const logoutButton = document.getElementById('logout-button');
+        const googleSignInBtn = document.getElementById('google-signin-btn');
+        
+        const headerStatus = document.getElementById('header-status');
+        const chatHistoryDiv = document.getElementById('chat-history');
+        const chatInputArea = document.getElementById('chat-input-area');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const agentToolbox = document.getElementById('agent-toolbox');
+        const summarizeBtn = document.getElementById('summarize-btn');
+        const escalateBtn = document.getElementById('escalate-btn');
+        const attachButton = document.getElementById('attach-button');
+        const imageUpload = document.getElementById('image-upload');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+
+        // Modal Elements
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalTextarea = document.getElementById('modal-textarea');
+        const modalActionButton = document.getElementById('modal-action-button');
+        const modalSubjectDisplayContainer = document.getElementById('modal-subject-display-container');
+        const modalSubjectValue = document.getElementById('modal-subject-value');
+
+        // --- Auth Logic ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user && !user.isAnonymous) {
+                // User is signed in.
+                const userProfileRef = doc(db, `artifacts/${appId}/users/${user.uid}/profile`, 'info');
+                const docSnap = await getDoc(userProfileRef);
+
+                let userName = user.displayName || "User";
+                if (docSnap.exists()) {
+                    userName = docSnap.data().name;
+                }
+                
+                authContainer.classList.add('hidden');
+                chatbotContainer.classList.remove('hidden');
+                initializeChatSession(user, { name: userName });
+
+            } else {
+                // User is signed out or anonymous.
+                authContainer.classList.remove('hidden');
+                chatbotContainer.classList.add('hidden');
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.textContent = '';
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                loginError.textContent = error.message;
+            }
+        });
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            signupError.textContent = '';
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                // Save user name to Firestore
+                const userProfileRef = doc(db, `artifacts/${appId}/users/${user.uid}/profile`, 'info');
+                await setDoc(userProfileRef, { name: name, email: email, createdAt: new Date() });
+
+            } catch (error) {
+                signupError.textContent = error.message;
+            }
+        });
+
+        googleSignInBtn.addEventListener('click', async () => {
+            loginError.textContent = '';
+            const provider = new GoogleAuthProvider();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                // Check if user profile already exists, if not, create it
+                const userProfileRef = doc(db, `artifacts/${appId}/users/${user.uid}/profile`, 'info');
+                const docSnap = await getDoc(userProfileRef);
+
+                if (!docSnap.exists()) {
+                    // This is a new user signing up with Google
+                    await setDoc(userProfileRef, { 
+                        name: user.displayName, 
+                        email: user.email, 
+                        createdAt: new Date() 
+                    });
+                }
+            } catch (error) {
+                loginError.textContent = error.message;
+            }
+        });
+        
+        logoutButton.addEventListener('click', () => {
+             signOut(auth);
+        });
+
+        showSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+        });
+
+        showLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
+
+        // --- Chat Initialization ---
+        function initializeChatSession(user, profile) {
+            customerData = {
+                name: profile.name,
+                email: user.email,
+            };
+            
+            headerStatus.textContent = "Chatting with " + profile.name;
+            userInput.focus();
+            
+            // Reset chat state
+            chatHistoryDiv.innerHTML = '';
+            chatHistory = [];
+
+            systemPrompt = `
+                You are a helpful customer support agent for Vrindopnishad.
+                You are currently assisting customer ${customerData.name} (${customerData.email}).
+                The user may provide images (like screenshots) to give more context about their problem. Analyze these images carefully to provide accurate support.
+                Your primary directive is to be helpful and professional. You MUST NOT use the Google Search tool.
+            `.trim();
+            
+            const initialBotMessage = `Hello ${customerData.name}. Thank you for contacting Vrindopnishad Support. How can I assist you today?`;
+            appendMessage(initialBotMessage, 'bot');
+            chatHistory.push({ role: "model", parts: [{ text: initialBotMessage }] });
+        }
+        
+        // --- Existing Chatbot Utility Functions (showTypingIndicator, hideTypingIndicator, etc.) ---
+        function showTypingIndicator() {
+            if (typingIndicatorElement) return;
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = 'flex justify-start'; 
+            const typingBubble = document.createElement('div');
+            typingBubble.className = 'typing-bubble shadow-md';
+            typingBubble.innerHTML = `<div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div>`;
+            messageWrapper.appendChild(typingBubble);
+            chatHistoryDiv.appendChild(messageWrapper);
+            typingIndicatorElement = messageWrapper;
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            if (typingIndicatorElement && typingIndicatorElement.parentNode) {
+                typingIndicatorElement.parentNode.removeChild(typingIndicatorElement);
+                typingIndicatorElement = null;
+            }
+        }
+
+        function stripMarkdown(text) {
+            text = text.replace(/\*\*|__|\*/g, '');
+            text = text.replace(/^- (.*)/gm, '$1').trim();
+            text = text.replace(/\n\s*\n/g, '\n\n'); 
+            return text;
+        }
+
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            try {
+                document.execCommand('copy');
+                const copyButton = document.getElementById('modal-action-button');
+                copyButton.innerHTML = '<i data-lucide="check" class="w-4 h-4 mr-2"></i> Copied!';
+                lucide.createIcons();
+                setTimeout(() => {
+                    showModal(modalTitle.textContent, modalDescription.innerHTML, modalTextarea.value, modalActionButton.dataset.action, modalSubjectValue.textContent);
+                }, 2000);
+            } catch (err) { console.error('Failed to copy text: ', err); }
+        }
+        window.copyToClipboard = copyToClipboard;
+
+        function sendMail(subject, body) {
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body); 
+            const mailtoLink = `mailto:${VRINDOPNISHAD_SUPPORT_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+            window.open(mailtoLink, '_blank');
+            hideModal();
+        }
+
+        function showModal(title, descriptionHtml, content, actionType = 'copy', subject = null, options = {}) {
+            modalTitle.textContent = title;
+            modalTextarea.value = content;
+            const imagePermissionContainer = document.getElementById('modal-image-permission');
+            modalSubjectDisplayContainer.classList.add('hidden');
+            imagePermissionContainer.classList.add('hidden');
+            const imageCheckbox = document.getElementById('include-image-checkbox');
+            if(imageCheckbox) imageCheckbox.checked = false;
+            modalActionButton.onclick = null;
+            modalActionButton.innerHTML = '';
+            modalActionButton.dataset.action = actionType;
+
+            if (actionType === 'escalation') {
+                modalSubjectValue.textContent = subject || 'Escalation Draft';
+                modalSubjectDisplayContainer.classList.remove('hidden');
+                modalDescription.innerHTML = `This draft is ready for the support team. Click below to send it via your mail client to **${VRINDOPNISHAD_SUPPORT_EMAIL}**.`;
+                if (options.imageAvailable) {
+                    imagePermissionContainer.classList.remove('hidden');
+                }
+                modalActionButton.innerHTML = '<i data-lucide="mail" class="w-4 h-4 mr-2"></i> Send to Support';
+                modalActionButton.onclick = () => {
+                    let finalBody = content;
+                    if (imageCheckbox && imageCheckbox.checked) {
+                         finalBody += "\n\n[Note: An image was provided by the user. Please review the chat transcript to see it.]";
+                    }
+                    sendMail(subject, finalBody);
+                };
+            } else {
+                modalDescription.innerHTML = descriptionHtml;
+                modalActionButton.innerHTML = '<i data-lucide="copy" class="w-4 h-4 mr-2"></i> Copy to Clipboard';
+                modalActionButton.onclick = () => copyToClipboard('modal-textarea');
+            }
+            
+            lucide.createIcons();
+            modalOverlay.classList.remove('hidden');
+            modalOverlay.classList.add('flex');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+        
+        function hideModal() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modalOverlay.classList.remove('flex');
+                modalOverlay.classList.add('hidden');
+            }, 300);
+        }
+        window.hideModal = hideModal;
+
+        function appendMessage(text, sender, imageUrl = null) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start animate-in';
+            const messageBubble = document.createElement('div');
+            const baseClass = 'p-3 max-w-[80%] shadow-md transition duration-200 text-sm';
+            messageBubble.className = sender === 'user' 
+                ? `bg-indigo-600 text-white rounded-t-xl rounded-bl-xl rounded-br-md ${baseClass}`
+                : `bg-slate-100 text-gray-800 rounded-t-xl rounded-br-xl rounded-bl-md ${baseClass}`;
+            
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.className = 'rounded-lg max-w-full h-auto mb-2';
+                messageBubble.appendChild(img);
+            }
+            if (text) {
+                let renderedText = text.replace(/\n/g, '<br>'); 
+                renderedText = renderedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                renderedText = renderedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                const textNode = document.createElement('div');
+                textNode.innerHTML = renderedText;
+                messageBubble.appendChild(textNode);
+            }
+            
+            messageWrapper.appendChild(messageBubble);
+            chatHistoryDiv.appendChild(messageWrapper);
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }
+
+        function parseResponse(result) {
+            const candidate = result.candidates?.[0];
+            return { text: candidate?.content?.parts?.[0]?.text || "Sorry, I encountered an error.", sources: [] };
+        }
+
+        async function fetchWithBackoff(payload, attempt = 1, useGrounding = false) {
+            const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
+            if (useGrounding) payload.tools = [{ "google_search": {} }];
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorBody.error?.message || 'Unknown'}`);
+                }
+                return await response.json();
+            } catch (error) {
+                if (attempt < 4) {
+                    const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(payload, attempt + 1, useGrounding);
+                } else {
+                    throw new Error("API request failed after multiple retries.");
+                }
+            }
+        }
+
+        function getChatTranscript() {
+            let transcript = "--- Chat Transcript ---\n";
+            chatHistory.forEach(msg => {
+                const role = msg.role === 'user' ? customerData.name : 'Vrindopnishad Bot';
+                const text = msg.parts.find(p => p.text)?.text || '[Image was sent]';
+                if (text.startsWith("Initial issue:") || text.startsWith("Hello ")) return; 
+                transcript += `${role}: ${text}\n`;
+            });
+            transcript += "--- End Transcript ---\n";
+            return transcript.trim();
+        }
+        
+        // --- Core Chat Functions (sendMessage, summarize, escalate) ---
+        async function sendMessage() {
+            const userQuery = userInput.value.trim();
+            if (userQuery === "" && !attachedImageBase64) return;
+
+            appendMessage(userQuery, 'user', attachedImageBase64);
+            userInput.value = '';
+
+            const messageParts = [];
+            if (userQuery) messageParts.push({ text: userQuery });
+            if (attachedImageBase64) {
+                const base64Data = attachedImageBase64.split(',')[1];
+                messageParts.push({ inlineData: { mimeType: attachedImageMimeType, data: base64Data } });
+            }
+            if (attachedImageBase64) removeImageBtn.click();
+            
+            userInput.disabled = true;
+            sendButton.disabled = true;
+            loadingIndicator.classList.remove('hidden');
+            summarizeBtn.disabled = true;
+            escalateBtn.disabled = true;
+
+            chatHistory.push({ role: "user", parts: messageParts });
+            
+            showTypingIndicator();
+            chatbotContainer.classList.add('ai-active-glow');
+
+            const payload = { contents: chatHistory, systemInstruction: { parts: [{ text: systemPrompt }] } };
+
+            try {
+                const result = await fetchWithBackoff(payload); 
+                const { text } = parseResponse(result);
+                hideTypingIndicator();
+                appendMessage(text, 'bot');
+                chatHistory.push({ role: "model", parts: [{ text: text }] });
+            } catch (error) {
+                hideTypingIndicator(); 
+                appendMessage("I'm having technical difficulties. Please try again later.", 'bot');
+            } finally {
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                loadingIndicator.classList.add('hidden');
+                summarizeBtn.disabled = false;
+                escalateBtn.disabled = false;
+                userInput.focus();
+                chatbotContainer.classList.remove('ai-active-glow');
+            }
+        }
+        
+        async function summarizeChat() {
+            if (chatHistory.length < 2) return;
+            summarizeBtn.disabled = true;
+            summarizeBtn.textContent = 'Summarizing...';
+            chatbotContainer.classList.add('ai-active-glow');
+            
+            const transcript = getChatTranscript();
+            const summaryPrompt = `TASK: Summarize the following customer service interaction.\nCUSTOMER DATA:\nName: ${customerData.name}\nEmail: ${customerData.email}\nTRANSCRIPT:\n${transcript}\nSUMMARY FORMAT: Provide a concise summary.`;
+            
+            const payload = { contents: [{ role: "user", parts: [{ text: summaryPrompt }] }]};
+
+            try {
+                const result = await fetchWithBackoff(payload); 
+                const { text } = parseResponse(result);
+                showModal("Conversation Summary", "A concise summary generated by the LLM:", text);
+            } catch (error) {
+                showModal("Error", "Failed to generate a summary.", "Please try again.");
+            } finally {
+                summarizeBtn.textContent = 'Summarize Chat ✨';
+                summarizeBtn.disabled = false;
+                chatbotContainer.classList.remove('ai-active-glow');
+            }
+        }
+
+        async function generateEscalationEmail() {
+            if (chatHistory.length < 2) return;
+            escalateBtn.disabled = true;
+            escalateBtn.textContent = 'Drafting...';
+            chatbotContainer.classList.add('ai-active-glow');
+
+            const imageWasSent = chatHistory.some(msg => msg.role === 'user' && msg.parts.some(part => part.inlineData));
+            const transcript = getChatTranscript();
+            const escalationPrompt = `TASK: Draft a professional internal escalation email.\nCUSTOMER DATA:\nName: ${customerData.name}\nEmail: ${customerData.email}\nTRANSCRIPT:\n${transcript}\nEMAIL REQUIREMENTS: Start with 'SUBJECT: ', then a blank line, then 'BODY: '. Do not use markdown bullets. Address it to 'Hi Vrindopnishad Support Team,'. State the Status as "Unresolved - Requires Tier 2".`;
+
+            const payload = { contents: [{ role: "user", parts: [{ text: escalationPrompt }] }] };
+
+            try {
+                const result = await fetchWithBackoff(payload); 
+                const { text } = parseResponse(result);
+
+                const subjectMatch = text.match(/SUBJECT:\s*(.*?)(\n|$)/i);
+                const bodyMatch = text.match(/BODY:\s*([\s\S]*)/i);
+                let subject = `Escalation for ${customerData.name}`;
+                let body = text; 
+                if (subjectMatch && bodyMatch) {
+                    subject = subjectMatch[1].trim();
+                    body = bodyMatch[1].trim(); 
+                }
+                const cleanedBody = stripMarkdown(body);
+                showModal("Escalation Email Draft", null, cleanedBody, 'escalation', subject, { imageAvailable: imageWasSent });
+            } catch (error) {
+                showModal("Error", "Failed to generate the email draft.", "Please try again.");
+            } finally {
+                escalateBtn.textContent = 'Escalate to Email ✨';
+                escalateBtn.disabled = false;
+                chatbotContainer.classList.remove('ai-active-glow');
+            }
+        }
+        
+        // --- Final Event Listeners ---
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+        summarizeBtn.addEventListener('click', summarizeChat);
+        escalateBtn.addEventListener('click', generateEscalationEmail);
+        attachButton.addEventListener('click', () => imageUpload.click());
+        removeImageBtn.addEventListener('click', () => {
+            attachedImageBase64 = null;
+            attachedImageMimeType = null;
+            imageUpload.value = '';
+            imagePreviewContainer.classList.add('hidden');
+        });
+        imageUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    attachedImageBase64 = e.target.result;
+                    attachedImageMimeType = file.type;
+                    imagePreview.src = attachedImageBase64;
+                    imagePreviewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        (async () => {
+             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch(e) {
+                    // Fallback for environments without a custom token
+                }
+            }
+        })();
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"> -->
+    <title>Vrindopnishad Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Protest+Strike&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/Pictures/css/collection-pictures.css" class="style"> -->
+    <link rel="stylesheet" href="/Pictures/css/claude-collection.css" class="style">
+    <link rel="stylesheet" href="/Pictures/css/hero-video.css">
+    <link rel="stylesheet" href="/web-extentions/Custom Cursor/custom-cursor.css" class="css">
+    <link rel="stylesheet" href="/web-extentions/Ripple btn/btn-ripple.css">
+    
+    <!-- Resource Management Scripts -->
+    <!-- <script src="/web-extentions/links/paths.js"></script> -->
+    <!-- <script src="/web-extentions/links/image path manager.js"></script> -->
+    <!-- <script src="/web-extentions/links/link-handler.js" defer></script> -->
+    <script type="module" src="/web-extentions/Custom Cursor/custom-Cursor.js"></script>
+    
+    <script src="/Pictures/js/popup-collection.js" defer></script>
+    <script src="/js/theme-detector.js"></script>
+    <script src="/pictures/js/collection-page.js"></script>
+    <script src="/web-extentions/Ripple btn/btn-ripple.js"></script>
+<!-- 
+
+Files On Backup /js/...
+JavaScript Files (9 files):
+❌ collection-data.js - Unused
+❌ simple-pop-out.js - Unused
+❌ search-debug.js - Unused
+❌ script.js - Unused
+❌ unified.js - Unused
+❌ unified-content.js - Unused
+❌ collection-folders.js - Unused
+❌ updated_js.js - Unused
+❌ images.js - Unused
+❌ ripple-methods.js - Replaced by inline code
+CSS Files:
+❌ ripple-methods.css - No longer needed
+
+-->
+
+
+    <style>
+    /* Ripple Effect - Fixed Version */
+    /* .ripple-btn {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        isolation: isolate;
+        transition: transform 0.2s ease, color 0.3s ease;
+    }
+
+    .ripple-btn .btn-text {
+        position: relative;
+        z-index: 100;
+        pointer-events: none;
+        display: block;
+        transition: color 0.3s ease;
+        color: inherit;
+    }
+
+    .ripple-btn::before {
+        content: '';
+        position: absolute;
+        top: var(--ripple-y, 50%);
+        left: var(--ripple-x, 50%);
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.93);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                    height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    top 0.1s ease,
+                    left 0.1s ease;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .ripple-btn.ripple-expanding::before {
+        width: 500px;
+        height: 500px;
+        transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                    height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .ripple-btn.ripple-shrinking::before {
+        width: 0;
+        height: 0;
+        transition: width 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53), 
+                    height 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+
+    /* Ensure buttons maintain their original styling *
+    .btn, .btn-primary, .btn-secondary {
+        background: var(--original-bg, #00101a);
+        color: var(--original-color, rgb(250, 250, 250));
+        border: var(--original-border, none);
+        padding: var(--original-padding, 12px 24px);
+        border-radius: var(--original-radius, 8px);
+        font-weight: var(--original-weight, 500);
+    }
+
+    /* Preserve button styles when ripple is active *
+    .ripple-btn.ripple-expanding {
+        background: var(--original-bg, #3498db) !important;
+        color: var(--original-color, rgb(0, 0, 0)) !important;
+    }
+
+    /* Text color adjustment for better visibility *
+    .ripple-btn.ripple-expanding .btn-text {
+        color: #000000 !important;
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+        font-weight: 600;
+        z-index: 200;
+        position: relative;
+    } */
+    </style>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+</head>
+<body>
+    <div class="app-container">
+    <!-- Search Overlay -->
+        <div class="search-overlay">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search collections...">
+                <div class="search-results"></div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="logo">
+                <i class="fas fa-photo-video"></i>
+                <h1>Vrindopnishad</h1>
+            </div>
+            <nav class="nav-menu">
+                <a data-link="home" class="nav-item">Home</a>
+                <a data-link="gallery" class="nav-item active">Gallery</a>
+                <a data-link="stack" class="nav-item">Collection</a>
+                <a data-link="about" class="nav-item">About</a>
+            </nav>
+            <div class="header-right">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Spiritual & Divine Collection</h1>
+                <p class="hero-description">Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art.</p>
+                <div class="hero-buttons">
+                    <button class="ripple-btn orange">
+                        <span class="btn-text">
+                            <i class="fas fa-play"></i> 
+                            Browse Collections
+                        </span>
+                    </button>
+                    <button class="ripple-btn dark">
+                        <span class="btn-text">
+                            <i class="fas fa-info-circle"></i>
+                            Learn More
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <!-- <div class="header-bg active">
+                <video class="hero-video" autoplay muted loop playsinline poster="/class/image/Home Pics/img_sn01.png">
+                    <source src="/class/videos/secret/1758181483922982.mp4" type="video/mp4">
+                    <!-- <source src="/class/videos/secret/865245F3-6182-4512-9A49-D248AF71C16C_video.webm" type="video/webm"> -->
+                    <!-- Fallback for Safari -->
+                    <!-- <img src="/class/image/Home Pics/img_sn01.png" alt="Hero background" class="fallback-img">
+                </video>
+            </div> -->
+            <!-- <div class="header-bg">
+                <video class="hero-video" autoplay muted loop playsinline poster="/class/image/Home Pics/img_sn02.png">
+                    <source src="/class/videos/secret/3D68CB64-D98D-4EB8-B9E6-4689D2DAF1F5_video.mp4" type="video/mp4"> -->
+                    <!-- <source src="/class/videos/secret/3D68CB64-D98D-4EB8-B9E6-4689D2DAF1F5_video.webm" type="video/webm"> -->
+                    <!-- Fallback for Safari -->
+                    <!-- <img src="/class/image/Home Pics/img_sn02.png" alt="Hero background" class="fallback-img">
+                </video>
+            </div>
+            <div class="header-bg">
+                <video class="hero-video" autoplay muted loop playsinline poster="/class/image/Home Pics/img_sn03.png">
+                    <source src="/class/videos/secret/7F7BBA4C-067F-4FA9-880C-D7C7D988B712_video.mp4" type="video/mp4"> -->
+                    <!-- <source src="/class/videos/secret/7F7BBA4C-067F-4FA9-880C-D7C7D988B712_video.webm" type="video/webm"> -->
+                    <!-- Fallback for Safari -->
+                    <!-- <img src="/class/image/Home Pics/img_sn03.png" alt="Hero background" class="fallback-img"> 
+                </video>
+            </div> -->
+        </section>
+<!-- Add this popup modal structure right after your search-overlay div -->
+<div class="popup-modal" id="popup-modal">
+    <div class="popup-content">
+        <button class="popup-close" id="popup-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="popup-hero" id="popup-hero"></div>
+        <div class="popup-info">
+            <div class="popup-header">
+                <h1 class="popup-title">Collection Title</h1>
+                <div class="popup-rating">
+                    <i class="fas fa-star"></i>
+                    <span>4.5</span>
+                </div>
+            </div>
+            <div class="popup-meta">
+                <span class="popup-year">2024</span>
+                <span class="popup-count">50 items</span>
+                <span class="popup-category">Collection</span>
+            </div>
+            <p class="popup-description">Collection description will appear here.</p>
+            <div class="popup-actions">
+                <button class="popup-btn popup-btn-primary">
+                    <i class="fas fa-play"></i> View Collection
+                </button>
+                <button class="popup-btn popup-btn-secondary">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+                <button class="popup-btn popup-btn-outline">
+                    <i class="fas fa-plus"></i> Add to List
+                </button>
+            </div>
+            <div class="popup-stats">
+                <div class="stat-item">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Items</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Views</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Likes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Featured Collections -->
+            <div class="content-row featured-collections">
+                <div class="row-header">
+                    <h2 class="row-title">Featured Collections</h2>
+                </div>
+                <div class="slider-container">
+                    <div class="items-slider" id="featured-slider">
+                        <!-- Items will be generated by JavaScript -->
+                    </div>
+                    <button class="scroll-btn left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Popular Now -->
+            <div class="content-row popular-now">
+                <div class="row-header">
+                    <h2 class="row-title">Popular Right Now</h2>
+                </div>
+                <div class="slider-container">
+                    <div class="items-slider" id="popular-slider">
+                        <!-- Items will be generated by JavaScript -->
+                    </div>
+                    <button class="scroll-btn left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nature & Landscapes -->
+            <div class="content-row">
+                <div class="row-header">
+                    <h2 class="row-title">Nature & Landscapes</h2>
+                </div>
+                <div class="slider-container">
+                    <div class="items-slider" id="nature-slider">
+                        <!-- Items will be generated by JavaScript -->
+                    </div>
+                    <button class="scroll-btn left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Anime & Art -->
+            <div class="content-row">
+                <div class="row-header">
+                    <h2 class="row-title">Anime & Art</h2>
+                </div>
+                <div class="slider-container">
+                    <div class="items-slider" id="anime-slider">
+                        <!-- Items will be generated by JavaScript -->
+                    </div>
+                    <button class="scroll-btn left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Architecture -->
+            <div class="content-row">
+                <div class="row-header">
+                    <h2 class="row-title">Architecture & Urban</h2>
+                </div>
+                <div class="slider-container">
+                    <div class="items-slider" id="architecture-slider">
+                        <!-- Items will be generated by JavaScript -->
+                    </div>
+                    <button class="scroll-btn left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3 class="footer-logo">Vrindopnishad</h3>
+                    <p class="footer-text">Exploring spirituality through divine art and photography.</p>
+                    <div class="social-links">
+                        <a data-link="facebook" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+                        <a data-link="instagram" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <a data-link="pinterest" class="social-link" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest"></i></a>
+                        <a data-link="youtube" class="social-link" aria-label="Youtube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-logo">Explore</h3>
+                    <ul>
+                        <li><a href="#" data-link="home" class="footer-link">Home</a></li>
+                        <li><a href="#" data-link="stack" class="footer-link">Collection</a></li>
+                        <li><a href="#" data-link="gallery" class="footer-link">Gallery</a></li>
+                        <li><a href="#" data-link="about" class="footer-link">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-logo">Resources</h3>
+                    <ul>
+                        <li><a href="#" data-link="book" class="footer-link">Spiritual Texts</a></li>
+                        <li><a href="#" data-link="web-content-manager" class="footer-link">Articles</a></li>
+                        <li><a href="#" data-link="pdf_viewer" class="footer-link">PDF Library</a></li>
+                        <li><a href="#" data-link="pictures" class="footer-link">Media Archive</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-logo">Connect</h3>
+                    <ul>
+                        <li><a href="#" data-link="instagram" class="footer-link" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                        <li><a href="#" data-link="facebook" class="footer-link" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                        <li><a href="#" data-link="youtube" class="footer-link" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+                        <li><a href="#" data-link="whatsapp_channel" class="footer-link" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vrindopnishad Collection. All images are property of their respective owners.</p>
+            </div>
+        </footer>
+    </div>
+    <script>
+    // Advanced Ripple Effect Function
+    function createAdvancedRipple() {
+        const buttons = document.querySelectorAll('button, .btn, .search-toggle, .theme-toggle, .scroll-btn, .popup-btn, .nav-item, .social-link');
+        
+        buttons.forEach(button => {
+            let isHovering = false;
+            
+            // Mouse enter handler - expansion from entry point
+            button.addEventListener('mouseenter', function(e) {
+                isHovering = true;
+                
+                // Calculate mouse position relative to button
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Set CSS custom properties for position
+                button.style.setProperty('--x', x + 'px');
+                button.style.setProperty('--y', y + 'px');
+                
+                // Remove any existing classes and add expanding class
+                button.classList.remove('shrinking');
+                button.classList.add('expanding');
+            });
+            
+            // Mouse move handler - update position during hover
+            button.addEventListener('mousemove', function(e) {
+                if (isHovering) {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Update position smoothly
+                    button.style.setProperty('--x', x + 'px');
+                    button.style.setProperty('--y', y + 'px');
+                }
+            });
+            
+            // Mouse leave handler - shrinking to exit point
+            button.addEventListener('mouseleave', function(e) {
+                isHovering = false;
+                
+                // Calculate exit position
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Set final position for shrinking
+                button.style.setProperty('--x', x + 'px');
+                button.style.setProperty('--y', y + 'px');
+                
+                // Switch to shrinking animation
+                button.classList.remove('expanding');
+                button.classList.add('shrinking');
+                
+                // Clean up after animation completes
+                setTimeout(() => {
+                    button.classList.remove('shrinking');
+                    button.style.removeProperty('--x');
+                    button.style.removeProperty('--y');
+                    button.style.removeProperty('--size');
+                    button.style.removeProperty('--scale');
+                }, 400);
+            });
+        });
+    }
+
+    // Dynamic Ripple Effect Function
+    function createDynamicRipple() {
+        const buttons = document.querySelectorAll('.ripple-button');
+        
+        buttons.forEach(button => {
+            let activeRipple = null;
+            
+            button.addEventListener('mouseenter', function(e) {
+                // Remove any existing ripple
+                if (activeRipple) {
+                    activeRipple.remove();
+                }
+                
+                // Get entry position
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Create new ripple element
+                activeRipple = document.createElement('div');
+                activeRipple.className = 'dynamic-ripple';
+                activeRipple.style.left = x + 'px';
+                activeRipple.style.top = y + 'px';
+                
+                button.appendChild(activeRipple);
+                
+                // Trigger expansion
+                setTimeout(() => {
+                    activeRipple.classList.add('expand');
+                }, 10);
+            });
+            
+            button.addEventListener('mouseleave', function(e) {
+                if (activeRipple) {
+                    // Get exit position
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Move to exit position and shrink
+                    activeRipple.style.left = x + 'px';
+                    activeRipple.style.top = y + 'px';
+                    activeRipple.classList.remove('expand');
+                    activeRipple.classList.add('shrink');
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        if (activeRipple) {
+                            activeRipple.remove();
+                            activeRipple = null;
+                        }
+                    }, 400);
+                }
+            });
+        });
+    }
+
+    // Slider Functionality
+    function initializeSliders() {
+        const sliders = document.querySelectorAll('.items-slider');
+        
+        sliders.forEach(slider => {
+            const container = slider.closest('.slider-container');
+            const leftBtn = container.querySelector('.scroll-btn.left');
+            const rightBtn = container.querySelector('.scroll-btn.right');
+            
+            let isScrolling = false;
+            const scrollAmount = 300; // pixels to scroll
+            
+            // Left scroll
+            leftBtn.addEventListener('click', () => {
+                if (isScrolling) return;
+                isScrolling = true;
+                
+                slider.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 300);
+            });
+            
+            // Right scroll
+            rightBtn.addEventListener('click', () => {
+                if (isScrolling) return;
+                isScrolling = true;
+                
+                slider.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 300);
+            });
+            
+            // Update button states based on scroll position
+            function updateButtonStates() {
+                const isAtStart = slider.scrollLeft <= 0;
+                const isAtEnd = slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth);
+                
+                leftBtn.style.opacity = isAtStart ? '0.5' : '1';
+                rightBtn.style.opacity = isAtEnd ? '0.5' : '1';
+                
+                leftBtn.disabled = isAtStart;
+                rightBtn.disabled = isAtEnd;
+            }
+            
+            // Initial state
+            updateButtonStates();
+            
+            // Update on scroll
+            slider.addEventListener('scroll', updateButtonStates);
+            
+            // Update on resize
+            window.addEventListener('resize', updateButtonStates);
+        });
+    }
+
+    // Fixed Ripple Effect - Preserves button styling
+    // function initializeFullCoverageRipple() {
+    //     const rippleButtons = document.querySelectorAll('.ripple-btn');
+        
+    //     rippleButtons.forEach(button => {
+    //         let isHovering = false;
+    //         let rippleTimeout = null;
+
+    //         // Store original button styles
+    //         const originalStyles = {
+    //             background: getComputedStyle(button).backgroundColor,
+    //             color: getComputedStyle(button).color,
+    //             border: getComputedStyle(button).border,
+    //             padding: getComputedStyle(button).padding,
+    //             borderRadius: getComputedStyle(button).borderRadius,
+    //             fontWeight: getComputedStyle(button).fontWeight
+    //         };
+
+    //         // Set CSS custom properties for original styles
+    //         button.style.setProperty('--original-bg', originalStyles.background);
+    //         button.style.setProperty('--original-color', originalStyles.color);
+    //         button.style.setProperty('--original-border', originalStyles.border);
+    //         button.style.setProperty('--original-padding', originalStyles.padding);
+    //         button.style.setProperty('--original-radius', originalStyles.borderRadius);
+    //         button.style.setProperty('--original-weight', originalStyles.fontWeight);
+
+    //         button.addEventListener('mouseenter', function(e) {
+    //             isHovering = true;
+                
+    //             if (rippleTimeout) {
+    //                 clearTimeout(rippleTimeout);
+    //             }
+
+    //             // Ensure text element exists and has proper styling
+    //             let textElement = button.querySelector('.btn-text');
+    //             if (!textElement) {
+    //                 // Create text wrapper if it doesn't exist
+    //                 const buttonText = button.innerHTML;
+    //                 button.innerHTML = `<span class="btn-text">${buttonText}</span>`;
+    //                 textElement = button.querySelector('.btn-text');
+    //             }
+
+    //             // Calculate precise entry position
+    //             const rect = button.getBoundingClientRect();
+    //             const x = ((e.clientX - rect.left) / rect.width) * 100;
+    //             const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    //             button.style.setProperty('--ripple-x', x + '%');
+    //             button.style.setProperty('--ripple-y', y + '%');
+
+    //             button.classList.remove('ripple-shrinking');
+    //             button.classList.add('ripple-expanding');
+    //         });
+
+    //         button.addEventListener('mousemove', function(e) {
+    //             if (isHovering) {
+    //                 const rect = button.getBoundingClientRect();
+    //                 const x = ((e.clientX - rect.left) / rect.width) * 100;
+    //                 const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    //                 button.style.setProperty('--ripple-x', x + '%');
+    //                 button.style.setProperty('--ripple-y', y + '%');
+    //             }
+    //         });
+
+    //         button.addEventListener('mouseleave', function(e) {
+    //             isHovering = false;
+
+    //             // Get exit position
+    //             const rect = button.getBoundingClientRect();
+    //             const x = ((e.clientX - rect.left) / rect.width) * 100;
+    //             const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    //             // Update ripple position to exit point BEFORE starting shrink
+    //             button.style.setProperty('--ripple-x', x + '%');
+    //             button.style.setProperty('--ripple-y', y + '%');
+
+    //             // Force a reflow to ensure position is updated
+    //             button.offsetHeight;
+
+    //             // Start shrinking animation
+    //             button.classList.remove('ripple-expanding');
+    //             button.classList.add('ripple-shrinking');
+
+    //             // Clean up after animation
+    //             rippleTimeout = setTimeout(function() {
+    //                 button.classList.remove('ripple-shrinking');
+    //                 button.style.removeProperty('--ripple-x');
+    //                 button.style.removeProperty('--ripple-y');
+    //             }, 500);
+    //         });
+    //     });
+    // }
+
+    // Replace your test script with this working version
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            // Add click handlers to all collection items
+            document.querySelectorAll('.collection-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    console.log('Item clicked!');
+                    
+                    // Get item data
+                    const title = this.querySelector('.item-title')?.textContent || 'Unknown Title';
+                    const description = this.querySelector('.item-description')?.textContent || 'No description available';
+                    const bgImage = this.style.backgroundImage;
+                    
+                    // Open popup with proper data
+                    openPopupSimple(title, description, bgImage);
+                });
+            });
+            
+            // Simple popup function that definitely works
+            function openPopupSimple(title, description, image) {
+                const modal = document.getElementById('popup-modal');
+                if (!modal) {
+                    console.error('Modal not found!');
+                    return;
+                }
+                
+                // Set the hero background
+                const hero = document.getElementById('popup-hero');
+                if (hero && image) {
+                    hero.style.backgroundImage = image;
+                }
+                
+                // Update text content
+                const popupTitle = document.querySelector('.popup-title');
+                const popupDesc = document.querySelector('.popup-description');
+                const popupRating = document.querySelector('.popup-rating span');
+                const popupYear = document.querySelector('.popup-year');
+                const popupCount = document.querySelector('.popup-count');
+                const popupCategory = document.querySelector('.popup-category');
+                
+                if (popupTitle) popupTitle.textContent = title;
+                if (popupDesc) popupDesc.textContent = description;
+                if (popupRating) popupRating.textContent = '4.5';
+                if (popupYear) popupYear.textContent = '2024';
+                if (popupCount) popupCount.textContent = '50 items';
+                if (popupCategory) popupCategory.textContent = 'Collection';
+                
+                // Update stats
+                const stats = document.querySelectorAll('.stat-number');
+                if (stats[0]) stats[0].textContent = '50';
+                if (stats[1]) stats[1].textContent = '15K';
+                if (stats[2]) stats[2].textContent = '1.2K';
+                
+                // Show the modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                console.log('Popup should be visible now');
+            }
+            
+            // Close popup functionality
+            const closeBtn = document.getElementById('popup-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    const modal = document.getElementById('popup-modal');
+                    if (modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+            
+            // Close on background click
+            const modal = document.getElementById('popup-modal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+            
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const modal = document.getElementById('popup-modal');
+                    if (modal && modal.classList.contains('active')) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            });
+            
+        }, 2000); // Wait 2 seconds for items to load
+        
+        // // Initialize the advanced ripple effect
+        // createAdvancedRipple();
+        
+        // Initialize the dynamic ripple effect
+        createDynamicRipple();
+        
+        // Initialize slider functionality
+        initializeSliders();
+        
+        // Replace createAdvancedRipple() with:
+        // initializeFullCoverageRipple();
+    });
+    </script>
+    <!-- <script src="/web-extentions/Ripple Btn/btn-ripple.js"></script> -->
+</body>
+</html>

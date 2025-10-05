@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brij 84 Kos Dhaam - Sacred Pilgrimage Tours</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Floating cosmic particles background -->
+    <div class="cosmic-bg">
+        <div class="stars"></div>
+        <div class="nebula"></div>
+        <div class="floating-particles" id="floatingParticles"></div>
+    </div>
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-text">
+                        <div class="logo-devanagari">ब्रज ८४ कोस</div>
+                        <div class="logo-english">DHAAM</div>
+                    </div>
+                </div>
+                
+                <nav class="nav" id="nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link active" data-page="home">
+                            <i data-lucide="home"></i>
+                            <span data-en="HOME" data-hi="होम">HOME</span>
+                        </a></li>
+                        <li><a href="#about-brij" class="nav-link" data-page="about-brij">
+                            <i data-lucide="mountain"></i>
+                            <span data-en="ABOUT BRIJ" data-hi="ब्रज के बारे में">ABOUT BRIJ</span>
+                        </a></li>
+                        <li><a href="#about-us" class="nav-link" data-page="about-us">
+                            <i data-lucide="users"></i>
+                            <span data-en="ABOUT US" data-hi="हमारे बारे में">ABOUT US</span>
+                        </a></li>
+                        <li><a href="#tours" class="nav-link" data-page="tours">
+                            <i data-lucide="map"></i>
+                            <span data-en="TOUR PACKAGES" data-hi="यात्रा पैकेज">TOUR PACKAGES</span>
+                        </a></li>
+                        <li><a href="#gallery" class="nav-link" data-page="gallery">
+                            <i data-lucide="image"></i>
+                            <span data-en="GALLERY" data-hi="गैलरी">GALLERY</span>
+                        </a></li>
+                        <li><a href="#tirthankar" class="nav-link" data-page="tirthankar">
+                            <i data-lucide="star"></i>
+                            <span data-en="TIRTHANKAR" data-hi="तीर्थंकर">TIRTHANKAR</span>
+                        </a></li>
+                        <li><a href="#contact" class="nav-link" data-page="contact">
+                            <i data-lucide="phone"></i>
+                            <span data-en="CONTACT" data-hi="संपर्क">CONTACT</span>
+                        </a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-controls">
+                    <button class="language-toggle" id="languageToggle">
+                        <i data-lucide="globe"></i>
+                        <span>हिंदी</span>
+                    </button>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section class="page home-page active" id="home">
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title fade-in-up" data-en="SACRED PILGRIMAGE TOURS" data-hi="पवित्र तीर्थयात्रा">SACRED PILGRIMAGE TOURS</h1>
+                <h2 class="hero-subtitle fade-in-up" style="animation-delay: 0.2s;">श्री ब्रज चौरासी कोस धाम यात्रा</h2>
+                <p class="hero-description fade-in-up" style="animation-delay: 0.4s;" data-en="Experience the divine journey through Lord Krishna's sacred land" data-hi="भगवान कृष्ण की पवित्र भूमि के माध्यम से दिव्य यात्रा का अनुभव करें">Experience the divine journey through Lord Krishna's sacred land</p>
+                <div class="hero-buttons fade-in-up" style="animation-delay: 0.6s;">
+                    <button class="cta-button primary" data-page="tours">
+                        <i data-lucide="compass"></i>
+                        <span data-en="EXPLORE TOURS" data-hi="यात्राएं देखें">EXPLORE TOURS</span>
+                    </button>
+                    <button class="cta-button secondary" data-page="contact">
+                        <i data-lucide="phone-call"></i>
+                        <span data-en="CONTACT US" data-hi="संपर्क करें">CONTACT US</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="calendar"></i>
+                        </div>
+                        <div class="stat-number counter" data-target="15">0</div>
+                        <div class="stat-label" data-en="Years of Service" data-hi="सेवा के वर्ष">Years of Service</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="stat-number counter" data-target="50000">0</div>
+                        <div class="stat-label" data-en="Happy Pilgrims" data-hi="खुश तीर्थयात्री">Happy Pilgrims</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="map-pin"></i>
+                        </div>
+                        <div class="stat-number counter" data-target="84">0</div>
+                        <div class="stat-label" data-en="Temples Covered" data-hi="मंदिर कवर किए गए">Temples Covered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i data-lucide="package"></i>
+                        </div>
+                        <div class="stat-number counter" data-target="25">0</div>
+                        <div class="stat-label" data-en="Tour Packages" data-hi="यात्रा पैकेज">Tour Packages</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Services -->
+        <div class="services-preview">
+            <div class="container">
+                <h2 class="section-title" data-en="OUR SACRED SERVICES" data-hi="हमारी पवित्र सेवाएं">OUR SACRED SERVICES</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="compass"></i>
+                        </div>
+                        <h3 class="service-title" data-en="Guided Pilgrimage Tours" data-hi="गाइडेड तीर्थयात्रा">Guided Pilgrimage Tours</h3>
+                        <p class="service-description" data-en="Expert spiritual guides for complete pilgrimage experience" data-hi="पूर्ण तीर्थयात्रा अनुभव के लिए विशेषज्ञ आध्यात्मिक गाइड">Expert spiritual guides for complete pilgrimage experience</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="home"></i>
+                        </div>
+                        <h3 class="service-title" data-en="Accommodation Booking" data-hi="आवास बुकिंग">Accommodation Booking</h3>
+                        <p class="service-description" data-en="Comfortable stays in dharamshalas and hotels near temples" data-hi="मंदिरों के पास धर्मशालाओं और होटलों में आरामदायक रहना">Comfortable stays in dharamshalas and hotels near temples</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="bus"></i>
+                        </div>
+                        <h3 class="service-title" data-en="Transportation Services" data-hi="परिवहन सेवाएं">Transportation Services</h3>
+                        <p class="service-description" data-en="AC buses and private vehicles for comfortable journey" data-hi="आरामदायक यात्रा के लिए AC बसें और निजी वाहन">AC buses and private vehicles for comfortable journey</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="sparkles"></i>
+                        </div>
+                        <h3 class="service-title" data-en="Ritual Arrangements" data-hi="अनुष्ठान व्यवस्था">Ritual Arrangements</h3>
+                        <p class="service-description" data-en="Complete puja arrangements and spiritual ceremonies" data-hi="पूर्ण पूजा व्यवस्था और आध्यात्मिक समारोह">Complete puja arrangements and spiritual ceremonies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Brij Page -->
+    <section class="page about-brij-page" id="about-brij">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-en="About Brij Region" data-hi="ब्रज क्षेत्र के बारे में">About Brij Region</h1>
+                <p class="page-subtitle" data-en="The Sacred Land of Lord Krishna" data-hi="भगवान कृष्ण की पवित्र भूमि">The Sacred Land of Lord Krishna</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="content-section">
+                <div class="text-content">
+                    <h2 data-en="Historical Significance" data-hi="ऐतिहासिक महत्व">Historical Significance</h2>
+                    <p data-en="Brij region, spanning across Mathura and Vrindavan, holds immense spiritual significance as the birthplace and childhood home of Lord Krishna. The 84 Kos Parikrama encompasses 84 sacred sites, each with its unique divine story and spiritual importance." data-hi="मथुरा और वृंदावन में फैला ब्रज क्षेत्र, भगवान कृष्ण की जन्मभूमि और बचपन की भूमि के रूप में अत्यधिक आध्यात्मिक महत्व रखता है। 84 कोस परिक्रमा में 84 पवित्र स्थल शामिल हैं, जिनमें से प्रत्येक का अपना अनूठा दिव्य इतिहास और आध्यात्मिक महत्व है।">Brij region, spanning across Mathura and Vrindavan, holds immense spiritual significance as the birthplace and childhood home of Lord Krishna. The 84 Kos Parikrama encompasses 84 sacred sites, each with its unique divine story and spiritual importance.</p>
+                    
+                    <h2 data-en="Sacred Geography" data-hi="पवित्र भूगोल">Sacred Geography</h2>
+                    <p data-en="The region encompasses major pilgrimage centers including Mathura, Vrindavan, Govardhan, Barsana, Nandgaon, and Gokul. Each location is associated with specific episodes from Krishna's life, making the entire area a living testament to divine presence." data-hi="इस क्षेत्र में मथुरा, वृंदावन, गोवर्धन, बरसाना, नंदगांव और गोकुल सहित प्रमुख तीर्थ स्थल शामिल हैं। प्रत्येक स्थान कृष्ण के जीवन की विशिष्ट घटनाओं से जुड़ा है, जो पूरे क्षेत्र को दिव्य उपस्थिति का जीवंत प्रमाण बनाता है।">The region encompasses major pilgrimage centers including Mathura, Vrindavan, Govardhan, Barsana, Nandgaon, and Gokul. Each location is associated with specific episodes from Krishna's life, making the entire area a living testament to divine presence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Page -->
+    <section class="page about-us-page" id="about-us">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-en="About Our Services" data-hi="हमारी सेवाओं के बारे में">About Our Services</h1>
+                <p class="page-subtitle" data-en="Your Trusted Pilgrimage Partner" data-hi="आपका विश्वसनीय तीर्थयात्रा साझेदार">Your Trusted Pilgrimage Partner</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="about-content">
+                <div class="mission-vision">
+                    <div class="mission">
+                        <h2 data-en="Our Mission" data-hi="हमारा मिशन">Our Mission</h2>
+                        <p data-en="To provide authentic and meaningful pilgrimage experiences that connect devotees with the divine essence of Brij region, while ensuring comfort, safety, and spiritual fulfillment." data-hi="भक्तों को ब्रज क्षेत्र के दिव्य सार से जोड़ने वाले प्रामाणिक और अर्थपूर्ण तीर्थयात्रा अनुभव प्रदान करना, जबकि आराम, सुरक्षा और आध्यात्मिक संतुष्टि सुनिश्चित करना।">To provide authentic and meaningful pilgrimage experiences that connect devotees with the divine essence of Brij region, while ensuring comfort, safety, and spiritual fulfillment.</p>
+                    </div>
+                    <div class="vision">
+                        <h2 data-en="Our Vision" data-hi="हमारा दृष्टिकोण">Our Vision</h2>
+                        <p data-en="To be the leading pilgrimage tour operator in the Brij region, recognized for our expertise, devotion, and commitment to preserving and sharing the sacred heritage of Lord Krishna's land." data-hi="ब्रज क्षेत्र में अग्रणी तीर्थयात्रा टूर ऑपरेटर बनना, जो हमारी विशेषज्ञता, भक्ति और भगवान कृष्ण की भूमि की पवित्र विरासत को संरक्षित करने और साझा करने की हमारी प्रतिबद्धता के लिए पहचाना जाता है।">To be the leading pilgrimage tour operator in the Brij region, recognized for our expertise, devotion, and commitment to preserving and sharing the sacred heritage of Lord Krishna's land.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Packages Page -->
+    <section class="page tours-page" id="tours">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-en="Tour Packages" data-hi="यात्रा पैकेज">Tour Packages</h1>
+                <p class="page-subtitle" data-en="Choose Your Sacred Journey" data-hi="अपनी पवित्र यात्रा चुनें">Choose Your Sacred Journey</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="tours-grid">
+                <div class="tour-card" data-tour="vrindavan">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="map-pin"></i>
+                        </div>
+                        <h3 class="card-title">Vrindavan Temple Tour</h3>
+                        <div class="card-price">₹2,500</div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">Sacred journey through Krishna's divine land with expert guides</p>
+                        <div class="card-duration">
+                            <i data-lucide="clock"></i>
+                            <span>Full Day (8-10 hours)</span>
+                        </div>
+                        <ul class="card-highlights">
+                            <li><i data-lucide="check"></i>Krishna Janmabhoomi</li>
+                            <li><i data-lucide="check"></i>Banke Bihari Temple</li>
+                            <li><i data-lucide="check"></i>ISKCON Temple</li>
+                            <li><i data-lucide="check"></i>Nidhivan</li>
+                        </ul>
+                    </div>
+                    <button class="card-button">
+                        <i data-lucide="arrow-right"></i>
+                        <span data-en="Book Now" data-hi="अब बुक करें">Book Now</span>
+                    </button>
+                </div>
+
+                <div class="tour-card" data-tour="mathura">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="calendar"></i>
+                        </div>
+                        <h3 class="card-title">Mathura Holi Celebrations</h3>
+                        <div class="card-price">₹8,500</div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">Experience the divine colors of Holi in Krishna's birthplace</p>
+                        <div class="card-duration">
+                            <i data-lucide="clock"></i>
+                            <span>3 Days / 2 Nights</span>
+                        </div>
+                        <ul class="card-highlights">
+                            <li><i data-lucide="check"></i>Lathmar Holi at Barsana</li>
+                            <li><i data-lucide="check"></i>Cultural Programs</li>
+                            <li><i data-lucide="check"></i>Traditional Cuisine</li>
+                            <li><i data-lucide="check"></i>Folk Dance</li>
+                        </ul>
+                    </div>
+                    <button class="card-button">
+                        <i data-lucide="arrow-right"></i>
+                        <span data-en="Book Now" data-hi="अब बुक करें">Book Now</span>
+                    </button>
+                </div>
+
+                <div class="tour-card" data-tour="complete">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="route"></i>
+                        </div>
+                        <h3 class="card-title">Complete 84 Kos Parikrama</h3>
+                        <div class="card-price">₹15,000</div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">Traditional circumambulation of entire Brij region</p>
+                        <div class="card-duration">
+                            <i data-lucide="clock"></i>
+                            <span>7 Days / 6 Nights</span>
+                        </div>
+                        <ul class="card-highlights">
+                            <li><i data-lucide="check"></i>All 84 Sacred Sites</li>
+                            <li><i data-lucide="check"></i>Guided Parikrama</li>
+                            <li><i data-lucide="check"></i>Spiritual Discourse</li>
+                            <li><i data-lucide="check"></i>Traditional Accommodation</li>
+                        </ul>
+                    </div>
+                    <button class="card-button">
+                        <i data-lucide="arrow-right"></i>
+                        <span data-en="Book Now" data-hi="अब बुक करें">Book Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Page -->
+    <section class="page gallery-page" id="gallery">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-en="Sacred Gallery" data-hi="पवित्र गैलरी">Sacred Gallery</h1>
+                <p class="page-subtitle" data-en="Divine Moments Captured" data-hi="दिव्य क्षण कैद किए गए">Divine Moments Captured</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">
+                    <i data-lucide="grid"></i>
+                    <span data-en="All" data-hi="सभी">All</span>
+                </button>
+                <button class="filter-btn" data-filter="temples">
+                    <i data-lucide="building"></i>
+                    <span data-en="Temples" data-hi="मंदिर">Temples</span>
+                </button>
+                <button class="filter-btn" data-filter="festivals">
+                    <i data-lucide="star"></i>
+                    <span data-en="Festivals" data-hi="त्योहार">Festivals</span>
+                </button>
+                <button class="filter-btn" data-filter="landscapes">
+                    <i data-lucide="mountain"></i>
+                    <span data-en="Landscapes" data-hi="परिदृश्य">Landscapes</span>
+                </button>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Gallery items will be generated dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tirthankar Page -->
+    <section class="page tirthankar-page" id="tirthankar">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-en="Spiritual Guides" data-hi="आध्यात्मिक गुरु">Spiritual Guides</h1>
+                <p class="page-subtitle" data-en="Meet Our Experienced Guides" data-hi="हमारे अनुभवी गाइडों से मिलें">Meet Our Experienced Guides</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="guides-grid">
+                <div class="guide-card">
+                    <div class="guide-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Pandit Radheshyam Sharma</h3>
+                        <p class="guide-title" data-en="Senior Spiritual Guide" data-hi="वरिष्ठ आध्यात्मिक गाइड">Senior Spiritual Guide</p>
+                        <p class="guide-experience">25+ years experience</p>
+                        <p class="guide-description" data-en="Expert in Brij region history and Krishna leelas" data-hi="ब्रज क्षेत्र के इतिहास और कृष्ण लीलाओं के विशेषज्ञ">Expert in Brij region history and Krishna leelas</p>
+                    </div>
+                </div>
+                
+                <div class="guide-card">
+                    <div class="guide-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Mata Radha Devi</h3>
+                        <p class="guide-title" data-en="Female Pilgrimage Guide" data-hi="महिला तीर्थयात्रा गाइड">Female Pilgrimage Guide</p>
+                        <p class="guide-experience">20+ years experience</p>
+                        <p class="guide-description" data-en="Specializes in women's spiritual journeys" data-hi="महिलाओं की आध्यात्मिक यात्राओं में विशेषज्ञ">Specializes in women's spiritual journeys</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Page -->
+    <section class="page contact-page" id="contact">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-en="Contact Us" data-hi="संपर्क करें">Contact Us</h1>
+                <p class="page-subtitle" data-en="Plan Your Sacred Journey" data-hi="अपनी पवित्र यात्रा की योजना बनाएं">Plan Your Sacred Journey</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="phone"></i>
+                        </div>
+                        <h3 data-en="Phone" data-hi="फोन">Phone</h3>
+                        <p>+91-9876543210</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="mail"></i>
+                        </div>
+                        <h3 data-en="Email" data-hi="ईमेल">Email</h3>
+                        <p>info@brij84kos.com</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="map-pin"></i>
+                        </div>
+                        <h3 data-en="Address" data-hi="पता">Address</h3>
+                        <p>Krishna Nagar, Vrindavan, Mathura, UP 281121</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="clock"></i>
+                        </div>
+                        <h3 data-en="Office Hours" data-hi="कार्यालय समय">Office Hours</h3>
+                        <p>9:00 AM - 7:00 PM (Mon-Sat)</p>
+                    </div>
+                </div>
+                
+                <div class="contact-form-section">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name" data-en="Name" data-hi="नाम">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" data-en="Email" data-hi="ईमेल">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" data-en="Phone" data-hi="फोन">Phone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tour" data-en="Tour Package" data-hi="यात्रा पैकेज">Tour Package</label>
+                            <select id="tour" name="tour" required>
+                                <option value="">Select Tour</option>
+                                <option value="vrindavan">Vrindavan Temple Tour</option>
+                                <option value="mathura">Mathura Holi Celebrations</option>
+                                <option value="complete">Complete 84 Kos Parikrama</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" data-en="Message" data-hi="संदेश">Message</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">
+                            <i data-lucide="send"></i>
+                            <span data-en="Send Message" data-hi="संदेश भेजें">Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Google Maps Section -->
+            <div class="map-section">
+                <h2 class="section-title" data-en="Find Us on Map" data-hi="मानचित्र पर हमें खोजें">Find Us on Map</h2>
+                <div class="map-container">
+                    <div id="googleMap" class="google-map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-text">
+                            <div class="logo-devanagari">ब्रज ८४ कोस</div>
+                            <div class="logo-english">DHAAM</div>
+                        </div>
+                    </div>
+                    <p class="footer-description" data-en="Experience the sacred journey through Lord Krishna's divine land with our expertly guided pilgrimage tours." data-hi="हमारे विशेषज्ञ रूप से निर्देशित तीर्थयात्रा टूर के साथ भगवान कृष्ण की दिव्य भूमि के माध्यम से पवित्र यात्रा का अनुभव करें।">Experience the sacred journey through Lord Krishna's divine land with our expertly guided pilgrimage tours.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/brij84kos" target="_blank" class="social-link">
+                            <i data-lucide="facebook"></i>
+                        </a>
+                        <a href="https://instagram.com/brij84kos" target="_blank" class="social-link">
+                            <i data-lucide="instagram"></i>
+                        </a>
+                        <a href="https://twitter.com/brij84kos" target="_blank" class="social-link">
+                            <i data-lucide="twitter"></i>
+                        </a>
+                        <a href="https://youtube.com/brij84kos" target="_blank" class="social-link">
+                            <i data-lucide="youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title" data-en="Quick Links" data-hi="त्वरित लिंक">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" data-page="home" data-en="Home" data-hi="होम">Home</a></li>
+                        <li><a href="#about-brij" data-page="about-brij" data-en="About Brij" data-hi="ब्रज के बारे में">About Brij</a></li>
+                        <li><a href="#tours" data-page="tours" data-en="Tour Packages" data-hi="यात्रा पैकेज">Tour Packages</a></li>
+                        <li><a href="#contact" data-page="contact" data-en="Contact" data-hi="संपर्क">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title" data-en="Contact Info" data-hi="संपर्क जानकारी">Contact Info</h3>
+                    <div class="contact-item">
+                        <i data-lucide="phone"></i>
+                        <span>+91-9876543210</span>
+                    </div>
+                    <div class="contact-item">
+                        <i data-lucide="mail"></i>
+                        <span>info@brij84kos.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i data-lucide="map-pin"></i>
+                        <span>Krishna Nagar, Vrindavan, Mathura, UP</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="om-symbol">
+                    <i data-lucide="star"></i>
+                </div>
+                <p>&copy; 2024 Brij 84 Kos Dhaam. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div class="modal hidden" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Book Your Tour" data-hi="अपनी यात्रा बुक करें">Book Your Tour</h3>
+                <button class="modal-close" id="modalClose">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourSelect" data-en="Tour Package" data-hi="यात्रा पैकेज">Tour Package</label>
+                            <select id="tourSelect" required>
+                                <option value="">Select Tour</option>
+                                <option value="vrindavan">Vrindavan Temple Tour - ₹2,500</option>
+                                <option value="mathura">Mathura Holi Celebrations - ₹8,500</option>
+                                <option value="complete">Complete 84 Kos Parikrama - ₹15,000</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="travelDate" data-en="Travel Date" data-hi="यात्रा तिथि">Travel Date</label>
+                            <input type="date" id="travelDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pilgrims" data-en="Number of Pilgrims" data-hi="तीर्थयात्रियों की संख्या">Number of Pilgrims</label>
+                            <select id="pilgrims" required>
+                                <option value="">Select</option>
+                                <option value="1">1 Person</option>
+                                <option value="2">2 People</option>
+                                <option value="3-5">3-5 People</option>
+                                <option value="6-10">6-10 People</option>
+                                <option value="group">Group (10+)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPerson" data-en="Contact Person" data-hi="संपर्क व्यक्ति">Contact Person</label>
+                            <input type="text" id="contactPerson" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone" data-en="Phone Number" data-hi="फोन नंबर">Phone Number</label>
+                        <input type="tel" id="contactPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="specialRequests" data-en="Special Requests" data-hi="विशेष अनुरोध">Special Requests</label>
+                        <textarea id="specialRequests" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">
+                        <i data-lucide="check-circle"></i>
+                        <span data-en="Confirm Booking" data-hi="बुकिंग की पुष्टि करें">Confirm Booking</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p data-en="Loading Sacred Experience..." data-hi="पवित्र अनुभव लोड हो रहा है...">Loading Sacred Experience...</p>
+        </div>
+    </div>
+
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+    <script src="app.js"></script>
+</body>
+</html>

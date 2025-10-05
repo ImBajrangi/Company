@@ -1,0 +1,426 @@
+/* Cosmic Navigation - Modern responsive menu that matches cosmic theme */
+.cosmic-nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.cosmic-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background: rgba(8, 8, 24, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(114, 186, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cosmic-navbar.scrolled {
+  padding: 10px 5%;
+  background: rgba(8, 8, 24, 0.95);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo styling */
+.cosmic-logo {
+  display: flex;
+  align-items: center;
+}
+
+.cosmic-logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.cosmic-logo-text {
+  font-size: 1.6rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #fff, #7eb5ff 50%, #c582ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+/* Navigation links */
+.cosmic-nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cosmic-nav-links li {
+  position: relative;
+  margin: 0 15px;
+}
+
+.cosmic-nav-links a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 5px 0;
+}
+
+.cosmic-nav-links a:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(114, 186, 255, 0.5);
+}
+
+/* Animated underline */
+.cosmic-nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #3f88f5, #9f5afd);
+  transition: width 0.3s ease;
+}
+
+.cosmic-nav-links a:hover::after,
+.cosmic-nav-links a.active::after {
+  width: 100%;
+}
+
+.cosmic-nav-links a.active {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(114, 186, 255, 0.7);
+}
+
+/* Right side icons */
+.cosmic-nav-icons {
+  display: flex;
+  align-items: center;
+}
+
+.cosmic-nav-icon {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.2rem;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.cosmic-nav-icon:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(114, 186, 255, 0.7);
+}
+
+/* Search overlay */
+.cosmic-search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 8, 24, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.cosmic-search-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cosmic-search-form {
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+}
+
+.cosmic-search-input {
+  width: 100%;
+  padding: 15px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(114, 186, 255, 0.3);
+  border-radius: 30px;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.cosmic-search-input:focus {
+  outline: none;
+  border-color: rgba(114, 186, 255, 0.7);
+  box-shadow: 0 0 20px rgba(114, 186, 255, 0.2);
+}
+
+.cosmic-search-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cosmic-search-close:hover {
+  color: #3f88f5;
+  transform: rotate(90deg);
+}
+
+/* Hamburger Menu for Mobile */
+.cosmic-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  z-index: 1110;
+}
+
+.cosmic-menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #3f88f5, #9f5afd);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu */
+.cosmic-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 400px;
+  height: 100%;
+  background: rgba(8, 8, 24, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1100;
+  padding: 80px 40px;
+  transition: all 0.5s cubic-bezier(0.77, 0.2, 0.05, 0.9);
+  overflow-y: auto;
+}
+
+.cosmic-mobile-menu.active {
+  right: 0;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.cosmic-mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cosmic-mobile-menu li {
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+
+.cosmic-mobile-menu.active li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cosmic-mobile-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+.cosmic-mobile-menu.active li:nth-child(2) { transition-delay: 0.2s; }
+.cosmic-mobile-menu.active li:nth-child(3) { transition-delay: 0.3s; }
+.cosmic-mobile-menu.active li:nth-child(4) { transition-delay: 0.4s; }
+.cosmic-mobile-menu.active li:nth-child(5) { transition-delay: 0.5s; }
+
+.cosmic-mobile-menu a {
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: block;
+  padding: 10px 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: 5px;
+  padding-left: 15px;
+}
+
+.cosmic-mobile-menu a:hover,
+.cosmic-mobile-menu a.active {
+  color: #7eb5ff;
+  text-shadow: 0 0 10px rgba(114, 186, 255, 0.7);
+  background: linear-gradient(90deg, rgba(63, 136, 245, 0.1), transparent);
+}
+
+/* Overlay for mobile menu */
+.cosmic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.cosmic-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Active Toggle Animation */
+.cosmic-menu-toggle.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.cosmic-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.cosmic-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .cosmic-nav-links {
+    display: none;
+  }
+  
+  .cosmic-menu-toggle {
+    display: flex;
+  }
+  
+  .cosmic-navbar {
+    padding: 15px 5%;
+  }
+}
+
+@media (max-width: 576px) {
+  .cosmic-logo-text {
+    font-size: 1.4rem;
+  }
+  
+  .cosmic-mobile-menu {
+    width: 100%;
+    max-width: 100%;
+    padding: 80px 30px;
+  }
+}
+
+/* Dropdown Menu */
+.cosmic-dropdown {
+  position: relative;
+}
+
+.cosmic-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
+  background: rgba(8, 8, 24, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 10px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: top center;
+  transform: translateX(-50%) translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 100;
+  margin-top: 15px;
+  border: 1px solid rgba(114, 186, 255, 0.1);
+}
+
+.cosmic-dropdown-content::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: rgba(8, 8, 24, 0.95);
+  border-top: 1px solid rgba(114, 186, 255, 0.1);
+  border-left: 1px solid rgba(114, 186, 255, 0.1);
+}
+
+.cosmic-dropdown:hover .cosmic-dropdown-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.cosmic-dropdown-content a {
+  display: block;
+  padding: 10px 20px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-align: left;
+  border-left: 0px solid transparent;
+}
+
+.cosmic-dropdown-content a:hover {
+  background: rgba(114, 186, 255, 0.1);
+  color: #fff;
+  padding-left: 25px;
+  border-left: 3px solid #3f88f5;
+}
+
+/* Mobile Dropdown */
+.cosmic-mobile-dropdown {
+  position: relative;
+}
+
+.cosmic-mobile-dropdown > a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cosmic-mobile-dropdown > a::after {
+  content: '\f107';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  transition: all 0.3s ease;
+}
+
+.cosmic-mobile-dropdown.open > a::after {
+  transform: rotate(180deg);
+}
+
+.cosmic-mobile-dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  margin-left: 20px;
+}
+
+.cosmic-mobile-dropdown.open .cosmic-mobile-dropdown-content {
+  max-height: 500px;
+}
+
+.cosmic-mobile-dropdown-content a {
+  font-size: 1.2rem;
+  padding: 8px 15px;
+  margin-top: 5px;
+} 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vrindopnishad - Paath</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Rozha+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <link rel="stylesheet" href="/sketch/css/read-me.css">
+        <!-- Add these script tags before the closing </body> tag -->
+        <!-- <script src="/sketch/js/content_connector.js"></script> -->
+         <script src="/sketch/js/load-json.js"></script>
+</head>
+<body>
+    <div class="nebula"></div>
+    <header>
+        <div class="logo">वृन्दोपनिषद्</div>
+        <div id="authorDisplay" class="author-header"></div>
+    </header>
+
+    <div class="container">
+        <h1 id="dynamicTitle" class="dynamic-title" lazy load></h1>
+        <div id="contentArea">
+            <div class="no-content">
+                <p>Loading poetry collection...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" id="fontDown">A-</button>
+        <button class="control-btn" id="fontUp">A+</button>
+        <button class="control-btn" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+    <script src="/sketch/js/read-me.js"></script>
+</body>
+</html>

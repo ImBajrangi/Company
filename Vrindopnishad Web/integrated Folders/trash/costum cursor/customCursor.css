@@ -1,0 +1,116 @@
+/**
+ * Custom Cursor CSS
+ * This contains all the styling for a custom cursor that follows mouse movement.
+ * Import this file in any project where you want to use the custom cursor.
+ */
+
+:root {
+    --cursor-primary-color: #ff5722;  /* Default cursor color */
+    --cursor-size: 40px;              /* Default cursor size */
+    --cursor-border-width: 2px;       /* Default border width */
+    --cursor-transition-speed: 0.2s;  /* Default transition speed */
+}
+
+/* Main cursor element */
+.cursor {
+    position: fixed;
+    height: var(--cursor-size);
+    width: var(--cursor-size);
+    background-color: rgba(255, 255, 255, 0.2);
+    border: var(--cursor-border-width) solid var(--cursor-primary-color);
+    border-radius: 50%;
+    margin-left: calc(var(--cursor-size) / -2);
+    margin-top: calc(var(--cursor-size) / -2);
+    z-index: 1000;
+    backdrop-filter: invert(1);
+    -webkit-backdrop-filter: invert(1);
+    pointer-events: none;
+    opacity: 0;
+    transition: transform var(--cursor-transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.3s ease,
+                background-color var(--cursor-transition-speed) ease,
+                border-color var(--cursor-transition-speed) ease;
+}
+
+/* Active state (when hovering over links, buttons, etc.) */
+.cursor.active {
+    transform: scale(0.5);
+    background-color: var(--cursor-primary-color);
+    border-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* Add this class to the body element when custom cursor is active */
+body.has-custom-cursor {
+    cursor: none;
+}
+
+/* Hide default cursor on interactive elements */
+body.has-custom-cursor a,
+body.has-custom-cursor button,
+body.has-custom-cursor input[type="submit"],
+body.has-custom-cursor input[type="button"],
+body.has-custom-cursor .btn,
+body.has-custom-cursor [role="button"],
+body.has-custom-cursor .clickable,
+body.has-custom-cursor [data-cursor-active] {
+    cursor: none;
+}
+
+/* Dark mode theme support */
+body.dark-mode .cursor {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Style variations - can be applied by adding these classes to the cursor element */
+
+/* Larger cursor */
+.cursor.cursor-lg {
+    --cursor-size: 60px;
+}
+
+/* Smaller cursor */
+.cursor.cursor-sm {
+    --cursor-size: 30px;
+}
+
+/* Dot cursor (small dot with no border) */
+.cursor.cursor-dot {
+    --cursor-size: 10px;
+    background-color: var(--cursor-primary-color);
+    border: none;
+}
+
+/* Ring cursor (just border, no fill) */
+.cursor.cursor-ring {
+    background-color: transparent;
+    border-width: 1px;
+}
+
+/* Square cursor */
+.cursor.cursor-square {
+    border-radius: 0;
+}
+
+/* Mobile & touch devices - hide cursor completely */
+@media (hover: none), (pointer: coarse) {
+    .cursor {
+        display: none !important;
+    }
+    
+    body.has-custom-cursor {
+        cursor: auto;
+    }
+    
+    body.has-custom-cursor a,
+    body.has-custom-cursor button,
+    body.has-custom-cursor input[type="submit"],
+    body.has-custom-cursor input[type="button"],
+    body.has-custom-cursor .btn,
+    body.has-custom-cursor [role="button"],
+    body.has-custom-cursor .clickable,
+    body.has-custom-cursor [data-cursor-active] {
+        cursor: auto;
+    }
+} 

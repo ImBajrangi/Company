@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional aluminum and PVC products for residential and commercial projects">
+    <title>TechnoProfile - Aluminum & PVC Solutions</title>
+    <link rel="stylesheet" href="web-style-2.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="https://via.placeholder.com/180x60?text=TechnoProfile" alt="TechnoProfile Logo">
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="language-switch">
+                        <a href="#" class="active">EN</a>
+                        <a href="#">FR</a>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="mobile-menu-btn" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-slider">
+            <div class="slide active">
+                <div class="slide-content">
+                    <h1>Premium Aluminum & PVC Solutions</h1>
+                    <p>High-quality products for residential and commercial projects</p>
+                    <a href="#products" class="btn btn-primary">Explore Products</a>
+                </div>
+                <div class="slide-bg" style="background-image: url('https://via.placeholder.com/1920x1080?text=Modern+Building')"></div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Custom Architectural Solutions</h1>
+                    <p>Tailored to your specific project requirements</p>
+                    <a href="#services" class="btn btn-primary">Our Services</a>
+                </div>
+                <div class="slide-bg" style="background-image: url('https://via.placeholder.com/1920x1080?text=Architectural+Design')"></div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Innovative Design & Engineering</h1>
+                    <p>Creating modern, efficient, and sustainable spaces</p>
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                </div>
+                <div class="slide-bg" style="background-image: url('https://via.placeholder.com/1920x1080?text=Innovative+Design')"></div>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <button class="prev-slide" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+            <div class="slider-dots">
+                <button class="dot active" data-slide="0" aria-label="Go to slide 1"></button>
+                <button class="dot" data-slide="1" aria-label="Go to slide 2"></button>
+                <button class="dot" data-slide="2" aria-label="Go to slide 3"></button>
+            </div>
+            <button class="next-slide" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Products</h2>
+                <p>Discover our range of high-quality aluminum and PVC solutions</p>
+            </div>
+            <div class="product-categories">
+                <div class="category-tabs">
+                    <button class="tab-btn active" data-category="windows">Windows</button>
+                    <button class="tab-btn" data-category="doors">Doors</button>
+                    <button class="tab-btn" data-category="facades">Facades</button>
+                    <button class="tab-btn" data-category="railings">Railings</button>
+                </div>
+                <div class="category-content">
+                    <div class="category-panel active" id="windows">
+                        <div class="product-grid">
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="https://via.placeholder.com/400x300?text=Aluminum+Window" alt="Aluminum Window">
+                                </div>
+                                <div class="product-info">
+                                    <h3>Aluminum Windows</h3>
+                                    <p>Durable and elegant aluminum window solutions</p>
+                                    <a href="#" class="btn btn-outline">Learn More</a>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="https://via.placeholder.com/400x300?text=PVC+Window" alt="PVC Window">
+                                </div>
+                                <div class="product-info">
+                                    <h3>PVC Windows</h3>
+                                    <p>Energy-efficient and cost-effective window solutions</p>
+                                    <a href="#" class="btn btn-outline">Learn More</a>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="https://via.placeholder.com/400x300?text=Custom+Window" alt="Custom Window">
+                                </div>
+                                <div class="product-info">
+                                    <h3>Custom Windows</h3>
+                                    <p>Tailored window solutions for unique architectural designs</p>
+                                    <a href="#" class="btn btn-outline">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Other category panels would go here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Comprehensive solutions for your construction and renovation projects</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+                    <h3>Design & Consultation</h3>
+                    <p>Expert advice and custom design solutions for your project</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <h3>Measurement & Estimation</h3>
+                    <p>Precise measurements and detailed cost estimates</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Installation</h3>
+                    <p>Professional installation by certified technicians</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <h3>Maintenance & Repair</h3>
+                    <p>Ongoing support and repair services for all our products</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects section" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+                <p>Explore our portfolio of successful installations</p>
+            </div>
+            <div class="project-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="residential">Residential</button>
+                <button class="filter-btn" data-filter="commercial">Commercial</button>
+                <button class="filter-btn" data-filter="institutional">Institutional</button>
+            </div>
+            <div class="project-gallery">
+                <div class="project-item" data-category="residential">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/600x400?text=Residential+Project" alt="Residential Project">
+                    </div>
+                    <div class="project-overlay">
+                        <h3>Modern Residence</h3>
+                        <p>Custom aluminum windows and doors for a luxury home</p>
+                        <a href="#" class="btn btn-light">View Details</a>
+                    </div>
+                </div>
+                <div class="project-item" data-category="commercial">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/600x400?text=Commercial+Project" alt="Commercial Project">
+                    </div>
+                    <div class="project-overlay">
+                        <h3>Office Building</h3>
+                        <p>Curtain wall facade for a corporate headquarters</p>
+                        <a href="#" class="btn btn-light">View Details</a>
+                    </div>
+                </div>
+                <div class="project-item" data-category="institutional">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/600x400?text=Institutional+Project" alt="Institutional Project">
+                    </div>
+                    <div class="project-overlay">
+                        <h3>University Campus</h3>
+                        <p>Energy-efficient windows for educational facilities</p>
+                        <a href="#" class="btn btn-light">View Details</a>
+                    </div>
+                </div>
+                <div class="project-item" data-category="residential">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/600x400?text=Residential+Project+2" alt="Residential Project">
+                    </div>
+                    <div class="project-overlay">
+                        <h3>Lakeside Villa</h3>
+                        <p>Panoramic windows with enhanced thermal insulation</p>
+                        <a href="#" class="btn btn-light">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="section-header">
+                        <h2>About TechnoProfile</h2>
+                        <p>Your trusted partner for aluminum and PVC solutions</p>
+                    </div>
+                    <p>With over 20 years of experience in the industry, TechnoProfile has established itself as a leader in providing high-quality aluminum and PVC products for residential and commercial projects.</p>
+                    <p>Our commitment to excellence, innovation, and customer satisfaction has earned us a reputation for delivering superior products and services that exceed expectations.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">20+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Projects Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Team Members</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://via.placeholder.com/600x400?text=Our+Team" alt="TechnoProfile Team">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Clients Say</h2>
+                <p>Hear from those who have experienced our quality and service</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>TechnoProfile delivered exceptional quality windows for our new home. The installation was flawless, and the energy efficiency has significantly reduced our heating costs.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="https://via.placeholder.com/80x80?text=Client" alt="Client">
+                            </div>
+                            <div class="author-info">
+                                <h4>John Smith</h4>
+                                <p>Homeowner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- More testimonials would go here -->
+            </div>
+            <div class="testimonial-dots">
+                <button class="dot active" data-slide="0"></button>
+                <button class="dot" data-slide="1"></button>
+                <button class="dot" data-slide="2"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Get in touch for inquiries, quotes, or support</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-text">
+                            <h3>Address</h3>
+                            <p>123 Business Street, Suite 100<br>Montreal, QC H1H 1H1</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-text">
+                            <h3>Phone</h3>
+                            <p>+1 (514) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-text">
+                            <h3>Email</h3>
+                            <p>info@technoprofile.ca</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-text">
+                            <h3>Hours</h3>
+                            <p>Monday - Friday: 8:00 AM - 5:00 PM<br>Saturday: 9:00 AM - 2:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Your Phone">
+                        </div>
+                        <div class="form-group">
+                            <select id="subject" name="subject" required>
+                                <option value="" disabled selected>Select Subject</option>
+                                <option value="quote">Request a Quote</option>
+                                <option value="info">Product Information</option>
+                                <option value="support">Technical Support</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://via.placeholder.com/180x60?text=TechnoProfile" alt="TechnoProfile Logo">
+                    <p>Premium aluminum and PVC solutions for all your architectural needs.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#products">Products</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Products</h3>
+                        <ul>
+                            <li><a href="#">Windows</a></li>
+                            <li><a href="#">Doors</a></li>
+                            <li><a href="#">Facades</a></li>
+                            <li><a href="#">Railings</a></li>
+                            <li><a href="#">Custom Solutions</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Connect</h3>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <div class="newsletter">
+                            <h4>Subscribe to our newsletter</h4>
+                            <form id="newsletterForm">
+                                <input type="email" placeholder="Your Email" required>
+                                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 TechnoProfile. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="web-app.js"></script>
+</body>
+</html>
