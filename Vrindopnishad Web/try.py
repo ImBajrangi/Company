@@ -1,2 +1,0 @@
-# Eligible to vote exercise
-
