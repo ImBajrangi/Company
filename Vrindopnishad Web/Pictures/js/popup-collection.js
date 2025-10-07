@@ -210,7 +210,7 @@ function generateCollectionItems(containerId, items) {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('../../class/json/collections_data.json');
+        const response = await fetch('/Vrindopnishad Web/class/json/collections_data.json');
         const data = await response.json();
         collectionsData = data.collections;
 
