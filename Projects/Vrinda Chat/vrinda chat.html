@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-chat Real-Time Messenger</title>
-    <!-- Load Tailwind CSS via CDN -->
+    <title>V-Chat: Real-Time Messenger</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load QR Code Generator Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Load QR Code Scanner Library (html5-qrcode) -->
     <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <!-- Use Inter font -->
     <style>
         /* General styling for a cleaner, Gmail-like aesthetic */
         body {
@@ -36,33 +32,57 @@
         #app-container > div {
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Lighter shadow */
         }
+        /* Mobile sidebar animation */
+        #sidebar.mobile-open {
+            transform: translateX(0);
+        }
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        @media (max-width: 640px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="app-container" class="min-h-screen p-2 sm:p-4 flex flex-col items-center">
-        <div class="w-full max-w-5xl h-[95vh] flex rounded-xl overflow-hidden bg-white">
+        <div class="w-full max-w-5xl h-[95vh] flex rounded-xl overflow-hidden bg-white relative">
             
-            <!-- Sidebar (Rendered by JS) -->
-            <div id="sidebar" class="w-full sm:w-64 bg-white text-gray-800 flex-shrink-0 flex flex-col h-full overflow-y-auto border-r border-gray-200">
-                <!-- Sidebar content will be injected by JavaScript -->
+            <button 
+                id="mobile-menu-toggle" 
+                class="sm:hidden fixed top-4 right-4 z-50 bg-indigo-600 text-white p-2 rounded-lg shadow-lg hover:bg-indigo-700 transition"
+                aria-label="Toggle Menu"
+            >
+                <svg id="menu-icon" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg id="close-icon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            
+            <div id="mobile-sidebar-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 sm:hidden"></div>
+
+            <div id="sidebar" class="fixed sm:relative sm:flex w-64 bg-white text-gray-800 flex-shrink-0 flex-col h-full overflow-y-auto border-r border-gray-200 z-40">
                 <div class="p-4 text-center text-indigo-600 font-medium">Loading Sidebar...</div>
             </div>
 
-            <!-- Chat Area -->
-            <div id="chat-area" class="flex-grow flex flex-col bg-gray-50">
+            <div id="chat-area" class="flex-grow flex flex-col bg-gray-50 w-full">
                 
-                <!-- Chat Header (Rendered by JS - Now flat, white, and bordered) -->
                 <header id="chat-header" class="p-4 bg-white border-b border-gray-200 flex-shrink-0">
-                    <h1 class="text-xl font-bold text-indigo-600">Vrinda Chat</h1>
+                    <h1 class="text-xl font-bold text-indigo-600">V-Chat</h1>
                 </header>
 
-                <!-- Error Message Container -->
                 <div id="error-container" class="hidden p-4 bg-red-100 border-l-4 border-red-500 text-red-700 flex-shrink-0" role="alert">
                     <p class="font-bold">Error</p>
                     <p id="error-message" class="text-sm"></p>
                 </div>
 
-                <!-- Message List Area (Rendered by JS) -->
                 <div id="message-list" class="flex-grow p-4 overflow-y-auto space-y-3 custom-scrollbar bg-white">
                     <div class="text-center p-8 text-indigo-500 text-lg">
                         <svg class="animate-spin h-6 w-6 mr-3 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -73,11 +93,9 @@
                     </div>
                 </div>
 
-                <!-- Message Input Form (Cleaner look) -->
                 <form id="message-form" class="p-4 bg-gray-50 border-t border-gray-200 flex-shrink-0">
                     <div class="relative flex space-x-3">
                         
-                        <!-- Emoji Picker Container -->
                         <div class="relative">
                             <button
                               type="button"
@@ -85,13 +103,11 @@
                               class="p-3 text-2xl text-gray-500 hover:text-indigo-600 transition duration-150 rounded-full hover:bg-gray-200"
                               aria-label="Toggle Emoji Picker"
                             >
-                              <!-- Smile Icon -->
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
                             </button>
                             
                             <div id="emoji-picker" class="hidden absolute bottom-full mb-2 p-2 bg-white border border-gray-300 rounded-xl shadow-lg flex flex-wrap w-56 z-20">
-                                <!-- Emojis will be injected here -->
-                            </div>
+                                </div>
                         </div>
 
                         <input
@@ -109,7 +125,6 @@
                           disabled
                           aria-label="Send Message"
                         >
-                          <!-- Send Icon -->
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                         </button>
                     </div>
@@ -118,16 +133,12 @@
         </div>
     </div>
 
-    <!-- Modals -->
-
-    <!-- QR Code Share Modal (Hidden by default) -->
     <div id="qr-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300">
         <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full transform transition-transform duration-300 scale-95 opacity-0" id="qr-modal-content">
-            <h2 class="text-2xl font-bold mb-4 text-indigo-700 text-center">Share Your Vrinda Chat ID</h2>
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 text-center">Share Your V-Chat ID</h2>
             
             <div id="qrcode-output" class="flex justify-center p-4 bg-gray-100 rounded-lg w-full h-[256px]">
-                <!-- QR Code will be drawn into this DIV by the JavaScript library -->
-            </div>
+                </div>
             
             <p class="text-sm text-gray-500 mt-4 text-center">
                 Have your friend scan this QR code to get your full User ID.
@@ -142,12 +153,10 @@
         </div>
     </div>
     
-    <!-- QR Code Scan Modal (Hidden by default) -->
     <div id="scan-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300">
         <div class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full transform transition-transform duration-300 scale-95 opacity-0" id="scan-modal-content">
             <h2 class="text-2xl font-bold mb-4 text-indigo-700 text-center">Scan User ID QR Code</h2>
             
-            <!-- Camera Output Area -->
             <div id="reader" class="w-full rounded-lg overflow-hidden border border-gray-300"></div>
             
             <p id="scan-status" class="text-sm text-center mt-4 text-gray-600">Camera initializing...</p>
@@ -167,7 +176,6 @@
         import { 
             getAuth, 
             signInAnonymously, 
-            signInWithCustomToken, 
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { 
@@ -177,17 +185,16 @@
             onSnapshot, 
             query, 
             serverTimestamp, 
-            orderBy, 
-            setLogLevel 
+            orderBy
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Set Firebase Debug Logging
-        setLogLevel('Debug');
 
         // --- 2. Global State & DOM Elements ---
         let db, auth;
         let unsubscribeSnapshot = null; // Stores the current Firestore listener unsubscribe function
         let html5QrcodeScanner = null; // Stores the instance of the QR code scanner
+
+        // FIX: Define a single, constant Application ID to ensure all users share the same database path.
+        const APP_ID = "v-chat-public-instance-2025";
 
         // Application State Object (The core of the dynamic behavior)
         const appState = {
@@ -198,6 +205,7 @@
             isAuthReady: false,
             error: null,
             isEmojiPickerOpen: false,
+            isMobileSidebarOpen: false,
         };
 
         // DOM Elements
@@ -218,11 +226,15 @@
             scanModal: document.getElementById('scan-modal'),
             scanModalContent: document.getElementById('scan-modal-content'),
             scanStatus: document.getElementById('scan-status'),
+            mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
+            mobileSidebarOverlay: document.getElementById('mobile-sidebar-overlay'),
+            menuIcon: document.getElementById('menu-icon'),
+            closeIcon: document.getElementById('close-icon'),
             messagesEndRef: null,
         };
         
         // Emojis for the picker
-        const emojis = ['👍', '👋', '😂', '🎉', '❤️', '🔥', '🙏', '🤯'];
+        const emojis = ['👍', '❤️', '😂', '🎉', '🔥', '🙏', '🤯', '✨', '💯', '🎊', '😊', '🥳'];
 
         // --- 3. Core Logic Functions ---
         
@@ -240,14 +252,13 @@
             if (!db || !appState.currentUserId) return null;
 
             if (appState.activeChat.type === 'group') {
-              // Public Group Chat path: /artifacts/{appId}/public/data/group_messages
-              // __app_id is either provided by the environment or set statically for local testing.
-              const publicPath = `artifacts/${__app_id}/public/data/group_messages`;
+              // Public Group Chat path
+              const publicPath = `artifacts/${APP_ID}/public/data/group_messages`;
               return collection(db, publicPath);
             } else if (appState.activeChat.type === 'private' && appState.activeChat.partnerId) {
-              // Private Chat path: /artifacts/{appId}/public/data/private_chats/{roomId}/messages
+              // Private Chat path
               const roomId = getPrivateChatId(appState.currentUserId, appState.activeChat.partnerId);
-              const privatePath = `artifacts/${__app_id}/public/data/private_chats/${roomId}/messages`;
+              const privatePath = `artifacts/${APP_ID}/public/data/private_chats/${roomId}/messages`;
               return collection(db, privatePath);
             }
             return null;
@@ -293,6 +304,9 @@
             appState.messages = []; // Clear current messages for smoother transition
             appState.isEmojiPickerOpen = false;
             
+            // Close mobile sidebar when switching chats
+            closeMobileSidebar();
+            
             // Re-render all UI elements and re-subscribe to the new chat's Firestore collection
             renderUI();
             subscribeToMessages();
@@ -307,36 +321,48 @@
             }
         };
         
+        // --- Mobile Sidebar Functions ---
+        
+        const toggleMobileSidebar = () => {
+            appState.isMobileSidebarOpen = !appState.isMobileSidebarOpen;
+            if (appState.isMobileSidebarOpen) {
+                DOMElements.sidebar.classList.add('mobile-open');
+                DOMElements.mobileSidebarOverlay.classList.remove('hidden');
+                DOMElements.menuIcon.classList.add('hidden');
+                DOMElements.closeIcon.classList.remove('hidden');
+            } else {
+                closeMobileSidebar();
+            }
+        };
+
+        const closeMobileSidebar = () => {
+            appState.isMobileSidebarOpen = false;
+            DOMElements.sidebar.classList.remove('mobile-open');
+            DOMElements.mobileSidebarOverlay.classList.add('hidden');
+            DOMElements.menuIcon.classList.remove('hidden');
+            DOMElements.closeIcon.classList.add('hidden');
+        };
+        
         // --- QR Code Sharing Functions ---
         
-        /**
-         * Shows the QR code modal and generates the QR code for the current user's ID.
-         */
         const showQrCodeModal = () => {
             if (!appState.currentUserId) {
                 displayMessageModal('Error', 'User ID is not yet available. Please wait for connection.');
                 return;
             }
-            
-            // Show modal with transition classes
             DOMElements.qrModal.classList.remove('hidden');
             setTimeout(() => {
                 DOMElements.qrModalContent.classList.remove('scale-95', 'opacity-0');
             }, 10); 
-
-            // Clear the container before drawing a new QR code
             DOMElements.qrOutput.innerHTML = '';
-            
-            // Generate QR Code (using the global QRCode library)
             try {
-                // Accessing QRCode via window is necessary in module scripts
                 new window.QRCode(DOMElements.qrOutput, {
                     text: appState.currentUserId,
                     width: 256,
                     height: 256,
-                    colorDark : "#4f46e5", // Indigo dark color
+                    colorDark : "#4f46e5",
                     colorLight : "#ffffff", 
-                    correctLevel : 3 // 3 = High correction
+                    correctLevel : 3
                 });
             } catch(e) {
                 console.error("QR Code generation failed:", e);
@@ -344,32 +370,23 @@
             }
         };
 
-        /**
-         * Hides the QR code modal.
-         */
         const hideQrCodeModal = () => {
              DOMElements.qrModalContent.classList.add('scale-95', 'opacity-0');
-             // Clear QR code content to prevent image persistence
              DOMElements.qrOutput.innerHTML = ''; 
              setTimeout(() => {
                  DOMElements.qrModal.classList.add('hidden');
-             }, 300); // Wait for transition to finish
+             }, 300);
         };
         
         // --- QR Code Scanning Functions ---
         
-        /**
-         * Shows the QR code scan modal and initializes the camera.
-         */
         const showQrCodeScanner = () => {
             DOMElements.scanModal.classList.remove('hidden');
              setTimeout(() => {
                 DOMElements.scanModalContent.classList.remove('scale-95', 'opacity-0');
             }, 10);
 
-            // Initialize scanner if it hasn't been already
             if (!html5QrcodeScanner) {
-                // The 'reader' div ID is used here
                 html5QrcodeScanner = new Html5Qrcode("reader");
             }
             
@@ -378,10 +395,7 @@
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
                 console.log(`Code matched = ${decodedText}`, decodedResult);
                 DOMElements.scanStatus.textContent = `QR Code Scanned! ID: ${decodedText.substring(0, 8)}...`;
-                
-                // CRITICAL: Stop the scanner immediately upon success
                 stopQrCodeScanner().then(() => {
-                    // Switch to the private chat with the scanned ID
                     if (decodedText) {
                         startPrivateChat(decodedText);
                     }
@@ -391,11 +405,11 @@
             const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
             html5QrcodeScanner.start(
-                { facingMode: "environment" }, // Prefer rear camera
+                { facingMode: "environment" },
                 config, 
                 qrCodeSuccessCallback, 
                 (errorMessage) => { 
-                    DOMElements.scanStatus.textContent = `Scanning... (Error: ${errorMessage.substring(0, 30)})`;
+                    DOMElements.scanStatus.textContent = `Scanning...`;
                 }
             ).catch((err) => {
                 DOMElements.scanStatus.textContent = "Error: Could not start camera. Check permissions.";
@@ -403,13 +417,8 @@
             });
         };
         
-        /**
-         * Stops the QR code scanner and hides the modal.
-         */
         const stopQrCodeScanner = async () => {
              DOMElements.scanModalContent.classList.add('scale-95', 'opacity-0');
-             
-             // Ensure scanner exists and is actively scanning before trying to stop
              if (html5QrcodeScanner && html5QrcodeScanner.isScanning) {
                  try {
                      await html5QrcodeScanner.stop();
@@ -418,31 +427,25 @@
                      console.error("Error stopping QR Code scanner:", err);
                  }
              }
-
              setTimeout(() => {
                  DOMElements.scanModal.classList.add('hidden');
-             }, 300); // Wait for transition to finish
+             }, 300);
         };
         
         // --- 4. Rendering Functions (Dynamic UI Updates) ---
         
-        /**
-         * Orchestrates all UI rendering based on the current appState.
-         */
         const renderUI = () => {
             renderHeader();
             renderSidebar();
             renderMessages();
             updateInputState();
             
-            // Ensure emoji picker visibility is correct
             if (appState.isEmojiPickerOpen) {
                 DOMElements.emojiPicker.classList.remove('hidden');
             } else {
                 DOMElements.emojiPicker.classList.add('hidden');
             }
         };
-
 
         const renderHeader = () => {
             let title = 'Public Group Chat';
@@ -451,7 +454,7 @@
             if (appState.activeChat.type === 'private' && appState.activeChat.partnerId) {
                 const partnerId = appState.activeChat.partnerId;
                 const truncatedPartnerId = `${partnerId.substring(0, 4)}...${partnerId.substring(partnerId.length - 4)}`;
-                title = `Private Chat with: ${truncatedPartnerId}`;
+                title = `Private Chat: ${truncatedPartnerId}`;
                 subtitle = `User ID: ${partnerId}`;
             }
 
@@ -461,20 +464,32 @@
 
             DOMElements.chatHeader.innerHTML = `
                 <div class="flex justify-between items-center text-gray-800">
-                    <h1 class="text-xl font-medium flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        ${title}
+                    <h1 class="text-lg sm:text-xl font-medium flex items-center">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <span class="truncate">${title}</span>
                     </h1>
-                    <div class="text-sm font-light text-gray-500 hidden sm:block">${subtitle}</div>
+                    <div class="text-xs sm:text-sm font-light text-gray-500 hidden sm:block">${subtitle}</div>
                 </div>
-                <p class="text-xs text-gray-500 mt-2 flex items-center">${userIdDisplay}</p>
+                <p class="text-xs text-gray-500 mt-2 flex items-center flex-wrap">${userIdDisplay}</p>
             `;
         };
 
         const renderSidebar = () => {
             let html = `
                 <div class="p-4 border-b border-gray-200">
-                    <h2 class="text-xl font-bold text-indigo-600 mb-1">Vrinda Chat</h2>
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-xl font-bold text-indigo-600">V-Chat</h2>
+                        <button 
+                            onclick="window.closeMobileSidebar()"
+                            class="sm:hidden text-gray-500 hover:text-gray-700"
+                            aria-label="Close Menu"
+                        >
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
                     
                     <div class="flex flex-col space-y-2 mt-3">
                          <button 
@@ -482,8 +497,7 @@
                             class="w-full p-2 rounded bg-indigo-500 text-white text-sm font-medium hover:bg-indigo-600 transition shadow-md"
                         >
                             <span class="flex items-center justify-center">
-                                <!-- Camera Icon -->
-                                <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 7V5l7 2z"/><path d="M10 20a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/></svg>
+                                <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                                 Scan QR Code
                             </span>
                         </button>
@@ -492,7 +506,6 @@
                             class="w-full p-2 rounded bg-indigo-100 text-indigo-600 text-sm font-medium hover:bg-indigo-200 transition shadow-sm"
                         >
                             <span class="flex items-center justify-center">
-                                <!-- QR Code Icon -->
                                 <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M15 14h2"/><path d="M10 17h1"/><path d="M10 21h1"/><path d="M15 18h2"/><path d="M20 20h1"/></svg>
                                 Share My ID (QR)
                             </span>
@@ -500,7 +513,6 @@
                     </div>
                 </div>
                 
-                <!-- Start Private Chat Input Form -->
                 <div class="p-4 border-b border-gray-100 bg-gray-50">
                     <h3 class="text-sm font-semibold mb-2 text-gray-700">Start Private Chat</h3>
                     <form id="new-private-chat-form" class="flex flex-col space-y-2" onsubmit="event.preventDefault(); window.handlePrivateChatForm(this);">
@@ -519,7 +531,6 @@
                 <nav class="flex-grow overflow-y-auto">
             `;
             
-            // Group Chat Link
             const isGroupActive = appState.activeChat.type === 'group';
             const activeGroupClasses = isGroupActive 
                 ? 'bg-indigo-50 text-indigo-700 font-bold border-l-4 border-indigo-600' 
@@ -530,20 +541,16 @@
                     class="p-4 cursor-pointer flex items-center space-x-3 transition duration-150 ${activeGroupClasses}"
                     onclick="window.setActiveChat({ type: 'group' })"
                 >
-                    <!-- Users Icon -->
                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     <span>Public Chat Room</span>
                 </div>
             `;
             
-            // Private Messages Header
             html += `<p class="text-xs font-semibold px-4 pt-4 pb-2 text-gray-400 uppercase">1-on-1 Chats (${appState.knownPartners.length})</p>`;
 
-            // Private Chat Links
             appState.knownPartners.forEach(partnerId => {
                 const isPrivateActive = appState.activeChat.type === 'private' && appState.activeChat.partnerId === partnerId;
                 const truncatedId = `${partnerId.substring(0, 4)}...${partnerId.substring(partnerId.length - 4)}`;
-                
                 const activePrivateClasses = isPrivateActive
                     ? 'bg-indigo-50 text-indigo-700 font-medium border-l-4 border-indigo-600'
                     : 'hover:bg-gray-100 text-gray-700';
@@ -554,7 +561,6 @@
                         class="p-4 cursor-pointer flex items-center space-x-3 transition duration-150 ${activePrivateClasses}"
                         onclick="window.setActiveChat({ type: 'private', partnerId: '${partnerId}' })"
                     >
-                        <!-- User Icon -->
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         <span class="text-sm truncate" title="${partnerId}">
                             ${truncatedId}
@@ -566,7 +572,6 @@
             html += `</nav>`;
             DOMElements.sidebar.innerHTML = html;
             
-            // Rebind the event handler for the new form element injected into the sidebar
             const newPrivateChatForm = DOMElements.sidebar.querySelector('#new-private-chat-form');
             if (newPrivateChatForm) {
                  newPrivateChatForm.onsubmit = (e) => {
@@ -576,20 +581,16 @@
             }
         };
         
-        // Refactored Message Bubble to look like a flat email thread item
         const renderMessageBubble = (message) => {
             const isCurrentUser = message.userId === appState.currentUserId;
-            
-            // Use clear alignment and flat background for the Gmail look.
             const alignmentClasses = isCurrentUser 
-              ? 'ml-auto bg-blue-50 border-blue-200' // Light blue background for own messages
-              : 'mr-auto bg-white border-gray-200'; // White background for others
+              ? 'ml-auto bg-blue-50 border-blue-200'
+              : 'mr-auto bg-white border-gray-200';
 
             const time = message.createdAt instanceof Date 
                 ? message.createdAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
                 : '...';
 
-            // Sender Display
             let senderIdDisplay = isCurrentUser ? 'You' : `${message.userId.substring(0, 8)}...`;
             
             let senderAction = '';
@@ -599,7 +600,7 @@
                           onclick="window.startPrivateChat('${message.userId}')"
                           title="Start private chat"
                     >
-                        (Start Private Chat)
+                        (Chat)
                     </span>
                 `;
             }
@@ -607,18 +608,14 @@
             return `
                 <div class="flex w-full ${isCurrentUser ? 'justify-end' : 'justify-start'}">
                     <div class="max-w-xs md:max-w-2xl w-full p-3 rounded-lg border shadow-sm transition duration-150 ${alignmentClasses}">
-                        
-                        <!-- Sender/Time Header (like an email header) -->
                         <div class="flex justify-between items-start mb-2 border-b pb-1 ${isCurrentUser ? 'border-blue-100' : 'border-gray-100'}">
                             <div class="font-bold text-sm ${isCurrentUser ? 'text-indigo-700' : 'text-gray-800'} flex items-center">
-                                <!-- User Icon -->
                                 <svg class="w-4 h-4 mr-1 text-indigo-400" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                                 ${senderIdDisplay}
                                 ${senderAction}
                             </div>
                             <div class="text-xs text-gray-500 whitespace-nowrap">${time}</div>
                         </div>
-
                         <p class="text-sm break-words whitespace-pre-wrap text-gray-700">${message.text}</p>
                     </div>
                 </div>
@@ -629,7 +626,6 @@
             const container = DOMElements.messageList;
             
             if (!appState.isAuthReady) {
-                 // Show connecting spinner while loading
                  container.innerHTML = `
                     <div class="text-center p-8 text-indigo-500 text-lg">
                         <svg class="animate-spin h-6 w-6 mr-3 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -653,13 +649,9 @@
             }
 
             let html = appState.messages.map(renderMessageBubble).join('');
-            
-            // Add reference div for scrolling
             html += '<div id="messages-end-ref"></div>'; 
-            
             container.innerHTML = html;
             
-            // Update the messagesEndRef and scroll
             DOMElements.messagesEndRef = document.getElementById('messages-end-ref');
             scrollToBottom();
         };
@@ -673,46 +665,36 @@
         const updateInputState = () => {
             const isDisabled = !appState.isAuthReady;
             DOMElements.messageInput.disabled = isDisabled;
-            // Send button enabled only if authenticated and input has content
             DOMElements.sendButton.disabled = isDisabled || !DOMElements.messageInput.value.trim();
         };
         
         // --- 5. Firebase and Chat Subscriptions ---
 
         const subscribeToMessages = () => {
-            // Unsubscribe from the previous listener if it exists
             if (unsubscribeSnapshot) {
                 unsubscribeSnapshot();
                 unsubscribeSnapshot = null;
             }
             
-            // CRITICAL FIX: Only attempt to set up a new snapshot listener if authentication is ready.
             if (!appState.isAuthReady) {
                 console.log("Auth not ready yet, skipping Firestore subscription setup.");
                 return;
             }
 
-            // Clear any previous error message when subscribing to a new chat
             setError(null); 
 
             const messagesRef = getChatCollectionRef();
             if (!messagesRef) return;
             
-            // Query for messages, ordered by creation time
             const q = query(messagesRef, orderBy('createdAt', 'asc')); 
 
-            // Start new listener
             unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
-                const newPartners = new Set(); // Use a Set to collect unique IDs
-                
+                const newPartners = new Set();
                 const fetchedMessages = snapshot.docs.map(doc => {
                     const data = doc.data();
-                    
-                    // In Group Chat, passively collect new partners
                     if (appState.activeChat.type === 'group' && data.userId !== appState.currentUserId) {
                         newPartners.add(data.userId);
                     }
-                    
                     return {
                         id: doc.id,
                         ...data,
@@ -720,7 +702,6 @@
                     };
                 });
                 
-                // Add new partners to state once per snapshot event
                 newPartners.forEach(partnerId => {
                     if (!appState.knownPartners.includes(partnerId)) {
                         appState.knownPartners.push(partnerId);
@@ -728,11 +709,9 @@
                 });
 
                 appState.messages = fetchedMessages;
-                
-                // Re-render chat UI based on new data
                 renderUI(); 
             }, (e) => {
-                setError("Failed to load messages in real-time. This usually indicates a permissions issue.");
+                setError("Failed to load messages. This usually indicates a permissions issue with your Firebase Security Rules.");
                 console.error("Firestore Snapshot Error:", e);
             });
         };
@@ -741,30 +720,17 @@
          * Main authentication and initialization process.
          */
         const initializeAppAndAuth = async () => {
-            // =========================================================================
-            // === FIREBASE CONFIGURATION FOR LOCAL DEVELOPMENT ===
-            // This entire block replaces the environment-provided credentials for local testing.
-            
-            // 1. Initialize Firebase
-            // *** PASTE YOUR FIREBASE CONFIGURATION HERE ***
             const firebaseConfig = {
                 apiKey: "AIzaSyB-Wd4gZ2J9P9ycaHKwK-EHnNfdg7z9gWI",
                 authDomain: "vrindopnishad-d3497.firebaseapp.com",
                 projectId: "vrindopnishad-d3497",
-                storageBucket: "vrindopnishad-d3497.firebasestorage.app",
+                storageBucket: "vrindopnishad-d3497.appspot.com",
                 appId: "1:768939105927:web:114a8abf022e6debcf2222",
                 measurementId: "G-HP730QLRL9"
             };
             
-            // IMPORTANT: Define a static appId for use in the database paths 
-            // This is needed because the environment variable __app_id is not available locally.
-            if (typeof window.__app_id === 'undefined') {
-                window.__app_id = "my-local-gchat-test"; 
-            }
-            
-            // Fallback for configuration check (only needed if the original environment check wasn't removed)
-            if (typeof firebaseConfig.apiKey === 'undefined' || firebaseConfig.apiKey.includes('YOUR_API_KEY')) {
-                 setError("Firebase configuration is missing or invalid. Please update the firebaseConfig object in initializeAppAndAuth.");
+            if (!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith("AIza")) {
+                 setError("Firebase configuration is missing or invalid. Please update the firebaseConfig object.");
                  return;
             }
 
@@ -772,31 +738,24 @@
             db = getFirestore(firebaseApp);
             auth = getAuth(firebaseApp);
             
-            // 2. Authentication: Use Anonymous Sign-in for simple local testing.
             try {
                 await signInAnonymously(auth);
             } catch (e) {
                 console.error("Firebase Auth Error:", e);
+                setError("Could not authenticate with Firebase. Check your configuration and network.");
             }
-            // =========================================================================
 
-            // 3. Auth State Listener
             onAuthStateChanged(auth, (user) => {
-                // FIX: Added a small delay here to ensure the authentication token
-                // fully settles in the Firestore client before attempting to read/subscribe.
                 setTimeout(() => { 
                     if (user) {
                         appState.currentUserId = user.uid;
                     } else {
-                        // Fallback using random ID if no user is signed in
                         appState.currentUserId = crypto.randomUUID(); 
                     }
                     appState.isAuthReady = true;
-                    
-                    // Initial render and subscription once ready. This guarantees isAuthReady is true.
                     renderUI();
                     subscribeToMessages();
-                }, 50); // 50ms buffer
+                }, 50);
             });
         };
 
@@ -807,7 +766,6 @@
             const text = DOMElements.messageInput.value.trim();
             if (!text || !appState.currentUserId || !db) return;
             
-            // CRITICAL FIX: Add a readiness check here too.
             if (!appState.isAuthReady) {
                  setError("System not ready. Please wait for connection.");
                  return;
@@ -826,17 +784,16 @@
                     createdAt: serverTimestamp(), 
                 });
                 
-                DOMElements.messageInput.value = ''; // Clear input
-                DOMElements.messageInput.focus(); // Keep focus on input
-                updateInputState(); // Update send button state
+                DOMElements.messageInput.value = '';
+                DOMElements.messageInput.focus();
+                updateInputState();
                 
-                // Close emoji picker
                 appState.isEmojiPickerOpen = false;
                 DOMElements.emojiPicker.classList.add('hidden');
                 
             } catch (e) {
                 console.error("Error adding document: ", e);
-                setError("Failed to send message. Permission denied. Check Firebase rules.");
+                setError("Failed to send message. Permission denied. Please check your Firebase Security Rules.");
             }
         };
         
@@ -859,11 +816,10 @@
             const partnerId = formElement.elements.partnerId.value;
             if (partnerId) {
                 setActiveChat({ type: 'private', partnerId });
-                formElement.elements.partnerId.value = ''; // Clear input after use
+                formElement.elements.partnerId.value = '';
             }
         };
         
-        // Custom Modal UI (replacing alert())
         const displayMessageModal = (title, message) => {
             const existingModal = document.getElementById('custom-modal');
             if (existingModal) existingModal.remove();
@@ -885,26 +841,19 @@
             document.body.insertAdjacentHTML('beforeend', modalHtml);
         };
 
-        /**
-         * Global function to handle closing of any modal via ESC key.
-         */
         const handleModalClose = (e) => {
              if (e.key === "Escape") {
-                if (!DOMElements.qrModal.classList.contains('hidden')) {
-                    hideQrCodeModal();
-                }
-                if (!DOMElements.scanModal.classList.contains('hidden')) {
-                    stopQrCodeScanner();
-                }
+                if (!DOMElements.qrModal.classList.contains('hidden')) hideQrCodeModal();
+                if (!DOMElements.scanModal.classList.contains('hidden')) stopQrCodeScanner();
                 const customModal = document.getElementById('custom-modal');
                 if (customModal) customModal.remove();
+                if (appState.isMobileSidebarOpen) closeMobileSidebar();
              }
         };
 
 
         // --- 7. Initialization and Event Binding ---
         window.onload = () => {
-            // Expose key functions globally so they can be called from onclick handlers in the DOM
             window.setActiveChat = setActiveChat;
             window.startPrivateChat = startPrivateChat;
             window.displayMessageModal = displayMessageModal; 
@@ -912,14 +861,15 @@
             window.handlePrivateChatForm = handlePrivateChatForm; 
             window.showQrCodeModal = showQrCodeModal; 
             window.hideQrCodeModal = hideQrCodeModal; 
-            window.showQrCodeScanner = showQrCodeScanner; // Exposed for scan button
-            window.stopQrCodeScanner = stopQrCodeScanner; // Exposed for modal close button
+            window.showQrCodeScanner = showQrCodeScanner; 
+            window.stopQrCodeScanner = stopQrCodeScanner;
+            window.toggleMobileSidebar = toggleMobileSidebar;
+            window.closeMobileSidebar = closeMobileSidebar;
             
-            // Bind ESC key for modal closing
             document.addEventListener('keydown', handleModalClose);
-
+            DOMElements.mobileMenuToggle.addEventListener('click', toggleMobileSidebar);
+            DOMElements.mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
             
-            // Setup Emoji Picker DOM
             DOMElements.emojiPicker.innerHTML = emojis.map(emoji => `
                 <button
                     type="button"
@@ -930,12 +880,10 @@
                 </button>
             `).join('');
 
-            // Bind Event Listeners
             DOMElements.messageForm.addEventListener('submit', handleSendMessage);
             DOMElements.messageInput.addEventListener('input', updateInputState);
             DOMElements.emojiToggle.addEventListener('click', handleEmojiToggle);
             
-            // Start the application flow
             initializeAppAndAuth();
         };
 
