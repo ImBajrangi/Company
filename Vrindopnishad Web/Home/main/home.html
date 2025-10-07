@@ -1318,18 +1318,18 @@
                 }
                 
                 // Add event listeners for hover
-                element.addEventListener('mouseenter', () => {
-                    state.hovering = true;
-                    element.classList.add('magnetic-hover');
+                // element.addEventListener('mouseenter', () => {
+                //     state.hovering = true;
+                //     element.classList.add('magnetic-hover');
                     
-                    // Add cursor effect if exists
-                    const cursor = document.querySelector('.cursor');
-                    const cursorFollower = document.querySelector('.cursor-follower');
-                    if (cursor && cursorFollower) {
-                        cursor.classList.add('magnetic-hover');
-                        cursorFollower.classList.add('magnetic-hover');
-                    }
-                });
+                //     // Add cursor effect if exists
+                //     const cursor = document.querySelector('.cursor');
+                //     const cursorFollower = document.querySelector('.cursor-follower');
+                //     if (cursor && cursorFollower) {
+                //         cursor.classList.add('magnetic-hover');
+                //         cursorFollower.classList.add('magnetic-hover');
+                //     }
+                // });
                 
                 // Track mouse movement for magnetic effect
                 element.addEventListener('mousemove', (e) => {
@@ -1383,12 +1383,12 @@
                     }
                     
                     // Remove cursor effect
-                    const cursor = document.querySelector('.cursor');
-                    const cursorFollower = document.querySelector('.cursor-follower');
-                    if (cursor && cursorFollower) {
-                        cursor.classList.remove('magnetic-hover');
-                        cursorFollower.classList.remove('magnetic-hover');
-                    }
+                    // const cursor = document.querySelector('.cursor');
+                    // const cursorFollower = document.querySelector('.cursor-follower');
+                    // if (cursor && cursorFollower) {
+                    //     cursor.classList.remove('magnetic-hover');
+                    //     cursorFollower.classList.remove('magnetic-hover');
+                    // }
                     
                     // Clear transition after animation completes
                     setTimeout(() => {
@@ -1403,12 +1403,12 @@
                     element.classList.add('active');
                     
                     // Add cursor effect
-                    const cursor = document.querySelector('.cursor');
-                    const cursorFollower = document.querySelector('.cursor-follower');
-                    if (cursor && cursorFollower) {
-                        cursor.classList.add('magnetic-click');
-                        cursorFollower.classList.add('magnetic-click');
-                    }
+                    // const cursor = document.querySelector('.cursor');
+                    // const cursorFollower = document.querySelector('.cursor-follower');
+                    // if (cursor && cursorFollower) {
+                    //     cursor.classList.add('magnetic-click');
+                    //     cursorFollower.classList.add('magnetic-click');
+                    // }
                     
                     // Scale inner element
                     if (innerElement) {
