@@ -459,9 +459,10 @@
         const fontDown = document.getElementById('fontDown');
         const fontUp = document.getElementById('fontUp');
         const themeToggle = document.getElementById('themeToggle');
+        const dataUrl = "/Vrindopnishad Web/class/json/content-export-2025-09-09.json";
 
         // Load JSON data directly
-        fetch('/Vrindopnishad Web/class/json/content-export-2025-09-09.json')
+        fetch(dataUrl)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data)) {
