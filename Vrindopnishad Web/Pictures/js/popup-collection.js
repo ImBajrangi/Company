@@ -1,5 +1,6 @@
 // Collection data will be loaded from JSON
 let collectionsData = {};
+const dataUrl = "/Vrindopnishad Web/class/json/collections_data.json";
 
 // Popup Modal functionality
 function initializePopup() {
@@ -210,7 +211,7 @@ function generateCollectionItems(containerId, items) {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('/Vrindopnishad Web/class/json/collections_data.json');
+        const response = await fetch(dataUrl);
         const data = await response.json();
         collectionsData = data.collections;
 
