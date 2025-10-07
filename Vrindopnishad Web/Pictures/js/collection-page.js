@@ -1,5 +1,6 @@
 // Collection data - will be populated from JSON
 // let collectionsData = {};
+const dataUrl = "/Vrindopnishad Web/class/json/collections_data.json";
 
 // Search functionality
 function initializeSearch() {
@@ -230,7 +231,7 @@ async function loadCollectionsData() {
     try {
         console.log('Starting to load collections data...');
         // Use the correct path relative to the HTML file
-        const response = await fetch('/class/json/collections_data.json');
+        const response = await fetch(dataUrl);
         console.log('Response:', response);
         const data = await response.json();
         console.log('Loaded data:', data);
