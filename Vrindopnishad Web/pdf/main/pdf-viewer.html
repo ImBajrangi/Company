@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PDF Viewer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/Vrindopnishad Web/pdf/css/pdf-viewer.css?v=1.4">
-    <script src="/Vrindopnishad Web/pdf/libs/pdf.min.js"></script>
-    <script src="/Vrindopnishad Web/pdf/js/three.min.js"></script>
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/css/pdf-viewer.css?v=1.4">
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/libs/pdf.min.js"></script>
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/js/three.min.js"></script>
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/Vrindopnishad Web/pdf/libs/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/libs/pdf.worker.min.js';
     </script>
 </head>
 <body class="dark-theme">
@@ -143,14 +143,14 @@
         </div>
     </div>
 
-    <script src="/Vrindopnishad Web/pdf/js/pdf-viewer.js"></script>
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/js/pdf-viewer.js"></script>
 
     <!-- Books Data Loading Script -->
     <script>
         // Load books data from JSON
         async function loadBooksData() {
             try {
-                const response = await fetch('/class/json/books-data.json');
+                const response = await fetch('https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/books-data.json');
                 if (!response.ok) {
                     throw new Error('Failed to load books data');
                 }
