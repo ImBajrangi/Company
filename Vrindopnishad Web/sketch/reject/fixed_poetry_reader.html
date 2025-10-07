@@ -864,6 +864,7 @@
         let filteredPoems = [];
         let currentIndex = 0;
         let currentFilter = 'all';
+        const dataUrl = "/Vrindopnishad Web/class/json/content-export-2025-09-07-2.json";
 
         // Enhanced sample data that works like the modern reader
         const sampleData = [
@@ -1025,7 +1026,7 @@ To what your soul has long been seeking.`,
         }
 
         function loadFromJSON() {
-            fetch('/Vrindopnishad Web/class/json/content-export-2025-09-07-2.json')
+            fetch(dataUrl)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('JSON file not found');
