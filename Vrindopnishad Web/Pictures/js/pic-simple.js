@@ -1,3 +1,5 @@
+const dataUrl = "/Vrindopnishad Web/class/json/images.json";
+
 // Initialize touch interactions for mobile/tablet
 function initializeTouchInteractions() {
     // Use event delegation for handling touches on image cards
@@ -260,7 +262,7 @@ function initializeAllFeatures() {
     
     console.log("All features initialized");
 }
-const dataUrl = "/Vrindopnishad Web/class/json/images.json";
+
 // Load gallery from JSON
 async function loadGalleryFromJSON() {
     try {
