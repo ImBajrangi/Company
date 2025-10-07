@@ -10,35 +10,35 @@ const fontUp = document.getElementById('fontUp');
 const themeToggle = document.getElementById('themeToggle');
 
 // Load JSON data with correct structure handling
-// fetch('/class/json/Default Collection-2025-09-24T15-20-20.json')
-//     .then(response => response.json())
-//     .then(data => {
-//         jsonData = data; // Store the full JSON data for media access
+fetch('/Vrindopnishad Web/class/json/Default Collection-2025-09-24T15-20-20.json')
+    .then(response => response.json())
+    .then(data => {
+        jsonData = data; // Store the full JSON data for media access
         
-//         // Handle the new JSON structure
-//         if (data && data.collection && data.collection.entries) {
-//             poems = data.collection.entries;
-//             // Update page title with collection name if available
-//             if (data.collection.name) {
-//                 document.title = `${data.collection.name} - Vrindopnishad`;
-//             }
-//             currentIndex = 0;
-//             displayPoem();
-//         } else {
-//             throw new Error('Invalid data structure');
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error loading data:', error);
-//         contentArea.innerHTML = `<div class="no-content"><p>Error loading poems: ${error.message}</p></div>`;
-//     });
+        // Handle the new JSON structure
+        if (data && data.collection && data.collection.entries) {
+            poems = data.collection.entries;
+            // Update page title with collection name if available
+            if (data.collection.name) {
+                document.title = `${data.collection.name} - Vrindopnishad`;
+            }
+            currentIndex = 0;
+            displayPoem();
+        } else {
+            throw new Error('Invalid data structure');
+        }
+    })
+    .catch(error => {
+        console.error('Error loading data:', error);
+        contentArea.innerHTML = `<div class="no-content"><p>Error loading poems: ${error.message}</p></div>`;
+    });
 
-// // Display initial loading state
-// contentArea.innerHTML = `
-//     <div class="no-content">
-//         <p>Loading poetry collection...</p>
-//     </div>
-// `;
+// Display initial loading state
+contentArea.innerHTML = `
+    <div class="no-content">
+        <p>Loading poetry collection...</p>
+    </div>
+`;
 
 // Display poem
 function displayPoem() {
