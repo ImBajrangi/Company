@@ -31,7 +31,7 @@ class AutoPush(FileSystemEventHandler):
 
     def commit_and_push(self):
         print("🔄 Change detected, committing & pushing...")
-        subprocess.run(["git", "add", "."], stdout=subprocess.DEVNULL)
+        subprocess.run(["git", "push"])
         subprocess.run(["git", "commit", "-m", "Auto update"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         subprocess.run(["git", "push"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         print("✅ Changes pushed to GitHub.")
