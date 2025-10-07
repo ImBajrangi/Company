@@ -249,7 +249,14 @@ const closeVideoModal = document.getElementById('closeVideoModal'); // Add this 
 boxes.forEach(box => {
     box.addEventListener('click', () => {
         const videoSrc = box.getAttribute('data-video');
-        if (videoSrc.includes('youtube.com')) {
+        let ytHostnames = ['youtube.com', 'www.youtube.com', 'm.youtube.com'];
+        let hostname = '';
+        try {
+            hostname = new URL(videoSrc).hostname;
+        } catch (e) {
+            hostname = '';
+        }
+        if (ytHostnames.includes(hostname)) {
             videoPlayer.innerHTML = `<iframe width="100%" height="100%" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
         } else {
             videoPlayer.innerHTML = `<video src="${videoSrc}" controls autoplay loop style="width: 100%; height: 100%;"></video>`;
