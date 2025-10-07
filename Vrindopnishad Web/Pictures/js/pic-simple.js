@@ -1,4 +1,4 @@
-const dataUrl = "/Vrindopnishad Web/class/json/images.json";
+const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/images.json";
 
 // Initialize touch interactions for mobile/tablet
 function initializeTouchInteractions() {
