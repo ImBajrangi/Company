@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-chat Real-Time Messenger</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Load QR Code Scanner Library (html5-qrcode) -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <!-- Use Inter font -->
+    <style>
+        /* General styling for a cleaner, Gmail-like aesthetic */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* Lighter background */
+        }
+        /* Custom Scrollbar for message area */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        /* Style for the main container shadow */
+        #app-container > div {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Lighter shadow */
+        }
+         /* Mobile sidebar animation */
+        #sidebar.mobile-open {
+            transform: translateX(0);
+        }
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        @media (max-width: 640px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container" class="min-h-screen p-2 sm:p-4 flex flex-col items-center">
+        <div class="w-full max-w-5xl h-[95vh] flex rounded-xl overflow-hidden bg-white relative">
+             <!-- Mobile Menu Toggle Button -->
+            <button 
+                id="mobile-menu-toggle" 
+                class="sm:hidden fixed top-4 right-4 z-50 bg-indigo-600 text-white p-2 rounded-lg shadow-lg hover:bg-indigo-700 transition"
+                aria-label="Toggle Menu"
+            >
+                <svg id="menu-icon" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg id="close-icon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            
+            <!-- Mobile Sidebar Overlay -->
+            <div id="mobile-sidebar-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 sm:hidden"></div>
+
+            <!-- Sidebar (Rendered by JS) -->
+            <div id="sidebar" class="fixed sm:relative sm:flex w-64 bg-white text-gray-800 flex-shrink-0 flex-col h-full overflow-y-auto border-r border-gray-200 z-40">
+                <!-- Sidebar content will be injected by JavaScript -->
+                <div class="p-4 text-center text-indigo-600 font-medium">Loading Sidebar...</div>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chat-area" class="flex-grow flex flex-col bg-gray-50 w-full">
+                
+                <!-- Chat Header (Rendered by JS - Now flat, white, and bordered) -->
+                <header id="chat-header" class="p-4 bg-white border-b border-gray-200 flex-shrink-0">
+                    <h1 class="text-xl font-bold text-indigo-600">V-Chat</h1>
+                </header>
+
+                <!-- Error Message Container -->
+                <div id="error-container" class="hidden p-4 bg-red-100 border-l-4 border-red-500 text-red-700 flex-shrink-0" role="alert">
+                    <p class="font-bold">Error</p>
+                    <p id="error-message" class="text-sm"></p>
+                </div>
+
+                <!-- Message List Area (Rendered by JS) -->
+                <div id="message-list" class="flex-grow p-4 overflow-y-auto space-y-3 custom-scrollbar bg-white">
+                    <div class="text-center p-8 text-indigo-500 text-lg">
+                        <svg class="animate-spin h-6 w-6 mr-3 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Connecting to Firebase...
+                    </div>
+                </div>
+
+                <!-- Message Input Form (Cleaner look) -->
+                <form id="message-form" class="p-4 bg-gray-50 border-t border-gray-200 flex-shrink-0">
+                    <div class="relative flex space-x-3">
+                        
+                        <!-- Emoji Picker Container -->
+                        <div class="relative">
+                            <button
+                              type="button"
+                              id="emoji-toggle"
+                              class="p-3 text-2xl text-gray-500 hover:text-indigo-600 transition duration-150 rounded-full hover:bg-gray-200"
+                              aria-label="Toggle Emoji Picker"
+                            >
+                              <!-- Smile Icon -->
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                            </button>
+                            
+                            <div id="emoji-picker" class="hidden absolute bottom-full mb-2 p-2 bg-white border border-gray-300 rounded-xl shadow-lg flex flex-wrap w-56 z-20">
+                                <!-- Emojis will be injected here -->
+                            </div>
+                        </div>
+
+                        <input
+                          type="text"
+                          id="message-input"
+                          placeholder="Type your message..."
+                          class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 text-base shadow-inner disabled:opacity-50"
+                          disabled
+                          autocomplete="off"
+                        />
+                        <button
+                          type="submit"
+                          id="send-button"
+                          class="px-4 py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition duration-200 flex items-center justify-center shadow-md hover:shadow-lg disabled:opacity-50"
+                          disabled
+                          aria-label="Send Message"
+                        >
+                          <!-- Send Icon -->
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- QR Code Share Modal (Hidden by default) -->
+    <div id="qr-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300">
+        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full transform transition-transform duration-300 scale-95 opacity-0" id="qr-modal-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 text-center">Share Your V-Chat ID</h2>
+            
+            <div id="qrcode-output" class="flex justify-center p-4 bg-gray-100 rounded-lg w-full h-[256px]">
+                <!-- QR Code will be drawn into this DIV by the JavaScript library -->
+            </div>
+            
+            <p class="text-sm text-gray-500 mt-4 text-center">
+                Have your friend scan this QR code to get your full User ID.
+            </p>
+            
+            <button 
+                onclick="window.hideQrCodeModal()"
+                class="mt-6 w-full bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600 transition"
+            >
+                Close
+            </button>
+        </div>
+    </div>
+    
+    <!-- QR Code Scan Modal (Hidden by default) -->
+    <div id="scan-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300">
+        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full transform transition-transform duration-300 scale-95 opacity-0" id="scan-modal-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 text-center">Scan User ID QR Code</h2>
+            
+            <!-- Camera Output Area -->
+            <div id="reader" class="w-full rounded-lg overflow-hidden border border-gray-300"></div>
+            
+            <p id="scan-status" class="text-sm text-center mt-4 text-gray-600">Camera initializing...</p>
+            
+            <button 
+                onclick="window.stopQrCodeScanner()"
+                class="mt-6 w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition"
+            >
+                Stop Scan / Close
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        // --- 1. Firebase Imports ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInAnonymously, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            onSnapshot, 
+            query, 
+            serverTimestamp, 
+            orderBy
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- 2. Global State & DOM Elements ---
+        let db, auth;
+        let unsubscribeSnapshot = null;
+        let html5QrcodeScanner = null;
+
+        const APP_ID = "v-chat-public-instance-2025";
+
+        const appState = {
+            currentUserId: null,
+            activeChat: { type: 'group', partnerId: null },
+            knownPartners: [],
+            messages: [],
+            isAuthReady: false,
+            error: null,
+            isEmojiPickerOpen: false,
+            isMobileSidebarOpen: false,
+        };
+
+        const DOMElements = {
+            sidebar: document.getElementById('sidebar'),
+            chatHeader: document.getElementById('chat-header'),
+            messageList: document.getElementById('message-list'),
+            messageInput: document.getElementById('message-input'),
+            messageForm: document.getElementById('message-form'),
+            sendButton: document.getElementById('send-button'),
+            errorContainer: document.getElementById('error-container'),
+            errorMessage: document.getElementById('error-message'),
+            emojiToggle: document.getElementById('emoji-toggle'),
+            emojiPicker: document.getElementById('emoji-picker'),
+            qrModal: document.getElementById('qr-modal'),
+            qrModalContent: document.getElementById('qr-modal-content'),
+            qrOutput: document.getElementById('qrcode-output'), 
+            scanModal: document.getElementById('scan-modal'),
+            scanModalContent: document.getElementById('scan-modal-content'),
+            scanStatus: document.getElementById('scan-status'),
+            mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
+            mobileSidebarOverlay: document.getElementById('mobile-sidebar-overlay'),
+            menuIcon: document.getElementById('menu-icon'),
+            closeIcon: document.getElementById('close-icon'),
+            messagesEndRef: null,
+        };
+        
+        const emojis = ['👍', '❤️', '😂', '🎉', '🔥', '🙏', '🤯', '✨', '💯'];
+
+        // --- 3. Core Logic Functions ---
+        
+        const getPrivateChatId = (id1, id2) => {
+          return id1 < id2 ? `${id1}_${id2}` : `${id2}_${id1}`;
+        };
+
+        const getChatCollectionRef = () => {
+            if (!db || !appState.currentUserId) return null;
+
+            if (appState.activeChat.type === 'group') {
+              const publicPath = `artifacts/${APP_ID}/public/data/group_messages`;
+              return collection(db, publicPath);
+            } else if (appState.activeChat.type === 'private' && appState.activeChat.partnerId) {
+              const roomId = getPrivateChatId(appState.currentUserId, appState.activeChat.partnerId);
+              const privatePath = `artifacts/${APP_ID}/public/data/private_chats/${roomId}/messages`;
+              return collection(db, privatePath);
+            }
+            return null;
+        };
+        
+        const setError = (msg) => {
+            appState.error = msg;
+            if (msg) {
+                DOMElements.errorMessage.textContent = msg;
+                DOMElements.errorContainer.classList.remove('hidden');
+            } else {
+                DOMElements.errorContainer.classList.add('hidden');
+                DOMElements.errorMessage.textContent = '';
+            }
+        };
+
+        const addKnownPartner = (partnerId) => {
+            if (partnerId && partnerId !== appState.currentUserId && !appState.knownPartners.includes(partnerId)) {
+                appState.knownPartners.push(partnerId);
+            }
+        };
+        
+        const setActiveChat = ({ type, partnerId }) => {
+            if (type === 'private' && partnerId === appState.currentUserId) {
+                displayMessageModal('Error', 'You cannot start a private chat with yourself.');
+                return;
+            }
+            appState.activeChat = { type, partnerId };
+            
+            if (type === 'private' && partnerId) {
+                addKnownPartner(partnerId);
+            }
+            
+            appState.messages = [];
+            appState.isEmojiPickerOpen = false;
+            
+            closeMobileSidebar();
+            
+            renderUI();
+            subscribeToMessages();
+        };
+
+        const startPrivateChat = (partnerId) => {
+            if (partnerId && partnerId.trim()) {
+                setActiveChat({ type: 'private', partnerId: partnerId.trim() });
+            }
+        };
+        
+        // --- Mobile Sidebar Functions ---
+        
+        const toggleMobileSidebar = () => {
+            appState.isMobileSidebarOpen = !appState.isMobileSidebarOpen;
+            if (appState.isMobileSidebarOpen) {
+                DOMElements.sidebar.classList.add('mobile-open');
+                DOMElements.mobileSidebarOverlay.classList.remove('hidden');
+                DOMElements.menuIcon.classList.add('hidden');
+                DOMElements.closeIcon.classList.remove('hidden');
+            } else {
+                closeMobileSidebar();
+            }
+        };
+
+        const closeMobileSidebar = () => {
+            appState.isMobileSidebarOpen = false;
+            DOMElements.sidebar.classList.remove('mobile-open');
+            DOMElements.mobileSidebarOverlay.classList.add('hidden');
+            DOMElements.menuIcon.classList.remove('hidden');
+            DOMElements.closeIcon.classList.add('hidden');
+        };
+        
+        // --- QR Code Functions ---
+        
+        const showQrCodeModal = () => {
+            if (!appState.currentUserId) {
+                displayMessageModal('Error', 'User ID is not yet available. Please wait for connection.');
+                return;
+            }
+            DOMElements.qrModal.classList.remove('hidden');
+            setTimeout(() => DOMElements.qrModalContent.classList.remove('scale-95', 'opacity-0'), 10);
+            DOMElements.qrOutput.innerHTML = '';
+            new window.QRCode(DOMElements.qrOutput, {
+                text: appState.currentUserId,
+                width: 256, height: 256,
+                colorDark : "#4f46e5", colorLight : "#ffffff", 
+                correctLevel : 3
+            });
+        };
+
+        const hideQrCodeModal = () => {
+             DOMElements.qrModalContent.classList.add('scale-95', 'opacity-0');
+             DOMElements.qrOutput.innerHTML = ''; 
+             setTimeout(() => DOMElements.qrModal.classList.add('hidden'), 300);
+        };
+        
+        const showQrCodeScanner = () => {
+            DOMElements.scanModal.classList.remove('hidden');
+            setTimeout(() => DOMElements.scanModalContent.classList.remove('scale-95', 'opacity-0'), 10);
+            if (!html5QrcodeScanner) html5QrcodeScanner = new Html5Qrcode("reader");
+            DOMElements.scanStatus.textContent = "Camera initializing...";
+
+            html5QrcodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 250 } }, 
+                (decodedText) => {
+                    DOMElements.scanStatus.textContent = `QR Code Scanned!`;
+                    stopQrCodeScanner().then(() => startPrivateChat(decodedText));
+                }, 
+                () => DOMElements.scanStatus.textContent = `Scanning...`
+            ).catch(() => DOMElements.scanStatus.textContent = "Error: Could not start camera.");
+        };
+        
+        const stopQrCodeScanner = async () => {
+             DOMElements.scanModalContent.classList.add('scale-95', 'opacity-0');
+             if (html5QrcodeScanner?.isScanning) {
+                 try { await html5QrcodeScanner.stop(); } catch (err) { console.error("Error stopping scanner:", err); }
+             }
+             setTimeout(() => DOMElements.scanModal.classList.add('hidden'), 300);
+        };
+        
+        // --- 4. Rendering Functions ---
+        
+        const renderUI = () => {
+            renderHeader();
+            renderSidebar();
+            renderMessages();
+            updateInputState();
+            DOMElements.emojiPicker.classList.toggle('hidden', !appState.isEmojiPickerOpen);
+        };
+
+        const renderHeader = () => {
+            let title = 'Public Group Chat';
+            let subtitle = `${appState.messages.length} messages`;
+
+            if (appState.activeChat.type === 'private' && appState.activeChat.partnerId) {
+                const partnerId = appState.activeChat.partnerId;
+                const truncatedId = `${partnerId.substring(0, 4)}...${partnerId.substring(partnerId.length - 4)}`;
+                title = `Private Chat: ${truncatedId}`;
+                subtitle = `User ID: ${partnerId}`;
+            }
+
+            const userIdDisplay = appState.currentUserId ? 
+                `<span class="font-medium mr-1">Your ID:</span>
+                <span class="font-mono text-xs bg-indigo-50 px-2 py-0.5 rounded text-indigo-700 break-all">${appState.currentUserId}</span>` : '';
+
+            DOMElements.chatHeader.innerHTML = `
+                <div class="flex justify-between items-center text-gray-800">
+                    <h1 class="text-lg sm:text-xl font-medium flex items-center">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <span class="truncate">${title}</span>
+                    </h1>
+                    <div class="text-xs sm:text-sm font-light text-gray-500 hidden sm:block">${subtitle}</div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2 flex items-center flex-wrap">${userIdDisplay}</p>
+            `;
+        };
+
+        const renderSidebar = () => {
+            const isGroupActive = appState.activeChat.type === 'group';
+            const groupChatLink = `
+                <div class="p-4 cursor-pointer flex items-center space-x-3 transition duration-150 ${isGroupActive ? 'bg-indigo-50 text-indigo-700 font-bold border-l-4 border-indigo-600' : 'hover:bg-gray-100 text-gray-700'}" onclick="window.setActiveChat({ type: 'group' })">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Public Chat Room</span>
+                </div>`;
+            
+            const privateChatLinks = appState.knownPartners.map(partnerId => {
+                const isPrivateActive = appState.activeChat.type === 'private' && appState.activeChat.partnerId === partnerId;
+                const truncatedId = `${partnerId.substring(0, 4)}...${partnerId.substring(partnerId.length - 4)}`;
+                return `
+                    <div class="p-4 cursor-pointer flex items-center space-x-3 transition duration-150 ${isPrivateActive ? 'bg-indigo-50 text-indigo-700 font-medium border-l-4 border-indigo-600' : 'hover:bg-gray-100 text-gray-700'}" onclick="window.setActiveChat({ type: 'private', partnerId: '${partnerId}' })">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span class="text-sm truncate" title="${partnerId}">${truncatedId}</span>
+                    </div>`;
+            }).join('');
+
+            DOMElements.sidebar.innerHTML = `
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-xl font-bold text-indigo-600">V-Chat</h2>
+                        <button onclick="window.closeMobileSidebar()" class="sm:hidden text-gray-500 hover:text-gray-700" aria-label="Close Menu">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col space-y-2 mt-3">
+                         <button onclick="window.showQrCodeScanner()" class="w-full p-2 rounded bg-indigo-500 text-white text-sm font-medium hover:bg-indigo-600 transition shadow-md flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Scan QR
+                        </button>
+                        <button onclick="window.showQrCodeModal()" class="w-full p-2 rounded bg-indigo-100 text-indigo-600 text-sm font-medium hover:bg-indigo-200 transition shadow-sm flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M15 14h2M10 17h1M10 21h1M15 18h2M20 20h1"/></svg> Share ID
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4 border-b border-gray-100 bg-gray-50">
+                    <h3 class="text-sm font-semibold mb-2 text-gray-700">Start Private Chat</h3>
+                    <form id="new-private-chat-form" class="flex flex-col space-y-2">
+                        <input name="partnerId" type="text" placeholder="Enter full User ID..." class="flex-grow p-2 text-sm text-gray-800 border border-gray-300 rounded focus:ring-indigo-500" required />
+                        <button type="submit" class="text-white p-2 rounded bg-indigo-500 hover:bg-indigo-600 text-sm font-medium flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> New Chat
+                        </button>
+                    </form>
+                </div>
+                <nav class="flex-grow overflow-y-auto">${groupChatLink}<p class="text-xs font-semibold px-4 pt-4 pb-2 text-gray-400 uppercase">1-on-1 Chats (${appState.knownPartners.length})</p>${privateChatLinks}</nav>`;
+            
+            document.getElementById('new-private-chat-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handlePrivateChatForm(e.target);
+            });
+        };
+        
+        const renderMessageBubble = (message) => {
+            const isCurrentUser = message.userId === appState.currentUserId;
+            const alignment = isCurrentUser ? 'justify-end' : 'justify-start';
+            const bubbleClasses = isCurrentUser ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200';
+            const time = message.createdAt?.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) || '...';
+            const senderId = isCurrentUser ? 'You' : `${message.userId.substring(0, 8)}...`;
+            const senderAction = (appState.activeChat.type === 'group' && !isCurrentUser) ?
+                `<span class="text-xs text-indigo-500 font-medium ml-2 cursor-pointer hover:underline" onclick="window.startPrivateChat('${message.userId}')">(Chat)</span>` : '';
+
+            return `
+                <div class="flex w-full ${alignment}">
+                    <div class="max-w-xs md:max-w-2xl w-full p-3 rounded-lg border shadow-sm ${bubbleClasses}">
+                        <div class="flex justify-between items-start mb-2 border-b pb-1 ${isCurrentUser ? 'border-blue-100' : 'border-gray-100'}">
+                            <div class="font-bold text-sm ${isCurrentUser ? 'text-indigo-700' : 'text-gray-800'} flex items-center">
+                                <svg class="w-4 h-4 mr-1 text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                ${senderId} ${senderAction}
+                            </div>
+                            <div class="text-xs text-gray-500 whitespace-nowrap">${time}</div>
+                        </div>
+                        <p class="text-sm break-words whitespace-pre-wrap text-gray-700">${message.text}</p>
+                    </div>
+                </div>`;
+        };
+        
+        const renderMessages = () => {
+            const container = DOMElements.messageList;
+            if (!appState.isAuthReady) {
+                 container.innerHTML = `<div class="text-center p-8 text-indigo-500 text-lg"><svg class="animate-spin h-6 w-6 mr-3 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Connecting...</div>`;
+                return;
+            }
+            if (appState.messages.length === 0) {
+                container.innerHTML = `<div class="text-center p-12 text-gray-500 mt-10"><p class="text-xl font-medium mb-2">Start the conversation!</p><p>Send the first message.</p></div>`;
+                return;
+            }
+            container.innerHTML = appState.messages.map(renderMessageBubble).join('') + '<div id="messages-end-ref"></div>';
+            DOMElements.messagesEndRef = document.getElementById('messages-end-ref');
+            DOMElements.messagesEndRef?.scrollIntoView({ behavior: "smooth" });
+        };
+        
+        const updateInputState = () => {
+            const isDisabled = !appState.isAuthReady;
+            DOMElements.messageInput.disabled = isDisabled;
+            DOMElements.sendButton.disabled = isDisabled || !DOMElements.messageInput.value.trim();
+        };
+        
+        // --- 5. Firebase and Subscriptions ---
+
+        const subscribeToMessages = () => {
+            if (unsubscribeSnapshot) unsubscribeSnapshot();
+            if (!appState.isAuthReady) return;
+
+            setError(null);
+            const messagesRef = getChatCollectionRef();
+            if (!messagesRef) return;
+            
+            const q = query(messagesRef, orderBy('createdAt', 'asc')); 
+            unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+                const newPartners = new Set();
+                appState.messages = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    if (appState.activeChat.type === 'group' && data.userId !== appState.currentUserId) newPartners.add(data.userId);
+                    return { id: doc.id, ...data, createdAt: data.createdAt?.toDate() };
+                });
+                newPartners.forEach(id => addKnownPartner(id));
+                renderUI();
+            }, (e) => {
+                // Modified error message for clarity
+                setError(`Permission Denied: Could not read messages. Please ensure your Firebase Security Rules are correctly published to the (default) database.`);
+                console.error("Snapshot Error:", e);
+            });
+        };
+        
+        const initializeAppAndAuth = async () => {
+            // Revert configuration to standard, correct settings for the default database
+            const firebaseConfig = {
+                apiKey: "AIzaSyB-Wd4gZ2J9P9ycaHKwK-EHnNfdg7z9gWI",
+                authDomain: "vrindopnishad-d3497.firebaseapp.com",
+                projectId: "vrindopnishad-d3497",
+                storageBucket: "vrindopnishad-d3497.appspot.com",
+                appId: "1:768939105927:web:114a8abf022e6debcf2222",
+                measurementId: "G-HP730QLRL9"
+            };
+            
+            const app = initializeApp(firebaseConfig);
+            // Connects directly to the (default) Firestore instance
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            try { await signInAnonymously(auth); } catch (e) { setError("Could not authenticate."); }
+
+            onAuthStateChanged(auth, (user) => {
+                setTimeout(() => { 
+                    appState.currentUserId = user?.uid || crypto.randomUUID();
+                    appState.isAuthReady = true;
+                    renderUI();
+                    subscribeToMessages();
+                }, 50);
+            });
+        };
+
+        // --- 6. Event Handlers ---
+        
+        const handleSendMessage = async (e) => {
+            e.preventDefault();
+            const text = DOMElements.messageInput.value.trim();
+            if (!text || !appState.currentUserId || !db || !appState.isAuthReady) return;
+
+            try {
+                const messagesRef = getChatCollectionRef();
+                await addDoc(messagesRef, { text, userId: appState.currentUserId, createdAt: serverTimestamp() });
+                DOMElements.messageInput.value = '';
+                updateInputState();
+                appState.isEmojiPickerOpen = false;
+                renderUI();
+            } catch (e) {
+                // Modified error message for clarity
+                setError(`Permission Denied: Could not send message. Please ensure your Firebase Security Rules are correctly published to the (default) database.`);
+            }
+        };
+        
+        const handleEmojiToggle = () => {
+            appState.isEmojiPickerOpen = !appState.isEmojiPickerOpen;
+            renderUI();
+        };
+
+        const handleAddEmoji = (emoji) => {
+            DOMElements.messageInput.value += emoji;
+            DOMElements.messageInput.focus(); 
+            updateInputState();
+        };
+        
+        const handlePrivateChatForm = (formElement) => {
+            const partnerId = formElement.elements.partnerId.value;
+            if (partnerId) {
+                setActiveChat({ type: 'private', partnerId });
+                formElement.reset();
+            }
+        };
+        
+        const displayMessageModal = (title, message) => {
+            document.getElementById('custom-modal')?.remove();
+            const modalHtml = `
+                <div id="custom-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full">
+                        <h2 class="text-xl font-bold mb-3 text-indigo-700">${title}</h2>
+                        <p class="text-gray-700 mb-4">${message}</p>
+                        <button onclick="document.getElementById('custom-modal').remove()" class="w-full bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600 transition">Close</button>
+                    </div>
+                </div>`;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        };
+
+        const handleModalClose = (e) => {
+             if (e.key === "Escape") {
+                if (!DOMElements.qrModal.classList.contains('hidden')) hideQrCodeModal();
+                if (!DOMElements.scanModal.classList.contains('hidden')) stopQrCodeScanner();
+                document.getElementById('custom-modal')?.remove();
+                if (appState.isMobileSidebarOpen) closeMobileSidebar();
+             }
+        };
+
+        // --- 7. Initialization and Event Binding ---
+        window.onload = () => {
+            Object.assign(window, { setActiveChat, startPrivateChat, displayMessageModal, handleAddEmoji, handlePrivateChatForm, showQrCodeModal, hideQrCodeModal, showQrCodeScanner, stopQrCodeScanner, toggleMobileSidebar, closeMobileSidebar });
+            
+            document.addEventListener('keydown', handleModalClose);
+            DOMElements.mobileMenuToggle.addEventListener('click', toggleMobileSidebar);
+            DOMElements.mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
+            
+            DOMElements.emojiPicker.innerHTML = emojis.map(emoji => `<button type="button" onclick="window.handleAddEmoji('${emoji}')" class="p-1.5 text-2xl hover:bg-gray-100 rounded-lg transition">${emoji}</button>`).join('');
+
+            DOMElements.messageForm.addEventListener('submit', handleSendMessage);
+            DOMElements.messageInput.addEventListener('input', updateInputState);
+            DOMElements.emojiToggle.addEventListener('click', handleEmojiToggle);
+            
+            initializeAppAndAuth();
+        };
+    </script>
+</body>
+</html>
