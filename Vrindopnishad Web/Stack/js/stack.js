@@ -315,7 +315,7 @@ function navigateToReader(bookId) {
     sessionStorage.setItem('selectedBookData', JSON.stringify(book));
 
     // Navigate to reader page
-    const readerUrl = '/sketch/main/read-me.html';
+    const readerUrl = '/Vrindopnishad Web/sketch/main/read-me.html';
     window.location.href = `${readerUrl}?book=${bookId}`;
 }
 
@@ -2114,10 +2114,10 @@ async function loadFallbackBooks() {
 
         // Try to load multiple JSON file formats
         const possibleFiles = [
-            '/class/json/books-data.json',
-            '/class/json/books-data.json', 
-            '/class/json/Shri Harivansh Chandr-2025-09-21T12-02-46.json',
-            '/class/json/poems.json'
+            '/Vrindopnishad Web/class/json/books-data.json',
+            '/Vrindopnishad Web/class/json/books-data.json', 
+            '/Vrindopnishad Web/class/json/Shri Harivansh Chandr-2025-09-21T12-02-46.json',
+            '/Vrindopnishad Web/class/json/poems.json'
         ];
 
         let loadedData = null;

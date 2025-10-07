@@ -12,7 +12,7 @@
     <script src="/Vrindopnishad Web/book/js/audio.js"></script>
     <!-- Add after stack.js, before </body> -->
     <!-- <link rel="stylesheet" href="/Vrindopnishad Web/sketch/css/content-connector.css"> -->
-    <script src="/Vrindopnishad Web/sketch/js/content_connector.js"></script>
+    <!-- <script src="/Vrindopnishad Web/sketch/js/content_connector.js"></script> -->
 </head>
 <body>
     <!-- Add noise element for texture --
@@ -461,8 +461,14 @@
     <!--<script src="api-service.js"></script>-->
     
     <!-- Then load the main script -->
-    <script src="/Stack/js/stack.js"></script>
-    
+    <script src="/Vrindopnishad Web/Stack/js/stack.js"></script>
+    <!-- <script>
+        // Mark stack.js as initialized
+        window.stackJsInitialized = true;
+        
+        // Initialize books after stack.js is loaded
+        initializeBooks();
+    </script> -->
     <!-- Animation scripts -->
     <script src="/Vrindopnishad Web/Home/js/animations.js"></script>
     <script src="/Vrindopnishad Web/Home/js/effects.js"></script>
