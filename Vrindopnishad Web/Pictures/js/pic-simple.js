@@ -260,13 +260,13 @@ function initializeAllFeatures() {
     
     console.log("All features initialized");
 }
-
+const dataUrl = "/Vrindopnishad Web/class/json/images.json";
 // Load gallery from JSON
 async function loadGalleryFromJSON() {
     try {
         console.log("Loading gallery from JSON...");
         // here to input json file path
-        const response = await fetch('/class/json/images.json');
+        const response = await fetch(dataUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
