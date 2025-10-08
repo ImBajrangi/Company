@@ -18,6 +18,7 @@
             --line-color: #e0e0e0;
             --shadow-base: rgba(0, 0, 0, 0.15); /* Crisper, subtler shadow */
             --shadow-strip-base: rgba(0, 0, 0, 0.1);
+            --star-opacity: 0.1; /* Very subtle stars in light mode */
         }
 
         @media (prefers-color-scheme: dark) {
@@ -31,6 +32,7 @@
                 --line-color: #4b5563;
                 --shadow-base: rgba(0, 0, 0, 0.7); /* Deep shadow in dark mode */
                 --shadow-strip-base: rgba(0, 0, 0, 0.3); 
+                --star-opacity: 1; /* Full opacity in dark mode */
             }
         }
 
@@ -48,6 +50,49 @@
             color: var(--text-color); /* Apply theme text color globally */
             transition: background 0.5s ease; /* Smooth transition when theme changes */
         }
+
+        /* --- 3D Starfield Background CSS --- */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5; /* Behind content (z-index 20) */
+            background: transparent;
+            overflow: hidden;
+            will-change: transform; /* NEW: Enable hardware acceleration for parallax shift */
+            transition: transform 0.1s linear;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: transparent;
+            will-change: transform;
+            transition: opacity 0.5s; 
+        }
+
+        /* Star Layer Definitions (Static particles in 3D space) */
+        .stars-1 {
+            width: 1px; height: 1px;
+            box-shadow: 100px 30px #FFF, 200px 150px #FFF, 350px 70px #FFF, 50px 500px #FFF, 600px 320px #FFF, 750px 180px #FFF, 900px 450px #FFF, 1050px 100px #FFF, 1200px 550px #FFF, 1350px 200px #FFF, 1500px 650px #FFF, 1650px 300px #FFF, 1800px 750px #FFF, 1950px 400px #FFF, 100px 850px #FFF, 250px 1500px #FFF, 400px 950px #FFF, 550px 1600px #FFF, 700px 1050px #FFF, 850px 1700px #FFF, 1000px 1150px #FFF, 1150px 1800px #FFF, 1300px 1250px #FFF, 1450px 1900px #FFF, 1600px 1350px #FFF, 1750px 2000px #FFF;
+        }
+        .stars-2 {
+            width: 2px; height: 2px;
+            box-shadow: 50px 100px #DDD, 300px 400px #DDD, 550px 200px #DDD, 800px 500px #DDD, 1050px 250px #DDD, 1300px 550px #DDD, 1550px 350px #DDD, 1800px 600px #DDD, 50px 900px #DDD, 300px 1200px #DDD, 550px 1500px #DDD, 800px 1800px #DDD, 1050px 1400px #DDD, 1300px 1700px #DDD, 1550px 1100px #DDD, 1800px 1900px #DDD;
+        }
+        .stars-3 {
+            width: 3px; height: 3px;
+            box-shadow: 150px 200px #BBB, 450px 600px #BBB, 750px 100px #BBB, 1050px 700px #BBB, 1350px 300px #BBB, 1650px 800px #BBB, 1950px 400px #BBB, 150px 1100px #BBB, 450px 1400px #BBB, 750px 1700px #BBB, 1050px 1200px #BBB, 1350px 1800px #BBB;
+        }
+
+        /* Set base opacity using the CSS variable for theme adaptation */
+        .stars-1 { opacity: calc(var(--star-opacity) * 0.8); }
+        .stars-2 { opacity: calc(var(--star-opacity) * 0.5); }
+        .stars-3 { opacity: calc(var(--star-opacity) * 0.3); }
+
 
         /* 1. The Scroll Trigger: This tall container enables vertical scrolling */
         #scroll-trigger {
@@ -72,11 +117,7 @@
             height: 100%;
             will-change: transform; 
             transform-style: preserve-3d;
-            
             z-index: 20; 
-            
-            /* REMOVED: The distracting shadow on the strip itself */
-            /* box-shadow: 0 0px 50px var(--shadow-strip-base); */ 
             transition: box-shadow 0.3s ease-out; 
         }
 
@@ -89,6 +130,7 @@
             align-items: center;
             justify-content: center;
             padding: 4rem;
+            padding-bottom: 6rem; /* Ensure padding for the bottom bar */
             background-color: transparent; 
         }
 
@@ -96,15 +138,16 @@
         .content-card {
             background-color: var(--card-bg); /* Use variable for card background */
             padding: 3rem;
-            /* Use soft borders and softer rounded corners for classic feel */
             border-radius: 0.5rem; 
-            /* Use variable for card shadow (subtle lift) */
             box-shadow: 0 5px 15px var(--shadow-base); 
             max-width: 90%;
-            /* Ensure smooth transition for the dynamic JS scale transformation */
+            /* Ensure smooth transition for the dynamic JS transformation */
             transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s, background-color 0.5s;
             z-index: 30; 
             position: relative; 
+            /* NEW: Ensure card itself is in 3D space for Z-translation */
+            transform-style: preserve-3d;
+            will-change: transform;
         }
         .content-card:hover {
              /* Adjusted hover shadow for both themes */
@@ -117,15 +160,15 @@
             cursor: pointer;
         }
 
-        /* Persistent Timeline Line */
+        /* Persistent Timeline Line (Now at the bottom) */
         #timeline-line {
             position: absolute;
-            top: 10%; 
-            height: 2px;
+            bottom: 0; /* Moved to the bottom */
+            height: 4px; /* Slightly thicker line */
             width: 100%;
-            background-color: var(--line-color); /* Use variable for line color */
-            z-index: 10;
-            transform: translateY(-50%); 
+            background-color: var(--line-color); 
+            z-index: 50; 
+            transform: none; 
         }
         #timeline-progress {
             position: absolute;
@@ -133,13 +176,86 @@
             left: 0;
             height: 100%;
             width: 0;
-            background-color: var(--accent-color); /* Use variable for accent color */
-            transition: width 0.3s ease-out;
-            will-change: width;
+            background-color: var(--accent-color); /* Solid accent color */
+            transition: width 0.3s ease-out, box-shadow 0.1s ease-out; /* Smoother shadow transition */
+            will-change: width, box-shadow; /* Added box-shadow for glow */
         }
+
+        /* NEW: Header/Nav Styling */
+        #top-nav {
+            /* Add backdrop for visibility against light elements */
+            background-color: var(--card-bg);
+            opacity: 0.95;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        #brand-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-color);
+        }
+        
+        .nav-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            white-space: nowrap; /* Prevent wrap on small screens */
+        }
+        .nav-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        /* NEW: Premium Floating Button Style for Home */
+        .floating-button {
+            /* Use card background, border, and shadow for a raised, floating look */
+            background-color: var(--card-bg); 
+            border: 1px solid var(--line-color);
+            color: var(--accent-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .floating-button {
+                 /* Adjust shadow intensity for dark mode */
+                 box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5); 
+            }
+        }
+        
     </style>
 </head>
 <body>
+
+    <!-- NEW: Fixed Top Navigation Bar -->
+    <header id="top-nav" class="fixed top-0 left-0 right-0 z-[60] p-6 flex items-center justify-between">
+        <!-- 1. Home Button (Top Left) - Now uses the floating-button style -->
+        <button id="home-nav-button" class="nav-button floating-button">
+            Home
+        </button>
+        
+        <!-- 2. Brand Logo (Top Center) -->
+        <div id="brand-logo" class="hidden sm:block">
+            Vrindopnishad
+        </div>
+        
+        <!-- 3. Contact Button (Top Right) -->
+        <button id="contact-button" class="nav-button text-white shadow-xl" style="background-color: var(--accent-color);">
+            Contact Us
+        </button>
+    </header>
+
+    <!-- Static 3D Space Background (Particle/Starfield) -->
+    <div id="starfield">
+        <div class="stars stars-1"></div>
+        <div class="stars stars-2"></div>
+        <div class="stars stars-3"></div>
+    </div>
 
     <!-- The actual scrollable space is created by this tall container -->
     <div id="scroll-trigger"></div>
@@ -147,7 +263,7 @@
     <!-- The visual content remains fixed on the screen -->
     <div id="sticky-container"> 
         
-        <!-- Persistent Timeline Line (Now higher up) -->
+        <!-- Persistent Timeline Line (Now at the bottom) -->
         <div id="timeline-line">
              <div id="timeline-progress"></div>
         </div>
@@ -243,8 +359,12 @@
         // Caching for the main elements
         const scrollTrigger = document.getElementById('scroll-trigger');
         const horizontalStrip = document.getElementById('horizontal-scroll-strip');
+        const starfield = document.getElementById('starfield');
         const scrollCue = document.getElementById('scroll-cue'); 
         const timelineProgress = document.getElementById('timeline-progress'); 
+        
+        // NEW: Cache Home Button
+        const homeNavButton = document.getElementById('home-nav-button');
         
         let numSlides = 0; 
         
@@ -258,19 +378,18 @@
         let horizontalDistance = 0;
         
         // Caching CSS variable values for dynamic use
-        let shadowStripBase = 'rgba(0, 0, 0, 0.1)';
-        let accentColor = '#d97706'; // Default to light theme accent
+        let accentColor = '#d97706'; 
 
         // NEW: Array to cache content cards for performance
         const cardElements = []; 
 
         // Mouse Parallax State for 3D Camera Effect
-        let targetRotateX = 0; // Target rotation around X axis (tilt up/down)
-        let targetRotateY = 0; // Target rotation around Y axis (tilt left/right)
+        let targetRotateX = 0; 
+        let targetRotateY = 0; 
         let currentRotateX = 0;
         let currentRotateY = 0;
-        const tiltEasingFactor = 0.1; // Smoothness for the camera tilt
-        const maxTilt = 1.5; // Max rotation in degrees (subtle movement)
+        const tiltEasingFactor = 0.1; 
+        const maxTilt = 1.5; 
 
 
         /**
@@ -278,10 +397,7 @@
          */
         function readCssVariables() {
             const rootStyle = getComputedStyle(document.documentElement);
-            // Read values for use in JS logic
-            shadowStripBase = rootStyle.getPropertyValue('--shadow-strip-base').trim();
             accentColor = rootStyle.getPropertyValue('--accent-color').trim();
-            // Note: Update navigation dots manually after theme change
             updateNavigationDots();
         }
 
@@ -318,14 +434,15 @@
         }
 
         /**
-         * Updates the fixed navigation dots based on the current scroll position.
+         * Updates the fixed navigation dots and back button based on the current scroll position.
          */
         function updateNavigationDots() {
             if (numSlides === 0) return;
 
             const slideWidth = window.innerWidth;
-            // Ensure slideIndex calculation is clamped properly
+            // Calculate the 1-based index of the slide the user is currently closest to
             const slideIndex = Math.min(numSlides, Math.max(1, Math.round(currentTranslateX / slideWidth) + 1));
+            
             
             const dots = document.querySelectorAll('.timeline-dot');
             dots.forEach(dot => {
@@ -333,45 +450,40 @@
                 if (dotSlide === slideIndex) {
                     dot.classList.remove('bg-gray-400', 'w-3', 'h-3');
                     dot.classList.add('w-4', 'h-4', 'shadow-lg');
-                    // Set active dot color via style attribute using the theme variable
                     dot.style.backgroundColor = accentColor; 
                 } else {
-                    // Reset to default gray color
                     dot.style.backgroundColor = ''; 
                     dot.classList.remove('w-4', 'h-4', 'shadow-lg');
                     dot.classList.add('bg-gray-400', 'w-3', 'h-3');
                 }
             });
-            // Update dynamic element colors manually
-            document.querySelector('#scroll-cue').style.color = accentColor;
             
-            // Safely update button color if it exists (for slide 4)
-            const button = document.querySelector('#slide-4 button');
-            if (button) {
-                button.style.backgroundColor = accentColor;
-            }
+            // Safely update theme-dependent element colors
+            const themeElements = document.querySelectorAll('[style*="var(--accent-color)"]');
+            themeElements.forEach(el => {
+                // This is a simple way to re-apply the accent color for dynamic updates
+                if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'SPAN' || el.id === 'scroll-cue') {
+                     el.style.color = accentColor;
+                }
+                if (el.tagName === 'BUTTON' && el.id !== 'home-nav-button') {
+                    el.style.backgroundColor = accentColor;
+                }
+                // NOTE: The accent color for home-nav-button is now handled by the CSS class definition (.floating-button)
+            });
             
-            // Safely update header colors
-            document.querySelector('#slide-1 h1').style.color = accentColor;
-            document.querySelector('#slide-4 h2').style.color = accentColor;
         }
 
         /**
          * Handles mouse movement to update the 3D tilt target.
          */
         function onMouseMove(e) {
-            // Calculate normalized coordinates (-1 to 1) from center
             const centerW = window.innerWidth / 2;
             const centerH = window.innerHeight / 2;
             
-            // Normalized X: -1 (left) to 1 (right)
             const normalizedX = (e.clientX - centerW) / centerW;
-            // Normalized Y: -1 (top) to 1 (bottom)
             const normalizedY = (e.clientY - centerH) / centerH; 
 
-            // Tilt Y-axis (side to side): Mouse right -> rotate right (positive Y-axis rotation)
             targetRotateY = normalizedX * maxTilt;
-            // Tilt X-axis (up/down): Mouse down -> rotate up (negative X-axis rotation)
             targetRotateX = -normalizedY * maxTilt; 
         }
         
@@ -385,11 +497,10 @@
             
             // 2. Velocity-Driven Scaling (3D Zoom on STRIP)
             const normalizedSpeed = Math.min(1, Math.abs(deltaX) / window.innerWidth);
-            // Increased scale factor for more aggressive zoom feel (0.30)
             const scaleFactor = 1.0 + (normalizedSpeed * 0.30); 
 
             // 3. Velocity-Driven Z-Rotation (Roll)
-            const maxRotateZ = 0.5; // Subtle roll
+            const maxRotateZ = 0.5; 
             const rotateZ = (deltaX > 0 ? -1 : 1) * normalizedSpeed * maxRotateZ; 
             
             // 4. Easing for Mouse Tilt (RotateX and RotateY)
@@ -404,26 +515,34 @@
                  rotateY(${currentRotateY.toFixed(2)}deg) 
                  translateX(-${currentTranslateX.toFixed(2)}px)`;
             
+            // NEW: Background Parallax Shift (Opposite of content rotation)
+            const starfieldTiltFactor = 20; 
+            const starfieldX = -currentRotateY * starfieldTiltFactor; 
+            const starfieldY = -currentRotateX * starfieldTiltFactor; 
+            starfield.style.transform = `translate(${starfieldX.toFixed(2)}px, ${starfieldY.toFixed(2)}px)`;
+
             // ******************************************************
-            // NEW: Zoom the individual content blocks (cards) based on speed
+            // Positional Z-Translation (3D Depth)
             // ******************************************************
             if (numSlides > 0 && cardElements.length === numSlides) {
                 const slideWidth = window.innerWidth;
-                // Calculate the active slide index (0-based)
-                // Use Math.round for accurate centering on the current slide
-                const activeSlideIndex = Math.min(numSlides - 1, Math.max(0, Math.round(currentTranslateX / slideWidth)));
-                
-                // Calculate scale for the active card (subtle zoom, 1.0 to 1.15)
-                const cardScale = 1.0 + (normalizedSpeed * 0.15); 
+                const viewportCenter = slideWidth / 2;
+                const maxTranslateZ = 200; // Max depth distance (in pixels)
                 
                 cardElements.forEach((card, index) => {
-                    let transform = 'scale(1.0)';
-                    if (index === activeSlideIndex) {
-                        // Apply the speed-driven zoom to the active card
-                        transform = `scale(${cardScale.toFixed(4)})`;
-                    }
+                    const slideCenterRelative = (index * slideWidth) + (slideWidth / 2);
+                    const cardCenterOnScreen = slideCenterRelative - currentTranslateX;
                     
-                    card.style.transform = transform;
+                    const distance = Math.abs(cardCenterOnScreen - viewportCenter);
+                    
+                    // Normalize distance: 0 (center) to 1 (full width away)
+                    const normalizedDistance = Math.min(1.0, distance / (slideWidth * 0.5)); 
+                    
+                    // Calculate TranslateZ (0 at center, -maxTranslateZ at edges)
+                    const translateZ = -normalizedDistance * maxTranslateZ; 
+                    
+                    // Apply Z-translation
+                    card.style.transform = `translateZ(${translateZ.toFixed(2)}px)`;
                 });
             }
 
@@ -431,6 +550,21 @@
             if (horizontalDistance > 0) {
                 const progressWidth = (currentTranslateX / horizontalDistance) * 100;
                 timelineProgress.style.width = `${progressWidth.toFixed(2)}%`;
+                
+                // NEW: Advanced Progress Line Animation (Glow on acceleration/deceleration)
+                const maxGlowIntensity = 0.8; 
+                
+                // Glow intensity is tied to how fast the page is moving (normalizedSpeed)
+                const glowIntensity = normalizedSpeed * maxGlowIntensity; 
+                
+                if (glowIntensity > 0.05) { 
+                    // Apply a bright glow based on the accent color
+                    timelineProgress.style.boxShadow = `0 0 8px 3px ${accentColor}, 0 0 15px 6px rgba(255, 193, 7, ${glowIntensity.toFixed(2)})`;
+                } else {
+                     // Reset shadow when movement stops
+                    timelineProgress.style.boxShadow = `none`;
+                }
+
             }
 
             // 7. Update the Timeline Navigation Dots
@@ -462,7 +596,6 @@
 
             ticking = false;
         }
-
         
         /**
          * Handles the scroll event. Throttled by requestAnimationFrame.
@@ -473,6 +606,17 @@
                 ticking = true;
             }
         }
+        
+        /**
+         * NEW: Handles clicking the Home button (scrolls to top).
+         */
+        function handleHomeClick() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
 
         /**
          * Attaches event listeners and starts the render loop if dimensions are valid.
@@ -483,17 +627,18 @@
                  return;
             }
 
-            // Read the initial CSS variables
             readCssVariables();
 
-            // NEW: Cache all card elements once
+            // Cache all card elements once
             document.querySelectorAll('.content-card').forEach(card => cardElements.push(card));
 
             // 1. Set up listeners
             window.addEventListener('scroll', onScroll, { passive: true });
             window.addEventListener('resize', calculateDimensions);
-            // Add mouse move listener for the 3D camera effect
             window.addEventListener('mousemove', onMouseMove);
+            
+            // NEW: Home Button click handler
+            homeNavButton.addEventListener('click', handleHomeClick);
             
             // 2. Set up dot click handlers
             document.querySelectorAll('.timeline-dot').forEach(dot => {
