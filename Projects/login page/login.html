@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Auth System</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3ffce; /* Light, soft background */
+        }
+        /* Custom style for primary button color */
+        .btn-primary {
+            background-color: #1e40af; /* Blue-800 */
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #1e3a8a; /* Blue-900 */
+        }
+        /* Custom style for Google button */
+        .btn-google {
+            background-color: white;
+            color: #1f2937; /* Gray-800 */
+            border: 1px solid #d1d5db; /* Gray-300 */
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-google:hover {
+            background-color: #f9fafb; /* Gray-50 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Auth Card Container (max-w-md, distinct shadow) -->
+    <div id="auth-container" class="w-full max-w-md bg-white shadow-2xl border border-gray-100 rounded-xl overflow-hidden transition-all duration-500">
+        
+        <!-- Header Section -->
+        <div class="p-8 pb-4 bg-white border-b border-gray-100">
+            <h1 class="text-4xl font-extrabold text-gray-900">
+                <span id="view-title">Sign In</span>
+            </h1>
+            <p id="view-subtitle" class="text-gray-600 mt-1">Access your account or create a new one instantly.</p>
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-8 space-y-6">
+            
+            <!-- Status/Error Message Display -->
+            <div id="status-message" class="hidden p-3 rounded-lg text-sm transition-all duration-300"></div>
+
+            <!-- Global Google Sign-In Button -->
+            <button onclick="signInWithGoogle()" class="btn-google w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-base font-medium">
+                <!-- Inline SVG for Google Logo -->
+                <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M44.5 20H24v8.5h11.8c-.8 5.7-5.7 9.8-11.8 9.8-7.3 0-13.3-6-13.3-13.3S16.7 13.7 24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24S13.8 43 24 43c10.2 0 17.5-7.4 17.5-17.5 0-1.5-.2-2.9-.4-4.2H24v-8.5h20.5z" fill="#4285F4"/>
+                    <path d="M24 43c5.3 0 9.7-1.8 12.5-4.9l-6.4-6.4c-1.7 1.7-4.2 3.1-7.5 3.1-6.1 0-11.1-4.1-13.3-9.8h-8.5C5.5 34.7 13.8 43 24 43z" fill="#34A853"/>
+                    <path d="M5.5 24c0-1.5.2-2.9.4-4.2h8.5c-.5 2.6-.5 5.2 0 7.8H5.9c-.2-1.3-.4-2.7-.4-4.2z" fill="#FBBC05"/>
+                    <path d="M24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24c0 1.5.2 2.9.4 4.2h8.5c.5-2.6.5-5.2 0-7.8h-8.5C5.7 17.1 5.5 15.6 5.5 14z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+            </button>
+            
+            <div class="relative flex items-center justify-center">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative bg-white px-3 text-sm text-gray-500">
+                    OR
+                </div>
+            </div>
+
+            <!-- Login Form (Email/Password) -->
+            <form id="form-login" class="space-y-6" onsubmit="event.preventDefault(); handleAuth('login')">
+                
+                <div>
+                    <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="login-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="your@email.com">
+                </div>
+                
+                <div>
+                    <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="••••••••">
+                </div>
+                
+                <div class="flex justify-between items-center pt-2">
+                    <!-- Switch to Signup Link -->
+                    <a href="#" onclick="showView('signup'); return false;" class="text-sm text-gray-600 hover:text-blue-600 font-medium transition-colors duration-150">
+                        Don't have an account? Sign Up
+                    </a>
+                    <!-- Primary Action Button -->
+                    <button type="submit" class="btn-primary py-2 px-6 rounded-lg text-base font-medium text-white shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Log In
+                    </button>
+                </div>
+            </form>
+
+            <!-- Sign Up Form (Email/Password) -->
+            <form id="form-signup" class="space-y-6 hidden" onsubmit="event.preventDefault(); handleAuth('signup')">
+                
+                <div>
+                    <label for="signup-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="signup-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="John Doe">
+                </div>
+
+                <div>
+                    <label for="signup-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="signup-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="your@email.com">
+                </div>
+                
+                <div>
+                    <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="signup-password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="Minimum 6 characters">
+                </div>
+                
+                <div class="flex justify-between items-center pt-2">
+                    <!-- Switch to Login Link -->
+                    <a href="#" onclick="showView('login'); return false;" class="text-sm text-gray-600 hover:text-blue-600 font-medium transition-colors duration-150">
+                        Already have an account? Log In
+                    </a>
+                    <!-- Primary Action Button -->
+                    <button type="submit" class="btn-primary py-2 px-6 rounded-lg text-base font-medium text-white shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Sign Up
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Auth Info Display -->
+            <div class="text-xs text-center text-gray-400 mt-4 pt-4 border-t border-gray-100">
+                <p>Firebase Auth: <span id="auth-status" class="font-semibold text-gray-500">Initializing...</span></p>
+                <p>User ID: <span id="user-id" class="font-mono text-xs break-all">N/A</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables for Firebase instances
+        let app;
+        let db;
+        let auth;
+        let currentUserId = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // Set Firestore log level to debug for development visibility
+        setLogLevel('Debug');
+
+        // --- Utility Functions ---
+
+        /**
+         * Displays a status message (success or error).
+         * @param {string} message The message content.
+         * @param {string} type 'success' or 'error'.
+         * @param {boolean} isCritical If true, uses a more prominent red style.
+         */
+        function displayStatus(message, type = 'success', isCritical = false) {
+            const statusDiv = document.getElementById('status-message');
+            statusDiv.textContent = message;
+            statusDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-red-600', 'text-white', 'font-bold');
+            
+            let timeoutDuration = 5000;
+
+            if (type === 'error') {
+                if (isCritical) {
+                    // Prominent critical error style for actionable fixes
+                    statusDiv.classList.add('bg-red-600', 'text-white', 'font-bold', 'p-4');
+                    timeoutDuration = 8000; // Keep critical message visible longer
+                } else {
+                    statusDiv.classList.add('bg-red-100', 'text-red-700');
+                }
+            } else {
+                statusDiv.classList.add('bg-green-100', 'text-green-700');
+            }
+            statusDiv.classList.remove('hidden');
+
+            // Hide after timeout
+            setTimeout(() => {
+                statusDiv.classList.add('hidden');
+                // Clean up classes after hiding
+                statusDiv.classList.remove('font-bold', 'bg-red-600', 'text-white', 'p-4');
+            }, timeoutDuration);
+        }
+
+        // --- Firebase Initialization and Authentication ---
+
+        /**
+         * Initializes Firebase and authenticates the user.
+         */
+        async function initFirebase() {
+            try {
+                // Get config from global variable
+                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+                if (Object.keys(firebaseConfig).length === 0) {
+                    throw new Error("Firebase configuration is missing.");
+                }
+
+                // Initialize services
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                const authStatusEl = document.getElementById('auth-status');
+                
+                // Handle initial authentication state
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    authStatusEl.textContent = 'Signing in with custom token...';
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                    authStatusEl.textContent = 'Authenticated (Custom Token)';
+                } else {
+                    authStatusEl.textContent = 'Signing in anonymously...';
+                    await signInAnonymously(auth);
+                    authStatusEl.textContent = 'Authenticated (Anonymous)';
+                }
+
+                // Listener for auth state changes
+                onAuthStateChanged(auth, (user) => {
+                    const userIdEl = document.getElementById('user-id');
+                    if (user) {
+                        currentUserId = user.uid;
+                        userIdEl.textContent = currentUserId;
+                    } else {
+                        currentUserId = null;
+                        userIdEl.textContent = 'No user signed in.';
+                    }
+                });
+
+                console.log("Firebase initialized successfully.");
+
+            } catch (error) {
+                const errorMessage = `Firebase Initialization Failed: ${error.message}`;
+                console.error(errorMessage, error);
+                document.getElementById('auth-status').textContent = 'Error!';
+                document.getElementById('user-id').textContent = 'Check console for details.';
+                displayStatus(errorMessage, 'error');
+            }
+        }
+
+        /**
+         * Handles simulated email/password authentication (Login/Signup).
+         * NOTE: In a real environment, you would use signInWithEmailAndPassword/createUserWithEmailAndPassword.
+         * @param {string} mode 'login' or 'signup'.
+         */
+        window.handleAuth = async function(mode) {
+            // Get form elements
+            const email = document.getElementById(`${mode}-email`)?.value;
+            const password = document.getElementById(`${mode}-password`)?.value;
+            const name = mode === 'signup' ? document.getElementById('signup-name')?.value : null;
+
+            if (!email || !password) {
+                 displayStatus("Please fill in both email and password.", 'error');
+                 return;
+            }
+
+            // Simulate Network Request and Auth Logic
+            document.getElementById('status-message').textContent = `Processing ${mode} request... (Simulated Email/Pass)`;
+            document.getElementById('status-message').classList.remove('hidden');
+
+            try {
+                
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+
+                if (mode === 'signup') {
+                    // Simulated Sign Up Success - Save initial user data
+                    if (db && currentUserId) {
+                         // Private user data storage path: /artifacts/{appId}/users/{userId}/user_profiles/{documentId}
+                        const userRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'user_profiles', currentUserId);
+                        await setDoc(userRef, {
+                            name: name || 'New User',
+                            email: email,
+                            joined: new Date().toISOString(),
+                            authMethod: 'Email/Password (Simulated)'
+                        });
+                        displayStatus(`Account Created! Data saved to Firestore. (Simulated Auth)`, 'success');
+                    } else {
+                        displayStatus(`Account Created! (Simulated Auth)`, 'success');
+                    }
+                } else {
+                    // Simulated Login Success
+                    displayStatus(`Login Successful! Welcome, ${email}. (Simulated Auth)`, 'success');
+                }
+
+            } catch (error) {
+                console.error("Auth Simulation Error:", error);
+                displayStatus(`Authentication Failed: ${error.message || "Invalid credentials."}`, 'error');
+            }
+        }
+
+        /**
+         * Handles authentication using Google Sign-in with Popup.
+         */
+        window.signInWithGoogle = async function() {
+            if (!auth || !db) {
+                displayStatus("Firebase services not fully initialized. Please wait.", 'error');
+                return;
+            }
+
+            document.getElementById('status-message').textContent = 'Opening Google sign-in...';
+            document.getElementById('status-message').classList.remove('hidden');
+
+            try {
+                const provider = new GoogleAuthProvider();
+                // Use signInWithPopup for a non-redirecting experience in the canvas environment
+                const result = await signInWithPopup(auth, provider);
+                
+                const user = result.user;
+                
+                // Determine if this is a new user sign-up
+                const isNewUser = result.operationType === 'signIn' && user.metadata.creationTime === user.metadata.lastSignInTime;
+
+                if (isNewUser) {
+                    // Save profile data (name, email) on first sign-in
+                    const userRef = doc(db, 'artifacts', appId, 'users', user.uid, 'user_profiles', user.uid);
+                    await setDoc(userRef, {
+                        name: user.displayName || 'Google User',
+                        email: user.email,
+                        joined: new Date().toISOString(),
+                        authMethod: 'Google'
+                    }, { merge: true });
+                    displayStatus(`Sign Up (Google) Successful! Welcome, ${user.displayName}.`, 'success');
+                } else {
+                    displayStatus(`Login (Google) Successful! Welcome back, ${user.displayName}.`, 'success');
+                }
+
+                // After successful sign-in, switch to Login view and potentially populate the email field
+                showView('login'); 
+                document.getElementById('login-email').value = user.email || ''; 
+
+            } catch (error) {
+                console.error("Google Sign-In Error:", error);
+                
+                // --- FIX: Specific check for unauthorized domain error ---
+                if (error.code === 'auth/unauthorized-domain') {
+                    // Use the new critical style to emphasize the required external action
+                    displayStatus("CRITICAL ERROR: Google Sign-In Failed! You must add the app's full URL to the 'Authorized Domains' list in your Firebase Authentication settings to enable Google Sign-In.", 'error', true); 
+                } 
+                // --- End FIX ---
+                else if (error.code === 'auth/popup-closed-by-user') {
+                    displayStatus("Google sign-in popup closed by user.", 'error');
+                } else {
+                    displayStatus(`Google Sign-In Failed: ${error.message}`, 'error');
+                }
+            }
+        }
+
+
+        // --- UI Logic ---
+
+        /**
+         * Switches the view between Login and Sign Up forms, and updates the header text.
+         * @param {string} view 'login' or 'signup'.
+         */
+        window.showView = function(view) {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const titleEl = document.getElementById('view-title');
+            const subtitleEl = document.getElementById('view-subtitle');
+            
+            // Clear status message
+            document.getElementById('status-message').classList.add('hidden');
+
+            if (view === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                
+                // Update header
+                titleEl.textContent = 'Sign In';
+                subtitleEl.textContent = 'Access your account or create a new one instantly.';
+                
+            } else { // signup
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                
+                // Update header
+                titleEl.textContent = 'Create Account';
+                subtitleEl.textContent = 'Join us today. It only takes a minute!';
+            }
+        }
+        
+        // Initialize the view and Firebase on window load
+        window.onload = function() {
+            showView('login'); // Set initial view to Login
+            initFirebase();
+        };
+
+    </script>
+</body>
+</html>
