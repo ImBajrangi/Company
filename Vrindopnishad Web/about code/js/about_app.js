@@ -78,10 +78,7 @@ menu_item.forEach((item) => {
 	});
 });
 
-
-
-
- // Add hover effect to menu notification items
+// Add hover effect to menu notification items
 document.querySelectorAll('.menu-notification').forEach(notification => {
     notification.addEventListener('mouseenter', () => {
         notification.style.transform = 'scale(1.1)';
