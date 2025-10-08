@@ -24,12 +24,12 @@
         @media (prefers-color-scheme: dark) {
             :root {
                 /* Dark Theme (Classic/Premium Navy/Gold) */
-                --bg-start: #1e2a38; /* Deep Slate Blue */
-                --bg-end: #0f172a; /* Slate-900 */
+                --bg-start: #0b1015; /* Deep Slate Blue */
+                --bg-end: #000000; /* Slate-900 */
                 --text-color: #f0f0f0; /* Off-White text */
-                --card-bg: #293847; /* Slightly lighter card */
+                --card-bg: #221300; /* Slightly lighter card */
                 --accent-color: #fbbf24; /* Amber-400 (Brighter Gold) */
-                --line-color: #4b5563;
+                --line-color: #37301f;
                 --shadow-base: rgba(0, 0, 0, 0.7); /* Deep shadow in dark mode */
                 --shadow-strip-base: rgba(0, 0, 0, 0.3); 
                 --star-opacity: 1; /* Full opacity in dark mode */
@@ -207,11 +207,10 @@
             }
         }
 
-
         /* NEW: Header/Nav Styling */
         #top-nav {
             /* Add backdrop for visibility against light elements */
-            background: blur(var(--card-bg), 10px);
+            background: blur(var(--bg-end), 10px);
             /* opacity: 0.95; */
             /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
             transition: background-color 0.3s, box-shadow 0.3s;
