@@ -147,7 +147,7 @@
     <!-- Firebase SDK Imports -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -172,29 +172,21 @@
          */
         function displayStatus(message, type = 'success', isCritical = false) {
             const statusDiv = document.getElementById('status-message');
-            // Clear any previous styles/messages
             statusDiv.textContent = message;
             statusDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-red-600', 'text-white', 'font-bold', 'p-4');
             
-            let timeoutDuration = 5000; // Default timeout
+            let timeoutDuration = 5000;
 
             if (type === 'error') {
-                if (isCritical) {
-                    // Prominent critical error style for actionable fixes. Will NOT auto-hide.
-                    statusDiv.classList.add('bg-red-600', 'text-white', 'font-bold', 'p-4');
-                } else {
-                    statusDiv.classList.add('bg-red-100', 'text-red-700');
-                }
+                statusDiv.classList.add(isCritical ? 'bg-red-600' : 'bg-red-100', isCritical ? 'text-white' : 'text-red-700');
+                if(isCritical) statusDiv.classList.add('font-bold', 'p-4');
             } else {
                 statusDiv.classList.add('bg-green-100', 'text-green-700');
             }
             statusDiv.classList.remove('hidden');
 
-            // Hide after timeout ONLY if not critical
             if (!isCritical) {
-                setTimeout(() => {
-                    statusDiv.classList.add('hidden');
-                }, timeoutDuration);
+                setTimeout(() => statusDiv.classList.add('hidden'), timeoutDuration);
             }
         }
 
@@ -205,15 +197,23 @@
          */
         async function initFirebase() {
             try {
-                // Get config from the environment's global variable.
-                // This ensures the config matches the provided auth token.
-                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+                // Use the environment's config if available, otherwise use the hardcoded one.
+                 const firebaseConfig = (typeof __firebase_config !== 'undefined')
+                    ? JSON.parse(__firebase_config)
+                    : {
+                        apiKey: "AIzaSyB-Wd4gZ2J9P9ycaHKwK-EHnNfdg7z9gWI",
+                        authDomain: "vrindopnishad-d3497.firebaseapp.com",
+                        projectId: "vrindopnishad-d3497",
+                        storageBucket: "vrindopnishad-d3497.firebasestorage.app",
+                        messagingSenderId: "768939105927",
+                        appId: "1:768939105927:web:de7a7244eb6e0febcf2222",
+                        measurementId: "G-KF0HYQTHV5"
+                      };
 
-                if (Object.keys(firebaseConfig).length === 0 || !firebaseConfig.apiKey) {
-                    throw new Error("Firebase configuration from the environment is missing or incomplete.");
+                if (Object.keys(firebaseConfig).length < 2 || !firebaseConfig.apiKey.startsWith("AIza")) {
+                    throw new Error("Firebase configuration is missing or invalid.");
                 }
 
-                // Initialize services
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
@@ -223,28 +223,29 @@
                 
                 googleButton.textContent = 'Authenticating...';
 
-                // Handle initial authentication state
+                // Prioritize the environment's custom token for authentication.
+                // Fallback to anonymous sign-in only if the token is not present.
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     authStatusEl.textContent = 'Signing in with custom token...';
                     await signInWithCustomToken(auth, __initial_auth_token);
-                    authStatusEl.textContent = 'Authenticated (Custom Token)';
+                    authStatusEl.textContent = 'Authenticated (Token)';
                 } else {
                     authStatusEl.textContent = 'Signing in anonymously...';
                     await signInAnonymously(auth);
                     authStatusEl.textContent = 'Authenticated (Anonymous)';
                 }
 
-                // Mark Firebase as ready and enable the Google Sign-In button
+
                 isFirebaseReady = true;
                 googleButton.disabled = false;
                 googleButton.textContent = 'Continue with Google';
 
-                // Listener for auth state changes
                 onAuthStateChanged(auth, (user) => {
                     const userIdEl = document.getElementById('user-id');
                     if (user) {
                         currentUserId = user.uid;
                         userIdEl.textContent = currentUserId;
+                        console.log("Current User ID:", currentUserId);
                     } else {
                         currentUserId = null;
                         userIdEl.textContent = 'No user signed in.';
@@ -254,46 +255,43 @@
                 console.log("Firebase initialized successfully.");
 
             } catch (error) {
-                // Enhanced error logging for initialization failures
                 console.error("Firebase Initialization Failed. Full error object:", error);
-                document.getElementById('auth-status').textContent = 'Error!';
+                const authStatusEl = document.getElementById('auth-status');
+                authStatusEl.textContent = 'Error!';
                 document.getElementById('user-id').textContent = 'Check console for details.';
                 document.getElementById('google-sign-in-button').textContent = 'Initialization Failed';
-                // Display a more detailed error message to the user
-                displayStatus(`Initialization Failed: ${error.code || error.message}. Check console for details.`, 'error', true); 
+                
+                if (error.code === 'auth/admin-restricted-operation') {
+                    displayStatus('Initialization Failed: Anonymous Sign-In is not enabled. Please go to your Firebase Console -> Authentication -> Sign-in method and enable the "Anonymous" provider.', 'error', true);
+                } else if (error.code === 'auth/custom-token-mismatch') {
+                     displayStatus('Initialization Failed: Auth token does not match the Firebase project. Please ensure the config is correct.', 'error', true);
+                }
+                else {
+                    displayStatus(`Initialization Failed: ${error.message}.`, 'error', true); 
+                }
             }
         }
 
         /**
          * Handles simulated email/password authentication (Login/Signup).
-         * NOTE: In a real environment, you would use signInWithEmailAndPassword/createUserWithEmailAndPassword.
-         * @param {string} mode 'login' or 'signup'.
          */
         window.handleAuth = async function(mode) {
-            // No need to check isFirebaseReady here, we rely on the button being disabled if not ready.
-            
-            // Get form elements
             const email = document.getElementById(`${mode}-email`)?.value;
             const password = document.getElementById(`${mode}-password`)?.value;
             const name = mode === 'signup' ? document.getElementById('signup-name')?.value : null;
 
             if (!email || !password) {
-                 displayStatus("Please fill in both email and password.", 'error');
+                 displayStatus("Please fill in all required fields.", 'error');
                  return;
             }
 
-            // Simulate Network Request and Auth Logic
-            document.getElementById('status-message').textContent = `Processing ${mode} request... (Simulated Email/Pass)`;
-            document.getElementById('status-message').classList.remove('hidden');
+            displayStatus(`Processing ${mode} request... (Simulated)`, 'success');
 
             try {
-                
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
 
                 if (mode === 'signup') {
-                    // Simulated Sign Up Success - Save initial user data
                     if (db && currentUserId) {
-                         // Private user data storage path: /artifacts/{appId}/users/{userId}/user_profiles/{documentId}
                         const userRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'user_profiles', currentUserId);
                         await setDoc(userRef, {
                             name: name || 'New User',
@@ -301,18 +299,15 @@
                             joined: new Date().toISOString(),
                             authMethod: 'Email/Password (Simulated)'
                         });
-                        displayStatus(`Account Created! Data saved to Firestore. (Simulated Auth)`, 'success');
-                    } else {
-                        displayStatus(`Account Created! (Simulated Auth)`, 'success');
+                        displayStatus('Account Created! (Simulated)', 'success');
                     }
                 } else {
-                    // Simulated Login Success
-                    displayStatus(`Login Successful! Welcome, ${email}. (Simulated Auth)`, 'success');
+                    displayStatus(`Login Successful! (Simulated)`, 'success');
                 }
 
             } catch (error) {
                 console.error("Auth Simulation Error:", error);
-                displayStatus(`Authentication Failed: ${error.message || "Invalid credentials."}`, 'error');
+                displayStatus(`Authentication Failed: ${error.message}`, 'error');
             }
         }
 
@@ -322,25 +317,18 @@
         window.signInWithGoogle = async function() {
             const googleButton = document.getElementById('google-sign-in-button');
             
-            // Immediately disable the button to prevent double-clicking/re-running
             googleButton.disabled = true;
             googleButton.textContent = 'Connecting...';
-
-            document.getElementById('status-message').textContent = 'Opening Google sign-in...';
-            document.getElementById('status-message').classList.remove('hidden');
+            displayStatus('Opening Google sign-in...', 'success');
 
             try {
                 const provider = new GoogleAuthProvider();
-                // Use signInWithPopup for a non-redirecting experience in the canvas environment
                 const result = await signInWithPopup(auth, provider);
-                
                 const user = result.user;
                 
-                // Determine if this is a new user sign-up
-                const isNewUser = result.operationType === 'signIn' && user.metadata.creationTime === user.metadata.lastSignInTime;
+                const isNewUser = user.metadata.creationTime === user.metadata.lastSignInTime;
 
                 if (isNewUser) {
-                    // Save profile data (name, email) on first sign-in
                     const userRef = doc(db, 'artifacts', appId, 'users', user.uid, 'user_profiles', user.uid);
                     await setDoc(userRef, {
                         name: user.displayName || 'Google User',
@@ -348,39 +336,29 @@
                         joined: new Date().toISOString(),
                         authMethod: 'Google'
                     }, { merge: true });
-                    displayStatus(`Sign Up (Google) Successful! Welcome, ${user.displayName}.`, 'success');
+                    displayStatus(`Sign Up Successful! Welcome, ${user.displayName}.`, 'success');
                 } else {
-                    displayStatus(`Login (Google) Successful! Welcome back, ${user.displayName}.`, 'success');
+                    displayStatus(`Login Successful! Welcome back, ${user.displayName}.`, 'success');
                 }
 
-                // Re-enable button and reset text upon success
                 googleButton.disabled = false;
                 googleButton.textContent = 'Continue with Google';
-
-                // After successful sign-in, switch to Login view and potentially populate the email field
                 showView('login'); 
                 document.getElementById('login-email').value = user.email || ''; 
 
             } catch (error) {
                 console.error("Google Sign-In Error:", error);
                 
-                // --- CRITICAL ERROR VERIFICATION: auth/unauthorized-domain ---
                 if (error.code === 'auth/unauthorized-domain') {
                     const currentDomain = window.location.host;
-                    
-                    // Display critical message which WILL NOT auto-hide, and leave button disabled
-                    displayStatus(`CRITICAL ERROR: Google Sign-In Failed! This domain is unauthorized. Please add the following domain to your Firebase Authentication "Authorized Domains" settings: ${currentDomain}`, 'error', true); 
-                    // DO NOT re-enable the button, as the fix is external.
+                    displayStatus(`CRITICAL ERROR: This domain is unauthorized. Please add the following domain to your Firebase Authentication "Authorized Domains" settings: ${currentDomain}`, 'error', true); 
                 } 
-                // --- END CRITICAL ERROR VERIFICATION ---
                 else if (error.code === 'auth/popup-closed-by-user') {
-                    displayStatus("Google sign-in popup closed by user.", 'error');
-                    // Re-enable button on user-closed popup so they can try again
+                    displayStatus("Google sign-in popup closed.", 'error');
                     googleButton.disabled = false;
                     googleButton.textContent = 'Continue with Google';
                 } else {
                     displayStatus(`Google Sign-In Failed: ${error.message}`, 'error');
-                    // Re-enable button on other generic errors
                     googleButton.disabled = false;
                     googleButton.textContent = 'Continue with Google';
                 }
@@ -391,8 +369,7 @@
         // --- UI Logic ---
 
         /**
-         * Switches the view between Login and Sign Up forms, and updates the header text.
-         * @param {string} view 'login' or 'signup'.
+         * Switches the view between Login and Sign Up forms.
          */
         window.showView = function(view) {
             const loginForm = document.getElementById('form-login');
@@ -400,31 +377,25 @@
             const titleEl = document.getElementById('view-title');
             const subtitleEl = document.getElementById('view-subtitle');
             
-            // Clear status message when switching views
             document.getElementById('status-message').classList.add('hidden');
 
             if (view === 'login') {
                 loginForm.classList.remove('hidden');
                 signupForm.classList.add('hidden');
-                
-                // Update header
                 titleEl.textContent = 'Sign In';
                 subtitleEl.textContent = 'Access your account or create a new one instantly.';
-                
-            } else { // signup
+            } else {
                 loginForm.classList.add('hidden');
                 signupForm.classList.remove('hidden');
-                
-                // Update header
                 titleEl.textContent = 'Create Account';
                 subtitleEl.textContent = 'Join us today. It only takes a minute!';
             }
         }
         
-        // Initialize the view and Firebase on window load
+        // Initialize on window load
         window.onload = function() {
             initFirebase();
-            showView('login'); // Set initial view to Login
+            showView('login');
         };
 
     </script>
