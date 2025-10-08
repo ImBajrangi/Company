@@ -32,6 +32,12 @@
             background-color: #f9fafb; /* Gray-50 */
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
+        .btn-google:disabled {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+            border-color: #e5e7eb;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -54,7 +60,8 @@
             <div id="status-message" class="hidden p-3 rounded-lg text-sm transition-all duration-300"></div>
 
             <!-- Global Google Sign-In Button -->
-            <button onclick="signInWithGoogle()" class="btn-google w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-base font-medium">
+            <!-- Note: The button is initially disabled and enabled in JS once Firebase is ready -->
+            <button id="google-sign-in-button" onclick="signInWithGoogle()" class="btn-google w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-base font-medium" disabled>
                 <!-- Inline SVG for Google Logo -->
                 <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M44.5 20H24v8.5h11.8c-.8 5.7-5.7 9.8-11.8 9.8-7.3 0-13.3-6-13.3-13.3S16.7 13.7 24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24S13.8 43 24 43c10.2 0 17.5-7.4 17.5-17.5 0-1.5-.2-2.9-.4-4.2H24v-8.5h20.5z" fill="#4285F4"/>
@@ -149,6 +156,7 @@
         let db;
         let auth;
         let currentUserId = null;
+        let isFirebaseReady = false; // New state variable to track readiness
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         // Set Firestore log level to debug for development visibility
@@ -160,20 +168,20 @@
          * Displays a status message (success or error).
          * @param {string} message The message content.
          * @param {string} type 'success' or 'error'.
-         * @param {boolean} isCritical If true, uses a more prominent red style.
+         * @param {boolean} isCritical If true, uses a more prominent red style and will NOT auto-hide.
          */
         function displayStatus(message, type = 'success', isCritical = false) {
             const statusDiv = document.getElementById('status-message');
+            // Clear any previous styles/messages
             statusDiv.textContent = message;
-            statusDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-red-600', 'text-white', 'font-bold');
+            statusDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-red-600', 'text-white', 'font-bold', 'p-4');
             
-            let timeoutDuration = 5000;
+            let timeoutDuration = 5000; // Default timeout
 
             if (type === 'error') {
                 if (isCritical) {
-                    // Prominent critical error style for actionable fixes
+                    // Prominent critical error style for actionable fixes. Will NOT auto-hide.
                     statusDiv.classList.add('bg-red-600', 'text-white', 'font-bold', 'p-4');
-                    timeoutDuration = 8000; // Keep critical message visible longer
                 } else {
                     statusDiv.classList.add('bg-red-100', 'text-red-700');
                 }
@@ -182,12 +190,12 @@
             }
             statusDiv.classList.remove('hidden');
 
-            // Hide after timeout
-            setTimeout(() => {
-                statusDiv.classList.add('hidden');
-                // Clean up classes after hiding
-                statusDiv.classList.remove('font-bold', 'bg-red-600', 'text-white', 'p-4');
-            }, timeoutDuration);
+            // Hide after timeout ONLY if not critical
+            if (!isCritical) {
+                setTimeout(() => {
+                    statusDiv.classList.add('hidden');
+                }, timeoutDuration);
+            }
         }
 
         // --- Firebase Initialization and Authentication ---
@@ -208,9 +216,10 @@
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-
-                const authStatusEl = document.getElementById('auth-status');
                 
+                const authStatusEl = document.getElementById('auth-status');
+                const googleButton = document.getElementById('google-sign-in-button');
+
                 // Handle initial authentication state
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     authStatusEl.textContent = 'Signing in with custom token...';
@@ -221,6 +230,11 @@
                     await signInAnonymously(auth);
                     authStatusEl.textContent = 'Authenticated (Anonymous)';
                 }
+
+                // Mark Firebase as ready and enable the Google Sign-In button
+                isFirebaseReady = true;
+                googleButton.disabled = false;
+                googleButton.textContent = 'Continue with Google';
 
                 // Listener for auth state changes
                 onAuthStateChanged(auth, (user) => {
@@ -241,7 +255,8 @@
                 console.error(errorMessage, error);
                 document.getElementById('auth-status').textContent = 'Error!';
                 document.getElementById('user-id').textContent = 'Check console for details.';
-                displayStatus(errorMessage, 'error');
+                document.getElementById('google-sign-in-button').textContent = 'Initialization Failed';
+                displayStatus(errorMessage, 'error', true); // Critical error on init failure
             }
         }
 
@@ -251,6 +266,11 @@
          * @param {string} mode 'login' or 'signup'.
          */
         window.handleAuth = async function(mode) {
+            if (!isFirebaseReady) {
+                displayStatus("Firebase services are still initializing. Please wait a moment.", 'error');
+                return;
+            }
+            
             // Get form elements
             const email = document.getElementById(`${mode}-email`)?.value;
             const password = document.getElementById(`${mode}-password`)?.value;
@@ -299,8 +319,8 @@
          * Handles authentication using Google Sign-in with Popup.
          */
         window.signInWithGoogle = async function() {
-            if (!auth || !db) {
-                displayStatus("Firebase services not fully initialized. Please wait.", 'error');
+            if (!isFirebaseReady) {
+                displayStatus("Firebase services are still initializing. Please wait a moment.", 'error');
                 return;
             }
 
@@ -338,12 +358,18 @@
             } catch (error) {
                 console.error("Google Sign-In Error:", error);
                 
-                // --- FIX: Specific check for unauthorized domain error ---
+                // --- CRITICAL ERROR VERIFICATION: auth/unauthorized-domain ---
+                // NOTE: This error CANNOT be fixed by code. It requires the user to add the 
+                // domain (e.g., 'localhost:8080' or a unique sandbox URL) to their Firebase 
+                // Authentication -> Settings -> Authorized Domains list.
                 if (error.code === 'auth/unauthorized-domain') {
-                    // Use the new critical style to emphasize the required external action
-                    displayStatus("CRITICAL ERROR: Google Sign-In Failed! You must add the app's full URL to the 'Authorized Domains' list in your Firebase Authentication settings to enable Google Sign-In.", 'error', true); 
+                    // Get the current location's hostname/domain to display in the error message
+                    const currentDomain = window.location.host;
+                    
+                    // Display critical message which WILL NOT auto-hide, forcing user attention to the external fix.
+                    displayStatus(`CRITICAL ERROR: Google Sign-In Failed! This domain is unauthorized. Please add the following domain to your Firebase Authentication "Authorized Domains" settings: ${currentDomain}`, 'error', true); 
                 } 
-                // --- End FIX ---
+                // --- END CRITICAL ERROR VERIFICATION ---
                 else if (error.code === 'auth/popup-closed-by-user') {
                     displayStatus("Google sign-in popup closed by user.", 'error');
                 } else {
@@ -365,7 +391,7 @@
             const titleEl = document.getElementById('view-title');
             const subtitleEl = document.getElementById('view-subtitle');
             
-            // Clear status message
+            // Clear status message when switching views
             document.getElementById('status-message').classList.add('hidden');
 
             if (view === 'login') {
@@ -388,8 +414,8 @@
         
         // Initialize the view and Firebase on window load
         window.onload = function() {
-            showView('login'); // Set initial view to Login
             initFirebase();
+            showView('login'); // Set initial view to Login
         };
 
     </script>
