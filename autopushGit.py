@@ -7,7 +7,7 @@ from watchdog.events import FileSystemEventHandler
 from threading import Timer
 
 # --- CONFIG ---
-ENABLE_GIT = False   # 🚦 Set this to False to stop all git commands entirely
+ENABLE_GIT = True   # 🚦 Set this to False to stop all git commands entirely
 IGNORED_EXTENSIONS = {".swp", ".tmp", ".log"}
 IGNORED_DIRS = {".vscode", "__pycache__"}
 
