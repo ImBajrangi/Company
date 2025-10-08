@@ -25,7 +25,7 @@
             :root {
                 /* Dark Theme (Classic/Premium Navy/Gold) */
                 --bg-start: #1e2a38; /* Deep Slate Blue */
-                --bg-end: #0b111f; /* Slate-900 */
+                --bg-end: #0f172a; /* Slate-900 */
                 --text-color: #f0f0f0; /* Off-White text */
                 --card-bg: #293847; /* Slightly lighter card */
                 --accent-color: #fbbf24; /* Amber-400 (Brighter Gold) */
@@ -163,28 +163,55 @@
         /* Persistent Timeline Line (Now at the bottom) */
         #timeline-line {
             position: absolute;
-            bottom: 0; /* Moved to the bottom */
-            height: 4px; /* Slightly thicker line */
+            bottom: 0; 
+            height: 4px; 
             width: 100%;
             background-color: var(--line-color); 
             z-index: 50; 
             transform: none; 
+            /* Enhanced 3D look for the container */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+            overflow: hidden; /* Important for containing the glow */
         }
+        
         #timeline-progress {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
             width: 0;
-            background-color: var(--accent-color); /* Solid accent color */
-            transition: width 0.3s ease-out, box-shadow 0.1s ease-out; /* Smoother shadow transition */
-            will-change: width, box-shadow; /* Added box-shadow for glow */
+            /* NEW: Richer Gold Gradient */
+            background: linear-gradient(90deg, var(--accent-color) 0%, #ffdf99 100%); 
+            transition: box-shadow 0.1s ease-out; /* Only smooth the glow */
+            will-change: width, box-shadow; 
         }
+
+        /* NEW: Trailing Effect Element for Speed Trail */
+        #progress-trail {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            /* Use a mix-blend-mode for a light effect */
+            background: rgba(255, 255, 255, 0.5); 
+            mix-blend-mode: screen; 
+            transition: opacity 0.1s;
+            will-change: width, left, opacity;
+            box-shadow: 0 0 15px 5px var(--accent-color); /* Trailing glow */
+            border-radius: 9999px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            #progress-trail {
+                background: rgba(255, 255, 255, 0.05); /* Dim trail in dark mode */
+                mix-blend-mode: normal;
+            }
+        }
+
 
         /* NEW: Header/Nav Styling */
         #top-nav {
             /* Add backdrop for visibility against light elements */
-            background-color: blur(rgba(11, 17, 31), 10px);
+            background: blur(var(--card-bg), 10px);
             /* opacity: 0.95; */
             /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
             transition: background-color 0.3s, box-shadow 0.3s;
@@ -266,6 +293,8 @@
         <!-- Persistent Timeline Line (Now at the bottom) -->
         <div id="timeline-line">
              <div id="timeline-progress"></div>
+             <!-- NEW: Element for the trailing speed effect -->
+             <div id="progress-trail"></div> 
         </div>
 
         <div id="horizontal-scroll-strip">
@@ -362,8 +391,10 @@
         const starfield = document.getElementById('starfield');
         const scrollCue = document.getElementById('scroll-cue'); 
         const timelineProgress = document.getElementById('timeline-progress'); 
+        // NEW: Cache the progress trail element
+        const progressTrail = document.getElementById('progress-trail'); 
         
-        // NEW: Cache Home Button
+        // Cache Home Button
         const homeNavButton = document.getElementById('home-nav-button');
         
         let numSlides = 0; 
@@ -548,23 +579,43 @@
 
             // 6. Update the Timeline Progress Line
             if (horizontalDistance > 0) {
-                const progressWidth = (currentTranslateX / horizontalDistance) * 100;
-                timelineProgress.style.width = `${progressWidth.toFixed(2)}%`;
+                // LERPed (smooth) progress for the main bar
+                const currentProgressPercent = (currentTranslateX / horizontalDistance) * 100;
+                timelineProgress.style.width = `${currentProgressPercent.toFixed(2)}%`;
                 
-                // NEW: Advanced Progress Line Animation (Glow on acceleration/deceleration)
+                // Instantaneous (raw) progress based on scrollY
+                const rawProgressPercent = (scrollY / scrollRange) * 100;
+                
+                // Trailing effect logic
+                const trailDifference = rawProgressPercent - currentProgressPercent;
                 const maxGlowIntensity = 0.8; 
-                
-                // Glow intensity is tied to how fast the page is moving (normalizedSpeed)
                 const glowIntensity = normalizedSpeed * maxGlowIntensity; 
                 
-                if (glowIntensity > 0.05) { 
-                    // Apply a bright glow based on the accent color
-                    timelineProgress.style.boxShadow = `0 0 8px 3px ${accentColor}, 0 0 15px 6px rgba(255, 193, 7, ${glowIntensity.toFixed(2)})`;
+                // 1. Update the Speed Trail element
+                if (Math.abs(trailDifference) > 0.5) {
+                    // If moving right (scrolling down)
+                    if (trailDifference > 0) {
+                        progressTrail.style.left = `${currentProgressPercent.toFixed(2)}%`;
+                        progressTrail.style.width = `${trailDifference.toFixed(2)}%`;
+                    } else {
+                        // If moving left (scrolling up)
+                        progressTrail.style.left = `${rawProgressPercent.toFixed(2)}%`;
+                        progressTrail.style.width = `${Math.abs(trailDifference).toFixed(2)}%`;
+                    }
+                    // Increase opacity based on speed
+                    progressTrail.style.opacity = Math.min(1.0, Math.abs(trailDifference) * 2); 
                 } else {
-                     // Reset shadow when movement stops
-                    timelineProgress.style.boxShadow = `none`;
+                    progressTrail.style.width = '0%';
+                    progressTrail.style.opacity = '0';
                 }
-
+                
+                // 2. Update the main Progress Bar Glow (soft glow on acceleration)
+                if (glowIntensity > 0.05) { 
+                    // Adjusted shadow for a softer, focused glow
+                    timelineProgress.style.boxShadow = `0 0 10px 2px ${accentColor}`; 
+                } else {
+                     timelineProgress.style.boxShadow = `none`;
+                }
             }
 
             // 7. Update the Timeline Navigation Dots
