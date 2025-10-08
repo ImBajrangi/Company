@@ -705,7 +705,7 @@
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(event) {
-                    // event.preventDefault(); // Stop the form from submitting the traditional way
+                    event.preventDefault(); // Stop the form from submitting the traditional way
 
                     // Get form values
                     const name = document.getElementById('name').value;
@@ -728,7 +728,7 @@
             const newsletterForm = document.getElementById('newsletter-form');
             if (newsletterForm) {
                 newsletterForm.addEventListener('submit', function(event) {
-                    // event.preventDefault(); // Stop the form from submitting the traditional way
+                    event.preventDefault(); // Stop the form from submitting the traditional way
 
                     // Get form values
                     const email = document.getElementById('newsletter-email').value;
