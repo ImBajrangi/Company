@@ -28,13 +28,13 @@ const navLi = document.querySelectorAll('.nav-list ul li');
 document.addEventListener('scroll', () => {
 	var scroll_position = window.scrollY;
 	if (scroll_position > 250) {
-		// header.style.backgroundColor = 'rgba(218, 158, 7, 0.2)';
+		header.style.backgroundColor = 'rgba(218, 158, 7, 0.2)';
 		header.style.backdropFilter = 'blur(10px)';
 		header.style.webkitBackdropFilter = 'blur(10px)';
 		header.style.borderRadius = '10px';
 		header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
 	} else {
-		// header.style.backgroundColor = 'rgba(249, 249, 248, 0.05)';
+		header.style.backgroundColor = 'rgba(249, 249, 248, 0.05)';
 		header.style.backdropFilter = 'blur(10px)';
 		header.style.webkitBackdropFilter = 'blur(10px)';
 		header.style.borderRadius = '10px';
@@ -147,13 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const button = searchBar.querySelector('button');
 
         button.addEventListener('click', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             performSearch(input.value);
         });
 
         input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                e.preventDefault();
+                // e.preventDefault();
                 performSearch(input.value);
             }
         });
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      e.preventDefault();
+    //   e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
         target.scrollIntoView({
@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
   menuItems.forEach(item => {
     // Touch start
     item.addEventListener('touchstart', (e) => {
-      e.preventDefault();
+    //   e.preventDefault();
       
       // Add touch feedback
       item.classList.add('touch-active');
@@ -544,54 +544,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Disable right click
-document.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-  // Optional: You can add a custom message or alert here
-  alert('Right click is disabled!');
-});
+// document.addEventListener('contextmenu', (e) => {
+//   e.preventDefault();
+//   // Optional: You can add a custom message or alert here
+//   alert('Right click is disabled!');
+// });
 
 // Disable keyboard shortcuts that could bypass right-click protection
-document.addEventListener('keydown', (e) => {
-  // Prevent F12 key
-  if (e.key === 'F12') {
-    e.preventDefault();
-  }
+// document.addEventListener('keydown', (e) => {
+//   // Prevent F12 key
+//   if (e.key === 'F12') {
+//     e.preventDefault();
+//   }
 
-  // Prevent Ctrl+Shift+I
-  if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-    e.preventDefault();
-  }
+//   // Prevent Ctrl+Shift+I
+//   if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+//     e.preventDefault();
+//   }
 
-  // Prevent Ctrl+Shift+J
-  if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-    e.preventDefault();
-  }
+//   // Prevent Ctrl+Shift+J
+//   if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+//     e.preventDefault();
+//   }
 
-  // Prevent Ctrl+U (View Source)
-  if (e.ctrlKey && e.key === 'u') {
-    e.preventDefault();
-  }
-});
+//   // Prevent Ctrl+U (View Source)
+//   if (e.ctrlKey && e.key === 'u') {
+//     e.preventDefault();
+//   }
+// });
 
-// Optional: Disable text selection
-document.addEventListener('selectstart', (e) => {
-  e.preventDefault();
-});
+// // Optional: Disable text selection
+// document.addEventListener('selectstart', (e) => {
+//   e.preventDefault();
+// });
 
 // Add this to your existing menu initialization
-function createParticles(element) {
-  const particlesContainer = document.createElement('div');
-//   particlesContainer.className = 'particles';
+// function createParticles(element) {
+// //   const particlesContainer = document.createElement('div');
+// //   particlesContainer.className = 'particles';
   
-  for(let i = 0; i < 5; i++) {
-    const particle = document.createElement('span');
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDelay = `${Math.random() * 2}s`;
-    // particlesContainer.appendChild(particle);
-  }
+//   for(let i = 0; i < 5; i++) {
+//     const particle = document.createElement('span');
+//     particle.style.left = `${Math.random() * 100}%`;
+//     particle.style.animationDelay = `${Math.random() * 2}s`;
+//     // particlesContainer.appendChild(particle);
+//   }
   
-//   element.appendChild(particlesContainer);
-}
+// //   element.appendChild(particlesContainer);
+// }
 
 document.querySelectorAll('.navigation ul li').forEach(item => {
   createParticles(item);
@@ -1166,7 +1166,7 @@ function initNavigation() {
 
     // Mobile menu button events with improved handling
     mobileMenuBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         e.stopPropagation();
         
         // Toggle between closed and tools menu (since this is now the settings icon)
@@ -1179,7 +1179,7 @@ function initNavigation() {
     
     if (navClose) {
         navClose.addEventListener('click', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             e.stopPropagation();
             toggleMenu('closed');
         });
@@ -1187,7 +1187,7 @@ function initNavigation() {
     
     if (toolsMenuClose) {
         toolsMenuClose.addEventListener('click', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             e.stopPropagation();
             toggleMenu('closed');
         });
@@ -1720,7 +1720,7 @@ const Features = {
         if (!form) return;
         
         DOM.addEvent(form, 'submit', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             
             const rules = {
                 'name': { required: true, minLength: 2, name: 'Name' },
@@ -1742,7 +1742,7 @@ const Features = {
         if (!form) return;
         
         DOM.addEvent(form, 'submit', (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             
             const emailField = DOM.getById('newsletter-email');
             
@@ -1876,7 +1876,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Smooth scrolling with wheel event
         teamSection.addEventListener('wheel', function(e) {
             if (window.innerWidth > 768) { // Only on desktop
-                e.preventDefault();
+                // e.preventDefault();
                 
                 const scrollAmount = e.deltaY * scrollSpeed;
                 const currentTransform = parseFloat(horizontalContent.style.transform?.replace('translateX(', '').replace('px)', '')) || 0;
@@ -1902,7 +1902,7 @@ document.addEventListener('DOMContentLoaded', function() {
         teamSection.addEventListener('touchmove', function(e) {
             if (!isScrolling || window.innerWidth <= 768) return;
             
-            e.preventDefault();
+            // e.preventDefault();
             const x = e.touches[0].pageX;
             const walk = (x - startX);
             
@@ -1930,7 +1930,7 @@ document.addEventListener('DOMContentLoaded', function() {
         teamSection.addEventListener('mousemove', function(e) {
             if (!isScrolling || window.innerWidth <= 768) return;
             
-            e.preventDefault();
+            // e.preventDefault();
             const x = e.pageX;
             const walk = (x - startX);
             
