@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Scroll Timeline</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Setup for the entire page */
+        html {
+            /* Keep auto to prevent browser smooth scroll from fighting LERP */
+            scroll-behavior: auto; 
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            overflow-x: hidden; /* Prevent body horizontal scroll */
+        }
+        
+        body {
+            margin: 0;
+        }
+
+        /* 1. The Scroll Trigger: This tall container enables vertical scrolling */
+        #scroll-trigger {
+            /* Height is now set dynamically via JS using pixel values */
+            width: 100%;
+            position: relative; 
+        }
+
+        /* 2. The Fixed Container: This holds the visual content and remains in place */
+        #sticky-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Hide content outside the viewport */
+        }
+
+        /* 3. The Horizontal Strip: This moves left/right based on vertical scroll */
+        #horizontal-scroll-strip {
+            display: flex;
+            height: 100%;
+            will-change: transform; /* Hint to the browser for GPU acceleration */
+        }
+
+        /* Styling for each timeline slide */
+        .timeline-slide {
+            flex-shrink: 0; /* Important: prevents slides from shrinking */
+            width: 100vw; /* Each slide takes up exactly one viewport width */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        /* Styling for the dot navigation */
+        .timeline-dot {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Custom smooth transition for size/color */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The actual scrollable space is created by this tall container -->
+    <div id="scroll-trigger"></div>
+
+    <!-- The visual content remains fixed on the screen -->
+    <div id="sticky-container" class="text-gray-200">
+        <div id="horizontal-scroll-strip">
+
+            <!-- Slide 1: Introduction -->
+            <div id="slide-1" class="timeline-slide bg-[#0d0d0d] justify-start">
+                <div class="max-w-xl">
+                    <h1 class="text-7xl font-extrabold mb-4 text-violet-500">The Scroll Timeline</h1>
+                    <p class="text-3xl font-light text-gray-400">
+                        Welcome to the heavy, horizontal parallax experience. **Scroll down or click the dots to move.**
+                    </p>
+                    <div class="mt-8 text-sm font-medium text-violet-400">
+                        <span class="inline-block animate-pulse">↓</span> Scroll to Begin
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Feature 1 - With Image Placeholder -->
+            <div id="slide-2" class="timeline-slide bg-[#1a1a1a]">
+                <div class="grid md:grid-cols-2 gap-12 max-w-7xl">
+                    <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden h-96 w-full flex items-center justify-center">
+                        <!-- Placeholder for a high-impact image -->
+                        <img src="https://placehold.co/800x600/5b21b6/ffffff?text=Feature+Image+1" alt="Abstract Feature 1" class="object-cover w-full h-full opacity-70 transition duration-500 hover:opacity-100">
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-lg font-semibold uppercase text-yellow-400 mb-2">Milestone 2024</span>
+                        <h2 class="text-5xl font-bold mb-6 text-white">
+                            Decoupled Vertical, Driven Horizontal.
+                        </h2>
+                        <p class="text-xl text-gray-300 leading-relaxed">
+                            A scroll-jacking technique that separates the visible content plane from the scroll depth, giving us total control over the direction and speed of movement.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Feature 2 - Text Focus -->
+            <div id="slide-3" class="timeline-slide bg-[#0d0d0d]">
+                <div class="max-w-4xl text-center">
+                    <span class="text-lg font-semibold uppercase text-cyan-400 mb-2 block">The "Heavy" Feel</span>
+                    <h2 class="text-6xl font-bold mb-8 text-white">
+                        Smoothed by Easing Functions.
+                    </h1>
+                    <p class="text-2xl text-gray-300 leading-relaxed">
+                        Instead of instant translation, we use **Linear Interpolation (LERP)** in `requestAnimationFrame`. This creates a subtle, deliberate lag, making the movement feel weighted and incredibly smooth—perfect for a cinematic timeline effect.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Slide 4: Conclusion -->
+            <div id="slide-4" class="timeline-slide bg-[#1a1a1a] justify-end">
+                <div class="max-w-xl text-right">
+                    <h2 class="text-7xl font-extrabold mb-4 text-violet-500">The End</h2>
+                    <p class="text-3xl font-light text-gray-400">
+                        Reach out to discuss your next high-performance web experience.
+                    </p>
+                    <button class="mt-8 px-8 py-3 bg-violet-600 hover:bg-violet-700 transition duration-300 text-white font-medium rounded-lg shadow-xl">
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Fixed Navigation Dots (Indicator) -->
+        <div id="timeline-dots" class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col space-y-4">
+            <a class="timeline-dot w-4 h-4 bg-violet-500 rounded-full shadow-lg" data-slide="1"></a>
+            <a class="timeline-dot w-3 h-3 bg-gray-500 rounded-full" data-slide="2"></a>
+            <a class="timeline-dot w-3 h-3 bg-gray-500 rounded-full" data-slide="3"></a>
+            <a class="timeline-dot w-3 h-3 bg-gray-500 rounded-full" data-slide="4"></a>
+        </div>
+
+        <!-- Fixed Scroll Hint (Visual Cue) -->
+        <div id="scroll-cue" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 text-violet-500">
+            <svg class="w-10 h-10 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // --- High-Performance Horizontal Scroll Logic with Easing ---
+
+        // State variables
+        let scrollY = 0;
+        let ticking = false;
+        
+        // Caching for the main elements (now using 'let' for numSlides)
+        const scrollTrigger = document.getElementById('scroll-trigger');
+        const horizontalStrip = document.getElementById('horizontal-scroll-strip');
+        // Initialize numSlides here, it will be updated in calculateDimensions
+        let numSlides = 0; 
+        
+        // Easing parameters
+        let currentTranslateX = 0; // The actual, smoothed position
+        let targetTranslateX = 0;  // The position determined by the scroll input
+        const easingFactor = 0.07; // Control the "heaviness." Lower number = heavier/slower.
+        
+        // Dimensions calculation
+        let scrollRange = 0;
+        let horizontalDistance = 0;
+
+        /**
+         * Calculates the total scrollable range and the target horizontal distance.
+         */
+        function calculateDimensions() {
+            // 1. Get the current, correct number of slides
+            numSlides = document.querySelectorAll('.timeline-slide').length;
+
+            // Number of transitions needed is always (number of slides - 1). Must have at least 2 slides to scroll.
+            const numTransitions = numSlides > 1 ? numSlides - 1 : 0; 
+
+            // 2. Calculate the required vertical scroll range in pixels
+            // (Each transition requires 1 full viewport height of scroll)
+            scrollRange = numTransitions * window.innerHeight;
+
+            // 3. Set the trigger height: The scroll range PLUS one viewport height 
+            // to allow scrolling to the end of the range.
+            scrollTrigger.style.height = `${scrollRange + window.innerHeight}px`; 
+
+            // 4. Calculate the total horizontal distance the strip needs to move
+            // (Total width of the strip - 1 viewport width)
+            horizontalDistance = numTransitions * window.innerWidth;
+            
+            // --- DEBUG LOGGING ---
+            console.log(`[Parallax Init] Number of slides: ${numSlides}`);
+            console.log(`[Parallax Init] Scroll Trigger Height Set To: ${scrollTrigger.style.height}`);
+            console.log(`[Parallax Init] Calculated Scroll Range (Vertical): ${scrollRange}px`);
+            console.log(`[Parallax Init] Calculated Horizontal Distance: ${horizontalDistance}px`);
+            if (scrollRange <= 0) {
+                console.error("Scroll range is zero or less. Vertical scrollbar may not appear.");
+            }
+            // --- END DEBUG LOGGING ---
+
+            // Reset animation loop to reflect new dimensions
+            mapScrollToTarget(); 
+        }
+
+        /**
+         * Updates the fixed navigation dots based on the current scroll position.
+         */
+        function updateNavigationDots() {
+            if (numSlides === 0) return;
+
+            // Calculate which slide is currently "active" (closest to the center of the viewport)
+            const slideWidth = window.innerWidth;
+            // The index of the slide currently centered. +1 for 1-based indexing.
+            // Ensure result is clamped to avoid issues at extreme ends of currentTranslateX
+            const slideIndex = Math.min(numSlides, Math.max(1, Math.round(currentTranslateX / slideWidth) + 1));
+            
+            // Find all dots
+            const dots = document.querySelectorAll('.timeline-dot');
+            dots.forEach(dot => {
+                const dotSlide = parseInt(dot.getAttribute('data-slide'));
+                if (dotSlide === slideIndex) {
+                    // Active dot style: large, violet
+                    dot.classList.remove('bg-gray-500', 'w-3', 'h-3');
+                    dot.classList.add('bg-violet-500', 'w-4', 'h-4', 'shadow-lg');
+                } else {
+                    // Inactive dot style: small, gray
+                    dot.classList.remove('bg-violet-500', 'w-4', 'h-4', 'shadow-lg');
+                    dot.classList.add('bg-gray-500', 'w-3', 'h-3');
+                }
+            });
+        }
+        
+        /**
+         * The core animation loop executed by requestAnimationFrame (rAF).
+         * This applies the smoothed translation and updates dots.
+         */
+        function render() {
+            // 1. Easing (LERP): Gradually move current position toward the target
+            currentTranslateX += (targetTranslateX - currentTranslateX) * easingFactor;
+            
+            // 2. Apply the smoothed horizontal translation (GPU accelerated)
+            horizontalStrip.style.transform = `translateX(-${currentTranslateX.toFixed(2)}px)`;
+
+            // 3. Update the Timeline Navigation Dots
+            updateNavigationDots();
+
+            // Request the next frame to continue the easing
+            requestAnimationFrame(render);
+        }
+
+        /**
+         * Maps vertical scroll position to the target horizontal position.
+         */
+        function mapScrollToTarget() {
+            if (scrollRange === 0) return; // Prevent division by zero
+
+            // Get current vertical scroll position
+            scrollY = window.scrollY;
+
+            // 1. Calculate scroll progress (0 to 1)
+            // Use Math.min/max to clamp the value safely
+            const progress = Math.min(1, Math.max(0, scrollY / scrollRange));
+            
+            // 2. Map progress to the total horizontal distance
+            targetTranslateX = progress * horizontalDistance;
+
+            ticking = false;
+        }
+        
+        /**
+         * Handles the scroll event. Throttled by requestAnimationFrame.
+         */
+        function onScroll() {
+            if (!ticking) {
+                // Request the browser to call mapScrollToTarget before the next repaint
+                window.requestAnimationFrame(mapScrollToTarget);
+                ticking = true;
+            }
+        }
+
+        /**
+         * Attaches event listeners and starts the render loop if dimensions are valid.
+         */
+        function startListenersAndRender() {
+            if (scrollRange <= 0) {
+                 console.error("Delayed initialization failed. Scroll mechanism remains inactive.");
+                 return;
+            }
+
+            // 1. Set up listeners
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', calculateDimensions);
+            
+            // 2. Set up dot click handlers
+            document.querySelectorAll('.timeline-dot').forEach(dot => {
+                dot.addEventListener('click', handleDotClick);
+            });
+            
+            // 3. Start the continuous rendering loop
+            render();
+        }
+
+
+        /**
+         * Handles clicking on a navigation dot to jump the vertical scroll position.
+         */
+        function handleDotClick(e) {
+            e.preventDefault();
+            const slideNumber = parseInt(e.target.getAttribute('data-slide'));
+            
+            // Calculate the target vertical scroll position for the start of the slide
+            const slideIndex = slideNumber - 1; // 0-based index
+            const numTransitions = numSlides - 1;
+            
+            // Target progress (0 to 1). Handle case where numTransitions is 0 (only 1 slide)
+            const targetProgress = numTransitions > 0 ? slideIndex / numTransitions : 0; 
+            const targetScrollY = targetProgress * scrollRange;
+            
+            // Use native smooth scrolling to move the vertical scrollbar
+            window.scrollTo({
+                top: targetScrollY,
+                behavior: 'smooth'
+            });
+        }
+        
+        /**
+         * Initialization function.
+         */
+        function initHorizontalParallax() {
+            // Try calculating dimensions immediately
+            calculateDimensions();
+
+            // Check if dimensions were correctly calculated. If not, retry after a small delay.
+            if (scrollRange <= 0) {
+                console.warn("Initial scroll calculation failed (scrollRange <= 0). Retrying in 50ms to ensure DOM is ready...");
+                // FIX: Use setTimeout to defer the calculation, which often solves timing issues 
+                // in sandboxed environments where the DOM load state is unpredictable.
+                setTimeout(() => {
+                    calculateDimensions();
+                    startListenersAndRender();
+                }, 50);
+            } else {
+                startListenersAndRender();
+            }
+        }
+
+        // Run initialization on window load
+        window.onload = initHorizontalParallax;
+        
+    </script>
+</body>
+</html>
