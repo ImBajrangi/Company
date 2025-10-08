@@ -1841,6 +1841,35 @@ document.addEventListener('DOMContentLoaded', () => {
     Features.initNewsletter();
     Features.initThemeToggle();
     Features.initLazyLoading();
+
+    // Apply these fixes again after a short delay to ensure they work
+    setTimeout(() => {
+        if (typeof fixMenuButtonVisibility === 'function') fixMenuButtonVisibility();
+        if (typeof removeAllBlurEffects === 'function') removeAllBlurEffects();
+        if (typeof initToolItemEffects === 'function') initToolItemEffects();
+    }, 500);
+
+    // --- New code for the contact form ---
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop the form from submitting the traditional way
+
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Construct the mailto link
+            const recipient = 'vrinda.connect.us@gmail.com';
+            const subject = `Message from ${name} via Vrindopnishad Website`;
+            const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+
+            // Create the mailto link and trigger it
+            const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        });
+    }
     
     console.log('All features initialized successfully');
 });
