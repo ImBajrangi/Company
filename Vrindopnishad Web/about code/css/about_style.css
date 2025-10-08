@@ -2035,9 +2035,9 @@ body.menu-open .menu-overlay {
         overflow-x: hidden;
     }
     
-    /* .container {
+    .container {
         padding: var(--spacing-md);
-    } */
+    }
     
     .horizontal-section {
         height: auto;
@@ -3686,12 +3686,12 @@ body.menu-open .menu-overlay {
     margin: 2rem 0;
 }
 
-.carousel-container {
+/* .carousel-container {
     height: 100%;
     display: flex;
     transition: transform 0.5s var(--transition-smooth);
     touch-action: pan-y pinch-zoom;
-}
+} */
 
 .carousel-item {
     flex: 0 0 100%;
