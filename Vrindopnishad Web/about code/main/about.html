@@ -723,6 +723,29 @@
                 });
             }
         });
+
+        // --- New code for the Newsletter Subscription form ---
+            const newsletterForm = document.getElementById('newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Stop the form from submitting the traditional way
+
+                    // Get form values
+                    const email = document.getElementById('newsletter-email').value;
+
+                    // Construct the mailto link
+                    const recipient = 'vrinda.connect.us@gmail.com';
+                    const subject = `SUBSCRIPTION REQUEST from Vrindopnishad Website`;
+                    // Note: The body contains the user's email, which will be sent to your email address.
+                    const body = `Please add the following email address to the Vrindopnishad newsletter list:\n\nSubscriber Email: ${email}`;
+
+                    // Create the mailto link and trigger it
+                    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}&cc=${encodeURIComponent(email)}`;
+                    
+                    // Open the email client
+                    window.location.href = mailtoLink;
+                });
+            }
     </script>
 </body>
 </html>
