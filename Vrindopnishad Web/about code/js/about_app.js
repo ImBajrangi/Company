@@ -579,16 +579,16 @@ document.addEventListener('selectstart', (e) => {
 // Add this to your existing menu initialization
 function createParticles(element) {
   const particlesContainer = document.createElement('div');
-  particlesContainer.className = 'particles';
+//   particlesContainer.className = 'particles';
   
   for(let i = 0; i < 5; i++) {
     const particle = document.createElement('span');
     particle.style.left = `${Math.random() * 100}%`;
     particle.style.animationDelay = `${Math.random() * 2}s`;
-    particlesContainer.appendChild(particle);
+    // particlesContainer.appendChild(particle);
   }
   
-  element.appendChild(particlesContainer);
+//   element.appendChild(particlesContainer);
 }
 
 document.querySelectorAll('.navigation ul li').forEach(item => {
@@ -1420,8 +1420,8 @@ function initCarousel() {
 
     // Add navigation dots if they don't exist
     if (!document.querySelector('.carousel-dots')) {
-        const dotsContainer = document.createElement('div');
-        dotsContainer.className = 'carousel-dots';
+        // const dotsContainer = document.createElement('div');
+        // dotsContainer.className = 'carousel-dots';
         items.forEach((_, index) => {
             const dot = document.createElement('button');
             dot.className = 'carousel-dot';
@@ -1430,9 +1430,9 @@ function initCarousel() {
                 showSlide(index);
                 startAutoPlay();
             });
-            dotsContainer.appendChild(dot);
+            // dotsContainer.appendChild(dot);
         });
-        carousel.parentElement.appendChild(dotsContainer);
+        // carousel.parentElement.appendChild(dotsContainer);
     }
 
     // Initial setup
