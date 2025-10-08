@@ -205,11 +205,12 @@
          */
         async function initFirebase() {
             try {
-                // Get config from global variable
+                // Get config from the environment's global variable.
+                // This ensures the config matches the provided auth token.
                 const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
 
-                if (Object.keys(firebaseConfig).length === 0) {
-                    throw new Error("Firebase configuration is missing.");
+                if (Object.keys(firebaseConfig).length === 0 || !firebaseConfig.apiKey) {
+                    throw new Error("Firebase configuration from the environment is missing or incomplete.");
                 }
 
                 // Initialize services
