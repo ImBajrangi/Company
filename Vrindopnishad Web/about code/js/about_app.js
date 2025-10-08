@@ -12,7 +12,7 @@ const state = {
     preferredLanguage: localStorage.getItem('preferredLanguage') || 'en'
 };
 
-// const hamburger = document.querySelector('.shyam');
+const hamburger = document.querySelector('.shyam');
 const mobile_menu = document.querySelector('.navigation ul');
 const menu_item = document.querySelectorAll('.navigation ul li a');
 const header = document.querySelector('.navigation');
@@ -579,16 +579,16 @@ document.addEventListener('selectstart', (e) => {
 // Add this to your existing menu initialization
 function createParticles(element) {
   const particlesContainer = document.createElement('div');
-//   particlesContainer.className = 'particles';
+  particlesContainer.className = 'particles';
   
   for(let i = 0; i < 5; i++) {
     const particle = document.createElement('span');
     particle.style.left = `${Math.random() * 100}%`;
     particle.style.animationDelay = `${Math.random() * 2}s`;
-    // particlesContainer.appendChild(particle);
+    particlesContainer.appendChild(particle);
   }
   
-//   element.appendChild(particlesContainer);
+  element.appendChild(particlesContainer);
 }
 
 document.querySelectorAll('.navigation ul li').forEach(item => {
@@ -803,7 +803,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLoader();
     
     // Initialize cursor
-    // initCursor();
+    initCursor();
     
     // Initialize scroll progress
     initScrollProgress();
@@ -867,87 +867,87 @@ function initLoader() {
 }
 
 // Enhanced cursor with faster and smoother movement
-// function initCursor() {
-//     const cursor = document.querySelector('.cursor');
-//     const cursorFollower = document.querySelector('.cursor-follower');
+function initCursor() {
+    const cursor = document.querySelector('.cursor');
+    const cursorFollower = document.querySelector('.cursor-follower');
     
-//     if (!cursor || !cursorFollower) return;
+    if (!cursor || !cursorFollower) return;
 
-//     // Set initial position to avoid jumps
-//     cursor.style.opacity = 0;
-//     cursorFollower.style.opacity = 0;
+    // Set initial position to avoid jumps
+    cursor.style.opacity = 0;
+    cursorFollower.style.opacity = 0;
     
-//     // Use faster response values for smoother movement
-//     let mouseX = 0, mouseY = 0;
-//     let cursorX = 0, cursorY = 0;
-//     let followerX = 0, followerY = 0;
+    // Use faster response values for smoother movement
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    let followerX = 0, followerY = 0;
     
-//     function animate() {
-//         // Faster cursor movement (increased from 0.2 to 0.4)
-//         cursorX += (mouseX - cursorX) * 0.4;
-//         cursorY += (mouseY - cursorY) * 0.4;
-//         cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+    function animate() {
+        // Faster cursor movement (increased from 0.2 to 0.4)
+        cursorX += (mouseX - cursorX) * 0.4;
+        cursorY += (mouseY - cursorY) * 0.4;
+        cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
 
-//         // Slightly faster follower (increased from 0.1 to 0.15)
-//         followerX += (mouseX - followerX) * 0.15;
-//         followerY += (mouseY - followerY) * 0.15;
-//         cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+        // Slightly faster follower (increased from 0.1 to 0.15)
+        followerX += (mouseX - followerX) * 0.15;
+        followerY += (mouseY - followerY) * 0.15;
+        cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
 
-//         requestAnimationFrame(animate);
-//     }
+        requestAnimationFrame(animate);
+    }
 
-//     // Track mouse position with passive event for better performance
-//     document.addEventListener('mousemove', (e) => {
-//         mouseX = e.clientX;
-//         mouseY = e.clientY;
+    // Track mouse position with passive event for better performance
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         
-//         // Show cursors after first movement
-//         if (cursor.style.opacity === '0') {
-//             setTimeout(() => {
-//                 cursor.style.opacity = 1;
-//                 cursorFollower.style.opacity = 1;
-//             }, 100);
-//         }
-//     }, { passive: true });
+        // Show cursors after first movement
+        if (cursor.style.opacity === '0') {
+            setTimeout(() => {
+                cursor.style.opacity = 1;
+                cursorFollower.style.opacity = 1;
+            }, 100);
+        }
+    }, { passive: true });
 
-//     // Start animation loop
-//     animate();
+    // Start animation loop
+    animate();
 
-//     // Enhanced hover effects with better performance
-//     const hoverElements = document.querySelectorAll(
-//         'a, button, .btn, .tool-item, .project-item, .horizontal-item, .magnetic'
-//     );
+    // Enhanced hover effects with better performance
+    const hoverElements = document.querySelectorAll(
+        'a, button, .btn, .tool-item, .project-item, .horizontal-item, .magnetic'
+    );
 
-//     hoverElements.forEach(element => {
-//         element.addEventListener('mouseenter', () => {
-//             cursor.classList.add('hover');
-//             cursorFollower.classList.add('hover');
+    hoverElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+            cursorFollower.classList.add('hover');
             
-//             if (element.classList.contains('magnetic')) {
-//                 initMagneticEffect(element);
-//             }
-//         });
+            if (element.classList.contains('magnetic')) {
+                initMagneticEffect(element);
+            }
+        });
         
-//         element.addEventListener('mouseleave', () => {
-//             cursor.classList.remove('hover');
-//             cursorFollower.classList.remove('hover');
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+            cursorFollower.classList.remove('hover');
             
-//             if (element.classList.contains('magnetic')) {
-//                 resetMagneticEffect(element);
-//             }
-//         });
+            if (element.classList.contains('magnetic')) {
+                resetMagneticEffect(element);
+            }
+        });
         
-//         element.addEventListener('mousedown', () => {
-//             cursor.classList.add('click');
-//             cursorFollower.classList.add('click');
-//         });
+        element.addEventListener('mousedown', () => {
+            cursor.classList.add('click');
+            cursorFollower.classList.add('click');
+        });
         
-//         element.addEventListener('mouseup', () => {
-//             cursor.classList.remove('click');
-//             cursorFollower.classList.remove('click');
-//         });
-//     });
-// }
+        element.addEventListener('mouseup', () => {
+            cursor.classList.remove('click');
+            cursorFollower.classList.remove('click');
+        });
+    });
+}
 
 // Improved magnetic effect for buttons and logo
 function initMagneticEffect(element) {
@@ -1338,107 +1338,107 @@ function initRevealAnimations() {
 }
 
 // Enhanced carousel with better performance
-// function initCarousel() {
-//     const carousel = document.querySelector('.carousel-container');
-//     const items = document.querySelectorAll('.carousel-item');
-//     if (!carousel || items.length === 0) return;
+function initCarousel() {
+    const carousel = document.querySelector('.carousel-container');
+    const items = document.querySelectorAll('.carousel-item');
+    if (!carousel || items.length === 0) return;
 
-//     let startX, currentX;
-//     let isDragging = false;
-//     const autoPlayInterval = 5000;
-//     let autoPlayTimer;
+    let startX, currentX;
+    let isDragging = false;
+    const autoPlayInterval = 5000;
+    let autoPlayTimer;
 
-//     // Fix carousel overflow
-//     carousel.parentElement.style.overflow = 'hidden';
+    // Fix carousel overflow
+    carousel.parentElement.style.overflow = 'hidden';
 
-//     function showSlide(index) {
-//         items.forEach((item, i) => {
-//             // Use transform3d for hardware acceleration
-//             item.style.transform = `translate3d(${100 * (i - index)}%, 0, 0)`;
-//         });
-//         state.currentCarouselSlide = index;
+    function showSlide(index) {
+        items.forEach((item, i) => {
+            // Use transform3d for hardware acceleration
+            item.style.transform = `translate3d(${100 * (i - index)}%, 0, 0)`;
+        });
+        state.currentCarouselSlide = index;
         
-//         // Update active dot
-//         const dots = document.querySelectorAll('.carousel-dot');
-//         dots.forEach((dot, i) => {
-//             dot.classList.toggle('active', i === index);
-//         });
-//     }
+        // Update active dot
+        const dots = document.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
 
-//     function nextSlide() {
-//         state.currentCarouselSlide = (state.currentCarouselSlide + 1) % items.length;
-//         showSlide(state.currentCarouselSlide);
-//     }
+    function nextSlide() {
+        state.currentCarouselSlide = (state.currentCarouselSlide + 1) % items.length;
+        showSlide(state.currentCarouselSlide);
+    }
 
-//     function prevSlide() {
-//         state.currentCarouselSlide = (state.currentCarouselSlide - 1 + items.length) % items.length;
-//         showSlide(state.currentCarouselSlide);
-//     }
+    function prevSlide() {
+        state.currentCarouselSlide = (state.currentCarouselSlide - 1 + items.length) % items.length;
+        showSlide(state.currentCarouselSlide);
+    }
 
-//     // Touch events with improved handling
-//     carousel.addEventListener('touchstart', (e) => {
-//         startX = e.touches[0].clientX;
-//         isDragging = true;
-//         clearInterval(autoPlayTimer);
+    // Touch events with improved handling
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+        clearInterval(autoPlayTimer);
         
-//         // Prevent default to avoid page scrolling during swipe
-//         e.preventDefault();
-//     }, { passive: false });
+        // Prevent default to avoid page scrolling during swipe
+        e.preventDefault();
+    }, { passive: false });
 
-//     carousel.addEventListener('touchmove', (e) => {
-//         if (!isDragging) return;
-//         currentX = e.touches[0].clientX;
-//         const diff = currentX - startX;
+    carousel.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
         
-//         items.forEach((item, index) => {
-//             const offset = (index - state.currentCarouselSlide) * 100 + (diff / carousel.offsetWidth) * 100;
-//             item.style.transform = `translate3d(${offset}%, 0, 0)`;
-//         });
+        items.forEach((item, index) => {
+            const offset = (index - state.currentCarouselSlide) * 100 + (diff / carousel.offsetWidth) * 100;
+            item.style.transform = `translate3d(${offset}%, 0, 0)`;
+        });
         
-//         // Prevent default to avoid page scrolling during swipe
-//         e.preventDefault();
-//     }, { passive: false });
+        // Prevent default to avoid page scrolling during swipe
+        e.preventDefault();
+    }, { passive: false });
 
-//     carousel.addEventListener('touchend', () => {
-//         if (!isDragging) return;
-//         isDragging = false;
-//         const diff = currentX - startX;
+    carousel.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = currentX - startX;
         
-//         if (Math.abs(diff) > 50) {
-//             diff > 0 ? prevSlide() : nextSlide();
-//         } else {
-//             showSlide(state.currentCarouselSlide);
-//         }
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? prevSlide() : nextSlide();
+        } else {
+            showSlide(state.currentCarouselSlide);
+        }
         
-//         startAutoPlay();
-//     });
+        startAutoPlay();
+    });
 
-//     function startAutoPlay() {
-//         clearInterval(autoPlayTimer);
-//         autoPlayTimer = setInterval(nextSlide, autoPlayInterval);
-//     }
+    function startAutoPlay() {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = setInterval(nextSlide, autoPlayInterval);
+    }
 
-//     // Add navigation dots if they don't exist
-//     if (!document.querySelector('.carousel-dots')) {
-//         const dotsContainer = document.createElement('div');
-//         dotsContainer.className = 'carousel-dots';
-//         items.forEach((_, index) => {
-//             const dot = document.createElement('button');
-//             dot.className = 'carousel-dot';
-//             dot.setAttribute('aria-label', `Slide ${index + 1}`);
-//             dot.addEventListener('click', () => {
-//                 showSlide(index);
-//                 startAutoPlay();
-//             });
-//             dotsContainer.appendChild(dot);
-//         });
-//         carousel.parentElement.appendChild(dotsContainer);
-//     }
+    // Add navigation dots if they don't exist
+    if (!document.querySelector('.carousel-dots')) {
+        const dotsContainer = document.createElement('div');
+        dotsContainer.className = 'carousel-dots';
+        items.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `Slide ${index + 1}`);
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                startAutoPlay();
+            });
+            dotsContainer.appendChild(dot);
+        });
+        carousel.parentElement.appendChild(dotsContainer);
+    }
 
-//     // Initial setup
-//     showSlide(0);
-//     startAutoPlay();
-// }
+    // Initial setup
+    showSlide(0);
+    startAutoPlay();
+}
 
 // Image hover effects
 function initImageHoverEffects() {
@@ -1519,7 +1519,7 @@ function fixMenuButtonVisibility() {
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all components
     if (typeof initLoader === 'function') initLoader();
-    // if (typeof initCursor === 'function') initCursor();
+    if (typeof initCursor === 'function') initCursor();
     if (typeof initScrollProgress === 'function') initScrollProgress();
     if (typeof initParallaxBg === 'function') initParallaxBg();
     if (typeof initNavigation === 'function') initNavigation();
@@ -1818,7 +1818,7 @@ document.addEventListener('DOMContentLoaded', () => {
     [
         'initLoader',
         'initScrollProgress',
-        // 'initCursor',
+        'initCursor',
         'initParallaxBg',
         'initNavigation',
         'initToolsMenu',
@@ -1921,7 +1921,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 isScrolling = true;
                 const currentTransform = parseFloat(horizontalContent.style.transform?.replace('translateX(', '').replace('px)', '')) || 0;
                 startX = e.pageX - currentTransform;
-                // teamSection.style.cursor = 'grabbing';
+                teamSection.style.cursor = 'grabbing';
             }
         });
         
@@ -1941,12 +1941,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         teamSection.addEventListener('mouseup', function() {
             isScrolling = false;
-            // teamSection.style.cursor = 'default';
+            teamSection.style.cursor = 'default';
         });
         
         teamSection.addEventListener('mouseleave', function() {
             isScrolling = false;
-        //     teamSection.style.cursor = 'default';
+            teamSection.style.cursor = 'default';
         });
         
         // Add scroll indicator if it doesn't exist
