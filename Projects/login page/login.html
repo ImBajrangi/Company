@@ -253,12 +253,13 @@
                 console.log("Firebase initialized successfully.");
 
             } catch (error) {
-                const errorMessage = `Firebase Initialization Failed: ${error.message}`;
-                console.error(errorMessage, error);
+                // Enhanced error logging for initialization failures
+                console.error("Firebase Initialization Failed. Full error object:", error);
                 document.getElementById('auth-status').textContent = 'Error!';
                 document.getElementById('user-id').textContent = 'Check console for details.';
                 document.getElementById('google-sign-in-button').textContent = 'Initialization Failed';
-                displayStatus(errorMessage, 'error', true); // Critical error on init failure
+                // Display a more detailed error message to the user
+                displayStatus(`Initialization Failed: ${error.code || error.message}. Check console for details.`, 'error', true); 
             }
         }
 
