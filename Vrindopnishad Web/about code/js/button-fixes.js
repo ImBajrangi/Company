@@ -497,6 +497,6 @@ function validateEmail(email) {
 // Inject the notification styles
 (function() {
     const style = document.createElement('style');
-    style.textContent = notificationStyles;
+    // style.textContent = notificationStyles;
     document.head.appendChild(style);
 })(); 
