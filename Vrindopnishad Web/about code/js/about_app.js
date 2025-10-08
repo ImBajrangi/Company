@@ -28,18 +28,19 @@ const navLi = document.querySelectorAll('.nav-list ul li');
 document.addEventListener('scroll', () => {
 	var scroll_position = window.scrollY;
 	if (scroll_position > 250) {
-		header.style.backgroundColor = 'rgba(218, 158, 7, 0.2)';
+		// header.style.backgroundColor = 'rgba(218, 158, 7, 0.2)';
 		header.style.backdropFilter = 'blur(10px)';
 		header.style.webkitBackdropFilter = 'blur(10px)';
 		header.style.borderRadius = '10px';
 		header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
 	} else {
-		header.style.backgroundColor = 'rgba(249, 249, 248, 0.05)';
+		// header.style.backgroundColor = 'rgba(249, 249, 248, 0.05)';
 		header.style.backdropFilter = 'blur(10px)';
 		header.style.webkitBackdropFilter = 'blur(10px)';
 		header.style.borderRadius = '10px';
 		header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
 	}
+
 
 	sections.forEach((section) => {
 		const sectionTop = section.offsetTop;
@@ -364,15 +365,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       
       // Hide/show navigation based on scroll direction
-      if (window.innerWidth <= 768) {
-        if (scrollTop > lastScrollTop) {
-          navigation.style.transform = 'translateY(100%)';
-        } else {
-          navigation.style.transform = 'translateY(0)';
-        }
+    //   if (window.innerWidth <= 768) {
+    //     if (scrollTop > lastScrollTop) {
+    //       navigation.style.transform = 'translateY(100%)';
+    //     } else {
+    //       navigation.style.transform = 'translateY(0)';
+    //     }
         lastScrollTop = scrollTop;
       }
-    });
+    // });
+    );
   }, { passive: true });
 
   // Optimize menu item activation
