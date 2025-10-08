@@ -186,12 +186,12 @@ a {
 }
 
 /* Layout */
-.container {
+/* .container {
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
     padding: 0 var(--spacing-md);
-}
+} */
 
 .section {
     padding: var(--spacing-lg) 0;
@@ -3686,12 +3686,12 @@ body.menu-open .menu-overlay {
     margin: 2rem 0;
 }
 
-/* .carousel-container {
+.carousel-container {
     height: 100%;
     display: flex;
     transition: transform 0.5s var(--transition-smooth);
     touch-action: pan-y pinch-zoom;
-} */
+}
 
 .carousel-item {
     flex: 0 0 100%;
