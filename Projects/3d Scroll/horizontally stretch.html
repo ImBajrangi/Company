@@ -18,6 +18,7 @@
             --line-color: #e0e0e0;
             --shadow-base: rgba(0, 0, 0, 0.15); /* Crisper, subtler shadow */
             --shadow-strip-base: rgba(0, 0, 0, 0.1);
+            --star-opacity: 0.1; /* Very subtle stars in light mode */
         }
 
         @media (prefers-color-scheme: dark) {
@@ -31,6 +32,7 @@
                 --line-color: #4b5563;
                 --shadow-base: rgba(0, 0, 0, 0.7); /* Deep shadow in dark mode */
                 --shadow-strip-base: rgba(0, 0, 0, 0.3); 
+                --star-opacity: 1; /* Full opacity in dark mode */
             }
         }
 
@@ -48,6 +50,61 @@
             color: var(--text-color); /* Apply theme text color globally */
             transition: background 0.5s ease; /* Smooth transition when theme changes */
         }
+
+        /* --- NEW: 3D Starfield Background CSS --- */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5; /* Behind content (z-index 20) */
+            background: transparent;
+            overflow: hidden;
+            /* Ensures starfield takes up 200% height to cover vertical scroll space,
+               but since we removed the animation, this is primarily for visual space. */
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: transparent;
+            /* REMOVED: animation: animStar linear infinite; */
+            will-change: transform;
+            transition: opacity 0.5s; 
+        }
+        
+        /* REMOVED: @keyframes animStar */
+
+        /* Star Layer Definitions (Large box-shadow arrays for static particles) */
+
+        /* Layer 1: Closest, smallest */
+        .stars-1 {
+            width: 1px;
+            height: 1px;
+            box-shadow: 100px 30px #FFF, 200px 150px #FFF, 350px 70px #FFF, 50px 500px #FFF, 600px 320px #FFF, 750px 180px #FFF, 900px 450px #FFF, 1050px 100px #FFF, 1200px 550px #FFF, 1350px 200px #FFF, 1500px 650px #FFF, 1650px 300px #FFF, 1800px 750px #FFF, 1950px 400px #FFF, 100px 850px #FFF, 250px 1500px #FFF, 400px 950px #FFF, 550px 1600px #FFF, 700px 1050px #FFF, 850px 1700px #FFF, 1000px 1150px #FFF, 1150px 1800px #FFF, 1300px 1250px #FFF, 1450px 1900px #FFF, 1600px 1350px #FFF, 1750px 2000px #FFF;
+        }
+
+        /* Layer 2: Mid distance, medium size */
+        .stars-2 {
+            width: 2px;
+            height: 2px;
+            box-shadow: 50px 100px #DDD, 300px 400px #DDD, 550px 200px #DDD, 800px 500px #DDD, 1050px 250px #DDD, 1300px 550px #DDD, 1550px 350px #DDD, 1800px 600px #DDD, 50px 900px #DDD, 300px 1200px #DDD, 550px 1500px #DDD, 800px 1800px #DDD, 1050px 1400px #DDD, 1300px 1700px #DDD, 1550px 1100px #DDD, 1800px 1900px #DDD;
+        }
+
+        /* Layer 3: Farthest, largest (faint) */
+        .stars-3 {
+            width: 3px;
+            height: 3px;
+            box-shadow: 150px 200px #BBB, 450px 600px #BBB, 750px 100px #BBB, 1050px 700px #BBB, 1350px 300px #BBB, 1650px 800px #BBB, 1950px 400px #BBB, 150px 1100px #BBB, 450px 1400px #BBB, 750px 1700px #BBB, 1050px 1200px #BBB, 1350px 1800px #BBB;
+        }
+
+        /* Set base opacity using the CSS variable for theme adaptation */
+        .stars-1 { opacity: calc(var(--star-opacity) * 0.8); }
+        .stars-2 { opacity: calc(var(--star-opacity) * 0.5); }
+        .stars-3 { opacity: calc(var(--star-opacity) * 0.3); }
+
 
         /* 1. The Scroll Trigger: This tall container enables vertical scrolling */
         #scroll-trigger {
@@ -75,8 +132,6 @@
             
             z-index: 20; 
             
-            /* REMOVED: The distracting shadow on the strip itself */
-            /* box-shadow: 0 0px 50px var(--shadow-strip-base); */ 
             transition: box-shadow 0.3s ease-out; 
         }
 
@@ -96,9 +151,7 @@
         .content-card {
             background-color: var(--card-bg); /* Use variable for card background */
             padding: 3rem;
-            /* Use soft borders and softer rounded corners for classic feel */
             border-radius: 0.5rem; 
-            /* Use variable for card shadow (subtle lift) */
             box-shadow: 0 5px 15px var(--shadow-base); 
             max-width: 90%;
             /* Ensure smooth transition for the dynamic JS scale transformation */
@@ -140,6 +193,13 @@
     </style>
 </head>
 <body>
+
+    <!-- NEW: Static 3D Space Background (Particle/Starfield) -->
+    <div id="starfield">
+        <div class="stars stars-1"></div>
+        <div class="stars stars-2"></div>
+        <div class="stars stars-3"></div>
+    </div>
 
     <!-- The actual scrollable space is created by this tall container -->
     <div id="scroll-trigger"></div>
@@ -405,25 +465,35 @@
                  translateX(-${currentTranslateX.toFixed(2)}px)`;
             
             // ******************************************************
-            // NEW: Zoom the individual content blocks (cards) based on speed
+            // FIX: Positional Stretching (Zoom Out/Stretching)
             // ******************************************************
             if (numSlides > 0 && cardElements.length === numSlides) {
                 const slideWidth = window.innerWidth;
-                // Calculate the active slide index (0-based)
-                // Use Math.round for accurate centering on the current slide
-                const activeSlideIndex = Math.min(numSlides - 1, Math.max(0, Math.round(currentTranslateX / slideWidth)));
-                
-                // Calculate scale for the active card (subtle zoom, 1.0 to 1.15)
-                const cardScale = 1.0 + (normalizedSpeed * 0.15); 
+                const viewportCenter = slideWidth / 2;
                 
                 cardElements.forEach((card, index) => {
-                    let transform = 'scale(1.0)';
-                    if (index === activeSlideIndex) {
-                        // Apply the speed-driven zoom to the active card
-                        transform = `scale(${cardScale.toFixed(4)})`;
-                    }
+                    // 1. Calculate the center of the card's slide area on screen (considering strip translation)
+                    const slideCenterRelative = (index * slideWidth) + (slideWidth / 2);
+                    const cardCenterOnScreen = slideCenterRelative - currentTranslateX;
                     
-                    card.style.transform = transform;
+                    // 2. Calculate the distance from the viewport center
+                    const distance = Math.abs(cardCenterOnScreen - viewportCenter);
+                    
+                    // 3. Normalize distance: 0 (center) to 1 (full width away)
+                    // We normalize by half the viewport width for a quicker, more pronounced effect
+                    const normalizedDistance = Math.min(1.0, distance / (slideWidth * 0.5)); 
+                    
+                    // 4. Calculate ScaleX (Stretching: 1.0 at center, 1.25 far away)
+                    // REDUCED stretchFactor from 0.3 to 0.25 to prevent overlap
+                    const stretchFactor = 0.25; 
+                    const scaleX = 1.0 + (normalizedDistance * stretchFactor); 
+                    
+                    // 5. Calculate ScaleY (Compression: 1.0 at center, 0.92 far away)
+                    // REDUCED compression from 0.1 to 0.08
+                    const scaleY = 1.0 - (normalizedDistance * 0.08); 
+                    
+                    // Apply the transform
+                    card.style.transform = `scaleX(${scaleX.toFixed(4)}) scaleY(${scaleY.toFixed(4)})`;
                 });
             }
 
@@ -462,7 +532,6 @@
 
             ticking = false;
         }
-
         
         /**
          * Handles the scroll event. Throttled by requestAnimationFrame.
