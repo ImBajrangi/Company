@@ -60,7 +60,7 @@
             <div id="status-message" class="hidden p-3 rounded-lg text-sm transition-all duration-300"></div>
 
             <!-- Global Google Sign-In Button -->
-            <!-- Note: The button is initially disabled and enabled in JS once Firebase is ready -->
+            <!-- The button is initially disabled and enabled in JS once Firebase is ready -->
             <button id="google-sign-in-button" onclick="signInWithGoogle()" class="btn-google w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-base font-medium" disabled>
                 <!-- Inline SVG for Google Logo -->
                 <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +69,7 @@
                     <path d="M5.5 24c0-1.5.2-2.9.4-4.2h8.5c-.5 2.6-.5 5.2 0 7.8H5.9c-.2-1.3-.4-2.7-.4-4.2z" fill="#FBBC05"/>
                     <path d="M24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24c0 1.5.2 2.9.4 4.2h8.5c.5-2.6.5-5.2 0-7.8h-8.5C5.7 17.1 5.5 15.6 5.5 14z" fill="#EA4335"/>
                 </svg>
-                Continue with Google
+                Initializing Firebase...
             </button>
             
             <div class="relative flex items-center justify-center">
@@ -156,7 +156,7 @@
         let db;
         let auth;
         let currentUserId = null;
-        let isFirebaseReady = false; // New state variable to track readiness
+        let isFirebaseReady = false; // Flag to track readiness
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         // Set Firestore log level to debug for development visibility
@@ -219,6 +219,8 @@
                 
                 const authStatusEl = document.getElementById('auth-status');
                 const googleButton = document.getElementById('google-sign-in-button');
+                
+                googleButton.textContent = 'Authenticating...';
 
                 // Handle initial authentication state
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -266,10 +268,7 @@
          * @param {string} mode 'login' or 'signup'.
          */
         window.handleAuth = async function(mode) {
-            if (!isFirebaseReady) {
-                displayStatus("Firebase services are still initializing. Please wait a moment.", 'error');
-                return;
-            }
+            // No need to check isFirebaseReady here, we rely on the button being disabled if not ready.
             
             // Get form elements
             const email = document.getElementById(`${mode}-email`)?.value;
@@ -319,10 +318,11 @@
          * Handles authentication using Google Sign-in with Popup.
          */
         window.signInWithGoogle = async function() {
-            if (!isFirebaseReady) {
-                displayStatus("Firebase services are still initializing. Please wait a moment.", 'error');
-                return;
-            }
+            const googleButton = document.getElementById('google-sign-in-button');
+            
+            // Immediately disable the button to prevent double-clicking/re-running
+            googleButton.disabled = true;
+            googleButton.textContent = 'Connecting...';
 
             document.getElementById('status-message').textContent = 'Opening Google sign-in...';
             document.getElementById('status-message').classList.remove('hidden');
@@ -351,6 +351,10 @@
                     displayStatus(`Login (Google) Successful! Welcome back, ${user.displayName}.`, 'success');
                 }
 
+                // Re-enable button and reset text upon success
+                googleButton.disabled = false;
+                googleButton.textContent = 'Continue with Google';
+
                 // After successful sign-in, switch to Login view and potentially populate the email field
                 showView('login'); 
                 document.getElementById('login-email').value = user.email || ''; 
@@ -359,21 +363,24 @@
                 console.error("Google Sign-In Error:", error);
                 
                 // --- CRITICAL ERROR VERIFICATION: auth/unauthorized-domain ---
-                // NOTE: This error CANNOT be fixed by code. It requires the user to add the 
-                // domain (e.g., 'localhost:8080' or a unique sandbox URL) to their Firebase 
-                // Authentication -> Settings -> Authorized Domains list.
                 if (error.code === 'auth/unauthorized-domain') {
-                    // Get the current location's hostname/domain to display in the error message
                     const currentDomain = window.location.host;
                     
-                    // Display critical message which WILL NOT auto-hide, forcing user attention to the external fix.
+                    // Display critical message which WILL NOT auto-hide, and leave button disabled
                     displayStatus(`CRITICAL ERROR: Google Sign-In Failed! This domain is unauthorized. Please add the following domain to your Firebase Authentication "Authorized Domains" settings: ${currentDomain}`, 'error', true); 
+                    // DO NOT re-enable the button, as the fix is external.
                 } 
                 // --- END CRITICAL ERROR VERIFICATION ---
                 else if (error.code === 'auth/popup-closed-by-user') {
                     displayStatus("Google sign-in popup closed by user.", 'error');
+                    // Re-enable button on user-closed popup so they can try again
+                    googleButton.disabled = false;
+                    googleButton.textContent = 'Continue with Google';
                 } else {
                     displayStatus(`Google Sign-In Failed: ${error.message}`, 'error');
+                    // Re-enable button on other generic errors
+                    googleButton.disabled = false;
+                    googleButton.textContent = 'Continue with Google';
                 }
             }
         }
@@ -417,7 +424,7 @@
             initFirebase();
             showView('login'); // Set initial view to Login
         };
-        
+
     </script>
 </body>
 </html>
