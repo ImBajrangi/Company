@@ -72,13 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 menu_item.forEach((item) => {
 	item.addEventListener('click', () => {
-		hamburger.classList.toggle('active');
+		// hamburger.classList.toggle('active');
 		mobile_menu.classList.toggle('active');
-		hamburger.style.transform = hamburger.classList.contains('active') ? 'rotate(90deg)' : 'rotate(0deg)';
+		// hamburger.style.transform = hamburger.classList.contains('active') ? 'rotate(90deg)' : 'rotate(0deg)';
 	});
 });
 
-// Add hover effect to menu notification items
+
+
+
+ // Add hover effect to menu notification items
 document.querySelectorAll('.menu-notification').forEach(notification => {
     notification.addEventListener('mouseenter', () => {
         notification.style.transform = 'scale(1.1)';
