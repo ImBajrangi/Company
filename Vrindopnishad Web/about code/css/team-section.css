@@ -18,7 +18,7 @@
 }
 
 .team-member:hover {
-    transform: translateY(-8px);
+    /* transform: translateY(-8px); */
     box-shadow: var(--shadow-md);
     background: rgba(255, 255, 255, 0.06);
 }
@@ -36,9 +36,9 @@
     transition: transform 0.5s var(--transition-smooth);
 }
 
-.team-member:hover .member-image img {
+/* .team-member:hover .member-image img {
     transform: scale(1.05);
-}
+} */
 
 .member-info {
     margin-top: 1.5rem;
@@ -74,9 +74,9 @@
         padding: 1.5rem;
     }
     
-    .team-member:hover {
+    /* .team-member:hover {
         transform: translateY(-4px);
-    }
+    } */
 }
 
 /* Dark mode enhancements */

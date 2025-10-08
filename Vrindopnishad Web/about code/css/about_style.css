@@ -4325,7 +4325,7 @@ body.dark-mode .footer-links a:hover {
 }
 
 .team-member:hover .member-image {
-    transform: scale(1.05);
+    /* transform: scale(1.05); */
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -4336,9 +4336,9 @@ body.dark-mode .footer-links a:hover {
     transition: transform 0.5s ease;
 }
 
-.team-member:hover .member-image img {
+/* .team-member:hover .member-image img {
     transform: scale(1.1);
-}
+} */
 
 .team-member .member-info {
     flex: 1;
