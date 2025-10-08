@@ -31,12 +31,12 @@ class CustomCursor {
             this.cursorDot.style.top = `${this.cursorY}px`;
             
             // Update SVG cursors if visible
-            Object.values(this.svgCursors).forEach(cursor => {
-                if (cursor.style.display !== 'none') {
-                    cursor.style.left = `${this.cursorX}px`;
-                    cursor.style.top = `${this.cursorY}px`;
-                }
-            });
+            // Object.values(this.svgCursors).forEach(cursor => {
+            //     if (cursor.style.display !== 'none') {
+            //         cursor.style.left = `${this.cursorX}px`;
+            //         cursor.style.top = `${this.cursorY}px`;
+            //     }
+            // });
         });
 
         // Smooth circle animation
