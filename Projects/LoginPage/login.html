@@ -42,10 +42,9 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Container that holds both the auth form and the logged-in view -->
     <div class="w-full max-w-md">
 
-        <!-- Auth Card Container (initially visible) -->
+        <!-- Auth Card Container (Shows when logged out) -->
         <div id="auth-container" class="bg-white shadow-2xl border border-gray-100 rounded-xl overflow-hidden transition-all duration-500">
             
             <!-- Header Section -->
@@ -64,8 +63,7 @@
 
                 <!-- Global Google Sign-In Button -->
                 <button id="google-sign-in-button" onclick="signInWithGoogle()" class="btn-google w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-base font-medium" disabled>
-                    <!-- Inline SVG for Google Logo -->
-                    <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.05-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.48 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.38v5.7C7.86 39.09 15.37 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.74-.69-4.18s.25-2.86.69-4.18v-5.7H4.38C2.69 17.64 2 20.7 2 24s.69 6.36 2.38 9.88l7.31-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.37 2 7.86 8.91 4.38 16.12l7.31 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path><path fill="none" d="M2 2h44v44H2z"></path></svg>
+                    <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44.5 20H24v8.5h11.8c-.8 5.7-5.7 9.8-11.8 9.8-7.3 0-13.3-6-13.3-13.3S16.7 13.7 24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24S13.8 43 24 43c10.2 0 17.5-7.4 17.5-17.5 0-1.5-.2-2.9-.4-4.2H24v-8.5h20.5z" fill="#4285F4"/><path d="M24 43c5.3 0 9.7-1.8 12.5-4.9l-6.4-6.4c-1.7 1.7-4.2 3.1-7.5 3.1-6.1 0-11.1-4.1-13.3-9.8h-8.5C5.5 34.7 13.8 43 24 43z" fill="#34A853"/><path d="M5.5 24c0-1.5.2-2.9.4-4.2h8.5c-.5 2.6-.5 5.2 0 7.8H5.9c-.2-1.3-.4-2.7-.4-4.2z" fill="#FBBC05"/><path d="M24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24c0 1.5.2 2.9.4 4.2h8.5c.5-2.6.5-5.2 0-7.8h-8.5C5.7 17.1 5.5 15.6 5.5 14z" fill="#EA4335"/></svg>
                     Continue with Google
                 </button>
                 
@@ -74,15 +72,15 @@
                     <div class="relative bg-white px-3 text-sm text-gray-500">OR</div>
                 </div>
 
-                <!-- Login Form -->
+                <!-- Login Form (Email/Password) -->
                 <form id="form-login" class="space-y-6" onsubmit="event.preventDefault(); handleAuth('login')">
                     <div>
                         <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="login-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="your@email.com">
+                        <input type="email" id="login-email" autocomplete="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="your@email.com">
                     </div>
                     <div>
                         <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <input type="password" id="login-password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="••••••••">
+                        <input type="password" id="login-password" autocomplete="current-password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="••••••••">
                     </div>
                     <div class="flex justify-between items-center pt-2">
                         <a href="#" onclick="showView('signup'); return false;" class="text-sm text-gray-600 hover:text-blue-600 font-medium transition-colors duration-150">Don't have an account? Sign Up</a>
@@ -90,19 +88,19 @@
                     </div>
                 </form>
 
-                <!-- Sign Up Form -->
+                <!-- Sign Up Form (Email/Password) -->
                 <form id="form-signup" class="space-y-6 hidden" onsubmit="event.preventDefault(); handleAuth('signup')">
                     <div>
                         <label for="signup-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                        <input type="text" id="signup-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="John Doe">
+                        <input type="text" id="signup-name" autocomplete="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="John Doe">
                     </div>
                     <div>
                         <label for="signup-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="signup-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="your@email.com">
+                        <input type="email" id="signup-email" autocomplete="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="your@email.com">
                     </div>
                     <div>
                         <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <input type="password" id="signup-password" required minlength="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="Minimum 6 characters">
+                        <input type="password" id="signup-password" autocomplete="new-password" required minlength="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition duration-150" placeholder="Minimum 6 characters">
                     </div>
                     <div class="flex justify-between items-center pt-2">
                         <a href="#" onclick="showView('login'); return false;" class="text-sm text-gray-600 hover:text-blue-600 font-medium transition-colors duration-150">Already have an account? Log In</a>
@@ -112,14 +110,15 @@
             </div>
         </div>
 
-        <!-- Logged-In View (initially hidden) -->
+        <!-- Logged-In View (Shows when logged in) -->
         <div id="logged-in-container" class="hidden bg-white shadow-2xl border border-gray-100 rounded-xl p-8 text-center">
             <h2 class="text-3xl font-bold text-gray-900">Welcome!</h2>
-            <p id="welcome-message" class="mt-2 text-gray-600"></p>
+            <p id="welcome-message" class="mt-2 text-gray-600 truncate"></p>
             <button onclick="signOutUser()" class="mt-6 w-full btn-primary py-3 px-6 rounded-lg text-base font-medium text-white shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Sign Out
             </button>
         </div>
+
     </div>
 
     <!-- Firebase SDK Imports -->
@@ -133,7 +132,7 @@
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
             updateProfile,
-            signOut
+            signOut 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -150,14 +149,16 @@
             } else {
                 statusDiv.classList.add('bg-green-100', 'text-green-700');
             }
+            // Auto-hide after 5 seconds
+            setTimeout(() => statusDiv.classList.add('hidden'), 5000);
         }
 
         // --- Firebase Initialization ---
-        async function initFirebase() {
+        function initFirebase() {
             try {
                 const firebaseConfig = {
                     apiKey: "AIzaSyB-Wd4gZ2J9P9ycaHKwK-EHnNfdg7z9gWI",
-                    authDomain: "vrindopnishad-d3497.firebaseapp.com",
+                    authDomain: "vrindopnishad-d497.firebaseapp.com",
                     projectId: "vrindopnishad-d3497",
                     storageBucket: "vrindopnishad-d3497.firebasestorage.app",
                     messagingSenderId: "768939105927",
@@ -170,47 +171,48 @@
                 db = getFirestore(app);
                 
                 document.getElementById('google-sign-in-button').disabled = false;
+                document.getElementById('google-sign-in-button').textContent = 'Continue with Google';
 
                 onAuthStateChanged(auth, (user) => {
                     const authContainer = document.getElementById('auth-container');
                     const loggedInContainer = document.getElementById('logged-in-container');
-                    if (user) {
-                        // User is signed in.
-                        document.getElementById('welcome-message').textContent = `You are logged in as ${user.displayName || user.email}.`;
+                    if (user && !user.isAnonymous) { // Only treat real users as logged in
+                        document.getElementById('welcome-message').textContent = `Logged in as ${user.displayName || user.email}`;
                         authContainer.classList.add('hidden');
                         loggedInContainer.classList.remove('hidden');
                     } else {
-                        // User is signed out.
+                        // User is signed out or anonymous
                         authContainer.classList.remove('hidden');
                         loggedInContainer.classList.add('hidden');
                     }
                 });
-
+                console.log("Firebase Initialized Successfully.");
             } catch (error) {
                 console.error("Firebase Initialization Failed:", error);
                 displayStatus(`Critical Error: Firebase failed to initialize. ${error.message}`, 'error');
+                document.getElementById('google-sign-in-button').textContent = 'Initialization Failed';
             }
         }
         
         // --- Firestore ---
-        async function createUserProfileDocument(user, additionalData) {
+        async function createUserProfileDocument(user, additionalData = {}) {
             if (!user) return;
             const userRef = doc(db, 'users', user.uid);
             const { displayName, email } = user;
             const createdAt = serverTimestamp();
             try {
+                // Use setDoc with merge:true to create or update profile
                 await setDoc(userRef, {
-                    displayName,
+                    displayName: displayName || additionalData.displayName,
                     email,
                     createdAt,
                     ...additionalData,
-                }, { merge: true }); // Use merge to avoid overwriting data on re-login
+                }, { merge: true });
             } catch (error) {
                 console.error("Error creating user profile:", error);
                 displayStatus("Could not save user profile.", "error");
             }
         }
-
 
         // --- Authentication Logic ---
         window.handleAuth = async function(mode) {
@@ -226,35 +228,30 @@
                     }
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     const user = userCredential.user;
-                    // Update profile in Auth
+                    // Update profile in Auth service
                     await updateProfile(user, { displayName: name });
-                    // Create user document in Firestore
+                    // Create user document in Firestore database
                     await createUserProfileDocument(user, { displayName: name });
-                    displayStatus("Sign up successful! Welcome.", "success");
-
+                    // No need for status message, onAuthStateChanged will handle the UI switch
                 } else { // mode === 'login'
                     await signInWithEmailAndPassword(auth, email, password);
-                    displayStatus("Login successful! Welcome back.", "success");
+                    // No need for status message, onAuthStateChanged will handle the UI switch
                 }
             } catch (error) {
                 console.error(`${mode} Error:`, error);
-                // Provide user-friendly error messages
                 let message = "An unknown error occurred.";
                 switch (error.code) {
                     case 'auth/email-already-in-use':
-                        message = "This email address is already in use.";
+                        message = "This email address is already in use by another account.";
                         break;
                     case 'auth/weak-password':
-                        message = "The password is too weak. Please use at least 6 characters.";
+                        message = "Password should be at least 6 characters.";
                         break;
                     case 'auth/invalid-credential':
                         message = "Incorrect email or password. Please try again.";
                         break;
-                    case 'auth/user-not-found':
-                         message = "No account found with this email.";
-                         break;
                     default:
-                        message = error.message;
+                        message = "Authentication failed. Please check your details.";
                 }
                 displayStatus(message, 'error');
             }
@@ -264,10 +261,8 @@
             try {
                 const provider = new GoogleAuthProvider();
                 const result = await signInWithPopup(auth, provider);
-                const user = result.user;
                 // Create a user profile in Firestore for new Google users as well
-                await createUserProfileDocument(user);
-                displayStatus(`Welcome, ${user.displayName}!`, 'success');
+                await createUserProfileDocument(result.user);
             } catch (error) {
                 console.error("Google Sign-In Error:", error);
                 displayStatus(`Google Sign-In Failed: ${error.message}`, 'error');
@@ -277,7 +272,7 @@
         window.signOutUser = async function() {
             try {
                 await signOut(auth);
-                displayStatus("You have been signed out.", "success");
+                // The onAuthStateChanged listener will handle the UI update
             } catch (error) {
                 console.error("Sign Out Error:", error);
                 displayStatus("Error signing out.", "error");
@@ -290,9 +285,9 @@
             document.getElementById('form-signup').classList.toggle('hidden', view !== 'signup');
             document.getElementById('view-title').textContent = view === 'login' ? 'Sign In' : 'Create Account';
             document.getElementById('view-subtitle').textContent = view === 'login' 
-                ? 'Access your account or create a new one instantly.' 
+                ? 'Access your account or create a new one.' 
                 : 'Join us today. It only takes a minute!';
-            displayStatus("", "success"); // Clear status on view change
+            document.getElementById('status-message').classList.add('hidden'); // Clear status on view change
         }
         
         // Initialize on window load
