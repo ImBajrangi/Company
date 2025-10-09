@@ -248,7 +248,7 @@
                 userIdEl.textContent = user.uid;
                 userEmailEl.textContent = user.email || 'N/A';
                 userDisplayNameEl.textContent = user.displayName || 'No Display Name';
-                userPhotoEl.src = user.photoURL || 'https://placehold.co/64x64/E0E7FF/4338CA?text=U';
+                userPhotoEl.src = user.photoURL || 'https://placehold.co/64x64/E0E7FF/4338CA?text=V';
 
 
             } else {
@@ -272,9 +272,18 @@
             messageEl.classList.add('hidden');
             const email = emailEl.value;
             const password = passwordEl.value;
+            
             submitBtnEl.disabled = true;
             const originalText = isSignUpMode ? "Sign Up" : "Sign In";
-            submitBtnEl.textContent = isSignUpMode ? "Signing Up..." : "Signing In...";
+            submitBtnEl.textContent = isSignUpMode ? "Processing..." : "Processing...";
+
+            // 1. Client-Side Password Validation
+            if (password.length < 6) {
+                displayMessage('Password must be at least 6 characters long.', 'error');
+                submitBtnEl.disabled = false;
+                submitBtnEl.textContent = originalText;
+                return; // Stop execution if validation fails
+            }
 
             try {
                 if (isSignUpMode) {
@@ -291,11 +300,13 @@
                 let errorMessage = error.message.replace('Firebase: ', '');
 
                 if (!isSignUpMode && error.code === 'auth/user-not-found') {
-                    // Custom message for sign-in when account doesn't exist
+                    // Friendly message for sign-in when account doesn't exist
                     errorMessage = "Account not found with this email. Please switch to the 'Sign Up' mode below to create an account.";
                 } else if (isSignUpMode && error.code === 'auth/email-already-in-use') {
                     // Friendly error for sign-up if email already exists
                     errorMessage = "This email is already registered. Please switch to the 'Sign In' mode to log in.";
+                } else if (error.code === 'auth/invalid-credential') {
+                    errorMessage = "Invalid email or password. Please check your credentials.";
                 }
                 
                 displayMessage(errorMessage, 'error');
