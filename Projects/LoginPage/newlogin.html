@@ -75,7 +75,7 @@
             <div class="p-8 space-y-6">
                 <div id="status-message" class="hidden p-3 rounded-lg text-sm transition-all duration-300"></div>
                 <button id="google-sign-in-button" onclick="signInWithGoogle()" class="btn-google w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-base font-medium" disabled>
-                    <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44.5 20H24v8.5h11.8c-.8 5.7-5.7 9.8-11.8 9.8-7.3 0-13.3-6-13.3-13.3S16.7 13.7 24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24S13.8 43 24 43c10.2 0 17.5-7.4 17.5-17.5 0-1.5-.2-2.9-.4-4.2H24v-8.5h20.5z" fill="#4285F4"/><path d="M24 43c5.3 0 9.7-1.8 12.5-4.9l-6.4-6.4c-1.7 1.7-4.2 3.1-7.5 3.1-6.1 0-11.1-4.1-13.3-9.8h-8.5C5.5 34.7 13.8 43 24 43z" fill="#34A853"/><path d="M5.5 24c0-1.5.2-2.9.4-4.2h8.5c-.5 2.6-.5 5.2 0 7.8H5.9c-.2-1.3-.4-2.7-.4-4.2z" fill="#FBBC05"/><path d="M24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24c0 1.5.2 2.9.4 4.2h8.5c.5-2.6.5-5.2 0-7.8h-8.5C5.7 17.1 5.5 15.6 5.5 14z" fill="#EA4335"/></svg>
+                    <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44.5 20H24v8.5h11.8c-.8 5.7-5.7 9.8-11.8 9.8-7.3 0-13.3-6-13.3-13.3S16.7 13.7 24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24S13.8 43 24 43c10.2 0 17.5-7.4 17.5-17.5 0-1.5-.2-2.9-.4-4.2H24v-8.5h20.5z" fill="#4285F4"/><path d="M24 43c5.3 0 9.7-1.8 12.5-4.9l-6.4-6.4c-1.7 1.7-4.2 3.1-7.5 3.1-6.1 0-11.1-4.1-13.3-9.8h-8.5C5.5 34.7 13.8 43 24 43z" fill="#34A853"/><path d="M5.5 24c0-1.5.2-2.9.4-4.2h8.5c-.5 2.6-.5 5.2 0 7.8H5.9c-.2-1.3-.4-2.7-.4-4-4.2z" fill="#FBBC05"/><path d="M24 13.7c3.3 0 5.8 1.4 7.5 3.1l6.4-6.4C34.7 7.2 29.7 5 24 5 13.8 5 5.5 13.3 5.5 24c0 1.5.2 2.9.4 4.2h8.5c.5-2.6.5-5.2 0-7.8h-8.5C5.7 17.1 5.5 15.6 5.5 14z" fill="#EA4335"/></svg>
                     Continue with Google
                 </button>
                 <div class="relative flex items-center justify-center">
@@ -165,15 +165,14 @@
         // --- Firebase Initialization ---
         function initFirebase() {
             try {
-                // !!! CORRECT CONFIGURATION FOR PROJECT: vrinda-company, pulled from the setup snippet !!!
+                // !!! FINAL CONFIGURATION FOR PROJECT: vrinda-company. Updated API Key. !!!
                 const firebaseConfig = {
-                    apiKey: "AIzaSyDb7VRbQk9GGVfuCLivP1_eCPzd4uq84uI",
+                    apiKey: "AIzaSyC-nrC-zFQ7xkN5r86McpqUfMHHYcQSVO0", // <-- NEW KEY INSERTED HERE
                     authDomain: "vrinda-company.firebaseapp.com",
                     projectId: "vrinda-company",
                     storageBucket: "vrinda-company.appspot.com",
                     messagingSenderId: "261821848203",
-                    appId: "1:261821848203:web:7bdb6d61d7f786eb5928e", // <-- CORRECT App ID
-                    measurementId: "YOUR_MISSING_MEASUREMENT_ID" // <-- Retaining this placeholder, but Auth should work now.
+                    appId: "1:261821848203:web:7bdb6d61d7f786eb5928e" 
                 };
                 // !!! END OF CONFIGURATION !!!
 
@@ -280,6 +279,8 @@
                 } else if (error.code === 'auth/unauthorized-domain') {
                     // This is the error we are trying to fix!
                     message = "Sign-In Failed: Error 400. Your domain is NOT authorized in the Firebase Console's Auth settings (Sign-in method -> Authorized domains).";
+                } else if (error.code === 'auth/api-key-not-valid') {
+                    message = "API Key Error: Check Google Cloud Console API restrictions (Identity Toolkit API must be enabled for this specific key).";
                 }
                 displayStatus(message, 'error');
             }
