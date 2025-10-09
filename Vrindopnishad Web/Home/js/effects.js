@@ -1009,20 +1009,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Export functions for potential use in other scripts
-export {
-    initPageTransitions,
-    initTextScramble,
-    initMagneticEffect,
-    initTiltEffect,
-    initAnimatedGradients,
-    initNoiseEffect,
-    initImageDistortion,
-    initParallaxScroll,
-    initSmoothScroll,
-    initTextSplitting,
-    initMobileMenuEffects,
-    initEffects
-};
+// export {
+//     initPageTransitions,
+//     initTextScramble,
+//     initMagneticEffect,
+//     initTiltEffect,
+//     initAnimatedGradients,
+//     initNoiseEffect,
+//     initImageDistortion,
+//     initParallaxScroll,
+//     initSmoothScroll,
+//     initTextSplitting,
+//     initMobileMenuEffects,
+//     initEffects
+// };
 
 // Function to fix tools-icon visibility and functionality
 function fixToolsIconForAllDevices() {
