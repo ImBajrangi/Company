@@ -582,19 +582,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Export functions for potential use in other scripts
-export {
-    initCursor,
-    initScrollProgress,
-    initParallaxBg,
-    initProjectHover,
-    initStaggeredAnimations,
-    initRevealAnimations,
-    initHorizontalScroll,
-    initMobileMenu,
-    initTextMaskReveal,
-    initFadeUpAnimations,
-    initAnimations
-};
+// export {
+//     initCursor,
+//     initScrollProgress,
+//     initParallaxBg,
+//     initProjectHover,
+//     initStaggeredAnimations,
+//     initRevealAnimations,
+//     initHorizontalScroll,
+//     initMobileMenu,
+//     initTextMaskReveal,
+//     initFadeUpAnimations,
+//     initAnimations
+// };
 
 /**
  * Notifications System
