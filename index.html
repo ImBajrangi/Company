@@ -1367,29 +1367,29 @@
     <!-- Backend Connection Script -->
     <script>
         // Load books data from JSON
-        async function loadBooksData() {
-            try {
-                const response = await fetch('./Stack/books-data.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load books data');
-                }
-                const data = await response.json();
-                return data.books;
-            } catch (error) {
-                console.error('Error loading books:', error);
-                return [];
-            }
-        }
+        // async function loadBooksData() {
+        //     try {
+        //         const response = await fetch('./Stack/books-data.json');
+        //         if (!response.ok) {
+        //             throw new Error('Failed to load books data');
+        //         }
+        //         const data = await response.json();
+        //         return data.books;
+        //     } catch (error) {
+        //         console.error('Error loading books:', error);
+        //         return [];
+        //     }
+        // }
 
         // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', async () => {
-            const books = await loadBooksData();
+        // document.addEventListener('DOMContentLoaded', async () => {
+        //     // const books = await loadBooksData();
             
-            // Update featured content if available
-            if (books.length > 0) {
-                updateFeaturedContent(books);
-            }
-        });
+        //     // Update featured content if available
+        //     if (books.length > 0) {
+        //         updateFeaturedContent(books);
+        //     }
+        // });
 
         // ... rest of your existing script ...
     </script>
