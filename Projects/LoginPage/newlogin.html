@@ -165,18 +165,17 @@
         // --- Firebase Initialization ---
         function initFirebase() {
             try {
-                // !!! IMPORTANT !!!
-                // REPLACE THIS CONFIG OBJECT WITH THE NEW ONE YOU COPIED FROM YOUR FRESH FIREBASE PROJECT (STEP 8)
+                // !!! CORRECT CONFIGURATION FOR PROJECT: vrinda-company, pulled from the setup snippet !!!
                 const firebaseConfig = {
-                    apiKey: "YOUR_NEW_API_KEY",
-                    authDomain: "YOUR_NEW_PROJECT_ID.firebaseapp.com",
-                    projectId: "YOUR_NEW_PROJECT_ID",
-                    storageBucket: "YOUR_NEW_PROJECT_ID.appspot.com",
-                    messagingSenderId: "YOUR_NEW_SENDER_ID",
-                    appId: "YOUR_NEW_APP_ID",
-                    measurementId: "YOUR_NEW_MEASUREMENT_ID"
+                    apiKey: "AIzaSyDb7VRbQk9GGVfuCLivP1_eCPzd4uq84uI",
+                    authDomain: "vrinda-company.firebaseapp.com",
+                    projectId: "vrinda-company",
+                    storageBucket: "vrinda-company.appspot.com",
+                    messagingSenderId: "261821848203",
+                    appId: "1:261821848203:web:7bdb6d61d7f786eb5928e", // <-- CORRECT App ID
+                    measurementId: "YOUR_MISSING_MEASUREMENT_ID" // <-- Retaining this placeholder, but Auth should work now.
                 };
-                // !!! END OF REPLACEMENT ZONE !!!
+                // !!! END OF CONFIGURATION !!!
 
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
