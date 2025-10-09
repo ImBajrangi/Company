@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Method Firebase Auth</title>
+    <title>Multi-Method Firebase Auth with Name</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font -->
@@ -52,6 +52,15 @@
                 
                 <!-- Email/Password Form -->
                 <form id="auth-form" class="space-y-3">
+                    
+                    <!-- New: Display Name Field (Visible only during Sign Up) -->
+                    <div id="name-field-container" class="hidden">
+                        <label for="display-name" class="block text-sm font-medium text-gray-700">Display Name</label>
+                        <input type="text" id="display-name" autocomplete="name"
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="e.g., Alex Johnson">
+                    </div>
+
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
                         <input type="email" id="email" required autocomplete="email"
@@ -134,6 +143,8 @@
             getAuth,
             onAuthStateChanged,
             signOut,
+            // New Import: Function to update user profile (set name)
+            updateProfile,
             // Email/Password methods
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
@@ -155,7 +166,7 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app); // Initialized as requested
+        const analytics = getAnalytics(app); 
         const auth = getAuth(app);
         
         // Providers
@@ -173,6 +184,8 @@
         
         // Email/Password Form Elements
         const authFormEl = document.getElementById('auth-form');
+        const displayNameEl = document.getElementById('display-name'); // New DOM reference
+        const nameFieldContainerEl = document.getElementById('name-field-container'); // New container reference
         const emailEl = document.getElementById('email');
         const passwordEl = document.getElementById('password');
         const submitBtnEl = document.getElementById('submit-btn');
@@ -218,11 +231,19 @@
             messageEl.classList.add('hidden');
 
             if (isSignUpMode) {
+                // Show name field and make it required for signup
+                nameFieldContainerEl.classList.remove('hidden');
+                displayNameEl.setAttribute('required', 'required');
+
                 authTitleEl.textContent = "Sign Up with Email";
                 submitBtnEl.textContent = "Sign Up";
                 togglePromptEl.textContent = "Already have an account?";
                 toggleAuthBtnEl.textContent = "Sign In";
             } else {
+                // Hide name field and remove required attribute for signin
+                nameFieldContainerEl.classList.add('hidden');
+                displayNameEl.removeAttribute('required');
+
                 authTitleEl.textContent = "Sign In with Email";
                 submitBtnEl.textContent = "Sign In";
                 togglePromptEl.textContent = "Don't have an account?";
@@ -247,7 +268,8 @@
                 // Populate profile details
                 userIdEl.textContent = user.uid;
                 userEmailEl.textContent = user.email || 'N/A';
-                userDisplayNameEl.textContent = user.displayName || 'No Display Name';
+                // Display the name, or fall back if not available
+                userDisplayNameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'No Display Name'); 
                 userPhotoEl.src = user.photoURL || 'https://placehold.co/64x64/E0E7FF/4338CA?text=U';
 
 
@@ -272,14 +294,37 @@
             messageEl.classList.add('hidden');
             const email = emailEl.value;
             const password = passwordEl.value;
+            const name = displayNameEl.value.trim(); // Get name and trim whitespace
+            
             submitBtnEl.disabled = true;
             const originalText = isSignUpMode ? "Sign Up" : "Sign In";
-            submitBtnEl.textContent = isSignUpMode ? "Signing Up..." : "Signing In...";
+            submitBtnEl.textContent = isSignUpMode ? "Processing..." : "Processing...";
+
+            // 1. Client-Side Validation
+            if (password.length < 6) {
+                displayMessage('Password must be at least 6 characters long.', 'error');
+                submitBtnEl.disabled = false;
+                submitBtnEl.textContent = originalText;
+                return; // Stop execution if validation fails
+            }
+
+            if (isSignUpMode && !name) {
+                displayMessage('Please enter a Display Name for your account.', 'error');
+                submitBtnEl.disabled = false;
+                submitBtnEl.textContent = originalText;
+                return; // Stop execution if validation fails
+            }
 
             try {
                 if (isSignUpMode) {
                     // Sign Up
-                    await createUserWithEmailAndPassword(auth, email, password);
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    
+                    // Update the user's profile with the name after successful creation
+                    await updateProfile(userCredential.user, {
+                        displayName: name
+                    });
+
                     displayMessage('Success! Account created and you are now logged in.', 'success');
                 } else {
                     // Sign In
@@ -289,6 +334,17 @@
             } catch (error) {
                 console.error("Email Authentication Error:", error);
                 let errorMessage = error.message.replace('Firebase: ', '');
+
+                if (!isSignUpMode && error.code === 'auth/user-not-found') {
+                    // Friendly message for sign-in when account doesn't exist
+                    errorMessage = "Account not found with this email. Please switch to the 'Sign Up' mode below to create an account.";
+                } else if (isSignUpMode && error.code === 'auth/email-already-in-use') {
+                    // Friendly error for sign-up if email already exists
+                    errorMessage = "This email is already registered. Please switch to the 'Sign In' mode to log in.";
+                } else if (error.code === 'auth/invalid-credential') {
+                    errorMessage = "Invalid email or password. Please check your credentials.";
+                }
+                
                 displayMessage(errorMessage, 'error');
             } finally {
                 submitBtnEl.disabled = false;
