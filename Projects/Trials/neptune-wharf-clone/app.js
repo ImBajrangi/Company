@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Show home page by default
   showPage('home');
-  
-  console.log('Neptune Wharf application initialized successfully!');
+
+  console.log('Vrindopnishad application initialized successfully!');
 });
 
 // Navigation System
