@@ -14,7 +14,7 @@ IGNORED_DIRS = {".vscode", "__pycache__"}
 class AutoPush(FileSystemEventHandler):
     def __init__(self):
         self.timer = None
-        self.delay = 5
+        self.delay = 2  # seconds
         self.stopped = False
 
     def on_any_event(self, event):
