@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QR Code Generation & Scanning Libraries -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -23,6 +26,10 @@
         }
         #chat-messages::-webkit-scrollbar-thumb:hover {
             background: #555;
+        }
+        #qr-reader {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -49,6 +56,24 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Show QR Code Modal -->
+        <div id="qr-code-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-8 shadow-2xl w-full max-w-sm text-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Your User ID QR Code</h3>
+                <div id="qr-code-container" class="flex justify-center mb-6"></div>
+                <button id="close-qr-modal-btn" class="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition">Close</button>
+            </div>
+        </div>
+
+        <!-- Scan QR Code Modal -->
+        <div id="qr-scanner-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-8 shadow-2xl w-full max-w-md">
+                 <h3 class="text-2xl font-bold text-center text-gray-800 mb-4">Scan QR Code</h3>
+                <div id="qr-reader" style="width: 100%;"></div>
+                <button id="close-scanner-modal-btn" class="mt-6 w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Cancel</button>
+            </div>
+        </div>
 
         <!-- Main Chat Interface -->
         <div class="flex h-full w-full hidden" id="main-chat-interface">
@@ -57,10 +82,26 @@
                 <div class="p-4 border-b border-gray-200">
                     <h1 class="text-2xl font-bold text-blue-600">Vrindopnishad</h1>
                     <div class="mt-4 p-3 bg-gray-100 rounded-lg">
-                        <p class="text-sm text-gray-600">Your User ID:</p>
-                        <p id="current-user-id" class="text-xs text-gray-800 font-mono break-all cursor-pointer" title="Click to copy"></p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-600">Your User ID:</p>
+                                <p id="current-user-id" class="text-xs text-gray-800 font-mono break-all cursor-pointer" title="Click to copy"></p>
+                            </div>
+                            <button id="show-qr-btn" title="Show my QR Code">
+                                <svg class="w-6 h-6 text-gray-600 hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 5h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                             </button>
+                        </div>
                     </div>
                 </div>
+                
+                <div class="p-4 border-b border-gray-200">
+                    <input type="text" id="search-users-input" placeholder="Search by name..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="scan-qr-btn" class="mt-3 w-full flex items-center justify-center bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 5h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        Scan QR Code
+                    </button>
+                </div>
+
 
                 <div class="flex-grow overflow-y-auto">
                     <!-- Employee List -->
@@ -121,14 +162,9 @@
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, query, orderBy, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- GLOBAL VARIABLES & CONFIG ---
-        
-        // =================================================================================
-        // TODO: PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
-        // Find this in your Firebase Project Settings -> General -> Your apps -> Config
-        // =================================================================================
         const firebaseConfig = {
           apiKey: "AIzaSyBjy-y-NvsG6JGUc_GHqinuO4zydJ7NVU4",
           authDomain: "vrinda-chat.firebaseapp.com",
@@ -146,6 +182,9 @@
         let currentUserProfile = null;
         let activeChatId = null;
         let unsubscribeMessages = null;
+        let allUsers = []; // For search functionality
+        let html5QrCode = null;
+
 
         // --- DOM ELEMENTS ---
         const userSetupModal = document.getElementById('user-setup-modal');
@@ -165,15 +204,18 @@
         const chatMessages = document.getElementById('chat-messages');
         const messageForm = document.getElementById('message-form');
         const messageInput = document.getElementById('message-input');
+        const searchUsersInput = document.getElementById('search-users-input');
+        const showQrBtn = document.getElementById('show-qr-btn');
+        const qrCodeModal = document.getElementById('qr-code-modal');
+        const qrCodeContainer = document.getElementById('qr-code-container');
+        const closeQrModalBtn = document.getElementById('close-qr-modal-btn');
+        const scanQrBtn = document.getElementById('scan-qr-btn');
+        const qrScannerModal = document.getElementById('qr-scanner-modal');
+        const closeScannerModalBtn = document.getElementById('close-scanner-modal-btn');
         
         // --- INITIALIZATION ---
         async function initialize() {
             try {
-                // Check if the config is still the default placeholder
-                if (firebaseConfig.apiKey === "AIza...") {
-                    document.body.innerHTML = '<div style="font-family: sans-serif; text-align: center; padding: 40px;"><h1>Configuration Needed</h1><p>Please paste your Firebase project configuration into the index.html file.</p></div>';
-                    return;
-                }
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
@@ -190,7 +232,6 @@
                 if (user) {
                     currentUserId = user.uid;
                     currentUserIdElem.textContent = currentUserId;
-                    // Check if user profile exists
                     const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${currentUserId}`);
                     onSnapshot(userDocRef, (docSnap) => {
                         if (docSnap.exists()) {
@@ -199,13 +240,11 @@
                             mainChatInterface.classList.remove('hidden');
                             listenForUsers();
                         } else {
-                            // New user, show setup modal
                             userSetupModal.classList.remove('hidden');
                             mainChatInterface.classList.add('hidden');
                         }
                     });
                 } else {
-                    // No user, sign in
                     try {
                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                             await signInWithCustomToken(auth, __initial_auth_token);
@@ -213,8 +252,6 @@
                             await signInAnonymously(auth);
                         }
                     } catch (error) {
-                        // If the custom token is mismatched (e.g., in a preview environment),
-                        // fall back to anonymous sign-in, which will work on the live site.
                         if (error.code === 'auth/custom-token-mismatch') {
                             console.warn('Custom token mismatch. Falling back to anonymous sign-in.');
                             try {
@@ -252,18 +289,11 @@
 
         saveProfileBtn.addEventListener('click', async () => {
             if (saveProfileBtn.disabled) return;
-            
             const displayName = displayNameInput.value.trim();
-            const userProfile = {
-                displayName,
-                role: selectedRole,
-                uid: currentUserId,
-            };
-
+            const userProfile = { displayName, role: selectedRole, uid: currentUserId };
             try {
                 const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${currentUserId}`);
                 await setDoc(userDocRef, userProfile);
-                // Modal will be hidden by the onSnapshot listener
             } catch (error) {
                 console.error("Error saving profile:", error);
             }
@@ -273,49 +303,58 @@
             navigator.clipboard.writeText(currentUserId).then(() => {
                 const originalText = currentUserIdElem.textContent;
                 currentUserIdElem.textContent = 'Copied!';
-                setTimeout(() => {
-                    currentUserIdElem.textContent = originalText;
-                }, 1500);
+                setTimeout(() => { currentUserIdElem.textContent = originalText; }, 1500);
             });
         });
 
-        // --- USER LISTING ---
+        // --- USER LISTING & SEARCH ---
+        searchUsersInput.addEventListener('input', (e) => {
+            renderUserLists(e.target.value.toLowerCase());
+        });
+
         function listenForUsers() {
             const usersCollectionRef = collection(db, `/artifacts/${appId}/public/data/users`);
             onSnapshot(usersCollectionRef, (snapshot) => {
-                employeeList.innerHTML = '';
-                customerList.innerHTML = '';
+                allUsers = [];
                 snapshot.forEach(doc => {
-                    const user = doc.data();
-                    if (user.uid === currentUserId) return; // Don't list self
-
-                    const userElement = document.createElement('div');
-                    userElement.className = 'flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100';
-                    userElement.dataset.uid = user.uid;
-                    userElement.dataset.name = user.displayName;
-                    userElement.dataset.role = user.role;
-                    
-                    const avatar = document.createElement('div');
-                    avatar.className = 'w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center font-bold text-gray-700 mr-3';
-                    avatar.textContent = user.displayName.charAt(0).toUpperCase();
-
-                    const userInfo = document.createElement('div');
-                    const name = document.createElement('p');
-                    name.className = 'font-semibold text-gray-800';
-                    name.textContent = user.displayName;
-                    userInfo.appendChild(name);
-
-                    userElement.appendChild(avatar);
-                    userElement.appendChild(userInfo);
-                    
-                    userElement.addEventListener('click', () => startChat(user));
-                    
-                    if (user.role === 'Employee') {
-                        employeeList.appendChild(userElement);
-                    } else {
-                        customerList.appendChild(userElement);
+                    if(doc.data().uid !== currentUserId) {
+                        allUsers.push(doc.data());
                     }
                 });
+                renderUserLists();
+            });
+        }
+        
+        function renderUserLists(searchTerm = '') {
+            employeeList.innerHTML = '';
+            customerList.innerHTML = '';
+
+            const filteredUsers = allUsers.filter(user => 
+                user.displayName.toLowerCase().includes(searchTerm)
+            );
+
+            filteredUsers.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.className = 'flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100';
+                userElement.dataset.uid = user.uid;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center font-bold text-gray-700 mr-3';
+                avatar.textContent = user.displayName.charAt(0).toUpperCase();
+
+                const name = document.createElement('p');
+                name.className = 'font-semibold text-gray-800';
+                name.textContent = user.displayName;
+
+                userElement.appendChild(avatar);
+                userElement.appendChild(name);
+                userElement.addEventListener('click', () => startChat(user));
+                
+                if (user.role === 'Employee') {
+                    employeeList.appendChild(userElement);
+                } else {
+                    customerList.appendChild(userElement);
+                }
             });
         }
         
@@ -325,34 +364,22 @@
             chatContainer.classList.remove('hidden');
             chatContainer.classList.add('flex');
 
-            // Set chat header
             chatHeaderName.textContent = otherUser.displayName;
             chatHeaderRole.textContent = otherUser.role;
             chatHeaderAvatar.textContent = otherUser.displayName.charAt(0).toUpperCase();
-            if (otherUser.role === 'Employee') {
-                 chatHeaderAvatar.className = 'w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xl mr-3';
-            } else {
-                 chatHeaderAvatar.className = 'w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xl mr-3';
-            }
+            chatHeaderAvatar.className = `w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-xl mr-3 ${otherUser.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500'}`;
             
-            // Generate a consistent chat ID
             const chatParticipants = [currentUserId, otherUser.uid].sort();
             activeChatId = chatParticipants.join('_');
             
-            // Unsubscribe from previous chat listener if it exists
-            if (unsubscribeMessages) {
-                unsubscribeMessages();
-            }
+            if (unsubscribeMessages) unsubscribeMessages();
 
-            // Listen for messages in the new chat
             const messagesCollectionRef = collection(db, `/artifacts/${appId}/public/data/chats/${activeChatId}/messages`);
             const q = query(messagesCollectionRef, orderBy('timestamp'));
             
             unsubscribeMessages = onSnapshot(q, (snapshot) => {
                 chatMessages.innerHTML = '';
-                snapshot.forEach(doc => {
-                    renderMessage(doc.data());
-                });
+                snapshot.forEach(doc => renderMessage(doc.data()));
                 scrollToBottom();
             });
         }
@@ -373,26 +400,71 @@
         messageForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const text = messageInput.value.trim();
-
             if (text && activeChatId) {
                 const messagesCollectionRef = collection(db, `/artifacts/${appId}/public/data/chats/${activeChatId}/messages`);
                 try {
-                    await addDoc(messagesCollectionRef, {
-                        text,
-                        senderId: currentUserId,
-                        timestamp: serverTimestamp()
-                    });
+                    await addDoc(messagesCollectionRef, { text, senderId: currentUserId, timestamp: serverTimestamp() });
                     messageInput.value = '';
                     scrollToBottom();
-                } catch (error) {
-                    console.error("Error sending message:", error);
-                }
+                } catch (error) { console.error("Error sending message:", error); }
             }
         });
 
         function scrollToBottom() {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+
+        // --- QR CODE FUNCTIONALITY ---
+        showQrBtn.addEventListener('click', () => {
+            qrCodeContainer.innerHTML = '';
+            const qr = qrcode(0, 'L');
+            qr.addData(currentUserId);
+            qr.make();
+            qrCodeContainer.innerHTML = qr.createImgTag(6, 8);
+            qrCodeModal.classList.remove('hidden');
+        });
+        
+        closeQrModalBtn.addEventListener('click', () => qrCodeModal.classList.add('hidden'));
+
+        scanQrBtn.addEventListener('click', () => {
+            qrScannerModal.classList.remove('hidden');
+            html5QrCode = new Html5Qrcode("qr-reader");
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+            const qrCodeSuccess = async (decodedText, decodedResult) => {
+                await stopScanner();
+                try {
+                    const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${decodedText}`);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        startChat(userDoc.data());
+                    } else {
+                        alert('User not found.');
+                    }
+                } catch (error) {
+                    console.error("Error finding user from QR code:", error);
+                    alert('Could not process QR code.');
+                }
+            };
+            
+            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccess)
+                .catch(err => console.log(`Unable to start scanning, error: ${err}`));
+        });
+
+        async function stopScanner() {
+            if (html5QrCode && html5QrCode.isScanning) {
+                try {
+                    await html5QrCode.stop();
+                } catch (err) {
+                    console.error("Failed to stop scanner:", err);
+                }
+            }
+            html5QrCode = null;
+            qrScannerModal.classList.add('hidden');
+        }
+        
+        closeScannerModalBtn.addEventListener('click', stopScanner);
+
 
         // --- START THE APP ---
         window.onload = initialize;
