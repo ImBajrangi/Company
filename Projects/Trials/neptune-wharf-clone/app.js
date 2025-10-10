@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize all components
   initializeNavigation();
-  initializeMobileMenu();
+  // initializeMobileMenu();
   initializeScrollEffects();
   initializeForms();
   initializeFAQs();
@@ -243,15 +243,15 @@ function initializePageSpecific(pageId) {
 
 // Mobile Menu
 function initializeMobileMenu() {
-  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-  if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-  }
+  // const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  // if (mobileMenuToggle) {
+  //   mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+  // }
 }
 
 function toggleMobileMenu() {
   const nav = document.getElementById('nav');
-  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  // const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   
   mobileMenuOpen = !mobileMenuOpen;
   
@@ -259,17 +259,17 @@ function toggleMobileMenu() {
     nav.classList.toggle('active');
   }
   
-  if (mobileMenuToggle) {
-    const icon = mobileMenuToggle.querySelector('i');
-    if (mobileMenuOpen) {
-      icon.setAttribute('data-lucide', 'x');
-    } else {
-      icon.setAttribute('data-lucide', 'menu');
-    }
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  }
+  // if (mobileMenuToggle) {
+  //   const icon = mobileMenuToggle.querySelector('i');
+  //   if (mobileMenuOpen) {
+  //     icon.setAttribute('data-lucide', 'x');
+  //   } else {
+  //     icon.setAttribute('data-lucide', 'menu');
+  //   }
+  //   if (typeof lucide !== 'undefined') {
+  //     lucide.createIcons();
+  //   }
+  // }
 }
 
 // Scroll Effects
