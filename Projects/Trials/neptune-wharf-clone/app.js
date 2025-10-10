@@ -262,9 +262,9 @@ function toggleMobileMenu() {
   if (mobileMenuToggle) {
     const icon = mobileMenuToggle.querySelector('i');
     if (mobileMenuOpen) {
-      icon.setAttribute('data-lucide');
+      icon.setAttribute('data-lucide', 'x');
     } else {
-      icon.setAttribute('data-lucide');
+      icon.setAttribute('data-lucide', 'menu');
     }
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
