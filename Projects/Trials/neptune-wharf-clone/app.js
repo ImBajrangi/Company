@@ -261,11 +261,11 @@ function toggleMobileMenu() {
   
   if (mobileMenuToggle) {
     const icon = mobileMenuToggle.querySelector('i');
-    if (mobileMenuOpen) {
-      icon.setAttribute('data-lucide');
-    } else {
-      icon.setAttribute('data-lucide');
-    }
+    // if (mobileMenuOpen) {
+    //   icon.setAttribute('data-lucide');
+    // } else {
+    //   icon.setAttribute('data-lucide');
+    // }
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
