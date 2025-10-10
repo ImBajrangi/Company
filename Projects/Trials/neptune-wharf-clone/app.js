@@ -251,7 +251,7 @@ function initializePageSpecific(pageId) {
 
 function toggleMobileMenu() {
   const nav = document.getElementById('nav');
-  // const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   
   mobileMenuOpen = !mobileMenuOpen;
   
