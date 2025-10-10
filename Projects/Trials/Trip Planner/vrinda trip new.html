@@ -26,7 +26,7 @@
         .visible-section {
             opacity: 1;
             transform: translateY(0);
-            max-height: 5000px;
+            max-height: 10000px; /* Increased for very long content */
         }
         .step-indicator {
             border-color: #475669;
@@ -127,16 +127,22 @@
             opacity: 1;
         }
         
-        /* --- CORRECTED AI Response Formatting --- */
+        /* --- MOBILE-FRIENDLY AI Response Formatting --- */
         #gemini-output .timeline {
             position: relative;
-            padding-left: 4rem; /* 64px of space for the text */
-            margin-left: 1rem;
+            padding-left: 3rem; /* Adjusted for mobile */
+            margin-left: 0.5rem;
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            #gemini-output .timeline {
+                padding-left: 4rem;
+                margin-left: 1rem;
+            }
         }
         #gemini-output .timeline::before {
             content: '';
             position: absolute;
-            left: 20px; /* Position of the timeline bar */
+            left: 18px; /* Centered on the icon's horizontal axis */
             top: 5px;
             bottom: 5px;
             width: 4px;
@@ -146,7 +152,7 @@
 
         #gemini-output .timeline-item {
             position: relative;
-            padding-bottom: 2.5rem; /* Space between timeline items */
+            padding-bottom: 2.5rem;
         }
         #gemini-output .timeline-item:last-child {
             padding-bottom: 0;
@@ -154,8 +160,7 @@
 
         #gemini-output .timeline-icon {
             position: absolute;
-            /* Calculation: -62px, to perfectly center the 40px icon on the 4px line which is at 20px */
-            left: -3.875rem; 
+            left: -0.125rem; /* 20px (half line) - 22px (half icon) = -2px */
             top: 0;
             display: flex;
             align-items: center;
@@ -163,39 +168,49 @@
             width: 40px;
             height: 40px;
             border-radius: 9999px;
-            background-color: #0f172a; /* Match body background */
-            border: 3px solid #475569; /* slate-600 */
+            background-color: #0f172a;
+            border: 3px solid #475569;
             z-index: 10;
         }
         
         #gemini-output .timeline-icon svg {
             width: 20px;
             height: 20px;
-            color: #fbbf24; /* amber-400 */
+            color: #fbbf24;
         }
 
         #gemini-output h3.itinerary-title {
-            font-size: 1.875rem;
+            font-size: 1.5rem; /* Adjusted for mobile */
             font-weight: 800;
-            color: #fbbf24; /* amber-400 */
+            color: #fbbf24;
             text-align: center;
+        }
+        @media (min-width: 640px) {
+             #gemini-output h3.itinerary-title {
+                font-size: 1.875rem;
+            }
         }
         #gemini-output p.itinerary-intro {
             text-align: center;
-            max-width: 80%;
+            max-width: 90%;
             margin: 0.5rem auto 2.5rem auto;
             color: #9ca3af;
         }
         #gemini-output .day-title {
-            font-size: 1.25rem;
+            font-size: 1.125rem; /* Adjusted for mobile */
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 0.5rem;
-            padding-top: 5px; /* Aligns text baseline nicely with icon */
+            padding-top: 5px;
+        }
+         @media (min-width: 640px) {
+            #gemini-output .day-title {
+                font-size: 1.25rem;
+            }
         }
         #gemini-output .day-description {
             color: #9ca3af;
-            line-height: 1.7; /* Increased for readability */
+            line-height: 1.7;
         }
 
     </style>
@@ -216,12 +231,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <nav id="main-nav" class="hidden absolute md:relative top-0 left-0 w-full h-screen md:h-auto md:w-auto bg-slate-900 md:bg-transparent md:flex flex-col md:flex-row items-center justify-center md:space-x-8">
-                <a href="#hero" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Home</a>
-                <a href="#features" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Our Seva</a>
-                <a href="#inspiration" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Yatra Packages</a>
-                <a href="#partners" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Our Network</a>
-                <a href="#planner" class="nav-link bg-amber-600 text-white px-6 py-3 md:px-4 md:py-2 rounded-lg hover:bg-amber-700 transition-all shadow text-2xl md:text-base">Plan Your Yatra</a>
+            <nav id="main-nav" class="hidden fixed inset-0 bg-slate-900 md:relative md:bg-transparent md:flex flex-col items-center justify-center md:flex-row md:space-x-8">
+                <a href="#hero" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-3xl md:text-base mb-8 md:mb-0">Home</a>
+                <a href="#features" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-3xl md:text-base mb-8 md:mb-0">Our Seva</a>
+                <a href="#inspiration" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-3xl md:text-base mb-8 md:mb-0">Yatra Packages</a>
+                <a href="#partners" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-3xl md:text-base mb-8 md:mb-0">Our Network</a>
+                <a href="#planner" class="nav-link bg-amber-600 text-white px-8 py-4 md:px-4 md:py-2 rounded-lg hover:bg-amber-700 transition-all shadow text-2xl md:text-base">Plan Your Yatra</a>
             </nav>
         </div>
     </header>
@@ -714,7 +729,7 @@
 
                 const { travelers, days, budget, style } = currentTripDetails;
 
-                const systemPrompt = `You are a devout and eloquent guide for the Brij 84 Kos Yatra. Your tone is reverent, exciting, and easy to read. Create a short, enjoyable, day-by-day sample itinerary.
+                const systemPrompt = `You are a friendly and knowledgeable guide for the Brij 84 Kos Yatra. Your tone should be simple, encouraging, and easy for anyone to understand. Keep the descriptions for each day short and clear.
 
                 **MUST follow this EXACT HTML format and structure. Do NOT use emojis. Use the provided SVG icons ONLY.**
 
@@ -726,14 +741,14 @@
                 - **Departure:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.08 2.92A10 10 0 0 0 2.53 8.35"/><path d="M13.92 21.08A10 10 0 0 0 21.47 15.65"/><path d="M2.92 13.92A10 10 0 0 0 8.35 21.47"/><path d="M21.08 10.08A10 10 0 0 0 15.65 2.53"/><path d="m7 11 2-2-2-2"/><path d="M11 13h6"/><path d="m17 13-2 2 2 2"/></svg>\`
 
                 **Format:**
-                <h3 class="itinerary-title">Your Divine Brij Mandal Sojourn</h3>
-                <p class="itinerary-intro">Hari Bol! Here is a glimpse into the sacred journey awaiting you, filled with divine grace and the timeless leelas of Shri Radha Krishna.</p>
+                <h3 class="itinerary-title">Your Divine Brij Sojourn</h3>
+                <p class="itinerary-intro">Radhe Radhe! Here is a simple, suggested plan for your sacred journey. This itinerary is designed to be comfortable and spiritually fulfilling.</p>
                 <div class="timeline">
                     <!-- For each day -->
                     <div class="timeline-item">
                         <div class="timeline-icon">{SVG icon here}</div>
-                        <h4 class="day-title">Day 1: Arrival in the Land of Love</h4>
-                        <p class="day-description">Your pilgrimage begins as you arrive in Vrindavan. After settling into your stay, we'll immerse ourselves in the devotion that permeates the air, starting with darshan at the most cherished temples.</p>
+                        <h4 class="day-title">Day 1: Arrival in Vrindavan</h4>
+                        <p class="day-description">Arrive in the holy land of Vrindavan and check into your place of stay. In the evening, we will visit the main temples to soak in the divine atmosphere.</p>
                     </div>
                     <!-- Add more timeline-items for other days -->
                 </div>`;
@@ -834,7 +849,6 @@
                 return 'Premium AC SUV (e.g., Innova)';
             }
         });
-        
     </script>
 </body>
 </html>
