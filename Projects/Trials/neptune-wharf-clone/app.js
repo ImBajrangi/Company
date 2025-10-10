@@ -242,12 +242,12 @@ function initializePageSpecific(pageId) {
 }
 
 // Mobile Menu
-function initializeMobileMenu() {
-  // const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-  // if (mobileMenuToggle) {
-  //   mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-  // }
-}
+// function initializeMobileMenu() {
+//   // const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+//   // if (mobileMenuToggle) {
+//   //   mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+//   // }
+// }
 
 function toggleMobileMenu() {
   const nav = document.getElementById('nav');
