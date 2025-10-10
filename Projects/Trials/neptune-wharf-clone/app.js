@@ -292,51 +292,38 @@ function closeMenuOutside(e) {
 }
 
 function toggleMobileMenu() {
-  try {
-    const nav = document.getElementById('nav');
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const body = document.body;
-    
-    if (!nav || !mobileMenuToggle) {
-      console.warn('Required elements not found');
-      return;
-    }
-    
-    mobileMenuOpen = !mobileMenuOpen;
-    
-    // Toggle navigation
-    nav.classList.toggle('active');
-    body.style.overflow = mobileMenuOpen ? 'hidden' : '';
-    
-    // Update the menu icon
-    let icon = mobileMenuToggle.querySelector('i[data-lucide]');
-    if (!icon) {
-      // Create the icon if it doesn't exist
-      icon = document.createElement('i');
-      mobileMenuToggle.innerHTML = ''; // Clear existing content
-      mobileMenuToggle.appendChild(icon);
-    }
-    
-    // Update icon type
-    icon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
-    
-    // Update Lucide icons
-    if (typeof lucide !== 'undefined' && lucide.createIcons) {
-      lucide.createIcons();
-    }
-    
-    // Update accessibility
-    mobileMenuToggle.setAttribute('aria-expanded', String(mobileMenuOpen));
-    
-    // Handle outside clicks
-    if (mobileMenuOpen) {
-      document.addEventListener('click', closeMenuOutside);
-    } else {
-      document.removeEventListener('click', closeMenuOutside);
-    }
-  } catch (error) {
-    console.error('Error in toggleMobileMenu:', error);
+  const nav = document.getElementById('nav');
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const body = document.body;
+  
+  // Check if elements exist
+  if (!nav || !mobileMenuToggle) return;
+  
+  // Toggle menu state
+  mobileMenuOpen = !mobileMenuOpen;
+  
+  // Toggle navigation
+  nav.classList.toggle('active');
+  body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+  
+  // Remove existing icon
+  const existingIcon = mobileMenuToggle.querySelector('i');
+  if (existingIcon) {
+    existingIcon.remove();
   }
+  
+  // Create new icon
+  const newIcon = document.createElement('i');
+  newIcon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
+  mobileMenuToggle.appendChild(newIcon);
+  
+  // Create Lucide icon
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+  
+  // Update accessibility
+  mobileMenuToggle.setAttribute('aria-expanded', mobileMenuOpen.toString());
 }
 
 // Scroll Effects
