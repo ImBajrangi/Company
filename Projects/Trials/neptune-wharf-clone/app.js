@@ -245,30 +245,61 @@ function initializePageSpecific(pageId) {
 function initializeMobileMenu() {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+    mobileMenuToggle.setAttribute('aria-label', 'Toggle navigation menu');
+    mobileMenuToggle.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent click from bubbling to document
+      toggleMobileMenu();
+    });
+  }
+}
+
+function closeMenuOutside(e) {
+  const nav = document.getElementById('nav');
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  
+  // Check if click is outside both the nav and the toggle button
+  if (nav && mobileMenuToggle && 
+      !nav.contains(e.target) && 
+      !mobileMenuToggle.contains(e.target)) {
+    toggleMobileMenu();
   }
 }
 
 function toggleMobileMenu() {
   const nav = document.getElementById('nav');
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const body = document.body;
   
   mobileMenuOpen = !mobileMenuOpen;
   
   if (nav) {
     nav.classList.toggle('active');
+    body.style.overflow = mobileMenuOpen ? 'hidden' : '';
   }
   
   if (mobileMenuToggle) {
     const icon = mobileMenuToggle.querySelector('i');
-    if (mobileMenuOpen) {
-      icon.setAttribute('data-lucide', 'x');
-    } else {
-      icon.setAttribute('data-lucide', 'menu');
+    if (icon) {
+      // First remove the old icon
+      icon.removeAttribute('data-lucide');
+      // Then set the new icon
+      icon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
+      // Update the icon
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     }
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
+  }
+  
+  // Add aria-expanded for accessibility
+  mobileMenuToggle?.setAttribute('aria-expanded', mobileMenuOpen.toString());
+  
+  // Close menu when clicking outside
+  if (mobileMenuOpen) {
+    document.addEventListener('click', closeMenuOutside);
+  } else {
+    document.removeEventListener('click', closeMenuOutside);
   }
 }
 
