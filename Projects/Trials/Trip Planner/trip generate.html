@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourTrip - Dream Travel, Designed for Your Budget</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            color: #d1d5db; /* gray-300 */
+        }
+        /* Simple transition for showing/hiding elements */
+        .hidden-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .visible-section {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 5000px; /* Increased for longer itineraries */
+        }
+        .step-indicator {
+            border-color: #475569; /* slate-600 */
+        }
+        .step-indicator.active {
+            border-color: #3b82f6; /* blue-500 */
+            color: #3b82f6;
+        }
+        /* Loading spinner */
+        .loader {
+            border: 4px solid #475569; /* slate-600 */
+            border-top: 4px solid #3b82f6; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Styles for the AI-generated content */
+        #gemini-output h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #60a5fa; /* blue-400 */
+            margin-bottom: 0.5rem;
+        }
+        #gemini-output h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #334155; /* slate-700 */
+        }
+        #gemini-output p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #9ca3af; /* gray-400 */
+        }
+        #gemini-output strong {
+            color: #e5e7eb; /* gray-200 */
+            font-weight: 600;
+        }
+        #gemini-output ul {
+            list-style: none;
+            padding: 0;
+            margin-left: 0.5rem;
+        }
+        #gemini-output li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+        #gemini-output li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #34d399; /* green-400 */
+            font-weight: bold;
+        }
+
+        /* Modal Styles */
+        #booking-modal {
+            background-color: rgba(0,0,0,0.7);
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="text-slate-300">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-md shadow-black/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-500">YourTrip</a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#hero" class="text-slate-300 hover:text-white transition-colors">Home</a>
+                <a href="#features" class="text-slate-300 hover:text-white transition-colors">How It Works</a>
+                <a href="#inspiration" class="text-slate-300 hover:text-white transition-colors">Inspiration</a>
+                <a href="#planner" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all shadow">Start Planning</a>
+            </nav>
+            <button class="md:hidden text-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="pt-32 pb-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                    Dream Travel, Designed for
+                    <span class="text-blue-500">Your Budget.</span>
+                </h1>
+                <p class="mt-6 text-lg text-slate-400 max-w-2xl mx-auto">
+                    Tell us your budget, and we'll craft your perfect package—including food, travel, and stay. No hidden fees, just unforgettable experiences.
+                </p>
+                <div id="budget-input-area" class="mt-12 max-w-xl mx-auto bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-700">
+                    <label for="trip-budget-slider" class="block text-lg font-semibold text-slate-200">My Total Trip Budget Is:</label>
+                    <div class="my-4 text-4xl font-bold text-blue-500" id="budget-display">₹1,25,000</div>
+                    <input type="range" id="trip-budget-slider" min="25000" max="500000" step="5000" value="125000" class="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer range-lg accent-blue-500">
+                    <div class="flex justify-between text-sm text-slate-400 mt-2">
+                        <span>₹25,000</span>
+                        <span>₹5,00,000+</span>
+                    </div>
+                    <a href="#planner" id="start-trip-cta" class="mt-6 w-full inline-block bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all shadow-md transform hover:scale-105">
+                        Start My Custom Trip
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-slate-800">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-10 text-center">
+                    <div class="bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-700">
+                        <div class="bg-blue-900/50 text-blue-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
+                        </div>
+                        <h3 class="text-xl text-white font-bold mb-2">Budget-Driven</h3>
+                        <p class="text-slate-400">You set the price, we handle the logistics. Every option we propose fits your exact financial plan.</p>
+                    </div>
+                    <div class="bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-700">
+                        <div class="bg-green-900/50 text-green-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        </div>
+                        <h3 class="text-xl text-white font-bold mb-2">All-Inclusive</h3>
+                        <p class="text-slate-400">Our packages can cover everything: hotels, a dedicated tourism vehicle, a driver, and all your meals.</p>
+                    </div>
+                    <div class="bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-700">
+                        <div class="bg-purple-900/50 text-purple-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-1.447-.894L15 7m-6 10l6-3m0 0l6-3m-6 3V7" /></svg>
+                        </div>
+                        <h3 class="text-xl text-white font-bold mb-2">Perfectly Planned</h3>
+                        <p class="text-slate-400">We optimize the number of days, destinations, and comfort level based on your unique spending limit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inspiration Section -->
+        <section id="inspiration" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl md:text-4xl font-extrabold text-white">Inspiring Trips at Every Price Point</h2>
+                     <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">See what's possible with a custom-crafted itinerary.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-slate-800 rounded-2xl shadow-lg overflow-hidden group border border-slate-700">
+                        <img src="https://placehold.co/600x400/3b82f6/ffffff?text=Himalayan+Escape" alt="Himalayan mountains" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <span class="text-sm text-blue-400 font-semibold">Starts from ₹40,000</span>
+                            <h4 class="text-xl text-white font-bold mt-2">The Himalayan Escape</h4>
+                            <p class="text-slate-400 mt-2">4 Days, 3 Places. Includes comfortable homestays, local Himachali cuisine, and a dedicated sedan.</p>
+                        </div>
+                    </div>
+                     <div class="bg-slate-800 rounded-2xl shadow-lg overflow-hidden group border border-slate-700">
+                        <img src="https://placehold.co/600x400/10b981/ffffff?text=Coastal+Adventure" alt="Goan beach" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <span class="text-sm text-green-400 font-semibold">Starts from ₹75,000</span>
+                            <h4 class="text-xl text-white font-bold mt-2">The Coastal Adventure</h4>
+                            <p class="text-slate-400 mt-2">6 Days, 4 Places. Stay in beachside resorts with fresh seafood and travel in a comfortable SUV.</p>
+                        </div>
+                    </div>
+                     <div class="bg-slate-800 rounded-2xl shadow-lg overflow-hidden group border border-slate-700">
+                        <img src="https://placehold.co/600x400/8b5cf6/ffffff?text=Royal+Rajasthan" alt="Rajasthan fort" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <span class="text-sm text-purple-400 font-semibold">Starts from ₹1,50,000</span>
+                            <h4 class="text-xl text-white font-bold mt-2">The Royal Rajasthan Tour</h4>
+                            <p class="text-slate-400 mt-2">8 Days, 5 Cities. Experience heritage hotels, fine dining, and a premium vehicle with a personal guide.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Package Planner Section -->
+        <section id="planner" class="py-20">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Let's Build Your Perfect Trip</h2>
+                    <p class="mt-4 text-lg text-slate-400">Follow these simple steps to get your personalized quote.</p>
+                </div>
+                
+                <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700">
+                    <!-- Step 1: Details -->
+                    <div id="step-1-inputs">
+                        <h3 class="flex items-center text-xl font-bold text-white mb-6">
+                           <span class="step-indicator active w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4">1</span>
+                           Your Trip Details
+                        </h3>
+                        <div class="grid sm:grid-cols-2 gap-6">
+                           <div class="sm:col-span-2">
+                                <label for="destination" class="block text-sm font-medium text-slate-300 mb-1">Where would you like to go?</label>
+                                <input type="text" id="destination" placeholder="e.g., Himachal Pradesh, Kerala, Rajasthan" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                           </div>
+                           <div>
+                                <label for="travelers" class="block text-sm font-medium text-slate-300 mb-1">Number of Travelers</label>
+                                <input type="number" id="travelers" value="2" min="1" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                           </div>
+                           <div>
+                                <label for="days" class="block text-sm font-medium text-slate-300 mb-1">Desired Duration (Days)</label>
+                                <input type="number" id="days" value="5" min="2" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                           </div>
+                        </div>
+                        <button id="see-packages-btn" class="mt-8 w-full bg-blue-600 text-white p-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition-all shadow">See Package Options</button>
+                    </div>
+
+                    <!-- Step 2: Package Options -->
+                    <div id="step-2-options" class="hidden-section mt-8">
+                         <h3 class="flex items-center text-xl font-bold text-white mb-6">
+                           <span class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4">2</span>
+                           Choose Your Travel Style
+                        </h3>
+                        <p class="mb-6 text-slate-400">Based on your budget of <strong id="final-budget" class="text-blue-400"></strong>, here are three tailored options. Select one to see a detailed breakdown.</p>
+                        <div id="package-options-container" class="space-y-4">
+                            <!-- Package options will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Final Breakdown -->
+                     <div id="step-3-breakdown" class="hidden-section mt-8">
+                         <h3 class="flex items-center text-xl font-bold text-white mb-6">
+                           <span class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4">3</span>
+                           Your Personalized Quote
+                        </h3>
+                        <div class="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+                             <h4 id="selected-package-title" class="text-2xl font-bold text-blue-400"></h4>
+                             <p class="text-slate-400 mt-2">A complete plan for your trip to <strong id="final-destination" class="text-white"></strong> for <strong id="final-travelers" class="text-white"></strong> people over <strong id="final-days" class="text-white"></strong> days.</p>
+                             <div class="mt-6 border-t border-slate-600 pt-6">
+                                <h5 class="font-semibold text-slate-200 mb-4">Estimated Budget Allocation:</h5>
+                                <ul id="breakdown-list" class="space-y-3 text-slate-300">
+                                   <!-- Breakdown will be dynamically inserted here -->
+                                </ul>
+                             </div>
+                        </div>
+                        
+                         <!-- Gemini Itinerary Section -->
+                         <div id="gemini-section" class="mt-8">
+                             <button id="generate-itinerary-btn" class="w-full bg-purple-600 text-white p-3 rounded-lg text-base font-semibold hover:bg-purple-700 transition-all shadow flex items-center justify-center space-x-2">
+                                 <span>✨</span>
+                                 <span>Generate a Sample Itinerary with AI</span>
+                             </button>
+                             <div id="gemini-itinerary-container" class="mt-6 hidden-section">
+                                 <div id="gemini-loader" class="loader hidden"></div>
+                                 <div id="gemini-output" class="p-6 bg-slate-900 rounded-xl border border-slate-700 text-slate-300">
+                                    <!-- Formatted AI content will be injected here -->
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div class="mt-8 text-center">
+                            <p class="text-slate-400 mb-4">Ready to book or have questions?</p>
+                            <button id="book-now-btn" class="w-full sm:w-auto bg-green-600 text-white px-8 py-3 rounded-lg text-base font-semibold hover:bg-green-700 transition-all shadow">Book This Package Now</button>
+                            <button id="talk-to-planner-btn" class="mt-3 sm:mt-0 sm:ml-4 w-full sm:w-auto bg-slate-700 text-slate-200 px-8 py-3 rounded-lg text-base font-semibold hover:bg-slate-600 transition-all">Talk to a Planner</button>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/50">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p class="text-2xl font-bold text-blue-500">YourTrip</p>
+            <p class="mt-4 max-w-md mx-auto text-slate-400">Crafting unforgettable journeys, tailored to your budget.</p>
+            <div class="mt-8">
+                 <a href="#" class="text-slate-400 hover:text-white mx-4 transition-colors">About Us</a>
+                 <a href="#" class="text-slate-400 hover:text-white mx-4 transition-colors">Contact</a>
+                 <a href="#" class="text-slate-400 hover:text-white mx-4 transition-colors">Privacy Policy</a>
+            </div>
+            <p class="mt-8 text-sm text-slate-500">&copy; 2025 YourTrip. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="absolute inset-0"></div>
+        <div class="relative bg-slate-800 rounded-2xl shadow-xl w-full max-w-md p-8 border border-slate-700 m-4">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-900/50 text-green-400 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Booking Confirmed!</h3>
+                <p class="mt-2 text-slate-400">Thank you for choosing YourTrip. Your request has been received.</p>
+                <div id="modal-summary" class="mt-6 text-left bg-slate-700/50 p-4 rounded-lg border border-slate-600">
+                    <!-- Summary will be injected here -->
+                </div>
+                <p class="mt-6 text-sm text-slate-500">One of our travel experts will contact you via email within the next 24 hours to finalize the details.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const budgetSlider = document.getElementById('trip-budget-slider');
+            const budgetDisplay = document.getElementById('budget-display');
+            const startTripCta = document.getElementById('start-trip-cta');
+            
+            const step1 = document.getElementById('step-1-inputs');
+            const step2 = document.getElementById('step-2-options');
+            const step3 = document.getElementById('step-3-breakdown');
+
+            const seePackagesBtn = document.getElementById('see-packages-btn');
+            const packageOptionsContainer = document.getElementById('package-options-container');
+            
+            const generateItineraryBtn = document.getElementById('generate-itinerary-btn');
+            const geminiContainer = document.getElementById('gemini-itinerary-container');
+            const geminiLoader = document.getElementById('gemini-loader');
+            const geminiOutput = document.getElementById('gemini-output');
+
+            const bookNowBtn = document.getElementById('book-now-btn');
+            const talkToPlannerBtn = document.getElementById('talk-to-planner-btn');
+            const bookingModal = document.getElementById('booking-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalSummary = document.getElementById('modal-summary');
+
+            let currentTripDetails = {};
+
+            // --- Currency Formatter ---
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 0,
+            });
+
+            // --- Update budget display on slider change ---
+            const updateBudgetDisplay = () => {
+                const budget = parseInt(budgetSlider.value);
+                budgetDisplay.textContent = formatter.format(budget);
+            };
+            budgetSlider.addEventListener('input', updateBudgetDisplay);
+            updateBudgetDisplay(); // Initial call
+            
+            // --- CTA button to show planner ---
+            startTripCta.addEventListener('click', (e) => {
+                const step1Indicator = step1.querySelector('.step-indicator');
+                step1Indicator.classList.add('active');
+                
+                const step2Indicator = step2.querySelector('.step-indicator');
+                step2Indicator.classList.remove('active');
+
+                const step3Indicator = step3.querySelector('.step-indicator');
+                step3Indicator.classList.remove('active');
+            });
+
+            // --- Step 1 to Step 2 Transition ---
+            seePackagesBtn.addEventListener('click', () => {
+                // Basic validation
+                const destinationInput = document.getElementById('destination');
+                const destination = destinationInput.value;
+                if (!destination) {
+                    destinationInput.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                    destinationInput.placeholder = 'A destination is required!';
+                    setTimeout(() => {
+                        destinationInput.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+                        destinationInput.placeholder = 'e.g., Himachal Pradesh, Kerala, Rajasthan';
+                    }, 3000);
+                    return;
+                }
+                
+                const budget = parseInt(budgetSlider.value);
+                document.getElementById('final-budget').textContent = formatter.format(budget);
+                
+                generatePackageOptions(budget);
+
+                step1.classList.add('hidden-section');
+                step1.classList.remove('visible-section');
+                
+                setTimeout(() => {
+                    step1.style.display = 'none';
+                    step2.style.display = 'block';
+                    step2.querySelector('.step-indicator').classList.add('active');
+                    setTimeout(() => {
+                        step2.classList.add('visible-section');
+                        step2.classList.remove('hidden-section');
+                    }, 50);
+                }, 500);
+            });
+
+            // --- Generate Package Options (Step 2) ---
+            function generatePackageOptions(budget) {
+                packageOptionsContainer.innerHTML = ''; // Clear previous options
+
+                const options = [
+                    {
+                        title: 'The Maximizer (Budget Focus)',
+                        description: 'Maximize your days and destinations with essential comforts. Perfect for adventurers who want to see it all.',
+                        style: 'budget',
+                        allocations: { hotel: 0.30, food: 0.25, vehicle: 0.30, activities: 0.05, service: 0.10 }
+                    },
+                    {
+                        title: 'The Comfort Seeker (Balanced)',
+                        description: 'A perfect balance of quality stays and authentic experiences. Enjoy comfort without compromising on exploration.',
+                        style: 'comfort',
+                        allocations: { hotel: 0.40, food: 0.25, vehicle: 0.25, activities: 0.05, service: 0.05 }
+                    },
+                    {
+                        title: 'The Indulger (Luxury Focus)',
+                        description: 'Prioritize premium hotels, fine dining, and comfort. A relaxed pace with top-tier amenities and services.',
+                        style: 'luxury',
+                        allocations: { hotel: 0.50, food: 0.20, vehicle: 0.20, activities: 0.05, service: 0.05 }
+                    }
+                ];
+
+                options.forEach(option => {
+                    const card = document.createElement('div');
+                    card.className = 'p-5 border border-slate-600 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-slate-700/50 transition-all';
+                    card.innerHTML = `
+                        <h4 class="font-bold text-lg text-white">${option.title}</h4>
+                        <p class="text-sm text-slate-400 mt-1">${option.description}</p>
+                    `;
+                    card.addEventListener('click', () => {
+                        showFinalBreakdown(option, budget);
+                        // Highlight selected card
+                        document.querySelectorAll('#package-options-container > div').forEach(el => el.classList.remove('bg-blue-900/50', 'border-blue-500'));
+                        card.classList.add('bg-blue-900/50', 'border-blue-500');
+                    });
+                    packageOptionsContainer.appendChild(card);
+                });
+            }
+
+            // --- Show Final Breakdown (Step 3) ---
+            function showFinalBreakdown(option, budget) {
+                currentTripDetails = {
+                    destination: document.getElementById('destination').value,
+                    travelers: document.getElementById('travelers').value,
+                    days: document.getElementById('days').value,
+                    budget: budget,
+                    style: option.title
+                };
+
+                // Populate final details
+                document.getElementById('selected-package-title').textContent = option.title;
+                document.getElementById('final-destination').textContent = currentTripDetails.destination;
+                document.getElementById('final-travelers').textContent = currentTripDetails.travelers;
+                document.getElementById('final-days').textContent = currentTripDetails.days;
+                
+                // Calculate and display breakdown
+                const breakdownList = document.getElementById('breakdown-list');
+                breakdownList.innerHTML = '';
+                const breakdownItems = [
+                    { label: '🏨 Accommodation', value: budget * option.allocations.hotel, desc: getHotelDesc(option.style) },
+                    { label: '🍲 Food & Meals', value: budget * option.allocations.food, desc: getFoodDesc(option.style) },
+                    { label: '🚗 Vehicle & Transport', value: budget * option.allocations.vehicle, desc: getVehicleDesc(option.style) },
+                    { label: '🎟️ Activities & Fees', value: budget * option.allocations.activities, desc: 'Entry fees & planned activities' },
+                    { label: '✨ Service & Planning Fee', value: budget * option.allocations.service, desc: 'Our expert planning & support' }
+                ];
+
+                breakdownItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-start';
+                    li.innerHTML = `
+                        <div>
+                            <span>${item.label}</span>
+                            <p class="text-xs text-slate-500">${item.desc}</p>
+                        </div>
+                        <span class="font-semibold text-white">${formatter.format(item.value)}</span>
+                    `;
+                    breakdownList.appendChild(li);
+                });
+
+                // Transition to step 3
+                geminiContainer.classList.remove('visible-section');
+                geminiContainer.classList.add('hidden-section');
+                geminiOutput.innerHTML = '';
+                
+                if (!step3.classList.contains('visible-section')) {
+                     setTimeout(() => {
+                        step3.style.display = 'block';
+                        step3.querySelector('.step-indicator').classList.add('active');
+                        setTimeout(() => {
+                            step3.classList.add('visible-section');
+                            step3.classList.remove('hidden-section');
+                        }, 50);
+                    }, 100);
+                }
+                 step3.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+            
+            // --- Gemini API Call ---
+            generateItineraryBtn.addEventListener('click', async () => {
+                geminiContainer.style.display = 'block';
+                geminiLoader.style.display = 'block';
+                geminiOutput.innerHTML = '';
+                setTimeout(() => {
+                    geminiContainer.classList.add('visible-section');
+                    geminiContainer.classList.remove('hidden-section');
+                }, 50);
+
+                const { destination, travelers, days, budget, style } = currentTripDetails;
+
+                const systemPrompt = "You are a friendly and experienced travel enthusiast who loves sharing tips. Your goal is to create a personal, day-by-day sample itinerary that feels like a recommendation from a friend. The output MUST be a single block of well-formatted HTML. Use h3 for the main title, h4 for day titles, p for descriptions, and ul/li for activities. Do NOT include ```html, <html>, <head>, or <body> tags. The entire response should be only the HTML elements for the itinerary itself.";
+
+                const userQuery = `Create a sample itinerary for a trip to ${destination} for ${travelers} people for ${days} days. The total budget is ${formatter.format(budget)}, and the travel style is "${style}".`;
+                
+                try {
+                    const text = await callGemini(userQuery, systemPrompt);
+                    geminiOutput.innerHTML = text;
+                } catch (error) {
+                    console.error("Gemini API call failed:", error);
+                    geminiOutput.innerHTML = "<p class='text-red-400'>Sorry, we couldn't generate an itinerary at this time. Please check your connection or try again later.</p>";
+                } finally {
+                    geminiLoader.style.display = 'none';
+                    geminiContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            });
+
+            async function callGemini(userQuery, systemPrompt, retries = 3, delay = 1000) {
+                const apiKey = ""; // API key will be injected by the environment
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+
+                        if (candidate && candidate.content?.parts?.[0]?.text) {
+                            return candidate.content.parts[0].text;
+                        } else {
+                           throw new Error("Invalid response structure from Gemini API");
+                        }
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed. Retrying in ${delay / 1000}s...`, error);
+                        if (i === retries - 1) throw error;
+                        await new Promise(res => setTimeout(res, delay));
+                        delay *= 2; // Exponential backoff
+                    }
+                }
+            }
+
+            // --- Button Functionality ---
+            bookNowBtn.addEventListener('click', () => {
+                const { destination, travelers, days, budget, style } = currentTripDetails;
+                modalSummary.innerHTML = `
+                    <p class="text-slate-300"><strong class="text-white">Destination:</strong> ${destination}</p>
+                    <p class="text-slate-300"><strong class="text-white">Travelers:</strong> ${travelers}</p>
+                    <p class="text-slate-300"><strong class="text-white">Duration:</strong> ${days} Days</p>
+                    <p class="text-slate-300"><strong class="text-white">Style:</strong> ${style}</p>
+                    <p class="text-slate-300"><strong class="text-white">Budget:</strong> ${formatter.format(budget)}</p>
+                `;
+                bookingModal.style.display = 'flex';
+            });
+
+            talkToPlannerBtn.addEventListener('click', () => {
+                const { destination, travelers, days, budget, style } = currentTripDetails;
+                const subject = encodeURIComponent(`Inquiry: ${days}-day trip to ${destination} for ${travelers}`);
+                const body = encodeURIComponent(
+                    `Hello YourTrip team,\n\nI'm interested in the following package and would like to talk to a planner:\n\n- Destination: ${destination}\n- Travelers: ${travelers}\n- Duration: ${days} Days\n- Style: ${style}\n- Budget: ${formatter.format(budget)}\n\nPlease let me know the next steps.\n\nThanks!`
+                );
+                window.location.href = `mailto:planner@yourtrip.com?subject=${subject}&body=${body}`;
+            });
+
+            const hideModal = () => {
+                bookingModal.style.display = 'none';
+            };
+
+            closeModalBtn.addEventListener('click', hideModal);
+            bookingModal.addEventListener('click', (e) => {
+                if (e.target === bookingModal) {
+                    hideModal();
+                }
+            });
+
+            // Helper functions for descriptions
+            function getHotelDesc(style) {
+                if (style === 'budget') return 'Comfortable 2-star hotels or premium homestays';
+                if (style === 'comfort') return 'Well-rated 3-star hotels with good amenities';
+                return 'Premium 4-star hotels or boutique resorts';
+            }
+             function getFoodDesc(style) {
+                if (style === 'budget') return 'Focus on authentic local eateries & cafes';
+                if (style === 'comfort') return 'Mix of popular restaurants and local gems';
+                return 'Inclusion of fine dining experiences';
+            }
+             function getVehicleDesc(style) {
+                if (style === 'budget') return 'Dedicated AC Sedan (e.g., Dzire)';
+                if (style === 'comfort') return 'Comfortable AC SUV (e.g., Innova)';
+                return 'Premium AC SUV or Van (e.g., Innova Crysta)';
+            }
+        });
+    </script>
+</body>
+</html>
