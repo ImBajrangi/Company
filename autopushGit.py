@@ -1,15 +1,20 @@
 import subprocess
 import time
 import os
-import signal
+# import signal
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Timer
 
 # --- CONFIG ---
-ENABLE_GIT = True   # 🚦 Set this to False to stop all git commands entirely
+ENABLE_GIT = True    # 🚦 Set this to False to stop all git commands entirely
 IGNORED_EXTENSIONS = {".swp", ".tmp", ".log"}
 IGNORED_DIRS = {".vscode", "__pycache__"}
+
+
+
+
+
 
 class AutoPush(FileSystemEventHandler):
     def __init__(self):
@@ -29,6 +34,7 @@ class AutoPush(FileSystemEventHandler):
             self.timer.cancel()
         self.timer = Timer(self.delay, self.commit_and_push)
         self.timer.start()
+
 
     def commit_and_push(self):
         if self.stopped or not ENABLE_GIT:
