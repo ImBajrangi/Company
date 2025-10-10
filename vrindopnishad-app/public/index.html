@@ -124,8 +124,22 @@
         import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- GLOBAL VARIABLES & CONFIG ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'vrindopnishad-chat';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        
+        // =================================================================================
+        // TODO: PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
+        // Find this in your Firebase Project Settings -> General -> Your apps -> Config
+        // =================================================================================
+        const firebaseConfig = {
+          apiKey: "AIzaSyBjy-y-NvsG6JGUc_GHqinuO4zydJ7NVU4",
+          authDomain: "vrinda-chat.firebaseapp.com",
+          projectId: "vrinda-chat",
+          storageBucket: "vrinda-chat.firebasestorage.app",
+          messagingSenderId: "644051269513",
+          appId: "1:644051269513:web:5934afc082be418eec5358",
+          measurementId: "G-DBZ0LMJW0G"
+        };
+        
+        const appId = firebaseConfig.projectId;
 
         let db, auth;
         let currentUserId = null;
@@ -155,13 +169,18 @@
         // --- INITIALIZATION ---
         async function initialize() {
             try {
+                // Check if the config is still the default placeholder
+                if (firebaseConfig.apiKey === "AIza...") {
+                    document.body.innerHTML = '<div style="font-family: sans-serif; text-align: center; padding: 40px;"><h1>Configuration Needed</h1><p>Please paste your Firebase project configuration into the index.html file.</p></div>';
+                    return;
+                }
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
                 setupAuthListener();
             } catch (error) {
                 console.error("Firebase initialization failed:", error);
-                // Display error to user
+                document.body.innerHTML = `<div style="font-family: sans-serif; text-align: center; padding: 40px;"><h1>Initialization Error</h1><p>${error.message}</p></div>`;
             }
         }
 
@@ -194,7 +213,18 @@
                             await signInAnonymously(auth);
                         }
                     } catch (error) {
-                        console.error("Anonymous sign-in failed:", error);
+                        // If the custom token is mismatched (e.g., in a preview environment),
+                        // fall back to anonymous sign-in, which will work on the live site.
+                        if (error.code === 'auth/custom-token-mismatch') {
+                            console.warn('Custom token mismatch. Falling back to anonymous sign-in.');
+                            try {
+                                await signInAnonymously(auth);
+                            } catch (anonError) {
+                                console.error('Fallback anonymous sign-in failed:', anonError);
+                            }
+                        } else {
+                            console.error("Initial sign-in failed:", error);
+                        }
                     }
                 }
             });
@@ -369,3 +399,4 @@
     </script>
 </body>
 </html>
+
