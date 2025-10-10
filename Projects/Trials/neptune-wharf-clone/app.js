@@ -750,6 +750,6 @@ console.log('%cWelcome to luxury living in Deptford, London', 'color: #666; font
 window.NeptuneWharf = {
   showPage,
   showNotification,
-  // toggleMobileMenu,
+  toggleMobileMenu,
   data: neptuneWharfData
 };
