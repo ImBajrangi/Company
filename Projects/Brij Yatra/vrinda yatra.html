@@ -201,18 +201,22 @@
         <!-- Map Style Dropdown -->
         <div id="map-style-selector" class="relative">
             <button id="style-dropdown-btn">
-                <span id="current-style-name">Serene</span>
+                <span id="current-style-name">Google Original</span>
                 <i data-lucide="chevron-down" class="w-4 h-4 ml-2"></i>
             </button>
             <div id="style-dropdown-list" class="hidden scale-95 opacity-0">
-                <button data-style="roadmap" class="w-full text-left p-3 text-sm">Google Original</button>
+                <button data-style="roadmap" class="active w-full text-left p-3 text-sm">Google Original</button>
                 <button data-style="classic_style" class="w-full text-left p-3 text-sm">Classic</button>
                 <button data-style="satellite" class="w-full text-left p-3 text-sm">Satellite</button>
-                <button data-style="serene_style" class="active w-full text-left p-3 text-sm">Serene</button>
+                <button data-style="serene_style" class="w-full text-left p-3 text-sm">Serene</button>
                 <button data-style="mystic_style" class="w-full text-left p-3 text-sm">Mystic</button>
             </div>
         </div>
 
+
+    
+    
+        
         <!-- Search and Nearby Controls -->
         <div id="search-nearby-container" class="flex flex-col space-y-2 w-full sm:max-w-xs">
             <div class="relative">
@@ -383,7 +387,7 @@
             map.mapTypes.set('classic_style', new google.maps.StyledMapType(classicMapStyle, { name: 'Classic' }));
             map.mapTypes.set('serene_style', new google.maps.StyledMapType(sereneMapStyle, { name: 'Serene' }));
             map.mapTypes.set('mystic_style', new google.maps.StyledMapType(mysticMapStyle, { name: 'Mystic' }));
-            map.setMapTypeId('serene_style');
+            map.setMapTypeId('roadmap');
 
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer({ suppressMarkers: true, polylineOptions: { strokeColor: '#d35400', strokeOpacity: 0.8, strokeWeight: 6 } });
