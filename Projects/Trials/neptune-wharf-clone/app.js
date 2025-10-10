@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize all components
   initializeNavigation();
-  // initializeMobileMenu();
+  initializeMobileMenu();
   initializeScrollEffects();
   initializeForms();
   initializeFAQs();
