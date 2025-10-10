@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brij Darshan - Your 84 Kos Yatra Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            color: #d1d5db; /* gray-300 */
+            overflow-x: hidden;
+        }
+        .hidden-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .visible-section {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 5000px;
+        }
+        .step-indicator {
+            border-color: #475669;
+        }
+        .step-indicator.active {
+            border-color: #f59e0b; /* amber-500 */
+            color: #f59e0b;
+        }
+        .loader {
+            border: 4px solid #475569;
+            border-top: 4px solid #f59e0b;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal {
+            background-color: rgba(0,0,0,0.7);
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link-active {
+            color: #f59e0b !important;
+            font-weight: 600;
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes float3d {
+            0% { transform: translateZ(0) rotateX(0) rotateY(0); }
+            25% { transform: translateZ(15px) rotateX(4deg) rotateY(-6deg); }
+            50% { transform: translateZ(0) rotateX(0) rotateY(0); }
+            75% { transform: translateZ(15px) rotateX(-4deg) rotateY(6deg); }
+            100% { transform: translateZ(0) rotateX(0) rotateY(0); }
+        }
+
+        .image-card-container {
+            perspective: 1000px;
+        }
+
+        .image-card-3d img {
+            animation: float3d 12s ease-in-out infinite;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
+        }
+
+        .image-card-container:hover .image-card-3d img {
+            animation-play-state: paused;
+            transform: scale(1.15) translateZ(40px) rotateY(10deg);
+            filter: brightness(1.1) drop-shadow(0 15px 20px rgba(0,0,0,0.4));
+        }
+
+        .image-card-container:active .image-card-3d img {
+            transform: scale(1.1) translateZ(20px);
+            transition-duration: 0.1s;
+        }
+
+        .clickable-block {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .clickable-block:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+        }
+        
+        #info-modal .modal-content {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+        }
+        #info-modal.visible .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        
+        /* --- CORRECTED AI Response Formatting --- */
+        #gemini-output .timeline {
+            position: relative;
+            padding-left: 4rem; /* 64px of space for the text */
+            margin-left: 1rem;
+        }
+        #gemini-output .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px; /* Position of the timeline bar */
+            top: 5px;
+            bottom: 5px;
+            width: 4px;
+            background-color: #334155; /* slate-700 */
+            border-radius: 2px;
+        }
+
+        #gemini-output .timeline-item {
+            position: relative;
+            padding-bottom: 2.5rem; /* Space between timeline items */
+        }
+        #gemini-output .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        #gemini-output .timeline-icon {
+            position: absolute;
+            /* Calculation: -62px, to perfectly center the 40px icon on the 4px line which is at 20px */
+            left: -3.875rem; 
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            background-color: #0f172a; /* Match body background */
+            border: 3px solid #475569; /* slate-600 */
+            z-index: 10;
+        }
+        
+        #gemini-output .timeline-icon svg {
+            width: 20px;
+            height: 20px;
+            color: #fbbf24; /* amber-400 */
+        }
+
+        #gemini-output h3.itinerary-title {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: #fbbf24; /* amber-400 */
+            text-align: center;
+        }
+        #gemini-output p.itinerary-intro {
+            text-align: center;
+            max-width: 80%;
+            margin: 0.5rem auto 2.5rem auto;
+            color: #9ca3af;
+        }
+        #gemini-output .day-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            padding-top: 5px; /* Aligns text baseline nicely with icon */
+        }
+        #gemini-output .day-description {
+            color: #9ca3af;
+            line-height: 1.7; /* Increased for readability */
+        }
+
+    </style>
+</head>
+
+<body class="text-slate-300">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-md shadow-black/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="nav-link text-2xl font-bold text-amber-500">Brij Darshan</a>
+             <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-slate-200 z-50">
+                <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                 <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <nav id="main-nav" class="hidden absolute md:relative top-0 left-0 w-full h-screen md:h-auto md:w-auto bg-slate-900 md:bg-transparent md:flex flex-col md:flex-row items-center justify-center md:space-x-8">
+                <a href="#hero" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Home</a>
+                <a href="#features" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Our Seva</a>
+                <a href="#inspiration" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Yatra Packages</a>
+                <a href="#partners" class="nav-link text-slate-300 hover:text-amber-500 transition-colors text-2xl md:text-base mb-8 md:mb-0">Our Network</a>
+                <a href="#planner" class="nav-link bg-amber-600 text-white px-6 py-3 md:px-4 md:py-2 rounded-lg hover:bg-amber-700 transition-all shadow text-2xl md:text-base">Plan Your Yatra</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="page-section pt-32 pb-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight animate-on-scroll">
+                    Explore the Sacred
+                    <span class="text-amber-500">Brij 84 Kos Yatra.</span>
+                </h1>
+                <p class="mt-6 text-lg text-slate-400 max-w-2xl mx-auto animate-on-scroll" style="transition-delay: 150ms;">
+                    Plan your divine journey through the land of Krishna. We arrange your stay, sattvic meals, and comfortable travel, all tailored to your budget and spiritual needs.
+                </p>
+                <div id="budget-input-area" class="mt-12 max-w-xl mx-auto bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-700 animate-on-scroll" style="transition-delay: 300ms;">
+                    <label for="trip-budget-slider" class="block text-lg font-semibold text-slate-200">My Total Yatra Budget Is:</label>
+                    <div class="my-4 text-4xl font-bold text-amber-500" id="budget-display">₹25,000</div>
+                    <input type="range" id="trip-budget-slider" min="5000" max="200000" step="1000" value="25000" class="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer range-lg accent-amber-500">
+                    <div class="flex justify-between text-sm text-slate-400 mt-2">
+                        <span>₹5,000</span>
+                        <span>₹2,00,000+</span>
+                    </div>
+                    <a href="#planner" id="start-trip-cta" class="mt-6 w-full inline-block bg-amber-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-amber-700 transition-all shadow-md transform hover:scale-105">
+                        Start My Custom Yatra
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="page-section py-20 bg-slate-800">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 animate-on-scroll">
+                     <h2 class="text-3xl md:text-4xl font-extrabold text-white">Our Seva (Service)</h2>
+                     <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">We are dedicated to making your pilgrimage a comfortable and spiritually fulfilling experience.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-10 text-center">
+                    <div class="clickable-block bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-700 animate-on-scroll" 
+                        data-title="Yatra By Your Budget"
+                        data-description="Your devotion shouldn't be limited by cost. You define the budget for your Yatra, and we handle all arrangements with the utmost care and transparency. We ensure every rupee is utilized to provide you with a comfortable and sacred journey, whether you seek simple lodgings or premium comfort."
+                        data-image="https://images.unsplash.com/photo-1617653202535-12DD7b3a5217?q=80&w=800&auto=format&fit=crop">
+                        <div class="bg-amber-900/50 text-amber-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
+                        </div>
+                        <h3 class="text-xl text-white font-bold mb-2">Budget-First Seva</h3>
+                        <p class="text-slate-400">Your pilgrimage, your budget. We arrange everything to fit your financial comfort, ensuring a blessed journey.</p>
+                    </div>
+                    <div class="clickable-block bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-700 animate-on-scroll" style="transition-delay: 150ms;"
+                        data-title="Complete Yatra Arrangements"
+                        data-description="Focus on your spiritual experience while we manage all the logistics. Our service includes arranging clean and comfortable stays at Dharamshalas or hotels, providing pure vegetarian (sattvic) meals, and organizing comfortable vehicles with knowledgeable local drivers for your darshan of all the sacred sites within the 84 Kos area."
+                        data-image="https://images.unsplash.com/photo-1593831362852-3a309bd11796?q=80&w=800&auto=format&fit=crop">
+                        <div class="bg-teal-900/50 text-teal-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="m12 14 4-4"/><path d="m16 14-4-4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M12 2v2"/><path d="M12 20v2"/><circle cx="12" cy="12" r="8"/></svg>
+                        </div>
+                        <h3 class="text-xl text-white font-bold mb-2">Holistic Arrangements</h3>
+                        <p class="text-slate-400">We cover your stay, sattvic meals, and local travel, so you can immerse yourself in devotion, worry-free.</p>
+                    </div>
+                    <div class="clickable-block bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-700 animate-on-scroll" style="transition-delay: 300ms;"
+                        data-title="Authentic Brij Experience"
+                        data-description="Our planning is rooted in a deep respect for the traditions of Brij. We connect you with experienced local guides who share the sacred stories (lilas) of each place. Our itineraries are designed to follow the traditional parikrama paths where possible, allowing you to experience the divine atmosphere of Vrindavan, Govardhan, Barsana, and other holy sites."
+                        data-image="https://images.unsplash.com/photo-1628182348988-8424a6582570?q=80&w=800&auto=format&fit=crop">
+                        <div class="bg-pink-900/50 text-pink-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <h3 class="text-xl text-white font-bold mb-2">Authentic Planning</h3>
+                        <p class="text-slate-400">Our itineraries are crafted with reverence, guided by local experts to ensure a truly authentic spiritual journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inspiration Section -->
+        <section id="inspiration" class="page-section py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 animate-on-scroll">
+                     <h2 class="text-3xl md:text-4xl font-extrabold text-white">Predefined Yatra Packages</h2>
+                     <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Choose from our specially curated packages or create your own.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="image-card-container animate-on-scroll clickable-block"
+                        data-title="Anubhav Yatra (3 Days)"
+                        data-description="Perfect for a short, immersive spiritual break. This package covers the primary temples of Mathura and Vrindavan, including Banke Bihari Temple, Prem Mandir, and the Krishna Janmasthan. Ideal for those with limited time seeking the essence of Brij."
+                        data-image="https://images.unsplash.com/photo-1594102203122-269c5a431235?q=80&w=800&auto=format&fit=crop">
+                        <div class="bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-slate-700 image-card-3d">
+                            <img src="https://images.unsplash.com/photo-1594102203122-269c5a431235?q=80&w=800&auto=format&fit=crop" alt="Banke Bihari Temple, Vrindavan" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <span class="text-sm text-amber-400 font-semibold">Starts from ₹7,500</span>
+                                <h4 class="text-xl text-white font-bold mt-2">Anubhav Yatra (3 Days)</h4>
+                                <p class="text-slate-400 mt-2">Experience the core of Mathura-Vrindavan. Includes stay, meals, and local darshan by car.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="image-card-container animate-on-scroll clickable-block" style="transition-delay: 150ms;"
+                        data-title="Parikrama Yatra (5 Days)"
+                        data-description="Go deeper into the heart of Brij with the Parikrama Yatra. This package includes the Mathura-Vrindavan sites, plus a sacred Parikrama of the holy Govardhan Hill. You will also visit Barsana, the birthplace of Radha Rani, and other significant sites. A balanced journey of darshan and devotion."
+                        data-image="https://images.unsplash.com/photo-1603982977017-e3723324f2b9?q=80&w=800&auto=format&fit=crop">
+                        <div class="bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-slate-700 image-card-3d">
+                            <img src="https://images.unsplash.com/photo-1603982977017-e3723324f2b9?q=80&w=800&auto=format&fit=crop" alt="Govardhan Hill India" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <span class="text-sm text-teal-400 font-semibold">Starts from ₹15,000</span>
+                                <h4 class="text-xl text-white font-bold mt-2">Parikrama Yatra (5 Days)</h4>
+                                <p class="text-slate-400 mt-2">Includes Mathura, Vrindavan, and a sacred Govardhan Parikrama. Comfortable stays and travel.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="image-card-container animate-on-scroll clickable-block" style="transition-delay: 300ms;"
+                        data-title="Sampoorna Yatra (9 Days)"
+                        data-description="For the ultimate devotional experience, the Sampoorna Yatra covers key sites across the entire 84 Kos circuit. This comprehensive journey takes you to lesser-known, spiritually potent sites in addition to the main temples. It's a profound pilgrimage designed for deep immersion, with comfortable stays and expert guidance throughout."
+                        data-image="https://images.unsplash.com/photo-1628182348988-8424a6582570?q=80&w=800&auto=format&fit=crop">
+                        <div class="bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-slate-700 image-card-3d">
+                            <img src="https://images.unsplash.com/photo-1628182348988-8424a6582570?q=80&w=800&auto=format&fit=crop" alt="Prem Mandir at night" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <span class="text-sm text-pink-400 font-semibold">Starts from ₹25,000</span>
+                                <h4 class="text-xl text-white font-bold mt-2">Sampoorna Yatra (9 Days)</h4>
+                                <p class="text-slate-400 mt-2">A complete 84 Kos darshan covering all major and minor sacred sites. A truly immersive experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section id="partners" class="page-section py-20 bg-slate-800">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 animate-on-scroll">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Our Local Network</h2>
+                    <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">We partner with trusted local entities to ensure an authentic and comfortable pilgrimage.</p>
+                </div>
+
+                <div class="animate-on-scroll" style="transition-delay: 150ms;">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">Accommodation</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                       <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Dharamshalas & Ashrams" data-description="We have partnerships with clean, safe, and reputable Dharamshalas and Ashrams across Brij for devotees seeking a simple and traditional stay." data-image="https://images.unsplash.com/photo-1599661046227-1422501a5de3?q=80&w=800&auto=format&fit=crop">
+                            <p class="font-semibold">Dharamshalas & Ashrams</p>
+                       </div>
+                       <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Local Guesthouses" data-description="For those seeking more privacy, we partner with well-regarded local guesthouses that offer comfortable rooms and homely service." data-image="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=800&auto=format&fit=crop">
+                           <p class="font-semibold">Local Guesthouses</p>
+                       </div>
+                       <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Comfort Hotels" data-description="We have tie-ups with modern hotels in Mathura and Vrindavan for pilgrims who prefer hotel-grade amenities and comfort." data-image="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800&auto=format&fit=crop">
+                            <p class="font-semibold">Comfort Hotels</p>
+                       </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 animate-on-scroll" style="transition-delay: 300ms;">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">Travel & Guidance</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                        <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Brijvasi Drivers" data-description="Our network of drivers are locals from Brij (Brijvasis) who are not only skilled at navigating the local roads but also hold deep reverence for the holy sites." data-image="https://images.unsplash.com/photo-1617011422934-e28a5df10243?q=80&w=800&auto=format&fit=crop">
+                            <p class="font-semibold">Experienced Brijvasi Drivers</p>
+                       </div>
+                       <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Local Pandas & Guides" data-description="For a deeper understanding of the lilas and history of each sacred spot, we can arrange for knowledgeable and respected local Pandas (priests/guides)." data-image="https://images.unsplash.com/photo-1595861788231-23d6f1a83a04?q=80&w=800&auto=format&fit=crop">
+                           <p class="font-semibold">Local Pandas & Guides</p>
+                       </div>
+                    </div>
+                </div>
+                 <div class="mt-16 animate-on-scroll" style="transition-delay: 450ms;">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">Prasad & Meals</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                       <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Sattvic Bhojanalayas" data-description="We have tie-ups with local kitchens and restaurants (Bhojanalayas) that prepare pure vegetarian, sattvic food (without onion and garlic) suitable for pilgrims." data-image="https://images.unsplash.com/photo-1604329221085-e04b4f06c6e3?q=80&w=800&auto=format&fit=crop">
+                            <p class="font-semibold">Sattvic Bhojanalayas</p>
+                       </div>
+                       <div class="clickable-block text-center text-slate-400 hover:text-white transition-colors" data-title="Local Prasad Shops" data-description="We can guide you to authentic and famous local shops for buying prasad, such as Mathura's pedas, to take back for your family and friends." data-image="https://images.unsplash.com/photo-1565557623262-b27e252489a4?q=80&w=800&auto=format&fit=crop">
+                            <p class="font-semibold">Authentic Prasad Shops</p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Package Planner Section -->
+        <section id="planner" class="page-section py-20">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-12 animate-on-scroll">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Plan Your Custom Yatra</h2>
+                    <p class="mt-4 text-lg text-slate-400">Tell us your needs, and we'll create a personalized pilgrimage plan for you.</p>
+                </div>
+                
+                <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700 animate-on-scroll">
+                    <!-- Step 1: Details -->
+                    <div id="step-1-inputs">
+                        <h3 class="flex items-center text-xl font-bold text-white mb-6">
+                           <span class="step-indicator active w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4">1</span>
+                           Your Yatra Details
+                        </h3>
+                         <div class="sm:col-span-2 mb-6 bg-slate-700/50 p-4 rounded-lg border border-slate-600">
+                                <p class="text-center text-slate-300">Your sacred journey is to the <strong class="font-semibold text-amber-400">Brij 84 Kos Region</strong>.</p>
+                           </div>
+                        <div class="grid sm:grid-cols-2 gap-6">
+                           <div>
+                                <label for="travelers" class="block text-sm font-medium text-slate-300 mb-1">Number of Yatris (Pilgrims)</label>
+                                <input type="number" id="travelers" value="2" min="1" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
+                           </div>
+                           <div>
+                                <label for="days" class="block text-sm font-medium text-slate-300 mb-1">Duration of Yatra (Days)</label>
+                                <input type="number" id="days" value="5" min="2" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
+                           </div>
+                        </div>
+                        <button id="see-packages-btn" class="mt-8 w-full bg-amber-600 text-white p-3 rounded-lg text-base font-semibold hover:bg-amber-700 transition-all shadow">See Yatra Styles</button>
+                    </div>
+
+                    <!-- Step 2: Package Options -->
+                    <div id="step-2-options" class="hidden-section mt-8">
+                        <div class="flex justify-between items-center mb-6">
+                             <h3 class="flex items-center text-xl font-bold text-white">
+                               <span class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4">2</span>
+                               Choose Your Yatra Style
+                            </h3>
+                             <button id="back-to-step-1-btn" class="text-sm text-slate-400 hover:text-white flex items-center space-x-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                                <span>Edit</span>
+                            </button>
+                        </div>
+
+                        <p class="mb-6 text-slate-400">Based on your budget of <strong id="final-budget" class="text-amber-400"></strong>, here are three tailored options. Select one to see a detailed breakdown.</p>
+                        <div id="package-options-container" class="space-y-4">
+                            <!-- Package options will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Final Breakdown -->
+                     <div id="step-3-breakdown" class="hidden-section mt-8">
+                         <div class="flex justify-between items-center mb-6">
+                            <h3 class="flex items-center text-xl font-bold text-white">
+                               <span class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4">3</span>
+                               Your Personalized Yatra Plan
+                            </h3>
+                            <button id="back-to-step-2-btn" class="text-sm text-slate-400 hover:text-white flex items-center space-x-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                                <span>Change Style</span>
+                            </button>
+                        </div>
+                        <div class="bg-slate-700/50 p-6 rounded-xl border border-slate-600">
+                             <h4 id="selected-package-title" class="text-2xl font-bold text-amber-400"></h4>
+                             <p class="text-slate-400 mt-2">A divine plan for your Brij Yatra for <strong id="final-travelers" class="text-white"></strong> people over <strong id="final-days" class="text-white"></strong> days.</p>
+                             <div class="mt-6 border-t border-slate-600 pt-6">
+                                <h5 class="font-semibold text-slate-200 mb-4">Estimated Budget Allocation:</h5>
+                                <ul id="breakdown-list" class="space-y-3 text-slate-300">
+                                   <!-- Breakdown will be dynamically inserted here -->
+                                </ul>
+                             </div>
+                        </div>
+                        
+                         <!-- Gemini Itinerary Section -->
+                         <div id="gemini-section" class="mt-8">
+                             <button id="generate-itinerary-btn" class="w-full bg-purple-600 text-white p-3 rounded-lg text-base font-semibold hover:bg-purple-700 transition-all shadow flex items-center justify-center space-x-2">
+                                 <span>✨</span>
+                                 <span>Generate a Sample Itinerary with AI</span>
+                             </button>
+                             <div id="gemini-itinerary-container" class="mt-6 hidden-section">
+                                 <div id="gemini-loader" class="loader hidden"></div>
+                                 <div id="gemini-output" class="p-6 bg-slate-900 rounded-xl border border-slate-700 text-slate-300">
+                                    <!-- Formatted AI content will be injected here -->
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div class="mt-8 text-center">
+                            <p class="text-slate-400 mb-4">Ready to book or have questions?</p>
+                            <button id="book-now-btn" class="w-full sm:w-auto bg-green-600 text-white px-8 py-3 rounded-lg text-base font-semibold hover:bg-green-700 transition-all shadow">Book This Yatra</button>
+                            <button id="talk-to-planner-btn" class="mt-3 sm:mt-0 sm:ml-4 w-full sm:w-auto bg-slate-700 text-slate-200 px-8 py-3 rounded-lg text-base font-semibold hover:bg-slate-600 transition-all">Talk to a Guide</button>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/50">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p class="text-2xl font-bold text-amber-500">Brij Darshan</p>
+            <p class="mt-4 max-w-md mx-auto text-slate-400">Crafting divine journeys in the land of Krishna, tailored to your budget.</p>
+            <div class="mt-8">
+                 <a href="#" class="text-slate-400 hover:text-white mx-4 transition-colors">About Us</a>
+                 <a href="#" class="text-slate-400 hover:text-white mx-4 transition-colors">Contact</a>
+                 <a href="#" class="text-slate-400 hover:text-white mx-4 transition-colors">Privacy Policy</a>
+            </div>
+            <p class="mt-8 text-sm text-slate-500">&copy; 2025 Brij Darshan. Radhe Radhe!</p>
+        </div>
+    </footer>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="booking-modal" class="modal fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="absolute inset-0"></div>
+        <div class="relative bg-slate-800 rounded-2xl shadow-xl w-full max-w-md p-8 border border-slate-700 m-4">
+            <button id="close-booking-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-900/50 text-green-400 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Yatra Request Received!</h3>
+                <p class="mt-2 text-slate-400">Thank you for choosing Brij Darshan. Radhe Radhe!</p>
+                <div id="modal-summary" class="mt-6 text-left bg-slate-700/50 p-4 rounded-lg border border-slate-600">
+                    <!-- Summary will be injected here -->
+                </div>
+                <p class="mt-6 text-sm text-slate-500">One of our guides will contact you via email within 24 hours to finalize the details.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Info Panel Modal -->
+    <div id="info-modal" class="modal fixed inset-0 z-[60] items-center justify-center hidden">
+        <div id="info-modal-backdrop" class="absolute inset-0"></div>
+        <div class="modal-content relative bg-slate-800 rounded-2xl shadow-xl w-full max-w-lg border border-slate-700 m-4 overflow-hidden">
+            <button id="close-info-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <img id="info-modal-image" src="" alt="Info image" class="w-full h-56 object-cover">
+            <div class="p-8">
+                <h3 id="info-modal-title" class="text-3xl font-bold text-white"></h3>
+                <p id="info-modal-description" class="mt-4 text-slate-400"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const budgetSlider = document.getElementById('trip-budget-slider');
+            const budgetDisplay = document.getElementById('budget-display');
+            
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mainNav = document.getElementById('main-nav');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+            const pageSections = document.querySelectorAll('.page-section');
+            const startTripCta = document.getElementById('start-trip-cta');
+            
+            const showPage = (targetId) => {
+                const cleanTargetId = targetId.substring(1);
+                pageSections.forEach(section => { section.style.display = 'none'; });
+                const targetSection = document.getElementById(cleanTargetId);
+                if (targetSection) { targetSection.style.display = 'block'; }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-link-active');
+                    if (link.getAttribute('href') === targetId) {
+                        link.classList.add('nav-link-active');
+                    }
+                });
+                window.scrollTo(0, 0);
+            };
+
+            const handleNavClick = (e) => {
+                e.preventDefault();
+                const targetId = e.currentTarget.getAttribute('href');
+                showPage(targetId);
+                if (!mainNav.classList.contains('hidden')) {
+                    mainNav.classList.add('hidden');
+                    menuOpenIcon.classList.remove('hidden');
+                    menuCloseIcon.classList.add('hidden');
+                }
+            };
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('hidden');
+                menuOpenIcon.classList.toggle('hidden');
+                menuCloseIcon.classList.toggle('hidden');
+            });
+            
+            navLinks.forEach(link => link.addEventListener('click', handleNavClick));
+            startTripCta.addEventListener('click', handleNavClick);
+            
+            showPage('#hero');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { entry.target.classList.add('is-visible'); }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            const step1 = document.getElementById('step-1-inputs');
+            const step2 = document.getElementById('step-2-options');
+            const step3 = document.getElementById('step-3-breakdown');
+            const seePackagesBtn = document.getElementById('see-packages-btn');
+            const backToStep1Btn = document.getElementById('back-to-step-1-btn');
+            const backToStep2Btn = document.getElementById('back-to-step-2-btn');
+            const packageOptionsContainer = document.getElementById('package-options-container');
+            const generateItineraryBtn = document.getElementById('generate-itinerary-btn');
+            const geminiContainer = document.getElementById('gemini-itinerary-container');
+            const geminiLoader = document.getElementById('gemini-loader');
+            const geminiOutput = document.getElementById('gemini-output');
+            const bookNowBtn = document.getElementById('book-now-btn');
+            const talkToPlannerBtn = document.getElementById('talk-to-planner-btn');
+            
+            let currentTripDetails = {};
+            const formatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 });
+
+            const updateBudgetDisplay = () => {
+                budgetDisplay.textContent = formatter.format(parseInt(budgetSlider.value));
+            };
+            budgetSlider.addEventListener('input', updateBudgetDisplay);
+            updateBudgetDisplay();
+            
+            seePackagesBtn.addEventListener('click', () => {
+                const budget = parseInt(budgetSlider.value);
+                document.getElementById('final-budget').textContent = formatter.format(budget);
+                generatePackageOptions(budget);
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+                setTimeout(() => {
+                    step2.classList.add('visible-section');
+                    step2.querySelector('.step-indicator').classList.add('active');
+                }, 50);
+            });
+
+            backToStep1Btn.addEventListener('click', () => {
+                step2.classList.remove('visible-section');
+                setTimeout(() => {
+                    step2.style.display = 'none';
+                    step1.style.display = 'block';
+                    step2.querySelector('.step-indicator').classList.remove('active');
+                }, 400);
+            });
+
+            backToStep2Btn.addEventListener('click', () => {
+                step3.classList.remove('visible-section');
+                setTimeout(() => {
+                    step3.style.display = 'none';
+                    step2.style.display = 'block';
+                    step3.querySelector('.step-indicator').classList.remove('active');
+                }, 400);
+            });
+
+
+            function generatePackageOptions(budget) {
+                packageOptionsContainer.innerHTML = '';
+                const options = [
+                    { title: 'Saral Yatra (Budget Focus)', description: 'A simple, devotional journey with stays in clean Dharamshalas and essential darshan.', style: 'budget', allocations: { hotel: 0.30, food: 0.25, vehicle: 0.30, activities: 0.05, service: 0.10 } },
+                    { title: 'Aaramdayak Yatra (Comfort Focus)', description: 'A balanced yatra with comfortable guesthouse/hotel stays and a relaxed pace.', style: 'comfort', allocations: { hotel: 0.40, food: 0.25, vehicle: 0.25, activities: 0.05, service: 0.05 } },
+                    { title: 'Divya Yatra (Premium Focus)', description: 'An immersive experience with premium hotel stays, a dedicated guide, and special arrangements.', style: 'luxury', allocations: { hotel: 0.50, food: 0.20, vehicle: 0.20, activities: 0.05, service: 0.05 } }
+                ];
+                options.forEach(option => {
+                    const card = document.createElement('div');
+                    card.className = 'p-5 border border-slate-600 rounded-xl cursor-pointer hover:border-amber-500 hover:bg-slate-700/50 transition-all';
+                    card.innerHTML = `<h4 class="font-bold text-lg text-white">${option.title}</h4><p class="text-sm text-slate-400 mt-1">${option.description}</p>`;
+                    card.addEventListener('click', () => {
+                        showFinalBreakdown(option, budget);
+                        document.querySelectorAll('#package-options-container > div').forEach(el => el.classList.remove('bg-amber-900/50', 'border-amber-500'));
+                        card.classList.add('bg-amber-900/50', 'border-amber-500');
+                    });
+                    packageOptionsContainer.appendChild(card);
+                });
+            }
+
+            function showFinalBreakdown(option, budget) {
+                currentTripDetails = {
+                    travelers: document.getElementById('travelers').value,
+                    days: document.getElementById('days').value,
+                    budget: budget,
+                    style: option.title
+                };
+                document.getElementById('selected-package-title').textContent = option.title;
+                document.getElementById('final-travelers').textContent = currentTripDetails.travelers;
+                document.getElementById('final-days').textContent = currentTripDetails.days;
+                const breakdownList = document.getElementById('breakdown-list');
+                breakdownList.innerHTML = '';
+                const breakdownItems = [
+                    { label: '🏡 Stay (Ashram/Hotel)', value: budget * option.allocations.hotel, desc: getHotelDesc(option.style) },
+                    { label: '🍲 Sattvic Meals', value: budget * option.allocations.food, desc: getFoodDesc(option.style) },
+                    { label: '🚗 Yatra Vehicle', value: budget * option.allocations.vehicle, desc: getVehicleDesc(option.style) },
+                    { label: '🌺 Darshan & Offerings', value: budget * option.allocations.activities, desc: 'Entry fees & basic offerings' },
+                    { label: '🙏 Seva & Planning Fee', value: budget * option.allocations.service, desc: 'Our dedicated planning & support' }
+                ];
+                breakdownItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-start';
+                    li.innerHTML = `<div><span>${item.label}</span><p class="text-xs text-slate-500">${item.desc}</p></div><span class="font-semibold text-white">${formatter.format(item.value)}</span>`;
+                    breakdownList.appendChild(li);
+                });
+                step2.style.display = 'none';
+                step3.style.display = 'block';
+                setTimeout(() => {
+                    step3.classList.add('visible-section');
+                    step3.querySelector('.step-indicator').classList.add('active');
+                }, 50);
+            }
+            
+            generateItineraryBtn.addEventListener('click', async () => {
+                geminiContainer.style.display = 'block';
+                geminiLoader.style.display = 'block';
+                geminiOutput.innerHTML = '';
+                setTimeout(() => { geminiContainer.classList.add('visible-section'); }, 50);
+
+                const { travelers, days, budget, style } = currentTripDetails;
+
+                const systemPrompt = `You are a devout and eloquent guide for the Brij 84 Kos Yatra. Your tone is reverent, exciting, and easy to read. Create a short, enjoyable, day-by-day sample itinerary.
+
+                **MUST follow this EXACT HTML format and structure. Do NOT use emojis. Use the provided SVG icons ONLY.**
+
+                **Icons to use:**
+                - **Arrival/Stay:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>\`
+                - **Darshan/Temple:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M6.34 17.66 7.76 16.24"/><path d="m16.24 7.76 1.42-1.42"/><path d="M17.66 6.34 16.24 7.76"/><path d="m7.76 16.24 1.42 1.42"/><path d="M12 22a10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8v2Z"/><path d="M4 12a8 8 0 0 1 8-8V2a10 10 0 0 0-10 10h2Z"/></svg>\`
+                - **Event/Experience:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.54 2.24a.5.5 0 0 0-.08 0l-1.7 3.43a.5.5 0 0 1-.26.26l-3.43 1.7a.5.5 0 0 0 0 .94l3.43 1.7a.5.5 0 0 1 .26.26l1.7 3.43a.5.5 0 0 0 .94 0l1.7-3.43a.5.5 0 0 1 .26-.26l3.43-1.7a.5.5 0 0 0 0-.94l-3.43-1.7a.5.5 0 0 1-.26-.26Z"/><path d="M5 21a.5.5 0 0 0 0-.94l1-2a.5.5 0 0 1 .26-.26l2-1a.5.5 0 0 0 0-.94l-2-1a.5.5 0 0 1-.26-.26l-1-2a.5.5 0 0 0-.94 0l-1 2a.5.5 0 0 1-.26.26l-2 1a.5.5 0 0 0 0 .94l2 1a.5.5 0 0 1 .26.26l1 2a.5.5 0 0 0 .94 0Z"/></svg>\`
+                - **Meal:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M15 15v6c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2v-6c0-1.1-.9-2-2-2h-4a2 2 0 0 0-2 2Z"/></svg>\`
+                - **Departure:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.08 2.92A10 10 0 0 0 2.53 8.35"/><path d="M13.92 21.08A10 10 0 0 0 21.47 15.65"/><path d="M2.92 13.92A10 10 0 0 0 8.35 21.47"/><path d="M21.08 10.08A10 10 0 0 0 15.65 2.53"/><path d="m7 11 2-2-2-2"/><path d="M11 13h6"/><path d="m17 13-2 2 2 2"/></svg>\`
+
+                **Format:**
+                <h3 class="itinerary-title">Your Divine Brij Mandal Sojourn</h3>
+                <p class="itinerary-intro">Hari Bol! Here is a glimpse into the sacred journey awaiting you, filled with divine grace and the timeless leelas of Shri Radha Krishna.</p>
+                <div class="timeline">
+                    <!-- For each day -->
+                    <div class="timeline-item">
+                        <div class="timeline-icon">{SVG icon here}</div>
+                        <h4 class="day-title">Day 1: Arrival in the Land of Love</h4>
+                        <p class="day-description">Your pilgrimage begins as you arrive in Vrindavan. After settling into your stay, we'll immerse ourselves in the devotion that permeates the air, starting with darshan at the most cherished temples.</p>
+                    </div>
+                    <!-- Add more timeline-items for other days -->
+                </div>`;
+
+                const userQuery = `Create a sample spiritual itinerary for a ${days}-day Brij Yatra for ${travelers} pilgrims. The total budget is ${formatter.format(budget)}, and the yatra style is "${style}".`;
+                try {
+                    const text = await callGemini(userQuery, systemPrompt);
+                    geminiOutput.innerHTML = text;
+                } catch (error) {
+                    console.error("Gemini API call failed:", error);
+                    geminiOutput.innerHTML = "<p class='text-red-400'>Could not generate itinerary at this time. Please try again.</p>";
+                } finally {
+                    geminiLoader.style.display = 'none';
+                }
+            });
+
+            async function callGemini(userQuery, systemPrompt, retries = 3, delay = 1000) {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] }, };
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+                        if (candidate && candidate.content?.parts?.[0]?.text) return candidate.content.parts[0].text;
+                        throw new Error("Invalid response from Gemini API");
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed...`, error);
+                        if (i === retries - 1) throw error;
+                        await new Promise(res => setTimeout(res, delay));
+                        delay *= 2;
+                    }
+                }
+            }
+
+            const bookingModal = document.getElementById('booking-modal');
+            const closeBookingModalBtn = document.getElementById('close-booking-modal-btn');
+            const modalSummary = document.getElementById('modal-summary');
+            const infoModal = document.getElementById('info-modal');
+            const infoModalBackdrop = document.getElementById('info-modal-backdrop');
+            const closeInfoModalBtn = document.getElementById('close-info-modal-btn');
+            const infoModalImage = document.getElementById('info-modal-image');
+            const infoModalTitle = document.getElementById('info-modal-title');
+            const infoModalDescription = document.getElementById('info-modal-description');
+            
+            bookNowBtn.addEventListener('click', () => {
+                const { travelers, days, budget, style } = currentTripDetails;
+                modalSummary.innerHTML = `<p class="text-slate-300"><strong class="text-white">Pilgrims:</strong> ${travelers}</p><p class="text-slate-300"><strong class="text-white">Duration:</strong> ${days} Days</p><p class="text-slate-300"><strong class="text-white">Yatra Style:</strong> ${style}</p><p class="text-slate-300"><strong class="text-white">Budget:</strong> ${formatter.format(budget)}</p>`;
+                bookingModal.style.display = 'flex';
+            });
+            talkToPlannerBtn.addEventListener('click', () => {
+                const { travelers, days, budget, style } = currentTripDetails;
+                const subject = encodeURIComponent(`Brij Yatra Inquiry: ${days}-day trip for ${travelers}`);
+                const body = encodeURIComponent(`Radhe Radhe,\n\nI am interested in the following Yatra:\n\n- Pilgrims: ${travelers}\n- Duration: ${days} Days\n- Style: ${style}\n- Budget: ${formatter.format(budget)}\n\nPlease provide more details.\n\nDhanyavad.`);
+                window.location.href = `mailto:seva@brijdarshan.com?subject=${subject}&body=${body}`;
+            });
+            const hideBookingModal = () => bookingModal.style.display = 'none';
+            closeBookingModalBtn.addEventListener('click', hideBookingModal);
+            bookingModal.addEventListener('click', (e) => { if (e.target === bookingModal) hideBookingModal(); });
+
+            document.querySelectorAll('.clickable-block').forEach(block => {
+                block.addEventListener('click', () => {
+                    const title = block.dataset.title;
+                    const description = block.dataset.description;
+                    const image = block.dataset.image;
+                    if (title && description && image) {
+                        infoModalTitle.textContent = title;
+                        infoModalDescription.textContent = description;
+                        infoModalImage.src = image;
+                        infoModal.style.display = 'flex';
+                        setTimeout(() => infoModal.classList.add('visible'), 10);
+                    }
+                });
+            });
+
+            const hideInfoModal = () => {
+                infoModal.classList.remove('visible');
+                setTimeout(() => infoModal.style.display = 'none', 400);
+            };
+            closeInfoModalBtn.addEventListener('click', hideInfoModal);
+            infoModalBackdrop.addEventListener('click', hideInfoModal);
+
+            function getHotelDesc(style) {
+                if (style === 'budget') return 'Clean Dharamshalas / basic guesthouses';
+                if (style === 'comfort') return 'Well-rated guesthouses or comfort hotels';
+                return 'Premium hotels with high comfort';
+            }
+            function getFoodDesc(style) {
+                if (style === 'budget') return 'Simple, wholesome sattvic meals';
+                if (style === 'comfort') return 'Variety of sattvic dishes at local eateries';
+                return 'Meals at well-regarded restaurants';
+            }
+            function getVehicleDesc(style) {
+                if (style === 'budget') return 'Dedicated AC Hatchback (e.g., Swift)';
+                if (style === 'comfort') return 'Comfortable AC Sedan (e.g., Dzire)';
+                return 'Premium AC SUV (e.g., Innova)';
+            }
+        });
+        
+    </script>
+</body>
+</html>
