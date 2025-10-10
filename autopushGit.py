@@ -11,11 +11,6 @@ ENABLE_GIT = True    # 🚦 Set this to False to stop all git commands entirely
 IGNORED_EXTENSIONS = {".swp", ".tmp", ".log"}
 IGNORED_DIRS = {".vscode", "__pycache__"}
 
-
-
-
-
-
 class AutoPush(FileSystemEventHandler):
     def __init__(self):
         self.timer = None
@@ -34,7 +29,6 @@ class AutoPush(FileSystemEventHandler):
             self.timer.cancel()
         self.timer = Timer(self.delay, self.commit_and_push)
         self.timer.start()
-
 
     def commit_and_push(self):
         if self.stopped or not ENABLE_GIT:
