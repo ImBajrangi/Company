@@ -267,39 +267,50 @@ function closeMenuOutside(e) {
 }
 
 function toggleMobileMenu() {
-  const nav = document.getElementById('nav');
-  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-  const body = document.body;
-  
-  mobileMenuOpen = !mobileMenuOpen;
-  
-  if (nav) {
+  try {
+    const nav = document.getElementById('nav');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const body = document.body;
+    
+    if (!nav || !mobileMenuToggle) {
+      console.warn('Required elements not found');
+      return;
+    }
+    
+    mobileMenuOpen = !mobileMenuOpen;
+    
+    // Toggle navigation
     nav.classList.toggle('active');
     body.style.overflow = mobileMenuOpen ? 'hidden' : '';
-  }
-  
-  if (mobileMenuToggle) {
-    const icon = mobileMenuToggle.querySelector('i');
-    if (icon) {
-      // First remove the old icon
-      icon.removeAttribute('data-lucide');
-      // Then set the new icon
-      icon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
-      // Update the icon
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
+    
+    // Update the menu icon
+    let icon = mobileMenuToggle.querySelector('i[data-lucide]');
+    if (!icon) {
+      // Create the icon if it doesn't exist
+      icon = document.createElement('i');
+      mobileMenuToggle.innerHTML = ''; // Clear existing content
+      mobileMenuToggle.appendChild(icon);
     }
-  }
-  
-  // Add aria-expanded for accessibility
-  mobileMenuToggle?.setAttribute('aria-expanded', mobileMenuOpen.toString());
-  
-  // Close menu when clicking outside
-  if (mobileMenuOpen) {
-    document.addEventListener('click', closeMenuOutside);
-  } else {
-    document.removeEventListener('click', closeMenuOutside);
+    
+    // Update icon type
+    icon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
+    
+    // Update Lucide icons
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+    
+    // Update accessibility
+    mobileMenuToggle.setAttribute('aria-expanded', String(mobileMenuOpen));
+    
+    // Handle outside clicks
+    if (mobileMenuOpen) {
+      document.addEventListener('click', closeMenuOutside);
+    } else {
+      document.removeEventListener('click', closeMenuOutside);
+    }
+  } catch (error) {
+    console.error('Error in toggleMobileMenu:', error);
   }
 }
 
