@@ -6,12 +6,11 @@
     <title>Vrindopnishad</title>
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Projects/Trials/neptune-wharf-clone/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
-        // Ensure Lucide is loaded before initializing
-        window.addEventListener('load', function() {
-            if (window.lucide) {
-                window.lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
             }
         });
     </script>

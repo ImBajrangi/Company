@@ -298,20 +298,13 @@ function toggleMobileMenu() {
   nav.classList.toggle('active');
   body.style.overflow = mobileMenuOpen ? 'hidden' : '';
   
-  // Remove existing icon
-  const existingIcon = mobileMenuToggle.querySelector('i');
-  if (existingIcon) {
-    existingIcon.remove();
-  }
-  
-  // Create new icon
-  const newIcon = document.createElement('i');
-  newIcon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
-  mobileMenuToggle.appendChild(newIcon);
-  
-  // Create Lucide icon
-  if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    window.lucide.createIcons();
+  // Update icon
+  const icon = mobileMenuToggle.querySelector('i');
+  if (icon) {
+    icon.setAttribute('data-lucide', mobileMenuOpen ? 'x' : 'menu');
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
   }
   
   // Update accessibility
