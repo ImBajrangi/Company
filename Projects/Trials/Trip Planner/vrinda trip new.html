@@ -127,31 +127,25 @@
             opacity: 1;
         }
         
-        /* --- MOBILE-FRIENDLY AI Response Formatting --- */
+        /* --- AI Response Formatting --- */
         #gemini-output .timeline {
             position: relative;
-            padding-left: 3rem; /* Adjusted for mobile */
-            margin-left: 0.5rem;
-        }
-        @media (min-width: 640px) { /* sm breakpoint */
-            #gemini-output .timeline {
-                padding-left: 4rem;
-                margin-left: 1rem;
-            }
+            margin-left: 1rem;
         }
         #gemini-output .timeline::before {
             content: '';
             position: absolute;
-            left: 18px; /* Centered on the icon's horizontal axis */
-            top: 5px;
-            bottom: 5px;
+            left: 18px; 
+            top: 20px;
+            bottom: 20px;
             width: 4px;
-            background-color: #334155; /* slate-700 */
+            background-color: #334155; 
             border-radius: 2px;
         }
 
         #gemini-output .timeline-item {
             position: relative;
+            padding-left: 3.5rem; 
             padding-bottom: 2.5rem;
         }
         #gemini-output .timeline-item:last-child {
@@ -160,7 +154,7 @@
 
         #gemini-output .timeline-icon {
             position: absolute;
-            left: -0.125rem; /* 20px (half line) - 22px (half icon) = -2px */
+            left: 0; 
             top: 0;
             display: flex;
             align-items: center;
@@ -168,8 +162,8 @@
             width: 40px;
             height: 40px;
             border-radius: 9999px;
-            background-color: #0f172a;
-            border: 3px solid #475569;
+            background-color: #0f172a; 
+            border: 3px solid #475569; 
             z-index: 10;
         }
         
@@ -180,7 +174,7 @@
         }
 
         #gemini-output h3.itinerary-title {
-            font-size: 1.5rem; /* Adjusted for mobile */
+            font-size: 1.5rem;
             font-weight: 800;
             color: #fbbf24;
             text-align: center;
@@ -197,7 +191,7 @@
             color: #9ca3af;
         }
         #gemini-output .day-title {
-            font-size: 1.125rem; /* Adjusted for mobile */
+            font-size: 1.125rem; 
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 0.5rem;
@@ -211,6 +205,13 @@
         #gemini-output .day-description {
             color: #9ca3af;
             line-height: 1.7;
+        }
+        
+        /* Text reveal animation */
+        #gemini-output .reveal-text {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
     </style>
@@ -488,8 +489,27 @@
                                  <span>Generate a Sample Itinerary with AI</span>
                              </button>
                              <div id="gemini-itinerary-container" class="mt-6 hidden-section">
-                                 <div id="gemini-loader" class="loader hidden"></div>
-                                 <div id="gemini-output" class="p-6 bg-slate-900 rounded-xl border border-slate-700 text-slate-300">
+                                <div id="gemini-skeleton-loader" class="hidden p-6 bg-slate-900 rounded-xl border border-slate-700">
+                                    <div class="skeleton-loader">
+                                        <div class="skeleton-title"></div>
+                                        <div class="skeleton-intro"></div>
+                                        <div class="timeline" style="padding-left: 3rem; margin-left: 0.5rem; position: relative;">
+                                             <div style="margin-bottom: 2rem;">
+                                                <div class="skeleton-line1"></div>
+                                                <div class="skeleton-line2"></div>
+                                             </div>
+                                              <div style="margin-bottom: 2rem;">
+                                                <div class="skeleton-line1"></div>
+                                                <div class="skeleton-line2"></div>
+                                             </div>
+                                              <div>
+                                                <div class="skeleton-line1"></div>
+                                                <div class="skeleton-line2"></div>
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="gemini-output" class="p-6 bg-slate-900 rounded-xl border border-slate-700 text-slate-300">
                                     <!-- Formatted AI content will be injected here -->
                                  </div>
                              </div>
@@ -623,7 +643,7 @@
             const packageOptionsContainer = document.getElementById('package-options-container');
             const generateItineraryBtn = document.getElementById('generate-itinerary-btn');
             const geminiContainer = document.getElementById('gemini-itinerary-container');
-            const geminiLoader = document.getElementById('gemini-loader');
+            const geminiSkeletonLoader = document.getElementById('gemini-skeleton-loader');
             const geminiOutput = document.getElementById('gemini-output');
             const bookNowBtn = document.getElementById('book-now-btn');
             const talkToPlannerBtn = document.getElementById('talk-to-planner-btn');
@@ -638,6 +658,7 @@
             updateBudgetDisplay();
             
             seePackagesBtn.addEventListener('click', () => {
+                localStorage.clear();
                 const budget = parseInt(budgetSlider.value);
                 document.getElementById('final-budget').textContent = formatter.format(budget);
                 generatePackageOptions(budget);
@@ -715,75 +736,64 @@
                 });
                 step2.style.display = 'none';
                 step3.style.display = 'block';
+                
+                // Show itinerary container by default in step 3
+                geminiContainer.style.display = 'block';
                 setTimeout(() => {
                     step3.classList.add('visible-section');
                     step3.querySelector('.step-indicator').classList.add('active');
+                    geminiContainer.classList.add('visible-section');
+                    displayPredefinedItinerary(currentTripDetails.style);
                 }, 50);
             }
-            
-            generateItineraryBtn.addEventListener('click', async () => {
-                geminiContainer.style.display = 'block';
-                geminiLoader.style.display = 'block';
-                geminiOutput.innerHTML = '';
-                setTimeout(() => { geminiContainer.classList.add('visible-section'); }, 50);
 
-                const { travelers, days, budget, style } = currentTripDetails;
-
-                const systemPrompt = `You are a friendly and knowledgeable guide for the Brij 84 Kos Yatra. Your tone should be simple, encouraging, and easy for anyone to understand. Keep the descriptions for each day short and clear.
-
-                **MUST follow this EXACT HTML format and structure. Do NOT use emojis. Use the provided SVG icons ONLY.**
-
-                **Icons to use:**
-                - **Arrival/Stay:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>\`
-                - **Darshan/Temple:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M6.34 17.66 7.76 16.24"/><path d="m16.24 7.76 1.42-1.42"/><path d="M17.66 6.34 16.24 7.76"/><path d="m7.76 16.24 1.42 1.42"/><path d="M12 22a10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8v2Z"/><path d="M4 12a8 8 0 0 1 8-8V2a10 10 0 0 0-10 10h2Z"/></svg>\`
-                - **Event/Experience:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.54 2.24a.5.5 0 0 0-.08 0l-1.7 3.43a.5.5 0 0 1-.26.26l-3.43 1.7a.5.5 0 0 0 0 .94l3.43 1.7a.5.5 0 0 1 .26.26l1.7 3.43a.5.5 0 0 0 .94 0l1.7-3.43a.5.5 0 0 1 .26-.26l3.43-1.7a.5.5 0 0 0 0-.94l-3.43-1.7a.5.5 0 0 1-.26-.26Z"/><path d="M5 21a.5.5 0 0 0 0-.94l1-2a.5.5 0 0 1 .26-.26l2-1a.5.5 0 0 0 0-.94l-2-1a.5.5 0 0 1-.26-.26l-1-2a.5.5 0 0 0-.94 0l-1 2a.5.5 0 0 1-.26.26l-2 1a.5.5 0 0 0 0 .94l2 1a.5.5 0 0 1 .26.26l1 2a.5.5 0 0 0 .94 0Z"/></svg>\`
-                - **Meal:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M15 15v6c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2v-6c0-1.1-.9-2-2-2h-4a2 2 0 0 0-2 2Z"/></svg>\`
-                - **Departure:** \`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.08 2.92A10 10 0 0 0 2.53 8.35"/><path d="M13.92 21.08A10 10 0 0 0 21.47 15.65"/><path d="M2.92 13.92A10 10 0 0 0 8.35 21.47"/><path d="M21.08 10.08A10 10 0 0 0 15.65 2.53"/><path d="m7 11 2-2-2-2"/><path d="M11 13h6"/><path d="m17 13-2 2 2 2"/></svg>\`
-
-                **Format:**
-                <h3 class="itinerary-title">Your Divine Brij Sojourn</h3>
-                <p class="itinerary-intro">Radhe Radhe! Here is a simple, suggested plan for your sacred journey. This itinerary is designed to be comfortable and spiritually fulfilling.</p>
-                <div class="timeline">
-                    <!-- For each day -->
-                    <div class="timeline-item">
-                        <div class="timeline-icon">{SVG icon here}</div>
-                        <h4 class="day-title">Day 1: Arrival in Vrindavan</h4>
-                        <p class="day-description">Arrive in the holy land of Vrindavan and check into your place of stay. In the evening, we will visit the main temples to soak in the divine atmosphere.</p>
+            function displayPredefinedItinerary(style) {
+                 const itinerary = `
+                    <h3 class="itinerary-title">Your Divine Brij Sojourn</h3>
+                    <p class="itinerary-intro">Radhe Radhe! Here is a simple, suggested plan for your sacred journey, designed to be comfortable and spiritually fulfilling.</p>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                            <h4 class="day-title">Day 1: Arrival & Vrindavan Immersion</h4>
+                            <p class="day-description">Arrive at Mathura and transfer to your stay in Vrindavan. Begin your journey with darshan at Banke Bihari Temple, Radha Vallabh Temple, and witness the beautiful light show at Prem Mandir in the evening.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M6.34 17.66 7.76 16.24"/><path d="m16.24 7.76 1.42-1.42"/><path d="M17.66 6.34 16.24 7.76"/><path d="m7.76 16.24 1.42 1.42"/><path d="M12 22a10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8v2Z"/><path d="M4 12a8 8 0 0 1 8-8V2a10 10 0 0 0-10 10h2Z"/></svg></div>
+                            <h4 class="day-title">Day 2: Mathura & Hidden Gems</h4>
+                            <p class="day-description">Visit Shri Krishna Janmabhoomi and Dwarkadhish Temple in Mathura. Return to Vrindavan to explore Seva Kunj and take a peaceful walk along Kesi Ghat on the Yamuna riverbank.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.54 2.24a.5.5 0 0 0-.08 0l-1.7 3.43a.5.5 0 0 1-.26.26l-3.43 1.7a.5.5 0 0 0 0 .94l3.43 1.7a.5.5 0 0 1 .26.26l1.7 3.43a.5.5 0 0 0 .94 0l1.7-3.43a.5.5 0 0 1 .26-.26l3.43-1.7a.5.5 0 0 0 0-.94l-3.43-1.7a.5.5 0 0 1-.26-.26Z"/><path d="M5 21a.5.5 0 0 0 0-.94l1-2a.5.5 0 0 1 .26-.26l2-1a.5.5 0 0 0 0-.94l-2-1a.5.5 0 0 1-.26-.26l-1-2a.5.5 0 0 0-.94 0l-1 2a.5.5 0 0 1-.26.26l-2 1a.5.5 0 0 0 0 .94l2 1a.5.5 0 0 1 .26.26l1 2a.5.5 0 0 0 .94 0Z"/></svg></div>
+                            <h4 class="day-title">Day 3: Govardhan & Barsana</h4>
+                            <p class="day-description">Perform a parikrama of the sacred Govardhan Hill, visiting Radha Kund and Shyam Kund. Later, travel to Barsana to have darshan at the glorious Shri Radha Rani Temple.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M20 12h2"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M6.34 17.66 7.76 16.24"/><path d="m16.24 7.76 1.42-1.42"/><path d="M17.66 6.34 16.24 7.76"/><path d="m7.76 16.24 1.42 1.42"/><path d="M12 22a10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8v2Z"/><path d="M4 12a8 8 0 0 1 8-8V2a10 10 0 0 0-10 10h2Z"/></svg></div>
+                            <h4 class="day-title">Day 4: Nandgaon & Gokul</h4>
+                            <p class="day-description">Visit Nandgaon, the village of Lord Krishna's childhood, and then travel to Gokul, where he spent his infancy. Explore Nand Bhavan and other sites related to his early leelas.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.08 2.92A10 10 0 0 0 2.53 8.35"/><path d="M13.92 21.08A10 10 0 0 0 21.47 15.65"/><path d="M2.92 13.92A10 10 0 0 0 8.35 21.47"/><path d="M21.08 10.08A10 10 0 0 0 15.65 2.53"/><path d="m7 11 2-2-2-2"/><path d="M11 13h6"/><path d="m17 13-2 2 2 2"/></svg></div>
+                            <h4 class="day-title">Day 5: Reflection & Departure</h4>
+                            <p class="day-description">Enjoy a final morning in Vrindavan for reflection or a last darshan. Afterwards, proceed to Mathura for your journey home, carrying the blessings of Braj Bhoomi.</p>
+                        </div>
                     </div>
-                    <!-- Add more timeline-items for other days -->
-                </div>`;
+                 `;
+                geminiOutput.style.display = 'none'; // Hide initially
+                geminiContainer.style.display = 'block';
+                geminiSkeletonLoader.style.display = 'none';
+                geminiOutput.innerHTML = itinerary;
+                geminiOutput.style.display = 'block';
 
-                const userQuery = `Create a sample spiritual itinerary for a ${days}-day Brij Yatra for ${travelers} pilgrims. The total budget is ${formatter.format(budget)}, and the yatra style is "${style}".`;
-                try {
-                    const text = await callGemini(userQuery, systemPrompt);
-                    geminiOutput.innerHTML = text;
-                } catch (error) {
-                    console.error("Gemini API call failed:", error);
-                    geminiOutput.innerHTML = "<p class='text-red-400'>Could not generate itinerary at this time. Please try again.</p>";
-                } finally {
-                    geminiLoader.style.display = 'none';
-                }
-            });
-
-            async function callGemini(userQuery, systemPrompt, retries = 3, delay = 1000) {
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] }, };
-                for (let i = 0; i < retries; i++) {
-                    try {
-                        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                        const result = await response.json();
-                        const candidate = result.candidates?.[0];
-                        if (candidate && candidate.content?.parts?.[0]?.text) return candidate.content.parts[0].text;
-                        throw new Error("Invalid response from Gemini API");
-                    } catch (error) {
-                        console.error(`Attempt ${i + 1} failed...`, error);
-                        if (i === retries - 1) throw error;
-                        await new Promise(res => setTimeout(res, delay));
-                        delay *= 2;
-                    }
-                }
+                const elementsToReveal = geminiOutput.querySelectorAll('h3, p, .timeline-item');
+                elementsToReveal.forEach((el, index) => {
+                    el.classList.add('reveal-text');
+                    el.style.transitionDelay = `${index * 200}ms`;
+                    setTimeout(() => {
+                        el.style.opacity = 1;
+                        el.style.transform = 'translateY(0)';
+                    }, 50);
+                });
             }
 
             const bookingModal = document.getElementById('booking-modal');
