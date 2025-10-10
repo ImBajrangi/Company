@@ -246,29 +246,23 @@ function initializeMobileMenu() {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   if (!mobileMenuToggle) return;
   
-  // Clear any existing content
-  mobileMenuToggle.innerHTML = '';
-  
-  // Create initial menu icon
-  const icon = document.createElement('i');
-  icon.setAttribute('data-lucide', 'menu');
-  mobileMenuToggle.appendChild(icon);
-  
   // Initialize state
   mobileMenuOpen = false;
   mobileMenuToggle.setAttribute('aria-expanded', 'false');
   mobileMenuToggle.setAttribute('aria-label', 'Toggle navigation menu');
+  
+  // Ensure icon exists
+  if (!mobileMenuToggle.querySelector('i[data-lucide]')) {
+    const icon = document.createElement('i');
+    icon.setAttribute('data-lucide', 'menu');
+    mobileMenuToggle.appendChild(icon);
+  }
   
   // Add click handler
   mobileMenuToggle.addEventListener('click', (e) => {
     e.preventDefault();
     toggleMobileMenu();
   });
-  
-  // Create initial Lucide icon
-  if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    window.lucide.createIcons();
-  }
 }
 
 function closeMenuOutside(e) {
