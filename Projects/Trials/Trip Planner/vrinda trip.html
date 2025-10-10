@@ -127,31 +127,25 @@
             opacity: 1;
         }
         
-        /* --- AI Response Formatting --- */
+        /* --- FIXED AI Response Formatting --- */
         #gemini-output .timeline {
             position: relative;
-            padding-left: 3rem; /* Adjusted for mobile */
-            margin-left: 0.5rem;
-        }
-        @media (min-width: 640px) { /* sm breakpoint */
-            #gemini-output .timeline {
-                padding-left: 4rem;
-                margin-left: 1rem;
-            }
+            margin-left: 1rem;
         }
         #gemini-output .timeline::before {
             content: '';
             position: absolute;
-            left: 18px; /* Centered on the icon's horizontal axis */
-            top: 5px;
-            bottom: 5px;
+            left: 18px; 
+            top: 20px;
+            bottom: 20px;
             width: 4px;
-            background-color: #334155; /* slate-700 */
+            background-color: #334155; 
             border-radius: 2px;
         }
 
         #gemini-output .timeline-item {
             position: relative;
+            padding-left: 3.5rem; 
             padding-bottom: 2.5rem;
         }
         #gemini-output .timeline-item:last-child {
@@ -160,7 +154,7 @@
 
         #gemini-output .timeline-icon {
             position: absolute;
-            left: -0.125rem; /* 20px (half line) - 22px (half icon) = -2px */
+            left: 0; 
             top: 0;
             display: flex;
             align-items: center;
@@ -168,8 +162,8 @@
             width: 40px;
             height: 40px;
             border-radius: 9999px;
-            background-color: #0f172a;
-            border: 3px solid #475569;
+            background-color: #0f172a; 
+            border: 3px solid #475569; 
             z-index: 10;
         }
         
@@ -180,7 +174,7 @@
         }
 
         #gemini-output h3.itinerary-title {
-            font-size: 1.5rem; /* Adjusted for mobile */
+            font-size: 1.5rem;
             font-weight: 800;
             color: #fbbf24;
             text-align: center;
@@ -197,7 +191,7 @@
             color: #9ca3af;
         }
         #gemini-output .day-title {
-            font-size: 1.125rem; /* Adjusted for mobile */
+            font-size: 1.125rem; 
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 0.5rem;
