@@ -213,6 +213,9 @@
           appId: "1:644051269513:web:5934afc082be418eec5358",
           measurementId: "G-DBZ0LMJW0G"
         };
+
+        const apiKey = ""; // Provide Api of gemini-2.5-flash-preview-05-20
+
         const appId = firebaseConfig.projectId;
         const CHATBOT_ID = 'vrinda-ai-bot';
         let db, auth;
@@ -577,7 +580,6 @@
             // Show typing indicator
             renderMessage({ senderId: CHATBOT_ID }, true);
 
-            const apiKey = ""; // Will be provided by the environment
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             // Add user message to history for context
