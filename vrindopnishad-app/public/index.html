@@ -73,60 +73,60 @@
 
     <div id="app-container" class="w-full h-full flex">
         <!-- Loading / Login Screen -->
-        <div id="loading-screen" class="fixed inset-0 bg-gray-950 flex items-center justify-center z-[100]">
+        <div id="loading-screen" class="fixed inset-0 bg-white flex items-center justify-center z-[100]">
             <div class="text-center max-w-2xl mx-auto p-8">
                  <!-- Loader -->
                 <div id="loader" class="mb-6">
-                    <svg class="animate-spin h-8 w-8 text-gray-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     <p class="mt-2 text-gray-600">Connecting...</p>
                 </div>
 
                 <!-- Login / Signup Modal -->
-                <div id="auth-modal" class="hidden bg-gray-100 rounded-lg shadow-2xl w-full max-w-sm text-left">
+                <div id="auth-modal" class="hidden bg-white rounded-lg shadow-2xl w-full max-w-sm text-left">
                     <div class="flex border-b">
-                        <button id="login-tab" class="flex-1 p-4 font-semibold text-center bg-gray-200 border-b-2 border-gray-600">Login</button>
-                        <button id="signup-tab" class="flex-1 p-4 font-semibold text-center text-gray-700">Sign Up</button>
+                        <button id="login-tab" class="flex-1 p-4 font-semibold text-center bg-gray-100 border-b-2 border-blue-600">Login</button>
+                        <button id="signup-tab" class="flex-1 p-4 font-semibold text-center text-gray-500">Sign Up</button>
                     </div>
                     <!-- Login Form -->
                     <form id="login-form" class="p-6 space-y-4">
-                        <input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700">Login</button>
                         <p id="login-error" class="text-sm text-red-500 text-center"></p>
 
                         <div class="relative flex py-2 items-center">
-                            <div class="flex-grow border-t border-gray-500"></div>
+                            <div class="flex-grow border-t border-gray-300"></div>
                             <span class="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
-                            <div class="flex-grow border-t border-gray-500"></div>
+                            <div class="flex-grow border-t border-gray-300"></div>
                         </div>
 
-                        <button type="button" id="google-login-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-500 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-blue-50">
+                        <button type="button" id="google-login-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
                             <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
                             Sign in with Google
                         </button>
                     </form>
                     <!-- Signup Form -->
                     <form id="signup-form" class="p-6 space-y-4 hidden">
-                        <input type="text" id="signup-name" placeholder="Full Name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
-                        <input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                        <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900">
+                        <input type="text" id="signup-name" placeholder="Full Name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                          <div>
                             <p class="text-gray-600 mb-2 text-sm font-medium">Select your role:</p>
-                            <select id="signup-role" class="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-orange-600">
+                            <select id="signup-role" class="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="Customer">Customer</option>
                                 <option value="Employee">Employee</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg font-semibold hover:bg-yellow-600">Create Account</button>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700">Create Account</button>
                         <p id="signup-error" class="text-sm text-red-500 text-center"></p>
                         
                         <div class="relative flex py-2 items-center">
-                            <div class="flex-grow border-t border-gray-500"></div>
+                            <div class="flex-grow border-t border-gray-300"></div>
                             <span class="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
-                            <div class="flex-grow border-t border-gray-500"></div>
+                            <div class="flex-grow border-t border-gray-300"></div>
                         </div>
 
-                        <button type="button" id="google-signup-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-blue-50">
+                        <button type="button" id="google-signup-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
                             <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
                             Sign up with Google
                         </button>
@@ -722,7 +722,14 @@
             registerPeerConnectionListeners('caller');
             
             const constraints = callType === 'video' ? { video: true, audio: true } : { video: false, audio: true };
-            localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            } catch (error) {
+                console.error("Error accessing media devices.", error);
+                alert("Could not start call. Please grant camera and/or microphone permissions in your browser settings and try again.");
+                return;
+            }
+
             remoteStream = new MediaStream();
 
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
@@ -751,6 +758,7 @@
         }
 
         function listenForIncomingCalls() {
+            if (!appUserId) return;
             const callsRef = collection(db, `/artifacts/${appId}/public/data/users/${appUserId}/calls`);
             const q = query(callsRef, where('status', '==', 'ringing'));
 
@@ -787,7 +795,15 @@
             registerPeerConnectionListeners('callee');
 
             const constraints = callType === 'video' ? { video: true, audio: true } : { video: false, audio: true };
-            localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            } catch (error) {
+                console.error("Error accessing media devices.", error);
+                alert("Could not answer call. Please grant camera and/or microphone permissions in your browser settings.");
+                await setDoc(callDocRef, { status: 'declined' }, { merge: true });
+                return;
+            }
+
             remoteStream = new MediaStream();
 
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
@@ -863,11 +879,15 @@
                 const callDocSnap = await getDoc(callDocRef);
                 if(callDocSnap.exists() && callDocSnap.data().status !== 'ended') {
                     await setDoc(callDocRef, { status: 'ended' }, { merge: true });
-                    // Also clear candidates for hygiene
-                    const callerCandidates = await getDocs(collection(callDocRef, 'callerCandidates'));
-                    callerCandidates.forEach(async (candidate) => await deleteDoc(candidate.ref));
-                    const calleeCandidates = await getDocs(collection(callDocRef, 'calleeCandidates'));
-                    calleeCandidates.forEach(async (candidate) => await deleteDoc(candidate.ref));
+                    
+                    setTimeout(async () => {
+                         // Final cleanup after a few seconds
+                        const callerCandidates = await getDocs(collection(callDocRef, 'callerCandidates'));
+                        callerCandidates.forEach(c => deleteDoc(c.ref));
+                        const calleeCandidates = await getDocs(collection(callDocRef, 'calleeCandidates'));
+                        calleeCandidates.forEach(c => deleteDoc(c.ref));
+                        await deleteDoc(callDocRef);
+                    }, 5000);
                 }
             }
             currentCallInfo = null;
@@ -902,7 +922,7 @@
             });
         }
         async function callGemini(payload) {
-             const apiKey = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw";
+             const apiKey = "";
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
              try {
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -947,8 +967,14 @@
             const payload = { contents: [{ parts: [{ text: `Rephrase the following text to be more professional and clear: "${originalText}"` }] }] };
             const result = await callGemini(payload);
             const polishedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-            polishedTextContainer.textContent = polishedText || "Could not polish the message.";
+            
+            const formattedText = (polishedText || "Could not polish the message.")
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+            polishedTextContainer.innerHTML = formattedText;
         }
+
         async function handleChatbotMessage(userMessage) {
             renderMessage({ text: userMessage, senderId: appUserId });
             renderMessage({ senderId: CHATBOT_ID }, true);
@@ -1034,6 +1060,8 @@
             html5QrCode = null;
             qrScannerModal.classList.add('hidden');
         }
+        
+
         
         closeScannerModalBtn.addEventListener('click', stopScanner);
         
