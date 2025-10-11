@@ -114,6 +114,7 @@ function initializeCollections() {
     if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items || collectionsData.anime);
     if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items || collectionsData.architecture);
     if (collectionsData.warrior) generateCollectionItems('warrior-slider', collectionsData.warrior.items || collectionsData.warrior);
+    if (collectionsData.chhibi) generateCollectionItems('chhibi-slider', collectionsData.chhibi.items || collectionsData.chhibi);
 }
 
 // Fixed header background rotation
