@@ -112,7 +112,7 @@ function initializeCollections() {
     if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items || collectionsData.popular);
     if (collectionsData.rapper) generateCollectionItems('rapper-slider', collectionsData.rapper.items || collectionsData.rapper);
     if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items || collectionsData.anime);
-    if (collectionsData.dark-theme) generateCollectionItems('architecture-slider', collectionsData.architecture.items || collectionsData.architecture);
+    if (collectionsData.dark) generateCollectionItems('dark-slider', collectionsData.dark.items || collectionsData.dark);
     if (collectionsData.warrior) generateCollectionItems('warrior-slider', collectionsData.warrior.items || collectionsData.warrior);
     if (collectionsData.chhibi) generateCollectionItems('chhibi-slider', collectionsData.chhibi.items || collectionsData.chhibi);
 }
