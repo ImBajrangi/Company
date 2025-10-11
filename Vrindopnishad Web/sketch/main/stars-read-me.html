@@ -36,11 +36,11 @@
         html {
             scroll-behavior: smooth;
             overflow-x: hidden;
-            background: #0a0015;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
+            0%, 100% { opacity: 0.4; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.2); }
         }
 
@@ -89,7 +89,7 @@
             min-height: 100vh;
             font-size: 18px;
             position: relative;
-            background: #0a0015;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
             overflow-x: hidden;
         }
 
@@ -99,7 +99,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: 0;
             pointer-events: none;
             overflow: hidden;
         }
@@ -112,14 +112,12 @@
             right: 0;
             bottom: 0;
             background: 
-                linear-gradient(45deg, rgba(0, 8, 45, 0.8), transparent),
-                linear-gradient(-45deg, rgba(63, 0, 125, 0.6), transparent),
-                linear-gradient(135deg, rgba(45, 0, 102, 0.7), transparent),
-                linear-gradient(-135deg, rgba(74, 0, 114, 0.6), transparent);
-            background-size: 400% 400%, 400% 400%, 400% 400%, 400% 400%;
-            z-index: -3;
+                radial-gradient(ellipse at 20% 30%, rgba(139, 92, 246, 0.15), transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(236, 72, 153, 0.12), transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.1), transparent 60%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 40%, transparent 60%, rgba(0, 0, 0, 0.3));
+            z-index: 0;
             pointer-events: none;
-            will-change: transform;
         }
 
         body::before {
@@ -130,18 +128,18 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(2px 2px at 20% 30%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(2px 2px at 40% 70%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(2px 2px at 60% 20%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(2px 2px at 80% 90%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 10% 50%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 30% 80%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 70% 40%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 90% 60%, var(--star-color) 50%, transparent 50%);
-            background-size: 200px 200px, 300px 300px, 250px 250px, 275px 275px, 
-                           150px 150px, 180px 180px, 220px 220px, 190px 190px;
-            z-index: -1;
-            opacity: 0.9;
+                radial-gradient(1px 1px at 15% 25%, white 50%, transparent 50%),
+                radial-gradient(1px 1px at 85% 15%, rgba(255, 255, 255, 0.8) 50%, transparent 50%),
+                radial-gradient(2px 2px at 45% 55%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+                radial-gradient(1px 1px at 65% 75%, white 50%, transparent 50%),
+                radial-gradient(1px 1px at 25% 85%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+                radial-gradient(1px 1px at 95% 45%, white 50%, transparent 50%),
+                radial-gradient(2px 2px at 55% 35%, rgba(220, 240, 255, 0.8) 50%, transparent 50%),
+                radial-gradient(1px 1px at 35% 65%, rgba(255, 255, 255, 0.9) 50%, transparent 50%);
+            background-size: 300px 300px, 250px 250px, 400px 400px, 350px 350px, 
+                           280px 280px, 320px 320px, 450px 450px, 380px 380px;
+            z-index: 0;
+            opacity: 0.6;
             mix-blend-mode: screen;
             pointer-events: none;
         }
@@ -149,15 +147,17 @@
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: var(--star-color);
-            box-shadow: 0 0 6px var(--star-color);
+            background: white;
+            box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.5);
             animation: twinkle 3s ease-in-out infinite;
             pointer-events: none;
+            z-index: 0;
         }
 
         .particle.bright {
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+            background: white;
+            box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8), 
+                        0 0 12px 3px rgba(255, 255, 255, 0.4);
         }
 
         .particle.colored {
@@ -172,10 +172,10 @@
             position: absolute;
             width: 120px;
             height: 2px;
-            background: linear-gradient(90deg, white, transparent);
-            box-shadow: 0 0 6px white;
-            animation: shooting-star 2s linear infinite;
-            opacity: 0;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), transparent);
+            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.6);
+            animation: shooting-star 2s linear;
+            z-index: 0;
         }
 
         .nebula {
@@ -185,14 +185,34 @@
             top: 0;
             left: 0;
             background: 
-                radial-gradient(circle at 30% 50%, var(--nebula-color-1) 0%, transparent 60%),
-                radial-gradient(circle at 70% 50%, var(--nebula-color-2) 0%, transparent 60%),
-                radial-gradient(circle at 50% 80%, var(--nebula-color-3) 0%, transparent 60%);
+                radial-gradient(ellipse at 25% 40%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 75% 60%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 30% 80%, rgba(167, 139, 250, 0.18) 0%, transparent 40%);
             mix-blend-mode: screen;
-            opacity: 0.3;
-            z-index: -1;
+            opacity: 0.4;
+            z-index: 0;
             pointer-events: none;
-            will-change: opacity;
+            animation: nebulaFloat 60s ease-in-out infinite;
+        }
+
+        @keyframes nebulaFloat {
+            0%, 100% { 
+                transform: scale(1) translate(0, 0);
+                opacity: 0.4;
+            }
+            25% { 
+                transform: scale(1.1) translate(2%, -2%);
+                opacity: 0.5;
+            }
+            50% { 
+                transform: scale(1.05) translate(-2%, 2%);
+                opacity: 0.3;
+            }
+            75% { 
+                transform: scale(1.08) translate(1%, 1%);
+                opacity: 0.45;
+            }
         }
 
         header {
@@ -1827,10 +1847,10 @@
                 const themeIcon = document.querySelector('#themeToggle i');
                 isDark = !isDark;
                 if (isDark) {
-                    document.body.style.background = '#000015';
+                    document.body.style.background = 'radial-gradient(ellipse at bottom, #0a0a0a 0%, #000000 100%)';
                     themeIcon.className = 'fas fa-sun';
                 } else {
-                    document.body.style.background = '#0a0015';
+                    document.body.style.background = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)';
                     themeIcon.className = 'fas fa-moon';
                 }
             };
@@ -1855,18 +1875,18 @@
 
         function createStars(count) {
             const colors = [
-                'rgba(255, 255, 255, 0.9)',
-                'rgba(255, 255, 255, 0.7)',
-                'rgba(200, 220, 255, 0.8)',
-                'rgba(255, 230, 200, 0.8)',
-                'rgba(200, 255, 255, 0.7)'
+                'white',
+                'rgba(255, 255, 255, 0.8)',
+                'rgba(220, 240, 255, 0.9)',
+                'rgba(255, 240, 220, 0.85)',
+                'rgba(240, 255, 255, 0.8)'
             ];
 
             for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle';
                 
-                const size = Math.random() * 3 + 1;
+                const size = Math.random() * 2.5 + 0.5;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 
@@ -1876,11 +1896,11 @@
                 star.style.animationDelay = `${Math.random() * 5}s`;
                 star.style.animationDuration = `${Math.random() * 3 + 2}s`;
                 
-                if (Math.random() > 0.7) {
+                if (Math.random() > 0.65) {
                     star.classList.add('bright');
                 }
                 
-                if (Math.random() > 0.8) {
+                if (Math.random() > 0.75) {
                     star.classList.add('floating');
                     star.style.background = colors[Math.floor(Math.random() * colors.length)];
                 }
