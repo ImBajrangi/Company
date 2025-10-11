@@ -376,6 +376,56 @@
           "category": "interior"
         }
       ]
+    },
+    "warrior": {
+      "title": "Warrior Theme",
+      "items": [
+        {
+          "id": "samurai-culture",
+          "title": "Samurai Culture",
+          "description": "Ancient Japanese warriors",
+          "count": 56,
+          "rating": 4.8,
+          "image": "https://i.postimg.cc/3x3QzSGV/temp-Image-SRk7-RD.avif",
+          "category": "samurai"
+        },
+        {
+          "id": "medieval-knights",
+          "title": "Medieval Knights",
+          "description": "European knightly traditions",
+          "count": 78,
+          "rating": 4.7,
+          "image": "https://i.postimg.cc/3x3QzSGV/temp-Image-SRk7-RD.avif",
+          "category": "knights"
+        },
+        {
+          "id": "viking-heritage",
+          "title": "Viking Heritage",
+          "description": "Norse warrior culture",
+          "count": 45,
+          "rating": 4.6,
+          "image": "https://i.postimg.cc/3x3QzSGV/temp-Image-SRk7-RD.avif",
+          "category": "viking"
+        },
+        {
+          "id": "spartan-warriors",
+          "title": "Spartan Warriors",
+          "description": "Ancient Greek fighters",
+          "count": 34,
+          "rating": 4.9,
+          "image": "https://i.postimg.cc/3x3QzSGV/temp-Image-SRk7-RD.avif",
+          "category": "spartan"
+        },
+        {
+          "id": "native-warriors",
+          "title": "Native Warriors",
+          "description": "Indigenous fighting traditions",
+          "count": 23,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/3x3QzSGV/temp-Image-SRk7-RD.avif",
+          "category": "native"
+        }
+      ]
     }
   },
   "socialLinks": [
