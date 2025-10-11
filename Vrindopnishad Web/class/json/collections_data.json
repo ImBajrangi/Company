@@ -460,6 +460,15 @@
           "rating": 4.5,
           "image": "https://i.postimg.cc/TwG7tqjQ/tempImageKypZIV.avif",
           "category": "native"
+        },
+        {
+          "id": "native-warriors",
+          "title": "Native Warriors",
+          "description": "Indigenous fighting traditions",
+          "count": 23,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/3x3Qz8mD/tempImage-LPZf1v.avif",
+          "category": "native"
         }
       ]
     }
