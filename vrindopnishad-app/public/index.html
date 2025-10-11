@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QR Code Generation & Scanning Libraries -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        #chat-messages::-webkit-scrollbar { width: 6px; }
+        #chat-messages::-webkit-scrollbar-track { background: #f1f1f1; }
+        #chat-messages::-webkit-scrollbar-thumb { background: #888; border-radius: 3px; }
+        #chat-messages::-webkit-scrollbar-thumb:hover { background: #555; }
+        #qr-reader { border: 2px solid #e5e7eb; border-radius: 8px; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen">
+
+    <div id="app-container" class="w-full h-full flex">
+        <!-- Loading / Login Screen -->
+        <div id="loading-screen" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+            <div class="text-center max-w-2xl mx-auto p-8">
+                 <!-- Loader -->
+                <div id="loader" class="mb-6">
+                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="mt-2 text-gray-600">Connecting...</p>
+                </div>
+
+                <!-- Login / Signup Modal -->
+                <div id="auth-modal" class="hidden bg-white rounded-lg shadow-2xl w-full max-w-sm text-left">
+                    <div class="flex border-b">
+                        <button id="login-tab" class="flex-1 p-4 font-semibold text-center bg-gray-100 border-b-2 border-blue-600">Login</button>
+                        <button id="signup-tab" class="flex-1 p-4 font-semibold text-center text-gray-500">Sign Up</button>
+                    </div>
+                    <!-- Login Form -->
+                    <form id="login-form" class="p-6 space-y-4">
+                        <input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700">Login</button>
+                        <p id="login-error" class="text-sm text-red-500 text-center"></p>
+
+                        <div class="relative flex py-2 items-center">
+                            <div class="flex-grow border-t border-gray-300"></div>
+                            <span class="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
+                            <div class="flex-grow border-t border-gray-300"></div>
+                        </div>
+
+                        <button type="button" id="google-signin-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
+                            Sign in with Google
+                        </button>
+                    </form>
+                    <!-- Signup Form -->
+                    <form id="signup-form" class="p-6 space-y-4 hidden">
+                        <input type="text" id="signup-name" placeholder="Full Name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                         <div>
+                            <p class="text-gray-600 mb-2 text-sm font-medium">Select your role:</p>
+                            <select id="signup-role" class="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="Customer">Customer</option>
+                                <option value="Employee">Employee</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700">Create Account</button>
+                        <p id="signup-error" class="text-sm text-red-500 text-center"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Confirmation Modal for Deletion -->
+        <div id="confirm-delete-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-8 shadow-2xl w-full max-w-sm text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Delete Chat?</h3>
+                <p class="text-gray-600 mb-6">Are you sure you want to permanently delete this conversation? This action cannot be undone.</p>
+                <div class="flex justify-center space-x-4">
+                    <button id="cancel-delete-btn" class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition">Cancel</button>
+                    <button id="confirm-delete-btn" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Modals (Unchanged) -->
+        <div id="qr-code-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-8 shadow-2xl w-full max-w-sm text-center"><h3 class="text-2xl font-bold text-gray-800 mb-4">Your User ID QR Code</h3><div id="qr-code-container" class="flex justify-center mb-6"></div><button id="close-qr-modal-btn" class="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition">Close</button></div>
+        </div>
+        <div id="qr-scanner-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-8 shadow-2xl w-full max-w-md"><h3 class="text-2xl font-bold text-center text-gray-800 mb-4">Scan QR Code</h3><div id="qr-reader" style="width: 100%;"></div><button id="close-scanner-modal-btn" class="mt-6 w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Cancel</button></div>
+        </div>
+
+        <!-- Main Chat Interface -->
+        <div class="flex h-full w-full hidden" id="main-chat-interface">
+            <!-- Sidebar -->
+            <aside class="w-full md:w-1/3 lg:w-1/4 h-screen bg-white border-r border-gray-200 flex flex-col">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex justify-between items-start">
+                        <h1 class="text-2xl font-bold text-blue-600">Vrindopnishad</h1>
+                        <button id="logout-btn" class="text-sm font-semibold text-red-500 hover:text-red-700">Logout</button>
+                    </div>
+                    <div class="mt-4 p-3 bg-gray-100 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-600">Your User ID:</p>
+                                <p id="current-user-id" class="text-xs text-gray-800 font-mono break-all cursor-pointer" title="Click to copy"></p>
+                            </div>
+                            <button id="show-qr-btn" title="Show my QR Code"><svg class="w-6 h-6 text-gray-600 hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 5h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-b border-gray-200">
+                    <input type="text" id="search-users-input" placeholder="Search new user by name or ID..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="scan-qr-btn" class="mt-3 w-full flex items-center justify-center bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 5h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>Scan QR Code</button>
+                </div>
+
+                <div class="flex-grow overflow-y-auto">
+                    <!-- Recent Chats List -->
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Recent Chats</h3>
+                        <div id="recent-chats-list" class="space-y-2">
+                             <p id="no-recents-message" class="text-gray-500 text-sm p-2">No recent conversations. Use search or QR scan to start a new chat.</p>
+                        </div>
+                    </div>
+                     <!-- Search Results List -->
+                    <div id="search-results-container" class="p-4 hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Search Results</h3>
+                        <div id="search-results-list" class="space-y-2"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat Area -->
+            <main class="w-full md:w-2/3 lg:w-3/4 h-screen flex flex-col bg-gray-50">
+                <div id="welcome-screen" class="flex flex-col items-center justify-center h-full text-center p-4">
+                    <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 5.523-4.477 10-10 10S1 17.523 1 12 5.477 2 11 2s10 4.477 10 10z"></path></svg>
+                    <h2 class="text-2xl font-semibold text-gray-700">Welcome, <span id="welcome-user-name"></span>!</h2>
+                    <p class="text-gray-500 mt-2">Select a recent chat or search for a new user to begin.</p>
+                </div>
+                <div id="chat-container" class="hidden flex-col h-full">
+                    <!-- Chat Header -->
+                    <header class="bg-white p-4 border-b border-gray-200 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div id="chat-header-avatar" class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xl mr-3"></div>
+                            <div>
+                                <h3 id="chat-header-name" class="font-semibold text-gray-800"></h3>
+                                <p id="chat-header-role" class="text-sm text-gray-500"></p>
+                            </div>
+                        </div>
+                        <button id="delete-chat-btn" title="Delete this conversation" class="hidden p-2 rounded-full hover:bg-red-100">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </header>
+
+                    <!-- Messages -->
+                    <div id="chat-messages" class="flex-1 p-6 overflow-y-auto"></div>
+
+                    <!-- Message Input -->
+                    <footer class="p-4 bg-white border-t border-gray-200">
+                        <form id="message-form" class="flex items-center space-x-3"><input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" class="w-full py-2 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"><button type="submit" class="bg-blue-600 text-white rounded-full p-3 hover:bg-blue-700 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button></form>
+                    </footer>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, query, orderBy, getDoc, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- GLOBAL VARIABLES & CONFIG ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyBjy-y-NvsG6JGUc_GHqinuO4zydJ7NVU4",
+          authDomain: "vrinda-chat.firebaseapp.com",
+          projectId: "vrinda-chat",
+          storageBucket: "vrinda-chat.firebasestorage.app",
+          messagingSenderId: "644051269513",
+          appId: "1:644051269513:web:5934afc082be418eec5358",
+          measurementId: "G-DBZ0LMJW0G"
+        };
+        const appId = firebaseConfig.projectId;
+        let db, auth;
+        let appUserId = null; // Can be from URL (for anon) or from auth.currentUser.uid (for logged in)
+        let currentUserProfile = null;
+        let activeChatPartner = null;
+        let unsubscribeMessages = null;
+        let html5QrCode = null;
+
+        // --- DOM ELEMENTS ---
+        const loadingScreen = document.getElementById('loading-screen');
+        const loader = document.getElementById('loader');
+        const authModal = document.getElementById('auth-modal');
+        const mainChatInterface = document.getElementById('main-chat-interface');
+        // Auth form elements
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginError = document.getElementById('login-error');
+        const signupError = document.getElementById('signup-error');
+        const logoutBtn = document.getElementById('logout-btn');
+        const googleSignInBtn = document.getElementById('google-signin-btn');
+
+        const currentUserIdElem = document.getElementById('current-user-id');
+        const welcomeUserName = document.getElementById('welcome-user-name');
+        const recentChatsList = document.getElementById('recent-chats-list');
+        const noRecentsMessage = document.getElementById('no-recents-message');
+        const searchUsersInput = document.getElementById('search-users-input');
+        const searchResultsContainer = document.getElementById('search-results-container');
+        const searchResultsList = document.getElementById('search-results-list');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const chatContainer = document.getElementById('chat-container');
+        const chatHeaderName = document.getElementById('chat-header-name');
+        const chatHeaderRole = document.getElementById('chat-header-role');
+        const chatHeaderAvatar = document.getElementById('chat-header-avatar');
+        const deleteChatBtn = document.getElementById('delete-chat-btn');
+        const chatMessages = document.getElementById('chat-messages');
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        // Modals
+        const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+        const showQrBtn = document.getElementById('show-qr-btn');
+        const qrCodeModal = document.getElementById('qr-code-modal');
+        const qrCodeContainer = document.getElementById('qr-code-container');
+        const closeQrModalBtn = document.getElementById('close-qr-modal-btn');
+        const scanQrBtn = document.getElementById('scan-qr-btn');
+        const qrScannerModal = document.getElementById('qr-scanner-modal');
+        const closeScannerModalBtn = document.getElementById('close-scanner-modal-btn');
+
+        // --- INITIALIZATION ---
+        async function initialize() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                setupAuthListener();
+                setupAuthForms();
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+            }
+        }
+
+        // --- AUTH & PROFILE MANAGEMENT ---
+        function setupAuthListener() {
+            onAuthStateChanged(auth, async (user) => {
+                const params = new URLSearchParams(window.location.search);
+                const urlUid = params.get('uid');
+
+                if (user) { // User is signed in (either anon or with email)
+                    if (user.isAnonymous && urlUid) {
+                        // Integrated mode: user data is based on URL param
+                        appUserId = urlUid;
+                        const displayName = params.get('name');
+                        const role = params.get('role');
+                        await setupSession(appUserId, displayName, role);
+
+                    } else if (!user.isAnonymous) {
+                        // Logged in user: user data is based on auth uid
+                        appUserId = user.uid;
+                        const userDoc = await getDoc(doc(db, `/artifacts/${appId}/public/data/users/${appUserId}`));
+                        if(userDoc.exists()) {
+                            const profile = userDoc.data();
+                            await setupSession(profile.uid, profile.displayName, profile.role);
+                        } else {
+                           // This can happen if a user signs in with Google for the first time
+                           // The profile is created in the Google Sign-in handler
+                           console.log("New Google user detected, profile should be created shortly.");
+                        }
+                    } else {
+                         // Anonymous user without URL params, force logout to show login
+                         signOut(auth);
+                    }
+                } else { // No user is signed in
+                    if (urlUid) {
+                        // Integrated mode, needs to sign in anonymously
+                        signInAnonymously(auth).catch(err => console.error("Anonymous sign in failed", err));
+                    } else {
+                        // No URL params, show login modal
+                        loader.classList.add('hidden');
+                        authModal.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+        
+        async function setupSession(uid, name, role) {
+            currentUserProfile = { uid, displayName: name, role };
+            const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${uid}`);
+            await setDoc(userDocRef, currentUserProfile, { merge: true });
+
+            loadingScreen.classList.add('hidden');
+            mainChatInterface.classList.remove('hidden');
+            currentUserIdElem.textContent = uid;
+            welcomeUserName.textContent = name.split(' ')[0];
+            listenForRecentChats();
+        }
+        
+        // --- AUTH FORMS ---
+        function setupAuthForms() {
+            loginTab.addEventListener('click', () => {
+                loginTab.classList.add('bg-gray-100', 'border-blue-600');
+                loginTab.classList.remove('text-gray-500');
+                signupTab.classList.remove('bg-gray-100', 'border-blue-600');
+                signupTab.classList.add('text-gray-500');
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            });
+            signupTab.addEventListener('click', () => {
+                signupTab.classList.add('bg-gray-100', 'border-blue-600');
+                signupTab.classList.remove('text-gray-500');
+                loginTab.classList.remove('bg-gray-100', 'border-blue-600');
+                loginTab.classList.add('text-gray-500');
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            });
+            
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                loginError.textContent = '';
+                const email = loginForm['login-email'].value;
+                const password = loginForm['login-password'].value;
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    // onAuthStateChanged will handle the rest
+                } catch (error) {
+                    loginError.textContent = error.message;
+                }
+            });
+
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                signupError.textContent = '';
+                const name = signupForm['signup-name'].value;
+                const email = signupForm['signup-email'].value;
+                const password = signupForm['signup-password'].value;
+                const role = signupForm['signup-role'].value;
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    // Now create the user profile in Firestore
+                    const userProfile = { uid: user.uid, displayName: name, role };
+                    await setDoc(doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`), userProfile);
+                    // onAuthStateChanged will handle the rest
+                } catch (error) {
+                    signupError.textContent = error.message;
+                }
+            });
+
+            googleSignInBtn.addEventListener('click', async () => {
+                loginError.textContent = '';
+                const provider = new GoogleAuthProvider();
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+
+                    // Check if user is new, if so, create their profile
+                    const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`);
+                    const userDoc = await getDoc(userDocRef);
+                    if (!userDoc.exists()) {
+                        const newUserProfile = {
+                            uid: user.uid,
+                            displayName: user.displayName,
+                            role: 'Customer' // Default role for new Google sign-ups
+                        };
+                        await setDoc(userDocRef, newUserProfile);
+                    }
+                    // onAuthStateChanged will handle the rest
+                } catch (error) {
+                    loginError.textContent = `Google Sign-In Error: ${error.message}`;
+                }
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    window.location.reload();
+                });
+            });
+        }
+        
+        // --- UI & CHAT LISTING ---
+        function listenForRecentChats() {
+            const recentsCollectionRef = collection(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents`);
+            onSnapshot(query(recentsCollectionRef, orderBy('lastMessageTimestamp', 'desc')), (snapshot) => {
+                recentChatsList.innerHTML = '';
+                if (snapshot.empty) {
+                    noRecentsMessage.classList.remove('hidden');
+                } else {
+                    noRecentsMessage.classList.add('hidden');
+                    snapshot.forEach(doc => {
+                        renderUserInList(doc.data(), recentChatsList);
+                    });
+                }
+            });
+        }
+
+        function renderUserInList(user, listElement) {
+            const userElement = document.createElement('div');
+            userElement.className = 'flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100';
+            userElement.addEventListener('click', () => startChat(user));
+            
+            const avatar = document.createElement('div');
+            avatar.className = `w-10 h-10 rounded-full text-white flex-shrink-0 flex items-center justify-center font-bold mr-3 ${user.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500'}`;
+            avatar.textContent = user.displayName.charAt(0).toUpperCase();
+
+            const userInfo = document.createElement('div');
+            userInfo.innerHTML = `<p class="font-semibold text-gray-800">${user.displayName}</p>`;
+
+            userElement.appendChild(avatar);
+            userElement.appendChild(userInfo);
+            listElement.appendChild(userElement);
+        }
+
+        // --- SEARCH ---
+        let searchTimeout;
+        searchUsersInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const searchTerm = e.target.value.trim().toLowerCase();
+            if (searchTerm.length < 3) {
+                searchResultsContainer.classList.add('hidden');
+                return;
+            }
+            searchTimeout = setTimeout(() => performSearch(searchTerm), 300);
+        });
+
+        async function performSearch(searchTerm) {
+            searchResultsList.innerHTML = '<p class="text-gray-500 text-sm p-2">Searching...</p>';
+            searchResultsContainer.classList.remove('hidden');
+            try {
+                const usersRef = collection(db, `/artifacts/${appId}/public/data/users`);
+                const snapshot = await getDocs(usersRef);
+                const results = [];
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    if (user.uid !== appUserId && (user.displayName.toLowerCase().includes(searchTerm) || user.uid.toLowerCase() === searchTerm)) {
+                        results.push(user);
+                    }
+                });
+                
+                searchResultsList.innerHTML = '';
+                if(results.length === 0) {
+                     searchResultsList.innerHTML = '<p class="text-gray-500 text-sm p-2">No users found.</p>';
+                } else {
+                    results.forEach(user => renderUserInList(user, searchResultsList));
+                }
+            } catch (error) {
+                console.error("Error searching users:", error);
+                searchResultsList.innerHTML = '<p class="text-red-500 text-sm p-2">Search failed.</p>';
+            }
+        }
+
+        // --- CHAT FUNCTIONALITY ---
+        function startChat(otherUser) {
+            activeChatPartner = otherUser;
+            welcomeScreen.classList.add('hidden');
+            searchResultsContainer.classList.add('hidden');
+            searchUsersInput.value = '';
+            chatContainer.classList.remove('hidden');
+            chatContainer.classList.add('flex');
+
+            chatHeaderName.textContent = otherUser.displayName;
+            chatHeaderRole.textContent = otherUser.role;
+            chatHeaderAvatar.textContent = otherUser.displayName.charAt(0).toUpperCase();
+            chatHeaderAvatar.className = `w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-xl mr-3 ${otherUser.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500'}`;
+            
+            deleteChatBtn.classList.toggle('hidden', currentUserProfile.role !== 'Employee');
+
+            const chatId = [appUserId, otherUser.uid].sort().join('_');
+            if (unsubscribeMessages) unsubscribeMessages();
+
+            const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
+            unsubscribeMessages = onSnapshot(query(messagesRef, orderBy('timestamp')), (snapshot) => {
+                chatMessages.innerHTML = '';
+                snapshot.forEach(doc => renderMessage(doc.data()));
+                scrollToBottom();
+            });
+        }
+
+        function renderMessage(message) {
+            const isSender = message.senderId === appUserId;
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = `flex mb-4 ${isSender ? 'justify-end' : 'justify-start'}`;
+            messageWrapper.innerHTML = `<div class="max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${isSender ? 'bg-blue-600 text-white' : 'bg-white text-gray-800'}">${message.text}</div>`;
+            chatMessages.appendChild(messageWrapper);
+        }
+
+        messageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (text && activeChatPartner) {
+                const chatId = [appUserId, activeChatPartner.uid].sort().join('_');
+                const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
+                try {
+                    await addDoc(messagesRef, { text, senderId: appUserId, timestamp: serverTimestamp() });
+                    await updateRecents(activeChatPartner);
+                    messageInput.value = '';
+                    scrollToBottom();
+                } catch (error) { console.error("Error sending message:", error); }
+            }
+        });
+
+        async function updateRecents(otherUser) {
+            const timestamp = serverTimestamp();
+            const currentUserRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUser.uid}`);
+            const otherUserRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUser.uid}/recents/${appUserId}`);
+            
+            const batch = writeBatch(db);
+            batch.set(currentUserRecentRef, { ...otherUser, lastMessageTimestamp: timestamp });
+            batch.set(otherUserRecentRef, { ...currentUserProfile, lastMessageTimestamp: timestamp });
+            await batch.commit();
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // --- CHAT DELETION (FOR EMPLOYEES) ---
+        deleteChatBtn.addEventListener('click', () => {
+            if (activeChatPartner) {
+                confirmDeleteModal.classList.remove('hidden');
+            }
+        });
+
+        cancelDeleteBtn.addEventListener('click', () => confirmDeleteModal.classList.add('hidden'));
+
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (!activeChatPartner || currentUserProfile.role !== 'Employee') return;
+
+            const otherUserUid = activeChatPartner.uid;
+            const chatId = [appUserId, otherUserUid].sort().join('_');
+            
+            const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
+            const messagesSnapshot = await getDocs(messagesRef);
+            const deleteMsgBatch = writeBatch(db);
+            messagesSnapshot.forEach(doc => deleteMsgBatch.delete(doc.ref));
+            await deleteMsgBatch.commit();
+
+            const myRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUserUid}`);
+            const otherRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUserUid}/recents/${appUserId}`);
+            const deleteRecentsBatch = writeBatch(db);
+            deleteRecentsBatch.delete(myRecentRef);
+            deleteRecentsBatch.delete(otherRecentRef);
+            await deleteRecentsBatch.commit();
+            
+            activeChatPartner = null;
+            if (unsubscribeMessages) unsubscribeMessages();
+            chatContainer.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            confirmDeleteModal.classList.add('hidden');
+        });
+
+        // --- QR CODE FUNCTIONALITY ---
+        currentUserIdElem.addEventListener('click', () => navigator.clipboard.writeText(appUserId));
+        
+        showQrBtn.addEventListener('click', () => {
+            qrCodeContainer.innerHTML = '';
+            const qr = qrcode(0, 'L');
+            qr.addData(appUserId);
+            qr.make();
+            qrCodeContainer.innerHTML = qr.createImgTag(6, 8);
+            qrCodeModal.classList.remove('hidden');
+        });
+        
+        closeQrModalBtn.addEventListener('click', () => qrCodeModal.classList.add('hidden'));
+
+        scanQrBtn.addEventListener('click', () => {
+            qrScannerModal.classList.remove('hidden');
+            html5QrCode = new Html5Qrcode("qr-reader");
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            html5QrCode.start({ facingMode: "environment" }, config, async (decodedText) => {
+                await stopScanner();
+                try {
+                    const userDoc = await getDoc(doc(db, `/artifacts/${appId}/public/data/users/${decodedText}`));
+                    if (userDoc.exists()) startChat(userDoc.data());
+                    else alert('User not found.');
+                } catch (error) { alert('Could not process QR code.'); }
+            }).catch(err => console.log(`QR Scan Error: ${err}`));
+        });
+
+        async function stopScanner() {
+            if (html5QrCode && html5QrCode.isScanning) {
+                try { await html5QrCode.stop(); } catch (err) {}
+            }
+            html5QrCode = null;
+            qrScannerModal.classList.add('hidden');
+        }
+        
+        closeScannerModalBtn.addEventListener('click', stopScanner);
+
+        // --- START THE APP ---
+        window.onload = initialize;
+    </script>
+</body>
+</html>
