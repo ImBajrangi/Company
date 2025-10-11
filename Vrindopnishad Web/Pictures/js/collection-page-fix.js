@@ -90,20 +90,20 @@ function initializeTheme() {
     }
 
     // Theme toggle function
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        if (icon) {
-            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        }
+    // themeToggle.addEventListener('click', () => {
+    //     document.body.classList.toggle('dark-mode');
+    //     const isDark = document.body.classList.contains('dark-mode');
+    //     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    //     if (icon) {
+    //         icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    //     }
 
-        // Add transition class for smooth color changes
-        root.style.setProperty('--transition', 'all 0.3s ease');
-        setTimeout(() => {
-            root.style.removeProperty('--transition');
-        }, 300);
-    });
+//         // Add transition class for smooth color changes
+//         root.style.setProperty('--transition', 'all 0.3s ease');
+//         setTimeout(() => {
+//             root.style.removeProperty('--transition');
+//         }, 300);
+//     });
 }
 
 // Collection generation

@@ -1,5 +1,5 @@
 // Collection data - will be populated from JSON
-// let collectionsData = {};
+let collectionsData = {};
 const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/collections_data.json";
 
 // Search functionality
