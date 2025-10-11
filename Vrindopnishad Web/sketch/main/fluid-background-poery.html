@@ -745,6 +745,68 @@
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.1); opacity: 0.8; }
         }
+        
+        /* Image Modal Styles */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+        .image-modal.visible {
+            display: flex;
+        }
+        .modal-backdrop {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .modal-title {
+            color: white;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+        }
 
         @media (max-width: 768px) {
             .controls {
@@ -1177,10 +1239,10 @@
         <div class="logo">वृंदोपनिषद्</div>
         <div id="authorDisplay" class="author-header"></div>
         <div class="header-controls">
-            <button class="control-btn menu-toggle" id="menuToggle">
+            <button class="control-btn menu-toggle" id="menuToggle" aria-label="Toggle Menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <button class="control-btn" id="backBtn" style="display: none;">
+            <button class="control-btn" id="backBtn" style="display: none;" aria-label="Go Back">
                 <i class="fas fa-arrow-left"></i>
             </button>
         </div>
@@ -1217,9 +1279,9 @@
                 
                 <div class="footer-section">
                     <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#" onclick="filterByCategory('all'); return false;">All Content</a></li>
-                        <li><a href="#" onclick="document.getElementById('menuToggle').click(); return false;">Categories</a></li>
+                    <ul class="footer-links" id="footerQuickLinks">
+                        <li><a href="#" data-category="all">All Content</a></li>
+                        <li><a href="#" data-action="toggle-menu">Categories</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">FAQ</a></li>
@@ -1281,24 +1343,33 @@
         <h1 id="dynamicTitle" class="dynamic-title"></h1>
         <div id="contentArea"></div>
     </div>
+    
+    <div class="image-modal" id="imageModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close image viewer">×</button>
+            <img src="" alt="" class="modal-image">
+            <p class="modal-title"></p>
+        </div>
+    </div>
 
     <div class="controls">
         <div class="music-player-container" id="musicPlayer">
             <div class="music-player-header">
                 <span><i class="fas fa-music"></i> Now Playing</span>
-                <button class="music-close-btn" id="closeMusicPlayer">×</button>
+                <button class="music-close-btn" id="closeMusicPlayer" aria-label="Close Music Player">×</button>
             </div>
             <div class="music-track-info" id="musicTrackInfo">Select a track</div>
             <audio id="audioPlayer" controls preload="metadata"></audio>
         </div>
         <div class="controls-row">
-            <button class="control-btn music-toggle-btn" id="musicToggle" style="display: none;">
+            <button class="control-btn music-toggle-btn" id="musicToggle" style="display: none;" aria-label="Play or Pause Music">
                 <i class="fas fa-play"></i>
                 <span class="music-badge"></span>
             </button>
-            <button class="control-btn" id="fontDown">A-</button>
-            <button class="control-btn" id="fontUp">A+</button>
-            <button class="control-btn" id="themeToggle">
+            <button class="control-btn" id="fontDown" aria-label="Decrease Font Size">A-</button>
+            <button class="control-btn" id="fontUp" aria-label="Increase Font Size">A+</button>
+            <button class="control-btn" id="themeToggle" aria-label="Toggle Dark Theme">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
@@ -1333,34 +1404,43 @@
         const musicTrackInfo = document.getElementById('musicTrackInfo');
         const closeMusicPlayer = document.getElementById('closeMusicPlayer');
         const starField = document.querySelector('.star-field');
+        const imageModal = document.getElementById('imageModal');
         
         let hidePlayerTimeout;
 
+        // --- Data Loading and Initialization ---
         async function loadAllData() {
             gridView.innerHTML = '<p style="text-align: center; padding: 3rem; opacity: 0.7; color: white;">Loading content...</p>';
             
             try {
-                const promises = JSON_FILES.map(async (file) => {
-                    const response = await fetch(file);
-                    if (!response.ok) throw new Error(`Failed to load ${file}`);
-                    return await response.json();
-                });
-                
-                const results = await Promise.all(promises);
-                
-                results.forEach(data => {
-                    if (data?.collection?.entries) {
-                        allEntries.push(...data.collection.entries);
+                const promises = JSON_FILES.map(file => fetch(file).then(res => res.json()));
+                const results = await Promise.allSettled(promises);
+
+                const loadedEntries = [];
+                results.forEach(result => {
+                    if (result.status === 'fulfilled' && result.value?.collection?.entries) {
+                        loadedEntries.push(...result.value.collection.entries);
+                    } else if (result.status === 'rejected') {
+                        console.error("Failed to load a data file:", result.reason);
                     }
                 });
+                
+                // De-duplicate entries based on ID
+                const uniqueEntries = new Map();
+                loadedEntries.forEach(entry => uniqueEntries.set(entry.id, entry));
+                allEntries = Array.from(uniqueEntries.values());
 
                 if (allEntries.length === 0) {
-                    throw new Error('No entries found');
+                    throw new Error('No entries found or all data sources failed.');
                 }
 
+                // Collect categories, filtering out empty ones
+                const categorySet = new Set();
                 allEntries.forEach(entry => {
-                    if (entry.category) categories.add(entry.category);
+                    if (entry.category) categorySet.add(entry.category);
                 });
+                categories = [...categorySet].sort();
+
 
                 renderCategories();
                 filterByCategory('all');
@@ -1375,13 +1455,14 @@
             }
         }
 
+        // --- UI Rendering ---
         function renderCategories() {
+            categoryList.innerHTML = ''; // Clear previous categories
             categories.forEach(category => {
                 const btn = document.createElement('button');
                 btn.className = 'category-btn';
                 btn.textContent = category;
                 btn.dataset.category = category;
-                btn.onclick = () => filterByCategory(category);
                 categoryList.appendChild(btn);
             });
         }
@@ -1400,17 +1481,23 @@
         }
 
         function renderGrid() {
-            gridView.innerHTML = filteredEntries.map(entry => `
-                <div class="content-card" onclick="openReader('${entry.id}')">
+            if (filteredEntries.length === 0) {
+                 gridView.innerHTML = '<p style="text-align: center; padding: 3rem; opacity: 0.7; color: white;">No content found in this category.</p>';
+                 return;
+            }
+            gridView.innerHTML = filteredEntries.map(entry => {
+                const tags = entry.content?.tags || entry.tags || [];
+                return `
+                <div class="content-card" onclick="openReader('${entry.id}')" onkeydown="if(event.key==='Enter') openReader('${entry.id}')" role="button" tabindex="0" aria-label="Read ${entry.title || 'Untitled'}">
                     <h3>${entry.title || 'Untitled'}</h3>
                     <p>${entry.description || entry.content?.excerpt || ''}</p>
-                    ${entry.content?.tags?.length ? `
+                    ${tags.length > 0 ? `
                         <div class="tags">
-                            ${entry.content.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     ` : ''}
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function openReader(entryId) {
@@ -1421,6 +1508,7 @@
 
             const poemContent = currentEntry.content;
             const content = formatContent(poemContent?.content || '');
+            const tags = poemContent?.tags || currentEntry.tags || [];
 
             dynamicTitle.style.opacity = '0';
             authorDisplay.style.opacity = '0';
@@ -1433,12 +1521,7 @@
             }, 250);
 
             const firstPlayableAudio = currentEntry.audios?.find(a => !a.url.includes('youtube.com') && !a.url.includes('youtu.be'));
-            if (firstPlayableAudio) {
-                musicToggle.style.display = 'flex';
-            } else {
-                musicToggle.style.display = 'none';
-                musicPlayer.classList.remove('active');
-            }
+            musicToggle.style.display = firstPlayableAudio ? 'flex' : 'none';
 
             const { imageContent, audioContent, videoContent, linkContent } = generateMediaContent(currentEntry);
 
@@ -1458,9 +1541,9 @@
                         <div class="poem-type">${currentEntry.category || 'भाव'}</div>
                         <div class="poem-status ${poemContent?.status === 'draft' ? 'draft' : ''}">${poemContent?.status || 'published'}</div>
                     </div>
-                    ${poemContent?.tags?.length ? `
+                    ${tags.length > 0 ? `
                         <div class="poem-tags">
-                            ${poemContent.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     ` : ''}
                     <div class="poem-content">${content}</div>
@@ -1472,23 +1555,6 @@
                 ${navigation}
             `;
             
-            // Add event listeners to the new track selection buttons
-            contentArea.querySelectorAll('.play-track-btn').forEach(btn => {
-                btn.onclick = () => {
-                    const trackDiv = btn.closest('.audio-track');
-                    const url = trackDiv.dataset.url;
-                    const title = trackDiv.dataset.title;
-                    
-                    if (audioPlayer.src === url && !audioPlayer.paused) {
-                        audioPlayer.pause();
-                    } else {
-                        audioPlayer.src = url;
-                        musicTrackInfo.textContent = title;
-                        audioPlayer.play().catch(e => console.error("Playback error:", e));
-                    }
-                };
-            });
-
             updateTrackUI();
 
             gridContainer.style.display = 'none';
@@ -1496,25 +1562,12 @@
             backBtn.style.display = 'flex';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
+        
+        // --- Content Formatting and Generation ---
         function formatContent(content) {
             if (!content) return '';
             let formattedContent = content.trim();
-            const words = formattedContent.split(/\s+/);
-            if (words.length > 10 && words.every(word => word.toLowerCase() === words[0].toLowerCase())) {
-                const uniqueWord = words[0];
-                const count = words.length;
-                if (count > 20) {
-                    let formatted = '';
-                    for (let i = 0; i < count; i++) {
-                        if (i > 0 && i % 8 === 0) formatted += '\n\n';
-                        else if (i > 0) formatted += ' ';
-                        formatted += uniqueWord;
-                    }
-                    return formatted;
-                }
-            }
-            return formattedContent.replace(/\n\s*\n\s*\n/g, '\n\n').replace(/\n/g, '\n');
+            return formattedContent.replace(/\n\s*\n/g, '\n\n').replace(/\n/g, '<br>');
         }
         
         function getPlayableUrl(url) {
@@ -1543,22 +1596,23 @@
                 ? `<div class="media-audio">
                     <h3 class="media-title">Sacred Audio</h3>
                     ${entry.audios.map(audio => {
+                        const title = audio.title || 'Sacred Audio';
                         if (audio.url.includes('youtu.be') || audio.url.includes('youtube.com')) {
                             return `<div class="audio-track">
                                         <div class="track-info">
-                                            <p class="track-title">${audio.title}</p>
+                                            <p class="track-title">${title}</p>
                                         </div>
-                                        <a href="${audio.url}" target="_blank" rel="noopener noreferrer" class="play-track-btn" style="text-decoration: none;">
+                                        <a href="${audio.url}" target="_blank" rel="noopener noreferrer" class="play-track-btn" style="text-decoration: none;" aria-label="Listen to ${title} on YouTube">
                                             <i class="fab fa-youtube"></i>
                                         </a>
                                    </div>`;
                         }
                         const playableUrl = getPlayableUrl(audio.url);
-                        return `<div class="audio-track" data-url="${playableUrl}" data-title="${audio.title || 'Sacred Audio'}">
+                        return `<div class="audio-track" data-url="${playableUrl}" data-title="${title}">
                                     <div class="track-info">
-                                        <p class="track-title">${audio.title}</p>
+                                        <p class="track-title">${title}</p>
                                     </div>
-                                    <button class="play-track-btn">
+                                    <button class="play-track-btn" aria-label="Play ${title}">
                                         <i class="fas fa-play"></i>
                                     </button>
                                 </div>`;
@@ -1597,50 +1651,45 @@
             return { imageContent, audioContent, videoContent, linkContent };
         }
         
-        function updateTrackUI() {
-            contentArea.querySelectorAll('.audio-track').forEach(track => {
-                const url = track.dataset.url;
-                const btn = track.querySelector('.play-track-btn i');
-                if (url === audioPlayer.src && !audioPlayer.paused) {
-                    track.classList.add('playing');
-                    if(btn) btn.className = 'fas fa-pause';
-                } else {
-                    track.classList.remove('playing');
-                    if(btn) btn.className = 'fas fa-play';
-                }
-            });
-        }
-
-        function openImageModal(src, title) {
-            const modal = document.createElement('div');
-            modal.className = 'image-modal';
-            modal.innerHTML = `
-                <div class="modal-backdrop" onclick="closeImageModal()"></div>
-                <div class="modal-content">
-                    <button class="modal-close" onclick="closeImageModal()">×</button>
-                    <img src="${src}" alt="${title}" class="modal-image">
-                    <p class="modal-title">${title}</p>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            if (!document.querySelector('#modal-styles')) {
-                const styles = document.createElement('style');
-                styles.id = 'modal-styles';
-                styles.textContent = `.image-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:flex;justify-content:center;align-items:center;z-index:10000;backdrop-filter:blur(10px)}.modal-backdrop{position:absolute;width:100%;height:100%}.modal-content{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center}.modal-image{max-width:100%;max-height:80vh;object-fit:contain;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.5)}.modal-title{color:#fff;margin-top:1rem;text-align:center;font-size:1.2rem}.modal-close{position:absolute;top:-40px;right:0;background:rgba(255,255,255,.2);color:#fff;border:none;font-size:2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;line-height:1}`;
-                document.head.appendChild(styles);
+        // --- Navigation and Modals ---
+        function navigate(direction) {
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < filteredEntries.length) {
+                openReader(filteredEntries[newIndex].id);
             }
+        }
+        
+        function openImageModal(src, title) {
+            const modalImg = imageModal.querySelector('.modal-image');
+            const modalTitle = imageModal.querySelector('.modal-title');
+            modalImg.src = src;
+            modalImg.alt = title;
+            modalTitle.textContent = title;
+            imageModal.classList.add('visible');
         }
 
         function closeImageModal() {
-            const modal = document.querySelector('.image-modal');
-            if (modal) modal.remove();
+            imageModal.classList.remove('visible');
         }
+        
+        // --- Audio Player Logic ---
+        function updateTrackUI() {
+            document.querySelectorAll('.audio-track[data-url]').forEach(track => {
+                const url = track.dataset.url;
+                const btn = track.querySelector('.play-track-btn i');
+                const btnWrapper = track.querySelector('.play-track-btn');
+                const title = track.dataset.title;
 
-        function navigate(direction) {
-            currentIndex += direction;
-            if (currentIndex >= 0 && currentIndex < filteredEntries.length) {
-                openReader(filteredEntries[currentIndex].id);
-            }
+                if (url === audioPlayer.src && !audioPlayer.paused) {
+                    track.classList.add('playing');
+                    if(btn) btn.className = 'fas fa-pause';
+                    if(btnWrapper) btnWrapper.setAttribute('aria-label', `Pause ${title}`);
+                } else {
+                    track.classList.remove('playing');
+                    if(btn) btn.className = 'fas fa-play';
+                    if(btnWrapper) btnWrapper.setAttribute('aria-label', `Play ${title}`);
+                }
+            });
         }
         
         function showAndAutoHidePlayer() {
@@ -1654,119 +1703,160 @@
             }, 2000);
         }
 
-        // --- Global Audio Player Logic ---
-        audioPlayer.addEventListener('play', () => {
-            musicToggle.innerHTML = '<i class="fas fa-pause"></i><span class="music-badge"></span>';
-            musicPlayer.classList.add('active');
-            updateTrackUI();
-        });
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
 
-        audioPlayer.addEventListener('pause', () => {
-            musicToggle.innerHTML = '<i class="fas fa-play"></i><span class="music-badge"></span>';
-            clearTimeout(hidePlayerTimeout);
-            updateTrackUI();
-        });
-
-        audioPlayer.addEventListener('ended', () => {
-             updateTrackUI();
-        });
-
-        musicToggle.addEventListener('mouseenter', () => {
-            if (audioPlayer.src && musicPlayer.classList.contains('active')) {
-                showAndAutoHidePlayer();
-            }
-        });
-
-        musicToggle.onclick = () => {
-            if (!audioPlayer.src) {
-                const firstPlayable = contentArea.querySelector('.audio-track[data-url]');
-                if (firstPlayable) {
-                    firstPlayable.querySelector('.play-track-btn').click();
+            // Delegate click events for audio tracks
+            contentArea.addEventListener('click', event => {
+                const playButton = event.target.closest('.play-track-btn');
+                if (playButton) {
+                    const trackDiv = playButton.closest('.audio-track');
+                    const url = trackDiv.dataset.url;
+                    const title = trackDiv.dataset.title;
+                    if (!url || !title) return;
+                    
+                    if (audioPlayer.src === url && !audioPlayer.paused) {
+                        audioPlayer.pause();
+                    } else {
+                        audioPlayer.src = url;
+                        musicTrackInfo.textContent = title;
+                        audioPlayer.play().catch(e => console.error("Playback error:", e));
+                    }
                 }
-                 showAndAutoHidePlayer();
-                return;
-            }
+            });
+            
+            // Sidebar category filtering
+            sidebar.addEventListener('click', (event) => {
+                if (event.target.matches('.category-btn')) {
+                    const category = event.target.dataset.category;
+                    if (category) filterByCategory(category);
+                }
+            });
+            
+            // Footer link handling
+            document.getElementById('footerQuickLinks').addEventListener('click', (event) => {
+                event.preventDefault();
+                const target = event.target;
+                if (target.dataset.category) {
+                    filterByCategory(target.dataset.category);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                if (target.dataset.action === 'toggle-menu') {
+                    menuToggle.click();
+                }
+            });
 
-            showAndAutoHidePlayer();
+            // Global audio player controls
+            audioPlayer.addEventListener('play', () => {
+                musicToggle.innerHTML = '<i class="fas fa-pause"></i><span class="music-badge"></span>';
+                musicPlayer.classList.add('active');
+                updateTrackUI();
+            });
 
-            if (audioPlayer.paused) {
-                audioPlayer.play().catch(error => console.error("Audio playback error:", error));
-            } else {
+            audioPlayer.addEventListener('pause', () => {
+                musicToggle.innerHTML = '<i class="fas fa-play"></i><span class="music-badge"></span>';
+                clearTimeout(hidePlayerTimeout);
+                updateTrackUI();
+            });
+
+            audioPlayer.addEventListener('ended', updateTrackUI);
+
+            musicToggle.addEventListener('mouseenter', showAndAutoHidePlayer);
+            musicToggle.onclick = () => {
+                if (!audioPlayer.src) {
+                    const firstPlayable = document.querySelector('.audio-track[data-url]');
+                    if (firstPlayable) {
+                         firstPlayable.querySelector('.play-track-btn').click();
+                    }
+                    showAndAutoHidePlayer();
+                    return;
+                }
+
+                showAndAutoHidePlayer();
+                if (audioPlayer.paused) audioPlayer.play().catch(e => console.error("Audio playback error:", e));
+                else audioPlayer.pause();
+            };
+
+            closeMusicPlayer.onclick = () => {
+                musicPlayer.classList.add('hidden');
+                clearTimeout(hidePlayerTimeout);
+            };
+
+            // General App Controls
+            backBtn.onclick = () => {
+                readerContainer.style.display = 'none';
+                gridContainer.style.display = 'block';
+                backBtn.style.display = 'none';
+                authorDisplay.textContent = '';
+                musicToggle.style.display = 'none';
+                musicPlayer.classList.remove('active');
                 audioPlayer.pause();
-            }
-        };
+                audioPlayer.src = "";
+                clearTimeout(hidePlayerTimeout);
+            };
 
-        closeMusicPlayer.onclick = () => {
-            musicPlayer.classList.add('hidden');
-            clearTimeout(hidePlayerTimeout);
-        };
+            menuToggle.onclick = () => sidebar.classList.toggle('active');
 
+            document.getElementById('fontDown').onclick = () => {
+                const content = document.querySelector('.poem-content');
+                if (content) {
+                    const size = parseFloat(window.getComputedStyle(content).fontSize);
+                    content.style.fontSize = `${Math.max(size * 0.9, 16)}px`;
+                }
+            };
 
-        // --- General App Logic ---
-        backBtn.onclick = () => {
-            readerContainer.style.display = 'none';
-            gridContainer.style.display = 'block';
-            backBtn.style.display = 'none';
-            authorDisplay.textContent = '';
-            musicToggle.style.display = 'none';
-            musicPlayer.classList.remove('active');
-            audioPlayer.pause();
-            audioPlayer.src = "";
-            clearTimeout(hidePlayerTimeout);
-        };
+            document.getElementById('fontUp').onclick = () => {
+                const content = document.querySelector('.poem-content');
+                if (content) {
+                    const size = parseFloat(window.getComputedStyle(content).fontSize);
+                    content.style.fontSize = `${Math.min(size * 1.1, 40)}px`;
+                }
+            };
 
-        menuToggle.onclick = () => sidebar.classList.toggle('active');
+            document.getElementById('themeToggle').onclick = () => {
+                const themeIcon = document.querySelector('#themeToggle i');
+                isDark = !isDark;
+                if (isDark) {
+                    document.body.style.background = '#000015';
+                    themeIcon.className = 'fas fa-sun';
+                } else {
+                    document.body.style.background = '#0a0015';
+                    themeIcon.className = 'fas fa-moon';
+                }
+            };
 
-        document.getElementById('fontDown').onclick = () => {
-            const content = document.querySelector('.poem-content');
-            if (content) {
-                const size = parseFloat(getComputedStyle(content).fontSize);
-                content.style.fontSize = Math.max(size * 0.85, 16) + 'px';
-            }
-        };
+            // Image Modal closing
+            imageModal.querySelector('.modal-backdrop').onclick = closeImageModal;
+            imageModal.querySelector('.modal-close').onclick = closeImageModal;
 
-        document.getElementById('fontUp').onclick = () => {
-            const content = document.querySelector('.poem-content');
-            if (content) {
-                const size = parseFloat(getComputedStyle(content).fontSize);
-                content.style.fontSize = Math.min(size * 1.15, 40) + 'px';
-            }
-        };
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (imageModal.classList.contains('visible')) closeImageModal();
+                    else if(readerContainer.style.display === 'block') backBtn.click();
+                }
+                if (readerContainer.style.display === 'block') {
+                    if (e.key === 'ArrowLeft') navigate(-1);
+                    if (e.key === 'ArrowRight') navigate(1);
+                }
+            });
 
-        document.getElementById('themeToggle').onclick = () => {
-            if (isDark) {
-                document.body.style.background = '#0a0015';
-                document.documentElement.style.setProperty('--nebula-color-1', 'rgba(123, 31, 162, 0.15)');
-                document.documentElement.style.setProperty('--nebula-color-2', 'rgba(32, 84, 174, 0.15)');
-                document.documentElement.style.setProperty('--nebula-color-3', 'rgba(175, 38, 255, 0.15)');
-                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                document.body.style.background = '#000015';
-                document.documentElement.style.setProperty('--nebula-color-1', 'rgba(60, 0, 120, 0.35)');
-                document.documentElement.style.setProperty('--nebula-color-2', 'rgba(0, 45, 105, 0.35)');
-                document.documentElement.style.setProperty('--nebula-color-3', 'rgba(73, 0, 115, 0.35)');
-                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
-            }
-            isDark = !isDark;
-        };
-
-        document.addEventListener('keydown', (e) => {
-            if (readerContainer.style.display === 'block') {
-                if (e.key === 'ArrowLeft' && currentIndex > 0) navigate(-1);
-                if (e.key === 'ArrowRight' && currentIndex < filteredEntries.length - 1) navigate(1);
-                if (e.key === 'Escape') backBtn.click();
-            }
+            // Background animations
+            createStars(50);
+            setInterval(createShootingStar, 8000);
         });
 
+        // --- Background Effects ---
         function createStars(count) {
             for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle';
-                star.style.width = (Math.random() * 3 + 1) + 'px';
+                star.style.width = `${Math.random() * 2 + 1}px`;
                 star.style.height = star.style.width;
-                star.style.top = Math.random() * 100 + '%';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
                 starField.appendChild(star);
             }
         }
@@ -1774,16 +1864,12 @@
         function createShootingStar() {
             const star = document.createElement('div');
             star.className = 'shooting-star';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.left = Math.random() * 100 + '%';
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
             star.style.transform = `rotate(${Math.random() * 45}deg)`;
             starField.appendChild(star);
             setTimeout(() => star.remove(), 2000);
         }
-
-        createStars(50);
-        setInterval(createShootingStar, 8000);
-        loadAllData();
     </script>
 </body>
 </html>
