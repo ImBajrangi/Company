@@ -2,6 +2,110 @@
 let collectionsData = {};
 const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/collections_data.json";
 
+// Search functionality
+function initializeSearch() {
+    const searchToggle = document.getElementById('search-toggle');
+    const searchOverlay = document.querySelector('.search-overlay');
+    const searchInput = document.querySelector('.search-input');
+    const searchResults = document.querySelector('.search-results');
+    
+    if (!searchToggle || !searchOverlay || !searchInput || !searchResults) {
+        console.error('Search elements not found');
+        return;
+    }
+    
+    let searchTimeout = null;
+
+    function toggleSearch() {
+        searchOverlay.classList.toggle('active');
+        if (searchOverlay.classList.contains('active')) {
+            searchInput.focus();
+        }
+    }
+
+    function handleSearch(e) {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.toLowerCase();
+        
+        searchTimeout = setTimeout(() => {
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            const results = Object.entries(collectionsData)
+                .flatMap(([category, items]) => 
+                    items.map(item => ({...item, category}))
+                )
+                .filter(item => 
+                    item.title.toLowerCase().includes(query) ||
+                    item.description.toLowerCase().includes(query)
+                );
+
+            searchResults.innerHTML = results.length > 0 
+                ? results.map(item => `
+                    <div class="search-result-item" data-category="${item.category}">
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <span class="category-tag">${item.category}</span>
+                    </div>
+                `).join('')
+                : '<p>No results found</p>';
+        }, 300);
+    }
+
+    searchToggle.addEventListener('click', toggleSearch);
+    searchOverlay.addEventListener('click', (e) => {
+        if (e.target === searchOverlay) {
+            toggleSearch();
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            toggleSearch();
+        }
+    });
+    searchInput.addEventListener('input', handleSearch);
+}
+
+// Theme functionality
+function initializeTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) {
+        console.error('Theme toggle not found');
+        return;
+    }
+    
+    const icon = themeToggle.querySelector('i');
+    const root = document.documentElement;
+
+    // Check for saved theme preference or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+    
+    document.body.classList.toggle('dark-mode', isDark);
+    if (icon) {
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    // Theme toggle function
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        if (icon) {
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Add transition class for smooth color changes
+        root.style.setProperty('--transition', 'all 0.3s ease');
+        setTimeout(() => {
+            root.style.removeProperty('--transition');
+        }, 300);
+    });
+}
+
 // Collection generation
 function initializeCollections() {
     if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items || collectionsData.featured);
@@ -12,33 +116,33 @@ function initializeCollections() {
 }
 
 // Fixed header background rotation
-// function initializeHeaderBackground() {
-//     const headerBgs = document.querySelectorAll('.header-bg');
-//     if (headerBgs.length === 0) {
-//         console.log('No header backgrounds found - skipping rotation');
-//         return;
-//     }
+function initializeHeaderBackground() {
+    const headerBgs = document.querySelectorAll('.header-bg');
+    if (headerBgs.length === 0) {
+        console.log('No header backgrounds found - skipping rotation');
+        return;
+    }
     
-//     let currentBg = 0;
+    let currentBg = 0;
 
-//     function changeHeaderBackground() {
-//         // Remove active class from current background
-//         if (headerBgs[currentBg]) {
-//             headerBgs[currentBg].classList.remove('active');
-//         }
+    function changeHeaderBackground() {
+        // Remove active class from current background
+        if (headerBgs[currentBg]) {
+            headerBgs[currentBg].classList.remove('active');
+        }
         
-//         // Move to next background
-//         currentBg = (currentBg + 1) % headerBgs.length;
+        // Move to next background
+        currentBg = (currentBg + 1) % headerBgs.length;
         
-//         // Add active class to new background
-//         if (headerBgs[currentBg]) {
-//             headerBgs[currentBg].classList.add('active');
-//         }
-//     }
+        // Add active class to new background
+        if (headerBgs[currentBg]) {
+            headerBgs[currentBg].classList.add('active');
+        }
+    }
 
-//     // Start the interval
-//     setInterval(changeHeaderBackground, 5000);
-// }
+    // Start the interval
+    setInterval(changeHeaderBackground, 5000);
+}
 
 function generateCollectionItems(containerId, items) {
     const container = document.getElementById(containerId);
@@ -114,27 +218,27 @@ function generateCollectionItems(containerId, items) {
 }
 
 // Header scroll effect
-// function initializeHeaderScroll() {
-//     const header = document.getElementById('header');
-//     if (!header) {
-//         console.error('Header not found');
-//         return;
-//     }
+function initializeHeaderScroll() {
+    const header = document.getElementById('header');
+    if (!header) {
+        console.error('Header not found');
+        return;
+    }
     
-//     let lastScrollPosition = 0;
+    let lastScrollPosition = 0;
 
-//     window.addEventListener('scroll', () => {
-//         const currentScroll = window.pageYOffset;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
         
-//         if (currentScroll > lastScrollPosition && currentScroll > 100) {
-//             header.classList.add('scrolled');
-//         } else {
-//             header.classList.remove('scrolled');
-//         }
+        if (currentScroll > lastScrollPosition && currentScroll > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
         
-//         lastScrollPosition = currentScroll;
-//     });
-// }
+        lastScrollPosition = currentScroll;
+    });
+}
 
 // Slider functionality
 function initializeSliders() {
@@ -369,6 +473,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dataLoaded = await loadCollectionsData();
     
     // Initialize all components regardless of data loading
+    initializeSearch();
+    initializeTheme();
     initializeHeaderScroll();
     initializeHeaderBackground();
     initializeSliders();
