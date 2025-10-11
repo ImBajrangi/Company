@@ -901,8 +901,23 @@
                 aiPolishModal.classList.add('hidden');
             });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         async function callGemini(payload) {
-             const apiKey = "";
+             const apiKey = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw";
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
              try {
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
