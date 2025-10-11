@@ -505,100 +505,6 @@ CSS Files:
         });
     }
 
-    // Fixed Ripple Effect - Preserves button styling
-    // function initializeFullCoverageRipple() {
-    //     const rippleButtons = document.querySelectorAll('.ripple-btn');
-        
-    //     rippleButtons.forEach(button => {
-    //         let isHovering = false;
-    //         let rippleTimeout = null;
-
-    //         // Store original button styles
-    //         const originalStyles = {
-    //             background: getComputedStyle(button).backgroundColor,
-    //             color: getComputedStyle(button).color,
-    //             border: getComputedStyle(button).border,
-    //             padding: getComputedStyle(button).padding,
-    //             borderRadius: getComputedStyle(button).borderRadius,
-    //             fontWeight: getComputedStyle(button).fontWeight
-    //         };
-
-    //         // Set CSS custom properties for original styles
-    //         button.style.setProperty('--original-bg', originalStyles.background);
-    //         button.style.setProperty('--original-color', originalStyles.color);
-    //         button.style.setProperty('--original-border', originalStyles.border);
-    //         button.style.setProperty('--original-padding', originalStyles.padding);
-    //         button.style.setProperty('--original-radius', originalStyles.borderRadius);
-    //         button.style.setProperty('--original-weight', originalStyles.fontWeight);
-
-    //         button.addEventListener('mouseenter', function(e) {
-    //             isHovering = true;
-                
-    //             if (rippleTimeout) {
-    //                 clearTimeout(rippleTimeout);
-    //             }
-
-    //             // Ensure text element exists and has proper styling
-    //             let textElement = button.querySelector('.btn-text');
-    //             if (!textElement) {
-    //                 // Create text wrapper if it doesn't exist
-    //                 const buttonText = button.innerHTML;
-    //                 button.innerHTML = `<span class="btn-text">${buttonText}</span>`;
-    //                 textElement = button.querySelector('.btn-text');
-    //             }
-
-    //             // Calculate precise entry position
-    //             const rect = button.getBoundingClientRect();
-    //             const x = ((e.clientX - rect.left) / rect.width) * 100;
-    //             const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    //             button.style.setProperty('--ripple-x', x + '%');
-    //             button.style.setProperty('--ripple-y', y + '%');
-
-    //             button.classList.remove('ripple-shrinking');
-    //             button.classList.add('ripple-expanding');
-    //         });
-
-    //         button.addEventListener('mousemove', function(e) {
-    //             if (isHovering) {
-    //                 const rect = button.getBoundingClientRect();
-    //                 const x = ((e.clientX - rect.left) / rect.width) * 100;
-    //                 const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    //                 button.style.setProperty('--ripple-x', x + '%');
-    //                 button.style.setProperty('--ripple-y', y + '%');
-    //             }
-    //         });
-
-    //         button.addEventListener('mouseleave', function(e) {
-    //             isHovering = false;
-
-    //             // Get exit position
-    //             const rect = button.getBoundingClientRect();
-    //             const x = ((e.clientX - rect.left) / rect.width) * 100;
-    //             const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    //             // Update ripple position to exit point BEFORE starting shrink
-    //             button.style.setProperty('--ripple-x', x + '%');
-    //             button.style.setProperty('--ripple-y', y + '%');
-
-    //             // Force a reflow to ensure position is updated
-    //             button.offsetHeight;
-
-    //             // Start shrinking animation
-    //             button.classList.remove('ripple-expanding');
-    //             button.classList.add('ripple-shrinking');
-
-    //             // Clean up after animation
-    //             rippleTimeout = setTimeout(function() {
-    //                 button.classList.remove('ripple-shrinking');
-    //                 button.style.removeProperty('--ripple-x');
-    //                 button.style.removeProperty('--ripple-y');
-    //             }, 500);
-    //         });
-    //     });
-    // }
-
     // Replace your test script with this working version
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
@@ -704,8 +610,6 @@ CSS Files:
         // Initialize slider functionality
         initializeSliders();
         
-        // Replace createAdvancedRipple() with:
-        // initializeFullCoverageRipple();
     });
     </script>
     <!-- <script src="/web-extentions/Ripple Btn/btn-ripple.js"></script> -->
