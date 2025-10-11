@@ -30,6 +30,9 @@ class AutoPush(FileSystemEventHandler):
         self.timer = Timer(self.delay, self.commit_and_push)
         self.timer.start()
 
+
+
+
     def commit_and_push(self):
         if self.stopped or not ENABLE_GIT:
             print("🚫 Git disabled or stopped — no push will occur.")
