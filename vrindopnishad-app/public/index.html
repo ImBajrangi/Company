@@ -102,6 +102,26 @@
             </div>
         </div>
         
+        <!-- Modals for AI Features -->
+        <div id="ai-suggestion-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">✨ AI Reply Suggestions</h3>
+                <div id="suggestion-list" class="space-y-3"></div>
+                <button id="close-suggestion-modal" class="mt-6 w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition">Close</button>
+            </div>
+        </div>
+        <div id="ai-polish-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">✨ Polished Message</h3>
+                <p class="text-sm text-gray-500 mb-4">Here is a more professional version of your message:</p>
+                <div id="polished-text-container" class="p-4 bg-gray-100 rounded-lg text-gray-800"></div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button id="cancel-polish" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition">Keep Original</button>
+                    <button id="use-polished-text" class="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition">Use This Version</button>
+                </div>
+            </div>
+        </div>
+        
         <!-- Confirmation Modal for Deletion -->
         <div id="confirm-delete-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg p-8 shadow-2xl w-full max-w-sm text-center">
@@ -191,7 +211,18 @@
 
                     <!-- Message Input -->
                     <footer class="p-4 bg-white border-t border-gray-200">
-                        <form id="message-form" class="flex items-center space-x-3"><input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" class="w-full py-2 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"><button type="submit" class="bg-blue-600 text-white rounded-full p-3 hover:bg-blue-700 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button></form>
+                        <div id="ai-suggestion-bar" class="hidden justify-center mb-2">
+                             <button id="get-suggestions-btn" class="bg-purple-100 text-purple-700 text-sm font-semibold px-4 py-2 rounded-full hover:bg-purple-200 transition">✨ Get Suggestions</button>
+                        </div>
+                        <form id="message-form" class="flex items-center space-x-3">
+                            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" class="w-full py-2 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" id="polish-btn" title="Polish message with AI" class="p-2 rounded-full hover:bg-gray-100">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                            </button>
+                            <button type="submit" class="bg-blue-600 text-white rounded-full p-3 hover:bg-blue-700 transition flex-shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
+                        </form>
                     </footer>
                 </div>
             </main>
@@ -220,6 +251,7 @@
         let currentUserProfile = null;
         let activeChatPartner = null;
         let unsubscribeMessages = null;
+        let allMessages = [];
         let html5QrCode = null;
         let isChatbotActive = false;
         let chatbotHistory = [];
@@ -230,6 +262,17 @@
         const authModal = document.getElementById('auth-modal');
         const mainChatInterface = document.getElementById('main-chat-interface');
         const aiAssistantEntry = document.getElementById('ai-assistant-entry');
+        const aiSuggestionBar = document.getElementById('ai-suggestion-bar');
+        const getSuggestionsBtn = document.getElementById('get-suggestions-btn');
+        const polishBtn = document.getElementById('polish-btn');
+        // AI Modals
+        const aiSuggestionModal = document.getElementById('ai-suggestion-modal');
+        const suggestionList = document.getElementById('suggestion-list');
+        const closeSuggestionModal = document.getElementById('close-suggestion-modal');
+        const aiPolishModal = document.getElementById('ai-polish-modal');
+        const polishedTextContainer = document.getElementById('polished-text-container');
+        const cancelPolish = document.getElementById('cancel-polish');
+        const usePolishedText = document.getElementById('use-polished-text');
         // Auth form elements
         const loginTab = document.getElementById('login-tab');
         const signupTab = document.getElementById('signup-tab');
@@ -240,7 +283,6 @@
         const logoutBtn = document.getElementById('logout-btn');
         const googleLoginBtn = document.getElementById('google-login-btn');
         const googleSignUpBtn = document.getElementById('google-signup-btn');
-        // ... (rest of DOM elements are the same)
         const currentUserIdElem = document.getElementById('current-user-id');
         const welcomeUserName = document.getElementById('welcome-user-name');
         const recentChatsList = document.getElementById('recent-chats-list');
@@ -276,6 +318,7 @@
                 auth = getAuth(app);
                 setupAuthListener();
                 setupAuthForms();
+                setupAIFeatureListeners();
             } catch (error) {
                 console.error("Firebase initialization failed:", error);
             }
@@ -286,7 +329,6 @@
              onAuthStateChanged(auth, async (user) => {
                 const params = new URLSearchParams(window.location.search);
                 const urlUid = params.get('uid');
-
                 if (user) {
                     if (user.isAnonymous && urlUid) {
                         appUserId = urlUid;
@@ -295,10 +337,7 @@
                         appUserId = user.uid;
                         const userDoc = await getDoc(doc(db, `/artifacts/${appId}/public/data/users/${appUserId}`));
                         if (userDoc.exists()) {
-                            const profile = userDoc.data();
-                            await setupSession(profile.uid, profile.displayName, profile.role);
-                        } else {
-                            console.log("New user detected, profile will be created.");
+                            await setupSession(userDoc.data().uid, userDoc.data().displayName, userDoc.data().role);
                         }
                     } else {
                          signOut(auth);
@@ -318,18 +357,15 @@
             currentUserProfile = { uid, displayName: name, role };
             const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${uid}`);
             await setDoc(userDocRef, currentUserProfile, { merge: true });
-
             loadingScreen.classList.add('hidden');
             mainChatInterface.classList.remove('hidden');
             currentUserIdElem.textContent = uid;
             welcomeUserName.textContent = name.split(' ')[0];
-            
             renderSidebar();
         }
         
         // --- AUTH FORMS ---
         function setupAuthForms() {
-            // ... (tab switching logic is the same)
              loginTab.addEventListener('click', () => {
                 loginTab.classList.add('bg-gray-100', 'border-blue-600');
                 loginTab.classList.remove('text-gray-500');
@@ -361,8 +397,7 @@
                 e.preventDefault();
                 signupError.textContent = '';
                 try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, signupForm['signup-email'].value, signupForm['signup-password'].value);
-                    const user = userCredential.user;
+                    const { user } = await createUserWithEmailAndPassword(auth, signupForm['signup-email'].value, signupForm['signup-password'].value);
                     const userProfile = { uid: user.uid, displayName: signupForm['signup-name'].value, role: signupForm['signup-role'].value };
                     await setDoc(doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`), userProfile);
                 } catch (error) {
@@ -375,8 +410,7 @@
                 signupError.textContent = '';
                 const provider = new GoogleAuthProvider();
                 try {
-                    const result = await signInWithPopup(auth, provider);
-                    const user = result.user;
+                    const { user } = await signInWithPopup(auth, provider);
                     const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`);
                     const userDoc = await getDoc(userDocRef);
                     if (!userDoc.exists()) {
@@ -403,14 +437,14 @@
         }
 
         function renderChatbotEntry() {
-            aiAssistantEntry.innerHTML = ''; // Clear previous
+            aiAssistantEntry.innerHTML = '';
             const chatbot = { uid: CHATBOT_ID, displayName: 'Vrinda AI Assistant', role: 'AI' };
             renderUserInList(chatbot, aiAssistantEntry, true);
         }
 
         function listenForRecentChats() {
-            const recentsCollectionRef = collection(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents`);
-            onSnapshot(query(recentsCollectionRef, orderBy('lastMessageTimestamp', 'desc')), (snapshot) => {
+            const recentsRef = collection(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents`);
+            onSnapshot(query(recentsRef, orderBy('lastMessageTimestamp', 'desc')), (snapshot) => {
                 recentChatsList.innerHTML = '';
                 if (snapshot.empty) {
                     noRecentsMessage.classList.remove('hidden');
@@ -426,30 +460,22 @@
             userElement.className = 'flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100';
             userElement.addEventListener('click', () => startChat(user));
             
-            let avatarColor = 'bg-gray-500';
-            if(isBot) avatarColor = 'bg-purple-500';
-            else if (user.role === 'Employee') avatarColor = 'bg-blue-500';
-            else if (user.role === 'Customer') avatarColor = 'bg-green-500';
-
+            let avatarColor = isBot ? 'bg-purple-500' : (user.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500');
             const avatar = document.createElement('div');
             avatar.className = `w-10 h-10 rounded-full text-white flex-shrink-0 flex items-center justify-center font-bold mr-3 ${avatarColor}`;
-            avatar.innerHTML = isBot ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>` : user.displayName.charAt(0).toUpperCase();
-
+            avatar.innerHTML = isBot ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>` : user.displayName.charAt(0).toUpperCase();
             const userInfo = document.createElement('div');
             userInfo.innerHTML = `<p class="font-semibold text-gray-800">${user.displayName}</p>`;
-
-            userElement.appendChild(avatar);
-            userElement.appendChild(userInfo);
+            userElement.append(avatar, userInfo);
             listElement.appendChild(userElement);
         }
 
         // --- SEARCH ---
-        // ... (Search logic is the same)
         let searchTimeout;
         searchUsersInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             const searchTerm = e.target.value.trim().toLowerCase();
-            if (searchTerm.length < 3) {
+            if (searchTerm.length < 2) {
                 searchResultsContainer.classList.add('hidden');
                 return;
             }
@@ -460,22 +486,10 @@
             searchResultsList.innerHTML = '<p class="text-gray-500 text-sm p-2">Searching...</p>';
             searchResultsContainer.classList.remove('hidden');
             try {
-                const usersRef = collection(db, `/artifacts/${appId}/public/data/users`);
-                const snapshot = await getDocs(usersRef);
-                const results = [];
-                snapshot.forEach(doc => {
-                    const user = doc.data();
-                    if (user.uid !== appUserId && (user.displayName.toLowerCase().includes(searchTerm) || user.uid.toLowerCase() === searchTerm)) {
-                        results.push(user);
-                    }
-                });
-                
-                searchResultsList.innerHTML = '';
-                if(results.length === 0) {
-                     searchResultsList.innerHTML = '<p class="text-gray-500 text-sm p-2">No users found.</p>';
-                } else {
-                    results.forEach(user => renderUserInList(user, searchResultsList, false));
-                }
+                const snapshot = await getDocs(collection(db, `/artifacts/${appId}/public/data/users`));
+                const results = snapshot.docs.map(doc => doc.data()).filter(user => user.uid !== appUserId && (user.displayName.toLowerCase().includes(searchTerm) || user.uid.toLowerCase() === searchTerm));
+                searchResultsList.innerHTML = results.length === 0 ? '<p class="text-gray-500 text-sm p-2">No users found.</p>' : '';
+                results.forEach(user => renderUserInList(user, searchResultsList, false));
             } catch (error) {
                 console.error("Error searching users:", error);
                 searchResultsList.innerHTML = '<p class="text-red-500 text-sm p-2">Search failed.</p>';
@@ -495,19 +509,16 @@
 
             chatHeaderName.textContent = otherUser.displayName;
             chatHeaderRole.textContent = otherUser.role;
-
-            let avatarColor = 'bg-gray-500';
-            if(isChatbotActive) avatarColor = 'bg-purple-500';
-            else if (otherUser.role === 'Employee') avatarColor = 'bg-blue-500';
-            else if (otherUser.role === 'Customer') avatarColor = 'bg-green-500';
-            
+            let avatarColor = isChatbotActive ? 'bg-purple-500' : (otherUser.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500');
             chatHeaderAvatar.className = `w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-xl mr-3 ${avatarColor}`;
-            chatHeaderAvatar.innerHTML = isChatbotActive ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>` : otherUser.displayName.charAt(0).toUpperCase();
+            chatHeaderAvatar.innerHTML = isChatbotActive ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>` : otherUser.displayName.charAt(0).toUpperCase();
             
+            aiSuggestionBar.classList.toggle('hidden', isChatbotActive || currentUserProfile.role !== 'Employee' || otherUser.role !== 'Customer');
             deleteChatBtn.classList.toggle('hidden', isChatbotActive || currentUserProfile.role !== 'Employee');
 
             if (unsubscribeMessages) unsubscribeMessages();
             chatMessages.innerHTML = '';
+            allMessages = [];
 
             if (isChatbotActive) {
                 renderMessage({ text: 'Hello! I am Vrinda, your AI assistant. How can I help you today?', senderId: CHATBOT_ID });
@@ -517,7 +528,8 @@
                 const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
                 unsubscribeMessages = onSnapshot(query(messagesRef, orderBy('timestamp')), (snapshot) => {
                     chatMessages.innerHTML = '';
-                    snapshot.forEach(doc => renderMessage(doc.data()));
+                    allMessages = snapshot.docs.map(doc => doc.data());
+                    allMessages.forEach(msg => renderMessage(msg));
                     scrollToBottom();
                 });
             }
@@ -526,32 +538,12 @@
         function renderMessage(message, isTyping = false) {
             const isSender = message.senderId === appUserId;
             const isBot = message.senderId === CHATBOT_ID;
-            
             const messageWrapper = document.createElement('div');
             messageWrapper.className = `flex mb-4 ${isSender ? 'justify-end' : 'justify-start'}`;
-
-            let bubbleContent = '';
-            if (isTyping) {
-                bubbleContent = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
-            } else {
-                // Convert markdown to HTML
-                let formattedText = message.text;
-                // Bold: **text** -> <strong>text</strong>
-                formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                // Italics: *text* -> <em>text</em>
-                formattedText = formattedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                // Newlines -> <br>
-                bubbleContent = formattedText.replace(/\n/g, '<br>');
-            }
-            
-            let bubbleColor = 'bg-white text-gray-800';
-            if(isSender) bubbleColor = 'bg-blue-600 text-white';
-            if(isBot) bubbleColor = 'bg-purple-100 text-purple-900';
-            
+            let bubbleContent = isTyping ? `<div class="typing-indicator"><span></span><span></span><span></span></div>` : message.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+            let bubbleColor = isSender ? 'bg-blue-600 text-white' : (isBot ? 'bg-purple-100 text-purple-900' : 'bg-white text-gray-800');
             messageWrapper.innerHTML = `<div class="max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${bubbleColor}">${bubbleContent}</div>`;
-            
             if (isTyping) messageWrapper.id = 'typing-indicator';
-
             chatMessages.appendChild(messageWrapper);
             scrollToBottom();
         }
@@ -560,90 +552,126 @@
             e.preventDefault();
             const text = messageInput.value.trim();
             if (!text) return;
-            
             messageInput.value = '';
-
-            if (isChatbotActive) {
-                await handleChatbotMessage(text);
-            } else if (activeChatPartner) {
+            if (isChatbotActive) await handleChatbotMessage(text);
+            else if (activeChatPartner) {
                 const chatId = [appUserId, activeChatPartner.uid].sort().join('_');
-                const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
                 try {
-                    await addDoc(messagesRef, { text, senderId: appUserId, timestamp: serverTimestamp() });
+                    await addDoc(collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`), { text, senderId: appUserId, timestamp: serverTimestamp() });
                     await updateRecents(activeChatPartner);
-                    scrollToBottom();
                 } catch (error) { console.error("Error sending message:", error); }
             }
         });
+
+        // --- AI FEATURES (GEMINI API) ---
+        function setupAIFeatureListeners() {
+            getSuggestionsBtn.addEventListener('click', getSmartReplies);
+            polishBtn.addEventListener('click', polishMessage);
+            closeSuggestionModal.addEventListener('click', () => aiSuggestionModal.classList.add('hidden'));
+            cancelPolish.addEventListener('click', () => aiPolishModal.classList.add('hidden'));
+            usePolishedText.addEventListener('click', () => {
+                messageInput.value = polishedTextContainer.textContent;
+                aiPolishModal.classList.add('hidden');
+            });
+        }
         
-        // --- CHATBOT (GEMINI API) ---
-        async function handleChatbotMessage(userMessage) {
-            // Render user's message
-            renderMessage({ text: userMessage, senderId: appUserId });
-            
-            // Show typing indicator
-            renderMessage({ senderId: CHATBOT_ID }, true);
+        async function callGemini(payload) {
+             const apiKey = "";
+             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+             try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+                return await response.json();
+             } catch (error) {
+                console.error("Gemini API Error:", error);
+                alert("An error occurred while contacting the AI. Please try again.");
+                return null;
+             }
+        }
 
-            const apiKey = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw"; // Will be provided by the environment
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            // Add user message to history for context
-            chatbotHistory.push({ role: "user", parts: [{ text: userMessage }] });
-
-            const systemPrompt = `You are Vrinda, a friendly and helpful AI assistant for the company Vrindopnishad. Your goal is to assist new users by answering their questions about the company and its projects.
-            - **About Vrindopnishad:** We are an innovative tech company based in India, specializing in sustainable technology and smart infrastructure solutions. Our mission is to build a greener future through technology. One of our projects is 'Vrinda Pictures', where users can purchase high-quality pictures of Lord Krishna and others in HD and 4K resolution.
-            - **Our Projects:** 1. 'Vrinda Tours': A Company Project Which Provides Hotels, restaurants, tour vehicle, tour guide for Brij 84 Kos.
-                2. 'Vrinda Posters': A Company Project In which we sell posters of lord krishn in amazing form.
-                3. 'Vrinda Pictures': A Company Project In which User Can Purchase Pictures of Lord Krishn and Others In HD, 4k Resolution High Quality.
-            - **Your Persona:** Be welcoming, clear, concise, and always helpful. Do not answer questions unrelated to Vrindopnishad. Politely decline if asked to do something outside of your scope. Format your responses with markdown for clarity (e.g., use **bold text** for emphasis).`;
+        async function getSmartReplies() {
+            if (!activeChatPartner || allMessages.length === 0) return;
+            const lastMessage = allMessages.filter(m => m.senderId === activeChatPartner.uid).pop();
+            if (!lastMessage) {
+                alert("Waiting for customer's message to suggest a reply.");
+                return;
+            }
+            suggestionList.innerHTML = '<p class="text-gray-500">✨ Generating suggestions...</p>';
+            aiSuggestionModal.classList.remove('hidden');
 
             const payload = {
-                contents: chatbotHistory,
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
+                contents: [{ parts: [{ text: `A customer said: "${lastMessage.text}". Generate three brief, professional, and helpful replies.` }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: { type: "ARRAY", items: { type: "OBJECT", properties: { "reply": { "type": "STRING" }}}}
+                }
             };
+            
+            const result = await callGemini(payload);
+            const suggestions = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+            if (suggestions) {
+                suggestionList.innerHTML = '';
+                JSON.parse(suggestions).forEach(item => {
+                    const button = document.createElement('button');
+                    button.className = 'w-full text-left p-3 bg-gray-100 rounded-lg hover:bg-blue-100 transition';
+                    button.textContent = item.reply;
+                    button.onclick = () => {
+                        messageInput.value = item.reply;
+                        aiSuggestionModal.classList.add('hidden');
+                    };
+                    suggestionList.appendChild(button);
                 });
+            } else {
+                 suggestionList.innerHTML = '<p class="text-red-500">Could not generate suggestions.</p>';
+            }
+        }
+        
+        async function polishMessage() {
+            const originalText = messageInput.value.trim();
+            if (!originalText) return;
 
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.statusText}`);
-                }
+            polishedTextContainer.innerHTML = '<p class="text-gray-500">✨ Polishing message...</p>';
+            aiPolishModal.classList.remove('hidden');
 
-                const result = await response.json();
-                const botResponse = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                
-                if (botResponse) {
-                    // Add AI response to history
-                    chatbotHistory.push({ role: "model", parts: [{ text: botResponse }] });
-                    renderMessage({ text: botResponse, senderId: CHATBOT_ID });
-                } else {
-                    renderMessage({ text: "Sorry, I couldn't generate a response. Please try again.", senderId: CHATBOT_ID });
-                }
+            const payload = {
+                contents: [{ parts: [{ text: `Rephrase the following text to be more professional and clear: "${originalText}"` }] }]
+            };
+            
+            const result = await callGemini(payload);
+            const polishedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            polishedTextContainer.textContent = polishedText || "Could not polish the message.";
+        }
 
-            } catch (error) {
-                console.error("Gemini API Error:", error);
-                renderMessage({ text: "Sorry, I'm having trouble connecting. Please check your connection and try again.", senderId: CHATBOT_ID });
-            } finally {
-                // Remove typing indicator
-                const typingIndicator = document.getElementById('typing-indicator');
-                if (typingIndicator) typingIndicator.remove();
+        async function handleChatbotMessage(userMessage) {
+            renderMessage({ text: userMessage, senderId: appUserId });
+            renderMessage({ senderId: CHATBOT_ID }, true);
+            chatbotHistory.push({ role: "user", parts: [{ text: userMessage }] });
+            const systemPrompt = `You are Vrinda, a friendly AI assistant for Vrindopnishad. Your goal is to answer questions about the company and its projects.
+            - **About Vrindopnishad:** An innovative tech company in India specializing in sustainable technology and smart infrastructure. We also have 'Vrinda Pictures', selling high-quality digital images of Lord Krishna.
+            - **Projects:** 'GreenCity OS' (smart city management), 'AquaPure' (solar water purification), 'Agri-Sphere' (AI for farming), and 'Vrinda Pictures'.
+            - **Persona:** Be welcoming, clear, and concise. Only answer questions related to Vrindopnishad. Format responses with markdown (e.g., **bold text**).`;
+            const payload = { contents: chatbotHistory, systemInstruction: { parts: [{ text: systemPrompt }] } };
+            const result = await callGemini(payload);
+            const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+            document.getElementById('typing-indicator')?.remove();
+            if (botResponse) {
+                chatbotHistory.push({ role: "model", parts: [{ text: botResponse }] });
+                renderMessage({ text: botResponse, senderId: CHATBOT_ID });
+            } else {
+                renderMessage({ text: "Sorry, I couldn't generate a response. Please try again.", senderId: CHATBOT_ID });
             }
         }
         
         // --- REST OF THE FUNCTIONS (Unchanged) ---
         async function updateRecents(otherUser) {
             const timestamp = serverTimestamp();
-            const currentUserRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUser.uid}`);
-            const otherUserRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUser.uid}/recents/${appUserId}`);
+            const myRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUser.uid}`);
+            const otherRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUser.uid}/recents/${appUserId}`);
             const batch = writeBatch(db);
-            batch.set(currentUserRecentRef, { ...otherUser, lastMessageTimestamp: timestamp });
-            batch.set(otherUserRecentRef, { ...currentUserProfile, lastMessageTimestamp: timestamp });
+            batch.set(myRecentRef, { ...otherUser, lastMessageTimestamp: timestamp });
+            batch.set(otherRecentRef, { ...currentUserProfile, lastMessageTimestamp: timestamp });
             await batch.commit();
         }
 
@@ -651,27 +679,19 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        deleteChatBtn.addEventListener('click', () => {
-            if (activeChatPartner) confirmDeleteModal.classList.remove('hidden');
-        });
-
+        deleteChatBtn.addEventListener('click', () => { if (activeChatPartner) confirmDeleteModal.classList.remove('hidden'); });
         cancelDeleteBtn.addEventListener('click', () => confirmDeleteModal.classList.add('hidden'));
-
         confirmDeleteBtn.addEventListener('click', async () => {
             if (!activeChatPartner || currentUserProfile.role !== 'Employee') return;
             const otherUserUid = activeChatPartner.uid;
             const chatId = [appUserId, otherUserUid].sort().join('_');
             const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
             const messagesSnapshot = await getDocs(messagesRef);
-            const deleteMsgBatch = writeBatch(db);
-            messagesSnapshot.forEach(doc => deleteMsgBatch.delete(doc.ref));
-            await deleteMsgBatch.commit();
-            const myRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUserUid}`);
-            const otherRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUserUid}/recents/${appUserId}`);
-            const deleteRecentsBatch = writeBatch(db);
-            deleteRecentsBatch.delete(myRecentRef);
-            deleteRecentsBatch.delete(otherRecentRef);
-            await deleteRecentsBatch.commit();
+            const batch = writeBatch(db);
+            messagesSnapshot.forEach(doc => batch.delete(doc.ref));
+            batch.delete(doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUserUid}`));
+            batch.delete(doc(db, `/artifacts/${appId}/public/data/users/${otherUserUid}/recents/${appUserId}`));
+            await batch.commit();
             activeChatPartner = null;
             if (unsubscribeMessages) unsubscribeMessages();
             chatContainer.classList.add('hidden');
@@ -680,7 +700,6 @@
         });
 
         currentUserIdElem.addEventListener('click', () => navigator.clipboard.writeText(appUserId));
-        
         showQrBtn.addEventListener('click', () => {
             qrCodeContainer.innerHTML = '';
             const qr = qrcode(0, 'L');
@@ -695,8 +714,7 @@
         scanQrBtn.addEventListener('click', () => {
             qrScannerModal.classList.remove('hidden');
             html5QrCode = new Html5Qrcode("qr-reader");
-            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-            html5QrCode.start({ facingMode: "environment" }, config, async (decodedText) => {
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 250 } }, async (decodedText) => {
                 await stopScanner();
                 try {
                     const userDoc = await getDoc(doc(db, `/artifacts/${appId}/public/data/users/${decodedText}`));
@@ -707,9 +725,7 @@
         });
 
         async function stopScanner() {
-            if (html5QrCode && html5QrCode.isScanning) {
-                try { await html5QrCode.stop(); } catch (err) {}
-            }
+            if (html5QrCode?.isScanning) { try { await html5QrCode.stop(); } catch (err) {} }
             html5QrCode = null;
             qrScannerModal.classList.add('hidden');
         }
