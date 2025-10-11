@@ -107,13 +107,13 @@ function initializeTheme() {
 }
 
 // Collection generation
-// function initializeCollections() {
-//     if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items || collectionsData.featured);
-//     if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items || collectionsData.popular);
-//     if (collectionsData.nature) generateCollectionItems('nature-slider', collectionsData.nature.items || collectionsData.nature);
-//     if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items || collectionsData.anime);
-//     if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items || collectionsData.architecture);
-// }
+function initializeCollections() {
+    if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items || collectionsData.featured);
+    if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items || collectionsData.popular);
+    if (collectionsData.nature) generateCollectionItems('nature-slider', collectionsData.nature.items || collectionsData.nature);
+    if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items || collectionsData.anime);
+    if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items || collectionsData.architecture);
+}
 
 // Fixed header background rotation
 function initializeHeaderBackground() {
