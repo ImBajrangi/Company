@@ -149,20 +149,26 @@
                 </div>
             </div>
             <!-- AI Suggestion Modal -->
-            <div id="ai-suggestion-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden">
-                <div class="bg-white rounded-lg p-6 shadow-2xl w-11/12 max-w-2xl">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">✨ AI Reply Suggestions</h3>
-                    <div id="suggestion-list" class="space-y-3 max-h-[60vh] overflow-y-auto"></div>
-                    <button id="close-suggestion-modal" class="mt-6 w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition">Close</button>
+            <div id="ai-suggestion-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl flex flex-col max-h-[80vh]">
+                    <div class="p-6 flex-shrink-0">
+                        <h3 class="text-lg font-semibold text-gray-800">✨ AI Reply Suggestions</h3>
+                    </div>
+                    <div id="suggestion-list" class="px-6 space-y-3 overflow-y-auto"></div>
+                    <div class="p-6 flex-shrink-0">
+                        <button id="close-suggestion-modal" class="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition">Close</button>
+                    </div>
                 </div>
             </div>
             <!-- AI Polish Modal -->
-            <div id="ai-polish-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden">
-                <div class="bg-white rounded-lg p-6 shadow-2xl w-11/12 max-w-2xl">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">✨ Polished Message</h3>
-                    <p class="text-sm text-gray-500 mb-4">Here is a more professional version of your message:</p>
-                    <div id="polished-text-container" class="p-4 bg-gray-100 rounded-lg text-gray-800 max-h-[60vh] overflow-y-auto"></div>
-                    <div class="flex justify-end space-x-3 mt-6">
+            <div id="ai-polish-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl flex flex-col max-h-[80vh]">
+                    <div class="p-6 pb-4 flex-shrink-0">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">✨ Polished Message</h3>
+                        <p class="text-sm text-gray-500">Here is a more professional version of your message:</p>
+                    </div>
+                    <div id="polished-text-container" class="px-6 bg-gray-50 text-gray-800 overflow-y-auto"></div>
+                    <div class="p-6 flex justify-end space-x-3 flex-shrink-0">
                         <button id="cancel-polish" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition">Keep Original</button>
                         <button id="use-polished-text" class="bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition">Use This Version</button>
                     </div>
@@ -331,6 +337,7 @@
         let html5QrCode = null;
         let isChatbotActive = false;
         let chatbotHistory = [];
+        let lastPolishedText = '';
 
         // WebRTC Globals
         let peerConnection;
@@ -729,7 +736,9 @@
                 alert("Could not start call. Please grant camera and/or microphone permissions in your browser settings and try again.");
                 return;
             }
+            
 
+            
             remoteStream = new MediaStream();
 
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
@@ -917,11 +926,11 @@
             closeSuggestionModal.addEventListener('click', () => aiSuggestionModal.classList.add('hidden'));
             cancelPolish.addEventListener('click', () => aiPolishModal.classList.add('hidden'));
             usePolishedText.addEventListener('click', () => {
-                messageInput.value = polishedTextContainer.textContent;
+                messageInput.value = lastPolishedText;
                 aiPolishModal.classList.add('hidden');
             });
         }
-        
+
         async function callGemini(payload) {
              const apiKey = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw";
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
@@ -963,16 +972,19 @@
         async function polishMessage() {
             const originalText = messageInput.value.trim();
             if (!originalText) return;
-            polishedTextContainer.innerHTML = '<p class="text-gray-500">✨ Polishing message...</p>';
+            polishedTextContainer.innerHTML = '<p class="text-gray-500 p-4">✨ Polishing message...</p>';
             aiPolishModal.classList.remove('hidden');
-            const payload = { contents: [{ parts: [{ text: `Rephrase the following text to be more professional and clear: "${originalText}"` }] }] };
+            const payload = { contents: [{ parts: [{ text: `Rephrase the following text to be more professional and clear, using markdown for formatting like lists and bolding: "${originalText}"` }] }] };
             const result = await callGemini(payload);
-            const polishedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
             
-            polishedTextContainer.innerHTML = formatAIResponse(polishedText || "Could not polish the message.");
+            lastPolishedText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Could not polish the message.";
+            polishedTextContainer.innerHTML = formatAIResponse(lastPolishedText);
         }
 
         function formatAIResponse(text) {
+            // Protect against empty or invalid text
+            if (!text || typeof text !== 'string') return '';
+            
             return text
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')     // Italic
