@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/css/claude-collection.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Search Overlay -->
+        <div class="search-overlay">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search collections...">
+                <div class="search-results"></div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="logo">
+                <i class="fas fa-photo-video"></i>
+                <h1>Vrindopnishad</h1>
+            </div>
+            <div class="header-right">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Popup Modal -->
+        <div class="popup-modal" id="popup-modal">
+            <div class="popup-content">
+                <button class="popup-close" id="popup-close">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="popup-hero" id="popup-hero"></div>
+                <div class="popup-info">
+                    <div class="popup-header">
+                        <h1 class="popup-title">Collection Title</h1>
+                        <div class="popup-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.5</span>
+                        </div>
+                    </div>
+                    <div class="popup-meta">
+                        <span class="popup-year">2024</span>
+                        <span class="popup-count">50 items</span>
+                        <span class="popup-category">Collection</span>
+                    </div>
+                    <p class="popup-description">Collection description will appear here.</p>
+                    <div class="popup-actions">
+                        <button class="popup-btn popup-btn-primary">
+                            <i class="fas fa-play"></i> View Collection
+                        </button>
+                        <button class="popup-btn popup-btn-secondary">
+                            <i class="fas fa-info-circle"></i> More Info
+                        </button>
+                    </div>
+                    <div class="popup-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">0</span>
+                            <span class="stat-label">Items</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">0</span>
+                            <span class="stat-label">Views</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">0</span>
+                            <span class="stat-label">Likes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Spiritual & Divine Collection</h1>
+                <p class="hero-description">Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection.</p>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-row">
+                <h2 class="row-title">Featured Collections</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="featured-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="content-row">
+                <h2 class="row-title">Popular Right Now</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="popular-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="content-row">
+                <h2 class="row-title">Rapper Style</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="rapper-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="content-row">
+                <h2 class="row-title">Anime & Art</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="anime-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="content-row">
+                <h2 class="row-title">Dark Aesthetic</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="dark-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="content-row">
+                <h2 class="row-title">Warrior Styles</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="warrior-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="content-row">
+                <h2 class="row-title">Chhibi Styles</h2>
+                <div class="slider-container">
+                    <div class="items-slider" id="chhibi-slider"></div>
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vrindopnishad Collection. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/js/collection-page-fix.js"></script>
+</body>
+</html>
