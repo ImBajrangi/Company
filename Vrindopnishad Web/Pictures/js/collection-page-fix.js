@@ -106,9 +106,6 @@ function initializeTheme() {
     });
 }
 
-
-
-
 // Collection generation
 function initializeCollections() {
     if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items || collectionsData.featured);
