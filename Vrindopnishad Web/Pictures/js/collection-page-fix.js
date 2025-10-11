@@ -1,6 +1,6 @@
 // Collection data - will be populated from JSON
 let collectionsData = {};
-const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/collections_data.json";
+const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
 
 // Search functionality
 function initializeSearch() {
@@ -13,6 +13,10 @@ function initializeSearch() {
         console.error('Search elements not found');
         return;
     }
+    
+
+
+
     
     let searchTimeout = null;
 
