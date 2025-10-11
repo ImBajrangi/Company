@@ -16,13 +16,6 @@ function initializeSearch() {
     
     let searchTimeout = null;
 
-    function toggleSearch() {
-        searchOverlay.classList.toggle('active');
-        if (searchOverlay.classList.contains('active')) {
-            searchInput.focus();
-        }
-    }
-
     function handleSearch(e) {
         clearTimeout(searchTimeout);
         const query = e.target.value.toLowerCase();
@@ -66,44 +59,6 @@ function initializeSearch() {
         }
     });
     searchInput.addEventListener('input', handleSearch);
-}
-
-// Theme functionality
-function initializeTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle) {
-        console.error('Theme toggle not found');
-        return;
-    }
-    
-    const icon = themeToggle.querySelector('i');
-    const root = document.documentElement;
-
-    // Check for saved theme preference or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-    
-    document.body.classList.toggle('dark-mode', isDark);
-    if (icon) {
-        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-    }
-
-    // Theme toggle function
-    // themeToggle.addEventListener('click', () => {
-    //     document.body.classList.toggle('dark-mode');
-    //     const isDark = document.body.classList.contains('dark-mode');
-    //     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    //     if (icon) {
-    //         icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-    //     }
-
-//         // Add transition class for smooth color changes
-//         root.style.setProperty('--transition', 'all 0.3s ease');
-//         setTimeout(() => {
-//             root.style.removeProperty('--transition');
-//         }, 300);
-//     });
 }
 
 // Collection generation
