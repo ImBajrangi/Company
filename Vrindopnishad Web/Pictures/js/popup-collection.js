@@ -1,6 +1,6 @@
 // Collection data will be loaded from JSON
 let collectionsData = {};
-const dataUrl = "/Vrindopnishad Web/class/json/collections_data.json";
+const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/collections_data.json";
 
 // Popup Modal functionality
 function initializePopup() {
