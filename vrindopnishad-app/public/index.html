@@ -20,20 +20,6 @@
         #chat-messages::-webkit-scrollbar-thumb:hover { background: #555; }
         #qr-reader { border: 2px solid #e5e7eb; border-radius: 8px; }
         .hidden { display: none !important; }
-        .typing-indicator span {
-            height: 8px;
-            width: 8px;
-            background-color: #9E9E9E;
-            border-radius: 50%;
-            display: inline-block;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-        .typing-indicator span:nth-of-type(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-of-type(2) { animation-delay: -0.16s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
-        }
     </style>
 </head>
 <body class="bg-gray-100 h-screen">
@@ -148,12 +134,11 @@
                 </div>
 
                 <div class="flex-grow overflow-y-auto">
-                    <!-- AI Assistant & Recent Chats -->
+                    <!-- Recent Chats List -->
                     <div class="p-4">
-                        <div id="ai-assistant-entry" class="space-y-2"></div>
-                        <h3 class="text-lg font-semibold text-gray-800 my-2">Recent Chats</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Recent Chats</h3>
                         <div id="recent-chats-list" class="space-y-2">
-                             <p id="no-recents-message" class="text-gray-500 text-sm p-2">No recent conversations.</p>
+                             <p id="no-recents-message" class="text-gray-500 text-sm p-2">No recent conversations. Use search or QR scan to start a new chat.</p>
                         </div>
                     </div>
                      <!-- Search Results List -->
@@ -214,22 +199,18 @@
           measurementId: "G-DBZ0LMJW0G"
         };
         const appId = firebaseConfig.projectId;
-        const CHATBOT_ID = 'vrinda-ai-bot';
         let db, auth;
-        let appUserId = null; 
+        let appUserId = null; // Can be from URL (for anon) or from auth.currentUser.uid (for logged in)
         let currentUserProfile = null;
         let activeChatPartner = null;
         let unsubscribeMessages = null;
         let html5QrCode = null;
-        let isChatbotActive = false;
-        let chatbotHistory = [];
 
         // --- DOM ELEMENTS ---
         const loadingScreen = document.getElementById('loading-screen');
         const loader = document.getElementById('loader');
         const authModal = document.getElementById('auth-modal');
         const mainChatInterface = document.getElementById('main-chat-interface');
-        const aiAssistantEntry = document.getElementById('ai-assistant-entry');
         // Auth form elements
         const loginTab = document.getElementById('login-tab');
         const signupTab = document.getElementById('signup-tab');
@@ -240,7 +221,7 @@
         const logoutBtn = document.getElementById('logout-btn');
         const googleLoginBtn = document.getElementById('google-login-btn');
         const googleSignUpBtn = document.getElementById('google-signup-btn');
-        // ... (rest of DOM elements are the same)
+
         const currentUserIdElem = document.getElementById('current-user-id');
         const welcomeUserName = document.getElementById('welcome-user-name');
         const recentChatsList = document.getElementById('recent-chats-list');
@@ -257,6 +238,7 @@
         const chatMessages = document.getElementById('chat-messages');
         const messageForm = document.getElementById('message-form');
         const messageInput = document.getElementById('message-input');
+        // Modals
         const confirmDeleteModal = document.getElementById('confirm-delete-modal');
         const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
         const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
@@ -283,30 +265,40 @@
 
         // --- AUTH & PROFILE MANAGEMENT ---
         function setupAuthListener() {
-             onAuthStateChanged(auth, async (user) => {
+            onAuthStateChanged(auth, async (user) => {
                 const params = new URLSearchParams(window.location.search);
                 const urlUid = params.get('uid');
 
-                if (user) {
+                if (user) { // User is signed in (either anon or with email)
                     if (user.isAnonymous && urlUid) {
+                        // Integrated mode: user data is based on URL param
                         appUserId = urlUid;
-                        await setupSession(appUserId, params.get('name'), params.get('role'));
+                        const displayName = params.get('name');
+                        const role = params.get('role');
+                        await setupSession(appUserId, displayName, role);
+
                     } else if (!user.isAnonymous) {
+                        // Logged in user: user data is based on auth uid
                         appUserId = user.uid;
                         const userDoc = await getDoc(doc(db, `/artifacts/${appId}/public/data/users/${appUserId}`));
-                        if (userDoc.exists()) {
+                        if(userDoc.exists()) {
                             const profile = userDoc.data();
                             await setupSession(profile.uid, profile.displayName, profile.role);
                         } else {
-                            console.log("New user detected, profile will be created.");
+                           // This can happen if a user signs in with Google for the first time
+                           // The profile is created in the Google Sign-in handler
+                           console.log("New user detected, profile should be created shortly.");
                         }
                     } else {
+                         // Anonymous user without URL params, force logout to show login
                          signOut(auth);
                     }
-                } else {
+                } else { // No user is signed in
                     if (urlUid) {
+                        // Integrated mode, needs to sign in anonymously
                         signInAnonymously(auth).catch(err => console.error("Anonymous sign in failed", err));
                     } else {
+                        // No URL params, show login modal
                         loader.classList.add('hidden');
                         authModal.classList.remove('hidden');
                     }
@@ -323,14 +315,12 @@
             mainChatInterface.classList.remove('hidden');
             currentUserIdElem.textContent = uid;
             welcomeUserName.textContent = name.split(' ')[0];
-            
-            renderSidebar();
+            listenForRecentChats();
         }
         
         // --- AUTH FORMS ---
         function setupAuthForms() {
-            // ... (tab switching logic is the same)
-             loginTab.addEventListener('click', () => {
+            loginTab.addEventListener('click', () => {
                 loginTab.classList.add('bg-gray-100', 'border-blue-600');
                 loginTab.classList.remove('text-gray-500');
                 signupTab.classList.remove('bg-gray-100', 'border-blue-600');
@@ -350,8 +340,11 @@
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 loginError.textContent = '';
+                const email = loginForm['login-email'].value;
+                const password = loginForm['login-password'].value;
                 try {
-                    await signInWithEmailAndPassword(auth, loginForm['login-email'].value, loginForm['login-password'].value);
+                    await signInWithEmailAndPassword(auth, email, password);
+                    // onAuthStateChanged will handle the rest
                 } catch (error) {
                     loginError.textContent = error.message;
                 }
@@ -360,11 +353,17 @@
             signupForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 signupError.textContent = '';
+                const name = signupForm['signup-name'].value;
+                const email = signupForm['signup-email'].value;
+                const password = signupForm['signup-password'].value;
+                const role = signupForm['signup-role'].value;
                 try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, signupForm['signup-email'].value, signupForm['signup-password'].value);
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     const user = userCredential.user;
-                    const userProfile = { uid: user.uid, displayName: signupForm['signup-name'].value, role: signupForm['signup-role'].value };
+                    // Now create the user profile in Firestore
+                    const userProfile = { uid: user.uid, displayName: name, role };
                     await setDoc(doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`), userProfile);
+                    // onAuthStateChanged will handle the rest
                 } catch (error) {
                     signupError.textContent = error.message;
                 }
@@ -377,37 +376,35 @@
                 try {
                     const result = await signInWithPopup(auth, provider);
                     const user = result.user;
+
                     const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`);
                     const userDoc = await getDoc(userDocRef);
                     if (!userDoc.exists()) {
-                        const newUserProfile = { uid: user.uid, displayName: user.displayName, role: 'Customer' };
+                        const newUserProfile = {
+                            uid: user.uid,
+                            displayName: user.displayName,
+                            role: 'Customer' // Default role for new Google sign-ups
+                        };
                         await setDoc(userDocRef, newUserProfile);
                     }
+                    // onAuthStateChanged will handle the rest
                 } catch (error) {
-                    const errorMessage = `Google Auth Error: ${error.message}`;
-                    loginError.textContent = errorMessage;
-                    signupError.textContent = errorMessage;
+                    loginError.textContent = `Google Sign-In Error: ${error.message}`;
+                    signupError.textContent = `Google Sign-Up Error: ${error.message}`;
                 }
             };
             
             googleLoginBtn.addEventListener('click', handleGoogleAuth);
             googleSignUpBtn.addEventListener('click', handleGoogleAuth);
 
-            logoutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
+            logoutBtn.addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    window.location.reload();
+                });
+            });
         }
         
         // --- UI & CHAT LISTING ---
-        function renderSidebar() {
-            renderChatbotEntry();
-            listenForRecentChats();
-        }
-
-        function renderChatbotEntry() {
-            aiAssistantEntry.innerHTML = ''; // Clear previous
-            const chatbot = { uid: CHATBOT_ID, displayName: 'Vrinda AI Assistant', role: 'AI' };
-            renderUserInList(chatbot, aiAssistantEntry, true);
-        }
-
         function listenForRecentChats() {
             const recentsCollectionRef = collection(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents`);
             onSnapshot(query(recentsCollectionRef, orderBy('lastMessageTimestamp', 'desc')), (snapshot) => {
@@ -416,24 +413,21 @@
                     noRecentsMessage.classList.remove('hidden');
                 } else {
                     noRecentsMessage.classList.add('hidden');
-                    snapshot.forEach(doc => renderUserInList(doc.data(), recentChatsList, false));
+                    snapshot.forEach(doc => {
+                        renderUserInList(doc.data(), recentChatsList);
+                    });
                 }
             });
         }
 
-        function renderUserInList(user, listElement, isBot) {
+        function renderUserInList(user, listElement) {
             const userElement = document.createElement('div');
             userElement.className = 'flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100';
             userElement.addEventListener('click', () => startChat(user));
             
-            let avatarColor = 'bg-gray-500';
-            if(isBot) avatarColor = 'bg-purple-500';
-            else if (user.role === 'Employee') avatarColor = 'bg-blue-500';
-            else if (user.role === 'Customer') avatarColor = 'bg-green-500';
-
             const avatar = document.createElement('div');
-            avatar.className = `w-10 h-10 rounded-full text-white flex-shrink-0 flex items-center justify-center font-bold mr-3 ${avatarColor}`;
-            avatar.innerHTML = isBot ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>` : user.displayName.charAt(0).toUpperCase();
+            avatar.className = `w-10 h-10 rounded-full text-white flex-shrink-0 flex items-center justify-center font-bold mr-3 ${user.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500'}`;
+            avatar.textContent = user.displayName.charAt(0).toUpperCase();
 
             const userInfo = document.createElement('div');
             userInfo.innerHTML = `<p class="font-semibold text-gray-800">${user.displayName}</p>`;
@@ -444,7 +438,6 @@
         }
 
         // --- SEARCH ---
-        // ... (Search logic is the same)
         let searchTimeout;
         searchUsersInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -474,7 +467,7 @@
                 if(results.length === 0) {
                      searchResultsList.innerHTML = '<p class="text-gray-500 text-sm p-2">No users found.</p>';
                 } else {
-                    results.forEach(user => renderUserInList(user, searchResultsList, false));
+                    results.forEach(user => renderUserInList(user, searchResultsList));
                 }
             } catch (error) {
                 console.error("Error searching users:", error);
@@ -484,9 +477,7 @@
 
         // --- CHAT FUNCTIONALITY ---
         function startChat(otherUser) {
-            isChatbotActive = (otherUser.uid === CHATBOT_ID);
-            activeChatPartner = isChatbotActive ? null : otherUser;
-            
+            activeChatPartner = otherUser;
             welcomeScreen.classList.add('hidden');
             searchResultsContainer.classList.add('hidden');
             searchUsersInput.value = '';
@@ -495,145 +486,50 @@
 
             chatHeaderName.textContent = otherUser.displayName;
             chatHeaderRole.textContent = otherUser.role;
-
-            let avatarColor = 'bg-gray-500';
-            if(isChatbotActive) avatarColor = 'bg-purple-500';
-            else if (otherUser.role === 'Employee') avatarColor = 'bg-blue-500';
-            else if (otherUser.role === 'Customer') avatarColor = 'bg-green-500';
+            chatHeaderAvatar.textContent = otherUser.displayName.charAt(0).toUpperCase();
+            chatHeaderAvatar.className = `w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-xl mr-3 ${otherUser.role === 'Employee' ? 'bg-blue-500' : 'bg-green-500'}`;
             
-            chatHeaderAvatar.className = `w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-xl mr-3 ${avatarColor}`;
-            chatHeaderAvatar.innerHTML = isChatbotActive ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>` : otherUser.displayName.charAt(0).toUpperCase();
-            
-            deleteChatBtn.classList.toggle('hidden', isChatbotActive || currentUserProfile.role !== 'Employee');
+            deleteChatBtn.classList.toggle('hidden', currentUserProfile.role !== 'Employee');
 
+            const chatId = [appUserId, otherUser.uid].sort().join('_');
             if (unsubscribeMessages) unsubscribeMessages();
-            chatMessages.innerHTML = '';
 
-            if (isChatbotActive) {
-                renderMessage({ text: 'Hello! I am Vrinda, your AI assistant. How can I help you today?', senderId: CHATBOT_ID });
-                chatbotHistory = [];
-            } else {
-                const chatId = [appUserId, otherUser.uid].sort().join('_');
-                const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
-                unsubscribeMessages = onSnapshot(query(messagesRef, orderBy('timestamp')), (snapshot) => {
-                    chatMessages.innerHTML = '';
-                    snapshot.forEach(doc => renderMessage(doc.data()));
-                    scrollToBottom();
-                });
-            }
+            const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
+            unsubscribeMessages = onSnapshot(query(messagesRef, orderBy('timestamp')), (snapshot) => {
+                chatMessages.innerHTML = '';
+                snapshot.forEach(doc => renderMessage(doc.data()));
+                scrollToBottom();
+            });
         }
-        
-        function renderMessage(message, isTyping = false) {
+
+        function renderMessage(message) {
             const isSender = message.senderId === appUserId;
-            const isBot = message.senderId === CHATBOT_ID;
-            
             const messageWrapper = document.createElement('div');
             messageWrapper.className = `flex mb-4 ${isSender ? 'justify-end' : 'justify-start'}`;
-
-            let bubbleContent = '';
-            if (isTyping) {
-                bubbleContent = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
-            } else {
-                bubbleContent = message.text.replace(/\n/g, '<br>'); // Render newlines
-            }
-            
-            let bubbleColor = 'bg-white text-gray-800';
-            if(isSender) bubbleColor = 'bg-blue-600 text-white';
-            if(isBot) bubbleColor = 'bg-purple-100 text-purple-900';
-            
-            messageWrapper.innerHTML = `<div class="max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${bubbleColor}">${bubbleContent}</div>`;
-            
-            if (isTyping) messageWrapper.id = 'typing-indicator';
-
+            messageWrapper.innerHTML = `<div class="max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${isSender ? 'bg-blue-600 text-white' : 'bg-white text-gray-800'}">${message.text}</div>`;
             chatMessages.appendChild(messageWrapper);
-            scrollToBottom();
         }
 
         messageForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const text = messageInput.value.trim();
-            if (!text) return;
-            
-            messageInput.value = '';
-
-            if (isChatbotActive) {
-                await handleChatbotMessage(text);
-            } else if (activeChatPartner) {
+            if (text && activeChatPartner) {
                 const chatId = [appUserId, activeChatPartner.uid].sort().join('_');
                 const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
                 try {
                     await addDoc(messagesRef, { text, senderId: appUserId, timestamp: serverTimestamp() });
                     await updateRecents(activeChatPartner);
+                    messageInput.value = '';
                     scrollToBottom();
                 } catch (error) { console.error("Error sending message:", error); }
             }
         });
-        
-        // --- CHATBOT (GEMINI API) ---
-        async function handleChatbotMessage(userMessage) {
-            // Render user's message
-            renderMessage({ text: userMessage, senderId: appUserId });
-            
-            // Show typing indicator
-            renderMessage({ senderId: CHATBOT_ID }, true);
 
-            const apiKey = ""; // Will be provided by the environment
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            // Add user message to history for context
-            chatbotHistory.push({ role: "user", parts: [{ text: userMessage }] });
-
-            const systemPrompt = `You are Vrinda, a friendly and helpful AI assistant for the company Vrindopnishad. Your goal is to assist new users by answering their questions about the company and its projects.
-            - **About Vrindopnishad:** We are an innovative tech company based in India, specializing in sustainable technology and smart infrastructure solutions. Our mission is to build a greener future through technology.
-            - **Our Projects:** 1. 'Vrinda Tours': A Company Project Which Provides Hotels, restaurants, tour vehicle, tour guide for Brij 84 Kos.
-                2. 'Vrinda Posters': A Company Project In which we sell posters of lord krishn in amazing form.
-                3. 'Vrinda Pictures': A Company Project In which User Can Purchase Pictures of Lord Krishn and Others In HD, 4k Resolution High Quality.
-            - **Your Persona:** Be welcoming, clear, concise, and always helpful. Do not answer questions unrelated to Vrindopnishad. Politely decline if asked to do something outside of your scope.`;
-
-            const payload = {
-                contents: chatbotHistory,
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-            };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.statusText}`);
-                }
-
-                const result = await response.json();
-                const botResponse = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                
-                if (botResponse) {
-                    // Add AI response to history
-                    chatbotHistory.push({ role: "model", parts: [{ text: botResponse }] });
-                    renderMessage({ text: botResponse, senderId: CHATBOT_ID });
-                } else {
-                    renderMessage({ text: "Sorry, I couldn't generate a response. Please try again.", senderId: CHATBOT_ID });
-                }
-
-            } catch (error) {
-                console.error("Gemini API Error:", error);
-                renderMessage({ text: "Sorry, I'm having trouble connecting. Please check your connection and try again.", senderId: CHATBOT_ID });
-            } finally {
-                // Remove typing indicator
-                const typingIndicator = document.getElementById('typing-indicator');
-                if (typingIndicator) typingIndicator.remove();
-            }
-        }
-        
-        // --- REST OF THE FUNCTIONS (Unchanged) ---
         async function updateRecents(otherUser) {
             const timestamp = serverTimestamp();
             const currentUserRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUser.uid}`);
             const otherUserRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUser.uid}/recents/${appUserId}`);
+            
             const batch = writeBatch(db);
             batch.set(currentUserRecentRef, { ...otherUser, lastMessageTimestamp: timestamp });
             batch.set(otherUserRecentRef, { ...currentUserProfile, lastMessageTimestamp: timestamp });
@@ -644,27 +540,34 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        // --- CHAT DELETION (FOR EMPLOYEES) ---
         deleteChatBtn.addEventListener('click', () => {
-            if (activeChatPartner) confirmDeleteModal.classList.remove('hidden');
+            if (activeChatPartner) {
+                confirmDeleteModal.classList.remove('hidden');
+            }
         });
 
         cancelDeleteBtn.addEventListener('click', () => confirmDeleteModal.classList.add('hidden'));
 
         confirmDeleteBtn.addEventListener('click', async () => {
             if (!activeChatPartner || currentUserProfile.role !== 'Employee') return;
+
             const otherUserUid = activeChatPartner.uid;
             const chatId = [appUserId, otherUserUid].sort().join('_');
+            
             const messagesRef = collection(db, `/artifacts/${appId}/public/data/chats/${chatId}/messages`);
             const messagesSnapshot = await getDocs(messagesRef);
             const deleteMsgBatch = writeBatch(db);
             messagesSnapshot.forEach(doc => deleteMsgBatch.delete(doc.ref));
             await deleteMsgBatch.commit();
+
             const myRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}/recents/${otherUserUid}`);
             const otherRecentRef = doc(db, `/artifacts/${appId}/public/data/users/${otherUserUid}/recents/${appUserId}`);
             const deleteRecentsBatch = writeBatch(db);
             deleteRecentsBatch.delete(myRecentRef);
             deleteRecentsBatch.delete(otherRecentRef);
             await deleteRecentsBatch.commit();
+            
             activeChatPartner = null;
             if (unsubscribeMessages) unsubscribeMessages();
             chatContainer.classList.add('hidden');
@@ -672,6 +575,7 @@
             confirmDeleteModal.classList.add('hidden');
         });
 
+        // --- QR CODE FUNCTIONALITY ---
         currentUserIdElem.addEventListener('click', () => navigator.clipboard.writeText(appUserId));
         
         showQrBtn.addEventListener('click', () => {
@@ -708,7 +612,7 @@
         }
         
         closeScannerModalBtn.addEventListener('click', stopScanner);
-        
+
         // --- START THE APP ---
         window.onload = initialize;
     </script>
