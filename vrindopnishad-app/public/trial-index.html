@@ -46,6 +46,17 @@
                         <input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700">Login</button>
                         <p id="login-error" class="text-sm text-red-500 text-center"></p>
+
+                        <div class="relative flex py-2 items-center">
+                            <div class="flex-grow border-t border-gray-300"></div>
+                            <span class="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
+                            <div class="flex-grow border-t border-gray-300"></div>
+                        </div>
+
+                        <button type="button" id="google-login-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
+                            Sign in with Google
+                        </button>
                     </form>
                     <!-- Signup Form -->
                     <form id="signup-form" class="p-6 space-y-4 hidden">
@@ -61,6 +72,17 @@
                         </div>
                         <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700">Create Account</button>
                         <p id="signup-error" class="text-sm text-red-500 text-center"></p>
+                        
+                        <div class="relative flex py-2 items-center">
+                            <div class="flex-grow border-t border-gray-300"></div>
+                            <span class="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
+                            <div class="flex-grow border-t border-gray-300"></div>
+                        </div>
+
+                        <button type="button" id="google-signup-btn" class="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
+                            Sign up with Google
+                        </button>
                     </form>
                 </div>
             </div>
@@ -163,7 +185,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, query, orderBy, getDoc, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- GLOBAL VARIABLES & CONFIG ---
@@ -197,6 +219,8 @@
         const loginError = document.getElementById('login-error');
         const signupError = document.getElementById('signup-error');
         const logoutBtn = document.getElementById('logout-btn');
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const googleSignUpBtn = document.getElementById('google-signup-btn');
 
         const currentUserIdElem = document.getElementById('current-user-id');
         const welcomeUserName = document.getElementById('welcome-user-name');
@@ -261,8 +285,9 @@
                             const profile = userDoc.data();
                             await setupSession(profile.uid, profile.displayName, profile.role);
                         } else {
-                            // This case is unlikely if signup is done correctly, but good to handle
-                           signOut(auth); // Force logout
+                           // This can happen if a user signs in with Google for the first time
+                           // The profile is created in the Google Sign-in handler
+                           console.log("New user detected, profile should be created shortly.");
                         }
                     } else {
                          // Anonymous user without URL params, force logout to show login
@@ -343,6 +368,34 @@
                     signupError.textContent = error.message;
                 }
             });
+            
+            const handleGoogleAuth = async () => {
+                loginError.textContent = '';
+                signupError.textContent = '';
+                const provider = new GoogleAuthProvider();
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+
+                    const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${user.uid}`);
+                    const userDoc = await getDoc(userDocRef);
+                    if (!userDoc.exists()) {
+                        const newUserProfile = {
+                            uid: user.uid,
+                            displayName: user.displayName,
+                            role: 'Customer' // Default role for new Google sign-ups
+                        };
+                        await setDoc(userDocRef, newUserProfile);
+                    }
+                    // onAuthStateChanged will handle the rest
+                } catch (error) {
+                    loginError.textContent = `Google Sign-In Error: ${error.message}`;
+                    signupError.textContent = `Google Sign-Up Error: ${error.message}`;
+                }
+            };
+            
+            googleLoginBtn.addEventListener('click', handleGoogleAuth);
+            googleSignUpBtn.addEventListener('click', handleGoogleAuth);
 
             logoutBtn.addEventListener('click', () => {
                 signOut(auth).then(() => {
