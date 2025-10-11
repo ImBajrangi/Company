@@ -50,7 +50,7 @@
           "description": "Beautiful deity artwork and paintings",
           "count": 67,
           "rating": 4.9,
-          "image": "https://i.postimg.cc/D0CRWSJh/2.avif",
+          "image": "https://i.postimg.cc/yx32SQ76/62.avif",
           "category": "art",
           "featured": true
         },
@@ -141,8 +141,8 @@
         }
       ]
     },
-    "rapper": {
-      "title": "Rapper Style",
+    "anime": {
+      "title": "Anime Style",
       "items": [
         {
           "id": "mountain-vistas",
@@ -191,13 +191,13 @@
         }
       ]
     },
-    "anime": {
-      "title": "Anime & Art",
+    "rapper": {
+      "title": "Rapper Style",
       "items": [
         {
-          "id": "classic-anime",
-          "title": "Classic Anime",
-          "description": "Timeless anime artwork",
+          "id": "classic-rapper",
+          "title": "Classic Rapper",
+          "description": "Timeless rap artwork",
           "count": 234,
           "rating": 4.8,
           "image": "https://i.postimg.cc/15935GrX/temp-Image5xgxp-E.avif",
@@ -316,7 +316,7 @@
           "description": "Infrastructure photography",
           "count": 45,
           "rating": 4.5,
-          "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=340&fit=crop",
+          "image": "https://i.postimg.cc/rFGD2ns7/94.avif",
           "category": "architecture",
           "views": 9800
       },
