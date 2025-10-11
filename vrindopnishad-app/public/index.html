@@ -337,6 +337,7 @@
         let localStream;
         let remoteStream;
         let callDocUnsubscribe = null;
+        let userProfileUnsubscribe = null;
         let currentCallInfo = null;
         let currentCallType = null;
         const servers = {
@@ -440,22 +441,32 @@
         // --- AUTH & PROFILE MANAGEMENT ---
         function setupAuthListener() {
              onAuthStateChanged(auth, async (user) => {
+                if (userProfileUnsubscribe) userProfileUnsubscribe();
+
                 const params = new URLSearchParams(window.location.search);
                 const urlUid = params.get('uid');
+
                 if (user) {
                     if (user.isAnonymous && urlUid) {
                         appUserId = urlUid;
                         await setupSession(appUserId, params.get('name'), params.get('role'));
                     } else if (!user.isAnonymous) {
                         appUserId = user.uid;
-                        const userDoc = await getDoc(doc(db, `/artifacts/${appId}/public/data/users/${appUserId}`));
-                        if (userDoc.exists()) {
-                            await setupSession(userDoc.data().uid, userDoc.data().displayName, userDoc.data().role);
-                        }
+                        const userDocRef = doc(db, `/artifacts/${appId}/public/data/users/${appUserId}`);
+                        userProfileUnsubscribe = onSnapshot(userDocRef, (userDoc) => {
+                            if (userDoc.exists()) {
+                                const profile = userDoc.data();
+                                if (!currentUserProfile || currentUserProfile.uid !== profile.uid) {
+                                    setupSession(profile.uid, profile.displayName, profile.role);
+                                }
+                            }
+                        });
                     } else {
                          signOut(auth);
                     }
                 } else {
+                    appUserId = null;
+                    currentUserProfile = null;
                     if (urlUid) {
                         signInAnonymously(auth).catch(err => console.error("Anonymous sign in failed", err));
                     } else {
