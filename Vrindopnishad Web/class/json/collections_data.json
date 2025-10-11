@@ -200,7 +200,7 @@
           "description": "Timeless anime artwork",
           "count": 234,
           "rating": 4.8,
-          "image": "https://i.postimg.cc/y6nMpbfG/1.avif",
+          "image": "https://i.postimg.cc/15935GrX/temp-Image5xgxp-E.avif",
           "category": "classic"
         },
         {
@@ -209,7 +209,7 @@
           "description": "Contemporary anime styles",
           "count": 145,
           "rating": 4.7,
-          "image": "https://i.postimg.cc/MKVKCt18/18.avif",
+          "image": "https://i.postimg.cc/bN3NGZmF/temp-Imagefa-W5wa.avif",
           "category": "modern"
         },
         {
@@ -218,7 +218,7 @@
           "description": "Detailed character illustrations",
           "count": 178,
           "rating": 4.6,
-          "image": "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=340&fit=crop",
+          "image": "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif",
           "category": "characters"
         },
         {
@@ -227,7 +227,7 @@
           "description": "Magical anime landscapes",
           "count": 89,
           "rating": 4.9,
-          "image": "https://images.unsplash.com/photo-1607970579142-5de9a982c1f4?w=600&h=340&fit=crop",
+          "image": "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif",
           "category": "fantasy"
         },
         {
@@ -236,7 +236,43 @@
           "description": "Artistic interpretations",
           "count": 67,
           "rating": 4.5,
-          "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=600&h=340&fit=crop",
+          "image": "https://i.postimg.cc/hPpPJX24/temp-Imageg-VDr-Y9.avif",
+          "category": "abstract"
+        },
+        {
+          "id": "abstract-designs",
+          "title": "Abstract Designs",
+          "description": "Artistic interpretations",
+          "count": 67,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/9FJF4DLF/temp-Image-IZi-RGt.avif",
+          "category": "abstract"
+        },
+        {
+          "id": "abstract-designs",
+          "title": "Abstract Designs",
+          "description": "Artistic interpretations",
+          "count": 67,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/9FJF4DLd/temp-Imageo-NP2g-B.avif",
+          "category": "abstract"
+        },
+        {
+          "id": "abstract-designs",
+          "title": "Abstract Designs",
+          "description": "Artistic interpretations",
+          "count": 67,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/yYV8Ymyd/temp-Imagew-PU6id.avif",
+          "category": "abstract"
+        },
+        {
+          "id": "abstract-designs",
+          "title": "Abstract Designs",
+          "description": "Artistic interpretations",
+          "count": 67,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/Fs9HsyVJ/temp-Imagex8-E6l-H.avif",
           "category": "abstract"
         }
       ]
