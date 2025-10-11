@@ -99,7 +99,7 @@ function initializeTheme() {
 function initializeCollections() {
     if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items);
     if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items);
-    if (collectionsData.nature) generateCollectionItems('nature-slider', collectionsData.nature.items);
+    if (collectionsData.nature) generateCollectionItems('rapper-slider', collectionsData.nature.items);
     if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items);
     if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items);
 }
