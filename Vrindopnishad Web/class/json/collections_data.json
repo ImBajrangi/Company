@@ -14,7 +14,7 @@
   "heroSection": {
     "title": "Spiritual & Divine Collection",
     "description": "Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art.",
-    "backgroundImage": "/class/iage/Home Pics/img_sn01.png",
+    "backgroundImage": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
     "buttons": [
       {
         "text": "Explore Now",
@@ -142,7 +142,7 @@
       ]
     },
     "nature": {
-      "title": "Nature & Landscapes",
+      "title": "Rapper Style",
       "items": [
         {
           "id": "mountain-vistas",
@@ -150,7 +150,7 @@
           "description": "Breathtaking mountain landscapes",
           "count": 67,
           "rating": 4.7,
-          "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=340&fit=crop",
+          "image": "https://i.postimg.cc/15935GrX/temp-Image5xgxp-E.avif",
           "category": "mountains"
         },
         {
@@ -159,7 +159,7 @@
           "description": "Stunning seascapes and beaches",
           "count": 89,
           "rating": 4.6,
-          "image": "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&h=340&fit=crop",
+          "image": "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif",
           "category": "ocean"
         },
         {
