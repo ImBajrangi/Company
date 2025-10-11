@@ -213,9 +213,6 @@
           appId: "1:644051269513:web:5934afc082be418eec5358",
           measurementId: "G-DBZ0LMJW0G"
         };
-
-        const apiKey = "AIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMw"; // Provide Api of gemini-2.5-flash-preview-05-20
-
         const appId = firebaseConfig.projectId;
         const CHATBOT_ID = 'vrinda-ai-bot';
         let db, auth;
@@ -537,7 +534,14 @@
             if (isTyping) {
                 bubbleContent = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
             } else {
-                bubbleContent = message.text.replace(/\n/g, '<br>'); // Render newlines
+                // Convert markdown to HTML
+                let formattedText = message.text;
+                // Bold: **text** -> <strong>text</strong>
+                formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                // Italics: *text* -> <em>text</em>
+                formattedText = formattedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                // Newlines -> <br>
+                bubbleContent = formattedText.replace(/\n/g, '<br>');
             }
             
             let bubbleColor = 'bg-white text-gray-800';
@@ -580,17 +584,19 @@
             // Show typing indicator
             renderMessage({ senderId: CHATBOT_ID }, true);
 
+            const apiKey = ""; // Will be provided by the environment
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             // Add user message to history for context
             chatbotHistory.push({ role: "user", parts: [{ text: userMessage }] });
 
             const systemPrompt = `You are Vrinda, a friendly and helpful AI assistant for the company Vrindopnishad. Your goal is to assist new users by answering their questions about the company and its projects.
-            - **About Vrindopnishad:** We are an innovative tech company based in India, specializing in sustainable technology and smart infrastructure solutions. Our mission is to build a greener future through technology.
-            - **Our Projects:** 1. 'Vrinda Tours': A Company Project Which Provides Hotels, restaurants, tour vehicle, tour guide for Brij 84 Kos.
-                2. 'Vrinda Posters': A Company Project In which we sell posters of lord krishn in amazing form.
-                3. 'Vrinda Pictures': A Company Project In which User Can Purchase Pictures of Lord Krishn and Others In HD, 4k Resolution High Quality.
-            - **Your Persona:** Be welcoming, clear, concise, and always helpful. Do not answer questions unrelated to Vrindopnishad. Politely decline if asked to do something outside of your scope.`;
+            - **About Vrindopnishad:** We are an innovative tech company based in India, specializing in sustainable technology and smart infrastructure solutions. Our mission is to build a greener future through technology. One of our projects is 'Vrinda Pictures', where users can purchase high-quality pictures of Lord Krishna and others in HD and 4K resolution.
+            - **Our Projects:** 1. 'GreenCity OS': An operating system for smart cities that optimizes energy consumption, traffic flow, and waste management.
+                2. 'AquaPure': A low-cost, solar-powered water purification system for rural communities.
+                3. 'Agri-Sphere': A platform that uses AI and satellite imagery to help farmers increase crop yield and reduce water usage.
+                4. 'Vrinda Pictures': An e-commerce platform for high-resolution digital images of Lord Krishna.
+            - **Your Persona:** Be welcoming, clear, concise, and always helpful. Do not answer questions unrelated to Vrindopnishad. Politely decline if asked to do something outside of your scope. Format your responses with markdown for clarity (e.g., use **bold text** for emphasis).`;
 
             const payload = {
                 contents: chatbotHistory,
