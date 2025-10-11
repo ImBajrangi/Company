@@ -471,6 +471,56 @@
           "category": "native"
         }
       ]
+    },
+    "chhibi": {
+      "title": "Chhibi Style",
+      "items": [
+        {
+          "id": "cute-characters",
+          "title": "Cute Characters",
+          "description": "Adorable chibi illustrations",
+          "count": 123,
+          "rating": 4.9,
+          "image": "https://i.postimg.cc/3x3QzSGV/temp-Image8m-XD8e.avif",
+          "category": "cute"
+        },
+        {
+          "id": "fantasy-chibis",
+          "title": "Fantasy Chibis",
+          "description": "Magical chibi designs",
+          "count": 89,
+          "rating": 4.8,
+          "image": "https://i.postimg.cc/3JLTpzB8/temp-Image-Jc5pu-P.avif",
+          "category": "fantasy"
+        },
+        {
+          "id": "animal-chibis",
+          "title": "Animal Chibis",
+          "description": "Chibi animal characters",
+          "count": 67,
+          "rating": 4.7,
+          "image": "https://i.postimg.cc/0yF1XmFV/temp-Image-PRh2-Km.avif",
+          "category": "animals"
+        },
+        {
+          "id": "everyday-chibis",
+          "title": "Everyday Chibis",
+          "description": "Daily life in chibi form",
+          "count": 45,
+          "rating": 4.6,
+          "image": "https://i.postimg.cc/nzY8LWzT/temp-Image0-GHro6.avif",
+          "category": "daily"
+        },
+        {
+          "id": "holiday-chibis",
+          "title": "Holiday Chibis",
+          "description": "Festive chibi celebrations",
+          "count": 34,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif",
+          "category": "holiday"
+        }
+      ]
     }
   },
   "socialLinks": [
