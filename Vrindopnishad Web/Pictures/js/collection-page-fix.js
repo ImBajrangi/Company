@@ -14,10 +14,6 @@ function initializeSearch() {
         return;
     }
     
-
-
-
-    
     let searchTimeout = null;
 
     function toggleSearch() {
