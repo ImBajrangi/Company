@@ -517,7 +517,34 @@
           "description": "Festive chibi celebrations",
           "count": 34,
           "rating": 4.5,
-          "image": "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif",
+          "image": "https://i.postimg.cc/1tJHJx3C/tempImagenyhCwi.avif",
+          "category": "holiday"
+        },
+        {
+          "id": "holiday-chibis",
+          "title": "Holiday Chibis",
+          "description": "Festive chibi celebrations",
+          "count": 34,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/3x3Qz8m3/tempImageh1mX1W.avif",
+          "category": "holiday"
+        },
+        {
+          "id": "holiday-chibis",
+          "title": "Holiday Chibis",
+          "description": "Festive chibi celebrations",
+          "count": 34,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/3x3Qz8m3/tempImageh1mX1W.avif",
+          "category": "holiday"
+        },
+        {
+          "id": "holiday-chibis",
+          "title": "Holiday Chibis",
+          "description": "Festive chibi celebrations",
+          "count": 34,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/3x3Qz8m3/tempImageh1mX1W.avif",
           "category": "holiday"
         }
       ]
