@@ -113,6 +113,7 @@ function initializeCollections() {
     if (collectionsData.rapper) generateCollectionItems('rapper-slider', collectionsData.rapper.items || collectionsData.rapper);
     if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items || collectionsData.anime);
     if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items || collectionsData.architecture);
+    if (collectionsData.warrior) generateCollectionItems('warrior-slider', collectionsData.warrior.items || collectionsData.warrior);
 }
 
 // Fixed header background rotation
