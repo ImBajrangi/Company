@@ -1,6 +1,6 @@
 // Collection data - will be populated from JSON
 let collectionsData = {};
-const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/collections_data.json";
+const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
 
 // Search functionality
 function initializeSearch() {
@@ -96,13 +96,13 @@ function initializeTheme() {
 }
 
 // Collection generation
-// function initializeCollections() {
-//     if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items);
-//     if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items);
-//     if (collectionsData.nature) generateCollectionItems('nature-slider', collectionsData.nature.items);
-//     if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items);
-//     if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items);
-// }
+function initializeCollections() {
+    if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items);
+    if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items);
+    if (collectionsData.nature) generateCollectionItems('nature-slider', collectionsData.nature.items);
+    if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items);
+    if (collectionsData.architecture) generateCollectionItems('architecture-slider', collectionsData.architecture.items);
+}
 
 // Simple header background rotation
 const headerBgs = document.querySelectorAll('.header-bg');
