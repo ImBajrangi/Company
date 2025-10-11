@@ -737,8 +737,6 @@
                 return;
             }
             
-
-            
             remoteStream = new MediaStream();
 
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
