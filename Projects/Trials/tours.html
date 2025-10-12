@@ -335,6 +335,13 @@
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-window h4 i {
+            color: var(--accent-primary);
         }
 
         .info-window p {
@@ -591,53 +598,56 @@
             position: relative;
             transform-style: preserve-3d;
             cursor: pointer;
+            padding: 10px;
         }
 
         .partner-logo::before {
             content: '';
             position: absolute;
-            inset: -10px;
+            inset: -15px;
             border-radius: 50%;
             background: radial-gradient(circle, var(--accent-primary), transparent 70%);
             opacity: 0;
             transform: scale(0);
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
         }
 
         .partner-logo:hover::before {
-            opacity: 0.1;
-            transform: scale(1.5);
+            opacity: 0.15;
+            transform: scale(1.8);
             animation: pulse 1.5s ease-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { 
-                transform: scale(1.5);
-                opacity: 0.1;
+                transform: scale(1.8);
+                opacity: 0.15;
             }
             50% { 
-                transform: scale(2);
-                opacity: 0.05;
+                transform: scale(2.2);
+                opacity: 0.08;
             }
         }
 
         .partner-logo:hover {
             opacity: 1;
-            transform: translateY(-5px) rotateX(10deg) rotateY(5deg) scale(1.05);
-            filter: drop-shadow(0 10px 20px rgba(0, 113, 227, 0.3));
+            transform: translateY(-8px) scale(1.1);
+            filter: drop-shadow(0 10px 25px rgba(0, 113, 227, 0.4));
         }
 
         .partner-logo::after {
             content: '';
             position: absolute;
-            bottom: -15px;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%) scaleX(0);
-            width: 80%;
+            width: 100%;
             height: 3px;
             background: var(--accent-gradient);
             border-radius: 10px;
             transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
         }
 
         .partner-logo:hover::after {
@@ -663,24 +673,25 @@
             color: var(--text-primary);
             white-space: nowrap;
             position: relative;
+            z-index: 1;
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .partner-logo:hover .partner-name {
-            letter-spacing: 0.05em;
-            text-shadow: 0 0 10px rgba(0, 113, 227, 0.5);
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 15px rgba(0, 113, 227, 0.6);
         }
 
-        .partner-logo:nth-child(1):hover { animation: float 2s ease-in-out infinite; }
-        .partner-logo:nth-child(2):hover { animation: float 2s ease-in-out 0.2s infinite; }
-        .partner-logo:nth-child(3):hover { animation: float 2s ease-in-out 0.4s infinite; }
-        .partner-logo:nth-child(4):hover { animation: float 2s ease-in-out 0.6s infinite; }
-        .partner-logo:nth-child(5):hover { animation: float 2s ease-in-out 0.8s infinite; }
-        .partner-logo:nth-child(6):hover { animation: float 2s ease-in-out 1s infinite; }
+        .partner-logo:nth-child(1):hover { animation: float 2.5s ease-in-out infinite; }
+        .partner-logo:nth-child(2):hover { animation: float 2.5s ease-in-out 0.3s infinite; }
+        .partner-logo:nth-child(3):hover { animation: float 2.5s ease-in-out 0.6s infinite; }
+        .partner-logo:nth-child(4):hover { animation: float 2.5s ease-in-out 0.9s infinite; }
+        .partner-logo:nth-child(5):hover { animation: float 2.5s ease-in-out 1.2s infinite; }
+        .partner-logo:nth-child(6):hover { animation: float 2.5s ease-in-out 1.5s infinite; }
 
         @keyframes float {
-            0%, 100% { transform: translateY(-5px) rotateX(10deg) rotateY(5deg) scale(1.05); }
-            50% { transform: translateY(-15px) rotateX(15deg) rotateY(-5deg) scale(1.08); }
+            0%, 100% { transform: translateY(-8px) scale(1.1); }
+            50% { transform: translateY(-15px) scale(1.12); }
         }
 
         .partner-logo:hover .partner-name::before {
@@ -710,7 +721,7 @@
         }
 
         .partner-logo:active {
-            transform: translateY(-2px) scale(0.98) !important;
+            transform: translateY(-5px) scale(1.05) !important;
             transition: all 0.1s ease;
         }
 
@@ -1041,31 +1052,44 @@
 
         function createMarkers() {
             locations.forEach(location => {
-                const colors = {
-                    hotel: '#0071e3',
-                    restaurant: '#00a4ef',
-                    attraction: '#5e5ce6'
+                const iconConfig = {
+                    hotel: { color: '#0071e3', icon: 'hotel' },
+                    restaurant: { color: '#00a4ef', icon: 'restaurant' },
+                    attraction: { color: '#5e5ce6', icon: 'place' }
                 };
 
-                const icons = {
-                    hotel: '🏨',
-                    restaurant: '🍽️',
-                    attraction: '📍'
-                };
+                const config = iconConfig[location.type];
+                
+                const svgMarker = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">
+                        <defs>
+                            <filter id="shadow-${location.type}" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                                <feOffset dx="0" dy="2" result="offsetblur"/>
+                                <feComponentTransfer>
+                                    <feFuncA type="linear" slope="0.3"/>
+                                </feComponentTransfer>
+                                <feMerge>
+                                    <feMergeNode/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <g filter="url(#shadow-${location.type})">
+                            <path d="M16 0C9.373 0 4 5.373 4 12c0 9 12 26 12 26s12-17 12-26c0-6.627-5.373-12-12-12z" 
+                                  fill="${config.color}" stroke="white" stroke-width="2"/>
+                            <circle cx="16" cy="12" r="6" fill="white"/>
+                        </g>
+                    </svg>`;
 
                 const marker = new google.maps.Marker({
                     position: { lat: location.lat, lng: location.lng },
                     map: map,
                     title: location.name,
                     icon: {
-                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                            <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
-                                <circle cx="22" cy="22" r="20" fill="${colors[location.type]}" stroke="#ffffff" stroke-width="3"/>
-                                <text x="22" y="29" font-size="18" text-anchor="middle" fill="#ffffff">${icons[location.type]}</text>
-                            </svg>
-                        `),
-                        scaledSize: new google.maps.Size(44, 44),
-                        anchor: new google.maps.Point(22, 22)
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgMarker),
+                        scaledSize: new google.maps.Size(32, 42),
+                        anchor: new google.maps.Point(16, 42)
                     },
                     animation: google.maps.Animation.DROP
                 });
@@ -1073,7 +1097,7 @@
                 const infoWindow = new google.maps.InfoWindow({
                     content: `
                         <div class="info-window">
-                            <h4>${location.name}</h4>
+                            <h4><i class="fas fa-${config.icon}"></i> ${location.name}</h4>
                             <p>${location.description}</p>
                         </div>
                     `
@@ -1081,6 +1105,24 @@
 
                 marker.addListener('click', () => {
                     infoWindow.open(map, marker);
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                    setTimeout(() => marker.setAnimation(null), 1500);
+                });
+
+                marker.addListener('mouseover', () => {
+                    marker.setIcon({
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgMarker.replace('width="32" height="42"', 'width="38" height="50"')),
+                        scaledSize: new google.maps.Size(38, 50),
+                        anchor: new google.maps.Point(19, 50)
+                    });
+                });
+
+                marker.addListener('mouseout', () => {
+                    marker.setIcon({
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgMarker),
+                        scaledSize: new google.maps.Size(32, 42),
+                        anchor: new google.maps.Point(16, 42)
+                    });
                 });
 
                 markers.push({ marker: marker, type: location.type });
