@@ -400,6 +400,68 @@
             margin-top: 2rem;
         }
 
+        #map {
+            height: 600px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px var(--shadow-hover);
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--accent-primary);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .map-btn:hover, .map-btn.active {
+            background: var(--accent-gradient);
+            color: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-hover);
+        }
+
+        .gm-style-iw {
+            color: #1a1a1a !important;
+        }
+
+        .info-window {
+            padding: 0.5rem;
+        }
+
+        .info-window h4 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        .info-window p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            #map {
+                height: 400px;
+            }
+
+            .map-controls {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 1rem 3%;
@@ -523,6 +585,19 @@
         </div>
     </section>
 
+    <section class="featured" id="map">
+        <h2 class="section-title">Explore Our Locations</h2>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="map-controls">
+                <button class="map-btn active" data-filter="all"><i class="fas fa-globe"></i> All Locations</button>
+                <button class="map-btn" data-filter="hotel"><i class="fas fa-hotel"></i> Hotels</button>
+                <button class="map-btn" data-filter="restaurant"><i class="fas fa-utensils"></i> Restaurants</button>
+                <button class="map-btn" data-filter="attraction"><i class="fas fa-map-marked-alt"></i> Attractions</button>
+            </div>
+            <div id="map"></div>
+        </div>
+    </section>
+
     <section class="featured" id="featured">
         <h2 class="section-title">Featured Packages</h2>
         <div class="featured-grid">
@@ -563,6 +638,7 @@
                 <h4>Quick Links</h4>
                 <a href="#services">Our Services</a>
                 <a href="#featured">Packages</a>
+                <a href="#map">Interactive Map</a>
                 <a href="#contact">Contact Us</a>
             </div>
             <div class="footer-section">
