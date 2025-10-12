@@ -526,6 +526,288 @@
                 height: 400px;
             }
         }
+
+        .partners {
+            padding: 4rem 5%;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partners::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 113, 227, 0.05), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        [data-theme="dark"] .partners::before {
+            background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.08), transparent);
+        }
+
+        .partners-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .partners-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .partners-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem 4rem;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .partner-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .partner-logo::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-primary), transparent 70%);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .partner-logo:hover::before {
+            opacity: 0.1;
+            transform: scale(1.5);
+            animation: pulse 1.5s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1.5);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: scale(2);
+                opacity: 0.05;
+            }
+        }
+
+        .partner-logo:hover {
+            opacity: 1;
+            transform: translateY(-5px) rotateX(10deg) rotateY(5deg) scale(1.05);
+            filter: drop-shadow(0 10px 20px rgba(0, 113, 227, 0.3));
+        }
+
+        .partner-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80%;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .partner-logo:hover::after {
+            transform: translateX(-50%) scaleX(1);
+            animation: energyFlow 1s ease-in-out infinite;
+        }
+
+        @keyframes energyFlow {
+            0%, 100% {
+                box-shadow: 0 0 5px var(--accent-primary),
+                            0 0 10px var(--accent-primary);
+            }
+            50% {
+                box-shadow: 0 0 10px var(--accent-primary),
+                            0 0 20px var(--accent-primary),
+                            0 0 30px var(--accent-primary);
+            }
+        }
+
+        .partner-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .partner-logo:hover .partner-name {
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 10px rgba(0, 113, 227, 0.5);
+        }
+
+        .partner-logo:nth-child(1):hover { animation: float 2s ease-in-out infinite; }
+        .partner-logo:nth-child(2):hover { animation: float 2s ease-in-out 0.2s infinite; }
+        .partner-logo:nth-child(3):hover { animation: float 2s ease-in-out 0.4s infinite; }
+        .partner-logo:nth-child(4):hover { animation: float 2s ease-in-out 0.6s infinite; }
+        .partner-logo:nth-child(5):hover { animation: float 2s ease-in-out 0.8s infinite; }
+        .partner-logo:nth-child(6):hover { animation: float 2s ease-in-out 1s infinite; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(-5px) rotateX(10deg) rotateY(5deg) scale(1.05); }
+            50% { transform: translateY(-15px) rotateX(15deg) rotateY(-5deg) scale(1.08); }
+        }
+
+        .partner-logo:hover .partner-name::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                var(--accent-primary) 45deg,
+                transparent 90deg,
+                transparent 180deg,
+                var(--accent-secondary) 225deg,
+                transparent 270deg,
+                transparent 360deg
+            );
+            opacity: 0.3;
+            filter: blur(10px);
+            animation: rotate 3s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .partner-logo:active {
+            transform: translateY(-2px) scale(0.98) !important;
+            transition: all 0.1s ease;
+        }
+
+        .partner-logo:active::before {
+            animation: explosion 0.6s ease-out !important;
+        }
+
+        @keyframes explosion {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(3);
+                opacity: 0.1;
+            }
+            100% {
+                transform: scale(5);
+                opacity: 0;
+            }
+        }
+
+        /* Particle effect container */
+        .partner-logo .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .partner-logo:hover .particles::before,
+        .partner-logo:hover .particles::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: particle-float 2s ease-out infinite;
+        }
+
+        .partner-logo:hover .particles::before {
+            left: -20px;
+            top: 50%;
+            animation-delay: 0s;
+        }
+
+        .partner-logo:hover .particles::after {
+            right: -20px;
+            top: 50%;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .partners {
+                padding: 3rem 5%;
+            }
+
+            .partners-grid {
+                gap: 2rem 3rem;
+            }
+
+            .partner-name {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .partners-grid {
+                gap: 1.5rem 2rem;
+            }
+
+            .partner-name {
+                font-size: 0.9rem;
+            }
+
+            .partner-logo:hover {
+                transform: translateY(-3px) scale(1.03);
+            }
+        }
     </style>
 </head>
 <body>
@@ -537,6 +819,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#map-section">Explore Map</a></li>
+                    <li><a href="#partners">Partners</a></li>
                     <li><a href="#featured">Packages</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -602,6 +885,38 @@
                 </button>
             </div>
             <div id="map-canvas"></div>
+        </div>
+    </section>
+
+    <section class="partners" id="partners">
+        <div class="partners-container">
+            <p class="partners-title">Trusted by Leading Brands</p>
+            <div class="partners-grid">
+                <div class="partner-logo">
+                    <div class="particles"></div>
+                    <div class="partner-name">Marriott</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="particles"></div>
+                    <div class="partner-name">Hilton</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="particles"></div>
+                    <div class="partner-name">Hyatt</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="particles"></div>
+                    <div class="partner-name">Expedia</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="particles"></div>
+                    <div class="partner-name">Booking.com</div>
+                </div>
+                <div class="partner-logo">
+                    <div class="particles"></div>
+                    <div class="partner-name">Airbnb</div>
+                </div>
+            </div>
         </div>
     </section>
 
