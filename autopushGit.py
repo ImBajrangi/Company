@@ -6,10 +6,6 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Timer
 
-
-
-
-
 # --- CONFIG ---
 ENABLE_GIT = True    # 🚦 Set this to False to stop all git commands entirely
 IGNORED_EXTENSIONS = {".swp", ".tmp", ".log"}
