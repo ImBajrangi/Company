@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { CartContext } from '../hooks/useCart';
+import { CartContext } from '../context/CartContext';
+import type { Order } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 
 const CheckoutPage: React.FC = () => {
-    const { cart, getTotalPrice, clearCart } = useContext(CartContext);
+    const { cart, getTotalPrice, clearCart, addOrder } = useContext(CartContext)!;
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -43,17 +44,23 @@ const CheckoutPage: React.FC = () => {
         const totalAmount = getTotalPrice() * 100; // Razorpay expects amount in paisa
 
         const options = {
-            key: 'rzp_test_RTQH29QuP5UmW', // Enter the Key ID generated from the Dashboard
+            key: 'rzp_test_1DPv2h2aY2L3kZ', // Enter the Key ID generated from the Dashboard
             amount: totalAmount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 means 50000 paise or Rs 500.
             currency: 'INR',
             name: 'Cloud Kitchen',
             description: 'Order Payment',
             handler: function (response: any) {
-                console.log('Payment successful:', response);
-                // Here you would typically save the order to your database
-                // For now, we'll just navigate to the confirmation page
+                const newOrder: Order = {
+                    id: response.razorpay_payment_id,
+                    customer: formData,
+                    items: cart,
+                    total: getTotalPrice(),
+                    status: 'Received',
+                    paymentId: response.razorpay_payment_id,
+                };
+                addOrder(newOrder);
                 clearCart();
-                navigate('/order-confirmation', { state: { paymentSuccess: true, paymentId: response.razorpay_payment_id, orderDetails: { ...formData, items: cart, total: getTotalPrice() } } });
+                navigate('/order-confirmation', { state: { paymentSuccess: true, order: newOrder } });
             },
             prefill: {
                 name: formData.name,

@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="hero-section text-white bg-primary py-5 text-center d-flex align-items-center justify-content-center" style={{ minHeight: '70vh', backgroundImage: 'url(https://via.placeholder.com/1200x800/FFD700/8B4513?text=Delicious+Food+Spread)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <section className="hero-section text-white bg-primary py-5 text-center d-flex align-items-center justify-content-center" style={{ minHeight: '70vh', backgroundImage: 'url(https://picsum.photos/seed/food/1200/800)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="container">
           <div className="p-5 rounded-3 bg-dark bg-opacity-75">
             <h1 className="display-4 fw-bold mb-3">Taste the Convenience. Love the Food.</h1>

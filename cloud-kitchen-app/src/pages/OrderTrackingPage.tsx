@@ -1,37 +1,65 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
+import type { Order } from '../context/CartContext';
 
 const OrderTrackingPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const orderId = searchParams.get('orderId');
+  const { orders } = useContext(CartContext)!;
+  const [order, setOrder] = useState<Order | null>(null);
+
+  useEffect(() => {
+    if (orderId) {
+      const foundOrder = orders.find(o => o.id === orderId);
+      setOrder(foundOrder || null);
+    }
+  }, [orderId, orders]);
+
+  const getStatusProgress = (status: string) => {
+    switch (status) {
+      case 'Received': return 25;
+      case 'Preparing': return 50;
+      case 'Ready for Pickup': return 75;
+      case 'Out for Delivery': return 90;
+      case 'Delivered': return 100;
+      default: return 0;
+    }
+  };
+
   return (
-    <div className="container mt-5 text-center">
-      <h1>Track Your Order</h1>
-      <p className="lead">Enter your order ID to see its status.</p>
-      <div className="row justify-content-center mt-4">
-        <div className="col-md-6">
-          <div className="input-group mb-3">
-            <input type="text" className="form-control form-control-lg" placeholder="Enter Order ID" aria-label="Order ID" />
-            <button className="btn btn-primary btn-lg" type="button">Track Order</button>
-          </div>
-          <div className="card mt-4 p-4 shadow-sm text-start">
-            <h5>Order Status:</h5>
-            <p><strong>Order ID:</strong> #123456789</p>
-            <p><strong>Status:</strong> <span className="badge bg-warning text-dark">Preparing</span></p>
-            <p><strong>Estimated Delivery:</strong> 30-45 minutes</p>
-            <div className="progress mt-3" style={{ height: '25px' }}>
-              <div 
-                className="progress-bar bg-info" 
-                role="progressbar" 
-                style={{ width: '50%' }} 
-                aria-valuenow={50} 
-                aria-valuemin={0} 
-                aria-valuemax={100}
-              >
-                Order Prepared
-              </div>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Track Your Order</h1>
+      {order ? (
+        <div className="card shadow-sm p-4 mx-auto" style={{ maxWidth: '600px' }}>
+          <h5>Order ID: {order.id}</h5>
+          <p><strong>Status:</strong> <span className={`badge ${order.status === 'Delivered' ? 'bg-success' : 'bg-info'}`}>{order.status}</span></p>
+          
+          <div className="progress mt-3" style={{ height: '25px' }}>
+            <div 
+              className="progress-bar" 
+              role="progressbar" 
+              style={{ width: `${getStatusProgress(order.status)}%` }} 
+              aria-valuenow={getStatusProgress(order.status)}
+              aria-valuemin={0} 
+              aria-valuemax={100}
+            >
+              {order.status}
             </div>
-            <small className="text-muted mt-2">Last updated: Just now</small>
           </div>
+
+          <ul className="timeline mt-4">
+            <li className={getStatusProgress(order.status) >= 25 ? 'active' : ''}>Order Received</li>
+            <li className={getStatusProgress(order.status) >= 50 ? 'active' : ''}>Preparing</li>
+            <li className={getStatusProgress(order.status) >= 75 ? 'active' : ''}>Ready for Pickup</li>
+            <li className={getStatusProgress(order.status) >= 90 ? 'active' : ''}>Out for Delivery</li>
+            <li className={getStatusProgress(order.status) === 100 ? 'active' : ''}>Delivered</li>
+          </ul>
+
         </div>
-      </div>
+      ) : (
+        <p className="text-center">Order not found. Please check the order ID.</p>
+      )}
     </div>
   );
 };

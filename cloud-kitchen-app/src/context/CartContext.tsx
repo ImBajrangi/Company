@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
 import type { MenuItem } from '../data/mockData'; // Changed to import type
 
 interface CartItem extends MenuItem {
@@ -22,6 +22,7 @@ interface CartContextType {
   cart: CartItem[];
   cartItems: CartItem[]; // Alias for cart for consistency with existing useCart hook
   orders: Order[];
+  setOrders: Dispatch<SetStateAction<Order[]>>; 
   addToCart: (item: MenuItem) => void;
   removeFromCart: (id: number) => void; 
   increaseQuantity: (id: number) => void; 
@@ -105,6 +106,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         cart,
         cartItems: cart,
         orders,
+        setOrders,
         addToCart,
         removeFromCart,
         increaseQuantity,
@@ -118,3 +120,4 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     </CartContext.Provider>
   );
 };
+

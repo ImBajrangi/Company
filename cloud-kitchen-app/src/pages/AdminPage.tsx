@@ -1,37 +1,79 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { CartContext } from '../context/CartContext';
+import type { Order } from '../context/CartContext';
 
 const AdminPage: React.FC = () => {
-  return (
-    <div className="container mt-5 text-center">
-      <h1>Admin Dashboard</h1>
-      <p className="lead">Manage your cloud kitchen operations.</p>
-      <div className="row justify-content-center mt-4">
-        <div className="col-md-8">
-          <div className="card shadow-sm p-4 mb-4">
-            <h3>Recent Orders</h3>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Order #A101 - John Doe
-                <span className="badge bg-success">Completed</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Order #A102 - Jane Smith
-                <span className="badge bg-warning text-dark">Pending</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                Order #A103 - Robert Johnson
-                <span className="badge bg-info">In Progress</span>
-              </li>
-            </ul>
-            <button className="btn btn-primary mt-3">View All Orders</button>
-          </div>
+  const { orders, setOrders } = useContext(CartContext)!;
+  const [orderStatus, setOrderStatus] = useState<{[key: string]: string}>({});
 
-          <div className="card shadow-sm p-4">
-            <h3>Menu Management</h3>
-            <p>Add, edit, or remove menu items.</p>
-            <button className="btn btn-secondary">Go to Menu Editor</button>
-          </div>
-        </div>
+  const handleStatusChange = (orderId: string, status: string) => {
+    setOrderStatus(prev => ({...prev, [orderId]: status}));
+    // In a real app, you would also update the order in the backend
+    const updatedOrders = orders.map(order => 
+      order.id === orderId ? { ...order, status } : order
+    );
+    setOrders(updatedOrders);
+  };
+
+  return (
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Admin Dashboard</h1>
+      <div className="card shadow-sm p-4">
+        <h3>Current Orders</h3>
+        {orders.length > 0 ? (
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order: Order) => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>
+                    {order.customer.name}<br/>
+                    <small>{order.customer.address}</small><br/>
+                    <small>{order.customer.contact}</small>
+                  </td>
+                  <td>
+                    <ul className="list-unstyled">
+                      {order.items.map(item => (
+                        <li key={item.id}>{item.name} x {item.quantity}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>${order.total.toFixed(2)}</td>
+                  <td>
+                    <span className={`badge ${order.status === 'Delivered' ? 'bg-success' : order.status === 'Ready for Pickup' ? 'bg-warning text-dark' : 'bg-info'}`}>
+                      {order.status}
+                    </span>
+                  </td>
+                  <td>
+                    <select 
+                      className="form-select"
+                      value={orderStatus[order.id] || order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                    >
+                      <option value="Received">Received</option>
+                      <option value="Preparing">Preparing</option>
+                      <option value="Ready for Pickup">Ready for Pickup</option>
+                      <option value="Out for Delivery">Out for Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No current orders.</p>
+        )}
       </div>
     </div>
   );
