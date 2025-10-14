@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { MenuItem } from '../data/mockData';
+import type { MenuItem } from '../data/mockData'; // Changed to import type
 
 interface CartItem extends MenuItem {
   quantity: number;
@@ -9,9 +9,9 @@ interface CartContextType {
   cart: CartItem[];
   cartItems: CartItem[]; // Alias for cart for consistency with existing useCart hook
   addToCart: (item: MenuItem) => void;
-  removeFromCart: (id: number) => void; // Changed from string to number
-  increaseQuantity: (id: number) => void; // Changed from string to number
-  decreaseQuantity: (id: number) => void; // Changed from string to number
+  removeFromCart: (id: number) => void; 
+  increaseQuantity: (id: number) => void; 
+  decreaseQuantity: (id: number) => void; 
   getTotalPrice: () => number;
   clearCart: () => void;
 }
