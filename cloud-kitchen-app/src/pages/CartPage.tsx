@@ -1,74 +1,57 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../hooks/useCart';
+import React, { useContext } from 'react';
+import { useCart, CartContext } from '../hooks/useCart';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage: React.FC = () => {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+  const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, getTotalPrice } = useCart();
+  const navigate = useNavigate();
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const handleProceedToCheckout = () => {
+    if (cartItems.length > 0) {
+      navigate('/checkout');
+    } else {
+      alert('Your cart is empty. Add items before proceeding to checkout.');
+    }
+  };
 
   return (
-    <div className="container my-5 fade-in">
-      <div className="text-center mb-5">
-        <h1 className="display-4 fw-bold">Your Cart</h1>
-      </div>
-
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Your Cart</h1>
       {cartItems.length === 0 ? (
-        <div className="text-center">
-          <img src="https://images.unsplash.com/photo-1575429321389-645c4bba45dc?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Empty Cart" style={{ width: '250px' }} />
-          <h3 className="mt-4">Your cart is empty</h3>
-          <p className="text-muted">Looks like you haven't added anything to your cart yet.</p>
-          <Link to="/menu" className="btn btn-primary mt-3">
-            Start Shopping
-          </Link>
-        </div>
+        <p className="text-center">Your cart is empty.</p>
       ) : (
-        <div className="row">
+        <div className="row justify-content-center">
           <div className="col-lg-8">
-            {cartItems.map(item => (
-              <div key={item.id} className="card mb-3 border-0 shadow-sm">
-                <div className="row g-0">
-                  <div className="col-md-3">
-                    <img src={item.image} alt={item.name} className="img-fluid" style={{ height: '100%', objectFit: 'cover', borderRadius: '20px 0 0 20px' }} />
-                  </div>
-                  <div className="col-md-9">
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-start">
-                        <div>
-                          <h5 className="card-title">{item.name}</h5>
-                          <p className="card-text"><small className="text-muted">Quantity: {item.quantity}</small></p>
-                        </div>
-                        <p className="h5">${(item.price * item.quantity).toFixed(2)}</p>
-                      </div>
-                      <button className="btn btn-sm btn-outline-danger mt-3" onClick={() => removeFromCart(item.id)}>Remove</button>
+            <ul className="list-group mb-4">
+              {cartItems.map((item) => (
+                <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center">
+                    <img src={item.imageUrl} alt={item.name} style={{ width: '60px', height: '60px', objectFit: 'cover', marginRight: '15px' }} className="rounded" />
+                    <div>
+                      <h6 className="my-0">{item.name}</h6>
+                      <small className="text-muted">${item.price.toFixed(2)} each</small>
                     </div>
                   </div>
-                </div>
+                  <div className="d-flex align-items-center">
+                    <div className="btn-group btn-group-sm me-2" role="group" aria-label="Quantity controls">
+                      <button type="button" className="btn btn-outline-secondary" onClick={() => decreaseQuantity(item.id)}>-</button>
+                      <span className="btn btn-light quantity-display">{item.quantity}</span>
+                      <button type="button" className="btn btn-outline-secondary" onClick={() => increaseQuantity(item.id)}>+</button>
+                    </div>
+                    <span className="text-nowrap me-3">${(item.price * item.quantity).toFixed(2)}</span>
+                    <button type="button" className="btn btn-danger btn-sm" onClick={() => removeFromCart(item.id)}>
+                      <i className="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="card p-3 shadow-sm">
+              <div className="d-flex justify-content-between fs-5 fw-bold">
+                <span>Total:</span>
+                <span>${getTotalPrice().toFixed(2)}</span>
               </div>
-            ))}
-          </div>
-          <div className="col-lg-4">
-            <div className="card border-0 shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title mb-4">Order Summary</h5>
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                    Subtotal
-                    <span>${total.toFixed(2)}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
-                    Delivery Fee
-                    <span>$5.00</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent h5 fw-bold">
-                    Total
-                    <span>${(total + 5).toFixed(2)}</span>
-                  </li>
-                </ul>
-                <div className="d-grid mt-4">
-                  <Link to="/checkout" className="btn btn-primary">Proceed to Checkout</Link>
-                </div>
-              </div>
+              <button className="btn btn-success btn-lg w-100 mt-3" onClick={handleProceedToCheckout}>Proceed to Checkout</button>
             </div>
           </div>
         </div>

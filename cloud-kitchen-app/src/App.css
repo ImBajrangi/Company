@@ -1,90 +1,17 @@
-:root {
-  --primary-color: #007aff;
-  --secondary-color: #f2f2f7;
-  --text-color: #1d1d1f;
-  --text-color-light: #8a8a8e;
-  --bg-color: #fff;
-  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
+/* App.css - This file is for application-specific layout and animations, not global theming. */
 
-/* General Styles */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* Ensure Bootstrap's container is respected */
 .container {
   max-width: 1140px;
 }
 
-/* Typography */
+/* Typography (if needed for specific sections, otherwise index.css handles it) */
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
-  font-weight: 700;
+  /* Removed font-weight to let index.css or Bootstrap define it generally */
+  /* Add specific overrides here only if necessary for this component */
 }
 
-/* Card Styles */
-.card {
-  border: none;
-  border-radius: 20px;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Button Styles */
-.btn {
-  border-radius: 12px;
-  padding: 14px 28px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #005ecb;
-  border-color: #005ecb;
-  transform: translateY(-3px);
-}
-
-/* Navbar */
-.navbar {
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 20px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.navbar-brand {
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: var(--text-color) !important;
-}
-
-.navbar-nav .nav-link {
-  color: var(--text-color-light) !important;
-  font-weight: 500;
-  font-size: 1rem;
-  margin: 0 15px;
-}
-
-.navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
-  color: var(--primary-color) !important;
-}
-
-/* Hero Section */
+/* Hero Section specific styles */
 .hero-section {
   padding: 100px 0;
   text-align: center;
@@ -98,7 +25,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
 
 .hero-section p {
   font-size: 1.2rem;
-  color: var(--text-color-light);
+  color: var(--text-color-light); /* Using global variable */
   margin-bottom: 40px;
 }
 
@@ -110,7 +37,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
   box-shadow: none;
 }
 
-/* Category Section */
+/* Category Section specific styles */
 .category-section {
   padding: 80px 0;
 }
@@ -132,23 +59,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
   transform: scale(1.1);
 }
 
-/* Footer */
-.footer {
-  background-color: var(--secondary-color);
-  color: var(--text-color-light);
-  padding: 60px 0;
+/* Fade-in animation, kept as it's a specific app animation */
+.fade-in {
+  animation: fadeIn 1s ease-out;
 }
 
-.footer h5 {
-  color: var(--text-color);
-  font-weight: 600;
-}
-
-.footer a {
-  color: var(--text-color-light);
-  text-decoration: none;
-}
-
-.footer a:hover {
-  color: var(--primary-color);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

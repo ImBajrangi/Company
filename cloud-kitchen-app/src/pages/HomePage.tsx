@@ -1,72 +1,92 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { menuItems, categories } from '../data/mockData';
+import { menuItems, type MenuItem } from '../data/menuData';
+import { useCart } from '../hooks/useCart';
 
 const HomePage: React.FC = () => {
-  const featuredItems = menuItems.slice(0, 4);
+  const { addToCart } = useCart();
+
+  // Taking the first 3 menu items to feature on the homepage
+  const featuredItems = menuItems.slice(0, 3);
 
   return (
-    <div className="fade-in">
+    <div>
       {/* Hero Section */}
-      <div className="hero-section">
+      <section className="hero-section text-white bg-primary py-5 text-center d-flex align-items-center justify-content-center" style={{ minHeight: '70vh', backgroundImage: 'url(https://via.placeholder.com/1200x800/FFD700/8B4513?text=Delicious+Food+Spread)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <h1 className="display-2 fw-bold">Crave it? Get it.</h1>
-              <p className="lead my-4">Your favorite local restaurants, delivered to your door.</p>
-              <div className="search-bar">
-                <input type="text" className="form-control" placeholder="Find your next meal" />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Food" className="img-fluid rounded-3" />
-            </div>
+          <div className="p-5 rounded-3 bg-dark bg-opacity-75">
+            <h1 className="display-4 fw-bold mb-3">Taste the Convenience. Love the Food.</h1>
+            <p className="fs-5 mb-4">Your culinary journey starts here. Fresh, fast, and flavorful meals delivered to your door.</p>
+            <Link to="/menu" className="btn btn-light btn-lg text-primary fw-bold">
+              Order Now <i className="fas fa-arrow-right ms-2"></i>
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Category Section */}
-      <div className="category-section text-center">
+      {/* Featured Menu Items Section */}
+      <section className="py-5 bg-light">
         <div className="container">
-          <h2 className="mb-5">Order from your favorite categories</h2>
-          <div className="row justify-content-center">
-            {categories.map(category => (
-              <div key={category.id} className="col-lg-2 col-md-3 col-6 mb-4">
-                <div className="card category-card border-0 bg-transparent">
-                  <img src={category.image} alt={category.name} className="rounded-circle" />
-                  <div className="card-body">
-                    <h5 className="card-title">{category.name}</h5>
+          <h2 className="text-center mb-5">Our Featured Dishes</h2>
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {featuredItems.map((item: MenuItem) => (
+              <div className="col d-flex align-items-stretch" key={item.id}>
+                <div className="card shadow-sm w-100">
+                  <img src={item.imageUrl} className="card-img-top" alt={item.name} style={{ height: '200px', objectFit: 'cover' }} />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{item.name}</h5>
+                    <p className="card-text flex-grow-1">{item.description}</p>
+                    <div className="d-flex justify-content-between align-items-center mt-auto">
+                      <span className="fs-5 fw-bold">${item.price.toFixed(2)}</span>
+                      <button 
+                        className="btn btn-primary btn-sm"
+                        onClick={() => addToCart(item)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          <div className="text-center mt-5">
+            <Link to="/menu" className="btn btn-outline-primary btn-lg">
+              View Full Menu <i className="fas fa-utensils ms-2"></i>
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Featured Items Section */}
-      <div className="container py-5">
-        <h2 className="text-center mb-5">Featured Dishes</h2>
-        <div className="row">
-          {featuredItems.map(item => (
-            <div key={item.id} className="col-lg-3 col-md-6 mb-4">
-              <div className="card h-100">
-                <img src={item.image} className="card-img-top" alt={item.name} style={{ height: '200px', objectFit: 'cover' }} />
-                <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
-                  <p className="card-text text-muted">{item.description}</p>
-                </div>
-                <div className="card-footer bg-white border-0 pt-0">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <p className="h5 mb-0">${item.price.toFixed(2)}</p>
-                    <button className="btn btn-primary btn-sm">Add</button>
-                  </div>
-                </div>
+      {/* Why Choose Us Section */}
+      <section className="py-5">
+        <div className="container">
+          <h2 className="text-center mb-5">Why Choose Cloud Kitchen?</h2>
+          <div className="row text-center g-4">
+            <div className="col-md-4">
+              <div className="p-4 border rounded-3 h-100 d-flex flex-column justify-content-center align-items-center bg-white shadow-sm">
+                <i className="fas fa-leaf fa-3x text-success mb-3"></i>
+                <h3 className="h5">Fresh Ingredients</h3>
+                <p className="text-muted">We source only the freshest, high-quality ingredients for your meals.</p>
               </div>
             </div>
-          ))}
+            <div className="col-md-4">
+              <div className="p-4 border rounded-3 h-100 d-flex flex-column justify-content-center align-items-center bg-white shadow-sm">
+                <i className="fas fa-truck-fast fa-3x text-info mb-3"></i>
+                <h3 className="h5">Fast Delivery</h3>
+                <p className="text-muted">Get your favorite dishes delivered hot and fresh, right to your doorstep.</p>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="p-4 border rounded-3 h-100 d-flex flex-column justify-content-center align-items-center bg-white shadow-sm">
+                <i className="fas fa-utensils fa-3x text-warning mb-3"></i>
+                <h3 className="h5">Wide Variety</h3>
+                <p className="text-muted">Explore a diverse menu with options to satisfy every craving and diet.</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
