@@ -216,23 +216,23 @@
                             </div>
                             <div class="border-t pt-4 mt-4">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-gray-600 font-medium">Total</span>
-                                    <span class="text-2xl font-semibold" id="cart-total">₹0.00</span>
+                                    <span class="text-gray-600 font-medium">Total (Rounded)</span>
+                                    <span class="text-2xl font-semibold" id="cart-total">₹0</span>
                                 </div>
                                 <div class="flex justify-between items-center text-sm mt-1 text-red-600 font-medium">
                                     <span>Prepaid (45%):</span>
-                                    <span id="prepaid-amount">₹0.00</span>
+                                    <span id="prepaid-amount">₹0</span>
                                 </div>
                                 <div class="flex justify-between items-center text-sm mt-1 text-green-600 font-medium">
-                                    <span>Cash on Delivery (55%):</span>
-                                    <span id="cod-amount">₹0.00</span>
+                                    <span>Remaining (55%):</span>
+                                    <span id="cod-amount">₹0</span>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Order Form -->
                         <div id="order-form-container" class="card p-6">
-                             <h2 class="text-xl font-semibold text-gray-900 mb-4">Delivery Details</h2>
+                             <h2 class="text-xl font-semibold text-gray-900 mb-4">Delivery & Payment</h2>
                              <form id="order-form">
                                 <div class="space-y-4">
                                     <div>
@@ -247,8 +247,17 @@
                                         <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                                         <input type="tel" id="customer-phone" placeholder="Phone number" class="w-full" required>
                                     </div>
+
+                                    <div class="border-t border-gray-200 pt-4">
+                                        <label class="block text-sm font-semibold text-gray-900 mb-2">Remaining 55% Payment</label>
+                                        <select id="payment-choice" class="w-full" required>
+                                            <option value="cod">Cash on Delivery (COD)</option>
+                                            <option value="online">Pay Remaining 55% Online Now</option>
+                                        </select>
+                                    </div>
+
                                     <button type="submit" class="btn-primary w-full text-center">
-                                        Pay 45% & Place Order
+                                        Pay 45% Advance & Place Order
                                     </button>
                                 </div>
                              </form>
@@ -353,11 +362,10 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- Razorpay Test Configuration (as provided by user) ---
         const RAZORPAY_KEY_ID = "rzp_test_RTQH29QuqP5UmW";
-        const RAZORPAY_KEY_SECRET = "htQ1Vk1Rn0LoMC5PQMOgJeqH"; 
         const PREPAID_PERCENTAGE = 0.45; // 45% upfront payment
 
         const firebaseConfig = {
@@ -418,6 +426,7 @@
         const prepaidAmountEl = document.getElementById('prepaid-amount');
         const codAmountEl = document.getElementById('cod-amount');
         const currentOrderIdEl = document.getElementById('current-order-id');
+        const paymentChoiceEl = document.getElementById('payment-choice'); // New element
 
         const showAlert = (message, title = 'Notification') => {
             alertMessage.textContent = message;
@@ -427,7 +436,7 @@
         alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
         profileCloseBtn.addEventListener('click', () => profileModal.classList.add('hidden'));
 
-        const formatCurrency = (amount) => `₹${amount.toFixed(2)}`;
+        const formatCurrency = (amount) => `₹${amount}`; // Changed to use rounded integer amount
         const formatStatus = (status) => {
             return (status || 'new').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         };
@@ -442,20 +451,17 @@
 
         const startTrackingLatestOrder = () => {
             if (currentTrackingOrderId) {
-                // If a previous order is already being tracked, start listening to it.
-                // This ensures that when a user logs in, they check their existing order status.
                 trackOrderStatus(currentTrackingOrderId);
                 
                 document.getElementById('order-form-container').classList.add('hidden');
                 orderStatusContainer.classList.remove('hidden');
             } else {
-                 // Try to find the latest non-delivered/non-completed order for the current user ID
+                 // Try to find the latest non-completed order for the current user ID
                 const q = query(collection(db, "orders"), 
                     where("userId", "==", userId),
-                    where("status", "in", ["new", "preparing", "ready_for_pickup", "out_for_delivery"]),
+                    where("status", "in", ["new", "preparing", "ready_for_pickup", "out_for_delivery", "delivered"]),
                     );
                 
-                // Get documents and find the newest one
                 onSnapshot(q, (snapshot) => {
                     if (!snapshot.empty) {
                         const orders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -490,24 +496,27 @@
                     currentOrderIdEl.textContent = `Order ID: ${orderId}`;
                     orderStatusText.textContent = formatStatus(status);
                     
-                    const statusMap = { 'new': 10, 'preparing': 40, 'ready_for_pickup': 70, 'out_for_delivery': 90, 'delivered': 100, 'completed': 100 };
+                    // Note: 'Delivered' means successfully handed over, 'Completed' means final ledger cleared (after user feedback/check)
+                    const statusMap = { 'new': 10, 'preparing': 40, 'ready_for_pickup': 70, 'out_for_delivery': 90, 'delivered': 95, 'completed': 100 };
                     const progress = statusMap[status] || 0;
                     orderProgressBar.style.width = `${progress}%`;
 
-                    if(status === 'delivered' || status === 'completed') {
-                        // Order is finished, stop tracking and show message
+                    if(status === 'delivered') {
+                        // Order is delivered, but we wait for shopkeeper (or a mock feedback step) to mark it 'completed'
+                        orderStatusText.textContent = 'Order Delivered! Awaiting final confirmation...';
+                    } else if (status === 'completed') {
+                        // Order is fully completed/closed
                         if (currentOrderListener) currentOrderListener();
                         currentTrackingOrderId = null;
                         
-                        orderStatusText.textContent = 'Order is COMPLETE! Thank you for your feedback.';
+                        orderStatusText.textContent = 'Order is COMPLETE! Thank you for your order.';
                         setTimeout(() => {
-                           // After a delay, go back to the ordering form
                             document.getElementById('order-form-container').classList.remove('hidden');
                             orderStatusContainer.classList.add('hidden');
                         }, 5000);
                     }
                 } else {
-                    orderStatusText.textContent = "Order not found or deleted.";
+                    orderStatusText.textContent = "Order not found or closed.";
                     if(currentOrderListener) currentOrderListener();
                     currentTrackingOrderId = null;
                 }
@@ -746,13 +755,22 @@
             });
         };
         
+        // --- UPDATED: Rounding Logic ---
         const calculatePayment = (total) => {
-            const prepaid = total * PREPAID_PERCENTAGE;
-            const cod = total * (1 - PREPAID_PERCENTAGE);
+            // Calculate raw values
+            const prepaidRaw = total * PREPAID_PERCENTAGE;
+            const codRaw = total * (1 - PREPAID_PERCENTAGE);
+            
+            // Round prepaid amount to nearest whole rupee
+            const prepaid = Math.round(prepaidRaw);
+            
+            // Calculate COD based on the difference to ensure total is maintained (no floating point issues)
+            const cod = total - prepaid;
+
             return {
-                total,
-                prepaid: Math.round(prepaid * 100) / 100, // Round to 2 decimal places
-                cod: Math.round(cod * 100) / 100
+                total, // The original total sum
+                prepaid, // Rounded 45% amount (integer)
+                cod      // Remaining 55% amount (integer)
             };
         };
 
@@ -835,6 +853,7 @@
             const customerName = document.getElementById('customer-name').value;
             const customerAddress = document.getElementById('customer-address').value;
             const customerPhone = document.getElementById('customer-phone').value;
+            const paymentChoice = paymentChoiceEl.value; // New: 'cod' or 'online'
 
             const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             const payments = calculatePayment(totalAmount);
@@ -844,24 +863,34 @@
                 await saveUserProfile({ name: customerName, address: customerAddress, phone: customerPhone, email: userEmail });
             }
 
-            // 2. Initiate Razorpay payment
-            initiateRazorpayPayment(payments.prepaid, customerName, customerPhone, customerAddress);
+            // 2. Initiate Razorpay payment for the 45% advance
+            initiateRazorpayPayment(payments.prepaid, payments.cod, paymentChoice, customerName, customerPhone, customerAddress);
         };
 
-        const initiateRazorpayPayment = (amount, name, phone, address) => {
+        const initiateRazorpayPayment = (advanceAmount, remainingAmount, paymentChoice, name, phone, address) => {
+            // The first payment is always the 45% advance
+            const firstPaymentAmount = advanceAmount; 
+            const firstPaymentDescription = "45% Advance Payment for Order";
+            let totalPaymentRequired = firstPaymentAmount;
+
+            // If user chose to pay the remaining 55% online now, add it to the payment
+            if (paymentChoice === 'online') {
+                totalPaymentRequired += remainingAmount;
+            }
+            
             // Razorpay amount must be in the smallest unit (Paisa), so multiply by 100
-            const amountInPaisa = amount * 100;
+            const amountInPaisa = totalPaymentRequired * 100;
 
             const options = {
                 key: RAZORPAY_KEY_ID, 
                 amount: amountInPaisa, 
                 currency: "INR",
                 name: "Cloud Kitchen Order",
-                description: "45% Advance Payment for Order",
+                description: paymentChoice === 'online' ? "Full Order Payment (45% Advance + 55% Balance)" : firstPaymentDescription,
                 image: "https://placehold.co/100x100/000/FFF?text=CK",
                 handler: async function (response) {
                     // This function is called on successful payment
-                    await createOrderInFirestore(response.razorpay_payment_id, amount, name, phone, address);
+                    await createOrderInFirestore(response.razorpay_payment_id, advanceAmount, remainingAmount, paymentChoice, name, phone, address);
                 },
                 prefill: {
                     name: name,
@@ -870,7 +899,8 @@
                 },
                 notes: {
                     address: address,
-                    customer_id: userId
+                    customer_id: userId,
+                    final_payment_method: paymentChoice // Save chosen method
                 },
                 theme: {
                     "color": "#0071e3" // Apple Blue Color
@@ -880,15 +910,19 @@
             
             rzp.on('payment.failed', function (response){
                 console.error("Payment Failed:", response);
-                showAlert(`Payment failed: ${response.error.description}`);
+                showAlert(`Payment failed: ${response.error.description}. No order was placed.`);
             });
 
             rzp.open();
         }
 
-        const createOrderInFirestore = async (paymentId, prepaidAmount, customerName, customerPhone, customerAddress) => {
-            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            const payments = calculatePayment(totalAmount);
+        // --- UPDATED: createOrderInFirestore logic ---
+        const createOrderInFirestore = async (paymentId, prepaidAmount, remainingAmount, paymentChoice, customerName, customerPhone, customerAddress) => {
+            const totalAmount = prepaidAmount + remainingAmount;
+
+            // Determine final COD amount. It is 0 if user paid online, otherwise it's the remaining 55%
+            const finalCodAmount = (paymentChoice === 'online') ? 0 : remainingAmount;
+            const finalPaymentStatus = (paymentChoice === 'online') ? 'FULL_PAID' : '45%_PAID';
 
             try {
                 const orderData = {
@@ -896,21 +930,29 @@
                     customerAddress,
                     customerPhone,
                     items: cart,
-                    totalAmount: payments.total,
+                    totalAmount: totalAmount,
                     status: 'new',
                     createdAt: serverTimestamp(),
-                    userId: userId, // CRITICAL: Used for customer-specific order tracking
+                    userId: userId, 
                     isAnonymousOrder: isAnonymous,
                     
                     // Payment Details
-                    paymentStatus: '45%_PAID', 
-                    prepaidAmount: payments.prepaid,
-                    codAmount: payments.cod, 
-                    razorpayPaymentId: paymentId
+                    paymentStatus: finalPaymentStatus, 
+                    prepaidAmount: prepaidAmount, // 45% initial amount paid
+                    codAmount: finalCodAmount, // Remaining amount due (0 if full payment chosen)
+                    razorpayPaymentId: paymentId,
+                    finalPaymentMethod: paymentChoice // 'cod' or 'online'
                 };
                 
                 const docRef = await addDoc(collection(db, "orders"), orderData);
-                showAlert(`Order placed successfully! Please pay ${formatCurrency(payments.cod)} upon delivery.`);
+                
+                let message = `Order placed! Advance ${formatCurrency(prepaidAmount)} paid.`;
+                if (finalCodAmount > 0) {
+                    message += ` Remaining ${formatCurrency(finalCodAmount)} due via COD.`;
+                } else {
+                     message += ` Full payment received.`;
+                }
+                showAlert(message);
                 
                 // Track the newly created order for the current user
                 currentTrackingOrderId = docRef.id;
@@ -930,18 +972,16 @@
 
         // --- Kitchen & Transport Views Logic ---
         
-        // This function now includes the final status change to 'completed'
         const updateOrderStatus = async (orderId, newStatus) => {
             const orderRef = doc(db, "orders", orderId);
             try {
-                // If the delivery person marks it 'delivered', we change the status to 'completed'
-                // to effectively hide it from all queues.
+                // 'Delivered' means successfully handed over, 'completed' means final ledger cleared
                 const finalStatus = (newStatus === 'delivered') ? 'completed' : newStatus;
 
                 await updateDoc(orderRef, { status: finalStatus });
                 
                 if (finalStatus === 'completed') {
-                    showAlert(`Order ${orderId} marked as completed and removed from delivery queue.`);
+                    showAlert(`Order ${orderId} marked as completed and removed from queue.`);
                 }
             } catch (error) {
                 console.error("Error updating order status: ", error);
@@ -977,6 +1017,8 @@
                 const itemsHtml = order.items.map(i => `<li class="text-sm text-gray-600">${i.name} × ${i.quantity}</li>`).join('');
                 
                 let actionButtonHtml = '';
+                let paymentInfoHtml = '';
+
                 if(currentView === 'kitchen') {
                    if (order.status === 'new') {
                        actionButtonHtml = `<button data-id="${order.id}" data-status="preparing" class="update-status-btn w-full bg-orange-500 text-white font-medium py-3 rounded-lg mt-4 hover:bg-orange-600 transition-all">Start Preparing</button>`;
@@ -987,13 +1029,23 @@
                    if (order.status === 'ready_for_pickup') {
                         actionButtonHtml = `<button data-id="${order.id}" data-status="out_for_delivery" class="update-status-btn w-full bg-blue-600 text-white font-medium py-3 rounded-lg mt-4 hover:bg-blue-700 transition-all">Out for Delivery</button>`;
                    } else if (order.status === 'out_for_delivery') {
-                        // Display COD amount and button for delivery
-                        actionButtonHtml = `
-                            <div class="bg-yellow-50 text-yellow-800 p-3 rounded-lg text-sm font-semibold mt-4">
-                                Collect COD: ${formatCurrency(order.codAmount || 0)}
-                            </div>
-                            <button data-id="${order.id}" data-status="delivered" class="update-status-btn w-full bg-gray-600 text-white font-medium py-3 rounded-lg mt-2 hover:bg-gray-700 transition-all">Order Delivered & COD Collected</button>
-                        `;
+                        if (order.codAmount > 0) {
+                            // COD due
+                            paymentInfoHtml = `
+                                <div class="bg-yellow-50 text-yellow-800 p-3 rounded-lg text-sm font-semibold mt-4">
+                                    <span class="font-bold">COD Due:</span> ${formatCurrency(order.codAmount)}
+                                </div>
+                            `;
+                            actionButtonHtml = `<button data-id="${order.id}" data-status="delivered" class="update-status-btn w-full bg-gray-600 text-white font-medium py-3 rounded-lg mt-2 hover:bg-gray-700 transition-all">Order Delivered & COD Collected</button>`;
+                        } else {
+                            // Full payment already made online
+                             paymentInfoHtml = `
+                                <div class="bg-green-50 text-green-800 p-3 rounded-lg text-sm font-semibold mt-4">
+                                    <span class="font-bold">Fully Paid Online.</span> No COD needed.
+                                </div>
+                            `;
+                            actionButtonHtml = `<button data-id="${order.id}" data-status="delivered" class="update-status-btn w-full bg-gray-600 text-white font-medium py-3 rounded-lg mt-2 hover:bg-gray-700 transition-all">Mark Delivered</button>`;
+                        }
                    }
                 }
 
@@ -1020,15 +1072,18 @@
                             <ul class="space-y-1">${itemsHtml}</ul>
                         </div>
                     </div>
+                    ${paymentInfoHtml}
                     <div class="border-t border-gray-100 pt-3">
                         <div class="flex justify-between items-center text-sm text-gray-500 mb-1">
                             <span>Prepaid (45%)</span>
                             <span class="font-medium text-red-600">${formatCurrency(order.prepaidAmount || 0)}</span>
                         </div>
+                        ${order.codAmount > 0 ? `
                         <div class="flex justify-between items-center text-sm text-gray-500">
-                            <span>COD (55%)</span>
+                            <span>COD Due (55%)</span>
                             <span class="font-medium text-green-600">${formatCurrency(order.codAmount || 0)}</span>
                         </div>
+                        ` : ''}
                         <div class="flex justify-between items-center mt-2">
                              <span class="text-sm text-gray-500">Total Order Value</span>
                              <span class="text-xl font-semibold text-gray-900">${formatCurrency(order.totalAmount)}</span>
