@@ -23,19 +23,19 @@
         }
 
         [data-theme="dark"] {
-            --bg-primary: #000000;
-            --bg-secondary: #1d1d1f;
-            --bg-card: #2c2c2e;
-            --text-primary: #f5f5f7;
-            --text-secondary: #a1a1a6;
-            --accent-primary: #0a84ff;
-            --accent-secondary: #409cff;
-            --accent-gradient: linear-gradient(135deg, #0a84ff 0%, #64d2ff 100%);
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-card: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent-primary: #0095ff;
+            --accent-secondary: #00a4ff;
+            --accent-gradient: linear-gradient(135deg, #0095ff 0%, #00a4ff 100%);
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-hover: rgba(0, 0, 0, 0.5);
-            --header-bg: rgba(29, 29, 31, 0.8);
-            --footer-bg: #1d1d1f;
-            --border-color: #424245;
+            --header-bg: rgba(18, 18, 18, 0.8);
+            --footer-bg: #1e1e1e;
+            --border-color: #3a3a3a;
         }
 
         * {
@@ -160,7 +160,7 @@
         }
 
         [data-theme="dark"] .hero::before {
-            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(10, 132, 255, 0.2), transparent);
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 149, 255, 0.2), transparent);
         }
 
         .hero-content {
@@ -176,6 +176,20 @@
             font-weight: 600;
             letter-spacing: -0.015em;
             line-height: 1.1;
+        }
+        
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero p {
@@ -409,6 +423,96 @@
             font-weight: 600;
             color: var(--accent-primary);
         }
+        
+        .testimonials {
+            padding: 6rem 5%;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-slide {
+            display: none;
+            text-align: center;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+        }
+
+        .testimonial-slide img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--accent-primary);
+        }
+
+        .testimonial-slide p {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-slide .author {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .slider-nav button {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slider-nav button:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .cta-section {
+            padding: 6rem 5%;
+            background: var(--accent-gradient);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-section .cta-button {
+            background: white;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
 
         footer {
             background: var(--footer-bg);
@@ -560,7 +664,7 @@
         }
 
         [data-theme="dark"] .partners::before {
-            background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 149, 255, 0.08), transparent);
         }
 
         .partners-container {
@@ -633,7 +737,7 @@
         .partner-logo:hover {
             opacity: 1;
             transform: translateY(-8px) scale(1.1);
-            filter: drop-shadow(0 10px 25px rgba(0, 113, 227, 0.4));
+            filter: drop-shadow(0 10px 25px rgba(0, 149, 255, 0.4));
         }
 
         .partner-logo::after {
@@ -679,7 +783,7 @@
 
         .partner-logo:hover .partner-name {
             letter-spacing: 0.08em;
-            text-shadow: 0 0 15px rgba(0, 113, 227, 0.6);
+            text-shadow: 0 0 15px rgba(0, 149, 255, 0.6);
         }
 
         .partner-logo:nth-child(1):hover { animation: float 2.5s ease-in-out infinite; }
@@ -832,6 +936,7 @@
                     <li><a href="#map-section">Explore Map</a></li>
                     <li><a href="#partners">Partners</a></li>
                     <li><a href="#featured">Packages</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -844,7 +949,7 @@
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Discover Your Dream Destination</h1>
+            <h1 id="hero-headline"></h1>
             <p>Experience luxury hotels, finest dining, expert guides, and premium travel vehicles</p>
             <a href="#services" class="cta-button">Explore Our Services</a>
         </div>
@@ -962,6 +1067,38 @@
         </div>
     </section>
 
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <p class="section-subtitle">Real stories from our happy travelers</p>
+        <div class="testimonial-slider">
+            <div class="testimonial-slide active">
+                <img src="https://i.pravatar.cc/80?img=1" alt="Client 1">
+                <p>"An absolutely unforgettable experience. The attention to detail was impeccable. We can't wait for our next journey with Vrindopnishad Tours!"</p>
+                <div class="author">- Jane Doe</div>
+            </div>
+            <div class="testimonial-slide">
+                <img src="https://i.pravatar.cc/80?img=2" alt="Client 2">
+                <p>"From the luxury hotels to the expert guides, every aspect of our trip was flawless. Highly recommended for a stress-free vacation."</p>
+                <div class="author">- John Smith</div>
+            </div>
+            <div class="testimonial-slide">
+                <img src="https://i.pravatar.cc/80?img=3" alt="Client 3">
+                <p>"The best travel agency we have ever worked with. They truly listen to your needs and craft the perfect itinerary. A five-star service!"</p>
+                <div class="author">- The Williams Family</div>
+            </div>
+            <div class="slider-nav">
+                <button id="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <button id="next-slide"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready for Your Next Adventure?</h2>
+        <p>Let us craft your dream journey. Get in touch with our travel experts today!</p>
+        <a href="#contact" class="cta-button">Contact Us Now</a>
+    </section>
+
     <footer id="contact">
         <div class="footer-content">
             <div class="footer-section">
@@ -1013,14 +1150,14 @@
                 center: { lat: 27.1800, lng: 78.0420 },
                 zoom: 13,
                 styles: isDark ? [
-                    { elementType: "geometry", stylers: [{ color: "#1d1d1f" }] },
-                    { elementType: "labels.text.stroke", stylers: [{ color: "#1d1d1f" }] },
-                    { elementType: "labels.text.fill", stylers: [{ color: "#8a8a8a" }] },
-                    { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#424245" }] },
-                    { featureType: "poi", elementType: "geometry", stylers: [{ color: "#2c2c2e" }] },
-                    { featureType: "road", elementType: "geometry", stylers: [{ color: "#2c2c2e" }] },
-                    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#3a3a3c" }] },
-                    { featureType: "water", elementType: "geometry", stylers: [{ color: "#0a0a0a" }] }
+                    { elementType: "geometry", stylers: [{ color: "#1e1e1e" }] },
+                    { elementType: "labels.text.stroke", stylers: [{ color: "#1e1e1e" }] },
+                    { elementType: "labels.text.fill", stylers: [{ color: "#b0b0b0" }] },
+                    { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#3a3a3a" }] },
+                    { featureType: "poi", elementType: "geometry", stylers: [{ color: "#2a2a2a" }] },
+                    { featureType: "road", elementType: "geometry", stylers: [{ color: "#2a2a2a" }] },
+                    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#3a3a3a" }] },
+                    { featureType: "water", elementType: "geometry", stylers: [{ color: "#121212" }] }
                 ] : [
                     { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
                     { elementType: "labels.text.stroke", stylers: [{ color: "#ffffff" }] },
@@ -1161,14 +1298,14 @@
                 const isDark = newTheme === 'dark';
                 map.setOptions({
                     styles: isDark ? [
-                        { elementType: "geometry", stylers: [{ color: "#1d1d1f" }] },
-                        { elementType: "labels.text.stroke", stylers: [{ color: "#1d1d1f" }] },
-                        { elementType: "labels.text.fill", stylers: [{ color: "#8a8a8a" }] },
-                        { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#424245" }] },
-                        { featureType: "poi", elementType: "geometry", stylers: [{ color: "#2c2c2e" }] },
-                        { featureType: "road", elementType: "geometry", stylers: [{ color: "#2c2c2e" }] },
-                        { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#3a3a3c" }] },
-                        { featureType: "water", elementType: "geometry", stylers: [{ color: "#0a0a0a" }] }
+                        { elementType: "geometry", stylers: [{ color: "#1e1e1e" }] },
+                        { elementType: "labels.text.stroke", stylers: [{ color: "#1e1e1e" }] },
+                        { elementType: "labels.text.fill", stylers: [{ color: "#b0b0b0" }] },
+                        { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#3a3a3a" }] },
+                        { featureType: "poi", elementType: "geometry", stylers: [{ color: "#2a2a2a" }] },
+                        { featureType: "road", elementType: "geometry", stylers: [{ color: "#2a2a2a" }] },
+                        { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#3a3a3a" }] },
+                        { featureType: "water", elementType: "geometry", stylers: [{ color: "#121212" }] }
                     ] : [
                         { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
                         { elementType: "labels.text.stroke", stylers: [{ color: "#ffffff" }] },
@@ -1222,11 +1359,39 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.service-card, .featured-card').forEach(card => {
+        document.querySelectorAll('.service-card, .featured-card, .testimonial-slide').forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
             card.style.transition = 'opacity 0.6s, transform 0.6s';
             observer.observe(card);
+        });
+
+        const headlineText = "Discover Your Dream Destination";
+        const headline = document.getElementById('hero-headline');
+        headline.innerHTML = headlineText.split(' ').map(word => `<span>${word}</span>`).join(' ');
+        Array.from(headline.children).forEach((span, index) => {
+            span.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const prevButton = document.getElementById('prev-slide');
+        const nextButton = document.getElementById('next-slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
         });
     </script>
 </body>
