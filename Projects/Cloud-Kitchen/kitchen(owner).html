@@ -627,7 +627,7 @@
                     })
                 });
                 
-                showAlert(`Successfully added items worth ${formatCurrency(addOnCost)} to order ${currentTrackingOrderId.substring(0, 8)}.... New total is ${formatCurrency(newTotalAmount)}.`);
+                showAlert(`Successfully added items worth ${formatCurrency(addOnCost)} to order ${currentTrackingOrderId.substring(0, 0)}.... New total is ${formatCurrency(newTotalAmount)}.`);
                 
                 // End add-on session
                 cancelAddOnSession();
@@ -902,6 +902,12 @@
         };
 
         const switchView = (view) => {
+            // Check for security if switching to operational views
+            if ((view === 'kitchen' || view === 'transport') && isAnonymous) {
+                showAlert('Authentication Required', 'Please log in with your staff account to access the operational views.');
+                return; // Block view switch
+            }
+
             currentView = view;
             Object.keys(views).forEach(key => {
                 views[key].classList.toggle('view-active', key === view);
@@ -1283,6 +1289,14 @@
                    } else if (order.status === 'preparing') {
                        actionButtonHtml = `<button data-id="${order.id}" data-status="ready_for_pickup" class="update-status-btn w-full bg-green-600 text-white font-medium py-3 rounded-lg mt-4 hover:bg-green-700 transition-all">Mark Ready (Notify Delivery)</button>`;
                    }
+                   
+                   // New: Detailed payment and user info for Kitchen view
+                   paymentInfoHtml = `
+                        <div class="mt-3 text-sm text-gray-700 space-y-1">
+                            <p><strong>Payment:</strong> ${order.paymentStatus === 'FULL_PAID' ? '<span class="text-green-600">Full Prepaid</span>' : `<span class="text-red-600">Partially Paid (${formatCurrency(order.prepaidAmount)})</span>`}</p>
+                            <p class="text-xs text-gray-500">User ID: ${order.userId}</p>
+                        </div>
+                   `;
                 } else if (currentView === 'transport') {
                    // Transport handles 'ready_for_pickup' and 'out_for_delivery'
                    if (order.status === 'ready_for_pickup') {
@@ -1306,6 +1320,13 @@
                             actionButtonHtml = `<button data-id="${order.id}" data-status="delivered" class="update-status-btn w-full bg-gray-600 text-white font-medium py-3 rounded-lg mt-2 hover:bg-gray-700 transition-all">Mark Delivered</button>`;
                         }
                    }
+                   
+                   // New: User info for Transport view
+                   paymentInfoHtml += `
+                        <div class="mt-3 text-sm text-gray-700 space-y-1">
+                            <p class="text-xs text-gray-500">User ID: ${order.userId}</p>
+                        </div>
+                   `;
                 }
 
                 orderCard.innerHTML = `
