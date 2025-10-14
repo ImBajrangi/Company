@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { menuItems, type MenuItem } from '../data/menuData';
+import { menuItems, type MenuItem } from '../data/mockData';
 import { useCart } from '../hooks/useCart';
 
 const HomePage: React.FC = () => {
@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
             {featuredItems.map((item: MenuItem) => (
               <div className="col d-flex align-items-stretch" key={item.id}>
                 <div className="card shadow-sm w-100">
-                  <img src={item.imageUrl} className="card-img-top" alt={item.name} style={{ height: '200px', objectFit: 'cover' }} />
+                  <img src={item.image} className="card-img-top" alt={item.name} style={{ height: '200px', objectFit: 'cover' }} />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{item.name}</h5>
                     <p className="card-text flex-grow-1">{item.description}</p>
