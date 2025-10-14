@@ -5,15 +5,30 @@ interface CartItem extends MenuItem {
   quantity: number;
 }
 
+export interface Order {
+  id: string;
+  customer: {
+    name: string;
+    address: string;
+    contact: string;
+  };
+  items: CartItem[];
+  total: number;
+  status: string;
+  paymentId: string;
+}
+
 interface CartContextType {
   cart: CartItem[];
   cartItems: CartItem[]; // Alias for cart for consistency with existing useCart hook
+  orders: Order[];
   addToCart: (item: MenuItem) => void;
   removeFromCart: (id: number) => void; 
   increaseQuantity: (id: number) => void; 
   decreaseQuantity: (id: number) => void; 
   getTotalPrice: () => number;
   clearCart: () => void;
+  addOrder: (order: Order) => void;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -28,9 +43,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const [orders, setOrders] = useState<Order[]>(() => {
+    const savedOrders = localStorage.getItem('orders');
+    return savedOrders ? JSON.parse(savedOrders) : [];
+  });
+
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
+
+  useEffect(() => {
+    localStorage.setItem('orders', JSON.stringify(orders));
+  }, [orders]);
 
   const addToCart = (item: MenuItem) => {
     setCart((prevCart) => {
@@ -71,17 +95,23 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     setCart([]);
   };
 
+  const addOrder = (order: Order) => {
+    setOrders((prevOrders) => [...prevOrders, order]);
+  };
+
   return (
     <CartContext.Provider
       value={{
         cart,
         cartItems: cart,
+        orders,
         addToCart,
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
         getTotalPrice,
         clearCart,
+        addOrder,
       }}
     >
       {children}
