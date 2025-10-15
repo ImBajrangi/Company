@@ -7,14 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Razorpay SDK for Payment Processing -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FIX: Updated Google Font link for better stability -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #f5f5f7;
             min-height: 100vh;
         }
@@ -458,16 +459,23 @@
         let db;
         let auth;
         let appInitialized = false; // New flag to track initialization
+        let isFirebaseReady = false; // NEW: Flag to track successful Firebase connection
 
         try {
             // Use environment config variables provided by the Canvas runtime
             const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
+            
+            // CRITICAL FIX: Only initialize if the config object has required keys (like projectId)
+            if (firebaseConfig && firebaseConfig.projectId) {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                isFirebaseReady = true; 
+            } else {
+                console.error("Firebase Initialization Skipped: Configuration is missing project ID.");
+            }
         } catch (error) {
             console.error("Firebase Initialization Error:", error);
-            // Non-fatal error; app will still load, but auth/db operations will fail.
         }
 
 
@@ -662,6 +670,9 @@
         }
 
         const updateOrderWithAddOns = async (paymentId, addOnCost) => {
+            // FIX: Check if Firebase is ready before attempting Firestore operation
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
+            
             const orderRef = doc(db, "orders", currentTrackingOrderId);
             
             const newItems = cart;
@@ -697,6 +708,13 @@
         // --- Order Tracking Logic (Customer View) ---
 
         const startTrackingLatestOrder = () => {
+             // FIX: Check if Firebase is ready before attempting Firestore operation
+            if (!isFirebaseReady) { 
+                document.getElementById('order-form-container').classList.remove('hidden');
+                orderStatusContainer.classList.add('hidden');
+                return; 
+            }
+
             if (currentTrackingOrderId) {
                 trackOrderStatus(currentTrackingOrderId);
                 
@@ -734,7 +752,9 @@
             if (currentOrderListener) {
                 currentOrderListener();
             }
-            
+            // FIX: Check if Firebase is ready before attempting Firestore operation
+            if (!isFirebaseReady) return;
+
             const orderRef = doc(db, "orders", orderId);
             currentOrderListener = onSnapshot(orderRef, (doc) => {
                 if(doc.exists()){
@@ -779,6 +799,9 @@
 
         const saveUserProfile = async (profileData) => {
             if (isAnonymous) return;
+             // FIX: Check if Firebase is ready before attempting Firestore operation
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
+
             const profileRef = doc(db, "profiles", userId);
             try {
                 await setDoc(profileRef, profileData, { merge: true });
@@ -791,6 +814,9 @@
         };
 
         const fetchUserProfile = async (uid) => {
+             // FIX: Check if Firebase is ready before attempting Firestore operation
+            if (!isFirebaseReady) return;
+
             const profileRef = doc(db, "profiles", uid);
             try {
                 const docSnap = await getDoc(profileRef);
@@ -890,6 +916,8 @@
         };
 
         const handleGoogleLogin = async () => {
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
             const provider = new GoogleAuthProvider();
             try {
                 await signInWithPopup(auth, provider);
@@ -903,6 +931,9 @@
 
         const handleEmailAuth = async (e, isSignup) => {
             e.preventDefault();
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
+
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
 
@@ -931,6 +962,10 @@
         
         const handleProfileUpdate = async (e) => {
             e.preventDefault();
+            
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
+
             const name = document.getElementById('profile-name').value;
             const address = document.getElementById('profile-address').value;
             const phone = document.getElementById('profile-phone').value;
@@ -940,6 +975,9 @@
         };
 
         const handleLogout = async () => {
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
+            
             try {
                 await signOut(auth);
                 profileModal.classList.add('hidden');
@@ -966,6 +1004,12 @@
             if ((view === 'kitchen' || view === 'transport') && isAnonymous) {
                 showAlert('Authentication Required', 'Please log in with your staff account to access the operational views.');
                 return; // Block view switch
+            }
+            
+            // FIX: If Firebase is not ready, block operational views
+            if ((view === 'kitchen' || view === 'transport' || view === 'developer') && !isFirebaseReady) {
+                 showAlert('Database Error', 'The application is not connected to the database. Cannot load operational views.');
+                 return;
             }
 
             currentView = view;
@@ -1154,6 +1198,10 @@
 
         const placeOrder = async (e) => {
             e.preventDefault();
+            
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready. Cannot place order."); return; }
+
             if (cart.length === 0) {
                 showAlert('Cart is empty. Please add items to place an order.');
                 return;
@@ -1227,6 +1275,9 @@
 
         // --- UPDATED: createOrderInFirestore logic ---
         const createOrderInFirestore = async (paymentId, prepaidAmount, remainingAmount, paymentChoice, customerName, customerPhone, customerAddress) => {
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready. Order not saved."); return; }
+
             const totalAmount = prepaidAmount + remainingAmount;
 
             // Determine final COD amount. It is 0 if user paid online, otherwise it's the remaining 55%
@@ -1284,6 +1335,14 @@
         const placeTestOrder = async (e) => {
             e.preventDefault();
             
+            // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { 
+                 testOrderMessage.textContent = 'Database connection is not ready. Cannot place test order.';
+                 testOrderMessage.classList.remove('hidden', 'text-green-600');
+                 testOrderMessage.classList.add('text-red-600');
+                 return; 
+            }
+
             const name = testCustomerNameInput.value || 'Dev Tester';
             const selectedOptions = Array.from(testItemSelect.selectedOptions).map(option => parseInt(option.value));
             
@@ -1347,6 +1406,9 @@
         // --- Kitchen & Transport Views Logic ---
         
         const updateOrderStatus = async (orderId, newStatus) => {
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) { showAlert("Error: Database connection is not ready."); return; }
+
             const orderRef = doc(db, "orders", orderId);
             try {
                 // 'Delivered' means successfully handed over, 'completed' means final ledger cleared
@@ -1523,6 +1585,8 @@
         };
 
         const listenToKitchenOrders = () => {
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) return;
             // Only show orders that are 'new' or 'preparing'
             const q = query(collection(db, "orders"), 
                 where("status", "in", ["new", "preparing"]));
@@ -1534,6 +1598,8 @@
         };
 
         const listenToTransportOrders = () => {
+             // FIX: Check if Firebase is ready
+            if (!isFirebaseReady) return;
              // Only show orders that are 'ready_for_pickup' or 'out_for_delivery'
             const q = query(collection(db, "orders"), 
                 where("status", "in", ["ready_for_pickup", "out_for_delivery"]));
@@ -1548,6 +1614,16 @@
             // Check if app initialization has already occurred (prevents double running)
             if (appInitialized) return;
             appInitialized = true; 
+            
+            // If Firebase failed to initialize, only load the basic UI and menu, skipping auth and DB listeners.
+            if (!isFirebaseReady) {
+                console.warn("Application starting in reduced functionality mode (Database offline).");
+                switchView('customer');
+                renderMenu();
+                updateCart();
+                updateAuthStatusUI(); // Will show 'Guest'
+                return;
+            }
 
             onAuthStateChanged(auth, async (user) => {
                 // Ensure currentUser is accessible within the scope
@@ -1565,9 +1641,9 @@
                         // CRITICAL FIX: Ensure currentUser is updated with the result
                         currentUser = result.user; 
                     } catch (error) {
-                        console.error("Initial Authentication Failed (Cannot continue): ", error);
-                        // Do not show an alert here as it blocks the UI on every load. 
-                        return;
+                        console.error("Initial Authentication Failed: ", error);
+                        // If auth fails, we keep currentUser as null/undefined and continue with app setup
+                        // This allows the app to finish initializing and prevents the ReferenceError.
                     }
                 }
 
@@ -1582,17 +1658,17 @@
                     } else {
                         userProfile = null;
                     }
-
-                    // Initialize the rest of the application
-                    switchView('customer');
-                    renderMenu();
-                    updateCart();
-                    updateAuthStatusUI();
-                    updateCustomerFormWithProfile();
-                    listenToKitchenOrders();
-                    listenToTransportOrders();
-                    startTrackingLatestOrder(); 
                 }
+                
+                // Initialize the rest of the application using the current auth state
+                switchView('customer');
+                renderMenu();
+                updateCart();
+                updateAuthStatusUI();
+                updateCustomerFormWithProfile();
+                listenToKitchenOrders();
+                listenToTransportOrders();
+                startTrackingLatestOrder(); 
             });
         };
 
