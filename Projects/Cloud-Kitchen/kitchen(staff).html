@@ -58,7 +58,7 @@
                     </button>
 
                     <div id="view-switcher" class="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-full sm:w-auto">
-                        <button data-view="customer" class="px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none">Order</button>
+                        <button data-view="customer" class="px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none btn-active">Order</button>
                         <button data-view="kitchen" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none">Kitchen</button>
                         <button data-view="transport" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none">Delivery</button>
                         <button data-view="owner" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none bg-red-600 text-white">Owner</button>
@@ -69,7 +69,7 @@
 
         <main>
             <!-- Customer View -->
-            <div id="customer-view" class="view-hidden">
+            <div id="customer-view" class="view-active">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2">
                          <div class="card p-6 sm:p-8">
@@ -147,15 +147,17 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const OWNER_EMAIL = "shrivrindopnishad@gmail.com"; // IMPORTANT: Change this to the owner's actual email address.
+        const OWNER_EMAIL = "owner@example.com"; // IMPORTANT: Change this to the owner's actual email address.
 
+        // Using the user-provided Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBsmUPg2plkJS86sFkXU-QkJttJJcOj8dw",
             authDomain: "vrinda-cloud-kitchen.firebaseapp.com",
             projectId: "vrinda-cloud-kitchen",
-            storageBucket: "vrinda-cloud-kitchen.appspot.com",
+            storageBucket: "vrinda-cloud-kitchen.firebasestorage.app",
             messagingSenderId: "166281611781",
             appId: "1:166281611781:web:5090b4106e97e08931aa6c",
+            measurementId: "G-71YP1K3ETE"
         };
         
         let app, db, auth;
@@ -168,35 +170,54 @@
             isFirebaseReady = true;
         } catch (error) {
             console.error("CRITICAL: Firebase Initialization failed.", error);
-            document.body.innerHTML = `<div class="w-screen h-screen flex items-center justify-center bg-red-100 text-red-800 p-8"><strong>Application Error:</strong> Could not connect to the database. Please check the Firebase configuration.</div>`;
+            document.body.innerHTML = `<div class="w-screen h-screen flex items-center justify-center bg-red-100 text-red-800 p-8"><strong>Application Error:</strong> Could not connect to the database. Please check the Firebase configuration and ensure the Project ID is correct.</div>`;
         }
 
+        // --- Global State ---
         let userRole = 'customer';
         let userId = null;
         let userEmail = 'Guest';
         let userProfile = null;
         let currentTrackingOrderId = null;
+        let cart = [];
+        const menu = [
+            { id: 1, name: 'Paneer Butter Masala', price: 250 },
+            { id: 2, name: 'Dal Makhani', price: 200 },
+            { id: 3, name: 'Veg Biryani', price: 220 },
+            { id: 4, name: 'Garlic Naan', price: 50 },
+        ];
 
-        google.charts.load('current', {'packages':['corechart']});
-
+        // --- DOM Elements ---
         const authBtn = document.getElementById('auth-btn');
         const authStatusEl = document.getElementById('auth-status');
         const alertModal = document.getElementById('alert-modal');
         const alertMessage = document.getElementById('alert-message');
         const alertClose = document.getElementById('alert-close');
-        
+        const profileModal = document.getElementById('profile-modal');
+        const profileContent = document.getElementById('profile-content');
+        const profileClose = document.getElementById('profile-close');
+        const viewSwitcher = document.getElementById('view-switcher');
+        const views = {
+            customer: document.getElementById('customer-view'),
+            kitchen: document.getElementById('kitchen-view'),
+            transport: document.getElementById('transport-view'),
+            owner: document.getElementById('owner-view'),
+        };
+
         const showAlert = (message) => {
             alertMessage.textContent = message;
             alertModal.classList.remove('hidden');
         }
         alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
+        profileClose.addEventListener('click', () => profileModal.classList.add('hidden'));
+        authBtn.addEventListener('click', () => profileModal.classList.remove('hidden'));
 
+        // --- Core App Logic ---
         if (isFirebaseReady) {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     userId = user.uid;
                     userEmail = user.email || 'Anonymous';
-                    
                     const userDocRef = doc(db, "users", userId);
                     const userDocSnap = await getDoc(userDocRef);
 
@@ -208,32 +229,26 @@
                     } else if (userDocSnap.exists()) {
                         userRole = userDocSnap.data().role;
                     } else {
-                        // First sign-in for a non-owner, non-anonymous user. Default to customer.
                         await setDoc(userDocRef, { email: user.email, role: 'customer' });
                         userRole = 'customer';
                     }
-
                     if(!user.isAnonymous) {
                          const profileSnap = await getDoc(doc(db, "profiles", userId));
                          if(profileSnap.exists()) userProfile = profileSnap.data();
                     }
-
                 } else {
-                    // No user logged in, sign in anonymously
                     try {
                         const userCredential = await signInAnonymously(auth);
                         userId = userCredential.user.uid;
-                        userEmail = 'Guest';
-                        userRole = 'customer';
-                    } catch (error) {
-                        console.error("Anonymous sign-in failed", error);
-                        showAlert("Could not establish a guest session. Please refresh.");
-                    }
+                    } catch (error) { console.error("Anonymous sign-in failed", error); }
                 }
+                userEmail = user ? (user.email || 'Guest') : 'Guest';
                 updateAuthStatusUI();
                 updateVisibleViews();
+                renderProfileModal();
                 if (userRole === 'owner') loadOwnerDashboard();
-                renderCustomerUI(); // Always render customer UI after auth change
+                renderCustomerUI();
+                listenToStaffOrders();
             });
         }
 
@@ -251,14 +266,250 @@
             document.querySelector('[data-view="transport"]').classList.toggle('hidden', userRole !== 'delivery' && userRole !== 'owner');
             document.querySelector('[data-view="owner"]').classList.toggle('hidden', userRole !== 'owner');
         }
-        
-        // All other functions like renderMenu, placeOrder, etc. must be defined here.
-        // This is a placeholder for the rest of the application's logic.
-        // It's crucial to fill this in with the complete functionality.
+
         function renderCustomerUI() {
-             // Placeholder: This should render the menu, cart, etc.
+            renderMenu();
+            updateCart();
+            renderOrderForm();
+            startTrackingLatestOrder();
         }
 
+        function renderMenu() {
+            const container = document.getElementById('menu-items');
+            container.innerHTML = '';
+            menu.forEach(item => {
+                container.innerHTML += `
+                    <div class="menu-item card p-5">
+                        <h3 class="text-lg font-semibold">${item.name}</h3>
+                        <p class="text-gray-600">₹${item.price}</p>
+                        <button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>
+                    </div>`;
+            });
+        }
+
+        function updateCart() {
+            const itemsContainer = document.getElementById('cart-items');
+            const summaryContainer = document.getElementById('cart-summary');
+            itemsContainer.innerHTML = '';
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = '<p class="text-gray-400 text-center">Cart is empty</p>';
+                summaryContainer.innerHTML = '';
+                return;
+            }
+            let total = 0;
+            cart.forEach(item => {
+                itemsContainer.innerHTML += `
+                    <div class="flex justify-between items-center">
+                        <span>${item.name} x ${item.quantity}</span>
+                        <span>₹${item.price * item.quantity}</span>
+                    </div>`;
+                total += item.price * item.quantity;
+            });
+            summaryContainer.innerHTML = `<div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹${total}</span></div>`;
+        }
+        
+        function renderOrderForm() {
+            const container = document.getElementById('order-form-container');
+            container.innerHTML = `
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Delivery Details</h2>
+                <form id="order-form" class="space-y-4">
+                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" required value="${userProfile?.name || ''}"></div>
+                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" required value="${userProfile?.address || ''}"></div>
+                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" required value="${userProfile?.phone || ''}"></div>
+                    <button type="submit" class="btn-primary w-full">Place Order</button>
+                </form>`;
+        }
+        
+        document.addEventListener('submit', e => {
+            if (e.target.id === 'order-form') {
+                e.preventDefault();
+                placeOrder();
+            }
+        });
+
+        document.addEventListener('click', e => {
+            if (e.target.classList.contains('add-to-cart-btn')) {
+                const itemId = parseInt(e.target.dataset.id);
+                const menuItem = menu.find(item => item.id === itemId);
+                const cartItem = cart.find(item => item.id === itemId);
+                if (cartItem) cartItem.quantity++;
+                else cart.push({ ...menuItem, quantity: 1 });
+                updateCart();
+            }
+        });
+
+        async function placeOrder() {
+            if (cart.length === 0) return showAlert('Your cart is empty.');
+            const orderData = {
+                customerName: document.getElementById('customer-name').value,
+                customerAddress: document.getElementById('customer-address').value,
+                customerPhone: document.getElementById('customer-phone').value,
+                items: cart,
+                totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                status: 'new',
+                createdAt: serverTimestamp(),
+                userId: userId,
+            };
+            try {
+                const docRef = await addDoc(collection(db, "orders"), orderData);
+                showAlert('Order placed successfully!');
+                cart = [];
+                updateCart();
+                currentTrackingOrderId = docRef.id;
+                startTrackingLatestOrder();
+            } catch (error) {
+                showAlert('Failed to place order.');
+                console.error("Order placement error: ", error);
+            }
+        }
+        
+        function startTrackingLatestOrder() {
+            if (currentTrackingOrderId) {
+                 trackOrderStatus(currentTrackingOrderId);
+            } else {
+                const q = query(collection(db, "orders"), where("userId", "==", userId), where("status", "!=", "completed"));
+                onSnapshot(q, snapshot => {
+                    if (!snapshot.empty) {
+                        const latestOrder = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt)[0];
+                        currentTrackingOrderId = latestOrder.id;
+                        trackOrderStatus(latestOrder.id);
+                    } else {
+                        document.getElementById('order-form-container').style.display = 'block';
+                        document.getElementById('order-status-container').style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        function trackOrderStatus(orderId) {
+            const statusContainer = document.getElementById('order-status-container');
+            document.getElementById('order-form-container').style.display = 'none';
+            statusContainer.style.display = 'block';
+            statusContainer.innerHTML = `<h2 class="text-xl font-semibold">Order Status</h2><p id="order-status-text">Loading...</p><div class="w-full bg-gray-200 rounded-full h-2.5"><div id="order-progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div></div>`;
+            const orderRef = doc(db, "orders", orderId);
+            onSnapshot(orderRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const order = docSnap.data();
+                    const statusTextEl = document.getElementById('order-status-text');
+                    const progressBarEl = document.getElementById('order-progress-bar');
+                    const statusMap = { 'new': 10, 'preparing': 40, 'ready_for_pickup': 70, 'out_for_delivery': 90, 'completed': 100 };
+                    statusTextEl.textContent = order.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    progressBarEl.style.width = `${statusMap[order.status] || 0}%`;
+                    if (order.status === 'completed') {
+                        setTimeout(() => {
+                            currentTrackingOrderId = null;
+                            startTrackingLatestOrder();
+                        }, 5000);
+                    }
+                }
+            });
+        }
+        
+        function listenToStaffOrders() {
+            if(userRole === 'customer') return;
+            const kitchenList = document.getElementById('kitchen-orders-list');
+            const transportList = document.getElementById('transport-orders-list');
+            
+            const kitchenQuery = query(collection(db, "orders"), where("status", "in", ["new", "preparing"]));
+            onSnapshot(kitchenQuery, snapshot => renderOrders(kitchenList, snapshot.docs, 'kitchen'));
+
+            const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]));
+            onSnapshot(transportQuery, snapshot => renderOrders(transportList, snapshot.docs, 'transport'));
+        }
+
+        function renderOrders(container, docs, viewType) {
+            container.innerHTML = '';
+            if (docs.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 col-span-full text-center">No orders to show.</p>`;
+                return;
+            }
+            docs.forEach(doc => {
+                const order = doc.data();
+                let actionButton = '';
+                if(viewType === 'kitchen') {
+                    if (order.status === 'new') actionButton = `<button data-id="${doc.id}" data-status="preparing" class="update-status-btn btn-primary w-full mt-4">Start Preparing</button>`;
+                    else if(order.status === 'preparing') actionButton = `<button data-id="${doc.id}" data-status="ready_for_pickup" class="update-status-btn btn-primary w-full mt-4">Mark Ready</button>`;
+                } else if (viewType === 'transport') {
+                    if (order.status === 'ready_for_pickup') actionButton = `<button data-id="${doc.id}" data-status="out_for_delivery" class="update-status-btn btn-primary w-full mt-4">Out for Delivery</button>`;
+                    else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary w-full mt-4">Mark Delivered</button>`;
+                }
+                container.innerHTML += `
+                    <div class="card p-4">
+                        <p><strong>${order.customerName}</strong></p>
+                        <p>${order.customerAddress}</p>
+                        <p class="capitalize font-bold">${order.status.replace(/_/g, ' ')}</p>
+                        ${actionButton}
+                    </div>`;
+            });
+        }
+        
+        document.addEventListener('click', e => {
+            if(e.target.classList.contains('update-status-btn')) {
+                const orderId = e.target.dataset.id;
+                const newStatus = e.target.dataset.status;
+                updateDoc(doc(db, "orders", orderId), { status: newStatus });
+            }
+        });
+
+        function renderProfileModal() {
+            if (!userEmail || userEmail === 'Guest' || userEmail === 'Anonymous') {
+                profileContent.innerHTML = `
+                    <form id="email-auth-form" class="space-y-4">
+                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
+                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
+                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
+                        <div class="flex gap-4"><button type="submit" id="login-btn" class="btn-primary flex-1">Login</button><button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button></div>
+                    </form>
+                    <div class="text-center my-4">OR</div>
+                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>`;
+            } else {
+                 profileContent.innerHTML = `
+                    <h3 class="text-xl font-semibold">${userEmail}</h3>
+                    <p class="capitalize">Role: ${userRole}</p>
+                    <button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
+            }
+            attachAuthListeners();
+        }
+
+        function attachAuthListeners() {
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const googleLoginBtn = document.getElementById('google-login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            if(loginBtn) loginBtn.addEventListener('click', e => handleEmailAuth(e, false));
+            if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
+            if(googleLoginBtn) googleLoginBtn.addEventListener('click', handleGoogleLogin);
+            if(logoutBtn) logoutBtn.addEventListener('click', () => signOut(auth));
+        }
+
+        async function handleEmailAuth(e, isSignup) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            try {
+                if (isSignup) await createUserWithEmailAndPassword(auth, email, password);
+                else await signInWithEmailAndPassword(auth, email, password);
+                profileModal.classList.add('hidden');
+            } catch (error) { showAlert(error.message); }
+        }
+
+        async function handleGoogleLogin() {
+            try {
+                await signInWithPopup(auth, new GoogleAuthProvider());
+                profileModal.classList.add('hidden');
+            } catch (error) { showAlert(error.message); }
+        }
+        
+        viewSwitcher.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const view = e.target.dataset.view;
+                 Object.keys(views).forEach(key => views[key].classList.toggle('view-active', key === view));
+                 Array.from(viewSwitcher.children).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
+            }
+        });
+
+        // --- Owner Dashboard & Staff Management ---
         function loadOwnerDashboard() {
             if(userRole !== 'owner' || !isFirebaseReady) return;
             google.charts.setOnLoadCallback(drawCharts);
@@ -275,20 +526,18 @@
 
         function drawSalesChart(orders) {
             const data = new google.visualization.DataTable();
-            data.addColumn('date', 'Date');
-            data.addColumn('number', 'Sales');
+            data.addColumn('date', 'Date'); data.addColumn('number', 'Sales');
             const salesByDate = {};
             orders.forEach(order => {
-                if (order.createdAt && order.createdAt.toDate) {
+                if (order.createdAt?.toDate) {
                     const date = order.createdAt.toDate().toISOString().split('T')[0];
                     salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
                 }
             });
             const rows = Object.entries(salesByDate).map(([dateStr, sales]) => [new Date(dateStr), sales]);
             if (rows.length > 0) data.addRows(rows);
-            const options = { title: 'Daily Sales Revenue', curveType: 'function', legend: { position: 'bottom' } };
             const chart = new google.visualization.LineChart(document.getElementById('sales_chart_div'));
-            chart.draw(data, options);
+            chart.draw(data, { title: 'Daily Sales Revenue', curveType: 'function', legend: { position: 'bottom' } });
         }
 
         function drawStatusChart(orders) {
@@ -298,11 +547,10 @@
                 statusCounts[status] = (statusCounts[status] || 0) + 1;
             });
             const dataArray = [['Status', 'Count'], ...Object.entries(statusCounts)];
-            if (dataArray.length <= 1) return;
+            if (dataArray.length <= 1) return; // Don't draw empty chart
             const data = google.visualization.arrayToDataTable(dataArray);
-            const options = { title: 'Order Status Distribution', is3D: true };
             const chart = new google.visualization.PieChart(document.getElementById('status_chart_div'));
-            chart.draw(data, options);
+            chart.draw(data, { title: 'Order Status Distribution', is3D: true });
         }
 
         const addStaffForm = document.getElementById('add-staff-form');
@@ -312,16 +560,10 @@
             const staffQuery = query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]));
             const snapshot = await getDocs(staffQuery);
             staffListEl.innerHTML = '';
-            if (snapshot.empty) {
-                staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>';
-                return;
-            }
+            if (snapshot.empty) { staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>'; return; }
             snapshot.docs.forEach(doc => {
                 const staff = doc.data();
-                const staffEl = document.createElement('div');
-                staffEl.className = 'flex justify-between items-center bg-gray-50 p-3 rounded-lg';
-                staffEl.innerHTML = `<div><p class="font-medium text-gray-900">${staff.email}</p><p class="text-sm text-gray-500 capitalize">${staff.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button>`;
-                staffListEl.appendChild(staffEl);
+                staffListEl.innerHTML += `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium text-gray-900">${staff.email}</p><p class="text-sm text-gray-500 capitalize">${staff.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`;
             });
         }
 
@@ -329,16 +571,11 @@
             e.preventDefault();
             const email = document.getElementById('staff-email').value;
             const role = document.getElementById('staff-role').value;
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("email", "==", email));
+            const q = query(collection(db, "users"), where("email", "==", email));
             const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                showAlert("Error: No user found with this email. The user must sign up in the app at least once before being assigned a role.");
-                return;
-            }
-            const userDoc = snapshot.docs[0];
-            await setDoc(doc(db, "users", userDoc.id), { email: email, role: role }, { merge: true });
-            showAlert(`Successfully assigned ${role} role to ${email}.`);
+            if (snapshot.empty) { showAlert("Error: User must sign up first."); return; }
+            await setDoc(doc(db, "users", snapshot.docs[0].id), { email, role }, { merge: true });
+            showAlert(`Role updated for ${email}.`);
             addStaffForm.reset();
             loadStaffList();
         });
@@ -347,11 +584,10 @@
             if (e.target.classList.contains('remove-staff-btn')) {
                 const staffId = e.target.dataset.id;
                 await updateDoc(doc(db, "users", staffId), { role: 'customer' });
-                showAlert('Staff role removed. The user is now a regular customer.');
+                showAlert('Staff role removed.');
                 loadStaffList();
             }
         });
-
     </script>
 </body>
 </html>
