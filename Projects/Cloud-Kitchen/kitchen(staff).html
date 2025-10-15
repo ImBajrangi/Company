@@ -1658,6 +1658,11 @@
                     } else {
                         userProfile = null;
                     }
+                } else {
+                    // If everything failed, default user to a temporary unique ID
+                    userId = crypto.randomUUID();
+                    isAnonymous = true;
+                    userEmail = 'Guest';
                 }
                 
                 // Initialize the rest of the application using the current auth state
