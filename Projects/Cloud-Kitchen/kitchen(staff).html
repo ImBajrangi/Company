@@ -250,9 +250,10 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const DEVELOPER_EMAIL = "dev@example.com"; 
+        const DEVELOPER_EMAIL = "dev@example.com";
+        const DEVELOPER_PASSWORD = "dev123456";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsmUPg2plkJS86sFkXU-QkJttJJcOj8dw",
@@ -271,8 +272,9 @@
             db = getFirestore(app);
             auth = getAuth(app);
             isFirebaseReady = true;
+            console.log("✅ Firebase initialized successfully");
         } catch (error) {
-            console.error("CRITICAL: Firebase Initialization failed.", error);
+            console.error("❌ CRITICAL: Firebase Initialization failed.", error);
             document.body.innerHTML = `<div class="w-screen h-screen flex items-center justify-center bg-red-100 text-red-800 p-8"><strong>Application Error:</strong> Could not connect to the database.</div>`;
         }
 
@@ -362,7 +364,7 @@
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI();
-            if (userRole === 'owner') loadOwnerDashboard();
+            if (userRole === 'owner' || userRole === 'developer') loadOwnerDashboard();
             if (userRole === 'developer') {
                 loadDeveloperPanel();
                 runSystemTests();
@@ -460,7 +462,7 @@
                 const orderStatusContainer = document.getElementById('order-status-container');
 
                 if (activeOrders.length > 0) {
-                    const latestOrder = activeOrders.sort((a,b) => b.data().createdAt.toMillis() - a.data().createdAt.toMillis())[0];
+                    const latestOrder = activeOrders.sort((a,b) => b.data().createdAt?.toMillis() - a.data().createdAt?.toMillis())[0];
                     currentTrackingOrderId = latestOrder.id;
                     trackOrderStatus(latestOrder.id, latestOrder.data());
                     if(orderFormContainer) orderFormContainer.style.display = 'none';
@@ -559,7 +561,24 @@
         
         function renderProfileModal() {
             if (!userId || userEmail === 'Guest') {
-                profileContent.innerHTML = `<form id="email-auth-form" class="space-y-4"><h3 class="text-xl font-semibold">Login or Sign Up</h3><div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div><div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div><div class="flex gap-4"><button type="submit" id="login-btn" class="btn-primary flex-1">Login</button><button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button></div></form><div class="text-center my-4">OR</div><button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>`;
+                profileContent.innerHTML = `
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                        <p class="text-sm text-blue-800"><strong>💡 Developer Access:</strong></p>
+                        <p class="text-xs text-blue-700 mt-1">Email: <strong>dev@example.com</strong></p>
+                        <p class="text-xs text-blue-700">Password: <strong>dev123456</strong></p>
+                    </div>
+                    <form id="email-auth-form" class="space-y-4">
+                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
+                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
+                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
+                        <div class="flex gap-4">
+                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
+                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="text-center my-4">OR</div>
+                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
+                `;
             } else {
                 profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
             }
@@ -569,15 +588,17 @@
         function attachAuthListeners() {
             const form = document.getElementById('email-auth-form');
             if (form) {
-                form.addEventListener('click', e => {
-                    if (e.target.id === 'login-btn') handleEmailAuth(e, false);
-                    if (e.target.id === 'signup-btn') handleEmailAuth(e, true);
-                });
+                form.addEventListener('submit', e => handleEmailAuth(e, false));
+                const signupBtn = document.getElementById('signup-btn');
+                if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
             }
             const googleBtn = document.getElementById('google-login-btn');
             if(googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
             const logoutBtn = document.getElementById('logout-btn');
-            if(logoutBtn) logoutBtn.addEventListener('click', () => signOut(auth));
+            if(logoutBtn) logoutBtn.addEventListener('click', () => {
+                signOut(auth);
+                profileModal.classList.add('hidden');
+            });
         }
 
         async function handleEmailAuth(e, isSignup) {
@@ -585,26 +606,49 @@
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
             try {
-                if (isSignup) await createUserWithEmailAndPassword(auth, email, password);
-                else await signInWithEmailAndPassword(auth, email, password);
+                if (isSignup) {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    showAlert('Account created successfully!');
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    showAlert('Logged in successfully!');
+                }
                 profileModal.classList.add('hidden');
-            } catch (error) { showAlert(error.message, true); }
+            } catch (error) { 
+                showAlert(error.message, true); 
+            }
         }
 
         async function handleGoogleLogin() {
             try {
                 await signInWithPopup(auth, new GoogleAuthProvider());
                 profileModal.classList.add('hidden');
-            } catch (error) { showAlert(error.message, true); }
+                showAlert('Logged in with Google successfully!');
+            } catch (error) { 
+                showAlert(error.message, true); 
+            }
         }
         
         viewSwitcher.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON') {
                 const view = e.target.dataset.view;
-                const allowedRoles = { customer: ['customer', 'kitchen', 'delivery', 'owner', 'developer'], kitchen: ['kitchen', 'owner', 'developer'], transport: ['delivery', 'owner', 'developer'], owner: ['owner', 'developer'], developer: ['developer'] };
+                const allowedRoles = { 
+                    customer: ['customer', 'kitchen', 'delivery', 'owner', 'developer'], 
+                    kitchen: ['kitchen', 'owner', 'developer'], 
+                    transport: ['delivery', 'owner', 'developer'], 
+                    owner: ['owner', 'developer'], 
+                    developer: ['developer'] 
+                };
                 if(allowedRoles[view] && allowedRoles[view].includes(userRole)) {
-                    Object.keys(views).forEach(key => views[key].classList.toggle('view-active', key === view));
+                    Object.keys(views).forEach(key => {
+                        views[key].classList.remove('view-active');
+                        views[key].classList.add('view-hidden');
+                    });
+                    views[view].classList.remove('view-hidden');
+                    views[view].classList.add('view-active');
+                    
                     Array.from(viewSwitcher.children).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
+                    
                     if(view === 'developer' && userRole === 'developer') {
                         loadAllOrders();
                     }
@@ -630,7 +674,8 @@
 
         function drawSalesChart(orders) {
             const data = new google.visualization.DataTable();
-            data.addColumn('date', 'Date'); data.addColumn('number', 'Sales');
+            data.addColumn('date', 'Date'); 
+            data.addColumn('number', 'Sales');
             const salesByDate = {};
             orders.forEach(order => {
                 if (order.createdAt?.toDate) {
@@ -662,7 +707,10 @@
             const staffQuery = query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]));
             const snapshot = await getDocs(staffQuery);
             staffListEl.innerHTML = '';
-            if (snapshot.empty) { staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>'; return; }
+            if (snapshot.empty) { 
+                staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>'; 
+                return; 
+            }
             snapshot.docs.forEach(doc => {
                 const staff = doc.data();
                 staffListEl.innerHTML += `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium text-gray-900">${staff.email}</p><p class="text-sm text-gray-500 capitalize">${staff.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`;
@@ -674,7 +722,10 @@
             const role = document.getElementById('staff-role').value;
             const q = query(collection(db, "users"), where("email", "==", email));
             const snapshot = await getDocs(q);
-            if (snapshot.empty) { showAlert("Error: User must sign up first.", true); return; }
+            if (snapshot.empty) { 
+                showAlert("Error: User must sign up first.", true); 
+                return; 
+            }
             await setDoc(doc(db, "users", snapshot.docs[0].id), { email, role }, { merge: true });
             showAlert(`Role updated for ${email}.`);
             document.getElementById('add-staff-form').reset();
@@ -801,7 +852,7 @@
                                 <div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div>
                                 <div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i => i.name).join(', ')}</div>
                             </div>
-                            <div class="mt-3 flex gap-2">
+                            <div class="mt-3 flex gap-2 flex-wrap">
                                 <button data-id="${docSnap.id}" data-status="new" class="dev-update-status text-xs px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">New</button>
                                 <button data-id="${docSnap.id}" data-status="preparing" class="dev-update-status text-xs px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600">Preparing</button>
                                 <button data-id="${docSnap.id}" data-status="ready_for_pickup" class="dev-update-status text-xs px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Ready</button>
