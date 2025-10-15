@@ -457,6 +457,7 @@
         let app;
         let db;
         let auth;
+        let appInitialized = false; // New flag to track initialization
 
         try {
             const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
@@ -1539,34 +1540,40 @@
         };
         
         const startApp = async () => {
+            // Check if app initialization has already occurred (prevents double running)
+            if (appInitialized) return;
+            appInitialized = true; 
+
             onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    userId = user.uid;
-                    isAnonymous = user.isAnonymous;
-                    userEmail = user.email || user.displayName || 'Guest';
-                    
-                    if (!isAnonymous) {
-                        await fetchUserProfile(userId);
-                    } else {
-                        userProfile = null;
-                    }
-                } else {
+                if (!user) {
                     try {
-                        // This uses the environment's token if available, otherwise signs in anonymously using the env's config.
+                        let result;
+                        // Attempt to sign in anonymously using the environment's token or standard anonymous sign-in
                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
+                            result = await signInWithCustomToken(auth, __initial_auth_token);
                         } else {
-                            await signInAnonymously(auth);
+                            result = await signInAnonymously(auth);
                         }
+                        user = result.user; // Assign user from the result object
                     } catch (error) {
-                        console.error("Anonymous sign-in failed: ", error);
-                        // Show a persistent error if authentication fails entirely
-                        showAlert('Authentication failed. Please check network and Firebase setup.');
+                        console.error("Initial Authentication Failed (Cannot continue): ", error);
+                        showAlert('Authentication failed during startup. Please check your Firebase configuration and network connection.');
                         return;
                     }
-                    return;
                 }
 
+                // If we reach here, 'user' is guaranteed to be set (either authenticated or anonymous)
+                userId = user.uid;
+                isAnonymous = user.isAnonymous;
+                userEmail = user.email || user.displayName || 'Guest';
+                
+                if (!isAnonymous) {
+                    await fetchUserProfile(userId);
+                } else {
+                    userProfile = null;
+                }
+
+                // Initialize the rest of the application
                 switchView('customer');
                 renderMenu();
                 updateCart();
@@ -1574,7 +1581,7 @@
                 updateCustomerFormWithProfile();
                 listenToKitchenOrders();
                 listenToTransportOrders();
-                startTrackingLatestOrder(); // Start tracking after user is authenticated
+                startTrackingLatestOrder(); 
             });
         };
 
