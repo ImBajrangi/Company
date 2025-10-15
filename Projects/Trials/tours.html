@@ -10,11 +10,13 @@
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f7;
             --bg-card: #ffffff;
+            --btn-slider: #000000;
             --text-primary: #1d1d1f;
             --text-secondary: #6e6e73;
             --accent-primary: #0071e3;
             --accent-secondary: #0077ed;
             --accent-gradient: linear-gradient(135deg, #0071e3 0%, #00a4ef 100%);
+            --contact-us-gradient: linear-gradient(135deg, #0071e3 0%, #00a4ef 100%);
             --shadow: rgba(0, 0, 0, 0.08);
             --shadow-hover: rgba(0, 0, 0, 0.16);
             --header-bg: rgba(255, 255, 255, 0.8);
@@ -26,11 +28,13 @@
             --bg-primary: #121212;
             --bg-secondary: #1e1e1e;
             --bg-card: #2a2a2a;
+            --btn-slider: #ffffff;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --accent-primary: #0095ff;
             --accent-secondary: #00a4ff;
             --accent-gradient: linear-gradient(135deg, #0095ff 0%, #00a4ff 100%);
+            --contact-us-gradient: linear-gradient(135deg, #0051a3 0%, #0077ae 100%);
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-hover: rgba(0, 0, 0, 0.5);
             --header-bg: rgba(18, 18, 18, 0.8);
@@ -475,6 +479,7 @@
         }
 
         .slider-nav button {
+            color: var(--btn-slider);
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             width: 40px;
@@ -491,7 +496,7 @@
 
         .cta-section {
             padding: 6rem 5%;
-            background: var(--accent-gradient);
+            background: var(--contact-us-gradient);
             text-align: center;
             color: white;
         }
@@ -783,7 +788,7 @@
 
         .partner-logo:hover .partner-name {
             letter-spacing: 0.08em;
-            text-shadow: 0 0 15px rgba(0, 149, 255, 0.6);
+            text-shadow: 0 0 15px rgba(0, 149, 255, 0.8);
         }
 
         .partner-logo:nth-child(1):hover { animation: float 2.5s ease-in-out infinite; }
@@ -819,10 +824,10 @@
             pointer-events: none;
         }
 
-        @keyframes rotate {
+        /* @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
+        } */
 
         .partner-logo:active {
             transform: translateY(-5px) scale(1.05) !important;
@@ -934,9 +939,9 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#map-section">Explore Map</a></li>
-                    <li><a href="#partners">Partners</a></li>
+                    <!-- <li><a href="#partners">Partners</a></li> -->
                     <li><a href="#featured">Packages</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
+                    <!-- <li><a href="#testimonials">Testimonials</a></li> -->
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -1102,7 +1107,7 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>About Wanderlust</h4>
+                <h4>About Vrindopnishad Tours</h4>
                 <p>Your trusted partner in creating unforgettable travel experiences with premium services and personalized attention.</p>
             </div>
             <div class="footer-section">
