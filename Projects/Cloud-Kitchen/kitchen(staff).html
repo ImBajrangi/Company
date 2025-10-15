@@ -460,13 +460,14 @@
         let appInitialized = false; // New flag to track initialization
 
         try {
+            // Use environment config variables provided by the Canvas runtime
             const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
         } catch (error) {
             console.error("Firebase Initialization Error:", error);
-            // We proceed with the rest of the app, but Firestore/Auth operations will fail
+            // Non-fatal error; app will still load, but auth/db operations will fail.
         }
 
 
@@ -667,13 +668,14 @@
             const newTotalAmount = currentTrackingOrderData.totalAmount + addOnCost;
             
             // The COD amount must increase by the full addOnCost since add-ons are paid 100% online now, but we need to track it as the total cost increased.
-            const newCodAmount = currentTrackingOrderData.codAmount + addOnCost; 
+            const newCodAmount = currentTrackingOrderData.codAmount; // COD amount does not change unless user chose COD initially, and the 55% was not fully prepaid.
             
             try {
                 await updateDoc(orderRef, {
                     items: arrayUnion(...newItems.map(item => ({...item, isAddOn: true}))), // Mark new items as add-ons
                     totalAmount: newTotalAmount,
-                    codAmount: newCodAmount,
+                    // codAmount remains the original 55% amount due (or 0 if fully prepaid initially)
+                    codAmount: newCodAmount, 
                     // Log the add-on payment ID for auditing
                     addOnPayments: arrayUnion({
                         paymentId: paymentId,
@@ -773,7 +775,7 @@
             });
         };
 
-        // --- Profile Management (Unchanged for this update) ---
+        // --- Profile Management ---
 
         const saveUserProfile = async (profileData) => {
             if (isAnonymous) return;
@@ -817,7 +819,6 @@
         });
 
         const renderProfileModal = () => {
-            // ... (Profile Modal rendering logic - Unchanged) ...
             if (isAnonymous) {
                 profileContent.innerHTML = `
                     <div class="space-y-4">
@@ -896,7 +897,7 @@
                 showAlert('Signed in successfully');
             } catch (error) {
                 console.error("Google Login Error:", error);
-                showAlert('Sign-in failed. Please try again.');
+                showAlert('Sign-in failed. Please ensure Google Sign-in is enabled in your Firebase console.');
             }
         };
 
@@ -917,9 +918,13 @@
             } catch (error) {
                 console.error("Email Auth Error:", error);
                 let message = 'Authentication failed';
-                if (error.code === 'auth/email-already-in-use') { message = 'Email already registered'; }
-                else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') { message = 'Invalid credentials'; }
-                else if (error.code === 'auth/weak-password') { message = 'Password too weak'; }
+                if (error.code === 'auth/email-already-in-use') { message = 'Error: Email already registered. Try signing in.'; }
+                else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') { message = 'Error: Invalid email or password.'; }
+                else if (error.code === 'auth/weak-password') { message = 'Error: Password must be at least 6 characters.'; }
+                else if (error.code === 'auth/invalid-credential') { message = 'Error: Invalid credentials format.'; }
+                else if (error.code === 'auth/invalid-email') { message = 'Error: Invalid email format.'; }
+                else if (error.code === 'auth/operation-not-allowed') { message = 'Error: Email/Password sign-in is not enabled in your Firebase console.'; }
+                
                 showAlert(message);
             }
         };
@@ -1545,43 +1550,49 @@
             appInitialized = true; 
 
             onAuthStateChanged(auth, async (user) => {
-                if (!user) {
+                // Ensure currentUser is accessible within the scope
+                let currentUser = user;
+                
+                // If no user is logged in, attempt anonymous sign-in
+                if (!currentUser) {
                     try {
                         let result;
-                        // Attempt to sign in anonymously using the environment's token or standard anonymous sign-in
                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                             result = await signInWithCustomToken(auth, __initial_auth_token);
                         } else {
                             result = await signInAnonymously(auth);
                         }
-                        user = result.user; // Assign user from the result object
+                        // CRITICAL FIX: Ensure currentUser is updated with the result
+                        currentUser = result.user; 
                     } catch (error) {
                         console.error("Initial Authentication Failed (Cannot continue): ", error);
-                        showAlert('Authentication failed during startup. Please check your Firebase configuration and network connection.');
+                        // Do not show an alert here as it blocks the UI on every load. 
                         return;
                     }
                 }
 
-                // If we reach here, 'user' is guaranteed to be set (either authenticated or anonymous)
-                userId = user.uid;
-                isAnonymous = user.isAnonymous;
-                userEmail = user.email || user.displayName || 'Guest';
-                
-                if (!isAnonymous) {
-                    await fetchUserProfile(userId);
-                } else {
-                    userProfile = null;
-                }
+                // If we successfully get a user (either authenticated or anonymous)
+                if (currentUser) {
+                    userId = currentUser.uid;
+                    isAnonymous = currentUser.isAnonymous;
+                    userEmail = currentUser.email || currentUser.displayName || 'Guest';
+                    
+                    if (!isAnonymous) {
+                        await fetchUserProfile(userId);
+                    } else {
+                        userProfile = null;
+                    }
 
-                // Initialize the rest of the application
-                switchView('customer');
-                renderMenu();
-                updateCart();
-                updateAuthStatusUI();
-                updateCustomerFormWithProfile();
-                listenToKitchenOrders();
-                listenToTransportOrders();
-                startTrackingLatestOrder(); 
+                    // Initialize the rest of the application
+                    switchView('customer');
+                    renderMenu();
+                    updateCart();
+                    updateAuthStatusUI();
+                    updateCustomerFormWithProfile();
+                    listenToKitchenOrders();
+                    listenToTransportOrders();
+                    startTrackingLatestOrder(); 
+                }
             });
         };
 
@@ -1589,3 +1600,35 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
