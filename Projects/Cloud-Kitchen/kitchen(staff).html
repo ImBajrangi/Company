@@ -11,87 +11,24 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        body {
-            font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5f5f7;
-            min-height: 100vh;
-        }
-        .view-active {
-            display: block !important;
-        }
-        .view-hidden {
-            display: none !important;
-        }
-        .btn-active {
-            background: #0071e3;
-            color: white;
-        }
-        
-        /* Status Colors */
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f7; min-height: 100vh; }
+        .view-active { display: block !important; }
+        .view-hidden { display: none !important; }
+        .btn-active { background: #0071e3; color: white; }
         .status-new { background: #0071e3; color: white; }
         .status-preparing { background: #ff9500; color: white; }
         .status-ready_for_pickup { background: #34c759; color: white; }
         .status-out_for_delivery { background: #5e5ce6; color: white; }
         .status-delivered, .status-completed { background: #8e8e93; color: white; }
-        .status-TEST_ORDER { background: #9453c0; color: white; }
-        
-        .card {
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            overflow: hidden;
-        }
-        
-        button, .card, input, .menu-item {
-            transition: all 0.3s ease;
-        }
-        
-        .menu-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        }
-        
-        .btn-primary {
-            background: #0071e3;
-            color: white;
-            font-weight: 500;
-            padding: 12px 24px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: #0077ed;
-            transform: scale(1.02);
-        }
-        
-        input, select, textarea {
-            border: 1px solid #d2d2d7;
-            border-radius: 12px;
-            padding: 16px 18px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-            min-height: 52px;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #0071e3;
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
-        }
-        
-        #order-progress-bar {
-            transition: width 0.6s ease;
-            background: #0071e3;
-        }
-        
+        .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); overflow: hidden; }
+        button, .card, input, .menu-item { transition: all 0.3s ease; }
+        .menu-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
+        .btn-primary { background: #0071e3; color: white; font-weight: 500; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; }
+        .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
+        input, select { border: 1px solid #d2d2d7; border-radius: 12px; padding: 16px 18px; font-size: 16px; background: white; min-height: 52px; }
+        input:focus, select:focus { outline: none; border-color: #0071e3; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1); }
+        #order-progress-bar { transition: width 0.6s ease; background: #0071e3; }
         .icon { width: 20px; height: 20px; stroke-width: 2; }
         .icon-lg { width: 24px; height: 24px; stroke-width: 2; }
     </style>
@@ -133,17 +70,35 @@
         <main>
             <!-- Customer View -->
             <div id="customer-view" class="view-hidden">
-                <!-- Customer View content remains here -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2">
+                         <div class="card p-6 sm:p-8">
+                            <div class="mb-6"><h2 class="text-3xl font-semibold text-gray-900 mb-2">Menu</h2><p class="text-gray-500">Choose your favorites</p></div>
+                            <div id="menu-items" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="card p-6 lg:sticky lg:top-4">
+                            <div class="flex items-center gap-2 mb-4"><svg class="icon-lg text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><h2 class="text-xl font-semibold text-gray-900">Cart</h2></div>
+                            <div id="cart-items" class="space-y-3 mb-4 max-h-64 overflow-y-auto"></div>
+                            <div id="cart-summary" class="border-t pt-4 mt-4"></div>
+                        </div>
+                        <div id="order-form-container" class="card p-6"></div>
+                        <div id="order-status-container" class="hidden card p-6"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- Kitchen View -->
             <div id="kitchen-view" class="view-hidden card p-6 sm:p-8">
-                <!-- Kitchen View content remains here -->
+                <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div><div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div></div>
+                <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
             <!-- Transport View -->
             <div id="transport-view" class="view-hidden card p-6 sm:p-8">
-                <!-- Transport View content remains here -->
+                <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div><div><h2 class="text-3xl font-semibold text-gray-900">Delivery</h2><p class="text-sm text-gray-500">Ready for delivery</p></div></div>
+                <div id="transport-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
             
             <!-- Owner View -->
@@ -153,58 +108,46 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
                             <h3 class="text-xl font-semibold mb-4">Sales Over Time</h3>
-                            <div id="sales_chart_div" style="width: 100%; height: 400px;"></div>
+                            <div id="sales_chart_div" style="width: 100%; height: 400px;" class="bg-gray-50 rounded-lg flex items-center justify-center"><p class="text-gray-400">Loading chart...</p></div>
                         </div>
                         <div>
                             <h3 class="text-xl font-semibold mb-4">Order Status Breakdown</h3>
-                            <div id="status_chart_div" style="width: 100%; height: 400px;"></div>
+                            <div id="status_chart_div" style="width: 100%; height: 400px;" class="bg-gray-50 rounded-lg flex items-center justify-center"><p class="text-gray-400">Loading chart...</p></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="card p-6 sm:p-8">
                     <h2 class="text-2xl font-semibold text-gray-900 mb-6">Staff Management</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h3 class="text-xl font-semibold mb-4">Add New Staff Member</h3>
                             <form id="add-staff-form" class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Staff Email</label>
-                                    <input type="email" id="staff-email" placeholder="staff@example.com" class="w-full" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Assign Role</label>
-                                    <select id="staff-role" class="w-full" required>
-                                        <option value="kitchen">Kitchen Staff</option>
-                                        <option value="delivery">Delivery Staff</option>
-                                    </select>
-                                </div>
+                                <div><label class="block text-sm font-medium text-gray-700 mb-2">Staff Email</label><input type="email" id="staff-email" placeholder="staff@example.com" class="w-full" required></div>
+                                <div><label class="block text-sm font-medium text-gray-700 mb-2">Assign Role</label><select id="staff-role" class="w-full" required><option value="kitchen">Kitchen Staff</option><option value="delivery">Delivery Staff</option></select></div>
                                 <button type="submit" class="w-full bg-green-600 text-white font-medium py-3 rounded-xl hover:bg-green-700 transition-all">Add Staff</button>
                             </form>
                         </div>
                         <div>
                             <h3 class="text-xl font-semibold mb-4">Current Staff</h3>
-                            <div id="staff-list" class="space-y-3 max-h-96 overflow-y-auto">
-                                <p class="text-gray-500">No staff members found.</p>
-                            </div>
+                            <div id="staff-list" class="space-y-3 max-h-96 overflow-y-auto"><p class="text-gray-500">No staff members found.</p></div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Other views like Developer View remain here -->
         </main>
         
-        <!-- All modals remain here -->
+        <!-- Alert Modal -->
+        <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="icon-lg text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Hardcoded Owner Email (for initial setup) ---
-        const OWNER_EMAIL = "owner@example.com"; // CHANGE THIS to the owner's email
+        const OWNER_EMAIL = "owner@example.com"; // IMPORTANT: Change this to the owner's actual email address.
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsmUPg2plkJS86sFkXU-QkJttJJcOj8dw",
@@ -225,90 +168,124 @@
             isFirebaseReady = true;
         } catch (error) {
             console.error("CRITICAL: Firebase Initialization failed.", error);
+            document.body.innerHTML = `<div class="w-screen h-screen flex items-center justify-center bg-red-100 text-red-800 p-8"><strong>Application Error:</strong> Could not connect to the database. Please check the Firebase configuration.</div>`;
         }
 
-        let userRole = 'customer'; // Default role
+        let userRole = 'customer';
         let userId = null;
         let userEmail = 'Guest';
+        let userProfile = null;
+        let currentTrackingOrderId = null;
 
-        // Load Google Charts
-        google.charts.load('current', {'packages':['corechart', 'line']});
+        google.charts.load('current', {'packages':['corechart']});
 
         const authBtn = document.getElementById('auth-btn');
+        const authStatusEl = document.getElementById('auth-status');
+        const alertModal = document.getElementById('alert-modal');
+        const alertMessage = document.getElementById('alert-message');
+        const alertClose = document.getElementById('alert-close');
+        
+        const showAlert = (message) => {
+            alertMessage.textContent = message;
+            alertModal.classList.remove('hidden');
+        }
+        alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                userId = user.uid;
-                userEmail = user.email;
+        if (isFirebaseReady) {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                    userEmail = user.email || 'Anonymous';
+                    
+                    const userDocRef = doc(db, "users", userId);
+                    const userDocSnap = await getDoc(userDocRef);
 
-                // Fetch user role
-                const userDocRef = doc(db, "users", userId);
-                const userDocSnap = await getDoc(userDocRef);
-                
-                if (user.email === OWNER_EMAIL && !userDocSnap.exists()) {
-                    // Auto-assign owner role on first login
-                    await setDoc(userDocRef, { email: user.email, role: 'owner' });
-                    userRole = 'owner';
-                } else if (userDocSnap.exists()) {
-                    userRole = userDocSnap.data().role;
+                    if (user.isAnonymous) {
+                        userRole = 'customer';
+                    } else if (user.email === OWNER_EMAIL && !userDocSnap.exists()) {
+                        await setDoc(userDocRef, { email: user.email, role: 'owner' });
+                        userRole = 'owner';
+                    } else if (userDocSnap.exists()) {
+                        userRole = userDocSnap.data().role;
+                    } else {
+                        // First sign-in for a non-owner, non-anonymous user. Default to customer.
+                        await setDoc(userDocRef, { email: user.email, role: 'customer' });
+                        userRole = 'customer';
+                    }
+
+                    if(!user.isAnonymous) {
+                         const profileSnap = await getDoc(doc(db, "profiles", userId));
+                         if(profileSnap.exists()) userProfile = profileSnap.data();
+                    }
+
                 } else {
-                    userRole = 'customer';
+                    // No user logged in, sign in anonymously
+                    try {
+                        const userCredential = await signInAnonymously(auth);
+                        userId = userCredential.user.uid;
+                        userEmail = 'Guest';
+                        userRole = 'customer';
+                    } catch (error) {
+                        console.error("Anonymous sign-in failed", error);
+                        showAlert("Could not establish a guest session. Please refresh.");
+                    }
                 }
-                
                 updateAuthStatusUI();
                 updateVisibleViews();
-                
-                if (userRole === 'owner') {
-                    loadOwnerDashboard();
-                }
+                if (userRole === 'owner') loadOwnerDashboard();
+                renderCustomerUI(); // Always render customer UI after auth change
+            });
+        }
 
-            } else {
-                userId = null;
-                userEmail = 'Guest';
-                userRole = 'customer';
-                updateAuthStatusUI();
-                updateVisibleViews();
+        function updateAuthStatusUI() {
+            let statusText = 'Guest';
+            if (userEmail !== 'Guest' && userEmail !== 'Anonymous') {
+                statusText = `${userEmail.split('@')[0]} (${userRole})`;
             }
-        });
+            authStatusEl.textContent = statusText;
+            authBtn.textContent = (userEmail === 'Guest' || userEmail === 'Anonymous') ? 'Login / Sign Up' : 'Profile / Logout';
+        }
 
-        const updateVisibleViews = () => {
+        function updateVisibleViews() {
             document.querySelector('[data-view="kitchen"]').classList.toggle('hidden', userRole !== 'kitchen' && userRole !== 'owner');
             document.querySelector('[data-view="transport"]').classList.toggle('hidden', userRole !== 'delivery' && userRole !== 'owner');
             document.querySelector('[data-view="owner"]').classList.toggle('hidden', userRole !== 'owner');
         }
         
-        // --- Owner Dashboard Logic ---
-        const loadOwnerDashboard = async () => {
-            if (!isFirebaseReady || userRole !== 'owner') return;
-            
-            // Fetch all orders for charts
+        // All other functions like renderMenu, placeOrder, etc. must be defined here.
+        // This is a placeholder for the rest of the application's logic.
+        // It's crucial to fill this in with the complete functionality.
+        function renderCustomerUI() {
+             // Placeholder: This should render the menu, cart, etc.
+        }
+
+        function loadOwnerDashboard() {
+            if(userRole !== 'owner' || !isFirebaseReady) return;
+            google.charts.setOnLoadCallback(drawCharts);
+            loadStaffList();
+        }
+
+        async function drawCharts() {
             const ordersQuery = query(collection(db, "orders"));
             const snapshot = await getDocs(ordersQuery);
             const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
-            
             drawSalesChart(allOrders);
             drawStatusChart(allOrders);
-            loadStaffList();
         }
 
         function drawSalesChart(orders) {
             const data = new google.visualization.DataTable();
             data.addColumn('date', 'Date');
             data.addColumn('number', 'Sales');
-
             const salesByDate = {};
             orders.forEach(order => {
-                if (order.createdAt) {
-                    const date = order.createdAt.toDate().toLocaleDateString();
+                if (order.createdAt && order.createdAt.toDate) {
+                    const date = order.createdAt.toDate().toISOString().split('T')[0];
                     salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
                 }
             });
-
-            const sortedDates = Object.keys(salesByDate).sort((a,b) => new Date(a) - new Date(b));
-            const rows = sortedDates.map(dateStr => [new Date(dateStr), salesByDate[dateStr]]);
-            
-            data.addRows(rows);
-
+            const rows = Object.entries(salesByDate).map(([dateStr, sales]) => [new Date(dateStr), sales]);
+            if (rows.length > 0) data.addRows(rows);
             const options = { title: 'Daily Sales Revenue', curveType: 'function', legend: { position: 'bottom' } };
             const chart = new google.visualization.LineChart(document.getElementById('sales_chart_div'));
             chart.draw(data, options);
@@ -317,65 +294,50 @@
         function drawStatusChart(orders) {
             const statusCounts = {};
             orders.forEach(order => {
-                const status = formatStatus(order.status);
+                const status = order.status ? order.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Unknown';
                 statusCounts[status] = (statusCounts[status] || 0) + 1;
             });
-
             const dataArray = [['Status', 'Count'], ...Object.entries(statusCounts)];
+            if (dataArray.length <= 1) return;
             const data = google.visualization.arrayToDataTable(dataArray);
-
             const options = { title: 'Order Status Distribution', is3D: true };
             const chart = new google.visualization.PieChart(document.getElementById('status_chart_div'));
             chart.draw(data, options);
         }
 
-        // --- Staff Management Logic ---
-        const staffListEl = document.getElementById('staff-list');
         const addStaffForm = document.getElementById('add-staff-form');
-
-        const loadStaffList = async () => {
+        const staffListEl = document.getElementById('staff-list');
+        
+        async function loadStaffList() {
             const staffQuery = query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]));
             const snapshot = await getDocs(staffQuery);
-            
+            staffListEl.innerHTML = '';
             if (snapshot.empty) {
                 staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>';
                 return;
             }
-
-            staffListEl.innerHTML = '';
             snapshot.docs.forEach(doc => {
                 const staff = doc.data();
                 const staffEl = document.createElement('div');
                 staffEl.className = 'flex justify-between items-center bg-gray-50 p-3 rounded-lg';
-                staffEl.innerHTML = `
-                    <div>
-                        <p class="font-medium text-gray-900">${staff.email}</p>
-                        <p class="text-sm text-gray-500 capitalize">${staff.role}</p>
-                    </div>
-                    <button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button>
-                `;
+                staffEl.innerHTML = `<div><p class="font-medium text-gray-900">${staff.email}</p><p class="text-sm text-gray-500 capitalize">${staff.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button>`;
                 staffListEl.appendChild(staffEl);
             });
-        };
+        }
 
         addStaffForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('staff-email').value;
             const role = document.getElementById('staff-role').value;
-            
-            // Find user by email to get their UID
             const usersRef = collection(db, "users");
             const q = query(usersRef, where("email", "==", email));
             const snapshot = await getDocs(q);
-            
             if (snapshot.empty) {
                 showAlert("Error: No user found with this email. The user must sign up in the app at least once before being assigned a role.");
                 return;
             }
-            
             const userDoc = snapshot.docs[0];
             await setDoc(doc(db, "users", userDoc.id), { email: email, role: role }, { merge: true });
-            
             showAlert(`Successfully assigned ${role} role to ${email}.`);
             addStaffForm.reset();
             loadStaffList();
@@ -390,8 +352,6 @@
             }
         });
 
-        // The rest of your existing application logic (switchView, renderMenu, placeOrder, etc.) goes here.
-        // Make sure to adapt the switchView logic to use the `userRole` variable for access control.
     </script>
 </body>
 </html>
