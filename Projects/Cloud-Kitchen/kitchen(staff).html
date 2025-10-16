@@ -252,8 +252,8 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const DEVELOPER_EMAIL = "dev@example.com";
-        const DEVELOPER_PASSWORD = "dev123456";
+        const DEVELOPER_EMAIL = "dev@vrinda.com";
+        const DEVELOPER_PASSWORD = "vrinda123456";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsmUPg2plkJS86sFkXU-QkJttJJcOj8dw",
@@ -562,11 +562,6 @@
         function renderProfileModal() {
             if (!userId || userEmail === 'Guest') {
                 profileContent.innerHTML = `
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                        <p class="text-sm text-blue-800"><strong>💡 Developer Access:</strong></p>
-                        <p class="text-xs text-blue-700 mt-1">Email: <strong>dev@example.com</strong></p>
-                        <p class="text-xs text-blue-700">Password: <strong>dev123456</strong></p>
-                    </div>
                     <form id="email-auth-form" class="space-y-4">
                         <h3 class="text-xl font-semibold">Login or Sign Up</h3>
                         <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
