@@ -17,7 +17,7 @@
         .btn-active { background: #0071e3; color: white; }
         .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); overflow: hidden; }
         button, .card, input, .menu-item { transition: all 0.3s ease; }
-        .menu-item:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
+        .menu-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
         .btn-primary { background: #0071e3; color: white; font-weight: 500; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; }
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
         .btn-preparing { background-color: #f59e0b; color: white; } /* Amber */
@@ -173,7 +173,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const DEVELOPER_EMAIL = "dev@vrinda.com";
-        const DEVELOPER_PASSWORD = "vrinda123";
+        const DEVELOPER_PASSWORD = "vrinda123456";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsmUPg2plkJS86sFkXU-QkJttJJcOj8dw",
@@ -819,7 +819,22 @@
                 container.innerHTML = docs.length === 0 ? '<p class="text-gray-500 text-center py-4">No orders found.</p>' : docs.map(docSnap => {
                     const order = docSnap.data();
                     const statusColors = { 'new':'bg-blue-100 text-blue-800', 'preparing':'bg-orange-100 text-orange-800', 'ready_for_pickup':'bg-green-100 text-green-800', 'out_for_delivery':'bg-purple-100 text-purple-800', 'completed':'bg-gray-100 text-gray-800' };
-                    return `<div class="bg-gray-50 p-4 rounded-lg"><div class="flex justify-between items-start mb-3"><div><p class="font-semibold">${order.customerName}</p><p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p><p class="text-xs text-gray-500">${order.createdAt?.toDate().toLocaleString() || 'N/A'}</p></div><div class="flex gap-2 items-center">${order.isTestOrder ? '<span class="test-badge test-pending">TEST</span>' : ''}<span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status]||'bg-gray-100'}">${order.status.replace(/_/g,' ').toUpperCase()}</span></div></div><div class="grid grid-cols-2 gap-2 text-sm"><div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div><div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div><div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div><div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i=>i.name).join(', ')}</div></div><div class="mt-3 flex gap-2 flex-wrap">${['new','preparing','ready_for_pickup','out_for_delivery','completed'].map(s => `<button data-id="${docSnap.id}" data-status="${s}" class="dev-update-status text-xs px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">${s.split('_')[0]}</button>`).join('')}</div></div>`;
+                    
+                    const devButtonStatusColors = {
+                        'new': 'bg-blue-500 hover:bg-blue-600',
+                        'preparing': 'bg-orange-500 hover:bg-orange-600',
+                        'ready_for_pickup': 'bg-green-500 hover:bg-green-600',
+                        'out_for_delivery': 'bg-purple-500 hover:bg-purple-600',
+                        'completed': 'bg-gray-500 hover:bg-gray-600'
+                    };
+            
+                    const devButtonsHTML = ['new','preparing','ready_for_pickup','out_for_delivery','completed'].map(s => {
+                        const buttonColor = devButtonStatusColors[s] || 'bg-gray-300 hover:bg-gray-400';
+                        const buttonText = s.replace(/_/g, ' ').split(' ')[0];
+                        return `<button data-id="${docSnap.id}" data-status="${s}" class="dev-update-status text-xs px-3 py-1 text-white rounded ${buttonColor} capitalize">${buttonText}</button>`;
+                    }).join('');
+
+                    return `<div class="bg-gray-50 p-4 rounded-lg"><div class="flex justify-between items-start mb-3"><div><p class="font-semibold">${order.customerName}</p><p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p><p class="text-xs text-gray-500">${order.createdAt?.toDate().toLocaleString() || 'N/A'}</p></div><div class="flex gap-2 items-center">${order.isTestOrder ? '<span class="test-badge test-pending">TEST</span>' : ''}<span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status]||'bg-gray-100'}">${order.status.replace(/_/g,' ').toUpperCase()}</span></div></div><div class="grid grid-cols-2 gap-2 text-sm"><div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div><div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div><div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div><div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i=>i.name).join(', ')}</div></div><div class="mt-3 flex gap-2 flex-wrap">${devButtonsHTML}</div></div>`;
                 }).join('');
             }, (error) => { console.error("Error with all orders listener:", error); container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`; });
         }
