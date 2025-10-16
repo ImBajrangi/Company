@@ -286,11 +286,17 @@
 
                 <!-- All Orders Monitor -->
                 <div class="card p-6">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
                         <h3 class="text-xl font-semibold">All Orders Monitor</h3>
-                        <button id="refresh-orders" class="btn-primary bg-gray-600 text-sm">Refresh</button>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <input type="text" id="order-search-input" placeholder="Search by customer name..." class="w-full sm:w-64">
+                            <button id="refresh-orders" class="btn-primary bg-gray-600 text-sm">Refresh</button>
+                        </div>
                     </div>
                     <div id="all-orders-list" class="space-y-4"></div>
+                    <div id="load-more-container" class="mt-6 text-center">
+                        <button id="load-more-orders-btn" class="btn-primary bg-indigo-600 hover:bg-indigo-700 hidden">Load More</button>
+                    </div>
                 </div>
 
                 <!-- User Role Management -->
@@ -320,7 +326,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const DEVELOPER_EMAIL = "dev@vrinda.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
@@ -355,11 +361,16 @@
         let currentTrackingOrderId = null;
         let isEditingOrder = false;
         let currentOrderListener = null;
-        let allOrdersListener = null;
+        
         let salesChartInstance = null;
         let statusChartInstance = null;
         let completedOrders = [];
         let historyFilter = 'week';
+
+        // Dev Panel State
+        let lastVisibleDoc = null;
+        let isFetchingOrders = false;
+        let currentSearchTerm = "";
 
         const menu = [
             { id: 1, name: 'Paneer Butter Masala', price: 250 },
@@ -1097,7 +1108,11 @@
         async function loadDeveloperPanel() {
             renderTestMenuItems();
             loadAdminPanel();
-            loadAllOrders();
+            loadAllOrders(false);
+
+            document.getElementById('order-search-input').addEventListener('change', () => {
+                loadAllOrders(false);
+            });
         }
 
         function renderTestMenuItems() {
@@ -1159,7 +1174,7 @@
                 await addDoc(collection(db, "orders"), orderData);
                 showAlert('Test order created successfully!');
                 document.querySelectorAll('.test-menu-checkbox').forEach(cb => cb.checked = false);
-                loadAllOrders();
+                loadAllOrders(false);
             } catch (error) {
                 showAlert('Failed to create test order.', true);
                 console.error(error);
@@ -1186,25 +1201,62 @@
                 });
                 await Promise.all(deletePromises);
                 showAlert('All customer orders have been successfully reset.', false);
+                loadAllOrders(false);
             } catch (error) {
                 console.error("Error resetting customer orders: ", error);
                 showAlert('Failed to reset customer orders.', true);
             }
         }
 
-        async function loadAllOrders() {
+        async function loadAllOrders(loadMore = false) {
             const container = document.getElementById('all-orders-list');
-            if (!container) return;
+            const loadMoreBtn = document.getElementById('load-more-orders-btn');
+            if (!container || isFetchingOrders) return;
 
-            const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+            isFetchingOrders = true;
+            const searchTerm = document.getElementById('order-search-input').value.trim();
+
+            if (currentSearchTerm !== searchTerm) {
+                loadMore = false;
+                currentSearchTerm = searchTerm;
+            }
             
-            if (allOrdersListener) allOrdersListener();
-            
-            allOrdersListener = onSnapshot(q, snapshot => {
+            if (!loadMore) {
                 container.innerHTML = '';
-                if (snapshot.empty) {
-                    container.innerHTML = '<p class="text-gray-500">No orders found.</p>';
-                    return;
+                lastVisibleDoc = null;
+            }
+
+            let q;
+            const baseQuery = collection(db, "orders");
+            const constraints = [limit(10)];
+
+            if (searchTerm) {
+                constraints.unshift(orderBy("customerName"));
+                constraints.unshift(where("customerName", "<=", searchTerm + '\uf8ff'));
+                constraints.unshift(where("customerName", ">=", searchTerm));
+            } else {
+                constraints.unshift(orderBy("createdAt", "desc"));
+            }
+
+            if (loadMore && lastVisibleDoc) {
+                constraints.push(startAfter(lastVisibleDoc));
+            }
+            
+            q = query(baseQuery, ...constraints);
+            
+            try {
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty && !loadMore) {
+                    container.innerHTML = '<p class="text-gray-500 text-center py-4">No orders found.</p>';
+                }
+
+                lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+
+                if (!lastVisibleDoc || snapshot.docs.length < 10) {
+                    loadMoreBtn.classList.add('hidden');
+                } else {
+                    loadMoreBtn.classList.remove('hidden');
                 }
 
                 snapshot.forEach(docSnap => {
@@ -1218,10 +1270,9 @@
                     };
                     const statusColor = statusColors[order.status] || 'bg-gray-100 text-gray-800';
                     const testBadge = order.isTestOrder ? '<span class="test-badge test-pending">TEST ORDER</span>' : '';
-                    
                     const createdTime = order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : 'N/A';
                     
-                    container.innerHTML += `
+                    const orderHTML = `
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <div class="flex justify-between items-start mb-3">
                                 <div>
@@ -1249,9 +1300,17 @@
                             </div>
                         </div>
                     `;
+                    container.insertAdjacentHTML('beforeend', orderHTML);
                 });
-            });
+
+            } catch (error) {
+                console.error("Error loading orders: ", error);
+                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`;
+            } finally {
+                isFetchingOrders = false;
+            }
         }
+
 
         async function loadAdminPanel() {
             const userListEl = document.getElementById('admin-user-list');
@@ -1315,6 +1374,10 @@
                 filterAndRenderHistory();
             }
 
+            if (e.target.id === 'load-more-orders-btn') {
+                loadAllOrders(true);
+            }
+
             if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
                 const orderId = e.target.dataset.id;
                 const newStatus = e.target.dataset.status;
@@ -1339,7 +1402,8 @@
             }
 
             if (e.target.id === 'refresh-orders') {
-                loadAllOrders();
+                document.getElementById('order-search-input').value = '';
+                loadAllOrders(false);
                 showAlert('Orders refreshed.');
             }
         });
