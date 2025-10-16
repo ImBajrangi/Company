@@ -17,7 +17,7 @@
         .btn-active { background: #0071e3; color: white; }
         .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); overflow: hidden; }
         button, .card, input, .menu-item { transition: all 0.3s ease; }
-        .menu-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
+        .menu-item:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
         .btn-primary { background: #0071e3; color: white; font-weight: 500; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; }
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
         .btn-preparing { background-color: #f59e0b; color: white; } /* Amber */
@@ -43,6 +43,13 @@
         .status-tag-ready_for_pickup { background-color: #d1fae5; color: #065f46; }
         .status-tag-out_for_delivery { background-color: #e0e7ff; color: #4338ca; }
         .status-tag-completed { background-color: #f3f4f6; color: #4b5563; }
+        
+        /* Order Progress Tracker Styles */
+        .progress-container { display: flex; justify-content: space-between; align-items: center; position: relative; margin: 30px 0; }
+        .progress-step { width: 40px; height: 40px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; position: relative; z-index: 1; transition: background-color 0.4s ease; }
+        .progress-step.active { background-color: #0071e3; }
+        .progress-line { position: absolute; top: 50%; left: 0; right: 0; height: 4px; background-color: #e0e0e0; transform: translateY(-50%); z-index: 0; }
+        .progress-line-fill { position: absolute; top: 0; left: 0; height: 100%; background-color: #0071e3; width: 0%; transition: width 0.4s ease; }
     </style>
 </head>
 <body class="text-gray-900">
@@ -529,13 +536,38 @@
 
         function trackOrderStatus(orderId, order) {
             const statusContainer = document.getElementById('order-status-container');
-            if(!statusContainer) return;
+            if (!statusContainer) return;
+        
             const canAddItems = ['new', 'preparing'].includes(order.status);
+            const stages = ['new', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed'];
+            const currentStageIndex = stages.indexOf(order.status);
+        
+            let progressStepsHTML = '';
+            stages.forEach((stage, index) => {
+                const isActive = index <= currentStageIndex ? 'active' : '';
+                progressStepsHTML += `<div class="progress-step ${isActive}">${index + 1}</div>`;
+            });
+        
+            const progressPercentage = (currentStageIndex / (stages.length - 1)) * 100;
+        
             statusContainer.innerHTML = `
                 <div class="mb-4">
                     <h2 class="text-xl font-semibold mb-1">Your Order Status</h2>
-                    <p class="text-sm text-gray-500">Order ID: ${orderId.substring(0,8)}</p>
+                    <p class="text-sm text-gray-500">Order ID: ${orderId.substring(0, 8)}</p>
                 </div>
+        
+                <div class="progress-container">
+                    <div class="progress-line"><div class="progress-line-fill" style="width: ${progressPercentage}%;"></div></div>
+                    ${progressStepsHTML}
+                </div>
+                <div class="flex justify-between text-xs text-gray-500 px-2">
+                    <span>Placed</span>
+                    <span>Preparing</span>
+                    <span>Ready</span>
+                    <span>Out for Delivery</span>
+                    <span>Completed</span>
+                </div>
+        
                 <div class="mt-6 p-4 bg-gray-50 rounded-lg">
                     <h3 class="font-semibold mb-2">Item Details</h3>
                     <div class="divide-y">${order.items.map(item => `<div class="flex justify-between items-center py-2"><span>${item.name} x ${item.quantity}</span><span class="text-sm font-medium ${item.ready ? 'text-green-600' : 'text-orange-500'}">${item.ready ? 'Ready' : 'Preparing'}</span></div>`).join('')}</div>
