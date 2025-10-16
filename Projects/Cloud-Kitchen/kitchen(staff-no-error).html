@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud Kitchen Order System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -71,7 +71,7 @@
                         <div id="auth-status" class="text-sm font-medium text-gray-700">Guest</div>
                     </div>
                     <button id="auth-btn" class="bg-black text-white px-4 py-2 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all w-full sm:w-auto">
-                        Profile
+                        Login / Profile
                     </button>
 
                     <div id="view-switcher" class="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-full sm:w-auto">
@@ -124,19 +124,55 @@
             
             <!-- Owner View -->
             <div id="owner-view" class="view-hidden space-y-8">
-                <div class="card p-6 sm:p-8">
-                    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Owner Dashboard</h2>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Sales Over Time</h3>
-                            <div id="sales_chart_div" style="width: 100%; height: 400px;" class="bg-gray-50 rounded-lg flex items-center justify-center"><p class="text-gray-400">Loading chart...</p></div>
+                <div>
+                    <h2 class="text-3xl font-semibold text-gray-900 mb-2">Owner Dashboard</h2>
+                    <p class="text-gray-500">A high-level overview of your kitchen's performance.</p>
+                </div>
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-4">Order Status Breakdown</h3>
-                            <div id="status_chart_div" style="width: 100%; height: 400px;" class="bg-gray-50 rounded-lg flex items-center justify-center"><p class="text-gray-400">Loading chart...</p></div>
+                            <p class="text-sm text-gray-500 font-medium">Total Revenue</p>
+                            <p id="kpi-total-revenue" class="text-3xl font-semibold text-gray-900">₹0</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
+                           <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 9h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Orders</p>
+                            <p id="kpi-total-orders" class="text-3xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V9a2 2 0 00-2-2m2 4v4a2 2 0 104 0v-1m-4-3H9m2 0h4m6 1a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Avg. Order Value</p>
+                            <p id="kpi-avg-order-value" class="text-3xl font-semibold text-gray-900">₹0</p>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 card p-6">
+                        <h3 class="text-xl font-semibold mb-1">Daily Sales</h3>
+                        <p class="text-sm text-gray-500 mb-4">Revenue generated each day.</p>
+                        <canvas id="sales-chart-canvas"></canvas>
+                    </div>
+                    <div class="lg:col-span-2 card p-6">
+                        <h3 class="text-xl font-semibold mb-1">Order Status</h3>
+                        <p class="text-sm text-gray-500 mb-4">Current breakdown of all orders.</p>
+                        <canvas id="status-chart-canvas"></canvas>
+                    </div>
+                </div>
+
                 <div class="card p-6 sm:p-8">
                     <h2 class="text-2xl font-semibold text-gray-900 mb-6">Staff Management</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -295,6 +331,8 @@
         let isEditingOrder = false;
         let currentOrderListener = null;
         let allOrdersListener = null;
+        let salesChartInstance = null;
+        let statusChartInstance = null;
 
         const menu = [
             { id: 1, name: 'Paneer Butter Masala', price: 250 },
@@ -302,8 +340,7 @@
             { id: 3, name: 'Veg Biryani', price: 220 },
             { id: 4, name: 'Garlic Naan', price: 50 },
         ];
-        google.charts.load('current', {'packages':['corechart']});
-
+        
         const authBtn = document.getElementById('auth-btn');
         const authStatusEl = document.getElementById('auth-status');
         const alertModal = document.getElementById('alert-modal');
@@ -485,7 +522,6 @@
 
             const orderDocRef = doc(db, "orders", currentTrackingOrderId);
 
-            // Transactionally check status and update to prevent race conditions
             try {
                 const orderDocSnap = await getDoc(orderDocRef);
                 if (!orderDocSnap.exists()) {
@@ -758,48 +794,136 @@
         });
 
         function loadOwnerDashboard() {
-            if(userRole !== 'owner' && userRole !== 'developer') return;
-            google.charts.setOnLoadCallback(drawCharts);
+            if((userRole !== 'owner' && userRole !== 'developer') || !isFirebaseReady) return;
+            
+            const ordersQuery = query(collection(db, "orders"));
+            onSnapshot(ordersQuery, (snapshot) => {
+                const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+                updateDashboard(allOrders);
+            });
             loadStaffList();
         }
 
-        async function drawCharts() {
-            const ordersQuery = query(collection(db, "orders"));
-            const snapshot = await getDocs(ordersQuery);
-            const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+        function updateDashboard(allOrders) {
+            // Calculate KPIs
+            const totalRevenue = allOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+            const totalOrders = allOrders.length;
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+            // Update KPI cards in UI
+            document.getElementById('kpi-total-revenue').textContent = `₹${totalRevenue.toFixed(2)}`;
+            document.getElementById('kpi-total-orders').textContent = totalOrders;
+            document.getElementById('kpi-avg-order-value').textContent = `₹${avgOrderValue.toFixed(2)}`;
+
             drawSalesChart(allOrders);
             drawStatusChart(allOrders);
         }
 
         function drawSalesChart(orders) {
-            const data = new google.visualization.DataTable();
-            data.addColumn('date', 'Date'); 
-            data.addColumn('number', 'Sales');
+            const salesCtx = document.getElementById('sales-chart-canvas').getContext('2d');
+            if(salesChartInstance) {
+                salesChartInstance.destroy();
+            }
+
             const salesByDate = {};
             orders.forEach(order => {
                 if (order.createdAt?.toDate) {
-                    const date = order.createdAt.toDate().toISOString().split('T')[0];
+                    const date = order.createdAt.toDate().toLocaleDateString('en-CA'); // YYYY-MM-DD
                     salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
                 }
             });
-            const rows = Object.entries(salesByDate).map(([dateStr, sales]) => [new Date(dateStr), sales]);
-            if (rows.length > 0) data.addRows(rows);
-            const chart = new google.visualization.LineChart(document.getElementById('sales_chart_div'));
-            chart.draw(data, { title: 'Daily Sales Revenue', curveType: 'function', legend: { position: 'bottom' } });
+
+            const sortedDates = Object.keys(salesByDate).sort();
+            const chartLabels = sortedDates.map(date => new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short'}));
+            const chartData = sortedDates.map(date => salesByDate[date]);
+
+            salesChartInstance = new Chart(salesCtx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: chartData,
+                        backgroundColor: 'rgba(94, 92, 230, 0.8)',
+                        borderColor: 'rgba(94, 92, 230, 1)',
+                        borderWidth: 1,
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Sales: ₹${context.raw.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function drawStatusChart(orders) {
+            const statusCtx = document.getElementById('status-chart-canvas').getContext('2d');
+            if (statusChartInstance) {
+                statusChartInstance.destroy();
+            }
+            
             const statusCounts = {};
             orders.forEach(order => {
                 const status = order.status ? order.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Unknown';
                 statusCounts[status] = (statusCounts[status] || 0) + 1;
             });
-            const dataArray = [['Status', 'Count'], ...Object.entries(statusCounts)];
-            if (dataArray.length <= 1) return;
-            const data = google.visualization.arrayToDataTable(dataArray);
-            const chart = new google.visualization.PieChart(document.getElementById('status_chart_div'));
-            chart.draw(data, { title: 'Order Status Distribution', is3D: true });
+            
+            const statusLabels = Object.keys(statusCounts);
+            const statusData = Object.values(statusCounts);
+            
+            const statusColors = {
+                'New': '#0071e3',
+                'Preparing': '#ff9500',
+                'Ready For Pickup': '#34c759',
+                'Out For Delivery': '#5e5ce6',
+                'Completed': '#8e8e93'
+            };
+            
+            statusChartInstance = new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: statusLabels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: statusData,
+                        backgroundColor: statusLabels.map(label => statusColors[label] || '#cccccc'),
+                        borderColor: '#ffffff',
+                        borderWidth: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    }
+                }
+            });
         }
+
 
         async function loadStaffList() {
             const staffListEl = document.getElementById('staff-list');
