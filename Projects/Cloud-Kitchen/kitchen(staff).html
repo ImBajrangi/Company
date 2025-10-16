@@ -48,6 +48,9 @@
         .test-pass { background: #d1fae5; color: #065f46; }
         .test-fail { background: #fee2e2; color: #991b1b; }
         .test-pending { background: #fef3c7; color: #92400e; }
+        .quantity-selector { display: flex; align-items: center; justify-content: center; border: 1px solid #d2d2d7; border-radius: 12px; overflow: hidden; }
+        .quantity-btn { background: transparent; border: none; padding: 10px 14px; cursor: pointer; color: #0071e3; font-size: 1.2rem; line-height: 1; }
+        .quantity-display { padding: 0 10px; font-weight: 500; font-size: 1rem; min-width: 40px; text-align: center; }
     </style>
 </head>
 <body class="text-gray-900">
@@ -98,7 +101,7 @@
                     <div class="space-y-6">
                         <div class="card p-6 lg:sticky lg:top-4">
                             <div class="flex items-center gap-2 mb-4"><svg class="icon-lg text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><h2 class="text-xl font-semibold text-gray-900">Cart</h2></div>
-                            <div id="cart-items" class="space-y-3 mb-4 max-h-64 overflow-y-auto"><p class="text-gray-400 text-center">Cart is empty</p></div>
+                            <div id="cart-items" class="space-y-4 mb-4 max-h-64 overflow-y-auto"><p class="text-gray-400 text-center">Cart is empty</p></div>
                             <div id="cart-summary" class="border-t pt-4 mt-4"></div>
                         </div>
                         <div id="order-form-container" class="card p-6"></div>
@@ -468,29 +471,65 @@
             updateCart();
             renderOrderForm();
             startTrackingLatestOrder();
-            updateHistoryFilterButtons();
         }
 
         function renderMenu() {
             const container = document.getElementById('menu-items');
             if (!container) return;
             container.innerHTML = '';
-            menu.forEach(item => container.innerHTML += `<div class="menu-item card p-5"><h3 class="text-lg font-semibold">${item.name}</h3><p class="text-gray-600">₹${item.price}</p><button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button></div>`);
+            menu.forEach(item => {
+                const cartItem = cart.find(ci => ci.id === item.id);
+                let buttonHTML;
+                if (cartItem) {
+                    buttonHTML = `
+                        <div class="quantity-selector mt-4">
+                            <button class="quantity-btn quantity-minus" data-id="${item.id}">-</button>
+                            <span class="quantity-display">${cartItem.quantity}</span>
+                            <button class="quantity-btn quantity-plus" data-id="${item.id}">+</button>
+                        </div>
+                    `;
+                } else {
+                    buttonHTML = `<button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
+                }
+                container.innerHTML += `
+                    <div class="menu-item card p-5">
+                        <h3 class="text-lg font-semibold">${item.name}</h3>
+                        <p class="text-gray-600">₹${item.price}</p>
+                        ${buttonHTML}
+                    </div>`;
+            });
         }
 
         function updateCart() {
             const itemsEl = document.getElementById('cart-items');
             const summaryEl = document.getElementById('cart-summary');
             if (!itemsEl || !summaryEl) return;
+
             if (cart.length === 0) {
                 itemsEl.innerHTML = '<p class="text-gray-400 text-center">Cart is empty</p>';
                 summaryEl.innerHTML = '';
                 return;
             }
+
             let total = 0;
             itemsEl.innerHTML = cart.map(item => {
                 total += item.price * item.quantity;
-                return `<div class="flex justify-between items-center"><span>${item.name} x ${item.quantity}</span><span>₹${item.price * item.quantity}</span></div>`;
+                return `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-medium">${item.name}</p>
+                            <p class="text-sm text-gray-500">₹${item.price} each</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                             <div class="quantity-selector">
+                                <button class="quantity-btn quantity-minus" data-id="${item.id}">-</button>
+                                <span class="quantity-display">${item.quantity}</span>
+                                <button class="quantity-btn quantity-plus" data-id="${item.id}">+</button>
+                            </div>
+                            <span class="font-semibold w-16 text-right">₹${item.price * item.quantity}</span>
+                        </div>
+                    </div>
+                `;
             }).join('');
             summaryEl.innerHTML = `<div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹${total}</span></div>`;
         }
@@ -536,6 +575,7 @@
                 isEditingOrder = false;
                 cart = [];
                 updateCart();
+                renderMenu();
                 currentTrackingOrderId = docRef.id;
                 startTrackingLatestOrder();
             } catch (error) {
@@ -561,6 +601,7 @@
                     isEditingOrder = false;
                     cart = [];
                     updateCart();
+                    renderMenu();
                     renderOrderForm();
                     startTrackingLatestOrder();
                     return;
@@ -577,6 +618,7 @@
                 isEditingOrder = false;
                 cart = [];
                 updateCart();
+                renderMenu();
                 renderOrderForm(); 
                 startTrackingLatestOrder(); 
             } catch (error) {
@@ -593,6 +635,7 @@
             document.getElementById('order-form-container').style.display = 'block';
             
             updateCart();
+            renderMenu();
             renderOrderForm(order);
         }
 
@@ -612,7 +655,7 @@
                     trackOrderStatus(latestOrder.id, latestOrder.data());
                     if(orderFormContainer) orderFormContainer.style.display = 'none';
                     if(orderStatusContainer) orderStatusContainer.classList.remove('hidden');
-                } else {
+                } else if (!isEditingOrder) {
                     currentTrackingOrderId = null;
                     if(orderFormContainer) orderFormContainer.style.display = 'block';
                     if(orderStatusContainer) orderStatusContainer.classList.add('hidden');
@@ -953,6 +996,7 @@
         }
 
         function listenToOrderHistory() {
+            if (userRole !== 'owner' && userRole !== 'developer') return;
             const historyQuery = query(collection(db, "orders"), where("status", "==", "completed"));
             onSnapshot(historyQuery, snapshot => {
                 completedOrders = snapshot.docs
@@ -1008,7 +1052,6 @@
                 `;
             }).join('');
         }
-
 
         function updateHistoryFilterButtons() {
             document.querySelectorAll('.history-filter-btn').forEach(btn => {
@@ -1224,13 +1267,32 @@
         }
 
         document.body.addEventListener('click', async e => {
+            const itemId = parseInt(e.target.dataset.id);
+
             if (e.target.classList.contains('add-to-cart-btn')) {
-                const itemId = parseInt(e.target.dataset.id);
                 const item = menu.find(m => m.id === itemId);
-                const existing = cart.find(c => c.id === itemId);
-                if (existing) existing.quantity++;
-                else cart.push({...item, quantity: 1});
+                cart.push({...item, quantity: 1});
                 updateCart();
+                renderMenu();
+            }
+
+            if (e.target.classList.contains('quantity-plus')) {
+                const item = cart.find(m => m.id === itemId);
+                if(item) item.quantity++;
+                updateCart();
+                renderMenu();
+            }
+
+            if (e.target.classList.contains('quantity-minus')) {
+                const itemIndex = cart.findIndex(m => m.id === itemId);
+                if(itemIndex > -1) {
+                    cart[itemIndex].quantity--;
+                    if (cart[itemIndex].quantity <= 0) {
+                        cart.splice(itemIndex, 1);
+                    }
+                }
+                updateCart();
+                renderMenu();
             }
 
             if (e.target.id === 'add-more-items-btn') {
