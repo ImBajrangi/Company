@@ -234,8 +234,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <button id="run-system-test" class="btn-primary bg-red-600 hover:bg-red-700">Run Full System Test</button>
+                    <div class="flex items-center gap-4">
+                        <button id="run-system-test" class="btn-primary">Run Full System Test</button>
+                        <button id="reset-customer-orders-btn" class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button>
+                    </div>
                 </div>
 
                 <!-- Test Order Creation -->
@@ -303,7 +305,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const DEVELOPER_EMAIL = "dev@vrinda.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
@@ -1034,6 +1036,32 @@
                 console.error(error);
             }
         }
+        
+        async function resetCustomerOrders() {
+            if (userRole !== 'developer') {
+                showAlert("You don't have permission to perform this action.", true);
+                return;
+            }
+            try {
+                showAlert('Resetting all non-test customer orders...', false);
+                const ordersQuery = query(collection(db, "orders"), where("isTestOrder", "==", false));
+                const snapshot = await getDocs(ordersQuery);
+
+                if (snapshot.empty) {
+                    showAlert('No customer orders to reset.', false);
+                    return;
+                }
+                const deletePromises = [];
+                snapshot.forEach(doc => {
+                    deletePromises.push(deleteDoc(doc.ref));
+                });
+                await Promise.all(deletePromises);
+                showAlert('All customer orders have been successfully reset.', false);
+            } catch (error) {
+                console.error("Error resetting customer orders: ", error);
+                showAlert('Failed to reset customer orders.', true);
+            }
+        }
 
         async function loadAllOrders() {
             const container = document.getElementById('all-orders-list');
@@ -1127,6 +1155,10 @@
                         startEditingOrder(orderDocSnap.data());
                     }
                 }
+            }
+            
+            if (e.target.id === 'reset-customer-orders-btn') {
+                await resetCustomerOrders();
             }
 
             if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
