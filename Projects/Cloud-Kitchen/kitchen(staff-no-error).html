@@ -25,6 +25,7 @@
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
         input, select { border: 1px solid #d2d2d7; border-radius: 12px; padding: 12px 16px; font-size: 16px; background: white; min-height: 52px; }
         input:focus, select:focus { outline: none; border-color: #0071e3; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1); }
+        input:disabled { background-color: #f5f5f7; cursor: not-allowed; }
         .icon { width: 20px; height: 20px; stroke-width: 2; }
         .icon-lg { width: 24px; height: 24px; stroke-width: 2; }
         .order-timeline { position: relative; padding-left: 40px; }
@@ -62,7 +63,7 @@
                         <div id="auth-status" class="text-sm font-medium text-gray-700">Guest</div>
                     </div>
                     <button id="auth-btn" class="bg-black text-white px-4 py-2 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all w-full sm:w-auto">
-                        Login / Profile
+                        Profile
                     </button>
 
                     <div id="view-switcher" class="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-full sm:w-auto">
@@ -245,39 +246,6 @@
         <!-- Modals -->
         <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4" style="z-index: 51;"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
         <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
-        
-        <!-- Payment Modal -->
-        <div id="payment-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">Confirm Payment</h2>
-                    <button id="payment-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
-                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <div id="payment-content" class="space-y-4">
-                    <p class="text-center text-lg">Total Amount: <strong id="payment-total" class="text-2xl">₹0</strong></p>
-                    <div class="space-y-3">
-                        <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500">
-                            <input type="radio" name="payment-option" value="partial" class="h-5 w-5 text-blue-600 focus:ring-blue-500" checked>
-                            <div>
-                                <p class="font-semibold">Pay 45% Advance</p>
-                                <p class="text-sm text-gray-600">Amount to pay: <strong id="payment-partial-amount">₹0</strong></p>
-                            </div>
-                        </label>
-                        <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500">
-                            <input type="radio" name="payment-option" value="full" class="h-5 w-5 text-blue-600 focus:ring-blue-500">
-                             <div>
-                                <p class="font-semibold">Pay Full Amount</p>
-                                 <p class="text-sm text-gray-600">Amount to pay: <strong id="payment-full-amount">₹0</strong></p>
-                            </div>
-                        </label>
-                    </div>
-                    <button id="confirm-payment-btn" class="btn-primary w-full text-lg">Confirm & Place Order</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script type="module">
@@ -285,8 +253,8 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const DEVELOPER_EMAIL = "dev@example.com";
-        const DEVELOPER_PASSWORD = "dev123456";
+        const DEVELOPER_EMAIL = "dev@vrinda.com";
+        const DEVELOPER_PASSWORD = "vrinda123456";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsmUPg2plkJS86sFkXU-QkJttJJcOj8dw",
@@ -316,6 +284,7 @@
         let userEmail = 'Guest';
         let cart = [];
         let currentTrackingOrderId = null;
+        let isEditingOrder = false;
         let currentOrderListener = null;
         let allOrdersListener = null;
 
@@ -336,9 +305,6 @@
         const profileModal = document.getElementById('profile-modal');
         const profileContent = document.getElementById('profile-content');
         const profileClose = document.getElementById('profile-close');
-        const paymentModal = document.getElementById('payment-modal');
-        const paymentClose = document.getElementById('payment-close');
-        const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
         const viewSwitcher = document.getElementById('view-switcher');
         const views = {
             customer: document.getElementById('customer-view'),
@@ -361,14 +327,10 @@
         }
         alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
         profileClose.addEventListener('click', () => profileModal.classList.add('hidden'));
-        paymentClose.addEventListener('click', () => paymentModal.classList.add('hidden'));
-        
         authBtn.addEventListener('click', () => {
             renderProfileModal();
             profileModal.classList.remove('hidden');
         });
-        
-        confirmPaymentBtn.addEventListener('click', finalizeOrder);
 
         if (isFirebaseReady) {
             onAuthStateChanged(auth, async (user) => {
@@ -422,6 +384,7 @@
         }
 
         function updateVisibleViews() {
+            document.getElementById('view-switcher').classList.toggle('hidden', userRole === 'customer');
             document.querySelector('[data-view="kitchen"]').classList.toggle('hidden', !['kitchen', 'owner', 'developer'].includes(userRole));
             document.querySelector('[data-view="transport"]').classList.toggle('hidden', !['delivery', 'owner', 'developer'].includes(userRole));
             document.querySelector('[data-view="owner"]').classList.toggle('hidden', !['owner', 'developer'].includes(userRole));
@@ -459,50 +422,36 @@
             summaryEl.innerHTML = `<div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹${total}</span></div>`;
         }
         
-        function renderOrderForm() {
+        function renderOrderForm(order = null) {
             const container = document.getElementById('order-form-container');
             if (!container) return;
-            container.innerHTML = `<h2 class="text-xl font-semibold text-gray-900 mb-4">Delivery Details</h2><form id="order-form" class="space-y-4"><div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" required></div><div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" required></div><div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" required></div><button type="submit" class="btn-primary w-full">Place Order</button></form>`;
-        }
 
-        function showPaymentModal() {
-            if (cart.length === 0) {
-                showAlert('Your cart is empty. Please add items before placing an order.', true);
-                return;
-            }
+            const isUpdate = order !== null;
+            const name = isUpdate ? order.customerName : '';
+            const address = isUpdate ? order.customerAddress : '';
+            const phone = isUpdate ? order.customerPhone : '';
+            const disabled = isUpdate ? 'disabled' : '';
+            const buttonText = isUpdate ? 'Update Order' : 'Place Order';
             
-            const name = document.getElementById('customer-name').value;
-            const address = document.getElementById('customer-address').value;
-            const phone = document.getElementById('customer-phone').value;
-
-            if (!name || !address || !phone) {
-                showAlert('Please fill in all delivery details before proceeding to payment.', true);
-                return;
-            }
-
-            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            const partialAmount = total * 0.45;
-
-            document.getElementById('payment-total').textContent = `₹${total.toFixed(2)}`;
-            document.getElementById('payment-partial-amount').textContent = `₹${partialAmount.toFixed(2)}`;
-            document.getElementById('payment-full-amount').textContent = `₹${total.toFixed(2)}`;
-
-            paymentModal.classList.remove('hidden');
+            container.innerHTML = `
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
+                <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
+                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${name}" ${disabled} required></div>
+                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${address}" ${disabled} required></div>
+                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${phone}" ${disabled} required></div>
+                    <button type="submit" class="btn-primary w-full">${buttonText}</button>
+                </form>
+            `;
         }
 
-        async function finalizeOrder() {
-            const paymentOption = document.querySelector('input[name="payment-option"]:checked').value;
-            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            const amountPaid = paymentOption === 'full' ? totalAmount : totalAmount * 0.45;
-
+        async function placeOrder() {
+            if (cart.length === 0) return showAlert('Your cart is empty.');
             const orderData = {
                 customerName: document.getElementById('customer-name').value,
                 customerAddress: document.getElementById('customer-address').value,
                 customerPhone: document.getElementById('customer-phone').value,
                 items: cart,
-                totalAmount: totalAmount,
-                amountPaid: amountPaid,
-                paymentType: paymentOption,
+                totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
                 userId: userId,
@@ -510,30 +459,82 @@
             };
             try {
                 const docRef = await addDoc(collection(db, "orders"), orderData);
-                paymentModal.classList.add('hidden');
-                showAlert('Payment successful and order placed!');
+                showAlert('Order placed successfully!');
+                isEditingOrder = false;
                 cart = [];
                 updateCart();
-                document.getElementById('order-form').reset();
                 currentTrackingOrderId = docRef.id;
                 startTrackingLatestOrder();
             } catch (error) {
-                showAlert('Failed to place order after payment.', true);
+                showAlert('Failed to place order.', true);
                 console.error("Order placement error: ", error);
             }
         }
         
+        async function updateOrder() {
+            if (cart.length === 0) return showAlert('Your cart cannot be empty.');
+            if (!currentTrackingOrderId) return showAlert('No order selected for update.', true);
+
+            const orderDocRef = doc(db, "orders", currentTrackingOrderId);
+
+            // Transactionally check status and update to prevent race conditions
+            try {
+                const orderDocSnap = await getDoc(orderDocRef);
+                if (!orderDocSnap.exists()) {
+                    throw new Error("Order not found.");
+                }
+                const currentStatus = orderDocSnap.data().status;
+                if (!['new', 'preparing'].includes(currentStatus)) {
+                    showAlert('Sorry, it is too late to modify this order as it is already being prepared for delivery.', true);
+                    isEditingOrder = false;
+                    cart = [];
+                    updateCart();
+                    renderOrderForm();
+                    startTrackingLatestOrder();
+                    return;
+                }
+                
+                const orderUpdateData = {
+                    items: cart,
+                    totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                };
+
+                await updateDoc(orderDocRef, orderUpdateData);
+                showAlert('Order updated successfully!');
+                
+                isEditingOrder = false;
+                cart = [];
+                updateCart();
+                renderOrderForm(); 
+                startTrackingLatestOrder(); 
+            } catch (error) {
+                showAlert('Failed to update order.', true);
+                console.error("Order update error: ", error);
+            }
+        }
+
+        function startEditingOrder(order) {
+            isEditingOrder = true;
+            cart = [...order.items];
+
+            document.getElementById('order-status-container').classList.add('hidden');
+            document.getElementById('order-form-container').style.display = 'block';
+            
+            updateCart();
+            renderOrderForm(order);
+        }
+
         function startTrackingLatestOrder() {
             if (!userId || !isFirebaseReady) return; 
             if (currentOrderListener) currentOrderListener();
 
             const q = query(collection(db, "orders"), where("userId", "==", userId));
             currentOrderListener = onSnapshot(q, snapshot => {
-                const activeOrders = snapshot.docs.filter(doc => !['completed', 'delivered'].includes(doc.data().status));
+                const activeOrders = snapshot.docs.filter(doc => doc.data().status !== 'completed');
                 const orderFormContainer = document.getElementById('order-form-container');
                 const orderStatusContainer = document.getElementById('order-status-container');
 
-                if (activeOrders.length > 0) {
+                if (activeOrders.length > 0 && !isEditingOrder) {
                     const latestOrder = activeOrders.sort((a,b) => b.data().createdAt?.toMillis() - a.data().createdAt?.toMillis())[0];
                     currentTrackingOrderId = latestOrder.id;
                     trackOrderStatus(latestOrder.id, latestOrder.data());
@@ -579,6 +580,11 @@
                 </div>`;
             }).join('');
 
+            const canAddItems = ['new', 'preparing'].includes(order.status);
+            const addItemsButtonHTML = canAddItems 
+                ? `<button id="add-more-items-btn" class="btn-primary w-full mt-6 bg-green-600 hover:bg-green-700">Add More Items</button>`
+                : '';
+
             statusContainer.innerHTML = `
                 <div class="mb-4">
                     <h2 class="text-xl font-semibold mb-1">Track Your Order</h2>
@@ -590,9 +596,10 @@
                 <div class="order-timeline">${timelineHTML}</div>
                 <div class="mt-6 p-4 bg-gray-50 rounded-lg">
                     <h3 class="font-semibold mb-2">Order Details</h3>
-                    <p class="text-sm text-gray-600">Total: ₹${order.totalAmount} (Paid: ₹${order.amountPaid})</p>
-                    <p class="text-sm text-gray-600">Items: ${order.items.length}</p>
+                    <p class="text-sm text-gray-600">Total: ₹${order.totalAmount}</p>
+                    <p class="text-sm text-gray-600">Items: ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p>
                 </div>
+                ${addItemsButtonHTML}
             `;
         }
         
@@ -627,22 +634,13 @@
                     else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary w-full mt-4">Mark Delivered</button>`;
                 }
                 const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : '';
-                const paymentStatus = order.paymentType === 'full' 
-                    ? `<span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">PAID</span>` 
-                    : `<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">PARTIAL</span>`;
-
-                container.innerHTML += `<div class="card p-4"><div class="flex justify-between items-start mb-2"><strong>${order.customerName}</strong><div class="flex items-center gap-2">${testBadge}${paymentStatus}</div></div><p class="text-sm text-gray-600">${order.customerAddress}</p><p class="text-sm text-gray-600">${order.customerPhone}</p><p class="text-sm font-medium mt-2">₹${order.totalAmount}</p><p class="capitalize font-bold mt-2 text-blue-600">${order.status.replace(/_/g, ' ')}</p>${actionButton}</div>`;
+                container.innerHTML += `<div class="card p-4"><div class="flex justify-between items-start mb-2"><strong>${order.customerName}</strong>${testBadge}</div><p class="text-sm text-gray-600">${order.customerAddress}</p><p class="text-sm text-gray-600">${order.customerPhone}</p><p class="text-sm font-medium mt-2">₹${order.totalAmount}</p><p class="capitalize font-bold mt-2 text-blue-600">${order.status.replace(/_/g, ' ')}</p>${actionButton}</div>`;
             });
         }
         
         function renderProfileModal() {
             if (!userId || userEmail === 'Guest') {
                 profileContent.innerHTML = `
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                        <p class="text-sm text-blue-800"><strong>💡 Developer Access:</strong></p>
-                        <p class="text-xs text-blue-700 mt-1">Email: <strong>dev@example.com</strong></p>
-                        <p class="text-xs text-blue-700">Password: <strong>dev123456</strong></p>
-                    </div>
                     <form id="email-auth-form" class="space-y-4">
                         <h3 class="text-xl font-semibold">Login or Sign Up</h3>
                         <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
@@ -880,8 +878,6 @@
                 customerPhone: document.getElementById('test-phone').value,
                 items: selectedItems,
                 totalAmount: selectedItems.reduce((sum, item) => sum + item.price, 0),
-                amountPaid: selectedItems.reduce((sum, item) => sum + item.price, 0),
-                paymentType: 'full',
                 status: 'new',
                 createdAt: serverTimestamp(),
                 userId: 'test-developer',
@@ -925,9 +921,6 @@
                     };
                     const statusColor = statusColors[order.status] || 'bg-gray-100 text-gray-800';
                     const testBadge = order.isTestOrder ? '<span class="test-badge test-pending">TEST ORDER</span>' : '';
-                    const paymentStatus = order.paymentType === 'full' 
-                        ? `<span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">PAID</span>` 
-                        : `<span class="px-2 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">PARTIAL</span>`;
                     
                     const createdTime = order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : 'N/A';
                     
@@ -939,15 +932,14 @@
                                     <p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p>
                                     <p class="text-xs text-gray-500">${createdTime}</p>
                                 </div>
-                                <div class="flex items-center gap-2">
+                                <div class="flex gap-2">
                                     ${testBadge}
-                                    ${paymentStatus}
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status.replace(/_/g, ' ').toUpperCase()}</span>
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2 text-sm">
                                 <div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div>
-                                <div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount} (Paid: ₹${order.amountPaid.toFixed(2)})</div>
+                                <div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div>
                                 <div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div>
                                 <div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i => i.name).join(', ')}</div>
                             </div>
@@ -987,6 +979,16 @@
                 updateCart();
             }
 
+            if (e.target.id === 'add-more-items-btn') {
+                if (currentTrackingOrderId) {
+                    const orderDocRef = doc(db, "orders", currentTrackingOrderId);
+                    const orderDocSnap = await getDoc(orderDocRef);
+                    if (orderDocSnap.exists()) {
+                        startEditingOrder(orderDocSnap.data());
+                    }
+                }
+            }
+
             if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
                 const orderId = e.target.dataset.id;
                 const newStatus = e.target.dataset.status;
@@ -1019,7 +1021,12 @@
         document.body.addEventListener('submit', async e => {
             if (e.target.id === 'order-form') {
                 e.preventDefault();
-                showPaymentModal();
+                const mode = e.target.dataset.mode;
+                if (mode === 'update') {
+                    await updateOrder();
+                } else {
+                    await placeOrder();
+                }
             }
 
             if (e.target.id === 'add-staff-form') {
