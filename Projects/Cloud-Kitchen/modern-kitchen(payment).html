@@ -301,9 +301,6 @@
                         </div>
                     </div>
                     <div id="all-orders-list" class="space-y-4"></div>
-                    <div id="load-more-container" class="mt-6 text-center">
-                        <button id="load-more-orders-btn" class="btn-primary bg-indigo-600 hover:bg-indigo-700 hidden">Load More</button>
-                    </div>
                 </div>
 
                 <!-- User Role Management -->
@@ -377,9 +374,7 @@
         let historyFilter = 'week';
 
         // Dev Panel State
-        let lastVisibleDoc = null;
-        let isFetchingOrders = false;
-        let currentSearchTerm = "";
+        let allOrdersListener = null; // Real-time listener for the dev panel
 
         const menu = [
             { id: 1, name: 'Paneer Butter Masala', price: 250 },
@@ -946,6 +941,13 @@
         viewSwitcher.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON') {
                 const view = e.target.dataset.view;
+
+                // Unsubscribe from the dev panel listener if navigating away
+                if (allOrdersListener && view !== 'developer') {
+                    allOrdersListener();
+                    allOrdersListener = null;
+                }
+
                 const allowedRoles = { 
                     customer: ['customer', 'kitchen', 'delivery', 'owner', 'developer'], 
                     kitchen: ['kitchen', 'owner', 'developer'], 
@@ -964,7 +966,7 @@
                     Array.from(viewSwitcher.children).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
                     
                     if(view === 'developer' && userRole === 'developer') {
-                        loadAllOrders(false);
+                        loadAllOrders();
                     }
                 } else {
                     showAlert("You don't have permission to access this view.", true);
@@ -1205,10 +1207,10 @@
         async function loadDeveloperPanel() {
             renderTestMenuItems();
             loadAdminPanel();
-            loadAllOrders(false);
+            loadAllOrders();
 
             document.getElementById('order-search-input').addEventListener('input', () => {
-                loadAllOrders(false);
+                loadAllOrders();
             });
         }
 
@@ -1279,7 +1281,6 @@
                 await addDoc(collection(db, "orders"), orderData);
                 showAlert('Test order created successfully!');
                 document.getElementById('test-order-form').reset();
-                loadAllOrders(false);
             } catch (error) {
                 showAlert('Failed to create test order.', true);
                 console.error(error);
@@ -1306,68 +1307,40 @@
                 });
                 await Promise.all(deletePromises);
                 showAlert('All customer orders have been successfully reset.', false);
-                loadAllOrders(false);
             } catch (error) {
                 console.error("Error resetting customer orders: ", error);
                 showAlert('Failed to reset customer orders.', true);
             }
         }
 
-        async function loadAllOrders(loadMore = false) {
+        function loadAllOrders() {
             const container = document.getElementById('all-orders-list');
-            const loadMoreBtn = document.getElementById('load-more-orders-btn');
-            if (!container || isFetchingOrders) return;
+            if (!container) return;
 
-            isFetchingOrders = true;
-            const searchTerm = document.getElementById('order-search-input').value.trim();
-
-            if (currentSearchTerm !== searchTerm) {
-                loadMore = false;
-                currentSearchTerm = searchTerm;
+            // Unsubscribe from any previous listener
+            if (allOrdersListener) {
+                allOrdersListener();
             }
+
+            const searchTerm = document.getElementById('order-search-input').value.trim().toLowerCase();
+
+            let q = query(collection(db, "orders"), orderBy("createdAt", "desc"), limit(50));
             
-            if (!loadMore) {
+            allOrdersListener = onSnapshot(q, (snapshot) => {
+                let docs = snapshot.docs;
+
+                // If there's a search term, filter the results on the client side
+                if (searchTerm) {
+                    docs = docs.filter(doc => doc.data().customerName.toLowerCase().includes(searchTerm));
+                }
+
                 container.innerHTML = '';
-                lastVisibleDoc = null;
-            }
-
-            let q;
-            const baseQuery = collection(db, "orders");
-            let constraints = [];
-            
-            if (searchTerm) {
-                // If searching, order by customerName to match the inequality filter. This avoids a composite index.
-                constraints.push(orderBy("customerName"));
-                constraints.push(where("customerName", ">=", searchTerm));
-                constraints.push(where("customerName", "<=", searchTerm + '\uf8ff'));
-            } else {
-                // If not searching, order by creation date.
-                constraints.push(orderBy("createdAt", "desc"));
-            }
-
-            constraints.push(limit(10));
-            if (loadMore && lastVisibleDoc) {
-                constraints.push(startAfter(lastVisibleDoc));
-            }
-            
-            q = query(baseQuery, ...constraints);
-            
-            try {
-                const snapshot = await getDocs(q);
-                
-                if (snapshot.empty && !loadMore) {
+                if (docs.length === 0) {
                     container.innerHTML = '<p class="text-gray-500 text-center py-4">No orders found.</p>';
+                    return;
                 }
 
-                lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
-
-                if (!lastVisibleDoc || snapshot.docs.length < 10) {
-                    loadMoreBtn.classList.add('hidden');
-                } else {
-                    loadMoreBtn.classList.remove('hidden');
-                }
-
-                snapshot.forEach(docSnap => {
+                docs.forEach(docSnap => {
                     const order = docSnap.data();
                     const statusColors = {
                         'new': 'bg-blue-100 text-blue-800',
@@ -1410,13 +1383,10 @@
                     `;
                     container.insertAdjacentHTML('beforeend', orderHTML);
                 });
-
-            } catch (error) {
-                console.error("Error loading orders: ", error);
-                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders. A database index might be required for this search.</p>`;
-            } finally {
-                isFetchingOrders = false;
-            }
+            }, (error) => {
+                console.error("Error with all orders listener: ", error);
+                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`;
+            });
         }
 
         async function loadAdminPanel() {
@@ -1580,7 +1550,7 @@
                 updateHistoryFilterButtons();
                 filterAndRenderHistory();
             }
-            if (target.id === 'load-more-orders-btn') loadAllOrders(true);
+
             if (target.classList.contains('item-ready-toggle')) {
                 const orderId = target.dataset.orderId;
                 const itemId = parseInt(target.dataset.itemId);
@@ -1612,7 +1582,7 @@
 
             if (target.id === 'refresh-orders') {
                 document.getElementById('order-search-input').value = '';
-                loadAllOrders(false);
+                loadAllOrders();
                 showAlert('Orders refreshed.');
             }
         });
