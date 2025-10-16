@@ -161,15 +161,23 @@
                 
                 <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                    <div class="lg:col-span-3 card p-6 relative">
-                        <h3 class="text-xl font-semibold mb-1">Daily Sales</h3>
-                        <p class="text-sm text-gray-500 mb-4">Revenue generated each day.</p>
-                        <canvas id="sales-chart-canvas"></canvas>
+                    <div class="lg:col-span-3 card p-6 flex flex-col">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-1">Daily Sales</h3>
+                            <p class="text-sm text-gray-500 mb-4">Revenue generated each day.</p>
+                        </div>
+                        <div class="relative flex-grow h-80">
+                            <canvas id="sales-chart-canvas"></canvas>
+                        </div>
                     </div>
-                    <div class="lg:col-span-2 card p-6 relative">
-                        <h3 class="text-xl font-semibold mb-1">Order Status</h3>
-                        <p class="text-sm text-gray-500 mb-4">Current breakdown of all orders.</p>
-                        <canvas id="status-chart-canvas"></canvas>
+                    <div class="lg:col-span-2 card p-6 flex flex-col">
+                         <div>
+                            <h3 class="text-xl font-semibold mb-1">Order Status</h3>
+                            <p class="text-sm text-gray-500 mb-4">Current breakdown of all orders.</p>
+                        </div>
+                        <div class="relative flex-grow h-80">
+                            <canvas id="status-chart-canvas"></canvas>
+                        </div>
                     </div>
                 </div>
 
