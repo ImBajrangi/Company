@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud Kitchen Order System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -23,8 +23,17 @@
         .menu-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
         .btn-primary { background: #0071e3; color: white; font-weight: 500; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; }
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
+        .btn-preparing { background-color: #f59e0b; color: white; } /* Amber */
+        .btn-preparing:hover { background-color: #d97706; transform: scale(1.02); }
+        .btn-ready { background-color: #10b981; color: white; } /* Emerald */
+        .btn-ready:hover { background-color: #059669; transform: scale(1.02); }
+        .btn-delivery { background-color: #6366f1; color: white; } /* Indigo */
+        .btn-delivery:hover { background-color: #4f46e5; transform: scale(1.02); }
+        .btn-completed { background-color: #4b5563; color: white; } /* Gray */
+        .btn-completed:hover { background-color: #374151; transform: scale(1.02); }
         input, select { border: 1px solid #d2d2d7; border-radius: 12px; padding: 12px 16px; font-size: 16px; background: white; min-height: 52px; }
         input:focus, select:focus { outline: none; border-color: #0071e3; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1); }
+        input:disabled { background-color: #f5f5f7; cursor: not-allowed; }
         .icon { width: 20px; height: 20px; stroke-width: 2; }
         .icon-lg { width: 24px; height: 24px; stroke-width: 2; }
         .order-timeline { position: relative; padding-left: 40px; }
@@ -115,19 +124,75 @@
             
             <!-- Owner View -->
             <div id="owner-view" class="view-hidden space-y-8">
-                <div class="card p-6 sm:p-8">
-                    <h2 class="text-3xl font-semibold text-gray-900 mb-6">Owner Dashboard</h2>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Sales Over Time</h3>
-                            <div id="sales_chart_div" style="width: 100%; height: 400px;" class="bg-gray-50 rounded-lg flex items-center justify-center"><p class="text-gray-400">Loading chart...</p></div>
+                <div>
+                    <h2 class="text-3xl font-semibold text-gray-900 mb-2">Owner Dashboard</h2>
+                    <p class="text-gray-500">A high-level overview of your kitchen's performance.</p>
+                </div>
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-4">Order Status Breakdown</h3>
-                            <div id="status_chart_div" style="width: 100%; height: 400px;" class="bg-gray-50 rounded-lg flex items-center justify-center"><p class="text-gray-400">Loading chart...</p></div>
+                            <p class="text-sm text-gray-500 font-medium">Total Revenue</p>
+                            <p id="kpi-total-revenue" class="text-3xl font-semibold text-gray-900">₹0</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
+                           <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 9h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Orders</p>
+                            <p id="kpi-total-orders" class="text-3xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                    <div class="card p-6 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V9a2 2 0 00-2-2m2 4v4a2 2 0 104 0v-1m-4-3H9m2 0h4m6 1a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Avg. Order Value</p>
+                            <p id="kpi-avg-order-value" class="text-3xl font-semibold text-gray-900">₹0</p>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 card p-6 flex flex-col">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-1">Daily Sales</h3>
+                            <p class="text-sm text-gray-500 mb-4">Revenue generated each day.</p>
+                        </div>
+                        <div class="relative flex-grow h-80">
+                            <canvas id="sales-chart-canvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 card p-6 flex flex-col">
+                         <div>
+                            <h3 class="text-xl font-semibold mb-1">Order Status</h3>
+                            <p class="text-sm text-gray-500 mb-4">Current breakdown of all orders.</p>
+                        </div>
+                        <div class="relative flex-grow h-80">
+                            <canvas id="status-chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="order-history-container" class="card p-6 sm:p-8">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Completed Order History</h2>
+                    <div id="history-filters" class="flex items-center gap-2 mb-4 border-b pb-4">
+                        <button data-filter="week" class="history-filter-btn px-4 py-2 text-sm font-medium rounded-md">This Week</button>
+                        <button data-filter="month" class="history-filter-btn px-4 py-2 text-sm font-medium rounded-md">This Month</button>
+                        <button data-filter="all" class="history-filter-btn px-4 py-2 text-sm font-medium rounded-md">All Time</button>
+                    </div>
+                    <div id="order-history-list" class="space-y-4 max-h-96 overflow-y-auto">
+                        <p class="text-gray-500">No past orders found.</p>
+                    </div>
+                </div>
+
                 <div class="card p-6 sm:p-8">
                     <h2 class="text-2xl font-semibold text-gray-900 mb-6">Staff Management</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -181,8 +246,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <button id="run-system-test" class="btn-primary bg-red-600 hover:bg-red-700">Run Full System Test</button>
+                    <div class="flex items-center gap-4">
+                        <button id="run-system-test" class="btn-primary">Run Full System Test</button>
+                        <button id="reset-customer-orders-btn" class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button>
+                    </div>
                 </div>
 
                 <!-- Test Order Creation -->
@@ -250,7 +317,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const DEVELOPER_EMAIL = "dev@vrinda.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
@@ -283,8 +350,13 @@
         let userEmail = 'Guest';
         let cart = [];
         let currentTrackingOrderId = null;
+        let isEditingOrder = false;
         let currentOrderListener = null;
         let allOrdersListener = null;
+        let salesChartInstance = null;
+        let statusChartInstance = null;
+        let completedOrders = [];
+        let historyFilter = 'week';
 
         const menu = [
             { id: 1, name: 'Paneer Butter Masala', price: 250 },
@@ -292,8 +364,7 @@
             { id: 3, name: 'Veg Biryani', price: 220 },
             { id: 4, name: 'Garlic Naan', price: 50 },
         ];
-        google.charts.load('current', {'packages':['corechart']});
-
+        
         const authBtn = document.getElementById('auth-btn');
         const authStatusEl = document.getElementById('auth-status');
         const alertModal = document.getElementById('alert-modal');
@@ -364,7 +435,10 @@
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI();
-            if (userRole === 'owner' || userRole === 'developer') loadOwnerDashboard();
+            if (userRole === 'owner' || userRole === 'developer') {
+                loadOwnerDashboard();
+                listenToOrderHistory();
+            }
             if (userRole === 'developer') {
                 loadDeveloperPanel();
                 runSystemTests();
@@ -382,6 +456,7 @@
         }
 
         function updateVisibleViews() {
+            document.getElementById('view-switcher').classList.toggle('hidden', userRole === 'customer');
             document.querySelector('[data-view="kitchen"]').classList.toggle('hidden', !['kitchen', 'owner', 'developer'].includes(userRole));
             document.querySelector('[data-view="transport"]').classList.toggle('hidden', !['delivery', 'owner', 'developer'].includes(userRole));
             document.querySelector('[data-view="owner"]').classList.toggle('hidden', !['owner', 'developer'].includes(userRole));
@@ -393,6 +468,7 @@
             updateCart();
             renderOrderForm();
             startTrackingLatestOrder();
+            updateHistoryFilterButtons();
         }
 
         function renderMenu() {
@@ -419,10 +495,26 @@
             summaryEl.innerHTML = `<div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹${total}</span></div>`;
         }
         
-        function renderOrderForm() {
+        function renderOrderForm(order = null) {
             const container = document.getElementById('order-form-container');
             if (!container) return;
-            container.innerHTML = `<h2 class="text-xl font-semibold text-gray-900 mb-4">Delivery Details</h2><form id="order-form" class="space-y-4"><div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" required></div><div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" required></div><div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" required></div><button type="submit" class="btn-primary w-full">Place Order</button></form>`;
+
+            const isUpdate = order !== null;
+            const name = isUpdate ? order.customerName : '';
+            const address = isUpdate ? order.customerAddress : '';
+            const phone = isUpdate ? order.customerPhone : '';
+            const disabled = isUpdate ? 'disabled' : '';
+            const buttonText = isUpdate ? 'Update Order' : 'Place Order';
+            
+            container.innerHTML = `
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
+                <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
+                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${name}" ${disabled} required></div>
+                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${address}" ${disabled} required></div>
+                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${phone}" ${disabled} required></div>
+                    <button type="submit" class="btn-primary w-full">${buttonText}</button>
+                </form>
+            `;
         }
 
         async function placeOrder() {
@@ -441,6 +533,7 @@
             try {
                 const docRef = await addDoc(collection(db, "orders"), orderData);
                 showAlert('Order placed successfully!');
+                isEditingOrder = false;
                 cart = [];
                 updateCart();
                 currentTrackingOrderId = docRef.id;
@@ -451,6 +544,58 @@
             }
         }
         
+        async function updateOrder() {
+            if (cart.length === 0) return showAlert('Your cart cannot be empty.');
+            if (!currentTrackingOrderId) return showAlert('No order selected for update.', true);
+
+            const orderDocRef = doc(db, "orders", currentTrackingOrderId);
+
+            try {
+                const orderDocSnap = await getDoc(orderDocRef);
+                if (!orderDocSnap.exists()) {
+                    throw new Error("Order not found.");
+                }
+                const currentStatus = orderDocSnap.data().status;
+                if (!['new', 'preparing'].includes(currentStatus)) {
+                    showAlert('Sorry, it is too late to modify this order as it is already being prepared for delivery.', true);
+                    isEditingOrder = false;
+                    cart = [];
+                    updateCart();
+                    renderOrderForm();
+                    startTrackingLatestOrder();
+                    return;
+                }
+                
+                const orderUpdateData = {
+                    items: cart,
+                    totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                };
+
+                await updateDoc(orderDocRef, orderUpdateData);
+                showAlert('Order updated successfully!');
+                
+                isEditingOrder = false;
+                cart = [];
+                updateCart();
+                renderOrderForm(); 
+                startTrackingLatestOrder(); 
+            } catch (error) {
+                showAlert('Failed to update order.', true);
+                console.error("Order update error: ", error);
+            }
+        }
+
+        function startEditingOrder(order) {
+            isEditingOrder = true;
+            cart = [...order.items];
+
+            document.getElementById('order-status-container').classList.add('hidden');
+            document.getElementById('order-form-container').style.display = 'block';
+            
+            updateCart();
+            renderOrderForm(order);
+        }
+
         function startTrackingLatestOrder() {
             if (!userId || !isFirebaseReady) return; 
             if (currentOrderListener) currentOrderListener();
@@ -461,7 +606,7 @@
                 const orderFormContainer = document.getElementById('order-form-container');
                 const orderStatusContainer = document.getElementById('order-status-container');
 
-                if (activeOrders.length > 0) {
+                if (activeOrders.length > 0 && !isEditingOrder) {
                     const latestOrder = activeOrders.sort((a,b) => b.data().createdAt?.toMillis() - a.data().createdAt?.toMillis())[0];
                     currentTrackingOrderId = latestOrder.id;
                     trackOrderStatus(latestOrder.id, latestOrder.data());
@@ -507,6 +652,11 @@
                 </div>`;
             }).join('');
 
+            const canAddItems = ['new', 'preparing'].includes(order.status);
+            const addItemsButtonHTML = canAddItems 
+                ? `<button id="add-more-items-btn" class="btn-primary w-full mt-6 bg-green-600 hover:bg-green-700">Add More Items</button>`
+                : '';
+
             statusContainer.innerHTML = `
                 <div class="mb-4">
                     <h2 class="text-xl font-semibold mb-1">Track Your Order</h2>
@@ -519,8 +669,9 @@
                 <div class="mt-6 p-4 bg-gray-50 rounded-lg">
                     <h3 class="font-semibold mb-2">Order Details</h3>
                     <p class="text-sm text-gray-600">Total: ₹${order.totalAmount}</p>
-                    <p class="text-sm text-gray-600">Items: ${order.items.length}</p>
+                    <p class="text-sm text-gray-600">Items: ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p>
                 </div>
+                ${addItemsButtonHTML}
             `;
         }
         
@@ -548,11 +699,11 @@
                 const order = doc.data();
                 let actionButton = '';
                 if(viewType === 'kitchen') {
-                    if (order.status === 'new') actionButton = `<button data-id="${doc.id}" data-status="preparing" class="update-status-btn btn-primary w-full mt-4">Start Preparing</button>`;
-                    else if(order.status === 'preparing') actionButton = `<button data-id="${doc.id}" data-status="ready_for_pickup" class="update-status-btn btn-primary w-full mt-4">Mark Ready</button>`;
+                    if (order.status === 'new') actionButton = `<button data-id="${doc.id}" data-status="preparing" class="update-status-btn btn-primary btn-preparing w-full mt-4">Start Preparing</button>`;
+                    else if(order.status === 'preparing') actionButton = `<button data-id="${doc.id}" data-status="ready_for_pickup" class="update-status-btn btn-primary btn-ready w-full mt-4">Mark Ready</button>`;
                 } else if (viewType === 'transport') {
-                    if (order.status === 'ready_for_pickup') actionButton = `<button data-id="${doc.id}" data-status="out_for_delivery" class="update-status-btn btn-primary w-full mt-4">Out for Delivery</button>`;
-                    else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary w-full mt-4">Mark Delivered</button>`;
+                    if (order.status === 'ready_for_pickup') actionButton = `<button data-id="${doc.id}" data-status="out_for_delivery" class="update-status-btn btn-primary btn-delivery w-full mt-4">Out for Delivery</button>`;
+                    else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary btn-completed w-full mt-4">Mark Delivered</button>`;
                 }
                 const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : '';
                 container.innerHTML += `<div class="card p-4"><div class="flex justify-between items-start mb-2"><strong>${order.customerName}</strong>${testBadge}</div><p class="text-sm text-gray-600">${order.customerAddress}</p><p class="text-sm text-gray-600">${order.customerPhone}</p><p class="text-sm font-medium mt-2">₹${order.totalAmount}</p><p class="capitalize font-bold mt-2 text-blue-600">${order.status.replace(/_/g, ' ')}</p>${actionButton}</div>`;
@@ -671,47 +822,203 @@
         });
 
         function loadOwnerDashboard() {
-            if(userRole !== 'owner' && userRole !== 'developer') return;
-            google.charts.setOnLoadCallback(drawCharts);
+            if((userRole !== 'owner' && userRole !== 'developer') || !isFirebaseReady) return;
+            
+            const ordersQuery = query(collection(db, "orders"));
+            onSnapshot(ordersQuery, (snapshot) => {
+                const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+                updateDashboard(allOrders);
+            });
             loadStaffList();
         }
 
-        async function drawCharts() {
-            const ordersQuery = query(collection(db, "orders"));
-            const snapshot = await getDocs(ordersQuery);
-            const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+        function updateDashboard(allOrders) {
+            // Calculate KPIs
+            const totalRevenue = allOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+            const totalOrders = allOrders.length;
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+            // Update KPI cards in UI
+            document.getElementById('kpi-total-revenue').textContent = `₹${totalRevenue.toFixed(2)}`;
+            document.getElementById('kpi-total-orders').textContent = totalOrders;
+            document.getElementById('kpi-avg-order-value').textContent = `₹${avgOrderValue.toFixed(2)}`;
+
             drawSalesChart(allOrders);
             drawStatusChart(allOrders);
         }
 
         function drawSalesChart(orders) {
-            const data = new google.visualization.DataTable();
-            data.addColumn('date', 'Date'); 
-            data.addColumn('number', 'Sales');
+            const salesCtx = document.getElementById('sales-chart-canvas').getContext('2d');
+            if(salesChartInstance) {
+                salesChartInstance.destroy();
+            }
+
             const salesByDate = {};
             orders.forEach(order => {
                 if (order.createdAt?.toDate) {
-                    const date = order.createdAt.toDate().toISOString().split('T')[0];
+                    const date = order.createdAt.toDate().toLocaleDateString('en-CA'); // YYYY-MM-DD
                     salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
                 }
             });
-            const rows = Object.entries(salesByDate).map(([dateStr, sales]) => [new Date(dateStr), sales]);
-            if (rows.length > 0) data.addRows(rows);
-            const chart = new google.visualization.LineChart(document.getElementById('sales_chart_div'));
-            chart.draw(data, { title: 'Daily Sales Revenue', curveType: 'function', legend: { position: 'bottom' } });
+
+            const sortedDates = Object.keys(salesByDate).sort();
+            const chartLabels = sortedDates.map(date => new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short'}));
+            const chartData = sortedDates.map(date => salesByDate[date]);
+
+            salesChartInstance = new Chart(salesCtx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: chartData,
+                        backgroundColor: 'rgba(94, 92, 230, 0.8)',
+                        borderColor: 'rgba(94, 92, 230, 1)',
+                        borderWidth: 1,
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Sales: ₹${context.raw.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function drawStatusChart(orders) {
+            const statusCtx = document.getElementById('status-chart-canvas').getContext('2d');
+            if (statusChartInstance) {
+                statusChartInstance.destroy();
+            }
+            
             const statusCounts = {};
             orders.forEach(order => {
                 const status = order.status ? order.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Unknown';
                 statusCounts[status] = (statusCounts[status] || 0) + 1;
             });
-            const dataArray = [['Status', 'Count'], ...Object.entries(statusCounts)];
-            if (dataArray.length <= 1) return;
-            const data = google.visualization.arrayToDataTable(dataArray);
-            const chart = new google.visualization.PieChart(document.getElementById('status_chart_div'));
-            chart.draw(data, { title: 'Order Status Distribution', is3D: true });
+            
+            const statusLabels = Object.keys(statusCounts);
+            const statusData = Object.values(statusCounts);
+            
+            const statusColors = {
+                'New': '#0071e3',
+                'Preparing': '#ff9500',
+                'Ready For Pickup': '#34c759',
+                'Out For Delivery': '#5e5ce6',
+                'Completed': '#8e8e93'
+            };
+            
+            statusChartInstance = new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: statusLabels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: statusData,
+                        backgroundColor: statusLabels.map(label => statusColors[label] || '#cccccc'),
+                        borderColor: '#ffffff',
+                        borderWidth: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    }
+                }
+            });
+        }
+
+        function listenToOrderHistory() {
+            const historyQuery = query(collection(db, "orders"), where("status", "==", "completed"));
+            onSnapshot(historyQuery, snapshot => {
+                completedOrders = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+                filterAndRenderHistory();
+            });
+        }
+
+        function filterAndRenderHistory() {
+            const listEl = document.getElementById('order-history-list');
+            if (!listEl) return;
+
+            const now = new Date();
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            let filteredOrders = completedOrders;
+            if (historyFilter === 'week') {
+                filteredOrders = completedOrders.filter(order => order.createdAt && order.createdAt.toDate() >= startOfWeek);
+            } else if (historyFilter === 'month') {
+                filteredOrders = completedOrders.filter(order => order.createdAt && order.createdAt.toDate() >= startOfMonth);
+            }
+
+            if (filteredOrders.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500 text-center py-4">No past orders found for this period.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = filteredOrders.map(order => {
+                const orderDate = order.createdAt.toDate().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+                const itemsSummary = order.items.map(i => `${i.name} x${i.quantity}`).join(', ');
+                const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">TEST</span>' : '';
+
+                return `
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-semibold text-gray-800">${order.customerName}</p>
+                                <p class="text-sm text-gray-500">${orderDate}</p>
+                                <p class="text-sm text-gray-600 mt-1">Total: ₹${order.totalAmount}</p>
+                            </div>
+                            <div class="flex flex-col items-end gap-2">
+                                <p class="text-xs text-gray-500 bg-white px-2 py-1 rounded-md">ID: ${order.id.substring(0, 8)}</p>
+                                ${testBadge}
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 pt-2 border-t">Items: ${itemsSummary}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+
+        function updateHistoryFilterButtons() {
+            document.querySelectorAll('.history-filter-btn').forEach(btn => {
+                btn.classList.remove('btn-active', 'bg-gray-100', 'text-gray-700');
+                if (btn.dataset.filter === historyFilter) {
+                    btn.classList.add('btn-active');
+                } else {
+                    btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                }
+            });
         }
 
         async function loadStaffList() {
@@ -815,6 +1122,32 @@
                 console.error(error);
             }
         }
+        
+        async function resetCustomerOrders() {
+            if (userRole !== 'developer') {
+                showAlert("You don't have permission to perform this action.", true);
+                return;
+            }
+            try {
+                showAlert('Resetting all non-test customer orders...', false);
+                const ordersQuery = query(collection(db, "orders"), where("isTestOrder", "!=", true));
+                const snapshot = await getDocs(ordersQuery);
+
+                if (snapshot.empty) {
+                    showAlert('No customer orders to reset.', false);
+                    return;
+                }
+                const deletePromises = [];
+                snapshot.forEach(doc => {
+                    deletePromises.push(deleteDoc(doc.ref));
+                });
+                await Promise.all(deletePromises);
+                showAlert('All customer orders have been successfully reset.', false);
+            } catch (error) {
+                console.error("Error resetting customer orders: ", error);
+                showAlert('Failed to reset customer orders.', true);
+            }
+        }
 
         async function loadAllOrders() {
             const container = document.getElementById('all-orders-list');
@@ -900,6 +1233,26 @@
                 updateCart();
             }
 
+            if (e.target.id === 'add-more-items-btn') {
+                if (currentTrackingOrderId) {
+                    const orderDocRef = doc(db, "orders", currentTrackingOrderId);
+                    const orderDocSnap = await getDoc(orderDocRef);
+                    if (orderDocSnap.exists()) {
+                        startEditingOrder(orderDocSnap.data());
+                    }
+                }
+            }
+            
+            if (e.target.id === 'reset-customer-orders-btn') {
+                await resetCustomerOrders();
+            }
+
+            if (e.target.classList.contains('history-filter-btn')) {
+                historyFilter = e.target.dataset.filter;
+                updateHistoryFilterButtons();
+                filterAndRenderHistory();
+            }
+
             if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
                 const orderId = e.target.dataset.id;
                 const newStatus = e.target.dataset.status;
@@ -932,7 +1285,12 @@
         document.body.addEventListener('submit', async e => {
             if (e.target.id === 'order-form') {
                 e.preventDefault();
-                await placeOrder();
+                const mode = e.target.dataset.mode;
+                if (mode === 'update') {
+                    await updateOrder();
+                } else {
+                    await placeOrder();
+                }
             }
 
             if (e.target.id === 'add-staff-form') {
