@@ -883,8 +883,6 @@
             if (e.target.id === 'staff-create-order-form') await handleStaffOrderCreation(e);
         });
 
-
-        
         document.body.addEventListener('change', async e => {
             if (e.target.classList.contains('role-selector')) { await setDoc(doc(db, "users", e.target.dataset.uid), { role: e.target.value }, { merge: true }); showAlert('User role updated.'); }
         });
