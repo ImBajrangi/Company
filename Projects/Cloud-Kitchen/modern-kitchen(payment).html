@@ -121,7 +121,7 @@
                         <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
                         <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
                     </div>
-                    <button id="create-order-btn" class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
+                    <button id="create-order-btn" class="btn-primary bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">Create New Order</button>
                 </div>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
@@ -1456,12 +1456,18 @@
                         </div>
                     </div>
                     <div class="mt-8 pt-6 border-t">
-                        <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Order (No Payment)</button>
+                        <button type="submit" class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Create Order (Payment Cash)</button>
                     </div>
                 </form>
             `;
         }
         
+
+
+
+
+
+
         function updateStaffCartUI() {
             let total = 0;
             menu.forEach(item => {
