@@ -243,7 +243,7 @@
         </main>
         
         <!-- Modals -->
-        <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
+        <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4" style="z-index: 51;"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
         <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
     </div>
 
@@ -615,7 +615,24 @@
                 }
                 profileModal.classList.add('hidden');
             } catch (error) { 
-                showAlert(error.message, true); 
+                let friendlyMessage = "An unexpected error occurred. Please try again.";
+                if (error.code) {
+                    switch (error.code) {
+                        case 'auth/invalid-credential':
+                            friendlyMessage = "Invalid email or password. Please check your credentials. If you're new, please use the Sign Up button.";
+                            break;
+                        case 'auth/email-already-in-use':
+                            friendlyMessage = "This email is already registered. Please use the Login button.";
+                            break;
+                        case 'auth/weak-password':
+                            friendlyMessage = "Your password is too weak. It must be at least 6 characters long.";
+                            break;
+                        default:
+                            friendlyMessage = "Authentication failed. Please try again later.";
+                            console.error("Authentication error:", error);
+                    }
+                }
+                showAlert(friendlyMessage, true);
             }
         }
 
@@ -934,6 +951,7 @@
             }
         });
 
+        
         document.body.addEventListener('change', async e => {
             if (e.target.classList.contains('role-selector')) {
                 const newRole = e.target.value;
