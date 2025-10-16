@@ -337,12 +337,9 @@
 
         if (isFirebaseReady) {
             const unsubscribe = onAuthStateChanged(auth, async (user) => {
-                // This function is now the single source of truth for auth state.
-                // It will only run once on initial load, and then again on login/logout.
                 await setupUser(user);
-                unsubscribe(); // Important: Unsubscribe after the initial check to prevent re-renders on token refresh.
+                unsubscribe(); 
                 
-                // Now, set up a new listener that ONLY handles login/logout events, not the initial state.
                 onAuthStateChanged(auth, async (user) => {
                     if(authInitialized) await setupUser(user);
                 });
@@ -897,3 +894,4 @@
     </script>
 </body>
 </html>
+
