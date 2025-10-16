@@ -114,9 +114,12 @@
 
             <!-- Kitchen View -->
             <div id="kitchen-view" class="view-hidden card p-6 sm:p-8">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
-                    <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
+                        <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
+                    </div>
+                    <button id="create-order-btn" class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
                 </div>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
@@ -322,7 +325,8 @@
         
         <!-- Modals -->
         <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4" style="z-index: 51;"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
-        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
+        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="profile-modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
+        <div id="create-order-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-semibold text-gray-900">Create New Order</h2><button id="create-order-close-btn" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="create-order-content"></div></div></div>
     </div>
 
     <script type="module">
@@ -360,6 +364,7 @@
         let userId = null;
         let userEmail = 'Guest';
         let cart = [];
+        let staffCart = [];
         let currentTrackingOrderId = null;
         let isEditingOrder = false;
         let currentOrderListener = null;
@@ -387,9 +392,7 @@
         const alertMessage = document.getElementById('alert-message');
         const alertClose = document.getElementById('alert-close');
         const alertIcon = document.getElementById('alert-icon');
-        const profileModal = document.getElementById('profile-modal');
-        const profileContent = document.getElementById('profile-content');
-        const profileClose = document.getElementById('profile-close');
+        const createOrderModal = document.getElementById('create-order-modal');
         const viewSwitcher = document.getElementById('view-switcher');
         const views = {
             customer: document.getElementById('customer-view'),
@@ -411,11 +414,57 @@
             alertModal.classList.remove('hidden');
         }
         alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
-        profileClose.addEventListener('click', () => profileModal.classList.add('hidden'));
+        
+        document.getElementById('create-order-close-btn').addEventListener('click', () => createOrderModal.classList.add('hidden'));
+        document.getElementById('create-order-btn').addEventListener('click', () => {
+            renderCreateOrderModal();
+            createOrderModal.classList.remove('hidden');
+        });
+
         authBtn.addEventListener('click', () => {
-            renderProfileModal();
+            const profileModal = document.getElementById('profile-modal');
+            const profileContent = document.getElementById('profile-content');
+            
+            if (!profileModal || !profileContent) return;
+            
+            if (!userId || userEmail === 'Guest') {
+                profileContent.innerHTML = `
+                    <form id="email-auth-form" class="space-y-4">
+                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
+                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
+                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
+                        <div class="flex gap-4">
+                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
+                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="text-center my-4">OR</div>
+                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
+                `;
+            } else {
+                profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
+            }
+            
+            // Re-attach listeners inside this function
+            const form = document.getElementById('email-auth-form');
+            if (form) {
+                form.addEventListener('submit', e => handleEmailAuth(e, false));
+                const signupBtn = document.getElementById('signup-btn');
+                if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
+            }
+            const googleBtn = document.getElementById('google-login-btn');
+            if(googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
+            const logoutBtn = document.getElementById('logout-btn');
+            if(logoutBtn) logoutBtn.addEventListener('click', () => {
+                signOut(auth);
+                profileModal.classList.add('hidden');
+            });
+            
             profileModal.classList.remove('hidden');
         });
+        
+        document.getElementById('profile-close').addEventListener('click', () => document.getElementById('profile-modal').classList.add('hidden'));
+
 
         if (isFirebaseReady) {
             onAuthStateChanged(auth, async (user) => {
@@ -575,7 +624,7 @@
                 customerName: document.getElementById('customer-name').value,
                 customerAddress: document.getElementById('customer-address').value,
                 customerPhone: document.getElementById('customer-phone').value,
-                items: cart,
+                items: cart.map(item => ({...item, ready: false})),
                 totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
@@ -621,7 +670,7 @@
                 }
                 
                 const orderUpdateData = {
-                    items: cart,
+                    items: cart.map(item => ({...item, ready: item.ready || false})),
                     totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
                 };
 
@@ -679,54 +728,33 @@
         function trackOrderStatus(orderId, order) {
             const statusContainer = document.getElementById('order-status-container');
             if(!statusContainer) return;
-            
-            const stages = [
-                { key: 'new', label: 'Order Placed', icon: '📝' },
-                { key: 'preparing', label: 'Preparing', icon: '👨‍🍳' },
-                { key: 'ready_for_pickup', label: 'Ready for Pickup', icon: '✅' },
-                { key: 'out_for_delivery', label: 'Out for Delivery', icon: '🚚' },
-                { key: 'completed', label: 'Delivered', icon: '🎉' }
-            ];
-
-            const currentIndex = stages.findIndex(s => s.key === order.status);
-            const progress = ((currentIndex + 1) / stages.length) * 100;
-
-            let timelineHTML = stages.map((stage, idx) => {
-                let dotClass = 'timeline-dot';
-                if (idx < currentIndex) dotClass += ' completed';
-                else if (idx === currentIndex) dotClass += ' active';
-                
-                return `<div class="timeline-item">
-                    <div class="${dotClass}"></div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-2xl">${stage.icon}</span>
-                        <div>
-                            <p class="font-semibold text-gray-900">${stage.label}</p>
-                            ${idx === currentIndex ? '<p class="text-sm text-blue-600">Current Status</p>' : ''}
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
 
             const canAddItems = ['new', 'preparing'].includes(order.status);
             const addItemsButtonHTML = canAddItems 
                 ? `<button id="add-more-items-btn" class="btn-primary w-full mt-6 bg-green-600 hover:bg-green-700">Add More Items</button>`
                 : '';
 
+            const itemsHTML = order.items.map(item => `
+                <div class="flex justify-between items-center py-2">
+                    <span>${item.name} x ${item.quantity}</span>
+                    <span class="text-sm font-medium ${item.ready ? 'text-green-600' : 'text-orange-500'}">
+                        ${item.ready ? 'Ready' : 'Preparing'}
+                    </span>
+                </div>
+            `).join('');
+
             statusContainer.innerHTML = `
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold mb-1">Track Your Order</h2>
+                    <h2 class="text-xl font-semibold mb-1">Your Order Status</h2>
                     <p class="text-sm text-gray-500">Order ID: ${orderId.substring(0,8)}</p>
                 </div>
-                <div class="progress-bar mb-6">
-                    <div class="progress-fill" style="width: ${progress}%"></div>
-                </div>
-                <div class="order-timeline">${timelineHTML}</div>
+                
                 <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="font-semibold mb-2">Order Details</h3>
-                    <p class="text-sm text-gray-600">Total: ₹${order.totalAmount}</p>
-                    <p class="text-sm text-gray-600">Items: ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p>
+                    <h3 class="font-semibold mb-2">Item Details</h3>
+                    <div class="divide-y">${itemsHTML}</div>
+                    <p class="text-right font-bold text-lg mt-4">Total: ₹${order.totalAmount}</p>
                 </div>
+                 <p class="text-center mt-4 text-sm text-gray-600">Overall Status: <span class="font-bold">${order.status.replace(/_/g, ' ')}</span></p>
                 ${addItemsButtonHTML}
             `;
         }
@@ -742,6 +770,21 @@
 
             const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]));
             onSnapshot(transportQuery, snapshot => renderOrders(transportList, snapshot.docs, 'transport'));
+        }
+
+        async function toggleItemReady(orderId, itemId) {
+            const orderRef = doc(db, "orders", orderId);
+            const orderSnap = await getDoc(orderRef);
+            if(orderSnap.exists()) {
+                const orderData = orderSnap.data();
+                const items = orderData.items.map(item => {
+                    if (item.id === itemId) {
+                        return { ...item, ready: !item.ready };
+                    }
+                    return item;
+                });
+                await updateDoc(orderRef, { items });
+            }
         }
 
         function renderOrders(container, docs, viewType) {
@@ -764,9 +807,19 @@
 
                 const statusText = order.status.replace(/_/g, ' ');
                 const statusClass = 'status-tag-' + order.status;
-
                 const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : '';
                 
+                const itemsList = order.items.map(item => `
+                    <div class="flex justify-between items-center text-sm py-1">
+                        <span>${item.name} x ${item.quantity}</span>
+                        ${order.status === 'preparing' ? 
+                            `<label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" class="item-ready-toggle" data-order-id="${doc.id}" data-item-id="${item.id}" ${item.ready ? 'checked' : ''}>
+                                <span class="text-xs font-medium ${item.ready ? 'text-green-600' : ''}">Ready</span>
+                            </label>` 
+                        : ''}
+                    </div>`).join('');
+
                 container.innerHTML += `
                     <div class="card p-4 flex flex-col justify-between">
                         <div>
@@ -774,11 +827,10 @@
                                 <strong class="text-gray-800">${order.customerName}</strong>
                                 ${testBadge}
                             </div>
-                            <p class="text-sm text-gray-600">${order.customerAddress}</p>
-                            <p class="text-sm text-gray-600">${order.customerPhone}</p>
-                            <p class="text-sm font-medium mt-2">₹${order.totalAmount}</p>
-                            <div class="mt-4">
+                            <div class="mt-2 border-t pt-2">${itemsList}</div>
+                            <div class="mt-4 flex justify-between items-center">
                                 <span class="status-tag ${statusClass}">${statusText}</span>
+                                <p class="text-lg font-bold">₹${order.totalAmount}</p>
                             </div>
                         </div>
                         ${actionButton}
@@ -786,47 +838,11 @@
             });
         }
         
-        function renderProfileModal() {
-            if (!userId || userEmail === 'Guest') {
-                profileContent.innerHTML = `
-                    <form id="email-auth-form" class="space-y-4">
-                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
-                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
-                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
-                        <div class="flex gap-4">
-                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
-                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
-                        </div>
-                    </form>
-                    <div class="text-center my-4">OR</div>
-                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
-                `;
-            } else {
-                profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
-            }
-            attachAuthListeners();
-        }
-
-        function attachAuthListeners() {
-            const form = document.getElementById('email-auth-form');
-            if (form) {
-                form.addEventListener('submit', e => handleEmailAuth(e, false));
-                const signupBtn = document.getElementById('signup-btn');
-                if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
-            }
-            const googleBtn = document.getElementById('google-login-btn');
-            if(googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
-            const logoutBtn = document.getElementById('logout-btn');
-            if(logoutBtn) logoutBtn.addEventListener('click', () => {
-                signOut(auth);
-                profileModal.classList.add('hidden');
-            });
-        }
-
         async function handleEmailAuth(e, isSignup) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
+            const profileModal = document.getElementById('profile-modal');
             try {
                 if (isSignup) {
                     await createUserWithEmailAndPassword(auth, email, password);
@@ -835,7 +851,7 @@
                     await signInWithEmailAndPassword(auth, email, password);
                     showAlert('Logged in successfully!');
                 }
-                profileModal.classList.add('hidden');
+                if(profileModal) profileModal.classList.add('hidden');
             } catch (error) { 
                 let friendlyMessage = "An unexpected error occurred. Please try again.";
                 if (error.code) {
@@ -859,9 +875,10 @@
         }
 
         async function handleGoogleLogin() {
+            const profileModal = document.getElementById('profile-modal');
             try {
                 await signInWithPopup(auth, new GoogleAuthProvider());
-                profileModal.classList.add('hidden');
+                if(profileModal) profileModal.classList.add('hidden');
                 showAlert('Logged in with Google successfully!');
             } catch (error) { 
                 showAlert(error.message, true); 
@@ -1184,7 +1201,7 @@
                 customerName: document.getElementById('test-name').value,
                 customerAddress: document.getElementById('test-address').value,
                 customerPhone: document.getElementById('test-phone').value,
-                items: selectedItems,
+                items: selectedItems.map(item => ({...item, ready: false})),
                 totalAmount: selectedItems.reduce((sum, item) => sum + item.price, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
@@ -1252,8 +1269,6 @@
             const baseQuery = collection(db, "orders");
             const constraints = [limit(10)];
             
-            // Note: Firestore doesn't support case-insensitive search or partial string matching ('contains') natively.
-            // This search is case-sensitive and matches from the beginning of the name.
             if (searchTerm) {
                 constraints.unshift(orderBy("customerName"));
                 constraints.unshift(where("customerName", ">=", searchTerm));
@@ -1335,7 +1350,6 @@
             }
         }
 
-
         async function loadAdminPanel() {
             const userListEl = document.getElementById('admin-user-list');
             const usersSnapshot = await getDocs(collection(db, "users"));
@@ -1400,6 +1414,12 @@
 
             if (e.target.id === 'load-more-orders-btn') {
                 loadAllOrders(true);
+            }
+
+            if (e.target.classList.contains('item-ready-toggle')) {
+                const orderId = e.target.dataset.orderId;
+                const itemId = parseInt(e.target.dataset.itemId);
+                toggleItemReady(orderId, itemId);
             }
 
             if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
