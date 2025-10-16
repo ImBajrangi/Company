@@ -17,7 +17,7 @@
         .btn-active { background: #0071e3; color: white; }
         .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); overflow: hidden; }
         button, .card, input, .menu-item { transition: all 0.3s ease; }
-        .menu-item:hover { transform: translateY(-1px); box-shadow: 0 24px 24px rgba(0, 0, 0, 0.12); }
+        .menu-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
         .btn-primary { background: #0071e3; color: white; font-weight: 500; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; }
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
         .btn-preparing { background-color: #f59e0b; color: white; } /* Amber */
@@ -429,7 +429,7 @@
             
             if (!profileModal || !profileContent) return;
             
-            if (!userId || userEmail === 'Guest') {
+            if (!auth.currentUser || auth.currentUser.isAnonymous) {
                 profileContent.innerHTML = `
                     <form id="email-auth-form" class="space-y-4">
                         <h3 class="text-xl font-semibold">Login or Sign Up</h3>
@@ -440,8 +440,11 @@
                             <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
                         </div>
                     </form>
-                    <div class="text-center my-4">OR</div>
-                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
+                    <div class="relative my-6"><div class="absolute inset-0 flex items-center"><span class="w-full border-t"></span></div><div class="relative flex justify-center text-sm"><span class="bg-white px-2 text-gray-500">OR</span></div></div>
+                    <button id="google-login-btn" class="btn-primary w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.012 36.49 44 30.65 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
+                        Continue with Google
+                    </button>
                 `;
             } else {
                 profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
@@ -484,6 +487,7 @@
 
             if (user.isAnonymous) {
                 userRole = 'customer';
+                userEmail = 'Guest';
             } else if (user.email === DEVELOPER_EMAIL) {
                 userRole = 'developer';
                 const userDocRef = doc(db, "users", userId);
@@ -502,7 +506,7 @@
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI();
-            if (userRole === 'owner' || userRole === 'developer') {
+            if (['owner', 'developer'].includes(userRole)) {
                 loadOwnerDashboard();
                 listenToOrderHistory();
             }
@@ -622,7 +626,6 @@
 
         async function placeOrder() {
             if (cart.length === 0) return showAlert('Your cart is empty.');
-            if (userEmail === 'Guest') return showAlert('Please login to place an order.');
 
             const customerName = document.getElementById('customer-name').value;
             const customerAddress = document.getElementById('customer-address').value;
@@ -630,8 +633,8 @@
             const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
             const options = {
-                key: "YOUR_KEY_ID", // IMPORTANT: Replace with your Razorpay Key ID
-                amount: totalAmount * 100, // Amount is in currency subunits. Default currency is INR.
+                key: "rzp_test_1DPv5sAlA2OEiL", // Replace with your actual Razorpay Key ID for production
+                amount: totalAmount * 100, 
                 currency: "INR",
                 name: "CloudKitchen",
                 description: "Order Payment",
@@ -653,7 +656,7 @@
                 },
                 prefill: {
                     name: customerName,
-                    email: userEmail,
+                    email: userEmail === 'Guest' ? '' : userEmail,
                     contact: customerPhone
                 },
                 notes: {
@@ -744,17 +747,24 @@
         }
 
         function startTrackingLatestOrder() {
-            if (!userId || !isFirebaseReady) return; 
+            if (!userId || !isFirebaseReady) return;
             if (currentOrderListener) currentOrderListener();
 
+            // Fetch all orders for the user and sort them on the client-side to avoid needing a composite index.
             const q = query(collection(db, "orders"), where("userId", "==", userId));
             currentOrderListener = onSnapshot(q, snapshot => {
-                const activeOrders = snapshot.docs.filter(doc => doc.data().status !== 'completed');
+                const sortedDocs = snapshot.docs.sort((a, b) => {
+                    const timeA = a.data().createdAt?.toMillis() || 0;
+                    const timeB = b.data().createdAt?.toMillis() || 0;
+                    return timeB - timeA;
+                });
+
+                const activeOrders = sortedDocs.filter(doc => doc.data().status !== 'completed');
                 const orderFormContainer = document.getElementById('order-form-container');
                 const orderStatusContainer = document.getElementById('order-status-container');
 
                 if (activeOrders.length > 0 && !isEditingOrder) {
-                    const latestOrder = activeOrders.sort((a,b) => b.data().createdAt?.toMillis() - a.data().createdAt?.toMillis())[0];
+                    const latestOrder = activeOrders[0];
                     currentTrackingOrderId = latestOrder.id;
                     trackOrderStatus(latestOrder.id, latestOrder.data());
                     if(orderFormContainer) orderFormContainer.style.display = 'none';
@@ -764,6 +774,10 @@
                     if(orderFormContainer) orderFormContainer.style.display = 'block';
                     if(orderStatusContainer) orderStatusContainer.classList.add('hidden');
                 }
+            }, error => {
+                console.error("Error tracking latest order:", error);
+                // Updated the error message as the index issue should be resolved.
+                showAlert("Could not fetch your order status. Please try again later.", true);
             });
         }
 
@@ -796,7 +810,7 @@
                     <div class="divide-y">${itemsHTML}</div>
                     <p class="text-right font-bold text-lg mt-4">Total: ₹${order.totalAmount}</p>
                 </div>
-                 <p class="text-center mt-4 text-sm text-gray-600">Overall Status: <span class="font-bold">${order.status.replace(/_/g, ' ')}</span></p>
+                 <p class="text-center mt-4 text-sm text-gray-600">Overall Status: <span class="font-bold uppercase">${order.status.replace(/_/g, ' ')}</span></p>
                 ${addItemsButtonHTML}
             `;
         }
@@ -836,7 +850,7 @@
                 container.innerHTML = `<p class="text-gray-500 col-span-full text-center">No orders to show.</p>`;
                 return;
             }
-            docs.forEach(doc => {
+            docs.sort((a,b) => a.data().createdAt?.toMillis() - b.data().createdAt?.toMillis()).forEach(doc => {
                 const order = doc.data();
                 let actionButton = '';
                 if (viewType === 'kitchen') {
@@ -895,10 +909,13 @@
                 }
                 if(profileModal) profileModal.classList.add('hidden');
             } catch (error) { 
+                console.error("Authentication error:", error.code, error.message);
                 let friendlyMessage = "An unexpected error occurred. Please try again.";
                 if (error.code) {
                     switch (error.code) {
                         case 'auth/invalid-credential':
+                        case 'auth/user-not-found':
+                        case 'auth/wrong-password':
                             friendlyMessage = "Invalid email or password. Please check your credentials. If you're new, please use the Sign Up button.";
                             break;
                         case 'auth/email-already-in-use':
@@ -909,7 +926,6 @@
                             break;
                         default:
                             friendlyMessage = "Authentication failed. Please try again later.";
-                            console.error("Authentication error:", error);
                     }
                 }
                 showAlert(friendlyMessage, true);
@@ -957,7 +973,7 @@
         });
 
         function loadOwnerDashboard() {
-            if((userRole !== 'owner' && userRole !== 'developer') || !isFirebaseReady) return;
+            if((!['owner', 'developer'].includes(userRole)) || !isFirebaseReady) return;
             
             const ordersQuery = query(collection(db, "orders"));
             onSnapshot(ordersQuery, (snapshot) => {
@@ -969,7 +985,7 @@
 
         function updateDashboard(allOrders) {
             // Calculate KPIs
-            const totalRevenue = allOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+            const totalRevenue = allOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
             const totalOrders = allOrders.length;
             const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
@@ -992,7 +1008,7 @@
             orders.forEach(order => {
                 if (order.createdAt?.toDate) {
                     const date = order.createdAt.toDate().toLocaleDateString('en-CA'); // YYYY-MM-DD
-                    salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
+                    salesByDate[date] = (salesByDate[date] || 0) + (order.totalAmount || 0);
                 }
             });
 
@@ -1088,7 +1104,7 @@
         }
 
         function listenToOrderHistory() {
-            if (userRole !== 'owner' && userRole !== 'developer') return;
+            if (!['owner', 'developer'].includes(userRole)) return;
             const historyQuery = query(collection(db, "orders"), where("status", "==", "completed"));
             onSnapshot(historyQuery, snapshot => {
                 completedOrders = snapshot.docs
@@ -1177,7 +1193,7 @@
             const q = query(collection(db, "users"), where("email", "==", email));
             const snapshot = await getDocs(q);
             if (snapshot.empty) { 
-                showAlert("Error: User must sign up first.", true); 
+                showAlert("Error: User must sign up first before being assigned a role.", true); 
                 return; 
             }
             await setDoc(doc(db, "users", snapshot.docs[0].id), { email, role }, { merge: true });
@@ -1216,12 +1232,20 @@
             testFirebase.className = isFirebaseReady ? 'test-badge test-pass' : 'test-badge test-fail';
 
             try {
-                await getDocs(query(collection(db, "orders")));
+                // Test a simple read. This might fail if security rules are strict and user is not authenticated.
+                await getDoc(doc(db, "users", "test-read"));
                 testDatabase.textContent = 'PASS';
                 testDatabase.className = 'test-badge test-pass';
             } catch (error) {
-                testDatabase.textContent = 'FAIL';
-                testDatabase.className = 'test-badge test-fail';
+                 // A "permission-denied" error can still mean the connection is fine.
+                if(error.code === 'permission-denied') {
+                    testDatabase.textContent = 'PASS';
+                    testDatabase.className = 'test-badge test-pass';
+                } else {
+                    testDatabase.textContent = 'FAIL';
+                    testDatabase.className = 'test-badge test-fail';
+                    console.error("Database test failed:", error);
+                }
             }
 
             testAuth.textContent = auth.currentUser ? 'PASS' : 'FAIL';
@@ -1254,7 +1278,7 @@
             try {
                 await addDoc(collection(db, "orders"), orderData);
                 showAlert('Test order created successfully!');
-                document.querySelectorAll('.test-menu-checkbox').forEach(cb => cb.checked = false);
+                document.getElementById('test-order-form').reset();
                 loadAllOrders(false);
             } catch (error) {
                 showAlert('Failed to create test order.', true);
@@ -1309,16 +1333,19 @@
 
             let q;
             const baseQuery = collection(db, "orders");
-            const constraints = [limit(10)];
+            let constraints = [];
             
             if (searchTerm) {
-                constraints.unshift(orderBy("customerName"));
-                constraints.unshift(where("customerName", ">=", searchTerm));
-                constraints.unshift(where("customerName", "<=", searchTerm + '\uf8ff'));
+                // If searching, order by customerName to match the inequality filter. This avoids a composite index.
+                constraints.push(orderBy("customerName"));
+                constraints.push(where("customerName", ">=", searchTerm));
+                constraints.push(where("customerName", "<=", searchTerm + '\uf8ff'));
             } else {
-                constraints.unshift(orderBy("createdAt", "desc"));
+                // If not searching, order by creation date.
+                constraints.push(orderBy("createdAt", "desc"));
             }
 
+            constraints.push(limit(10));
             if (loadMore && lastVisibleDoc) {
                 constraints.push(startAfter(lastVisibleDoc));
             }
@@ -1361,7 +1388,7 @@
                                     <p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p>
                                     <p class="text-xs text-gray-500">${createdTime}</p>
                                 </div>
-                                <div class="flex gap-2">
+                                <div class="flex gap-2 items-center">
                                     ${testBadge}
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status.replace(/_/g, ' ').toUpperCase()}</span>
                                 </div>
@@ -1386,7 +1413,7 @@
 
             } catch (error) {
                 console.error("Error loading orders: ", error);
-                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders. You may need to create a Firestore index.</p>`;
+                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders. A database index might be required for this search.</p>`;
             } finally {
                 isFetchingOrders = false;
             }
@@ -1401,40 +1428,143 @@
                 if (userData.email === DEVELOPER_EMAIL) return; 
                 const roles = ['customer', 'kitchen', 'delivery', 'owner'];
                 const options = roles.map(r => `<option value="${r}" ${userData.role === r ? 'selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`).join('');
-                userListEl.innerHTML += `<tr><td class="px-6 py-4 whitespace-nowrap">${userData.email}</td><td class="px-6 py-4 whitespace-nowrap capitalize">${userData.role}</td><td class="px-6 py-4 whitespace-nowrap"><select data-uid="${userDoc.id}" class="role-selector border border-gray-300 rounded px-2 py-1">${options}</select></td></tr>`;
+                userListEl.innerHTML += `<tr><td class="px-6 py-4 whitespace-nowrap">${userData.email || 'N/A'}</td><td class="px-6 py-4 whitespace-nowrap capitalize">${userData.role}</td><td class="px-6 py-4 whitespace-nowrap"><select data-uid="${userDoc.id}" class="role-selector border border-gray-300 rounded px-2 py-1">${options}</select></td></tr>`;
             });
         }
+        
+        function renderCreateOrderModal() {
+            staffCart = [];
+            const container = document.getElementById('create-order-content');
+            container.innerHTML = `
+                <form id="staff-create-order-form">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Customer Details -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-medium text-gray-900">Customer Details</h3>
+                            <div><label class="block text-sm font-medium">Name</label><input type="text" id="staff-customer-name" class="w-full" required></div>
+                            <div><label class="block text-sm font-medium">Address</label><input type="text" id="staff-customer-address" class="w-full" required></div>
+                            <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="staff-customer-phone" class="w-full" required></div>
+                        </div>
+                        <!-- Menu Items -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-medium text-gray-900">Select Items</h3>
+                            <div id="staff-menu-selection" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+                                ${menu.map(item => `
+                                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                        <div>
+                                            <p class="font-medium">${item.name}</p>
+                                            <p class="text-sm text-gray-500">₹${item.price}</p>
+                                        </div>
+                                        <div class="quantity-selector">
+                                            <button type="button" class="quantity-btn staff-quantity-minus" data-id="${item.id}">-</button>
+                                            <span id="staff-qty-${item.id}" class="quantity-display">0</span>
+                                            <button type="button" class="quantity-btn staff-quantity-plus" data-id="${item.id}">+</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div id="staff-cart-summary" class="border-t pt-4 mt-4">
+                                <div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-6 border-t">
+                        <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Order (No Payment)</button>
+                    </div>
+                </form>
+            `;
+        }
+        
+        function updateStaffCartUI() {
+            let total = 0;
+            menu.forEach(item => {
+                const cartItem = staffCart.find(ci => ci.id === item.id);
+                const qtyEl = document.getElementById(`staff-qty-${item.id}`);
+                if (qtyEl) {
+                    qtyEl.textContent = cartItem ? cartItem.quantity : 0;
+                }
+            });
+            total = staffCart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            document.querySelector('#staff-cart-summary .font-bold span:last-child').textContent = `₹${total}`;
+        }
+        
+        async function handleStaffOrderCreation(e) {
+            e.preventDefault();
+            if (staffCart.length === 0) return showAlert('Please add at least one item to the order.', true);
+            
+            const orderData = {
+                customerName: document.getElementById('staff-customer-name').value,
+                customerAddress: document.getElementById('staff-customer-address').value,
+                customerPhone: document.getElementById('staff-customer-phone').value,
+                items: staffCart.map(item => ({...item, ready: false})),
+                totalAmount: staffCart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                status: 'new',
+                createdAt: serverTimestamp(),
+                userId: 'staff-created',
+                isTestOrder: false,
+                createdBy: userEmail
+            };
+            
+            try {
+                await addDoc(collection(db, "orders"), orderData);
+                showAlert('Order created successfully!');
+                createOrderModal.classList.add('hidden');
+            } catch (error) {
+                showAlert('Failed to create order.', true);
+                console.error("Staff order creation error: ", error);
+            }
+        }
+
 
         document.body.addEventListener('click', async e => {
-            const itemId = parseInt(e.target.dataset.id);
+            const target = e.target;
+            const itemId = parseInt(target.dataset.id);
 
-            if (e.target.classList.contains('add-to-cart-btn')) {
+            // Customer Cart Logic
+            if (target.classList.contains('add-to-cart-btn')) {
                 const item = menu.find(m => m.id === itemId);
                 cart.push({...item, quantity: 1});
                 updateCart();
                 renderMenu();
             }
-
-            if (e.target.classList.contains('quantity-plus')) {
+            if (target.classList.contains('quantity-plus')) {
                 const item = cart.find(m => m.id === itemId);
                 if(item) item.quantity++;
                 updateCart();
                 renderMenu();
             }
-
-            if (e.target.classList.contains('quantity-minus')) {
+            if (target.classList.contains('quantity-minus')) {
                 const itemIndex = cart.findIndex(m => m.id === itemId);
                 if(itemIndex > -1) {
                     cart[itemIndex].quantity--;
-                    if (cart[itemIndex].quantity <= 0) {
-                        cart.splice(itemIndex, 1);
-                    }
+                    if (cart[itemIndex].quantity <= 0) cart.splice(itemIndex, 1);
                 }
                 updateCart();
                 renderMenu();
             }
+            
+            // Staff Create Order Modal Logic
+            if(target.classList.contains('staff-quantity-plus')) {
+                const item = menu.find(m => m.id === itemId);
+                let cartItem = staffCart.find(ci => ci.id === itemId);
+                if (cartItem) {
+                    cartItem.quantity++;
+                } else {
+                    staffCart.push({...item, quantity: 1});
+                }
+                updateStaffCartUI();
+            }
+            if(target.classList.contains('staff-quantity-minus')) {
+                let itemIndex = staffCart.findIndex(m => m.id === itemId);
+                if(itemIndex > -1) {
+                    staffCart[itemIndex].quantity--;
+                    if (staffCart[itemIndex].quantity <= 0) staffCart.splice(itemIndex, 1);
+                    updateStaffCartUI();
+                }
+            }
 
-            if (e.target.id === 'add-more-items-btn') {
+
+            if (target.id === 'add-more-items-btn') {
                 if (currentTrackingOrderId) {
                     const orderDocRef = doc(db, "orders", currentTrackingOrderId);
                     const orderDocSnap = await getDoc(orderDocRef);
@@ -1444,29 +1574,22 @@
                 }
             }
             
-            if (e.target.id === 'reset-customer-orders-btn') {
-                await resetCustomerOrders();
-            }
-
-            if (e.target.classList.contains('history-filter-btn')) {
-                historyFilter = e.target.dataset.filter;
+            if (target.id === 'reset-customer-orders-btn') await resetCustomerOrders();
+            if (target.classList.contains('history-filter-btn')) {
+                historyFilter = target.dataset.filter;
                 updateHistoryFilterButtons();
                 filterAndRenderHistory();
             }
-
-            if (e.target.id === 'load-more-orders-btn') {
-                loadAllOrders(true);
-            }
-
-            if (e.target.classList.contains('item-ready-toggle')) {
-                const orderId = e.target.dataset.orderId;
-                const itemId = parseInt(e.target.dataset.itemId);
+            if (target.id === 'load-more-orders-btn') loadAllOrders(true);
+            if (target.classList.contains('item-ready-toggle')) {
+                const orderId = target.dataset.orderId;
+                const itemId = parseInt(target.dataset.itemId);
                 toggleItemReady(orderId, itemId);
             }
 
-            if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
-                const orderId = e.target.dataset.id;
-                const newStatus = e.target.dataset.status;
+            if (target.classList.contains('update-status-btn') || target.classList.contains('dev-update-status')) {
+                const orderId = target.dataset.id;
+                const newStatus = target.dataset.status;
                 try {
                     await updateDoc(doc(db, "orders", orderId), { status: newStatus });
                     showAlert('Order status updated!');
@@ -1475,19 +1598,19 @@
                 }
             }
 
-            if (e.target.classList.contains('remove-staff-btn')) {
-                const staffId = e.target.dataset.id;
+            if (target.classList.contains('remove-staff-btn')) {
+                const staffId = target.dataset.id;
                 await setDoc(doc(db, "users", staffId), { role: 'customer' }, { merge: true });
                 showAlert('Staff member removed.');
                 loadStaffList();
             }
 
-            if (e.target.id === 'run-system-test') {
+            if (target.id === 'run-system-test') {
                 runSystemTests();
                 showAlert('System tests completed. Check results above.');
             }
 
-            if (e.target.id === 'refresh-orders') {
+            if (target.id === 'refresh-orders') {
                 document.getElementById('order-search-input').value = '';
                 loadAllOrders(false);
                 showAlert('Orders refreshed.');
@@ -1495,25 +1618,15 @@
         });
 
         document.body.addEventListener('submit', async e => {
+            e.preventDefault();
             if (e.target.id === 'order-form') {
-                e.preventDefault();
                 const mode = e.target.dataset.mode;
-                if (mode === 'update') {
-                    await updateOrder();
-                } else {
-                    await placeOrder();
-                }
+                if (mode === 'update') await updateOrder();
+                else await placeOrder();
             }
-
-            if (e.target.id === 'add-staff-form') {
-                e.preventDefault();
-                await addStaff();
-            }
-
-            if (e.target.id === 'test-order-form') {
-                e.preventDefault();
-                await createTestOrder(e);
-            }
+            if (e.target.id === 'add-staff-form') await addStaff();
+            if (e.target.id === 'test-order-form') await createTestOrder(e);
+            if (e.target.id === 'staff-create-order-form') await handleStaffOrderCreation(e);
         });
 
         document.body.addEventListener('change', async e => {
