@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Kitchen Payment System</title>
+    <title>Cloud Kitchen Order System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Add Razorpay Checkout Script -->
@@ -22,8 +22,8 @@
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
         .btn-preparing { background-color: #f59e0b; color: white; } /* Amber */
         .btn-preparing:hover { background-color: #d97706; transform: scale(1.02); }
-        .btn-ready { background-color: #10b9b0; color: white; } /* Emerald */
-        .btn-ready:hover { background-color: #057e96; transform: scale(1.02); }
+        .btn-ready { background-color: #10a0b9; color: white; } /* Emerald */
+        .btn-ready:hover { background-color: #057996; transform: scale(1.02); }
         .btn-delivery { background-color: #6366f1; color: white; } /* Indigo */
         .btn-delivery:hover { background-color: #4f46e5; transform: scale(1.02); }
         .btn-completed { background-color: #4b5563; color: white; } /* Gray */
@@ -85,7 +85,7 @@
                         <button data-view="customer" class="px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none btn-active">Order</button>
                         <button data-view="kitchen" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none">Kitchen</button>
                         <button data-view="transport" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none">Delivery</button>
-                        <button data-view="owner" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 text-black sm:flex-none hover:bg-indigo-600 hover:text-white">Dashboard</button>
+                        <button data-view="owner" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none bg-indigo-600 text-white">Dashboard</button>
                         <button data-view="developer" class="hidden px-4 py-2 text-sm font-medium rounded-md transition-all flex-1 sm:flex-none bg-red-600 text-white">Dev Panel</button>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                         <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
                         <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
                     </div>
-                    <button id="create-order-btn" class="btn-primary bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">Create New Order</button>
+                    <button id="create-order-btn" class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
                 </div>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
@@ -514,15 +514,20 @@
         }
 
         if (isFirebaseReady) {
-            onAuthStateChanged(auth, setupUser);
-
-            if (!auth.currentUser) {
-                signInAnonymously(auth).catch(err => {
-                    console.error("Anonymous sign-in failed:", err);
-                    showAlert("Could not connect to the authentication service. Some features will be disabled.", true);
-                    // `onAuthStateChanged` will have already run with `null`, triggering the fallback in `setupUser`
-                });
-            }
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    // If a user is detected (either from a previous session or a new login), set them up.
+                    await setupUser(user);
+                } else {
+                    // If no user is found after checking, sign them in anonymously.
+                    signInAnonymously(auth).catch(err => {
+                        console.error("Anonymous sign-in failed:", err);
+                        showAlert("Could not connect to the authentication service. Some features will be disabled.", true);
+                        // If anonymous sign-in fails, set up an offline guest user.
+                        setupUser(null);
+                    });
+                }
+            });
         }
 
         function updateAuthStatusUI() {
