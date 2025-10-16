@@ -114,12 +114,9 @@
 
             <!-- Kitchen View -->
             <div id="kitchen-view" class="view-hidden card p-6 sm:p-8">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
-                        <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
-                    </div>
-                    <button id="create-order-btn" class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
+                    <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
                 </div>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
@@ -325,8 +322,7 @@
         
         <!-- Modals -->
         <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4" style="z-index: 51;"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
-        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
-        <div id="create-order-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Create New Order</h2><button id="create-order-close-btn" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="create-order-content"></div></div></div>
+        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
     </div>
 
     <script type="module">
@@ -364,7 +360,6 @@
         let userId = null;
         let userEmail = 'Guest';
         let cart = [];
-        let staffCart = [];
         let currentTrackingOrderId = null;
         let isEditingOrder = false;
         let currentOrderListener = null;
@@ -392,7 +387,9 @@
         const alertMessage = document.getElementById('alert-message');
         const alertClose = document.getElementById('alert-close');
         const alertIcon = document.getElementById('alert-icon');
-        const createOrderModal = document.getElementById('create-order-modal');
+        const profileModal = document.getElementById('profile-modal');
+        const profileContent = document.getElementById('profile-content');
+        const profileClose = document.getElementById('profile-close');
         const viewSwitcher = document.getElementById('view-switcher');
         const views = {
             customer: document.getElementById('customer-view'),
@@ -414,57 +411,11 @@
             alertModal.classList.remove('hidden');
         }
         alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
-        
-        document.getElementById('create-order-close-btn').addEventListener('click', () => createOrderModal.classList.add('hidden'));
-        document.getElementById('create-order-btn').addEventListener('click', () => {
-            renderCreateOrderModal();
-            createOrderModal.classList.remove('hidden');
-        });
-
+        profileClose.addEventListener('click', () => profileModal.classList.add('hidden'));
         authBtn.addEventListener('click', () => {
-            const profileModal = document.getElementById('profile-modal');
-            const profileContent = document.getElementById('profile-content');
-            
-            if (!profileModal || !profileContent) return;
-            
-            if (!userId || userEmail === 'Guest') {
-                profileContent.innerHTML = `
-                    <form id="email-auth-form" class="space-y-4">
-                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
-                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
-                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
-                        <div class="flex gap-4">
-                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
-                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
-                        </div>
-                    </form>
-                    <div class="text-center my-4">OR</div>
-                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
-                `;
-            } else {
-                profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
-            }
-            
-            // Re-attach listeners inside this function
-            const form = document.getElementById('email-auth-form');
-            if (form) {
-                form.addEventListener('submit', e => handleEmailAuth(e, false));
-                const signupBtn = document.getElementById('signup-btn');
-                if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
-            }
-            const googleBtn = document.getElementById('google-login-btn');
-            if(googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
-            const logoutBtn = document.getElementById('logout-btn');
-            if(logoutBtn) logoutBtn.addEventListener('click', () => {
-                signOut(auth);
-                profileModal.classList.add('hidden');
-            });
-            
+            renderProfileModal();
             profileModal.classList.remove('hidden');
         });
-        
-        document.getElementById('profile-close').addEventListener('click', () => document.getElementById('profile-modal').classList.add('hidden'));
-
 
         if (isFirebaseReady) {
             onAuthStateChanged(auth, async (user) => {
@@ -624,7 +575,7 @@
                 customerName: document.getElementById('customer-name').value,
                 customerAddress: document.getElementById('customer-address').value,
                 customerPhone: document.getElementById('customer-phone').value,
-                items: cart.map(item => ({...item, ready: false})),
+                items: cart,
                 totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
@@ -670,7 +621,7 @@
                 }
                 
                 const orderUpdateData = {
-                    items: cart.map(item => ({...item, ready: item.ready || false})),
+                    items: cart,
                     totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
                 };
 
@@ -728,33 +679,54 @@
         function trackOrderStatus(orderId, order) {
             const statusContainer = document.getElementById('order-status-container');
             if(!statusContainer) return;
+            
+            const stages = [
+                { key: 'new', label: 'Order Placed', icon: '📝' },
+                { key: 'preparing', label: 'Preparing', icon: '👨‍🍳' },
+                { key: 'ready_for_pickup', label: 'Ready for Pickup', icon: '✅' },
+                { key: 'out_for_delivery', label: 'Out for Delivery', icon: '🚚' },
+                { key: 'completed', label: 'Delivered', icon: '🎉' }
+            ];
+
+            const currentIndex = stages.findIndex(s => s.key === order.status);
+            const progress = ((currentIndex + 1) / stages.length) * 100;
+
+            let timelineHTML = stages.map((stage, idx) => {
+                let dotClass = 'timeline-dot';
+                if (idx < currentIndex) dotClass += ' completed';
+                else if (idx === currentIndex) dotClass += ' active';
+                
+                return `<div class="timeline-item">
+                    <div class="${dotClass}"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl">${stage.icon}</span>
+                        <div>
+                            <p class="font-semibold text-gray-900">${stage.label}</p>
+                            ${idx === currentIndex ? '<p class="text-sm text-blue-600">Current Status</p>' : ''}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
 
             const canAddItems = ['new', 'preparing'].includes(order.status);
             const addItemsButtonHTML = canAddItems 
                 ? `<button id="add-more-items-btn" class="btn-primary w-full mt-6 bg-green-600 hover:bg-green-700">Add More Items</button>`
                 : '';
 
-            const itemsHTML = order.items.map(item => `
-                <div class="flex justify-between items-center py-2">
-                    <span>${item.name} x ${item.quantity}</span>
-                    <span class="text-sm font-medium ${item.ready ? 'text-green-600' : 'text-orange-500'}">
-                        ${item.ready ? 'Ready' : 'Preparing'}
-                    </span>
-                </div>
-            `).join('');
-
             statusContainer.innerHTML = `
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold mb-1">Your Order Status</h2>
+                    <h2 class="text-xl font-semibold mb-1">Track Your Order</h2>
                     <p class="text-sm text-gray-500">Order ID: ${orderId.substring(0,8)}</p>
                 </div>
-                
-                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="font-semibold mb-2">Item Details</h3>
-                    <div class="divide-y">${itemsHTML}</div>
-                    <p class="text-right font-bold text-lg mt-4">Total: ₹${order.totalAmount}</p>
+                <div class="progress-bar mb-6">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
                 </div>
-                 <p class="text-center mt-4 text-sm text-gray-600">Overall Status: <span class="font-bold">${order.status.replace(/_/g, ' ')}</span></p>
+                <div class="order-timeline">${timelineHTML}</div>
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="font-semibold mb-2">Order Details</h3>
+                    <p class="text-sm text-gray-600">Total: ₹${order.totalAmount}</p>
+                    <p class="text-sm text-gray-600">Items: ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p>
+                </div>
                 ${addItemsButtonHTML}
             `;
         }
@@ -770,21 +742,6 @@
 
             const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]));
             onSnapshot(transportQuery, snapshot => renderOrders(transportList, snapshot.docs, 'transport'));
-        }
-
-        async function toggleItemReady(orderId, itemId) {
-            const orderRef = doc(db, "orders", orderId);
-            const orderSnap = await getDoc(orderRef);
-            if(orderSnap.exists()) {
-                const orderData = orderSnap.data();
-                const items = orderData.items.map(item => {
-                    if (item.id === itemId) {
-                        return { ...item, ready: !item.ready };
-                    }
-                    return item;
-                });
-                await updateDoc(orderRef, { items });
-            }
         }
 
         function renderOrders(container, docs, viewType) {
@@ -807,19 +764,9 @@
 
                 const statusText = order.status.replace(/_/g, ' ');
                 const statusClass = 'status-tag-' + order.status;
+
                 const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : '';
                 
-                const itemsList = order.items.map(item => `
-                    <div class="flex justify-between items-center text-sm py-1">
-                        <span>${item.name} x ${item.quantity}</span>
-                        ${order.status === 'preparing' ? 
-                            `<label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" class="item-ready-toggle" data-order-id="${doc.id}" data-item-id="${item.id}" ${item.ready ? 'checked' : ''}>
-                                <span class="text-xs font-medium ${item.ready ? 'text-green-600' : ''}">Ready</span>
-                            </label>` 
-                        : ''}
-                    </div>`).join('');
-
                 container.innerHTML += `
                     <div class="card p-4 flex flex-col justify-between">
                         <div>
@@ -827,10 +774,11 @@
                                 <strong class="text-gray-800">${order.customerName}</strong>
                                 ${testBadge}
                             </div>
-                            <div class="mt-2 border-t pt-2">${itemsList}</div>
-                            <div class="mt-4 flex justify-between items-center">
+                            <p class="text-sm text-gray-600">${order.customerAddress}</p>
+                            <p class="text-sm text-gray-600">${order.customerPhone}</p>
+                            <p class="text-sm font-medium mt-2">₹${order.totalAmount}</p>
+                            <div class="mt-4">
                                 <span class="status-tag ${statusClass}">${statusText}</span>
-                                <p class="text-lg font-bold">₹${order.totalAmount}</p>
                             </div>
                         </div>
                         ${actionButton}
@@ -838,7 +786,43 @@
             });
         }
         
-        // ... (rest of the JS code remains the same, including all modal, chart, and developer panel functions) ...
+        function renderProfileModal() {
+            if (!userId || userEmail === 'Guest') {
+                profileContent.innerHTML = `
+                    <form id="email-auth-form" class="space-y-4">
+                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
+                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
+                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
+                        <div class="flex gap-4">
+                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
+                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="text-center my-4">OR</div>
+                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
+                `;
+            } else {
+                profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
+            }
+            attachAuthListeners();
+        }
+
+        function attachAuthListeners() {
+            const form = document.getElementById('email-auth-form');
+            if (form) {
+                form.addEventListener('submit', e => handleEmailAuth(e, false));
+                const signupBtn = document.getElementById('signup-btn');
+                if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
+            }
+            const googleBtn = document.getElementById('google-login-btn');
+            if(googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
+            const logoutBtn = document.getElementById('logout-btn');
+            if(logoutBtn) logoutBtn.addEventListener('click', () => {
+                signOut(auth);
+                profileModal.classList.add('hidden');
+            });
+        }
+
         async function handleEmailAuth(e, isSignup) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
@@ -851,7 +835,7 @@
                     await signInWithEmailAndPassword(auth, email, password);
                     showAlert('Logged in successfully!');
                 }
-                document.getElementById('profile-modal').classList.add('hidden');
+                profileModal.classList.add('hidden');
             } catch (error) { 
                 let friendlyMessage = "An unexpected error occurred. Please try again.";
                 if (error.code) {
@@ -877,13 +861,607 @@
         async function handleGoogleLogin() {
             try {
                 await signInWithPopup(auth, new GoogleAuthProvider());
-                document.getElementById('profile-modal').classList.add('hidden');
+                profileModal.classList.add('hidden');
                 showAlert('Logged in with Google successfully!');
             } catch (error) { 
                 showAlert(error.message, true); 
             }
         }
+        
+        viewSwitcher.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const view = e.target.dataset.view;
+                const allowedRoles = { 
+                    customer: ['customer', 'kitchen', 'delivery', 'owner', 'developer'], 
+                    kitchen: ['kitchen', 'owner', 'developer'], 
+                    transport: ['delivery', 'owner', 'developer'], 
+                    owner: ['owner', 'developer'], 
+                    developer: ['developer'] 
+                };
+                if(allowedRoles[view] && allowedRoles[view].includes(userRole)) {
+                    Object.keys(views).forEach(key => {
+                        views[key].classList.remove('view-active');
+                        views[key].classList.add('view-hidden');
+                    });
+                    views[view].classList.remove('view-hidden');
+                    views[view].classList.add('view-active');
+                    
+                    Array.from(viewSwitcher.children).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
+                    
+                    if(view === 'developer' && userRole === 'developer') {
+                        loadAllOrders(false);
+                    }
+                } else {
+                    showAlert("You don't have permission to access this view.", true);
+                }
+            }
+        });
 
+        function loadOwnerDashboard() {
+            if((userRole !== 'owner' && userRole !== 'developer') || !isFirebaseReady) return;
+            
+            const ordersQuery = query(collection(db, "orders"));
+            onSnapshot(ordersQuery, (snapshot) => {
+                const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+                updateDashboard(allOrders);
+            });
+            loadStaffList();
+        }
+
+        function updateDashboard(allOrders) {
+            // Calculate KPIs
+            const totalRevenue = allOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+            const totalOrders = allOrders.length;
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+            // Update KPI cards in UI
+            document.getElementById('kpi-total-revenue').textContent = `₹${totalRevenue.toFixed(2)}`;
+            document.getElementById('kpi-total-orders').textContent = totalOrders;
+            document.getElementById('kpi-avg-order-value').textContent = `₹${avgOrderValue.toFixed(2)}`;
+
+            drawSalesChart(allOrders);
+            drawStatusChart(allOrders);
+        }
+
+        function drawSalesChart(orders) {
+            const salesCtx = document.getElementById('sales-chart-canvas').getContext('2d');
+            if(salesChartInstance) {
+                salesChartInstance.destroy();
+            }
+
+            const salesByDate = {};
+            orders.forEach(order => {
+                if (order.createdAt?.toDate) {
+                    const date = order.createdAt.toDate().toLocaleDateString('en-CA'); // YYYY-MM-DD
+                    salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
+                }
+            });
+
+            const sortedDates = Object.keys(salesByDate).sort();
+            const chartLabels = sortedDates.map(date => new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short'}));
+            const chartData = sortedDates.map(date => salesByDate[date]);
+
+            salesChartInstance = new Chart(salesCtx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: chartData,
+                        backgroundColor: 'rgba(94, 92, 230, 0.8)',
+                        borderColor: 'rgba(94, 92, 230, 1)',
+                        borderWidth: 1,
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Sales: ₹${context.raw.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function drawStatusChart(orders) {
+            const statusCtx = document.getElementById('status-chart-canvas').getContext('2d');
+            if (statusChartInstance) {
+                statusChartInstance.destroy();
+            }
+            
+            const statusCounts = {};
+            orders.forEach(order => {
+                const status = order.status ? order.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Unknown';
+                statusCounts[status] = (statusCounts[status] || 0) + 1;
+            });
+            
+            const statusLabels = Object.keys(statusCounts);
+            const statusData = Object.values(statusCounts);
+            
+            const statusColors = {
+                'New': '#0071e3',
+                'Preparing': '#ff9500',
+                'Ready For Pickup': '#34c759',
+                'Out For Delivery': '#5e5ce6',
+                'Completed': '#8e8e93'
+            };
+            
+            statusChartInstance = new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: statusLabels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: statusData,
+                        backgroundColor: statusLabels.map(label => statusColors[label] || '#cccccc'),
+                        borderColor: '#ffffff',
+                        borderWidth: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    }
+                }
+            });
+        }
+
+        function listenToOrderHistory() {
+            if (userRole !== 'owner' && userRole !== 'developer') return;
+            const historyQuery = query(collection(db, "orders"), where("status", "==", "completed"));
+            onSnapshot(historyQuery, snapshot => {
+                completedOrders = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+                filterAndRenderHistory();
+            });
+        }
+
+        function filterAndRenderHistory() {
+            const listEl = document.getElementById('order-history-list');
+            if (!listEl) return;
+
+            const now = new Date();
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            let filteredOrders = completedOrders;
+            if (historyFilter === 'week') {
+                filteredOrders = completedOrders.filter(order => order.createdAt && order.createdAt.toDate() >= startOfWeek);
+            } else if (historyFilter === 'month') {
+                filteredOrders = completedOrders.filter(order => order.createdAt && order.createdAt.toDate() >= startOfMonth);
+            }
+
+            if (filteredOrders.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500 text-center py-4">No past orders found for this period.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = filteredOrders.map(order => {
+                const orderDate = order.createdAt.toDate().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+                const itemsSummary = order.items.map(i => `${i.name} x${i.quantity}`).join(', ');
+                const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">TEST</span>' : '';
+
+                return `
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-semibold text-gray-800">${order.customerName}</p>
+                                <p class="text-sm text-gray-500">${orderDate}</p>
+                                <p class="text-sm text-gray-600 mt-1">Total: ₹${order.totalAmount}</p>
+                            </div>
+                            <div class="flex flex-col items-end gap-2">
+                                <p class="text-xs text-gray-500 bg-white px-2 py-1 rounded-md">ID: ${order.id.substring(0, 8)}</p>
+                                ${testBadge}
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 pt-2 border-t">Items: ${itemsSummary}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateHistoryFilterButtons() {
+            document.querySelectorAll('.history-filter-btn').forEach(btn => {
+                btn.classList.remove('btn-active', 'bg-gray-100', 'text-gray-700');
+                if (btn.dataset.filter === historyFilter) {
+                    btn.classList.add('btn-active');
+                } else {
+                    btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                }
+            });
+        }
+
+        async function loadStaffList() {
+            const staffListEl = document.getElementById('staff-list');
+            const staffQuery = query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]));
+            const snapshot = await getDocs(staffQuery);
+            staffListEl.innerHTML = '';
+            if (snapshot.empty) { 
+                staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>'; 
+                return; 
+            }
+            snapshot.docs.forEach(doc => {
+                const staff = doc.data();
+                staffListEl.innerHTML += `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium text-gray-900">${staff.email}</p><p class="text-sm text-gray-500 capitalize">${staff.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`;
+            });
+        }
+        
+        async function addStaff() {
+            const email = document.getElementById('staff-email').value;
+            const role = document.getElementById('staff-role').value;
+            const q = query(collection(db, "users"), where("email", "==", email));
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) { 
+                showAlert("Error: User must sign up first.", true); 
+                return; 
+            }
+            await setDoc(doc(db, "users", snapshot.docs[0].id), { email, role }, { merge: true });
+            showAlert(`Role updated for ${email}.`);
+            document.getElementById('add-staff-form').reset();
+            loadStaffList();
+        }
+
+        async function loadDeveloperPanel() {
+            renderTestMenuItems();
+            loadAdminPanel();
+            loadAllOrders(false);
+
+            document.getElementById('order-search-input').addEventListener('input', () => {
+                loadAllOrders(false);
+            });
+        }
+
+        function renderTestMenuItems() {
+            const container = document.getElementById('test-menu-items');
+            if (!container) return;
+            container.innerHTML = menu.map(item => 
+                `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                    <input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">
+                    <span class="text-sm">${item.name} (₹${item.price})</span>
+                </label>`
+            ).join('');
+        }
+
+        async function runSystemTests() {
+            const testFirebase = document.getElementById('test-firebase');
+            const testDatabase = document.getElementById('test-database');
+            const testAuth = document.getElementById('test-auth');
+
+            testFirebase.textContent = isFirebaseReady ? 'PASS' : 'FAIL';
+            testFirebase.className = isFirebaseReady ? 'test-badge test-pass' : 'test-badge test-fail';
+
+            try {
+                await getDocs(query(collection(db, "orders")));
+                testDatabase.textContent = 'PASS';
+                testDatabase.className = 'test-badge test-pass';
+            } catch (error) {
+                testDatabase.textContent = 'FAIL';
+                testDatabase.className = 'test-badge test-fail';
+            }
+
+            testAuth.textContent = auth.currentUser ? 'PASS' : 'FAIL';
+            testAuth.className = auth.currentUser ? 'test-badge test-pass' : 'test-badge test-fail';
+        }
+
+        async function createTestOrder(e) {
+            e.preventDefault();
+            const selectedItems = Array.from(document.querySelectorAll('.test-menu-checkbox:checked')).map(cb => ({
+                id: parseInt(cb.dataset.id),
+                name: cb.dataset.name,
+                price: parseInt(cb.dataset.price),
+                quantity: 1
+            }));
+
+            if (selectedItems.length === 0) return showAlert('Please select at least one item.', true);
+
+            const orderData = {
+                customerName: document.getElementById('test-name').value,
+                customerAddress: document.getElementById('test-address').value,
+                customerPhone: document.getElementById('test-phone').value,
+                items: selectedItems,
+                totalAmount: selectedItems.reduce((sum, item) => sum + item.price, 0),
+                status: 'new',
+                createdAt: serverTimestamp(),
+                userId: 'test-developer',
+                isTestOrder: true,
+            };
+
+            try {
+                await addDoc(collection(db, "orders"), orderData);
+                showAlert('Test order created successfully!');
+                document.querySelectorAll('.test-menu-checkbox').forEach(cb => cb.checked = false);
+                loadAllOrders(false);
+            } catch (error) {
+                showAlert('Failed to create test order.', true);
+                console.error(error);
+            }
+        }
+        
+        async function resetCustomerOrders() {
+            if (userRole !== 'developer') {
+                showAlert("You don't have permission to perform this action.", true);
+                return;
+            }
+            try {
+                showAlert('Resetting all non-test customer orders...', false);
+                const ordersQuery = query(collection(db, "orders"), where("isTestOrder", "!=", true));
+                const snapshot = await getDocs(ordersQuery);
+
+                if (snapshot.empty) {
+                    showAlert('No customer orders to reset.', false);
+                    return;
+                }
+                const deletePromises = [];
+                snapshot.forEach(doc => {
+                    deletePromises.push(deleteDoc(doc.ref));
+                });
+                await Promise.all(deletePromises);
+                showAlert('All customer orders have been successfully reset.', false);
+                loadAllOrders(false);
+            } catch (error) {
+                console.error("Error resetting customer orders: ", error);
+                showAlert('Failed to reset customer orders.', true);
+            }
+        }
+
+        async function loadAllOrders(loadMore = false) {
+            const container = document.getElementById('all-orders-list');
+            const loadMoreBtn = document.getElementById('load-more-orders-btn');
+            if (!container || isFetchingOrders) return;
+
+            isFetchingOrders = true;
+            const searchTerm = document.getElementById('order-search-input').value.trim();
+
+            if (currentSearchTerm !== searchTerm) {
+                loadMore = false;
+                currentSearchTerm = searchTerm;
+            }
+            
+            if (!loadMore) {
+                container.innerHTML = '';
+                lastVisibleDoc = null;
+            }
+
+            let q;
+            const baseQuery = collection(db, "orders");
+            const constraints = [limit(10)];
+            
+            // Note: Firestore doesn't support case-insensitive search or partial string matching ('contains') natively.
+            // This search is case-sensitive and matches from the beginning of the name.
+            if (searchTerm) {
+                constraints.unshift(orderBy("customerName"));
+                constraints.unshift(where("customerName", ">=", searchTerm));
+                constraints.unshift(where("customerName", "<=", searchTerm + '\uf8ff'));
+            } else {
+                constraints.unshift(orderBy("createdAt", "desc"));
+            }
+
+            if (loadMore && lastVisibleDoc) {
+                constraints.push(startAfter(lastVisibleDoc));
+            }
+            
+            q = query(baseQuery, ...constraints);
+            
+            try {
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty && !loadMore) {
+                    container.innerHTML = '<p class="text-gray-500 text-center py-4">No orders found.</p>';
+                }
+
+                lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+
+                if (!lastVisibleDoc || snapshot.docs.length < 10) {
+                    loadMoreBtn.classList.add('hidden');
+                } else {
+                    loadMoreBtn.classList.remove('hidden');
+                }
+
+                snapshot.forEach(docSnap => {
+                    const order = docSnap.data();
+                    const statusColors = {
+                        'new': 'bg-blue-100 text-blue-800',
+                        'preparing': 'bg-orange-100 text-orange-800',
+                        'ready_for_pickup': 'bg-green-100 text-green-800',
+                        'out_for_delivery': 'bg-purple-100 text-purple-800',
+                        'completed': 'bg-gray-100 text-gray-800'
+                    };
+                    const statusColor = statusColors[order.status] || 'bg-gray-100 text-gray-800';
+                    const testBadge = order.isTestOrder ? '<span class="test-badge test-pending">TEST ORDER</span>' : '';
+                    const createdTime = order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : 'N/A';
+                    
+                    const orderHTML = `
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <p class="font-semibold text-gray-900">${order.customerName}</p>
+                                    <p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p>
+                                    <p class="text-xs text-gray-500">${createdTime}</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    ${testBadge}
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status.replace(/_/g, ' ').toUpperCase()}</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div>
+                                <div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div>
+                                <div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div>
+                                <div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i => i.name).join(', ')}</div>
+                            </div>
+                            <div class="mt-3 flex gap-2 flex-wrap">
+                                <button data-id="${docSnap.id}" data-status="new" class="dev-update-status text-xs px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">New</button>
+                                <button data-id="${docSnap.id}" data-status="preparing" class="dev-update-status text-xs px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600">Preparing</button>
+                                <button data-id="${docSnap.id}" data-status="ready_for_pickup" class="dev-update-status text-xs px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Ready</button>
+                                <button data-id="${docSnap.id}" data-status="out_for_delivery" class="dev-update-status text-xs px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">Out</button>
+                                <button data-id="${docSnap.id}" data-status="completed" class="dev-update-status text-xs px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600">Complete</button>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', orderHTML);
+                });
+
+            } catch (error) {
+                console.error("Error loading orders: ", error);
+                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders. You may need to create a Firestore index.</p>`;
+            } finally {
+                isFetchingOrders = false;
+            }
+        }
+
+
+        async function loadAdminPanel() {
+            const userListEl = document.getElementById('admin-user-list');
+            const usersSnapshot = await getDocs(collection(db, "users"));
+            userListEl.innerHTML = '';
+            usersSnapshot.forEach(userDoc => {
+                const userData = userDoc.data();
+                if (userData.email === DEVELOPER_EMAIL) return; 
+                const roles = ['customer', 'kitchen', 'delivery', 'owner'];
+                const options = roles.map(r => `<option value="${r}" ${userData.role === r ? 'selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`).join('');
+                userListEl.innerHTML += `<tr><td class="px-6 py-4 whitespace-nowrap">${userData.email}</td><td class="px-6 py-4 whitespace-nowrap capitalize">${userData.role}</td><td class="px-6 py-4 whitespace-nowrap"><select data-uid="${userDoc.id}" class="role-selector border border-gray-300 rounded px-2 py-1">${options}</select></td></tr>`;
+            });
+        }
+
+        document.body.addEventListener('click', async e => {
+            const itemId = parseInt(e.target.dataset.id);
+
+            if (e.target.classList.contains('add-to-cart-btn')) {
+                const item = menu.find(m => m.id === itemId);
+                cart.push({...item, quantity: 1});
+                updateCart();
+                renderMenu();
+            }
+
+            if (e.target.classList.contains('quantity-plus')) {
+                const item = cart.find(m => m.id === itemId);
+                if(item) item.quantity++;
+                updateCart();
+                renderMenu();
+            }
+
+            if (e.target.classList.contains('quantity-minus')) {
+                const itemIndex = cart.findIndex(m => m.id === itemId);
+                if(itemIndex > -1) {
+                    cart[itemIndex].quantity--;
+                    if (cart[itemIndex].quantity <= 0) {
+                        cart.splice(itemIndex, 1);
+                    }
+                }
+                updateCart();
+                renderMenu();
+            }
+
+            if (e.target.id === 'add-more-items-btn') {
+                if (currentTrackingOrderId) {
+                    const orderDocRef = doc(db, "orders", currentTrackingOrderId);
+                    const orderDocSnap = await getDoc(orderDocRef);
+                    if (orderDocSnap.exists()) {
+                        startEditingOrder(orderDocSnap.data());
+                    }
+                }
+            }
+            
+            if (e.target.id === 'reset-customer-orders-btn') {
+                await resetCustomerOrders();
+            }
+
+            if (e.target.classList.contains('history-filter-btn')) {
+                historyFilter = e.target.dataset.filter;
+                updateHistoryFilterButtons();
+                filterAndRenderHistory();
+            }
+
+            if (e.target.id === 'load-more-orders-btn') {
+                loadAllOrders(true);
+            }
+
+            if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
+                const orderId = e.target.dataset.id;
+                const newStatus = e.target.dataset.status;
+                try {
+                    await updateDoc(doc(db, "orders", orderId), { status: newStatus });
+                    showAlert('Order status updated!');
+                } catch (error) {
+                    showAlert('Failed to update status.', true);
+                }
+            }
+
+            if (e.target.classList.contains('remove-staff-btn')) {
+                const staffId = e.target.dataset.id;
+                await setDoc(doc(db, "users", staffId), { role: 'customer' }, { merge: true });
+                showAlert('Staff member removed.');
+                loadStaffList();
+            }
+
+            if (e.target.id === 'run-system-test') {
+                runSystemTests();
+                showAlert('System tests completed. Check results above.');
+            }
+
+            if (e.target.id === 'refresh-orders') {
+                document.getElementById('order-search-input').value = '';
+                loadAllOrders(false);
+                showAlert('Orders refreshed.');
+            }
+        });
+
+        document.body.addEventListener('submit', async e => {
+            if (e.target.id === 'order-form') {
+                e.preventDefault();
+                const mode = e.target.dataset.mode;
+                if (mode === 'update') {
+                    await updateOrder();
+                } else {
+                    await placeOrder();
+                }
+            }
+
+            if (e.target.id === 'add-staff-form') {
+                e.preventDefault();
+                await addStaff();
+            }
+
+            if (e.target.id === 'test-order-form') {
+                e.preventDefault();
+                await createTestOrder(e);
+            }
+        });
+
+        document.body.addEventListener('change', async e => {
+            if (e.target.classList.contains('role-selector')) {
+                const newRole = e.target.value;
+                const targetUid = e.target.dataset.uid;
+                await setDoc(doc(db, "users", targetUid), { role: newRole }, { merge: true });
+                showAlert('User role updated successfully.');
+            }
+        });
     </script>
 </body>
 </html>
