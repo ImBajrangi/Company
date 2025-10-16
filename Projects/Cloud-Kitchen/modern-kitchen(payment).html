@@ -465,51 +465,64 @@
         
         document.getElementById('profile-close').addEventListener('click', () => document.getElementById('profile-modal').classList.add('hidden'));
 
-
-        if (isFirebaseReady) {
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    await setupUser(user);
-                } else {
-                    await signInAnonymously(auth).catch(err => console.error("Anonymous sign-in failed", err));
-                }
-            });
-        }
-
         async function setupUser(user) {
-            userId = user.uid;
-            userEmail = user.email || 'Guest';
+            if (user) {
+                // Standard setup for a logged-in user (anonymous or authenticated)
+                userId = user.uid;
+                userEmail = user.email || 'Guest';
 
-            if (user.isAnonymous) {
-                userRole = 'customer';
-                userEmail = 'Guest';
-            } else if (user.email === DEVELOPER_EMAIL) {
-                userRole = 'developer';
-                const userDocRef = doc(db, "users", userId);
-                await setDoc(userDocRef, { email: user.email, role: 'developer' }, { merge: true });
-            } else {
-                const userDocRef = doc(db, "users", userId);
-                const userDocSnap = await getDoc(userDocRef);
-                if (userDocSnap.exists()) {
-                    userRole = userDocSnap.data().role || 'customer';
-                } else {
+                if (user.isAnonymous) {
                     userRole = 'customer';
-                    await setDoc(userDocRef, { email: user.email, role: 'customer' });
+                    userEmail = 'Guest';
+                } else if (user.email === DEVELOPER_EMAIL) {
+                    userRole = 'developer';
+                    const userDocRef = doc(db, "users", userId);
+                    await setDoc(userDocRef, { email: user.email, role: 'developer' }, { merge: true });
+                } else {
+                    const userDocRef = doc(db, "users", userId);
+                    const userDocSnap = await getDoc(userDocRef);
+                    if (userDocSnap.exists()) {
+                        userRole = userDocSnap.data().role || 'customer';
+                    } else {
+                        userRole = 'customer';
+                        await setDoc(userDocRef, { email: user.email, role: 'customer' });
+                    }
                 }
+            } else {
+                // Fallback for when authentication fails completely
+                userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                userEmail = 'Guest (Offline)';
+                userRole = 'customer';
             }
             
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI();
-            if (['owner', 'developer'].includes(userRole)) {
-                loadOwnerDashboard();
-                listenToOrderHistory();
+
+            // Only initialize listeners if we have a valid, authenticated user
+            if (user) {
+                if (['owner', 'developer'].includes(userRole)) {
+                    loadOwnerDashboard();
+                    listenToOrderHistory();
+                }
+                if (userRole === 'developer') {
+                    loadDeveloperPanel();
+                    runSystemTests();
+                }
+                listenToStaffOrders();
             }
-            if (userRole === 'developer') {
-                loadDeveloperPanel();
-                runSystemTests();
+        }
+
+        if (isFirebaseReady) {
+            onAuthStateChanged(auth, setupUser);
+
+            if (!auth.currentUser) {
+                signInAnonymously(auth).catch(err => {
+                    console.error("Anonymous sign-in failed:", err);
+                    showAlert("Could not connect to the authentication service. Some features will be disabled.", true);
+                    // `onAuthStateChanged` will have already run with `null`, triggering the fallback in `setupUser`
+                });
             }
-            listenToStaffOrders();
         }
 
         function updateAuthStatusUI() {
@@ -518,7 +531,7 @@
                 statusText = `${userEmail.split('@')[0]} (${userRole})`;
             }
             authStatusEl.textContent = statusText;
-            authBtn.textContent = (userEmail === 'Guest') ? 'Login / Sign Up' : 'Profile / Logout';
+            authBtn.textContent = (userEmail === 'Guest' || userEmail === 'Guest (Offline)') ? 'Login / Sign Up' : 'Profile / Logout';
         }
 
         function updateVisibleViews() {
@@ -628,7 +641,7 @@
             const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
             const options = {
-                key: "rzp_test_1DPv5sAlA2OEiL", // Replace with your actual Razorpay Key ID for production
+                key: "rzp_test_RU9lPJQl5wqQFM", // Your new Razorpay Key ID
                 amount: totalAmount * 100, 
                 currency: "INR",
                 name: "CloudKitchen",
@@ -651,7 +664,7 @@
                 },
                 prefill: {
                     name: customerName,
-                    email: userEmail === 'Guest' ? '' : userEmail,
+                    email: userEmail.includes('Offline') ? '' : userEmail,
                     contact: customerPhone
                 },
                 notes: {
@@ -742,7 +755,7 @@
         }
 
         function startTrackingLatestOrder() {
-            if (!userId || !isFirebaseReady) return;
+            if (!userId || !isFirebaseReady || userId.startsWith('offline')) return;
             if (currentOrderListener) currentOrderListener();
 
             // Fetch all orders for the user and sort them on the client-side to avoid needing a composite index.
@@ -771,7 +784,6 @@
                 }
             }, error => {
                 console.error("Error tracking latest order:", error);
-                // Updated the error message as the index issue should be resolved.
                 showAlert("Could not fetch your order status. Please try again later.", true);
             });
         }
@@ -1204,7 +1216,7 @@
             loadStaffList();
         }
 
-        async function loadDeveloperPanel() {
+        function loadDeveloperPanel() {
             renderTestMenuItems();
             loadAdminPanel();
             loadAllOrders();
