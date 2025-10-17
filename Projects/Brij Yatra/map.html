@@ -560,72 +560,72 @@
         let aiCache = {};
         
         const locations = [
-            { name: "Barsana", lat: 27.646118, lng: 77.377712, image: "https://placehold.co/800x800/E76F51/333333?text=Barsana", description: "A sacred destination in the Brij region. Explore the spiritual significance of Barsana.", category: "Town" },
-            { name: "Shri Radharani Temple Barsana", lat: 27.650261, lng: 77.373287, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Radharani Temple Barsana.", category: "Temple" },
-            { name: "Shri Kaushal Bihari Ji Mandir", lat: 27.647493, lng: 77.369287, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Kaushal Bihari Ji Mandir.", category: "Temple" },
-            { name: "Shri Radharani Dham", lat: 27.649266, lng: 77.379455, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Radharani Dham.", category: "Holy Site" },
-            { name: "Pili Pokhar(Priya kund)", lat: 27.653932, lng: 77.37667, image: "https://placehold.co/800x800/E76F51/333333?text=Pili", description: "A sacred destination in the Brij region. Explore the spiritual significance of Pili Pokhar(Priya kund).", category: "Holy Site" },
-            { name: "Barsana Bus Stand", lat: 27.649238, lng: 77.378968, image: "https://placehold.co/800x800/E76F51/333333?text=Barsana", description: "A sacred destination in the Brij region. Explore the spiritual significance of Barsana Bus Stand.", category: "Town" },
-            { name: "Shri Surdar Gokuldas Baba", lat: 27.654651, lng: 77.37645, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Surdar Gokuldas Baba.", category: "Holy Site" },
-            { name: "Priya Kunj Ashram or Vinod Baba Ashram", lat: 27.653665, lng: 77.375887, image: "https://placehold.co/800x800/E76F51/333333?text=Priya", description: "A sacred destination in the Brij region. Explore the spiritual significance of Priya Kunj Ashram or Vinod Baba Ashram.", category: "Holy Site" },
-            { name: "Vrish Bhanu Nandini Kunj or Vrish Bhanu kund", lat: 27.653944, lng: 77.375293, image: "https://placehold.co/800x800/E76F51/333333?text=Vrish", description: "A sacred destination in the Brij region. Explore the spiritual significance of Vrish Bhanu Nandini Kunj or Vrish Bhanu kund.", category: "Holy Site" },
-            { name: "Ladili Lalan Kunj", lat: 27.643905, lng: 77.378034, image: "https://placehold.co/800x800/E76F51/333333?text=Ladili", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ladili Lalan Kunj.", category: "Holy Site" },
-            { name: "Parikrama Marg Starting Point", lat: 27.646687, lng: 77.37441, image: "https://placehold.co/800x800/E76F51/333333?text=Parikrama", description: "A sacred destination in the Brij region. Explore the spiritual significance of Parikrama Marg Starting Point.", category: "Holy Site" },
-            { name: "Revti Raman Baba", lat: 27.646687, lng: 77.37441, image: "https://placehold.co/800x800/E76F51/333333?text=Revti", description: "A sacred destination in the Brij region. Explore the spiritual significance of Revti Raman Baba.", category: "Holy Site" },
-            { name: "Shri Lilamohan Das Ji Ashram", lat: 27.648039, lng: 77.381716, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Lilamohan Das Ji Ashram.", category: "Holy Site" },
-            { name: "Gahvar Van Barsana/ Gahvar kund", lat: 27.642648, lng: 77.367327, image: "https://placehold.co/800x800/E76F51/333333?text=Gahvar", description: "A sacred destination in the Brij region. Explore the spiritual significance of Gahvar Van Barsana/ Gahvar kund.", category: "Holy Site" },
-            { name: "Shri Radha Ras Mandir", lat: 27.642747, lng: 77.36772, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Radha Ras Mandir.", category: "Temple" },
-            { name: "Mor Kuteer Barsana", lat: 27.643781, lng: 77.367815, image: "https://placehold.co/800x800/E76F51/333333?text=Mor", description: "A sacred destination in the Brij region. Explore the spiritual significance of Mor Kuteer Barsana.", category: "Holy Site" },
-            { name: "Ajnokh", lat: 27.670492, lng: 77.416803, image: "https://placehold.co/800x800/E76F51/333333?text=Ajnokh", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ajnokh.", category: "Town" },
-            { name: "Indulekha Sakhi Mandir", lat: 27.670553, lng: 77.417338, image: "https://placehold.co/800x800/E76F51/333333?text=Indulekha", description: "A sacred destination in the Brij region. Explore the spiritual significance of Indulekha Sakhi Mandir.", category: "Temple" },
-            { name: "Chiksauli", lat: 27.642268, lng: 77.369805, image: "https://placehold.co/800x800/E76F51/333333?text=Chiksauli", description: "A sacred destination in the Brij region. Explore the spiritual significance of Chiksauli.", category: "Town" },
-            { name: "Chitra Sakhi Mandir", lat: 27.643836, lng: 77.372156, image: "https://placehold.co/800x800/E76F51/333333?text=Chitra", description: "A sacred destination in the Brij region. Explore the spiritual significance of Chitra Sakhi Mandir.", category: "Temple" },
-            { name: "Ashta Sakhi Leela Mandir", lat: 27.642858, lng: 77.367498, image: "https://placehold.co/800x800/E76F51/333333?text=Ashta", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ashta Sakhi Leela Mandir.", category: "Temple" },
-            { name: "Shri Radha Rani Shringar Sthali Barsana", lat: 27.642372, lng: 77.367662, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Radha Rani Shringar Sthali Barsana.", category: "Holy Site" },
-            { name: "Bihari Ji Temple/Bihari Ji Kund", lat: 27.640983, lng: 77.368877, image: "https://placehold.co/800x800/E76F51/333333?text=Bihari", description: "A sacred destination in the Brij region. Explore the spiritual significance of Bihari Ji Temple/Bihari Ji Kund.", category: "Temple" },
-            { name: "Uchagram", lat: 27.66334, lng: 77.364839, image: "https://placehold.co/800x800/E76F51/333333?text=Uchagram", description: "A sacred destination in the Brij region. Explore the spiritual significance of Uchagram.", category: "Town" },
-            { name: "Deh Kund", lat: 27.66272, lng: 77.362203, image: "https://placehold.co/800x800/E76F51/333333?text=Deh", description: "A sacred destination in the Brij region. Explore the spiritual significance of Deh Kund.", category: "Holy Site" },
-            { name: "Shri Dauji Temple", lat: 27.660954, lng: 77.365348, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Dauji Temple.", category: "Temple" },
-            { name: "Shri Lalita Sakhi Mandir", lat: 27.661866, lng: 77.363891, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Lalita Sakhi Mandir.", category: "Temple" },
-            { name: "Shri Deh Bihari Ji Temple", lat: 27.661963, lng: 77.36227, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Deh Bihari Ji Temple.", category: "Temple" },
-            { name: "Shri Mata Ka Mandir", lat: 27.662079, lng: 77.367604, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Mata Ka Mandir.", category: "Temple" },
-            { name: "Gheesa Dada Mandir", lat: 27.662406, lng: 77.363987, image: "https://placehold.co/800x800/E76F51/333333?text=Gheesa", description: "A sacred destination in the Brij region. Explore the spiritual significance of Gheesa Dada Mandir.", category: "Temple" },
-            { name: "Sunhara", lat: 27.650328, lng: 77.334545, image: "https://placehold.co/800x800/E76F51/333333?text=Sunhara", description: "A sacred destination in the Brij region. Explore the spiritual significance of Sunhara.", category: "Town" },
-            { name: "Mridula Sudeva Sakhi Temple", lat: 27.651467, lng: 77.336547, image: "https://placehold.co/800x800/E76F51/333333?text=Mridula", description: "A sacred destination in the Brij region. Explore the spiritual significance of Mridula Sudeva Sakhi Temple.", category: "Temple" },
-            { name: "Dhola Baba Ashram", lat: 27.651261, lng: 77.336684, image: "https://placehold.co/800x800/E76F51/333333?text=Dhola", description: "A sacred destination in the Brij region. Explore the spiritual significance of Dhola Baba Ashram.", category: "Holy Site" },
-            { name: "Rankoli", lat: 27.624933, lng: 77.334663, image: "https://placehold.co/800x800/E76F51/333333?text=Rankoli", description: "A sacred destination in the Brij region. Explore the spiritual significance of Rankoli.", category: "Town" },
-            { name: "Rang Devi Sakhi Temple", lat: 27.616129, lng: 77.339449, image: "https://placehold.co/800x800/E76F51/333333?text=Rang", description: "A sacred destination in the Brij region. Explore the spiritual significance of Rang Devi Sakhi Temple.", category: "Temple" },
-            { name: "Rankoli Hills", lat: 27.622759, lng: 77.331417, image: "https://placehold.co/800x800/E76F51/333333?text=Rankoli", description: "A sacred destination in the Brij region. Explore the spiritual significance of Rankoli Hills.", category: "Holy Site" },
-            { name: "Radha Ras Bihari Ashram", lat: 27.625194, lng: 77.334678, image: "https://placehold.co/800x800/E76F51/333333?text=Radha", description: "A sacred destination in the Brij region. Explore the spiritual significance of Radha Ras Bihari Ashram.", category: "Holy Site" },
-            { name: "Kadam Khandi", lat: 27.633808, lng: 77.325992, image: "https://placehold.co/800x800/E76F51/333333?text=Kadam", description: "A sacred destination in the Brij region. Explore the spiritual significance of Kadam Khandi.", category: "Holy Site" },
-            { name: "Mridula Kadam Khandi", lat: 27.63095, lng: 77.323259, image: "https://placehold.co/800x800/E76F51/333333?text=Mridula", description: "A sacred destination in the Brij region. Explore the spiritual significance of Mridula Kadam Khandi.", category: "Holy Site" },
-            { name: "Shri Naga Baba Mandir Kadam khandi", lat: 27.629626, lng: 77.32328, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Naga Baba Mandir Kadam khandi.", category: "Temple" },
-            { name: "Kadambkhandi Mandir Marokhari", lat: 27.633694, lng: 77.325907, image: "https://placehold.co/800x800/E76F51/333333?text=Kadambkhandi", description: "A sacred destination in the Brij region. Explore the spiritual significance of Kadambkhandi Mandir Marokhari.", category: "Temple" },
-            { name: "Dabhala", lat: 27.638964, lng: 77.344855, image: "https://placehold.co/800x800/E76F51/333333?text=Dabhala", description: "A sacred destination in the Brij region. Explore the spiritual significance of Dabhala.", category: "Town" },
-            { name: "Tungavidya Sakhi Mandir", lat: 27.629883, lng: 77.358724, image: "https://placehold.co/800x800/E76F51/333333?text=Tungavidya", description: "A sacred destination in the Brij region. Explore the spiritual significance of Tungavidya Sakhi Mandir.", category: "Temple" },
-            { name: "Mukhiya Vihar Colony", lat: 27.634979, lng: 77.364145, image: "https://placehold.co/800x800/E76F51/333333?text=Mukhiya", description: "A sacred destination in the Brij region. Explore the spiritual significance of Mukhiya Vihar Colony.", category: "Town" },
-            { name: "Shyam Lila", lat: 27.629883, lng: 77.352103, image: "https://placehold.co/800x800/E76F51/333333?text=Shyam", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shyam Lila.", category: "Holy Site" },
-            { name: "Shri Mata Ji Gaushala", lat: 27.637398, lng: 77.364311, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Mata Ji Gaushala.", category: "Holy Site" },
-            { name: "Ratna Kunda", lat: 27.630674, lng: 77.347827, image: "https://placehold.co/800x800/E76F51/333333?text=Ratna", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ratna Kunda.", category: "Holy Site" },
-            { name: "Shri Shri Radha Madan Gopal Mandir", lat: 27.636001, lng: 77.362087, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Shri Radha Madan Gopal Mandir.", category: "Temple" },
-            { name: "Shri Radha Gau Gopal Temple", lat: 27.638812, lng: 77.361353, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Radha Gau Gopal Temple.", category: "Temple" },
-            { name: "Syamlaxmi Gau Hospital", lat: 27.639276, lng: 77.355143, image: "https://placehold.co/800x800/E76F51/333333?text=Syamlaxmi", description: "A sacred destination in the Brij region. Explore the spiritual significance of Syamlaxmi Gau Hospital.", category: "Holy Site" },
-            { name: "Moni Baba", lat: 27.641879, lng: 77.343825, image: "https://placehold.co/800x800/E76F51/333333?text=Moni", description: "A sacred destination in the Brij region. Explore the spiritual significance of Moni Baba.", category: "Holy Site" },
-            { name: "Radha Naam", lat: 27.63952, lng: 77.34194, image: "https://placehold.co/800x800/E76F51/333333?text=Radha", description: "A sacred destination in the Brij region. Explore the spiritual significance of Radha Naam.", category: "Holy Site" },
-            { name: "Radha Baba Sunhara Barsana", lat: 27.640476, lng: 77.345817, image: "https://placehold.co/800x800/E76F51/333333?text=Radha", description: "A sacred destination in the Brij region. Explore the spiritual significance of Radha Baba Sunhara Barsana.", category: "Holy Site" },
-            { name: "Pisawa", lat: 27.672451, lng: 77.441938, image: "https://placehold.co/800x800/E76F51/333333?text=Pisawa", description: "A sacred destination in the Brij region. Explore the spiritual significance of Pisawa.", category: "Town" },
-            { name: "Ashwathama Ki Jhadi, Pisawa", lat: 27.673058, lng: 77.432223, image: "https://placehold.co/800x800/E76F51/333333?text=Ashwathama", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ashwathama Ki Jhadi, Pisawa.", category: "Holy Site" },
-            { name: "Ashwathama Khel Maidan", lat: 27.674322, lng: 77.430878, image: "https://placehold.co/800x800/E76F51/333333?text=Ashwathama", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ashwathama Khel Maidan.", category: "Holy Site" },
-            { name: "Hanuman Ji Mandir", lat: 27.676947, lng: 77.438123, image: "https://placehold.co/800x800/E76F51/333333?text=Hanuman", description: "A sacred destination in the Brij region. Explore the spiritual significance of Hanuman Ji Mandir.", category: "Temple" },
-            { name: "Ashvsthama Mandir", lat: 27.669117, lng: 77.434526, image: "https://placehold.co/800x800/E76F51/333333?text=Ashvsthama", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ashvsthama Mandir.", category: "Temple" },
-            { name: "Ashvthama Ji Mandir", lat: 27.667235, lng: 77.433504, image: "https://placehold.co/800x800/E76F51/333333?text=Ashvthama", description: "A sacred destination in the Brij region. Explore the spiritual significance of Ashvthama Ji Mandir.", category: "Temple" },
-            { name: "Duogar Baba Mandir", lat: 27.66832, lng: 77.434603, image: "https://placehold.co/800x800/E76F51/333333?text=Duogar", description: "A sacred destination in the Brij region. Explore the spiritual significance of Duogar Baba Mandir.", category: "Temple" },
-            { name: "Lodhauli", lat: 27.684908, lng: 77.421548, image: "https://placehold.co/800x800/E76F51/333333?text=Lodhauli", description: "A sacred destination in the Brij region. Explore the spiritual significance of Lodhauli.", category: "Town" },
-            { name: "Gajipur", lat: 27.666203, lng: 77.380996, image: "https://placehold.co/800x800/E76F51/333333?text=Gajipur", description: "A sacred destination in the Brij region. Explore the spiritual significance of Gajipur.", category: "Town" },
-            { name: "Sudama kutir", lat: 27.665108, lng: 77.380959, image: "https://placehold.co/800x800/E76F51/333333?text=Sudama", description: "A sacred destination in the Brij region. Explore the spiritual significance of Sudama kutir.", category: "Holy Site" },
-            { name: "Shri Thakur Radha Govind Ji Mandir", lat: 27.663922, lng: 77.381031, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Thakur Radha Govind Ji Mandir.", category: "Temple" },
-            { name: "Shri Prem Sarovar Kund", lat: 27.66576, lng: 77.379896, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Prem Sarovar Kund.", category: "Holy Site" },
-            { name: "Shri Prem Bihari Ji Mandir", lat: 27.665426, lng: 77.380645, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A sacred destination in the Brij region. Explore the spiritual significance of Shri Prem Bihari Ji Mandir.", category: "Temple" },
+            { name: "Barsana", lat: 27.646118, lng: 77.377712, image: "https://placehold.co/800x800/E76F51/333333?text=Barsana", description: "A sacred destination in the Brij region.", category: "Town", minZoom: 13 },
+            { name: "Shri Radharani Temple Barsana", lat: 27.650261, lng: 77.373287, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A prominent temple dedicated to Radha.", category: "Temple", minZoom: 14 },
+            { name: "Shri Kaushal Bihari Ji Mandir", lat: 27.647493, lng: 77.369287, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A beautiful temple in Barsana.", category: "Temple", minZoom: 15 },
+            { name: "Shri Radharani Dham", lat: 27.649266, lng: 77.379455, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A spiritual complex in Barsana.", category: "Holy Site", minZoom: 15 },
+            { name: "Pili Pokhar(Priya kund)", lat: 27.653932, lng: 77.37667, image: "https://placehold.co/800x800/E76F51/333333?text=Pili", description: "A sacred pond in Barsana.", category: "Holy Site", minZoom: 14 },
+            { name: "Barsana Bus Stand", lat: 27.649238, lng: 77.378968, image: "https://placehold.co/800x800/E76F51/333333?text=Barsana", description: "Main bus terminal for Barsana.", category: "Town", minZoom: 16 },
+            { name: "Shri Surdar Gokuldas Baba", lat: 27.654651, lng: 77.37645, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A site associated with a revered saint.", category: "Holy Site", minZoom: 16 },
+            { name: "Priya Kunj Ashram or Vinod Baba Ashram", lat: 27.653665, lng: 77.375887, image: "https://placehold.co/800x800/E76F51/333333?text=Priya", description: "A well-known ashram in Barsana.", category: "Holy Site", minZoom: 15 },
+            { name: "Vrish Bhanu Nandini Kunj or Vrish Bhanu kund", lat: 27.653944, lng: 77.375293, image: "https://placehold.co/800x800/E76F51/333333?text=Vrish", description: "A sacred pond (kund) in Barsana.", category: "Holy Site", minZoom: 15 },
+            { name: "Ladili Lalan Kunj", lat: 27.643905, lng: 77.378034, image: "https://placehold.co/800x800/E76F51/333333?text=Ladili", description: "A place of spiritual significance.", category: "Holy Site", minZoom: 15 },
+            { name: "Parikrama Marg Starting Point", lat: 27.646687, lng: 77.37441, image: "https://placehold.co/800x800/E76F51/333333?text=Parikrama", description: "The starting point for the circumambulation path.", category: "Holy Site", minZoom: 16 },
+            { name: "Revti Raman Baba", lat: 27.646687, lng: 77.37441, image: "https://placehold.co/800x800/E76F51/333333?text=Revti", description: "A site related to a spiritual figure.", category: "Holy Site", minZoom: 16 },
+            { name: "Shri Lilamohan Das Ji Ashram", lat: 27.648039, lng: 77.381716, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "An ashram for devotees.", category: "Holy Site", minZoom: 15 },
+            { name: "Gahvar Van Barsana/ Gahvar kund", lat: 27.642648, lng: 77.367327, image: "https://placehold.co/800x800/E76F51/333333?text=Gahvar", description: "A dense forest and sacred pond.", category: "Holy Site", minZoom: 14 },
+            { name: "Shri Radha Ras Mandir", lat: 27.642747, lng: 77.36772, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A temple dedicated to Radha's divine pastimes.", category: "Temple", minZoom: 15 },
+            { name: "Mor Kuteer Barsana", lat: 27.643781, lng: 77.367815, image: "https://placehold.co/800x800/E76F51/333333?text=Mor", description: "A place where Krishna danced as a peacock.", category: "Holy Site", minZoom: 15 },
+            { name: "Ajnokh", lat: 27.670492, lng: 77.416803, image: "https://placehold.co/800x800/E76F51/333333?text=Ajnokh", description: "A nearby village of spiritual importance.", category: "Town", minZoom: 14 },
+            { name: "Indulekha Sakhi Mandir", lat: 27.670553, lng: 77.417338, image: "https://placehold.co/800x800/E76F51/333333?text=Indulekha", description: "A temple for one of Radha's companions.", category: "Temple", minZoom: 15 },
+            { name: "Chiksauli", lat: 27.642268, lng: 77.369805, image: "https://placehold.co/800x800/E76F51/333333?text=Chiksauli", description: "A village associated with Radha's pastimes.", category: "Town", minZoom: 15 },
+            { name: "Chitra Sakhi Mandir", lat: 27.643836, lng: 77.372156, image: "https://placehold.co/800x800/E76F51/333333?text=Chitra", description: "Temple dedicated to another of Radha's companions.", category: "Temple", minZoom: 15 },
+            { name: "Ashta Sakhi Leela Mandir", lat: 27.642858, lng: 77.367498, image: "https://placehold.co/800x800/E76F51/333333?text=Ashta", description: "A temple depicting the pastimes of the eight main sakhis.", category: "Temple", minZoom: 15 },
+            { name: "Shri Radha Rani Shringar Sthali Barsana", lat: 27.642372, lng: 77.367662, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "The place where Radha Rani would adorn herself.", category: "Holy Site", minZoom: 15 },
+            { name: "Bihari Ji Temple/Bihari Ji Kund", lat: 27.640983, lng: 77.368877, image: "https://placehold.co/800x800/E76F51/333333?text=Bihari", description: "A temple and associated sacred pond.", category: "Temple", minZoom: 15 },
+            { name: "Uchagram", lat: 27.66334, lng: 77.364839, image: "https://placehold.co/800x800/E76F51/333333?text=Uchagram", description: "A village related to Lalita Sakhi.", category: "Town", minZoom: 13 },
+            { name: "Deh Kund", lat: 27.66272, lng: 77.362203, image: "https://placehold.co/800x800/E76F51/333333?text=Deh", description: "A sacred pond in Uchagram.", category: "Holy Site", minZoom: 15 },
+            { name: "Shri Dauji Temple", lat: 27.660954, lng: 77.365348, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A temple dedicated to Balarama.", category: "Temple", minZoom: 14 },
+            { name: "Shri Lalita Sakhi Mandir", lat: 27.661866, lng: 77.363891, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A major temple for Radha's closest companion, Lalita.", category: "Temple", minZoom: 14 },
+            { name: "Shri Deh Bihari Ji Temple", lat: 27.661963, lng: 77.36227, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A temple in the Uchagram area.", category: "Temple", minZoom: 15 },
+            { name: "Shri Mata Ka Mandir", lat: 27.662079, lng: 77.367604, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A local temple dedicated to the Goddess.", category: "Temple", minZoom: 16 },
+            { name: "Gheesa Dada Mandir", lat: 27.662406, lng: 77.363987, image: "https://placehold.co/800x800/E76F51/333333?text=Gheesa", description: "A local temple with its own history.", category: "Temple", minZoom: 16 },
+            { name: "Sunhara", lat: 27.650328, lng: 77.334545, image: "https://placehold.co/800x800/E76F51/333333?text=Sunhara", description: "A nearby village.", category: "Town", minZoom: 14 },
+            { name: "Mridula Sudeva Sakhi Temple", lat: 27.651467, lng: 77.336547, image: "https://placehold.co/800x800/E76F51/333333?text=Mridula", description: "A temple for one of the sakhis.", category: "Temple", minZoom: 15 },
+            { name: "Dhola Baba Ashram", lat: 27.651261, lng: 77.336684, image: "https://placehold.co/800x800/E76F51/333333?text=Dhola", description: "An ashram in the region.", category: "Holy Site", minZoom: 16 },
+            { name: "Rankoli", lat: 27.624933, lng: 77.334663, image: "https://placehold.co/800x800/E76F51/333333?text=Rankoli", description: "A village known for its hills and temples.", category: "Town", minZoom: 13 },
+            { name: "Rang Devi Sakhi Temple", lat: 27.616129, lng: 77.339449, image: "https://placehold.co/800x800/E76F51/333333?text=Rang", description: "A temple for one of the sakhis.", category: "Temple", minZoom: 15 },
+            { name: "Rankoli Hills", lat: 27.622759, lng: 77.331417, image: "https://placehold.co/800x800/E76F51/333333?text=Rankoli", description: "Scenic and sacred hills in the area.", category: "Holy Site", minZoom: 14 },
+            { name: "Radha Ras Bihari Ashram", lat: 27.625194, lng: 77.334678, image: "https://placehold.co/800x800/E76F51/333333?text=Radha", description: "An ashram in Rankoli.", category: "Holy Site", minZoom: 15 },
+            { name: "Kadam Khandi", lat: 27.633808, lng: 77.325992, image: "https://placehold.co/800x800/E76F51/333333?text=Kadam", description: "A place known for its Kadamba trees.", category: "Holy Site", minZoom: 15 },
+            { name: "Mridula Kadam Khandi", lat: 27.63095, lng: 77.323259, image: "https://placehold.co/800x800/E76F51/333333?text=Mridula", description: "A sacred grove area.", category: "Holy Site", minZoom: 15 },
+            { name: "Shri Naga Baba Mandir Kadam khandi", lat: 27.629626, lng: 77.32328, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A local temple.", category: "Temple", minZoom: 16 },
+            { name: "Kadambkhandi Mandir Marokhari", lat: 27.633694, lng: 77.325907, image: "https://placehold.co/800x800/E76F51/333333?text=Kadambkhandi", description: "A temple in the Kadambkhandi area.", category: "Temple", minZoom: 16 },
+            { name: "Dabhala", lat: 27.638964, lng: 77.344855, image: "https://placehold.co/800x800/E76F51/333333?text=Dabhala", description: "A nearby village.", category: "Town", minZoom: 15 },
+            { name: "Tungavidya Sakhi Mandir", lat: 27.629883, lng: 77.358724, image: "https://placehold.co/800x800/E76F51/333333?text=Tungavidya", description: "A temple for one of the sakhis.", category: "Temple", minZoom: 15 },
+            { name: "Mukhiya Vihar Colony", lat: 27.634979, lng: 77.364145, image: "https://placehold.co/800x800/E76F51/333333?text=Mukhiya", description: "A residential area.", category: "Town", minZoom: 16 },
+            { name: "Shyam Lila", lat: 27.629883, lng: 77.352103, image: "https://placehold.co/800x800/E76F51/333333?text=Shyam", description: "A place of Krishna's pastimes.", category: "Holy Site", minZoom: 15 },
+            { name: "Shri Mata Ji Gaushala", lat: 27.637398, lng: 77.364311, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A cow shelter.", category: "Holy Site", minZoom: 16 },
+            { name: "Ratna Kunda", lat: 27.630674, lng: 77.347827, image: "https://placehold.co/800x800/E76F51/333333?text=Ratna", description: "A sacred pond.", category: "Holy Site", minZoom: 15 },
+            { name: "Shri Shri Radha Madan Gopal Mandir", lat: 27.636001, lng: 77.362087, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A beautiful temple.", category: "Temple", minZoom: 15 },
+            { name: "Shri Radha Gau Gopal Temple", lat: 27.638812, lng: 77.361353, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A temple dedicated to Radha and the cows.", category: "Temple", minZoom: 15 },
+            { name: "Syamlaxmi Gau Hospital", lat: 27.639276, lng: 77.355143, image: "https://placehold.co/800x800/E76F51/333333?text=Syamlaxmi", description: "A hospital for cows.", category: "Holy Site", minZoom: 16 },
+            { name: "Moni Baba", lat: 27.641879, lng: 77.343825, image: "https://placehold.co/800x800/E76F51/333333?text=Moni", description: "A site related to a silent sage.", category: "Holy Site", minZoom: 16 },
+            { name: "Radha Naam", lat: 27.63952, lng: 77.34194, image: "https://placehold.co/800x800/E76F51/333333?text=Radha", description: "A place for chanting Radha's name.", category: "Holy Site", minZoom: 16 },
+            { name: "Radha Baba Sunhara Barsana", lat: 27.640476, lng: 77.345817, image: "https://placehold.co/800x800/E76F51/333333?text=Radha", description: "A site associated with a devotee.", category: "Holy Site", minZoom: 16 },
+            { name: "Pisawa", lat: 27.672451, lng: 77.441938, image: "https://placehold.co/800x800/E76F51/333333?text=Pisawa", description: "A village with historical significance.", category: "Town", minZoom: 13 },
+            { name: "Ashwathama Ki Jhadi, Pisawa", lat: 27.673058, lng: 77.432223, image: "https://placehold.co/800x800/E76F51/333333?text=Ashwathama", description: "A place linked to Ashwathama.", category: "Holy Site", minZoom: 15 },
+            { name: "Ashwathama Khel Maidan", lat: 27.674322, lng: 77.430878, image: "https://placehold.co/800x800/E76F51/333333?text=Ashwathama", description: "A ground associated with Ashwathama.", category: "Holy Site", minZoom: 16 },
+            { name: "Hanuman Ji Mandir", lat: 27.676947, lng: 77.438123, image: "https://placehold.co/800x800/E76F51/333333?text=Hanuman", description: "A temple dedicated to Hanuman.", category: "Temple", minZoom: 15 },
+            { name: "Ashvsthama Mandir", lat: 27.669117, lng: 77.434526, image: "https://placehold.co/800x800/E76F51/333333?text=Ashvsthama", description: "A temple for Ashwathama.", category: "Temple", minZoom: 15 },
+            { name: "Ashvthama Ji Mandir", lat: 27.667235, lng: 77.433504, image: "https://placehold.co/800x800/E76F51/333333?text=Ashvthama", description: "Another temple for Ashwathama.", category: "Temple", minZoom: 15 },
+            { name: "Duogar Baba Mandir", lat: 27.66832, lng: 77.434603, image: "https://placehold.co/800x800/E76F51/333333?text=Duogar", description: "A local temple.", category: "Temple", minZoom: 16 },
+            { name: "Lodhauli", lat: 27.684908, lng: 77.421548, image: "https://placehold.co/800x800/E76F51/333333?text=Lodhauli", description: "A nearby village.", category: "Town", minZoom: 15 },
+            { name: "Gajipur", lat: 27.666203, lng: 77.380996, image: "https://placehold.co/800x800/E76F51/333333?text=Gajipur", description: "A village near Prem Sarovar.", category: "Town", minZoom: 14 },
+            { name: "Sudama kutir", lat: 27.665108, lng: 77.380959, image: "https://placehold.co/800x800/E76F51/333333?text=Sudama", description: "A place associated with Krishna's friend Sudama.", category: "Holy Site", minZoom: 15 },
+            { name: "Shri Thakur Radha Govind Ji Mandir", lat: 27.663922, lng: 77.381031, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A temple for Radha and Govind.", category: "Temple", minZoom: 15 },
+            { name: "Shri Prem Sarovar Kund", lat: 27.66576, lng: 77.379896, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "The lake of love.", category: "Holy Site", minZoom: 14 },
+            { name: "Shri Prem Bihari Ji Mandir", lat: 27.665426, lng: 77.380645, image: "https://placehold.co/800x800/E76F51/333333?text=Shri", description: "A temple near Prem Sarovar.", category: "Temple", minZoom: 15 },
         ];
 
         const partnerVenues = [
@@ -643,6 +643,14 @@
         const classicMapStyle = [ {"elementType":"geometry","stylers":[{"color":"#f0e9e1"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#665949"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f0e9e1"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#c9c1b6"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#ae9e90"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#e3dbd0"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#d5d0c7"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#92887c"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccd6a8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#f5f1e6"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#f8c967"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#e9bc62"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry","stylers":[{"color":"#e98d58"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"color":"#db8555"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#806b63"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#dcd2be"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#d5d0c7"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#a1c4c8"}]} ];
         const sereneMapStyle = [ {"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]} ];
         const mysticMapStyle = [ {"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"color":"#000000"},{"lightness":13}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"transit","elementType":"all","stylers":[{"color":"#146474"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#021019"}]} ];
+
+        function updateMarkersVisibility() {
+            const zoomLevel = map.getZoom();
+            markers.forEach(marker => {
+                const location = locations[marker.originalIndex];
+                marker.setVisible(zoomLevel >= (location.minZoom || 13));
+            });
+        }
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), { 
@@ -664,6 +672,8 @@
             
             createMarkers();
             populateSidePanel();
+
+            map.addListener('zoom_changed', updateMarkersVisibility);
         }
 
         function createMarkerIcon(color, scale = 42) {
@@ -703,8 +713,7 @@
                     icon: createMarkerIcon(color, 42),
                     category: location.category,
                     originalIndex: index,
-                    zIndex: 10,
-                    animation: google.maps.Animation.DROP
+                    zIndex: 10
                 });
 
                 marker.addListener('click', () => {
@@ -727,6 +736,7 @@
                 });
                 markers.push(marker);
             });
+            updateMarkersVisibility(); 
         }
         
         function findNearby(type) {
@@ -830,6 +840,7 @@
                      const originalLocIndex = locations.indexOf(location);
                      const markerToTrigger = markers.find(m => m.originalIndex === originalLocIndex);
                      if (markerToTrigger) {
+                        map.setZoom(location.minZoom || 15);
                         google.maps.event.trigger(markerToTrigger, 'click');
                      }
                 });
@@ -838,8 +849,11 @@
         }
 
         function filterMarkers(category) {
+            const zoomLevel = map.getZoom();
             markers.forEach(marker => {
-                marker.setVisible(category === 'all' || marker.category === category);
+                const location = locations[marker.originalIndex];
+                const categoryMatch = category === 'all' || marker.category === category;
+                marker.setVisible(categoryMatch && zoomLevel >= (location.minZoom || 13));
             });
         }
         
@@ -1162,7 +1176,10 @@
                         item.textContent = loc.name;
                         item.onclick = () => {
                             const markerToClick = markers.find(m => m.title === loc.name);
-                            if (markerToClick) google.maps.event.trigger(markerToClick, 'click');
+                            if (markerToClick) {
+                                map.setZoom(loc.minZoom || 15);
+                                google.maps.event.trigger(markerToClick, 'click');
+                            }
                             searchInput.value = loc.name;
                             searchSuggestions.classList.add('hidden');
                         };
