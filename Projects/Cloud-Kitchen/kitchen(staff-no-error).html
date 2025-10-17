@@ -6,6 +6,7 @@
     <title>Cloud Kitchen Order System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -13,11 +14,6 @@
         .view-active { display: block !important; }
         .view-hidden { display: none !important; }
         .btn-active { background: #0071e3; color: white; }
-        .status-new { background: #0071e3; color: white; }
-        .status-preparing { background: #ff9500; color: white; }
-        .status-ready_for_pickup { background: #34c759; color: white; }
-        .status-out_for_delivery { background: #5e5ce6; color: white; }
-        .status-delivered, .status-completed { background: #8e8e93; color: white; }
         .card { background: white; border-radius: 18px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); overflow: hidden; }
         button, .card, input, .menu-item { transition: all 0.3s ease; }
         .menu-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
@@ -25,8 +21,8 @@
         .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
         .btn-preparing { background-color: #f59e0b; color: white; } /* Amber */
         .btn-preparing:hover { background-color: #d97706; transform: scale(1.02); }
-        .btn-ready { background-color: #10b9a8; color: white; } /* Emerald */
-        .btn-ready:hover { background-color: #058a96; transform: scale(1.02); }
+        .btn-ready { background-color: #10b981; color: white; } /* Emerald */
+        .btn-ready:hover { background-color: #059669; transform: scale(1.02); }
         .btn-delivery { background-color: #6366f1; color: white; } /* Indigo */
         .btn-delivery:hover { background-color: #4f46e5; transform: scale(1.02); }
         .btn-completed { background-color: #4b5563; color: white; } /* Gray */
@@ -36,18 +32,28 @@
         input:disabled { background-color: #f5f5f7; cursor: not-allowed; }
         .icon { width: 20px; height: 20px; stroke-width: 2; }
         .icon-lg { width: 24px; height: 24px; stroke-width: 2; }
-        .order-timeline { position: relative; padding-left: 40px; }
-        .order-timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: #e5e7eb; }
-        .timeline-item { position: relative; padding-bottom: 24px; }
-        .timeline-dot { position: absolute; left: -29px; width: 12px; height: 12px; border-radius: 50%; background: #e5e7eb; border: 3px solid white; }
-        .timeline-dot.active { background: #0071e3; }
-        .timeline-dot.completed { background: #34c7b8; }
-        .progress-bar { height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #0071e3, #5e5ce6); transition: width 0.5s ease; }
+        .quantity-selector { display: flex; align-items: center; justify-content: center; border: 1px solid #d2d2d7; border-radius: 12px; overflow: hidden; }
+        .quantity-btn { background: transparent; border: none; padding: 10px 14px; cursor: pointer; color: #0071e3; font-size: 1.2rem; line-height: 1; }
+        .quantity-display { padding: 0 10px; font-weight: 500; font-size: 1rem; min-width: 40px; text-align: center; }
+        
+        .status-tag { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; text-transform: capitalize; }
+        .status-tag-new { background-color: #e0f2fe; color: #0284c7; }
+        .status-tag-preparing { background-color: #fef3c7; color: #92400e; }
+        .status-tag-ready_for_pickup { background-color: #d1fae5; color: #065f46; }
+        .status-tag-out_for_delivery { background-color: #e0e7ff; color: #4338ca; }
+        .status-tag-completed { background-color: #f3f4f6; color: #4b5563; }
+
         .test-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-        .test-pass { background: #d1fae5; color: #065b5f; }
+        .test-pass { background: #d1fae5; color: #065f46; }
         .test-fail { background: #fee2e2; color: #991b1b; }
         .test-pending { background: #fef3c7; color: #92400e; }
+        
+        /* Order Progress Tracker Styles */
+        .progress-container { display: flex; justify-content: space-between; align-items: center; position: relative; margin: 30px 0; }
+        .progress-step { width: 40px; height: 40px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; position: relative; z-index: 1; transition: background-color 0.4s ease; }
+        .progress-step.active { background-color: #0071e3; }
+        .progress-line { position: absolute; top: 50%; left: 0; right: 0; height: 4px; background-color: #e0e0e0; transform: translateY(-50%); z-index: 0; }
+        .progress-line-fill { position: absolute; top: 0; left: 0; height: 100%; background-color: #0071e3; width: 0%; transition: width 0.4s ease; }
     </style>
 </head>
 <body class="text-gray-900">
@@ -56,11 +62,11 @@
         <header class="card p-4 sm:p-6 mb-6">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-black rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-black rounded-xl flex items-center justify-center overflow-hidden">
+                        <img src="https://imbajrangi.github.io/Company/Vrindopnishad Web/class/logo/vrinda foods logo.png" alt="Vrinda Foods Logo" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900">CloudKitchen</h1>
+                        <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900">Vrinda Foods</h1>
                         <p class="text-sm text-gray-500 hidden sm:block">Fresh meals delivered</p>
                     </div>
                 </div>
@@ -86,7 +92,6 @@
         </header>
 
         <main>
-            <!-- Customer View -->
             <div id="customer-view" class="view-active">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2">
@@ -96,9 +101,9 @@
                         </div>
                     </div>
                     <div class="space-y-6">
-                        <div class="card p-6 lg:sticky lg:top-4">
+                        <div class="card p-6">
                             <div class="flex items-center gap-2 mb-4"><svg class="icon-lg text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><h2 class="text-xl font-semibold text-gray-900">Cart</h2></div>
-                            <div id="cart-items" class="space-y-3 mb-4 max-h-64 overflow-y-auto"><p class="text-gray-400 text-center">Cart is empty</p></div>
+                            <div id="cart-items" class="space-y-4 mb-4 max-h-64 overflow-y-auto"><p class="text-gray-400 text-center">Cart is empty</p></div>
                             <div id="cart-summary" class="border-t pt-4 mt-4"></div>
                         </div>
                         <div id="order-form-container" class="card p-6"></div>
@@ -107,205 +112,66 @@
                 </div>
             </div>
 
-            <!-- Kitchen View -->
             <div id="kitchen-view" class="view-hidden card p-6 sm:p-8">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
-                    <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
+                        <div><h2 class="text-3xl font-semibold text-gray-900">Kitchen</h2><p class="text-sm text-gray-500">Manage pending orders</p></div>
+                    </div>
+                    <button id="create-order-btn" class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
                 </div>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- Transport View -->
             <div id="transport-view" class="view-hidden card p-6 sm:p-8">
-                <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="icon-lg text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div><div><h2 class="text-3xl font-semibold text-gray-900">Delivery</h2><p class="text-sm text-gray-500">Ready for delivery</p></div></div>
+                <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center"><svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div><div><h2 class="text-3xl font-semibold text-gray-900">Delivery</h2><p class="text-sm text-gray-500">Ready for delivery</p></div></div>
                 <div id="transport-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
             
-            <!-- Owner View -->
             <div id="owner-view" class="view-hidden space-y-8">
                 <div>
                     <h2 class="text-3xl font-semibold text-gray-900 mb-2">Owner Dashboard</h2>
                     <p class="text-gray-500">A high-level overview of your kitchen's performance.</p>
                 </div>
-                <!-- KPI Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="card p-6 flex items-center gap-5">
-                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 font-medium">Total Revenue</p>
-                            <p id="kpi-total-revenue" class="text-3xl font-semibold text-gray-900">₹0</p>
-                        </div>
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center"><svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg></div>
+                        <div><p class="text-sm text-gray-500 font-medium">Total Revenue</p><p id="kpi-total-revenue" class="text-3xl font-semibold text-gray-900">₹0</p></div>
                     </div>
                     <div class="card p-6 flex items-center gap-5">
-                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
-                           <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 9h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 font-medium">Total Orders</p>
-                            <p id="kpi-total-orders" class="text-3xl font-semibold text-gray-900">0</p>
-                        </div>
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center"><svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 9h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div>
+                        <div><p class="text-sm text-gray-500 font-medium">Total Orders</p><p id="kpi-total-orders" class="text-3xl font-semibold text-gray-900">0</p></div>
                     </div>
                     <div class="card p-6 flex items-center gap-5">
-                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V9a2 2 0 00-2-2m2 4v4a2 2 0 104 0v-1m-4-3H9m2 0h4m6 1a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 font-medium">Avg. Order Value</p>
-                            <p id="kpi-avg-order-value" class="text-3xl font-semibold text-gray-900">₹0</p>
-                        </div>
+                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center"><svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 11V9a2 2 0 00-2-2m2 4v4a2 2 0 104 0v-1m-4-3H9m2 0h4m6 1a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                        <div><p class="text-sm text-gray-500 font-medium">Avg. Order Value</p><p id="kpi-avg-order-value" class="text-3xl font-semibold text-gray-900">₹0</p></div>
                     </div>
                 </div>
-                
-                <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                    <div class="lg:col-span-3 card p-6 flex flex-col">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-1">Daily Sales</h3>
-                            <p class="text-sm text-gray-500 mb-4">Revenue generated each day.</p>
-                        </div>
-                        <div class="relative flex-grow h-80">
-                            <canvas id="sales-chart-canvas"></canvas>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-2 card p-6 flex flex-col">
-                         <div>
-                            <h3 class="text-xl font-semibold mb-1">Order Status</h3>
-                            <p class="text-sm text-gray-500 mb-4">Current breakdown of all orders.</p>
-                        </div>
-                        <div class="relative flex-grow h-80">
-                            <canvas id="status-chart-canvas"></canvas>
-                        </div>
-                    </div>
+                    <div class="lg:col-span-3 card p-6 flex flex-col"><div><h3 class="text-xl font-semibold mb-1">Daily Sales</h3><p class="text-sm text-gray-500 mb-4">Revenue generated each day.</p></div><div class="relative flex-grow h-80"><canvas id="sales-chart-canvas"></canvas></div></div>
+                    <div class="lg:col-span-2 card p-6 flex flex-col"><div><h3 class="text-xl font-semibold mb-1">Order Status</h3><p class="text-sm text-gray-500 mb-4">Current breakdown of all orders.</p></div><div class="relative flex-grow h-80"><canvas id="status-chart-canvas"></canvas></div></div>
                 </div>
-
-                <div class="card p-6 sm:p-8">
-                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Staff Management</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Add New Staff Member</h3>
-                            <form id="add-staff-form" class="space-y-4">
-                                <div><label class="block text-sm font-medium text-gray-700 mb-2">Staff Email</label><input type="email" id="staff-email" placeholder="staff@example.com" class="w-full" required></div>
-                                <div><label class="block text-sm font-medium text-gray-700 mb-2">Assign Role</label><select id="staff-role" class="w-full" required><option value="kitchen">Kitchen Staff</option><option value="delivery">Delivery Staff</option></select></div>
-                                <button type="submit" class="w-full bg-green-600 text-white font-medium py-3 rounded-xl hover:bg-green-700 transition-all">Add Staff</button>
-                            </form>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Current Staff</h3>
-                            <div id="staff-list" class="space-y-3 max-h-96 overflow-y-auto"><p class="text-gray-500">No staff members found.</p></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="order-history-container" class="card p-6 sm:p-8"><h2 class="text-2xl font-semibold text-gray-900 mb-4">Completed Order History</h2><div id="history-filters" class="flex items-center gap-2 mb-4 border-b pb-4"><button data-filter="week" class="history-filter-btn px-4 py-2 text-sm font-medium rounded-md">This Week</button><button data-filter="month" class="history-filter-btn px-4 py-2 text-sm font-medium rounded-md">This Month</button><button data-filter="all" class="history-filter-btn px-4 py-2 text-sm font-medium rounded-md">All Time</button></div><div id="order-history-list" class="space-y-4 max-h-96 overflow-y-auto"><p class="text-gray-500">No past orders found.</p></div></div>
+                <div class="card p-6 sm:p-8"><h2 class="text-2xl font-semibold text-gray-900 mb-6">Staff Management</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div><h3 class="text-xl font-semibold mb-4">Add New Staff Member</h3><form id="add-staff-form" class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Staff Email</label><input type="email" id="staff-email" placeholder="staff@example.com" class="w-full" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Assign Role</label><select id="staff-role" class="w-full" required><option value="kitchen">Kitchen Staff</option><option value="delivery">Delivery Staff</option></select></div><button type="submit" class="w-full bg-green-600 text-white font-medium py-3 rounded-xl hover:bg-green-700 transition-all">Add Staff</button></form></div><div><h3 class="text-xl font-semibold mb-4">Current Staff</h3><div id="staff-list" class="space-y-3 max-h-96 overflow-y-auto"><p class="text-gray-500">No staff members found.</p></div></div></div></div>
             </div>
 
-            <!-- Developer View -->
             <div id="developer-view" class="view-hidden space-y-6">
-                <!-- System Status -->
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                            <svg class="icon text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                        </div>
-                        <div>
-                            <h2 class="text-2xl font-semibold">Developer Control Panel</h2>
-                            <p class="text-sm text-gray-500">Complete system monitoring & testing</p>
-                        </div>
-                    </div>
-                    
-                    <div id="system-tests" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Firebase Connection</span>
-                                <span id="test-firebase" class="test-badge test-pending">Testing...</span>
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Database Access</span>
-                                <span id="test-database" class="test-badge test-pending">Testing...</span>
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Auth System</span>
-                                <span id="test-auth" class="test-badge test-pending">Testing...</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <button id="run-system-test" class="btn-primary">Run Full System Test</button>
-                        <button id="reset-customer-orders-btn" class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button>
-                    </div>
-                </div>
-
-                <!-- Test Order Creation -->
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">Test Order Flow (No Payment Required)</h3>
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                        <p class="text-sm text-blue-800"><strong>Note:</strong> Test orders bypass payment and are for testing the complete workflow only.</p>
-                    </div>
-                    <form id="test-order-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Customer Name</label>
-                            <input type="text" id="test-name" value="Test Customer" class="w-full" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Customer Phone</label>
-                            <input type="tel" id="test-phone" value="9876543210" class="w-full" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-2">Delivery Address</label>
-                            <input type="text" id="test-address" value="123 Test Street, Test City" class="w-full" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-2">Select Items</label>
-                            <div id="test-menu-items" class="grid grid-cols-2 gap-3"></div>
-                        </div>
-                        <div class="md:col-span-2">
-                            <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Test Order</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- All Orders Monitor -->
-                <div class="card p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-semibold">All Orders Monitor</h3>
-                        <button id="refresh-orders" class="btn-primary bg-gray-600 text-sm">Refresh</button>
-                    </div>
-                    <div id="all-orders-list" class="space-y-4"></div>
-                </div>
-
-                <!-- User Role Management -->
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">User Role Management</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User Email</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Current Role</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assign Role</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-user-list" class="divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
+                <div class="card p-6"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></div><div><h2 class="text-2xl font-semibold">Developer Control Panel</h2><p class="text-sm text-gray-500">Complete system monitoring & testing</p></div></div><div id="system-tests" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4"><div class="bg-gray-50 p-4 rounded-lg"><div class="flex items-center justify-between mb-2"><span class="font-medium">Firebase Connection</span><span id="test-firebase" class="test-badge test-pending">Testing...</span></div></div><div class="bg-gray-50 p-4 rounded-lg"><div class="flex items-center justify-between mb-2"><span class="font-medium">Database Access</span><span id="test-database" class="test-badge test-pending">Testing...</span></div></div><div class="bg-gray-50 p-4 rounded-lg"><div class="flex items-center justify-between mb-2"><span class="font-medium">Auth System</span><span id="test-auth" class="test-badge test-pending">Testing...</span></div></div></div><div class="flex items-center gap-4"><button id="run-system-test" class="btn-primary">Run Full System Test</button><button id="reset-customer-orders-btn" class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button></div></div>
+                <div class="card p-6"><h3 class="text-xl font-semibold mb-4">Test Order Flow (No Payment Required)</h3><div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4"><p class="text-sm text-blue-800"><strong>Note:</strong> Test orders bypass payment and are for testing the complete workflow only.</p></div><form id="test-order-form" class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium mb-2">Customer Name</label><input type="text" id="test-name" value="Test Customer" class="w-full" required></div><div><label class="block text-sm font-medium mb-2">Customer Phone</label><input type="tel" id="test-phone" value="9876543210" class="w-full" required></div><div class="md:col-span-2"><label class="block text-sm font-medium mb-2">Delivery Address</label><input type="text" id="test-address" value="123 Test Street, Test City" class="w-full" required></div><div class="md:col-span-2"><label class="block text-sm font-medium mb-2">Select Items</label><div id="test-menu-items" class="grid grid-cols-2 gap-3"></div></div><div class="md:col-span-2"><button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Test Order</button></div></form></div>
+                <div class="card p-6"><div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4"><h3 class="text-xl font-semibold">All Orders Monitor</h3><div class="flex items-center gap-2 w-full sm:w-auto"><input type="text" id="order-search-input" placeholder="Search by customer name..." class="w-full sm:w-64"><button id="refresh-orders" class="btn-primary bg-gray-600 text-sm">Refresh</button></div></div><div id="all-orders-list" class="space-y-4"></div></div>
+                <div class="card p-6"><h3 class="text-xl font-semibold mb-4">User Role Management</h3><div class="overflow-x-auto"><table class="min-w-full bg-white"><thead class="bg-gray-50"><tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User Email</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Current Role</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assign Role</th></tr></thead><tbody id="admin-user-list" class="divide-y divide-gray-200"></tbody></table></div></div>
             </div>
         </main>
         
-        <!-- Modals -->
         <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4" style="z-index: 51;"><div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center"><div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div><p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p><button id="alert-close" class="btn-primary w-full">OK</button></div></div>
-        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
+        <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 id="profile-modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button id="profile-close" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="profile-content"></div></div></div>
+        <div id="create-order-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"><div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-semibold text-gray-900">Create New Order</h2><button id="create-order-close-btn" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="create-order-content"></div></div></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const DEVELOPER_EMAIL = "dev@vrinda.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
@@ -321,6 +187,7 @@
         
         let app, db, auth;
         let isFirebaseReady = false;
+        let authInitialized = false;
 
         try {
             app = initializeApp(firebaseConfig);
@@ -337,18 +204,23 @@
         let userId = null;
         let userEmail = 'Guest';
         let cart = [];
+        let staffCart = [];
         let currentTrackingOrderId = null;
         let isEditingOrder = false;
         let currentOrderListener = null;
-        let allOrdersListener = null;
+        
         let salesChartInstance = null;
         let statusChartInstance = null;
+        let completedOrders = [];
+        let historyFilter = 'week';
+
+        let allOrdersListener = null;
 
         const menu = [
-            { id: 1, name: 'Paneer Butter Masala', price: 250 },
-            { id: 2, name: 'Dal Makhani', price: 200 },
-            { id: 3, name: 'Veg Biryani', price: 220 },
-            { id: 4, name: 'Garlic Naan', price: 50 },
+            { id: 1, name: 'Paneer Butter Masala', price: 250, image: 'https://placehold.co/600x400/F59E0B/FFFFFF?text=Paneer+Masala' },
+            { id: 2, name: 'Dal Makhani', price: 200, image: 'https://placehold.co/600x400/8B5CF6/FFFFFF?text=Dal+Makhani' },
+            { id: 3, name: 'Veg Biryani', price: 220, image: 'https://placehold.co/600x400/10B981/FFFFFF?text=Veg+Biryani' },
+            { id: 4, name: 'Garlic Naan', price: 50, image: 'https://placehold.co/600x400/3B82F6/FFFFFF?text=Garlic+Naan' },
         ];
         
         const authBtn = document.getElementById('auth-btn');
@@ -357,9 +229,7 @@
         const alertMessage = document.getElementById('alert-message');
         const alertClose = document.getElementById('alert-close');
         const alertIcon = document.getElementById('alert-icon');
-        const profileModal = document.getElementById('profile-modal');
-        const profileContent = document.getElementById('profile-content');
-        const profileClose = document.getElementById('profile-close');
+        const createOrderModal = document.getElementById('create-order-modal');
         const viewSwitcher = document.getElementById('view-switcher');
         const views = {
             customer: document.getElementById('customer-view'),
@@ -371,79 +241,123 @@
 
         const showAlert = (message, isError = false) => {
             alertMessage.textContent = message;
-            if(isError) {
-                alertIcon.innerHTML = `<svg class="icon-lg text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-                alertIcon.className = 'w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4';
-            } else {
-                alertIcon.innerHTML = `<svg class="icon-lg text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>`;
-                alertIcon.className = 'w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4';
-            }
+            alertIcon.innerHTML = isError 
+                ? `<svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+                : `<svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>`;
+            alertIcon.className = `w-14 h-14 ${isError ? 'bg-red-100' : 'bg-green-100'} rounded-full flex items-center justify-center mx-auto mb-4`;
             alertModal.classList.remove('hidden');
         }
         alertClose.addEventListener('click', () => alertModal.classList.add('hidden'));
-        profileClose.addEventListener('click', () => profileModal.classList.add('hidden'));
-        authBtn.addEventListener('click', () => {
-            renderProfileModal();
-            profileModal.classList.remove('hidden');
+        
+        document.getElementById('create-order-close-btn').addEventListener('click', () => createOrderModal.classList.add('hidden'));
+        document.getElementById('create-order-btn').addEventListener('click', () => {
+            renderCreateOrderModal();
+            createOrderModal.classList.remove('hidden');
         });
 
-        if (isFirebaseReady) {
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    await setupUser(user);
-                } else {
-                    await signInAnonymously(auth).catch(err => console.error("Anonymous sign-in failed", err));
-                }
+        authBtn.addEventListener('click', () => {
+            const profileModal = document.getElementById('profile-modal');
+            const profileContent = document.getElementById('profile-content');
+            if (!profileModal || !profileContent) return;
+            
+            if (!auth.currentUser || auth.currentUser.isAnonymous) {
+                profileContent.innerHTML = `
+                    <form id="email-auth-form" class="space-y-4">
+                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
+                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
+                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
+                        <div class="flex gap-4">
+                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
+                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="relative my-6"><div class="absolute inset-0 flex items-center"><span class="w-full border-t"></span></div><div class="relative flex justify-center text-sm"><span class="bg-white px-2 text-gray-500">OR</span></div></div>
+                    <button id="google-login-btn" class="btn-primary w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.012 36.49 44 30.65 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
+                        Continue with Google
+                    </button>
+                `;
+            } else {
+                profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
+            }
+            
+            const form = document.getElementById('email-auth-form');
+            if (form) {
+                form.addEventListener('submit', e => handleEmailAuth(e, false));
+                document.getElementById('signup-btn')?.addEventListener('click', e => handleEmailAuth(e, true));
+            }
+            document.getElementById('google-login-btn')?.addEventListener('click', handleGoogleLogin);
+            document.getElementById('logout-btn')?.addEventListener('click', () => {
+                signOut(auth);
+                profileModal.classList.add('hidden');
             });
-        }
+            
+            profileModal.classList.remove('hidden');
+        });
+        
+        document.getElementById('profile-close').addEventListener('click', () => document.getElementById('profile-modal').classList.add('hidden'));
 
         async function setupUser(user) {
-            userId = user.uid;
-            userEmail = user.email || 'Guest';
+            authInitialized = true;
+            if (user) {
+                userId = user.uid;
+                userEmail = user.email || 'Guest';
 
-            if (user.isAnonymous) {
-                userRole = 'customer';
-            } else if (user.email === DEVELOPER_EMAIL) {
-                userRole = 'developer';
-                const userDocRef = doc(db, "users", userId);
-                await setDoc(userDocRef, { email: user.email, role: 'developer' }, { merge: true });
-            } else {
-                const userDocRef = doc(db, "users", userId);
-                const userDocSnap = await getDoc(userDocRef);
-                if (userDocSnap.exists()) {
-                    userRole = userDocSnap.data().role || 'customer';
+                if (user.isAnonymous) {
+                    userRole = 'customer'; userEmail = 'Guest';
+                } else if (user.email === DEVELOPER_EMAIL) {
+                    userRole = 'developer';
+                    await setDoc(doc(db, "users", userId), { email: user.email, role: 'developer' }, { merge: true });
                 } else {
-                    userRole = 'customer';
-                    await setDoc(userDocRef, { email: user.email, role: 'customer' });
+                    const userDocSnap = await getDoc(doc(db, "users", userId));
+                    userRole = userDocSnap.exists() ? userDocSnap.data().role || 'customer' : 'customer';
+                    if (!userDocSnap.exists()) {
+                        await setDoc(doc(db, "users", userId), { email: user.email, role: 'customer' });
+                    }
                 }
+            } else {
+                userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                userEmail = 'Guest (Offline)'; userRole = 'customer';
             }
             
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI();
-            if (userRole === 'owner' || userRole === 'developer') loadOwnerDashboard();
-            if (userRole === 'developer') {
-                loadDeveloperPanel();
-                runSystemTests();
+
+            if (user) {
+                if (['owner', 'developer'].includes(userRole)) { loadOwnerDashboard(); listenToOrderHistory(); }
+                if (userRole === 'developer') { loadDeveloperPanel(); runSystemTests(); }
+                listenToStaffOrders();
             }
-            listenToStaffOrders();
         }
+
+        if (isFirebaseReady) {
+            const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                await setupUser(user);
+                unsubscribe(); 
+                
+                onAuthStateChanged(auth, async (user) => {
+                    if(authInitialized) await setupUser(user);
+                });
+            });
+        }
+
 
         function updateAuthStatusUI() {
             let statusText = 'Guest';
-            if (userEmail !== 'Guest') {
+            if (userEmail !== 'Guest' && !userEmail.includes('Offline')) {
                 statusText = `${userEmail.split('@')[0]} (${userRole})`;
             }
             authStatusEl.textContent = statusText;
-            authBtn.textContent = (userEmail === 'Guest') ? 'Login / Sign Up' : 'Profile / Logout';
+            authBtn.textContent = (userEmail === 'Guest' || userEmail.includes('Offline')) ? 'Login / Sign Up' : 'Profile / Logout';
         }
 
         function updateVisibleViews() {
             document.getElementById('view-switcher').classList.toggle('hidden', userRole === 'customer');
-            document.querySelector('[data-view="kitchen"]').classList.toggle('hidden', !['kitchen', 'owner', 'developer'].includes(userRole));
-            document.querySelector('[data-view="transport"]').classList.toggle('hidden', !['delivery', 'owner', 'developer'].includes(userRole));
-            document.querySelector('[data-view="owner"]').classList.toggle('hidden', !['owner', 'developer'].includes(userRole));
-            document.querySelector('[data-view="developer"]').classList.toggle('hidden', userRole !== 'developer');
+            ['kitchen', 'owner', 'developer'].includes(userRole) ? document.querySelector('[data-view="kitchen"]').classList.remove('hidden') : document.querySelector('[data-view="kitchen"]').classList.add('hidden');
+            ['delivery', 'owner', 'developer'].includes(userRole) ? document.querySelector('[data-view="transport"]').classList.remove('hidden') : document.querySelector('[data-view="transport"]').classList.add('hidden');
+            ['owner', 'developer'].includes(userRole) ? document.querySelector('[data-view="owner"]').classList.remove('hidden') : document.querySelector('[data-view="owner"]').classList.add('hidden');
+            userRole === 'developer' ? document.querySelector('[data-view="developer"]').classList.remove('hidden') : document.querySelector('[data-view="developer"]').classList.add('hidden');
         }
 
         function renderCustomerUI() {
@@ -457,72 +371,105 @@
             const container = document.getElementById('menu-items');
             if (!container) return;
             container.innerHTML = '';
-            menu.forEach(item => container.innerHTML += `<div class="menu-item card p-5"><h3 class="text-lg font-semibold">${item.name}</h3><p class="text-gray-600">₹${item.price}</p><button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button></div>`);
+            menu.forEach(item => {
+                const cartItem = cart.find(ci => ci.id === item.id);
+                let buttonHTML;
+                if (cartItem) {
+                    buttonHTML = `
+                        <div class="quantity-selector mt-4">
+                            <button class="quantity-btn quantity-minus" data-id="${item.id}">-</button>
+                            <span class="quantity-display">${cartItem.quantity}</span>
+                            <button class="quantity-btn quantity-plus" data-id="${item.id}">+</button>
+                        </div>
+                    `;
+                } else {
+                    buttonHTML = `<button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
+                }
+                container.innerHTML += `
+                    <div class="menu-item card p-0">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-40 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image';">
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold">${item.name}</h3>
+                            <p class="text-gray-600">₹${item.price}</p>
+                            ${buttonHTML}
+                        </div>
+                    </div>`;
+            });
         }
+
 
         function updateCart() {
             const itemsEl = document.getElementById('cart-items');
             const summaryEl = document.getElementById('cart-summary');
             if (!itemsEl || !summaryEl) return;
+
             if (cart.length === 0) {
-                itemsEl.innerHTML = '<p class="text-gray-400 text-center">Cart is empty</p>';
+                itemsEl.innerHTML = '<p class="text-gray-400 text-center py-8">Your cart is empty</p>';
                 summaryEl.innerHTML = '';
                 return;
             }
-            let total = 0;
-            itemsEl.innerHTML = cart.map(item => {
-                total += item.price * item.quantity;
-                return `<div class="flex justify-between items-center"><span>${item.name} x ${item.quantity}</span><span>₹${item.price * item.quantity}</span></div>`;
-            }).join('');
-            summaryEl.innerHTML = `<div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹${total}</span></div>`;
+
+            let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            itemsEl.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center">
+                    <div><p class="font-medium">${item.name}</p><p class="text-sm text-gray-500">₹${item.price} x ${item.quantity}</p></div>
+                    <span class="font-semibold w-16 text-right">₹${item.price * item.quantity}</span>
+                </div>`).join('');
+            summaryEl.innerHTML = `<div class="flex justify-between font-bold text-xl"><span>Total</span><span>₹${total}</span></div>`;
         }
         
         function renderOrderForm(order = null) {
             const container = document.getElementById('order-form-container');
             if (!container) return;
-
-            const isUpdate = order !== null;
-            const name = isUpdate ? order.customerName : '';
-            const address = isUpdate ? order.customerAddress : '';
-            const phone = isUpdate ? order.customerPhone : '';
-            const disabled = isUpdate ? 'disabled' : '';
-            const buttonText = isUpdate ? 'Update Order' : 'Place Order';
-            
+            const isUpdate = !!order;
             container.innerHTML = `
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
                 <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
-                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${name}" ${disabled} required></div>
-                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${address}" ${disabled} required></div>
-                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${phone}" ${disabled} required></div>
-                    <button type="submit" class="btn-primary w-full">${buttonText}</button>
+                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${order?.customerName || ''}" ${isUpdate ? 'disabled' : ''} required></div>
+                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${order?.customerAddress || ''}" ${isUpdate ? 'disabled' : ''} required></div>
+                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate ? 'disabled' : ''} required></div>
+                    <button type="submit" class="btn-primary w-full">${isUpdate ? 'Update & Pay Difference' : 'Pay & Place Order'}</button>
                 </form>
             `;
         }
 
         async function placeOrder() {
             if (cart.length === 0) return showAlert('Your cart is empty.');
-            const orderData = {
-                customerName: document.getElementById('customer-name').value,
-                customerAddress: document.getElementById('customer-address').value,
-                customerPhone: document.getElementById('customer-phone').value,
-                items: cart,
-                totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-                status: 'new',
-                createdAt: serverTimestamp(),
-                userId: userId,
-                isTestOrder: false,
+            if (userId.startsWith('offline')) return showAlert("Please log in to place an order.", true);
+            const customerName = document.getElementById('customer-name').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            const options = {
+                key: "rzp_test_RU9lPJQl5wqQFM",
+                amount: totalAmount * 100, 
+                currency: "INR", name: "CloudKitchen", description: "Order Payment",
+                image: "https://placehold.co/100x100/000000/FFFFFF?text=CK",
+                handler: async (response) => {
+                    const orderData = { customerName, customerAddress, customerPhone, items: cart.map(item => ({...item, ready: false})), totalAmount, status: 'new', createdAt: serverTimestamp(), userId, isTestOrder: false, paymentId: response.razorpay_payment_id, paymentIds: [response.razorpay_payment_id] };
+                    await saveOrderToFirestore(orderData);
+                },
+                prefill: { name: customerName, email: userEmail.includes('Offline') ? '' : userEmail, contact: customerPhone },
+                notes: { address: customerAddress },
+                theme: { color: "#0071e3" },
+                modal: { ondismiss: () => showAlert("Payment was cancelled.", true) }
             };
-            try {
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        async function saveOrderToFirestore(orderData) {
+             try {
                 const docRef = await addDoc(collection(db, "orders"), orderData);
-                showAlert('Order placed successfully!');
-                isEditingOrder = false;
-                cart = [];
-                updateCart();
+                showAlert('Payment successful! Order placed.');
+                cart = []; isEditingOrder = false;
+                updateCart(); renderMenu();
                 currentTrackingOrderId = docRef.id;
                 startTrackingLatestOrder();
             } catch (error) {
-                showAlert('Failed to place order.', true);
-                console.error("Order placement error: ", error);
+                showAlert('Failed to save order after payment.', true);
+                console.error("Order save error: ", error);
             }
         }
         
@@ -531,36 +478,57 @@
             if (!currentTrackingOrderId) return showAlert('No order selected for update.', true);
 
             const orderDocRef = doc(db, "orders", currentTrackingOrderId);
-
             try {
                 const orderDocSnap = await getDoc(orderDocRef);
                 if (!orderDocSnap.exists()) {
-                    throw new Error("Order not found.");
+                    showAlert("Order not found.", true); return;
                 }
-                const currentStatus = orderDocSnap.data().status;
+                
+                const originalOrderData = orderDocSnap.data();
+                const currentStatus = originalOrderData.status;
+
                 if (!['new', 'preparing'].includes(currentStatus)) {
-                    showAlert('Sorry, it is too late to modify this order as it is already being prepared for delivery.', true);
-                    isEditingOrder = false;
-                    cart = [];
-                    updateCart();
-                    renderOrderForm();
-                    startTrackingLatestOrder();
+                    showAlert('Sorry, it is too late to modify this order.', true);
+                    cart = []; isEditingOrder = false;
+                    updateCart(); renderMenu(); renderOrderForm(); startTrackingLatestOrder();
                     return;
                 }
-                
-                const orderUpdateData = {
-                    items: cart,
-                    totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+
+                const originalTotal = originalOrderData.totalAmount;
+                const newTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const amountDue = newTotal - originalTotal;
+
+                const finalUpdateLogic = async (paymentId = null) => {
+                    const updatedItems = cart.map(item => ({...item, ready: item.ready || false}));
+                    let paymentIds = originalOrderData.paymentIds || [originalOrderData.paymentId];
+                    if(paymentId) {
+                        paymentIds.push(paymentId);
+                    }
+
+                    await updateDoc(orderDocRef, { items: updatedItems, totalAmount: newTotal, paymentIds });
+                    showAlert('Order updated successfully!');
+                    cart = []; isEditingOrder = false;
+                    updateCart(); renderMenu(); renderOrderForm(); startTrackingLatestOrder();
                 };
 
-                await updateDoc(orderDocRef, orderUpdateData);
-                showAlert('Order updated successfully!');
-                
-                isEditingOrder = false;
-                cart = [];
-                updateCart();
-                renderOrderForm(); 
-                startTrackingLatestOrder(); 
+                if (amountDue > 0) {
+                    const options = {
+                        key: "rzp_test_RU9lPJQl5wqQFM",
+                        amount: amountDue * 100,
+                        currency: "INR", name: "CloudKitchen", description: `Additional payment for Order #${currentTrackingOrderId.substring(0,6)}`,
+                        image: "https://placehold.co/100x100/000000/FFFFFF?text=CK",
+                        handler: async (response) => {
+                           await finalUpdateLogic(response.razorpay_payment_id);
+                        },
+                        prefill: { name: originalOrderData.customerName, email: userEmail.includes('Offline') ? '' : userEmail, contact: originalOrderData.customerPhone },
+                        theme: { color: "#0071e3" },
+                        modal: { ondismiss: () => showAlert("Additional payment was cancelled. Order not updated.", true) }
+                    };
+                    const rzp = new Razorpay(options);
+                    rzp.open();
+                } else {
+                    await finalUpdateLogic();
+                }
             } catch (error) {
                 showAlert('Failed to update order.', true);
                 console.error("Order update error: ", error);
@@ -570,90 +538,79 @@
         function startEditingOrder(order) {
             isEditingOrder = true;
             cart = [...order.items];
-
             document.getElementById('order-status-container').classList.add('hidden');
             document.getElementById('order-form-container').style.display = 'block';
-            
-            updateCart();
-            renderOrderForm(order);
+            updateCart(); renderMenu(); renderOrderForm(order);
         }
 
         function startTrackingLatestOrder() {
-            if (!userId || !isFirebaseReady) return; 
-            if (currentOrderListener) currentOrderListener();
-
+            if (!userId || !isFirebaseReady || userId.startsWith('offline')) return;
+            currentOrderListener?.();
             const q = query(collection(db, "orders"), where("userId", "==", userId));
             currentOrderListener = onSnapshot(q, snapshot => {
-                const activeOrders = snapshot.docs.filter(doc => doc.data().status !== 'completed');
+                const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toMillis() || 0) - (a.data().createdAt?.toMillis() || 0));
+                const activeOrders = sortedDocs.filter(doc => doc.data().status !== 'completed');
                 const orderFormContainer = document.getElementById('order-form-container');
                 const orderStatusContainer = document.getElementById('order-status-container');
 
                 if (activeOrders.length > 0 && !isEditingOrder) {
-                    const latestOrder = activeOrders.sort((a,b) => b.data().createdAt?.toMillis() - a.data().createdAt?.toMillis())[0];
+                    const latestOrder = activeOrders[0];
                     currentTrackingOrderId = latestOrder.id;
                     trackOrderStatus(latestOrder.id, latestOrder.data());
-                    if(orderFormContainer) orderFormContainer.style.display = 'none';
-                    if(orderStatusContainer) orderStatusContainer.classList.remove('hidden');
-                } else {
+                    orderFormContainer.style.display = 'none';
+                    orderStatusContainer.classList.remove('hidden');
+                } else if (!isEditingOrder) {
                     currentTrackingOrderId = null;
-                    if(orderFormContainer) orderFormContainer.style.display = 'block';
-                    if(orderStatusContainer) orderStatusContainer.classList.add('hidden');
+                    orderFormContainer.style.display = 'block';
+                    orderStatusContainer.classList.add('hidden');
                 }
+            }, error => {
+                console.error("Error tracking latest order:", error);
+                showAlert("Could not fetch your order status.", true);
             });
         }
 
         function trackOrderStatus(orderId, order) {
             const statusContainer = document.getElementById('order-status-container');
-            if(!statusContainer) return;
-            
-            const stages = [
-                { key: 'new', label: 'Order Placed', icon: '📝' },
-                { key: 'preparing', label: 'Preparing', icon: '👨‍🍳' },
-                { key: 'ready_for_pickup', label: 'Ready for Pickup', icon: '✅' },
-                { key: 'out_for_delivery', label: 'Out for Delivery', icon: '🚚' },
-                { key: 'completed', label: 'Delivered', icon: '🎉' }
-            ];
-
-            const currentIndex = stages.findIndex(s => s.key === order.status);
-            const progress = ((currentIndex + 1) / stages.length) * 100;
-
-            let timelineHTML = stages.map((stage, idx) => {
-                let dotClass = 'timeline-dot';
-                if (idx < currentIndex) dotClass += ' completed';
-                else if (idx === currentIndex) dotClass += ' active';
-                
-                return `<div class="timeline-item">
-                    <div class="${dotClass}"></div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-2xl">${stage.icon}</span>
-                        <div>
-                            <p class="font-semibold text-gray-900">${stage.label}</p>
-                            ${idx === currentIndex ? '<p class="text-sm text-blue-600">Current Status</p>' : ''}
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-
+            if (!statusContainer) return;
+        
             const canAddItems = ['new', 'preparing'].includes(order.status);
-            const addItemsButtonHTML = canAddItems 
-                ? `<button id="add-more-items-btn" class="btn-primary w-full mt-6 bg-green-600 hover:bg-green-700">Add More Items</button>`
-                : '';
-
+            const stages = ['new', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed'];
+            const currentStageIndex = stages.indexOf(order.status);
+        
+            let progressStepsHTML = '';
+            stages.forEach((stage, index) => {
+                const isActive = index <= currentStageIndex ? 'active' : '';
+                progressStepsHTML += `<div class="progress-step ${isActive}">${index + 1}</div>`;
+            });
+        
+            const progressPercentage = (currentStageIndex / (stages.length - 1)) * 100;
+        
             statusContainer.innerHTML = `
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold mb-1">Track Your Order</h2>
-                    <p class="text-sm text-gray-500">Order ID: ${orderId.substring(0,8)}</p>
+                    <h2 class="text-xl font-semibold mb-1">Your Order Status</h2>
+                    <p class="text-sm text-gray-500">Order ID: ${orderId.substring(0, 8)}</p>
                 </div>
-                <div class="progress-bar mb-6">
-                    <div class="progress-fill" style="width: ${progress}%"></div>
+        
+                <div class="progress-container">
+                    <div class="progress-line"><div class="progress-line-fill" style="width: ${progressPercentage}%;"></div></div>
+                    ${progressStepsHTML}
                 </div>
-                <div class="order-timeline">${timelineHTML}</div>
+                <div class="flex justify-between text-xs text-gray-500 px-2">
+                    <span>Placed</span>
+                    <span>Preparing</span>
+                    <span>Ready</span>
+                    <span>Out for Delivery</span>
+                    <span>Completed</span>
+                </div>
+        
                 <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="font-semibold mb-2">Order Details</h3>
-                    <p class="text-sm text-gray-600">Total: ₹${order.totalAmount}</p>
-                    <p class="text-sm text-gray-600">Items: ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p>
+                    <h3 class="font-semibold mb-2">Item Details</h3>
+                    <div class="divide-y">${order.items.map(item => `<div class="flex justify-between items-center py-2"><span>${item.name} x ${item.quantity}</span><span class="text-sm font-medium ${item.ready ? 'text-green-600' : 'text-orange-500'}">${item.ready ? 'Ready' : 'Preparing'}</span></div>`).join('')}</div>
+                    <p class="text-right font-bold text-lg mt-4">Total: ₹${order.totalAmount}</p>
                 </div>
-                ${addItemsButtonHTML}
+                <p class="text-center mt-4 text-sm text-gray-600">Overall Status: <span class="font-bold uppercase">${order.status.replace(/_/g, ' ')}</span></p>
+                ${canAddItems ? `<button id="add-more-items-btn" class="btn-primary w-full mt-6 bg-green-600 hover:bg-green-700">Add More Items</button>` : ''}
             `;
         }
         
@@ -663,562 +620,272 @@
             const kitchenList = document.getElementById('kitchen-orders-list');
             const transportList = document.getElementById('transport-orders-list');
             
-            const kitchenQuery = query(collection(db, "orders"), where("status", "in", ["new", "preparing"]));
-            onSnapshot(kitchenQuery, snapshot => renderOrders(kitchenList, snapshot.docs, 'kitchen'));
+            onSnapshot(query(collection(db, "orders"), where("status", "in", ["new", "preparing"])), s => renderOrders(kitchenList, s.docs, 'kitchen'));
+            onSnapshot(query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"])), s => renderOrders(transportList, s.docs, 'transport'));
+        }
 
-            const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]));
-            onSnapshot(transportQuery, snapshot => renderOrders(transportList, snapshot.docs, 'transport'));
+        async function toggleItemReady(orderId, itemId) {
+            const orderRef = doc(db, "orders", orderId);
+            const orderSnap = await getDoc(orderRef);
+            if(orderSnap.exists()) {
+                const items = orderSnap.data().items.map(item => item.id === itemId ? { ...item, ready: !item.ready } : item);
+                await updateDoc(orderRef, { items });
+            }
         }
 
         function renderOrders(container, docs, viewType) {
             if (!container) return;
-            container.innerHTML = '';
-            if (docs.length === 0) {
-                container.innerHTML = `<p class="text-gray-500 col-span-full text-center">No orders to show.</p>`;
-                return;
-            }
-            docs.forEach(doc => {
-                const order = doc.data();
-                let actionButton = '';
-                if(viewType === 'kitchen') {
-                    if (order.status === 'new') actionButton = `<button data-id="${doc.id}" data-status="preparing" class="update-status-btn btn-primary btn-preparing w-full mt-4">Start Preparing</button>`;
-                    else if(order.status === 'preparing') actionButton = `<button data-id="${doc.id}" data-status="ready_for_pickup" class="update-status-btn btn-primary btn-ready w-full mt-4">Mark Ready</button>`;
-                } else if (viewType === 'transport') {
-                    if (order.status === 'ready_for_pickup') actionButton = `<button data-id="${doc.id}" data-status="out_for_delivery" class="update-status-btn btn-primary btn-delivery w-full mt-4">Out for Delivery</button>`;
-                    else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary btn-completed w-full mt-4">Mark Delivered</button>`;
-                }
-                const testBadge = order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : '';
-                container.innerHTML += `<div class="card p-4"><div class="flex justify-between items-start mb-2"><strong>${order.customerName}</strong>${testBadge}</div><p class="text-sm text-gray-600">${order.customerAddress}</p><p class="text-sm text-gray-600">${order.customerPhone}</p><p class="text-sm font-medium mt-2">₹${order.totalAmount}</p><p class="capitalize font-bold mt-2 text-blue-600">${order.status.replace(/_/g, ' ')}</p>${actionButton}</div>`;
-            });
+            container.innerHTML = docs.length === 0 
+                ? `<p class="text-gray-500 col-span-full text-center">No orders to show.</p>`
+                : docs.sort((a,b) => (a.data().createdAt?.toMillis() || 0) - (b.data().createdAt?.toMillis() || 0)).map(doc => {
+                    const order = doc.data();
+                    let actionButton = '';
+                    if (viewType === 'kitchen') {
+                        if (order.status === 'new') actionButton = `<button data-id="${doc.id}" data-status="preparing" class="update-status-btn btn-primary btn-preparing w-full mt-4">Start Preparing</button>`;
+                        else if (order.status === 'preparing') actionButton = `<button data-id="${doc.id}" data-status="ready_for_pickup" class="update-status-btn btn-primary btn-ready w-full mt-4">Mark Ready</button>`;
+                    } else if (viewType === 'transport') {
+                        if (order.status === 'ready_for_pickup') actionButton = `<button data-id="${doc.id}" data-status="out_for_delivery" class="update-status-btn btn-primary btn-delivery w-full mt-4">Out for Delivery</button>`;
+                        else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary btn-completed w-full mt-4">Mark Delivered</button>`;
+                    }
+                    const itemsList = order.items.map(item => `<div class="flex justify-between items-center text-sm py-1"><span>${item.name} x ${item.quantity}</span>${order.status === 'preparing' ? `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="item-ready-toggle" data-order-id="${doc.id}" data-item-id="${item.id}" ${item.ready ? 'checked' : ''}><span class="text-xs font-medium ${item.ready ? 'text-green-600' : ''}">Ready</span></label>` : ''}</div>`).join('');
+                    return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2"><strong class="text-gray-800">${order.customerName}</strong>${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div><div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
+                }).join('');
         }
         
-        function renderProfileModal() {
-            if (!userId || userEmail === 'Guest') {
-                profileContent.innerHTML = `
-                    <form id="email-auth-form" class="space-y-4">
-                        <h3 class="text-xl font-semibold">Login or Sign Up</h3>
-                        <div><label class="block text-sm">Email</label><input type="email" id="auth-email" class="w-full" required></div>
-                        <div><label class="block text-sm">Password</label><input type="password" id="auth-password" class="w-full" required></div>
-                        <div class="flex gap-4">
-                            <button type="submit" id="login-btn" class="btn-primary flex-1">Login</button>
-                            <button type="button" id="signup-btn" class="btn-primary flex-1 bg-gray-600">Sign Up</button>
-                        </div>
-                    </form>
-                    <div class="text-center my-4">OR</div>
-                    <button id="google-login-btn" class="btn-primary w-full bg-blue-500">Continue with Google</button>
-                `;
-            } else {
-                profileContent.innerHTML = `<h3 class="text-xl font-semibold">${userEmail}</h3><p class="capitalize">Role: ${userRole}</p><button id="logout-btn" class="btn-primary w-full mt-4 bg-red-600">Logout</button>`;
-            }
-            attachAuthListeners();
-        }
-
-        function attachAuthListeners() {
-            const form = document.getElementById('email-auth-form');
-            if (form) {
-                form.addEventListener('submit', e => handleEmailAuth(e, false));
-                const signupBtn = document.getElementById('signup-btn');
-                if(signupBtn) signupBtn.addEventListener('click', e => handleEmailAuth(e, true));
-            }
-            const googleBtn = document.getElementById('google-login-btn');
-            if(googleBtn) googleBtn.addEventListener('click', handleGoogleLogin);
-            const logoutBtn = document.getElementById('logout-btn');
-            if(logoutBtn) logoutBtn.addEventListener('click', () => {
-                signOut(auth);
-                profileModal.classList.add('hidden');
-            });
-        }
-
         async function handleEmailAuth(e, isSignup) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
+            const profileModal = document.getElementById('profile-modal');
             try {
-                if (isSignup) {
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    showAlert('Account created successfully!');
-                } else {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    showAlert('Logged in successfully!');
-                }
-                profileModal.classList.add('hidden');
+                if (isSignup) await createUserWithEmailAndPassword(auth, email, password);
+                else await signInWithEmailAndPassword(auth, email, password);
+                showAlert(isSignup ? 'Account created successfully!' : 'Logged in successfully!');
+                profileModal?.classList.add('hidden');
             } catch (error) { 
-                let friendlyMessage = "An unexpected error occurred. Please try again.";
-                if (error.code) {
-                    switch (error.code) {
-                        case 'auth/invalid-credential':
-                            friendlyMessage = "Invalid email or password. Please check your credentials. If you're new, please use the Sign Up button.";
-                            break;
-                        case 'auth/email-already-in-use':
-                            friendlyMessage = "This email is already registered. Please use the Login button.";
-                            break;
-                        case 'auth/weak-password':
-                            friendlyMessage = "Your password is too weak. It must be at least 6 characters long.";
-                            break;
-                        default:
-                            friendlyMessage = "Authentication failed. Please try again later.";
-                            console.error("Authentication error:", error);
-                    }
-                }
-                showAlert(friendlyMessage, true);
+                const messages = { 'auth/invalid-credential': 'Invalid email or password.', 'auth/user-not-found': 'Invalid email or password.', 'auth/wrong-password': 'Invalid email or password.', 'auth/email-already-in-use': 'This email is already registered. Please log in.', 'auth/weak-password': 'Password must be at least 6 characters long.' };
+                showAlert(messages[error.code] || 'Authentication failed. Please try again.', true);
+                console.error("Auth error:", error.code);
             }
         }
 
         async function handleGoogleLogin() {
             try {
                 await signInWithPopup(auth, new GoogleAuthProvider());
-                profileModal.classList.add('hidden');
+                document.getElementById('profile-modal')?.classList.add('hidden');
                 showAlert('Logged in with Google successfully!');
-            } catch (error) { 
-                showAlert(error.message, true); 
-            }
+            } catch (error) { showAlert(error.message, true); }
         }
         
         viewSwitcher.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') {
-                const view = e.target.dataset.view;
-                const allowedRoles = { 
-                    customer: ['customer', 'kitchen', 'delivery', 'owner', 'developer'], 
-                    kitchen: ['kitchen', 'owner', 'developer'], 
-                    transport: ['delivery', 'owner', 'developer'], 
-                    owner: ['owner', 'developer'], 
-                    developer: ['developer'] 
-                };
-                if(allowedRoles[view] && allowedRoles[view].includes(userRole)) {
-                    Object.keys(views).forEach(key => {
-                        views[key].classList.remove('view-active');
-                        views[key].classList.add('view-hidden');
-                    });
-                    views[view].classList.remove('view-hidden');
-                    views[view].classList.add('view-active');
-                    
-                    Array.from(viewSwitcher.children).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
-                    
-                    if(view === 'developer' && userRole === 'developer') {
-                        loadAllOrders();
-                    }
-                } else {
-                    showAlert("You don't have permission to access this view.", true);
-                }
+            if (e.target.tagName !== 'BUTTON') return;
+            const view = e.target.dataset.view;
+            allOrdersListener?.(); allOrdersListener = null;
+            const allowed = { customer: ['customer', 'kitchen', 'delivery', 'owner', 'developer'], kitchen: ['kitchen', 'owner', 'developer'], transport: ['delivery', 'owner', 'developer'], owner: ['owner', 'developer'], developer: ['developer'] };
+            if (allowed[view]?.includes(userRole)) {
+                Object.values(views).forEach(v => v.classList.add('view-hidden'));
+                views[view].classList.remove('view-hidden');
+                views[view].classList.add('view-active');
+                Array.from(viewSwitcher.children).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
+                if (view === 'developer' && userRole === 'developer') loadAllOrders();
+            } else {
+                showAlert("You don't have permission to access this view.", true);
             }
         });
 
         function loadOwnerDashboard() {
-            if((userRole !== 'owner' && userRole !== 'developer') || !isFirebaseReady) return;
-            
-            const ordersQuery = query(collection(db, "orders"));
-            onSnapshot(ordersQuery, (snapshot) => {
-                const allOrders = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
-                updateDashboard(allOrders);
-            });
+            if (!['owner', 'developer'].includes(userRole) || !isFirebaseReady) return;
+            onSnapshot(query(collection(db, "orders")), (snapshot) => updateDashboard(snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))));
             loadStaffList();
         }
 
         function updateDashboard(allOrders) {
-            // Calculate KPIs
-            const totalRevenue = allOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+            const totalRevenue = allOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
             const totalOrders = allOrders.length;
             const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-
-            // Update KPI cards in UI
             document.getElementById('kpi-total-revenue').textContent = `₹${totalRevenue.toFixed(2)}`;
             document.getElementById('kpi-total-orders').textContent = totalOrders;
             document.getElementById('kpi-avg-order-value').textContent = `₹${avgOrderValue.toFixed(2)}`;
-
             drawSalesChart(allOrders);
             drawStatusChart(allOrders);
         }
 
         function drawSalesChart(orders) {
-            const salesCtx = document.getElementById('sales-chart-canvas').getContext('2d');
-            if(salesChartInstance) {
-                salesChartInstance.destroy();
-            }
-
-            const salesByDate = {};
-            orders.forEach(order => {
+            const ctx = document.getElementById('sales-chart-canvas').getContext('2d');
+            salesChartInstance?.destroy();
+            const salesByDate = orders.reduce((acc, order) => {
                 if (order.createdAt?.toDate) {
-                    const date = order.createdAt.toDate().toLocaleDateString('en-CA'); // YYYY-MM-DD
-                    salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
+                    const date = order.createdAt.toDate().toLocaleDateString('en-CA');
+                    acc[date] = (acc[date] || 0) + (order.totalAmount || 0);
                 }
-            });
-
+                return acc;
+            }, {});
             const sortedDates = Object.keys(salesByDate).sort();
-            const chartLabels = sortedDates.map(date => new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short'}));
-            const chartData = sortedDates.map(date => salesByDate[date]);
-
-            salesChartInstance = new Chart(salesCtx, {
-                type: 'bar',
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        label: 'Sales',
-                        data: chartData,
-                        backgroundColor: 'rgba(94, 92, 230, 0.8)',
-                        borderColor: 'rgba(94, 92, 230, 1)',
-                        borderWidth: 1,
-                        borderRadius: 8,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '₹' + value;
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ` Sales: ₹${context.raw.toFixed(2)}`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            salesChartInstance = new Chart(ctx, { type: 'bar', data: { labels: sortedDates.map(d => new Date(d).toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})), datasets: [{ label: 'Sales', data: sortedDates.map(d => salesByDate[d]), backgroundColor: 'rgba(94, 92, 230, 0.8)', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: v => '₹' + v } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` Sales: ₹${c.raw.toFixed(2)}` } } } } });
         }
 
         function drawStatusChart(orders) {
-            const statusCtx = document.getElementById('status-chart-canvas').getContext('2d');
-            if (statusChartInstance) {
-                statusChartInstance.destroy();
-            }
-            
-            const statusCounts = {};
-            orders.forEach(order => {
+            const ctx = document.getElementById('status-chart-canvas').getContext('2d');
+            statusChartInstance?.destroy();
+            const statusCounts = orders.reduce((acc, order) => {
                 const status = order.status ? order.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Unknown';
-                statusCounts[status] = (statusCounts[status] || 0) + 1;
-            });
-            
+                acc[status] = (acc[status] || 0) + 1;
+                return acc;
+            }, {});
             const statusLabels = Object.keys(statusCounts);
-            const statusData = Object.values(statusCounts);
-            
-            const statusColors = {
-                'New': '#0071e3',
-                'Preparing': '#ff9500',
-                'Ready For Pickup': '#34c759',
-                'Out For Delivery': '#5e5ce6',
-                'Completed': '#8e8e93'
-            };
-            
-            statusChartInstance = new Chart(statusCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: statusLabels,
-                    datasets: [{
-                        label: 'Orders',
-                        data: statusData,
-                        backgroundColor: statusLabels.map(label => statusColors[label] || '#cccccc'),
-                        borderColor: '#ffffff',
-                        borderWidth: 4,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                    }
-                }
+            const statusColors = { 'New': '#0071e3', 'Preparing': '#ff9500', 'Ready For Pickup': '#34c759', 'Out For Delivery': '#5e5ce6', 'Completed': '#8e8e93' };
+            statusChartInstance = new Chart(ctx, { type: 'doughnut', data: { labels: statusLabels, datasets: [{ label: 'Orders', data: Object.values(statusCounts), backgroundColor: statusLabels.map(l => statusColors[l] || '#cccccc'), borderColor: '#ffffff', borderWidth: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+        }
+
+        function listenToOrderHistory() {
+            if (!['owner', 'developer'].includes(userRole)) return;
+            onSnapshot(query(collection(db, "orders"), where("status", "==", "completed")), snapshot => {
+                completedOrders = snapshot.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+                filterAndRenderHistory();
             });
         }
 
+        function filterAndRenderHistory() {
+            const listEl = document.getElementById('order-history-list');
+            if (!listEl) return;
+            const now = new Date(); const startOfWeek = new Date(now); startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); startOfWeek.setHours(0,0,0,0); const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            let filtered = completedOrders;
+            if (historyFilter === 'week') filtered = completedOrders.filter(o => o.createdAt?.toDate() >= startOfWeek);
+            if (historyFilter === 'month') filtered = completedOrders.filter(o => o.createdAt?.toDate() >= startOfMonth);
+            listEl.innerHTML = filtered.length === 0 ? `<p class="text-gray-500 text-center py-4">No past orders for this period.</p>` : filtered.map(o => `<div class="bg-gray-50 p-4 rounded-lg border"><div class="flex justify-between items-start"><div><p class="font-semibold">${o.customerName}</p><p class="text-sm text-gray-500">${o.createdAt.toDate().toLocaleDateString('en-GB', {year:'numeric',month:'long',day:'numeric'})}</p><p class="text-sm text-gray-600 mt-1">Total: ₹${o.totalAmount}</p></div><div class="flex flex-col items-end gap-2"><p class="text-xs text-gray-500 bg-white px-2 py-1 rounded-md">ID: ${o.id.substring(0,8)}</p>${o.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">TEST</span>':''}</div></div><p class="text-sm text-gray-500 mt-2 pt-2 border-t">Items: ${o.items.map(i=>`${i.name} x${i.quantity}`).join(', ')}</p></div>`).join('');
+        }
+
+        function updateHistoryFilterButtons() {
+            document.querySelectorAll('.history-filter-btn').forEach(btn => btn.classList.toggle('btn-active', btn.dataset.filter === historyFilter));
+        }
 
         async function loadStaffList() {
             const staffListEl = document.getElementById('staff-list');
-            const staffQuery = query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]));
-            const snapshot = await getDocs(staffQuery);
-            staffListEl.innerHTML = '';
-            if (snapshot.empty) { 
-                staffListEl.innerHTML = '<p class="text-gray-500">No staff members found.</p>'; 
-                return; 
-            }
-            snapshot.docs.forEach(doc => {
-                const staff = doc.data();
-                staffListEl.innerHTML += `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium text-gray-900">${staff.email}</p><p class="text-sm text-gray-500 capitalize">${staff.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`;
-            });
+            const snapshot = await getDocs(query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"])));
+            staffListEl.innerHTML = snapshot.empty ? '<p class="text-gray-500">No staff members found.</p>' : snapshot.docs.map(doc => { const s = doc.data(); return `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${s.email}</p><p class="text-sm text-gray-500 capitalize">${s.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>` }).join('');
         }
         
         async function addStaff() {
-            const email = document.getElementById('staff-email').value;
-            const role = document.getElementById('staff-role').value;
-            const q = query(collection(db, "users"), where("email", "==", email));
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) { 
-                showAlert("Error: User must sign up first.", true); 
-                return; 
-            }
-            await setDoc(doc(db, "users", snapshot.docs[0].id), { email, role }, { merge: true });
-            showAlert(`Role updated for ${email}.`);
-            document.getElementById('add-staff-form').reset();
-            loadStaffList();
+            const email = document.getElementById('staff-email').value; const role = document.getElementById('staff-role').value;
+            const snapshot = await getDocs(query(collection(db, "users"), where("email", "==", email)));
+            if (snapshot.empty) return showAlert("Error: User must sign up first before being assigned a role.", true); 
+            await setDoc(doc(db, "users", snapshot.docs[0].id), { role }, { merge: true });
+            showAlert(`Role updated for ${email}.`); document.getElementById('add-staff-form').reset(); loadStaffList();
         }
 
-        async function loadDeveloperPanel() {
-            renderTestMenuItems();
-            loadAdminPanel();
-            loadAllOrders();
+        function loadDeveloperPanel() {
+            renderTestMenuItems(); loadAdminPanel(); loadAllOrders();
+            document.getElementById('order-search-input').addEventListener('input', loadAllOrders);
         }
 
         function renderTestMenuItems() {
             const container = document.getElementById('test-menu-items');
-            if (!container) return;
-            container.innerHTML = menu.map(item => 
-                `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
-                    <input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">
-                    <span class="text-sm">${item.name} (₹${item.price})</span>
-                </label>`
-            ).join('');
+            if(container) container.innerHTML = menu.map(item => `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100"><input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}"><span class="text-sm">${item.name} (₹${item.price})</span></label>`).join('');
         }
 
         async function runSystemTests() {
-            const testFirebase = document.getElementById('test-firebase');
-            const testDatabase = document.getElementById('test-database');
-            const testAuth = document.getElementById('test-auth');
-
-            testFirebase.textContent = isFirebaseReady ? 'PASS' : 'FAIL';
-            testFirebase.className = isFirebaseReady ? 'test-badge test-pass' : 'test-badge test-fail';
-
-            try {
-                await getDocs(query(collection(db, "orders")));
-                testDatabase.textContent = 'PASS';
-                testDatabase.className = 'test-badge test-pass';
-            } catch (error) {
-                testDatabase.textContent = 'FAIL';
-                testDatabase.className = 'test-badge test-fail';
-            }
-
-            testAuth.textContent = auth.currentUser ? 'PASS' : 'FAIL';
-            testAuth.className = auth.currentUser ? 'test-badge test-pass' : 'test-badge test-fail';
+            const tests = { firebase: document.getElementById('test-firebase'), database: document.getElementById('test-database'), auth: document.getElementById('test-auth') };
+            const setStatus = (el, pass) => { el.textContent = pass ? 'PASS' : 'FAIL'; el.className = `test-badge ${pass ? 'test-pass' : 'test-fail'}`; };
+            setStatus(tests.firebase, isFirebaseReady);
+            try { await getDoc(doc(db, "users", "test-read")); setStatus(tests.database, true); } catch (e) { setStatus(tests.database, e.code === 'permission-denied'); }
+            setStatus(tests.auth, !!auth.currentUser);
         }
 
         async function createTestOrder(e) {
             e.preventDefault();
-            const selectedItems = Array.from(document.querySelectorAll('.test-menu-checkbox:checked')).map(cb => ({
-                id: parseInt(cb.dataset.id),
-                name: cb.dataset.name,
-                price: parseInt(cb.dataset.price),
-                quantity: 1
-            }));
-
-            if (selectedItems.length === 0) return showAlert('Please select at least one item.', true);
-
-            const orderData = {
-                customerName: document.getElementById('test-name').value,
-                customerAddress: document.getElementById('test-address').value,
-                customerPhone: document.getElementById('test-phone').value,
-                items: selectedItems,
-                totalAmount: selectedItems.reduce((sum, item) => sum + item.price, 0),
-                status: 'new',
-                createdAt: serverTimestamp(),
-                userId: 'test-developer',
-                isTestOrder: true,
-            };
-
-            try {
-                await addDoc(collection(db, "orders"), orderData);
-                showAlert('Test order created successfully!');
-                document.querySelectorAll('.test-menu-checkbox').forEach(cb => cb.checked = false);
-                loadAllOrders();
-            } catch (error) {
-                showAlert('Failed to create test order.', true);
-                console.error(error);
-            }
+            const items = Array.from(document.querySelectorAll('.test-menu-checkbox:checked')).map(cb => ({ id: parseInt(cb.dataset.id), name: cb.dataset.name, price: parseInt(cb.dataset.price), quantity: 1, ready: false }));
+            if (items.length === 0) return showAlert('Please select at least one item.', true);
+            const orderData = { customerName: document.getElementById('test-name').value, customerAddress: document.getElementById('test-address').value, customerPhone: document.getElementById('test-phone').value, items, totalAmount: items.reduce((s,i) => s + i.price, 0), status: 'new', createdAt: serverTimestamp(), userId: 'test-developer', isTestOrder: true, };
+            try { await addDoc(collection(db, "orders"), orderData); showAlert('Test order created successfully!'); document.getElementById('test-order-form').reset(); } catch (error) { showAlert('Failed to create test order.', true); console.error(error); }
         }
         
         async function resetCustomerOrders() {
-            if (userRole !== 'developer') {
-                showAlert("You don't have permission to perform this action.", true);
-                return;
-            }
-            try {
-                showAlert('Resetting all non-test customer orders...', false);
-                const ordersQuery = query(collection(db, "orders"), where("isTestOrder", "==", false));
-                const snapshot = await getDocs(ordersQuery);
-
-                if (snapshot.empty) {
-                    showAlert('No customer orders to reset.', false);
-                    return;
-                }
-                const deletePromises = [];
-                snapshot.forEach(doc => {
-                    deletePromises.push(deleteDoc(doc.ref));
-                });
-                await Promise.all(deletePromises);
-                showAlert('All customer orders have been successfully reset.', false);
-            } catch (error) {
-                console.error("Error resetting customer orders: ", error);
-                showAlert('Failed to reset customer orders.', true);
-            }
+            if (userRole !== 'developer') return showAlert("You don't have permission for this.", true);
+            const q = query(collection(db, "orders"), where("isTestOrder", "!=", true));
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) return showAlert('No customer orders to reset.', false);
+            await Promise.all(snapshot.docs.map(d => deleteDoc(d.ref)));
+            showAlert('All customer orders have been successfully reset.', false);
         }
 
-        async function loadAllOrders() {
-            const container = document.getElementById('all-orders-list');
-            if (!container) return;
-
-            const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-            
-            if (allOrdersListener) allOrdersListener();
-            
-            allOrdersListener = onSnapshot(q, snapshot => {
-                container.innerHTML = '';
-                if (snapshot.empty) {
-                    container.innerHTML = '<p class="text-gray-500">No orders found.</p>';
-                    return;
-                }
-
-                snapshot.forEach(docSnap => {
+        function loadAllOrders() {
+            const container = document.getElementById('all-orders-list'); if (!container) return;
+            allOrdersListener?.();
+            const searchTerm = document.getElementById('order-search-input').value.trim().toLowerCase();
+            allOrdersListener = onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc"), limit(50)), (snapshot) => {
+                let docs = snapshot.docs.filter(doc => !searchTerm || doc.data().customerName.toLowerCase().includes(searchTerm));
+                container.innerHTML = docs.length === 0 ? '<p class="text-gray-500 text-center py-4">No orders found.</p>' : docs.map(docSnap => {
                     const order = docSnap.data();
-                    const statusColors = {
-                        'new': 'bg-blue-100 text-blue-800',
-                        'preparing': 'bg-orange-100 text-orange-800',
-                        'ready_for_pickup': 'bg-green-100 text-green-800',
-                        'out_for_delivery': 'bg-purple-100 text-purple-800',
-                        'completed': 'bg-gray-100 text-gray-800'
-                    };
-                    const statusColor = statusColors[order.status] || 'bg-gray-100 text-gray-800';
-                    const testBadge = order.isTestOrder ? '<span class="test-badge test-pending">TEST ORDER</span>' : '';
-                    
-                    const createdTime = order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : 'N/A';
-                    
-                    container.innerHTML += `
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <p class="font-semibold text-gray-900">${order.customerName}</p>
-                                    <p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p>
-                                    <p class="text-xs text-gray-500">${createdTime}</p>
-                                </div>
-                                <div class="flex gap-2">
-                                    ${testBadge}
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${order.status.replace(/_/g, ' ').toUpperCase()}</span>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 text-sm">
-                                <div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div>
-                                <div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div>
-                                <div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div>
-                                <div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i => i.name).join(', ')}</div>
-                            </div>
-                            <div class="mt-3 flex gap-2 flex-wrap">
-                                <button data-id="${docSnap.id}" data-status="new" class="dev-update-status text-xs px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">New</button>
-                                <button data-id="${docSnap.id}" data-status="preparing" class="dev-update-status text-xs px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600">Preparing</button>
-                                <button data-id="${docSnap.id}" data-status="ready_for_pickup" class="dev-update-status text-xs px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Ready</button>
-                                <button data-id="${docSnap.id}" data-status="out_for_delivery" class="dev-update-status text-xs px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">Out</button>
-                                <button data-id="${docSnap.id}" data-status="completed" class="dev-update-status text-xs px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600">Complete</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            });
+                    const statusColors = { 'new':'bg-blue-100 text-blue-800', 'preparing':'bg-orange-100 text-orange-800', 'ready_for_pickup':'bg-green-100 text-green-800', 'out_for_delivery':'bg-purple-100 text-purple-800', 'completed':'bg-gray-100 text-gray-800' };
+                     const devButtonStatusColors = { 'new': 'bg-blue-500 hover:bg-blue-600', 'preparing': 'bg-orange-500 hover:bg-orange-600', 'ready_for_pickup': 'bg-green-500 hover:bg-green-600', 'out_for_delivery': 'bg-purple-500 hover:bg-purple-600', 'completed': 'bg-gray-500 hover:bg-gray-600' };
+                    const devButtonsHTML = ['new','preparing','ready_for_pickup','out_for_delivery','completed'].map(s => `<button data-id="${docSnap.id}" data-status="${s}" class="dev-update-status text-xs px-3 py-1 text-white rounded ${devButtonStatusColors[s]} capitalize">${s.split('_')[0]}</button>`).join('');
+
+                    return `<div class="bg-gray-50 p-4 rounded-lg"><div class="flex justify-between items-start mb-3"><div><p class="font-semibold">${order.customerName}</p><p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0,12)}</p><p class="text-xs text-gray-500">${order.createdAt?.toDate().toLocaleString() || 'N/A'}</p></div><div class="flex gap-2 items-center">${order.isTestOrder ? '<span class="test-badge test-pending">TEST</span>' : ''}<span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status]||'bg-gray-100'}">${order.status.replace(/_/g,' ').toUpperCase()}</span></div></div><div class="grid grid-cols-2 gap-2 text-sm"><div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div><div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div><div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div><div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i=>i.name).join(', ')}</div></div><div class="mt-3 flex gap-2 flex-wrap">${devButtonsHTML}</div></div>`;
+                }).join('');
+            }, (error) => { console.error("Error with all orders listener:", error); container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`; });
         }
 
         async function loadAdminPanel() {
             const userListEl = document.getElementById('admin-user-list');
             const usersSnapshot = await getDocs(collection(db, "users"));
-            userListEl.innerHTML = '';
-            usersSnapshot.forEach(userDoc => {
-                const userData = userDoc.data();
-                if (userData.email === DEVELOPER_EMAIL) return; 
+            userListEl.innerHTML = usersSnapshot.docs.filter(d => d.data().email !== DEVELOPER_EMAIL).map(doc => {
+                const userData = doc.data();
                 const roles = ['customer', 'kitchen', 'delivery', 'owner'];
                 const options = roles.map(r => `<option value="${r}" ${userData.role === r ? 'selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`).join('');
-                userListEl.innerHTML += `<tr><td class="px-6 py-4 whitespace-nowrap">${userData.email}</td><td class="px-6 py-4 whitespace-nowrap capitalize">${userData.role}</td><td class="px-6 py-4 whitespace-nowrap"><select data-uid="${userDoc.id}" class="role-selector border border-gray-300 rounded px-2 py-1">${options}</select></td></tr>`;
-            });
+                return `<tr><td class="px-6 py-4 whitespace-nowrap">${userData.email || 'N/A'}</td><td class="px-6 py-4 whitespace-nowrap capitalize">${userData.role}</td><td class="px-6 py-4 whitespace-nowrap"><select data-uid="${doc.id}" class="role-selector border rounded px-2 py-1">${options}</select></td></tr>`;
+            }).join('');
+        }
+        
+        function renderCreateOrderModal() {
+            staffCart = [];
+            document.getElementById('create-order-content').innerHTML = `
+                <form id="staff-create-order-form"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h3 class="text-lg font-medium">Details</h3><div class="space-y-4 mt-4"><input type="text" id="staff-customer-name" placeholder="Customer Name" class="w-full" required><input type="text" id="staff-customer-address" placeholder="Address" class="w-full" required><input type="tel" id="staff-customer-phone" placeholder="Phone" class="w-full" required></div></div><div><h3 class="text-lg font-medium">Select Items</h3><div id="staff-menu-selection" class="space-y-3 mt-4 max-h-64 overflow-y-auto pr-2">${menu.map(item => `<div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg"><div><p class="font-medium">${item.name}</p><p class="text-sm text-gray-500">₹${item.price}</p></div><div class="quantity-selector"><button type="button" class="quantity-btn staff-quantity-minus" data-id="${item.id}">-</button><span id="staff-qty-${item.id}" class="quantity-display">0</span><button type="button" class="quantity-btn staff-quantity-plus" data-id="${item.id}">+</button></div></div>`).join('')}</div><div id="staff-cart-summary" class="border-t pt-4 mt-4"><div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹0</span></div></div></div></div><div class="mt-8 pt-6 border-t"><button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Order (No Payment)</button></div></form>`;
+        }
+        
+        function updateStaffCartUI() {
+            let total = staffCart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            menu.forEach(item => { document.getElementById(`staff-qty-${item.id}`).textContent = staffCart.find(ci => ci.id === item.id)?.quantity || 0; });
+            document.querySelector('#staff-cart-summary span:last-child').textContent = `₹${total}`;
+        }
+        
+        async function handleStaffOrderCreation(e) {
+            e.preventDefault();
+            if (staffCart.length === 0) return showAlert('Please add at least one item.', true);
+            const orderData = { customerName: document.getElementById('staff-customer-name').value, customerAddress: document.getElementById('staff-customer-address').value, customerPhone: document.getElementById('staff-customer-phone').value, items: staffCart.map(item => ({...item, ready: false})), totalAmount: staffCart.reduce((s,i) => s + i.price * i.quantity, 0), status: 'new', createdAt: serverTimestamp(), userId: 'staff-created', isTestOrder: false, createdBy: userEmail };
+            try { await addDoc(collection(db, "orders"), orderData); showAlert('Order created successfully!'); createOrderModal.classList.add('hidden'); } catch (error) { showAlert('Failed to create order.', true); }
         }
 
         document.body.addEventListener('click', async e => {
-            if (e.target.classList.contains('add-to-cart-btn')) {
-                const itemId = parseInt(e.target.dataset.id);
-                const item = menu.find(m => m.id === itemId);
-                const existing = cart.find(c => c.id === itemId);
-                if (existing) existing.quantity++;
-                else cart.push({...item, quantity: 1});
-                updateCart();
-            }
+            const target = e.target;
+            const itemId = parseInt(target.dataset.id);
+            if (target.matches('.add-to-cart-btn')) { cart.push({...menu.find(m => m.id === itemId), quantity: 1}); }
+            if (target.matches('.quantity-plus')) { const item = cart.find(m => m.id === itemId); if (item) item.quantity++; }
+            if (target.matches('.quantity-minus')) { const idx = cart.findIndex(m => m.id === itemId); if (idx > -1) { cart[idx].quantity--; if (cart[idx].quantity <= 0) cart.splice(idx, 1); } }
+            if (target.matches('.add-to-cart-btn, .quantity-plus, .quantity-minus')) { updateCart(); renderMenu(); }
 
-            if (e.target.id === 'add-more-items-btn') {
-                if (currentTrackingOrderId) {
-                    const orderDocRef = doc(db, "orders", currentTrackingOrderId);
-                    const orderDocSnap = await getDoc(orderDocRef);
-                    if (orderDocSnap.exists()) {
-                        startEditingOrder(orderDocSnap.data());
-                    }
-                }
-            }
-            
-            if (e.target.id === 'reset-customer-orders-btn') {
-                await resetCustomerOrders();
-            }
+            if (target.matches('.staff-quantity-plus')) { const item = menu.find(m => m.id === itemId); let cartItem = staffCart.find(ci => ci.id === itemId); if (cartItem) cartItem.quantity++; else staffCart.push({...item, quantity: 1}); updateStaffCartUI(); }
+            if (target.matches('.staff-quantity-minus')) { let idx = staffCart.findIndex(m => m.id === itemId); if(idx > -1) { staffCart[idx].quantity--; if (staffCart[idx].quantity <= 0) staffCart.splice(idx, 1); updateStaffCartUI(); } }
 
-            if (e.target.classList.contains('update-status-btn') || e.target.classList.contains('dev-update-status')) {
-                const orderId = e.target.dataset.id;
-                const newStatus = e.target.dataset.status;
-                try {
-                    await updateDoc(doc(db, "orders", orderId), { status: newStatus });
-                    showAlert('Order status updated!');
-                } catch (error) {
-                    showAlert('Failed to update status.', true);
-                }
-            }
-
-            if (e.target.classList.contains('remove-staff-btn')) {
-                const staffId = e.target.dataset.id;
-                await setDoc(doc(db, "users", staffId), { role: 'customer' }, { merge: true });
-                showAlert('Staff member removed.');
-                loadStaffList();
-            }
-
-            if (e.target.id === 'run-system-test') {
-                runSystemTests();
-                showAlert('System tests completed. Check results above.');
-            }
-
-            if (e.target.id === 'refresh-orders') {
-                loadAllOrders();
-                showAlert('Orders refreshed.');
-            }
+            if (target.matches('#add-more-items-btn') && currentTrackingOrderId) { const orderDoc = await getDoc(doc(db, "orders", currentTrackingOrderId)); if (orderDoc.exists()) startEditingOrder(orderDoc.data()); }
+            if (target.matches('#reset-customer-orders-btn')) await resetCustomerOrders();
+            if (target.matches('.history-filter-btn')) { historyFilter = target.dataset.filter; updateHistoryFilterButtons(); filterAndRenderHistory(); }
+            if (target.matches('.item-ready-toggle')) { toggleItemReady(target.dataset.orderId, parseInt(target.dataset.itemId)); }
+            if (target.matches('.update-status-btn, .dev-update-status')) { try { await updateDoc(doc(db, "orders", target.dataset.id), { status: target.dataset.status }); showAlert('Order status updated!'); } catch (e) { showAlert('Failed to update status.', true); } }
+            if (target.matches('.remove-staff-btn')) { await setDoc(doc(db, "users", target.dataset.id), { role: 'customer' }, { merge: true }); showAlert('Staff member removed.'); loadStaffList(); }
+            if (target.matches('#run-system-test')) { runSystemTests(); showAlert('System tests completed.'); }
+            if (target.matches('#refresh-orders')) { document.getElementById('order-search-input').value = ''; loadAllOrders(); }
         });
 
         document.body.addEventListener('submit', async e => {
-            if (e.target.id === 'order-form') {
-                e.preventDefault();
-                const mode = e.target.dataset.mode;
-                if (mode === 'update') {
-                    await updateOrder();
-                } else {
-                    await placeOrder();
-                }
-            }
-
-            if (e.target.id === 'add-staff-form') {
-                e.preventDefault();
-                await addStaff();
-            }
-
-            if (e.target.id === 'test-order-form') {
-                e.preventDefault();
-                await createTestOrder(e);
-            }
+            e.preventDefault();
+            if (e.target.id === 'order-form') { e.target.dataset.mode === 'update' ? await updateOrder() : await placeOrder(); }
+            if (e.target.id === 'add-staff-form') await addStaff();
+            if (e.target.id === 'test-order-form') await createTestOrder(e);
+            if (e.target.id === 'staff-create-order-form') await handleStaffOrderCreation(e);
         });
 
         document.body.addEventListener('change', async e => {
-            if (e.target.classList.contains('role-selector')) {
-                const newRole = e.target.value;
-                const targetUid = e.target.dataset.uid;
-                await setDoc(doc(db, "users", targetUid), { role: newRole }, { merge: true });
-                showAlert('User role updated successfully.');
-            }
+            if (e.target.classList.contains('role-selector')) { await setDoc(doc(db, "users", e.target.dataset.uid), { role: e.target.value }, { merge: true }); showAlert('User role updated.'); }
         });
     </script>
 </body>
