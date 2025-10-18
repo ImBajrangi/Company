@@ -32,6 +32,11 @@
             overflow-x: hidden;
         }
 
+        ::selection {
+            background: var(--accent-blue);
+            color: white;
+        }
+
         /* Header - Apple Style */
         .main-header {
             position: sticky;
@@ -75,7 +80,7 @@
         }
 
         .main-nav a:hover {
-            color: var(--text-secondary);
+            color: var(--accent-hover);
         }
 
         .header-actions {
@@ -95,7 +100,7 @@
         }
 
         .action-btn:hover {
-            color: var(--text-secondary);
+            color: var(--accent-hover);
         }
 
         .action-btn.liked {
@@ -123,7 +128,7 @@
         }
 
         .like-count {
-            background: #ff3b30;
+            background: #fc3025;
         }
 
         /* Search Modal */
@@ -174,7 +179,7 @@
         }
 
         .search-input::placeholder {
-            color: var(--text-secondary);
+            color: var(--accent-hover);
         }
 
         .search-close {
