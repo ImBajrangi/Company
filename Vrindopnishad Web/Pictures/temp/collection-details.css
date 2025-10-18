@@ -14,10 +14,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    ::selection {
-        background-color: var(--primary-color);
-        color: #000;
-    }
 }
 
 body {
@@ -25,6 +21,10 @@ body {
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.6;
+        ::selection {
+        background-color: var(--primary-color);
+        color: #000;
+    }
 }
 
 .container {
