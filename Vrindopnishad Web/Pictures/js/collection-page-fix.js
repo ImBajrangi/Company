@@ -2,6 +2,90 @@
 let collectionsData = {};
 const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
 
+// Enhanced collection details map with all necessary data
+const collectionDetailsMap = {
+    "sacred-temples": {
+        images: [
+            "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
+            "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
+            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+            "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif"
+        ],
+        price: 2999,
+        tags: ["temples", "architecture", "spiritual", "heritage"]
+    },
+    "divine-portraits": {
+        images: [
+            "https://i.postimg.cc/yx32SQ76/62.avif",
+            "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
+            "https://i.postimg.cc/SsNLXZf8/tempImageXR0Khf.avif",
+            "https://i.postimg.cc/66ZV8GdG/tempImageEpdAxY.avif"
+        ],
+        price: 3499,
+        tags: ["portraits", "deities", "art", "paintings"]
+    },
+    "spiritual-landscapes": {
+        images: [
+            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+            "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
+            "https://i.postimg.cc/h4zxHqXr/temp-Image0m4o-HY.avif",
+            "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
+        ],
+        price: 2499,
+        tags: ["landscapes", "nature", "sacred", "pilgrimage"]
+    },
+    "festival-moments": {
+        images: [
+            "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif",
+            "https://i.postimg.cc/L89jQCG1/tempImageQAFHVQ.avif",
+            "https://i.postimg.cc/cJ6w0KxH/tempImageyiRJ1l.avif",
+            "https://i.postimg.cc/Fs1PCKcg/tempImagez5mFhZ.avif"
+        ],
+        price: 3999,
+        tags: ["festivals", "celebrations", "culture", "events"]
+    },
+    "meditation-spaces": {
+        images: [
+            "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
+            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+            "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
+            "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
+        ],
+        price: 2799,
+        tags: ["meditation", "peace", "zen", "tranquility"]
+    },
+    "character-art": {
+        images: [
+            "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif",
+            "https://i.postimg.cc/bN3NGZmF/temp-Imagefa-W5wa.avif",
+            "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif",
+            "https://i.postimg.cc/hPpPJX24/temp-Imageg-VDr-Y9.avif"
+        ],
+        price: 4999,
+        tags: ["characters", "illustrations", "anime", "art"]
+    },
+    "warrior-theme": {
+        images: [
+            "https://i.postimg.cc/XqVRBgBX/temp-Image-KVsh-Fy.avif",
+            "https://i.postimg.cc/0yF1XmFV/temp-Image-PRh2-Km.avif",
+            "https://i.postimg.cc/nzY8LWzT/temp-Image0-GHro6.avif",
+            "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif"
+        ],
+        price: 3299,
+        tags: ["warriors", "samurai", "knights", "battle"]
+    },
+    "dark-aesthetic": {
+        images: [
+            "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif",
+            "https://i.postimg.cc/FFVmFYkR/temp-Imageoo-RS7-Y.avif",
+            "https://i.postimg.cc/fWCnn11f/temp-Image-Qu2-Bi-Z.avif",
+            "https://i.postimg.cc/GmH1jz7H/temp-Image-UQR4i-G.avif"
+        ],
+        price: 3799,
+        tags: ["dark", "modern", "aesthetic", "moody"]
+    }
+};
+
 // Search functionality
 function initializeSearch() {
     const searchToggle = document.getElementById('search-toggle');
@@ -33,7 +117,6 @@ function initializeSearch() {
                 return;
             }
 
-            // Create a flattened array of ALL items for searching
             const allItems = Object.values(collectionsData).flatMap(category => 
                 category.items || category
             );
@@ -41,11 +124,11 @@ function initializeSearch() {
             const results = allItems
                 .filter(item => 
                     (item.title && item.title.toLowerCase().includes(query)) ||
-                    (item.description && item.description.toLowerCase().includes(query))
+                    (item.description && item.description.toLowerCase().includes(query)) ||
+                    (collectionDetailsMap[item.id]?.tags?.some(tag => tag.toLowerCase().includes(query)))
                 )
                 .slice(0, 10);
             
-            // Clear previous results
             searchResults.innerHTML = '';
 
             if (results.length > 0) {
@@ -60,10 +143,8 @@ function initializeSearch() {
                         <span class="category-tag">${item.category || 'Collection'}</span>
                     `;
                     
-                    // Attach event listener directly using JavaScript (safer than inline onclick)
                     resultElement.addEventListener('click', () => {
                         openPopup(item);
-                        // Optional: close search overlay after selection
                         toggleSearch(); 
                     });
 
@@ -75,7 +156,6 @@ function initializeSearch() {
 
         }, 300);
     }
-    // --- END OF FIX ---
 
     searchToggle.addEventListener('click', toggleSearch);
     searchOverlay.addEventListener('click', (e) => {
@@ -267,7 +347,6 @@ async function loadCollectionsData() {
         const response = await fetch(dataUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        // Assume data.collections holds the category objects (featured, popular, etc.)
         collectionsData = data.collections || data; 
         
         if (data.heroSection) updateHeroSection(data.heroSection);
@@ -309,7 +388,7 @@ function updateNavigation(navItems) {
     navMenu.innerHTML = navItems.map(item => `<a href="${item.href}" class="nav-item ${item.active ? 'active' : ''}">${item.name}</a>`).join('');
 }
 
-// Popup functions
+// Enhanced Popup with proper data passing
 function openPopup(item) {
     const modal = document.getElementById('popup-modal');
     const hero = document.getElementById('popup-hero');
@@ -344,19 +423,42 @@ function openPopup(item) {
         statNumbers[2].textContent = Math.floor(Math.random() * 1000);
     }
     
-    // Logic for the "View Collection" button (Fix for navigation)
+    // ENHANCED: Store complete collection data and navigate
     if (viewCollectionBtn) {
-        // Clone and replace to safely remove old event listeners
         const newBtn = viewCollectionBtn.cloneNode(true);
         viewCollectionBtn.parentNode.replaceChild(newBtn, viewCollectionBtn);
         
         newBtn.addEventListener('click', () => {
             if (item && item.id) {
-                // Navigate to the details page with the correct ID
+                // Prepare complete collection data with enhanced details
+                const detailsData = {
+                    id: item.id,
+                    title: item.title,
+                    description: item.description,
+                    category: item.category,
+                    count: item.count || item.itemCount || 0,
+                    rating: item.rating || 4.5,
+                    views: item.views || 0,
+                    year: item.year || '2024',
+                    image: item.image,
+                    // Enhanced data from collectionDetailsMap
+                    images: collectionDetailsMap[item.id]?.images || [item.image, item.image, item.image, item.image],
+                    price: collectionDetailsMap[item.id]?.price || 2999,
+                    tags: collectionDetailsMap[item.id]?.tags || ['collection', 'art']
+                };
+                
+                // Store in sessionStorage for the details page
+                sessionStorage.setItem('collectionData', JSON.stringify(detailsData));
+                console.log('Navigating to collection details:', item.id);
+                console.log('Stored data:', detailsData);
+                
+                // Navigate to collection details page
+                // Update this path based on your actual file structure
                 const detailsPageUrl = `collection-details.html?id=${item.id}`;
                 window.location.href = detailsPageUrl;
             } else {
                 console.error("Cannot navigate: collection item ID is missing.");
+                alert("Unable to load collection details. Please try again.");
             }
         });
     }
@@ -390,9 +492,9 @@ function initPopup() {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('Initializing collection page...');
     const dataLoaded = await loadCollectionsData();
     
-    // Call initialization functions
     initializeSearch();
     initializeTheme();
     initializeHeaderScroll();
@@ -402,6 +504,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (dataLoaded && Object.keys(collectionsData).length > 0) {
         initializeCollections();
+        console.log('Collections loaded successfully');
     } else {
         const mainContent = document.querySelector('.main-content');
         if (mainContent) {

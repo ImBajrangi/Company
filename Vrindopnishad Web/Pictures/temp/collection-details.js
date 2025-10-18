@@ -1,264 +1,512 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Data is now embedded directly in the script to avoid fetch errors.
-    const collectionsData = {
-      "siteConfig": { /* ... existing siteConfig data ... */ },
-      "navigation": [ /* ... existing navigation data ... */ ],
-      "heroSection": { /* ... existing heroSection data ... */ },
-      "collections": {
-        "featured": {
-          "title": "Featured Collections",
-          "items": [
-            { "id": "sacred-temples", "title": "Sacred Temples", "description": "Ancient temples and spiritual architecture", "count": 45, "rating": 4.8, "image": "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif", "category": "architecture", "featured": true },
-            { "id": "divine-portraits", "title": "Divine Portraits", "description": "Beautiful deity artwork and paintings", "count": 67, "rating": 4.9, "image": "https://i.postimg.cc/yx32SQ76/62.avif", "category": "art", "featured": true },
-            { "id": "spiritual-landscapes", "title": "Spiritual Landscapes", "description": "Sacred places and holy sites", "count": 34, "rating": 4.7, "image": "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif", "category": "nature", "featured": true },
-            { "id": "festival-moments", "title": "Festival Moments", "description": "Captured spiritual celebrations", "count": 89, "rating": 4.6, "image": "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif", "category": "events", "featured": true },
-            { "id": "meditation-spaces", "title": "Meditation Spaces", "description": "Peaceful environments for contemplation", "count": 23, "rating": 4.8, "image": "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif", "category": "nature", "featured": true }
-          ]
-        },
-        "popular": {
-          "title": "Popular Right Now",
-          "items": [
-            { "id": "trending-now", "title": "Trending Now", "description": "Most viewed this week", "count": 156, "rating": 4.5, "image": "https://i.postimg.cc/SsNLXZf8/tempImageXR0Khf.avif", "category": "trending", "views": 15600 },
-            { "id": "rising-stars", "title": "Rising Stars", "description": "Newly popular collections", "count": 78, "rating": 4.7, "image": "https://i.postimg.cc/66ZV8GdG/tempImageEpdAxY.avif", "category": "new", "views": 8900 },
-            { "id": "community-favorites", "title": "Community Favorites", "description": "Highly rated by users", "count": 234, "rating": 4.9, "image": "https://i.postimg.cc/L89jQCG1/tempImageQAFHVQ.avif", "category": "community", "views": 23400 },
-            { "id": "editors-choice", "title": "Editor's Choice", "description": "Curated by our team", "count": 123, "rating": 4.8, "image": "https://i.postimg.cc/cJ6w0KxH/tempImageyiRJ1l.avif", "category": "editorial", "views": 12300 },
-            { "id": "most-downloaded", "title": "Most Downloaded", "description": "Popular downloads", "count": 345, "rating": 4.6, "image": "https://i.postimg.cc/Fs1PCKcg/tempImagez5mFhZ.avif", "category": "downloads", "views": 34500 }
-          ]
-        },
-        "anime": {
-          "title": "Anime Style",
-          "items": [
-            { "id": "mountain-vistas", "title": "Mountain Vistas", "description": "Breathtaking mountain landscapes", "count": 67, "rating": 4.7, "image": "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif", "category": "mountains" },
-            { "id": "ocean-views", "title": "Ocean Views", "description": "Stunning seascapes and beaches", "count": 89, "rating": 4.6, "image": "https://i.postimg.cc/h4zxHqXr/temp-Image0m4o-HY.avif", "category": "ocean" },
-            { "id": "forest-paths", "title": "Forest Paths", "description": "Mystical forest photography", "count": 45, "rating": 4.8, "image": "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif", "category": "forest" },
-            { "id": "desert-landscapes", "title": "Desert Landscapes", "description": "Vast desert scenery", "count": 34, "rating": 4.5, "image": "https://i.postimg.cc/PJHFPtVy/32.avif", "category": "desert" },
-            { "id": "wildlife", "title": "Wildlife", "description": "Amazing animal photography", "count": 123, "rating": 4.9, "image": "https://i.postimg.cc/Ghc5Rmyh/33.avif", "category": "animals" }
-          ]
-        },
-        "rapper": {
-          "title": "Rapper Style",
-          "items": [
-            { "id": "classic-rapper", "title": "Classic Rapper", "description": "Timeless rap artwork", "count": 234, "rating": 4.8, "image": "https://i.postimg.cc/15935GrX/temp-Image5xgxp-E.avif", "category": "classic" },
-            { "id": "modern-art", "title": "Modern Art", "description": "Contemporary anime styles", "count": 145, "rating": 4.7, "image": "https://i.postimg.cc/bN3NGZmF/temp-Imagefa-W5wa.avif", "category": "modern" },
-            { "id": "character-art", "title": "Character Art", "description": "Detailed character illustrations", "count": 178, "rating": 4.6, "image": "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif", "category": "characters" },
-            { "id": "fantasy-worlds", "title": "Fantasy Worlds", "description": "Magical anime landscapes", "count": 89, "rating": 4.9, "image": "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif", "category": "fantasy" },
-            { "id": "abstract-designs", "title": "Abstract Designs", "description": "Artistic interpretations", "count": 67, "rating": 4.5, "image": "https://i.postimg.cc/hPpPJX24/temp-Imageg-VDr-Y9.avif", "category": "abstract" },
-            { "id": "abstract-designs-2", "title": "Abstract Designs", "description": "Artistic interpretations", "count": 67, "rating": 4.5, "image": "https://i.postimg.cc/9FJF4DLF/temp-Image-IZi-RGt.avif", "category": "abstract" },
-            { "id": "abstract-designs-3", "title": "Abstract Designs", "description": "Artistic interpretations", "count": 67, "rating": 4.5, "image": "https://i.postimg.cc/9FJF4DLd/temp-Imageo-NP2g-B.avif", "category": "abstract" },
-            { "id": "abstract-designs-4", "title": "Abstract Designs", "description": "Artistic interpretations", "count": 67, "rating": 4.5, "image": "https://i.postimg.cc/yYV8Ymyd/temp-Imagew-PU6id.avif", "category": "abstract" },
-            { "id": "abstract-designs-5", "title": "Abstract Designs", "description": "Artistic interpretations", "count": 67, "rating": 4.5, "image": "https://i.postimg.cc/Fs9HsyVJ/temp-Imagex8-E6l-H.avif", "category": "abstract" }
-          ]
-        },
-        "dark": {
-          "title": "Dark Aesthetic",
-          "items": [
-            { "id": "modern-buildings", "title": "Modern Buildings", "description": "Contemporary architecture", "count": 89, "rating": 4.6, "image": "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif", "category": "architecture", "views": 15600 },
-            { "id": "historic-structures", "title": "Historic Structures", "description": "Ancient architectural marvels", "count": 67, "rating": 4.8, "image": "https://i.postimg.cc/FFVmFYkR/temp-Imageoo-RS7-Y.avif", "category": "architecture", "views": 12300 },
-            { "id": "city-skylines", "title": "City Skylines", "description": "Urban landscape photography", "count": 123, "rating": 4.7, "image": "https://i.postimg.cc/fWCnn11f/temp-Image-Qu2-Bi-Z.avif", "category": "architecture", "views": 18900 },
-            { "id": "bridges-roads", "title": "Bridges & Roads", "description": "Infrastructure photography", "count": 45, "rating": 4.5, "image": "https://i.postimg.cc/rFGD2ns7/94.avif", "category": "architecture", "views": 9800 },
-            { "id": "interior-design", "title": "Interior Design", "description": "Beautiful indoor spaces", "count": 78, "rating": 4.7, "image": "https://i.postimg.cc/GmH1jz7H/temp-Image-UQR4i-G.avif", "category": "architecture", "views": 14500 },
-            { "id": "modern-buildings-2", "title": "Modern Buildings", "description": "Contemporary architecture", "count": 89, "rating": 4.6, "image": "https://i.postimg.cc/NFpW6rRP/temp-Image-Xfywpn.avif", "category": "modern" },
-            { "id": "historic-structures-2", "title": "Historic Structures", "description": "Ancient architectural marvels", "count": 67, "rating": 4.8, "image": "https://i.postimg.cc/tC2C1sBT/temp-Imageh-Vn64z.avif", "category": "historic" },
-            { "id": "city-skylines-2", "title": "City Skylines", "description": "Urban landscape photography", "count": 123, "rating": 4.7, "image": "https://i.postimg.cc/3JKxJXFJ/temp-Image-VVft-EX.avif", "category": "urban" },
-            { "id": "bridges-roads-2", "title": "Bridges & Roads", "description": "Infrastructure photography", "count": 45, "rating": 4.5, "image": "https://i.postimg.cc/x1hVpHhM/temp-Imageb-UOb-Rv.avif", "category": "infrastructure" },
-            { "id": "interior-design-2", "title": "Interior Design", "description": "Beautiful indoor spaces", "count": 78, "rating": 4.4, "image": "https://i.postimg.cc/3JLTpzB8/temp-Image-Jc5pu-P.avif", "category": "interior" }
-          ]
-        },
-        "warrior": {
-          "title": "Warrior Theme",
-          "items": [
-            { "id": "samurai-culture", "title": "Samurai Culture", "description": "Ancient Japanese warriors", "count": 56, "rating": 4.8, "image": "https://i.postimg.cc/XqVRBgBX/temp-Image-KVsh-Fy.avif", "category": "samurai" },
-            { "id": "medieval-knights", "title": "Medieval Knights", "description": "European knightly traditions", "count": 78, "rating": 4.7, "image": "https://i.postimg.cc/0yF1XmFV/temp-Image-PRh2-Km.avif", "category": "knights" },
-            { "id": "viking-heritage", "title": "Viking Heritage", "description": "Norse warrior culture", "count": 45, "rating": 4.6, "image": "https://i.postimg.cc/nzY8LWzT/temp-Image0-GHro6.avif", "category": "viking" },
-            { "id": "spartan-warriors", "title": "Spartan Warriors", "description": "Ancient Greek fighters", "count": 34, "rating": 4.9, "image": "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif", "category": "spartan" },
-            { "id": "native-warriors", "title": "Native Warriors", "description": "Indigenous fighting traditions", "count": 23, "rating": 4.5, "image": "https://i.postimg.cc/4dJP64sG/tempImage6EgCLR.avif", "category": "native" },
-            { "id": "native-warriors-2", "title": "Native Warriors", "description": "Indigenous fighting traditions", "count": 23, "rating": 4.5, "image": "https://i.postimg.cc/v84q3B5D/tempImageid8ES0.avif", "category": "native" },
-            { "id": "native-warriors-3", "title": "Native Warriors", "description": "Indigenous fighting traditions", "count": 23, "rating": 4.5, "image": "https://i.postimg.cc/43RB3b07/tempImageIWRFom.avif", "category": "native" },
-            { "id": "native-warriors-4", "title": "Native Warriors", "description": "Indigenous fighting traditions", "count": 23, "rating": 4.5, "image": "https://i.postimg.cc/SNq9j1Qm/tempImagel86fFm.avif", "category": "native" },
-            { "id": "native-warriors-5", "title": "Native Warriors", "description": "Indigenous fighting traditions", "count": 23, "rating": 4.5, "image": "https://i.postimg.cc/TwG7tqjQ/tempImageKypZIV.avif", "category": "native" },
-            { "id": "native-warriors-6", "title": "Native Warriors", "description": "Indigenous fighting traditions", "count": 23, "rating": 4.5, "image": "https://i.postimg.cc/PxtyWfTk/tempImageN3ABj4.avif", "category": "native" }
-          ]
-        },
-        "chhibi": {
-          "title": "Chhibi Style",
-          "items": [
-            { "id": "cute-characters", "title": "Cute Characters", "description": "Adorable chibi illustrations", "count": 123, "rating": 4.9, "image": "https://i.postimg.cc/65SMkNLH/tempImagett5arh.avif", "category": "cute" },
-            { "id": "fantasy-chibis", "title": "Fantasy Chibis", "description": "Magical chibi designs", "count": 89, "rating": 4.8, "image": "https://i.postimg.cc/RFs7wcgR/tempImagej79Z1R.avif", "category": "fantasy" },
-            { "id": "animal-chibis", "title": "Animal Chibis", "description": "Chibi animal characters", "count": 67, "rating": 4.7, "image": "https://i.postimg.cc/zfkSGmWd/tempImagedDXBmr.avif", "category": "animals" },
-            { "id": "everyday-chibis", "title": "Everyday Chibis", "description": "Daily life in chibi form", "count": 45, "rating": 4.6, "image": "https://i.postimg.cc/zGKF4HfL/tempImagemb1IW9.avif", "category": "daily" },
-            { "id": "holiday-chibis", "title": "Holiday Chibis", "description": "Festive chibi celebrations", "count": 34, "rating": 4.5, "image": "https://i.postimg.cc/1tJHJx3C/tempImagenyhCwi.avif", "category": "holiday" },
-            { "id": "holiday-chibis-2", "title": "Holiday Chibis", "description": "Festive chibi celebrations", "count": 34, "rating": 4.5, "image": "https://i.postimg.cc/sDFcmJjy/tempImageQzI30m.avif", "category": "holiday" },
-            { "id": "holiday-chibis-3", "title": "Holiday Chibis", "description": "Festive chibi celebrations", "count": 34, "rating": 4.5, "image": "https://i.postimg.cc/1zD70YFk/tempImagerYw6TE.avif", "category": "holiday" },
-            { "id": "holiday-chibis-4", "title": "Holiday Chibis", "description": "Festive chibi celebrations", "count": 34, "rating": 4.5, "image": "https://i.postimg.cc/fRqS2wcD/tempImage7ir1Kw.avif", "category": "holiday" }
-          ]
-        }
-      },
-      "socialLinks": [ /* ... existing socialLinks data ... */ ],
-      "footer": { /* ... existing footer data ... */ }
-    };
+// Enhanced Collection Page Script with Dynamic Collection Details Support
+// This script works with the existing collection page and passes data to collection-details.html
 
-    const container = document.getElementById('collection-container');
-    const relatedContainer = document.getElementById('related-items');
+// Collection data URL
+const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
+let collectionsData = {};
 
-    const getCollectionIdFromURL = () => {
-        const params = new URLSearchParams(window.location.search);
-        return params.get('id');
-    };
+// Enhanced data structure for collection details
+const collectionDetailsMap = {
+    "sacred-temples": {
+        images: [
+            "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
+            "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
+            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+            "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif"
+        ],
+        price: 2999,
+        tags: ["temples", "architecture", "spiritual", "heritage"]
+    },
+    "divine-portraits": {
+        images: [
+            "https://i.postimg.cc/yx32SQ76/62.avif",
+            "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
+            "https://i.postimg.cc/SsNLXZf8/tempImageXR0Khf.avif",
+            "https://i.postimg.cc/66ZV8GdG/tempImageEpdAxY.avif"
+        ],
+        price: 3499,
+        tags: ["portraits", "deities", "art", "paintings"]
+    },
+    "spiritual-landscapes": {
+        images: [
+            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+            "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
+            "https://i.postimg.cc/h4zxHqXr/temp-Image0m4o-HY.avif",
+            "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
+        ],
+        price: 2499,
+        tags: ["landscapes", "nature", "sacred", "pilgrimage"]
+    },
+    "festival-moments": {
+        images: [
+            "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif",
+            "https://i.postimg.cc/L89jQCG1/tempImageQAFHVQ.avif",
+            "https://i.postimg.cc/cJ6w0KxH/tempImageyiRJ1l.avif",
+            "https://i.postimg.cc/Fs1PCKcg/tempImagez5mFhZ.avif"
+        ],
+        price: 3999,
+        tags: ["festivals", "celebrations", "culture", "events"]
+    },
+    "meditation-spaces": {
+        images: [
+            "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
+            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+            "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
+            "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
+        ],
+        price: 2799,
+        tags: ["meditation", "peace", "zen", "tranquility"]
+    },
+    "character-art": {
+        images: [
+            "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif",
+            "https://i.postimg.cc/bN3NGZmF/temp-Imagefa-W5wa.avif",
+            "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif",
+            "https://i.postimg.cc/hPpPJX24/temp-Imageg-VDr-Y9.avif"
+        ],
+        price: 4999,
+        tags: ["characters", "illustrations", "anime", "art"]
+    },
+    "warrior-theme": {
+        images: [
+            "https://i.postimg.cc/XqVRBgBX/temp-Image-KVsh-Fy.avif",
+            "https://i.postimg.cc/0yF1XmFV/temp-Image-PRh2-Km.avif",
+            "https://i.postimg.cc/nzY8LWzT/temp-Image0-GHro6.avif",
+            "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif"
+        ],
+        price: 3299,
+        tags: ["warriors", "samurai", "knights", "battle"]
+    },
+    "dark-aesthetic": {
+        images: [
+            "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif",
+            "https://i.postimg.cc/FFVmFYkR/temp-Imageoo-RS7-Y.avif",
+            "https://i.postimg.cc/fWCnn11f/temp-Image-Qu2-Bi-Z.avif",
+            "https://i.postimg.cc/GmH1jz7H/temp-Image-UQR4i-G.avif"
+        ],
+        price: 3799,
+        tags: ["dark", "modern", "aesthetic", "moody"]
+    }
+};
 
-    const findCollection = (data, id) => {
-        for (const categoryKey in data.collections) {
-            const category = data.collections[categoryKey];
-            const foundItem = category.items.find(item => item.id === id);
-            if (foundItem) {
-                return { ...foundItem, category: category.title };
-            }
-        }
-        return null;
-    };
+// Search functionality
+function initializeSearch() {
+    const searchToggle = document.getElementById('search-toggle');
+    const searchOverlay = document.querySelector('.search-overlay');
+    const searchInput = document.querySelector('.search-input');
+    const searchResults = document.querySelector('.search-results');
     
-    const formatPrice = (price) => {
-        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(price);
-    };
-
-    const renderStars = (rating) => {
-        let stars = '';
-        for (let i = 1; i <= 5; i++) {
-            if (i <= rating) {
-                stars += '<i class="fas fa-star"></i>';
-            } else if (i - 0.5 <= rating) {
-                stars += '<i class="fas fa-star-half-alt"></i>';
-            } else {
-                stars += '<i class="far fa-star"></i>';
-            }
-        }
-        return stars;
-    };
-
-    const renderCollectionDetails = (item) => {
-        const mockData = {
-            price: 49999,
-            relatedImages: [
-                item.image,
-                "https://placehold.co/600x600/f5f5f7/1d1d1f?text=View+2",
-                "https://placehold.co/600x600/f5f5f7/1d1d1f?text=View+3",
-                "https://placehold.co/600x600/f5f5f7/1d1d1f?text=View+4",
-            ]
-        };
-
-        container.innerHTML = `
-            <div class="collection-detail-grid">
-                <div class="collection-gallery">
-                    <div class="main-image-wrapper">
-                        <img src="${item.image}" alt="${item.title}" class="main-image" id="main-image" loading="lazy">
-                    </div>
-                    <div class="thumbnail-grid" id="thumbnail-grid">
-                        ${mockData.relatedImages.map((img, index) => `
-                            <div class="thumbnail-wrapper ${index === 0 ? 'active' : ''}" data-image="${img}">
-                                <img src="${img}" alt="View ${index + 1}" class="thumbnail-img" loading="lazy">
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <div class="collection-info">
-                    <p class="category">${item.category || 'Collection'}</p>
-                    <h1 class="title">${item.title}</h1>
-                    <div class="rating">
-                        <span class="stars">${renderStars(item.rating)}</span>
-                        <span>(${item.rating.toFixed(1)})</span>
-                    </div>
-                    <p class="description">${item.description}. This exquisite collection features ${item.count} hand-picked items, celebrating the essence of timeless artistry and spiritual significance.</p>
-                    <div class="price-box">
-                        <p class="price">${formatPrice(mockData.price)}</p>
-                    </div>
-                    <div class="cta-buttons">
-                        <button class="btn btn-primary"><i class="fas fa-shopping-bag"></i> Add to Bag</button>
-                        <button class="btn btn-secondary"><i class="far fa-heart"></i> Add to Wishlist</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Smooth thumbnail switching with fade effect
-        document.querySelectorAll('.thumbnail-wrapper').forEach(thumb => {
-            thumb.addEventListener('click', () => {
-                const mainImage = document.getElementById('main-image');
-                const newSrc = thumb.dataset.image;
-                
-                // Fade out, change image, fade in
-                mainImage.style.opacity = '0';
-                setTimeout(() => {
-                    mainImage.src = newSrc;
-                    mainImage.style.opacity = '1';
-                }, 150);
-                
-                document.querySelector('.thumbnail-wrapper.active').classList.remove('active');
-                thumb.classList.add('active');
-            });
-        });
-        
-        // Add smooth transition for main image
-        document.getElementById('main-image').style.transition = 'opacity 0.3s ease';
-    };
+    if (!searchToggle || !searchOverlay || !searchInput || !searchResults) {
+        console.error('Search elements not found');
+        return;
+    }
     
-    const renderRelatedItems = (data, currentId) => {
-        let allItems = [];
-        for (const categoryKey in data.collections) {
-            allItems = [...allItems, ...data.collections[categoryKey].items];
+    let searchTimeout = null;
+
+    function toggleSearch() {
+        searchOverlay.classList.toggle('active');
+        if (searchOverlay.classList.contains('active')) {
+            searchInput.focus();
         }
+    }
 
-        const relatedItems = allItems
-            .filter(item => item.id !== currentId)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 4);
-
-        relatedContainer.innerHTML = relatedItems.map(item => `
-            <a href="collection-details.html?id=${item.id}" class="related-item-card">
-                <img src="${item.image}" alt="${item.title}">
-                <div class="related-item-info">
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
-                </div>
-            </a>
-        `).join('');
-    };
-    
-    const renderNotFound = () => {
-         container.innerHTML = `<p style="text-align: center; font-size: 1.2rem; padding: 4rem 0;">Collection not found. Make sure you add '?id=collection-id' to the URL.</p>`;
-         relatedContainer.innerHTML = '';
-         if(document.querySelector('.related-section')) {
-            document.querySelector('.related-section').style.display = 'none';
-         }
-    };
-
-    const init = () => {
-        let collectionId = getCollectionIdFromURL();
+    function handleSearch(e) {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.toLowerCase();
         
-        // If no ID is found in the URL, default to the first featured item as a fallback.
-        if (!collectionId) {
-            console.warn("No collection ID found in URL, showing a default collection.");
-            const featuredItems = collectionsData.collections?.featured?.items;
-            if (featuredItems && featuredItems.length > 0) {
-                collectionId = featuredItems[0].id;
-            } else {
-                 // If no fallback is possible, show the not found message.
-                renderNotFound();
+        searchTimeout = setTimeout(() => {
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
                 return;
             }
+
+            const allItems = Object.values(collectionsData).flatMap(category => 
+                category.items || category
+            );
+            
+            const results = allItems
+                .filter(item => 
+                    (item.title && item.title.toLowerCase().includes(query)) ||
+                    (item.description && item.description.toLowerCase().includes(query)) ||
+                    (collectionDetailsMap[item.id]?.tags?.some(tag => tag.toLowerCase().includes(query)))
+                )
+                .slice(0, 10);
+            
+            searchResults.innerHTML = '';
+
+            if (results.length > 0) {
+                results.forEach(item => {
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'search-result-item';
+                    resultElement.setAttribute('data-category', item.category || '');
+                    
+                    const tags = collectionDetailsMap[item.id]?.tags || [];
+                    
+                    resultElement.innerHTML = `
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <span class="category-tag">${item.category || 'Collection'}</span>
+                        ${tags.length > 0 ? `<div class="tags-container">${tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}</div>` : ''}
+                    `;
+                    
+                    resultElement.addEventListener('click', () => {
+                        openPopup(item);
+                        toggleSearch();
+                    });
+
+                    searchResults.appendChild(resultElement);
+                });
+            } else {
+                searchResults.innerHTML = '<p style="padding: 1rem; color: #ccc;">No results found</p>';
+            }
+
+        }, 300);
+    }
+
+    searchToggle.addEventListener('click', toggleSearch);
+    searchOverlay.addEventListener('click', (e) => {
+        if (e.target === searchOverlay) {
+            toggleSearch();
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            toggleSearch();
+        }
+    });
+    searchInput.addEventListener('input', handleSearch);
+}
+
+// Theme functionality
+function initializeTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) {
+        console.error('Theme toggle not found');
+        return;
+    }
+    
+    const icon = themeToggle.querySelector('i');
+    const root = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+    
+    document.body.classList.toggle('dark-mode', isDark);
+    if (icon) {
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        if (icon) {
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }
 
-        const collectionItem = findCollection(collectionsData, collectionId);
+        root.style.setProperty('--transition', 'all 0.3s ease');
+        setTimeout(() => {
+            root.style.removeProperty('--transition');
+        }, 300);
+    });
+}
 
-        if (collectionItem) {
-            // Update the document title to match the collection
-            document.title = `${collectionItem.title} - Vrindopnishad`;
-            renderCollectionDetails(collectionItem);
-            renderRelatedItems(collectionsData, collectionId);
-        } else {
-            // If the ID from the URL is invalid, show the not found message.
-            console.error(`Collection with ID "${collectionId}" not found.`);
-            renderNotFound();
+// Collection generation
+function initializeCollections() {
+    if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items || collectionsData.featured);
+    if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items || collectionsData.popular);
+    if (collectionsData.rapper) generateCollectionItems('rapper-slider', collectionsData.rapper.items || collectionsData.rapper);
+    if (collectionsData.anime) generateCollectionItems('anime-slider', collectionsData.anime.items || collectionsData.anime);
+    if (collectionsData.dark) generateCollectionItems('dark-slider', collectionsData.dark.items || collectionsData.dark);
+    if (collectionsData.warrior) generateCollectionItems('warrior-slider', collectionsData.warrior.items || collectionsData.warrior);
+    if (collectionsData.chhibi) generateCollectionItems('chhibi-slider', collectionsData.chhibi.items || collectionsData.chhibi);
+}
+
+// Fixed header background rotation
+function initializeHeaderBackground() {
+    const headerBgs = document.querySelectorAll('.header-bg');
+    if (headerBgs.length === 0) {
+        return;
+    }
+    
+    let currentBg = 0;
+    setInterval(() => {
+        if (headerBgs[currentBg]) {
+            headerBgs[currentBg].classList.remove('active');
         }
-    };
+        currentBg = (currentBg + 1) % headerBgs.length;
+        if (headerBgs[currentBg]) {
+            headerBgs[currentBg].classList.add('active');
+        }
+    }, 5000);
+}
 
-    init();
+function generateCollectionItems(containerId, items) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Container ${containerId} not found`);
+        return;
+    }
+    
+    if (!items || !Array.isArray(items) || items.length === 0) {
+        container.innerHTML = '<p style="padding: 2rem; text-align: center;">No items available</p>';
+        return;
+    }
+    
+    container.innerHTML = '';
+
+    items.forEach((item, index) => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'collection-item loading';
+        itemElement.setAttribute('data-category', item.category || '');
+        itemElement.setAttribute('data-id', item.id || index);
+        itemElement.style.backgroundImage = `url(${item.image})`;
+        
+        itemElement.innerHTML = `
+            <div class="item-content">
+                <h3 class="item-title">${item.title || 'Untitled'}</h3>
+                <p class="item-description">${item.description || ''}</p>
+                <div class="item-stats">
+                    <span class="item-count">
+                        <i class="fas fa-images"></i>
+                        ${item.count || item.itemCount || 0} images
+                    </span>
+                    ${item.rating ? `<span class="item-rating"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
+                    ${item.views ? `<span class="item-views"><i class="fas fa-eye"></i> ${item.views.toLocaleString()}</span>` : ''}
+                </div>
+                ${containerId === 'featured-slider' && item.category ? `<span class="category-tag">${item.category}</span>` : ''}
+            </div>
+        `;
+
+        itemElement.addEventListener('click', () => {
+            openPopup(item);
+        });
+
+        container.appendChild(itemElement);
+
+        const img = new Image();
+        img.src = item.image;
+        img.onload = () => itemElement.classList.remove('loading');
+        img.onerror = () => {
+            itemElement.classList.remove('loading');
+            itemElement.classList.add('error');
+        };
+
+        setTimeout(() => itemElement.classList.remove('loading'), 3000);
+    });
+}
+
+// Header scroll effect
+function initializeHeaderScroll() {
+    const header = document.getElementById('header');
+    if (!header) return;
+    
+    let lastScrollPosition = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        header.classList.toggle('scrolled', currentScroll > lastScrollPosition && currentScroll > 100);
+        lastScrollPosition = currentScroll;
+    });
+}
+
+// Slider functionality
+function initializeSliders() {
+    document.querySelectorAll('.slider-container').forEach(container => {
+        const slider = container.querySelector('.items-slider');
+        const leftBtn = container.querySelector('.scroll-btn.left');
+        const rightBtn = container.querySelector('.scroll-btn.right');
+        
+        if (!slider || !leftBtn || !rightBtn) return;
+        
+        let isScrolling = false;
+        const scrollAmount = slider.offsetWidth * 0.8;
+        
+        const scroll = (direction) => {
+            if (isScrolling) return;
+            isScrolling = true;
+            slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            setTimeout(() => { isScrolling = false; }, 300);
+        };
+        
+        leftBtn.addEventListener('click', () => scroll(-1));
+        rightBtn.addEventListener('click', () => scroll(1));
+        
+        function updateButtonStates() {
+            const isAtStart = slider.scrollLeft <= 0;
+            const isAtEnd = slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth);
+            leftBtn.style.opacity = isAtStart ? '0.5' : '1';
+            rightBtn.style.opacity = isAtEnd ? '0.5' : '1';
+            leftBtn.disabled = isAtStart;
+            rightBtn.disabled = isAtEnd;
+        }
+        
+        updateButtonStates();
+        slider.addEventListener('scroll', updateButtonStates);
+        window.addEventListener('resize', updateButtonStates);
+    });
+}
+
+// Load collections data from JSON
+async function loadCollectionsData() {
+    try {
+        const response = await fetch(dataUrl);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        collectionsData = data.collections || data;
+        
+        if (data.heroSection) updateHeroSection(data.heroSection);
+        if (data.siteConfig) updateSiteConfig(data.siteConfig);
+        if (data.navigation) updateNavigation(data.navigation);
+        
+        return true;
+    } catch (error) {
+        console.error('Error loading collections data:', error);
+        return false;
+    }
+}
+
+// Update UI elements from JSON data
+function updateHeroSection(heroData) {
+    const heroSection = document.querySelector('.hero-section');
+    const heroTitle = document.querySelector('.hero-title');
+    const heroDescription = document.querySelector('.hero-description');
+    
+    if (heroData.backgroundImage && heroSection) {
+        heroSection.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%), url('${heroData.backgroundImage}')`;
+    }
+    if (heroTitle) heroTitle.textContent = heroData.title;
+    if (heroDescription) heroDescription.textContent = heroData.description;
+}
+
+function updateSiteConfig(config) {
+    const siteName = document.querySelector('.logo h1');
+    const siteIcon = document.querySelector('.logo i');
+    
+    if (siteName) siteName.textContent = config.siteName;
+    if (siteIcon) siteIcon.className = config.siteIcon;
+    if (config.siteName) document.title = config.siteName + ' - Collection';
+}
+
+function updateNavigation(navItems) {
+    const navMenu = document.querySelector('.nav-menu');
+    if (!navMenu) return;
+    navMenu.innerHTML = navItems.map(item => `<a href="${item.href}" class="nav-item ${item.active ? 'active' : ''}">${item.name}</a>`).join('');
+}
+
+// Enhanced Popup functions with navigation to collection-details
+function openPopup(item) {
+    const modal = document.getElementById('popup-modal');
+    const hero = document.getElementById('popup-hero');
+    
+    if (!modal || !hero) {
+        console.error('Popup elements not found');
+        return;
+    }
+    
+    hero.style.backgroundImage = `url(${item.image})`;
+    
+    const
+        popupTitle = document.querySelector('.popup-title'),
+        popupRating = document.querySelector('.popup-rating span'),
+        popupYear = document.querySelector('.popup-year'),
+        popupCount = document.querySelector('.popup-count'),
+        popupCategory = document.querySelector('.popup-category'),
+        popupDescription = document.querySelector('.popup-description'),
+        statNumbers = document.querySelectorAll('.stat-number'),
+        viewCollectionBtn = modal.querySelector('.popup-btn-primary');
+
+    if (popupTitle) popupTitle.textContent = item.title || 'Untitled';
+    if (popupRating) popupRating.textContent = item.rating ? item.rating.toFixed(1) : '4.5';
+    if (popupYear) popupYear.textContent = item.year || '2024';
+    if (popupCount) popupCount.textContent = `${item.count || item.itemCount || 0} items`;
+    if (popupCategory) popupCategory.textContent = item.category || 'Collection';
+    if (popupDescription) popupDescription.textContent = item.description || 'No description available';
+    
+    if (statNumbers.length >= 3) {
+        statNumbers[0].textContent = item.count || item.itemCount || 0;
+        statNumbers[1].textContent = item.views ? formatNumber(item.views) : '0';
+        statNumbers[2].textContent = Math.floor(Math.random() * 1000);
+    }
+    
+    // Enhanced "View Collection" button with proper navigation
+    if (viewCollectionBtn) {
+        const newBtn = viewCollectionBtn.cloneNode(true);
+        viewCollectionBtn.parentNode.replaceChild(newBtn, viewCollectionBtn);
+        
+        newBtn.addEventListener('click', () => {
+            if (item && item.id) {
+                // Store collection data in sessionStorage for the details page
+                const detailsData = {
+                    ...item,
+                    images: collectionDetailsMap[item.id]?.images || [item.image],
+                    price: collectionDetailsMap[item.id]?.price || 2999,
+                    tags: collectionDetailsMap[item.id]?.tags || []
+                };
+                
+                sessionStorage.setItem('collectionData', JSON.stringify(detailsData));
+                
+                // Navigate to details page - update this path to match your structure
+                const detailsPageUrl = `/Vrindopnishad Web/Pictures/temp/collection-details.html?id=${item.id}`;
+                window.location.href = detailsPageUrl;
+            } else {
+                console.error("Cannot navigate: collection item ID is missing.");
+            }
+        });
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePopup() {
+    const modal = document.getElementById('popup-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+}
+
+function initPopup() {
+    const closeBtn = document.getElementById('popup-close');
+    const modal = document.getElementById('popup-modal');
+    
+    if (closeBtn) closeBtn.addEventListener('click', closePopup);
+    if (modal) modal.addEventListener('click', (e) => e.target === modal && closePopup());
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && closePopup());
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', async () => {
+    const dataLoaded = await loadCollectionsData();
+    
+    initializeSearch();
+    initializeTheme();
+    initializeHeaderScroll();
+    initializeHeaderBackground();
+    initializeSliders();
+    initPopup();
+    
+    if (dataLoaded && Object.keys(collectionsData).length > 0) {
+        initializeCollections();
+    } else {
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h2>Error Loading Collections</h2>
+                    <p>Sorry, we couldn't load the collections data. Please try refreshing the page.</p>
+                    <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer;">
+                        Refresh Page
+                    </button>
+                </div>
+            `;
+        }
+    }
 });
