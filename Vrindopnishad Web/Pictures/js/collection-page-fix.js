@@ -392,7 +392,21 @@ function updateNavigation(navItems) {
 function openPopup(item) {
     const modal = document.getElementById('popup-modal');
     const hero = document.getElementById('popup-hero');
+
+    const viewCollectionBtn = modal.querySelector('.popup-btn-primary');
+    if (viewCollectionBtn) {
+        const newBtn = viewCollectionBtn.cloneNode(true);
+        viewCollectionBtn.parentNode.replaceChild(newBtn, viewCollectionBtn);
     
+        newBtn.addEventListener('click', () => {
+            if (item && item.id) {
+                const detailsPageUrl = `collection-details.html?id=${item.id}`;
+                window.location.href = detailsPageUrl;
+            } else {
+                console.error("Cannot navigate: collection item ID is missing.");
+            }
+        });
+    }
     if (!modal || !hero) {
         console.error('Popup elements not found');
         return;
