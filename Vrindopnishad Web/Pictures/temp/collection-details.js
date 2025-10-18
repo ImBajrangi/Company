@@ -134,14 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return stars;
     };
 
-    const renderCollectionDetails = (item) => {
+        const renderCollectionDetails = (item) => {
         const mockData = {
             price: 49999,
             relatedImages: [
                 item.image,
-                "https://placehold.co/600x600/1e1e1e/f5f5f5?text=Art+2",
-                "https://placehold.co/600x600/1e1e1e/f5f5f5?text=Art+3",
-                "https://placehold.co/600x600/1e1e1e/f5f5f5?text=Art+4",
+                "https://placehold.co/600x600/f5f5f7/1d1d1f?text=View+2",
+                "https://placehold.co/600x600/f5f5f7/1d1d1f?text=View+3",
+                "https://placehold.co/600x600/f5f5f7/1d1d1f?text=View+4",
             ]
         };
 
@@ -149,12 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="collection-detail-grid">
                 <div class="collection-gallery">
                     <div class="main-image-wrapper">
-                        <img src="${item.image}" alt="${item.title}" class="main-image" id="main-image">
+                        <img src="${item.image}" alt="${item.title}" class="main-image" id="main-image" loading="lazy">
                     </div>
                     <div class="thumbnail-grid" id="thumbnail-grid">
                         ${mockData.relatedImages.map((img, index) => `
                             <div class="thumbnail-wrapper ${index === 0 ? 'active' : ''}" data-image="${img}">
-                                <img src="${img}" alt="Thumbnail ${index + 1}" class="thumbnail-img">
+                                <img src="${img}" alt="View ${index + 1}" class="thumbnail-img" loading="lazy">
                             </div>
                         `).join('')}
                     </div>
@@ -178,14 +178,26 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
         
+        // Smooth thumbnail switching with fade effect
         document.querySelectorAll('.thumbnail-wrapper').forEach(thumb => {
             thumb.addEventListener('click', () => {
                 const mainImage = document.getElementById('main-image');
-                mainImage.src = thumb.dataset.image;
+                const newSrc = thumb.dataset.image;
+                
+                // Fade out, change image, fade in
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.src = newSrc;
+                    mainImage.style.opacity = '1';
+                }, 150);
+                
                 document.querySelector('.thumbnail-wrapper.active').classList.remove('active');
                 thumb.classList.add('active');
             });
         });
+
+        // Add smooth transition for main image
+        document.getElementById('main-image').style.transition = 'opacity 0.3s ease';
     };
     
     const renderRelatedItems = (data, currentId) => {
