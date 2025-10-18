@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return stars;
     };
 
-        const renderCollectionDetails = (item) => {
+    const renderCollectionDetails = (item) => {
         const mockData = {
             price: 49999,
             relatedImages: [
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 thumb.classList.add('active');
             });
         });
-
+        
         // Add smooth transition for main image
         document.getElementById('main-image').style.transition = 'opacity 0.3s ease';
     };
