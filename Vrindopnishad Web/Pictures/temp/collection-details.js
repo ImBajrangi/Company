@@ -219,18 +219,31 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const init = () => {
-        const collectionId = getCollectionIdFromURL();
+        let collectionId = getCollectionIdFromURL();
+        
+        // If no ID is found in the URL, default to the first featured item as a fallback.
         if (!collectionId) {
-            renderNotFound();
-            return;
+            console.warn("No collection ID found in URL, showing a default collection.");
+            const featuredItems = collectionsData.collections?.featured?.items;
+            if (featuredItems && featuredItems.length > 0) {
+                collectionId = featuredItems[0].id;
+            } else {
+                 // If no fallback is possible, show the not found message.
+                renderNotFound();
+                return;
+            }
         }
 
         const collectionItem = findCollection(collectionsData, collectionId);
 
         if (collectionItem) {
+            // Update the document title to match the collection
+            document.title = `${collectionItem.title} - Vrindopnishad`;
             renderCollectionDetails(collectionItem);
             renderRelatedItems(collectionsData, collectionId);
         } else {
+            // If the ID from the URL is invalid, show the not found message.
+            console.error(`Collection with ID "${collectionId}" not found.`);
             renderNotFound();
         }
     };
