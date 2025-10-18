@@ -21,7 +21,7 @@ body {
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.6;
-        ::selection {
+    ::selection {
         background-color: var(--primary-color);
         color: #000;
     }
