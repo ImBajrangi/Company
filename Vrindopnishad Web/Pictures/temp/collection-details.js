@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { "id": "meditation-spaces", "title": "Meditation Spaces", "description": "Peaceful environments for contemplation", "count": 23, "rating": 4.8, "image": "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif", "category": "nature", "featured": true }
           ]
         },
-
-        
         "popular": {
           "title": "Popular Right Now",
           "items": [
