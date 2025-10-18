@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Details</title>
+    <link rel="stylesheet" href="collection.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="Gallery.html" class="logo">Vrindopnishad</a>
+        <nav class="main-nav">
+            <a href="Gallery.html">Home</a>
+            <a href="#collections">Collections</a>
+            <a href="#about">About</a>
+        </nav>
+        <div class="header-actions">
+            <button class="action-btn"><i class="fas fa-search"></i></button>
+            <button class="action-btn"><i class="far fa-heart"></i></button>
+            <button class="action-btn"><i class="fas fa-shopping-bag"></i></button>
+        </div>
+    </header>
+
+    <main class="container" id="collection-container">
+        <!-- Collection details will be loaded here by JavaScript -->
+        <div class="loader"></div>
+    </main>
+
+    <section class="related-section">
+        <div class="container">
+            <h2 class="related-title">You Might Also Like</h2>
+            <div class="related-items-grid" id="related-items">
+                <!-- Related items will be loaded here -->
+            </div>
+        </div>
+    </section>
+    
+    <footer class="main-footer">
+        <p>&copy; 2025 Vrindopnishad. All Rights Reserved.</p>
+    </footer>
+
+    <script src="collection.js"></script>
+</body>
+</html>
