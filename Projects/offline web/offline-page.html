@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vrindopnishad - Page Not Found</title>
+    <title>Vrindopnishad - Offline</title>
 
     <style media="screen">
       body { 
@@ -49,8 +49,8 @@
         margin: 24px 0 16px; 
       }
       #message h2 { 
-        /* Modern rich gradient color for "404" */
-        background: linear-gradient(45deg, #3490f9, #8db6d7);
+        /* Modern rich gradient color for "Offline" */
+        background: linear-gradient(45deg, #f9a834, #d7958d);
         -webkit-background-clip: text;
         -moz-background-clip: text;
         -webkit-text-fill-color: transparent; 
@@ -113,57 +113,6 @@
         z-index: 1;
       }
 
-      /* Styles for toggle buttons */
-      #hideButton {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        font-size: 24px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-        /* Using flexbox for perfect vertical and horizontal centering */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 2px; /* Optical adjustment for the '×' symbol */
-      }
-
-      #hideButton:hover {
-        background: rgba(255, 255, 255, 0.4);
-      }
-
-      #showButton {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: linear-gradient(45deg, #1581fc73, #32c1ff78);
-        border: none;
-        color: rgba(255, 255, 255, 0.5);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        z-index: 20;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        transition: transform 0.4s ease, opacity 0.4s ease;
-        opacity: 0;
-        pointer-events: none;
-        transform: scale(0);
-      }
-    
-      #showButton.visible {
-        opacity: 1;
-        pointer-events: auto;
-        transform: scale(1);
-      }
     </style>
   </head>
   <body>
@@ -172,15 +121,11 @@
 
     <!-- Original 404 message content -->
     <div id="message">
-      <button id="hideButton">&times;</button>
-      <h2>404</h2>
-      <h1>Page Not Found</h1>
-      <p>So Sorry, the page you are looking for is not on this website. Please check the URL or try again later.</p>
-      <a href="/">Go to Home Page</a>
+      <h2>Offline</h2>
+      <h1>No Internet Connection</h1>
+      <p>Sorry, it seems you are not connected to the internet. The content of this page cannot be displayed. Please check your connection and try again.</p>
+      <a href="/">Try Again</a>
     </div>
-
-    <!-- Button to show the message box again -->
-    <button id="showButton">?</button>
 
     <!-- JavaScript for the fireworks effect -->
     <script>
@@ -189,7 +134,7 @@
         
         let fireworks = [];
         let particles = [];
-        let hue = 120; // Start with a green hue
+        let hue = 10; // Start with a green hue
 
         // Set canvas to full screen
         canvas.width = window.innerWidth;
@@ -199,16 +144,6 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-        });
-
-        canvas.addEventListener('click', (e) => {
-            launchFirework(e.clientX);
-        });
-        
-        canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            launchFirework(touch.clientX);
         });
 
         // --- Helper Functions ---
@@ -229,12 +164,12 @@
                 this.distanceTraveled = 0;
                 
                 this.trail = [];
-                this.trailLength = 3;
+                this.trailLength = 5;
 
                 this.angle = Math.atan2(endY - startY, endX - startX);
-                this.speed = 2;
-                this.acceleration = 1.05;
-                this.brightness = random(50, 70);
+                this.speed = 5;
+                this.acceleration = 1.09;
+                this.brightness = random(40, 80);
                 this.targetRadius = 1;
                 this.hue = hue;
             }
@@ -276,11 +211,11 @@
                 this.x = x;
                 this.y = y;
                 this.angle = random(0, Math.PI * 2);
-                this.speed = random(1, 10);
+                this.speed = random(1, 40);
                 this.friction = 0.95;
                 this.gravity = 1;
                 this.hue = hue;
-                this.brightness = random(50, 80);
+                this.brightness = random(40, 80);
                 this.alpha = 1;
                 this.decay = random(0.015, 0.03);
                 
@@ -321,7 +256,7 @@
         }
 
         function createParticles(x, y, baseHue) {
-            const particleCount = 300;
+            const particleCount = 400;
             for (let i = 0; i < particleCount; i++) {
                 // Add a bit of color variation to the explosion
                 const particleHue = baseHue + random(-20, 20);
@@ -330,7 +265,7 @@
         }
         
         let autoLaunchTimer = 0;
-        let autoLaunchInterval = random(30, 90); // ticks between launches
+        let autoLaunchInterval = random(20, 80); // ticks between launches
 
         // --- Animation Loop ---
         function animate() {
@@ -373,21 +308,6 @@
 
         // Start the animation
         animate();
-
-        // --- UI Toggle Logic ---
-        const messageBox = document.getElementById('message');
-        const hideButton = document.getElementById('hideButton');
-        const showButton = document.getElementById('showButton');
-
-        hideButton.addEventListener('click', () => {
-            messageBox.classList.add('hidden');
-            showButton.classList.add('visible');
-        });
-
-        showButton.addEventListener('click', () => {
-            messageBox.classList.remove('hidden');
-            showButton.classList.remove('visible');
-        });
     </script>
   </body>
 </html>

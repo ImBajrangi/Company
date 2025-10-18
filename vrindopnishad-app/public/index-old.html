@@ -13,6 +13,11 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow: hidden;
+            ::selection {
+                background-color: #001a449b;
+                color: white;
+            }
+            scrollbar-width: thin;
         }
         #chat-messages::-webkit-scrollbar { width: 6px; }
         #chat-messages::-webkit-scrollbar-track { background: #f1f1f1; }

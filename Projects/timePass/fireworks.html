@@ -60,7 +60,7 @@
 
         let fireworks = [];
         let particles = [];
-        let hue = 120; // Start with green hue
+        let hue = 10; // Start with green hue
 
         // Set canvas to full screen
         canvas.width = window.innerWidth;
@@ -103,10 +103,10 @@
                 this.trailLength = 3;
 
                 this.angle = Math.atan2(endY - startY, endX - startX);
-                this.speed = 2;
+                this.speed = random(1, 50);
                 this.acceleration = 1.05;
-                this.brightness = random(50, 70);
-                this.targetRadius = 1;
+                this.brightness = random(30, 70);
+                this.targetRadius = 2;
                 this.hue = hue;
             }
 
@@ -192,7 +192,7 @@
         }
 
         function createParticles(x, y, baseHue) {
-            const particleCount = 100;
+            const particleCount = 1000;
             for (let i = 0; i < particleCount; i++) {
                 // Add a bit of color variation to the explosion
                 const particleHue = baseHue + random(-20, 20);
