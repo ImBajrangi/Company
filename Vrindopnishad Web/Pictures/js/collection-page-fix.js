@@ -33,26 +33,49 @@ function initializeSearch() {
                 return;
             }
 
-            const results = Object.entries(collectionsData)
-                .flatMap(([category, items]) => 
-                    items.map(item => ({...item, category}))
-                )
+            // Create a flattened array of ALL items for searching
+            const allItems = Object.values(collectionsData).flatMap(category => 
+                category.items || category
+            );
+            
+            const results = allItems
                 .filter(item => 
-                    item.title.toLowerCase().includes(query) ||
-                    item.description.toLowerCase().includes(query)
-                );
+                    (item.title && item.title.toLowerCase().includes(query)) ||
+                    (item.description && item.description.toLowerCase().includes(query))
+                )
+                .slice(0, 10);
+            
+            // Clear previous results
+            searchResults.innerHTML = '';
 
-            searchResults.innerHTML = results.length > 0 
-                ? results.map(item => `
-                    <div class="search-result-item" data-category="${item.category}">
+            if (results.length > 0) {
+                results.forEach(item => {
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'search-result-item';
+                    resultElement.setAttribute('data-category', item.category || '');
+                    
+                    resultElement.innerHTML = `
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
-                        <span class="category-tag">${item.category}</span>
-                    </div>
-                `).join('')
-                : '<p>No results found</p>';
+                        <span class="category-tag">${item.category || 'Collection'}</span>
+                    `;
+                    
+                    // Attach event listener directly using JavaScript (safer than inline onclick)
+                    resultElement.addEventListener('click', () => {
+                        openPopup(item);
+                        // Optional: close search overlay after selection
+                        toggleSearch(); 
+                    });
+
+                    searchResults.appendChild(resultElement);
+                });
+            } else {
+                searchResults.innerHTML = '<p style="padding: 1rem; color: #ccc;">No results found</p>';
+            }
+
         }, 300);
     }
+    // --- END OF FIX ---
 
     searchToggle.addEventListener('click', toggleSearch);
     searchOverlay.addEventListener('click', (e) => {
@@ -79,7 +102,6 @@ function initializeTheme() {
     const icon = themeToggle.querySelector('i');
     const root = document.documentElement;
 
-    // Check for saved theme preference or system preference
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
@@ -89,7 +111,6 @@ function initializeTheme() {
         icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     }
 
-    // Theme toggle function
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
@@ -98,7 +119,6 @@ function initializeTheme() {
             icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }
 
-        // Add transition class for smooth color changes
         root.style.setProperty('--transition', 'all 0.3s ease');
         setTimeout(() => {
             root.style.removeProperty('--transition');
@@ -121,29 +141,19 @@ function initializeCollections() {
 function initializeHeaderBackground() {
     const headerBgs = document.querySelectorAll('.header-bg');
     if (headerBgs.length === 0) {
-        console.log('No header backgrounds found - skipping rotation');
         return;
     }
     
     let currentBg = 0;
-
-    function changeHeaderBackground() {
-        // Remove active class from current background
+    setInterval(() => {
         if (headerBgs[currentBg]) {
             headerBgs[currentBg].classList.remove('active');
         }
-        
-        // Move to next background
         currentBg = (currentBg + 1) % headerBgs.length;
-        
-        // Add active class to new background
         if (headerBgs[currentBg]) {
             headerBgs[currentBg].classList.add('active');
         }
-    }
-
-    // Start the interval
-    setInterval(changeHeaderBackground, 5000);
+    }, 5000);
 }
 
 function generateCollectionItems(containerId, items) {
@@ -154,7 +164,6 @@ function generateCollectionItems(containerId, items) {
     }
     
     if (!items || !Array.isArray(items) || items.length === 0) {
-        console.warn(`No items for ${containerId}`);
         container.innerHTML = '<p style="padding: 2rem; text-align: center;">No items available</p>';
         return;
     }
@@ -177,67 +186,40 @@ function generateCollectionItems(containerId, items) {
                         <i class="fas fa-images"></i>
                         ${item.count || item.itemCount || 0} images
                     </span>
-                    ${item.rating ? `
-                        <span class="item-rating">
-                            <i class="fas fa-star"></i>
-                            ${item.rating.toFixed(1)}
-                        </span>
-                    ` : ''}
-                    ${item.views ? `
-                        <span class="item-views">
-                            <i class="fas fa-eye"></i>
-                            ${item.views.toLocaleString()}
-                        </span>
-                    ` : ''}
+                    ${item.rating ? `<span class="item-rating"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
+                    ${item.views ? `<span class="item-views"><i class="fas fa-eye"></i> ${item.views.toLocaleString()}</span>` : ''}
                 </div>
                 ${containerId === 'featured-slider' && item.category ? `<span class="category-tag">${item.category}</span>` : ''}
             </div>
         `;
 
-        // Add click handler for popup
         itemElement.addEventListener('click', () => {
             openPopup(item);
         });
 
         container.appendChild(itemElement);
 
-        // Preload image
         const img = new Image();
         img.src = item.image;
-        img.onload = () => {
-            itemElement.classList.remove('loading');
-        };
+        img.onload = () => itemElement.classList.remove('loading');
         img.onerror = () => {
             itemElement.classList.remove('loading');
             itemElement.classList.add('error');
         };
 
-        // Fallback for loading state
-        setTimeout(() => {
-            itemElement.classList.remove('loading');
-        }, 3000);
+        setTimeout(() => itemElement.classList.remove('loading'), 3000);
     });
 }
 
 // Header scroll effect
 function initializeHeaderScroll() {
     const header = document.getElementById('header');
-    if (!header) {
-        console.error('Header not found');
-        return;
-    }
+    if (!header) return;
     
     let lastScrollPosition = 0;
-
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > lastScrollPosition && currentScroll > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-        
+        header.classList.toggle('scrolled', currentScroll > lastScrollPosition && currentScroll > 100);
         lastScrollPosition = currentScroll;
     });
 }
@@ -254,39 +236,19 @@ function initializeSliders() {
         let isScrolling = false;
         const scrollAmount = slider.offsetWidth * 0.8;
         
-        leftBtn.addEventListener('click', () => {
+        const scroll = (direction) => {
             if (isScrolling) return;
             isScrolling = true;
-            
-            slider.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
-            
-            setTimeout(() => {
-                isScrolling = false;
-            }, 300);
-        });
+            slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            setTimeout(() => { isScrolling = false; }, 300);
+        };
         
-        rightBtn.addEventListener('click', () => {
-            if (isScrolling) return;
-            isScrolling = true;
-            
-            slider.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-            
-            setTimeout(() => {
-                isScrolling = false;
-            }, 300);
-        });
+        leftBtn.addEventListener('click', () => scroll(-1));
+        rightBtn.addEventListener('click', () => scroll(1));
         
-        // Update button states
         function updateButtonStates() {
             const isAtStart = slider.scrollLeft <= 0;
             const isAtEnd = slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth);
-            
             leftBtn.style.opacity = isAtStart ? '0.5' : '1';
             rightBtn.style.opacity = isAtEnd ? '0.5' : '1';
             leftBtn.disabled = isAtStart;
@@ -302,27 +264,12 @@ function initializeSliders() {
 // Load collections data from JSON
 async function loadCollectionsData() {
     try {
-        console.log('Loading collections data from:', dataUrl);
         const response = await fetch(dataUrl);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        console.log('Raw data loaded:', data);
+        // Assume data.collections holds the category objects (featured, popular, etc.)
+        collectionsData = data.collections || data; 
         
-        // Check if data has collections property
-        if (data.collections) {
-            collectionsData = data.collections;
-        } else {
-            // Try to use the data directly
-            collectionsData = data;
-        }
-        
-        console.log('Processed collections data:', collectionsData);
-
-        // Update other sections
         if (data.heroSection) updateHeroSection(data.heroSection);
         if (data.siteConfig) updateSiteConfig(data.siteConfig);
         if (data.navigation) updateNavigation(data.navigation);
@@ -330,25 +277,12 @@ async function loadCollectionsData() {
         return true;
     } catch (error) {
         console.error('Error loading collections data:', error);
-        
-        // Try fallback data structure
-        console.log('Attempting to use fallback data structure...');
-        collectionsData = {
-            featured: [],
-            popular: [],
-            nature: [],
-            anime: [],
-            architecture: []
-        };
-        
         return false;
     }
 }
 
-// Update hero section content
+// Update UI elements from JSON data
 function updateHeroSection(heroData) {
-    if (!heroData) return;
-    
     const heroSection = document.querySelector('.hero-section');
     const heroTitle = document.querySelector('.hero-title');
     const heroDescription = document.querySelector('.hero-description');
@@ -356,73 +290,47 @@ function updateHeroSection(heroData) {
     if (heroData.backgroundImage && heroSection) {
         heroSection.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%), url('${heroData.backgroundImage}')`;
     }
-    
     if (heroTitle) heroTitle.textContent = heroData.title;
     if (heroDescription) heroDescription.textContent = heroData.description;
 }
 
-// Update site configuration
 function updateSiteConfig(config) {
-    if (!config) return;
-    
     const siteName = document.querySelector('.logo h1');
     const siteIcon = document.querySelector('.logo i');
     
     if (siteName) siteName.textContent = config.siteName;
     if (siteIcon) siteIcon.className = config.siteIcon;
-    
-    if (config.siteName) {
-        document.title = config.siteName + ' - Collection';
-    }
+    if (config.siteName) document.title = config.siteName + ' - Collection';
 }
 
-// Update navigation menu
 function updateNavigation(navItems) {
-    if (!navItems || !Array.isArray(navItems) || navItems.length === 0) return;
-    
     const navMenu = document.querySelector('.nav-menu');
     if (!navMenu) return;
-    
-    navMenu.innerHTML = navItems.map(item => `
-        <a href="${item.href}" class="nav-item ${item.active ? 'active' : ''}">${item.name}</a>
-    `).join('');
+    navMenu.innerHTML = navItems.map(item => `<a href="${item.href}" class="nav-item ${item.active ? 'active' : ''}">${item.name}</a>`).join('');
 }
 
 // Popup functions
 function openPopup(item) {
     const modal = document.getElementById('popup-modal');
     const hero = document.getElementById('popup-hero');
-
-    const viewCollectionBtn = modal.querySelector('.popup-btn-primary');
-    if (viewCollectionBtn) {
-        const newBtn = viewCollectionBtn.cloneNode(true);
-        viewCollectionBtn.parentNode.replaceChild(newBtn, viewCollectionBtn);
     
-        newBtn.addEventListener('click', () => {
-            if (item && item.id) {
-                const detailsPageUrl = `collection-details.html?id=${item.id}`;
-                window.location.href = detailsPageUrl;
-            } else {
-                console.error("Cannot navigate: collection item ID is missing.");
-            }
-        });
-    }
     if (!modal || !hero) {
         console.error('Popup elements not found');
         return;
     }
     
-    // Set hero background
     hero.style.backgroundImage = `url(${item.image})`;
     
-    // Update content safely
-    const popupTitle = document.querySelector('.popup-title');
-    const popupRating = document.querySelector('.popup-rating span');
-    const popupYear = document.querySelector('.popup-year');
-    const popupCount = document.querySelector('.popup-count');
-    const popupCategory = document.querySelector('.popup-category');
-    const popupDescription = document.querySelector('.popup-description');
-    
+    const
+        popupTitle = document.querySelector('.popup-title'),
+        popupRating = document.querySelector('.popup-rating span'),
+        popupYear = document.querySelector('.popup-year'),
+        popupCount = document.querySelector('.popup-count'),
+        popupCategory = document.querySelector('.popup-category'),
+        popupDescription = document.querySelector('.popup-description'),
+        statNumbers = document.querySelectorAll('.stat-number'),
+        viewCollectionBtn = modal.querySelector('.popup-btn-primary');
+
     if (popupTitle) popupTitle.textContent = item.title || 'Untitled';
     if (popupRating) popupRating.textContent = item.rating ? item.rating.toFixed(1) : '4.5';
     if (popupYear) popupYear.textContent = item.year || '2024';
@@ -430,15 +338,29 @@ function openPopup(item) {
     if (popupCategory) popupCategory.textContent = item.category || 'Collection';
     if (popupDescription) popupDescription.textContent = item.description || 'No description available';
     
-    // Update stats
-    const statNumbers = document.querySelectorAll('.stat-number');
     if (statNumbers.length >= 3) {
         statNumbers[0].textContent = item.count || item.itemCount || 0;
         statNumbers[1].textContent = item.views ? formatNumber(item.views) : '0';
         statNumbers[2].textContent = Math.floor(Math.random() * 1000);
     }
     
-    // Show modal
+    // Logic for the "View Collection" button (Fix for navigation)
+    if (viewCollectionBtn) {
+        // Clone and replace to safely remove old event listeners
+        const newBtn = viewCollectionBtn.cloneNode(true);
+        viewCollectionBtn.parentNode.replaceChild(newBtn, viewCollectionBtn);
+        
+        newBtn.addEventListener('click', () => {
+            if (item && item.id) {
+                // Navigate to the details page with the correct ID
+                const detailsPageUrl = `collection-details.html?id=${item.id}`;
+                window.location.href = detailsPageUrl;
+            } else {
+                console.error("Cannot navigate: collection item ID is missing.");
+            }
+        });
+    }
+    
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -457,38 +379,20 @@ function formatNumber(num) {
     return num.toString();
 }
 
-// Initialize popup
 function initPopup() {
     const closeBtn = document.getElementById('popup-close');
     const modal = document.getElementById('popup-modal');
     
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closePopup);
-    }
-    
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closePopup();
-            }
-        });
-    }
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closePopup();
-        }
-    });
+    if (closeBtn) closeBtn.addEventListener('click', closePopup);
+    if (modal) modal.addEventListener('click', (e) => e.target === modal && closePopup());
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && closePopup());
 }
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('DOM Content Loaded - Initializing...');
-    
-    // First load the data
     const dataLoaded = await loadCollectionsData();
     
-    // Initialize all components regardless of data loading
+    // Call initialization functions
     initializeSearch();
     initializeTheme();
     initializeHeaderScroll();
@@ -497,11 +401,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initPopup();
     
     if (dataLoaded && Object.keys(collectionsData).length > 0) {
-        console.log('Initializing collections with data');
         initializeCollections();
     } else {
-        // Show error message if data loading failed
-        console.error('Failed to load collections data');
         const mainContent = document.querySelector('.main-content');
         if (mainContent) {
             mainContent.innerHTML = `
