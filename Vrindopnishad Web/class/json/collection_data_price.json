@@ -1,0 +1,164 @@
+{
+  "siteConfig": {
+    "siteName": "Vrindopnishad",
+    "siteIcon": "fas fa-photo-video",
+    "tagline": "Spiritual & Divine Collection",
+    "description": "Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art."
+  },
+  "navigation": [
+    { "name": "Home", "href": "#", "active": true },
+    { "name": "Collections", "href": "#", "active": false },
+    { "name": "My List", "href": "#", "active": false },
+    { "name": "Browse by Category", "href": "#", "active": false }
+  ],
+  "heroSection": {
+    "title": "Spiritual & Divine Collection",
+    "description": "Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art.",
+    "backgroundImage": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
+    "buttons": [
+      {
+        "text": "Explore Now",
+        "icon": "fas fa-play",
+        "type": "primary",
+        "action": "explore"
+      },
+      {
+        "text": "More Info",
+        "icon": "fas fa-info-circle",
+        "type": "secondary",
+        "action": "info"
+      }
+    ]
+  },
+  "collections": {
+    "featured": {
+      "title": "Featured Collections",
+      "items": [
+        {
+          "id": "sacred-temples",
+          "title": "Sacred Temples",
+          "description": "Ancient temples and spiritual architecture",
+          "count": 45,
+          "rating": 4.8,
+          "image": "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
+          "category": "architecture",
+          "featured": true,
+          "price": 1
+        },
+        {
+          "id": "divine-portraits",
+          "title": "Divine Portraits",
+          "description": "Beautiful deity artwork and paintings",
+          "count": 67,
+          "rating": 4.9,
+          "image": "https://i.postimg.cc/yx32SQ76/62.avif",
+          "category": "art",
+          "featured": true,
+          "price": 3499
+        },
+        {
+          "id": "spiritual-landscapes",
+          "title": "Spiritual Landscapes",
+          "description": "Sacred places and holy sites",
+          "count": 34,
+          "rating": 4.7,
+          "image": "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
+          "category": "nature",
+          "featured": true,
+          "price": 0
+        },
+        {
+          "id": "festival-moments",
+          "title": "Festival Moments",
+          "description": "Captured spiritual celebrations",
+          "count": 89,
+          "rating": 4.6,
+          "image": "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif",
+          "category": "events",
+          "featured": true,
+          "price": 3999
+        },
+        {
+          "id": "meditation-spaces",
+          "title": "Meditation Spaces",
+          "description": "Peaceful environments for contemplation",
+          "count": 23,
+          "rating": 4.8,
+          "image": "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
+          "category": "nature",
+          "featured": true,
+          "price": 2799
+        }
+      ]
+    },
+    "popular": {
+      "title": "Popular Right Now",
+      "items": [
+        {
+          "id": "trending-now",
+          "title": "Trending Now",
+          "description": "Most viewed this week",
+          "count": 156,
+          "rating": 4.5,
+          "image": "https://i.postimg.cc/SsNLXZf8/tempImageXR0Khf.avif",
+          "category": "trending",
+          "views": 15600,
+          "price": 1999
+        },
+        {
+          "id": "rising-stars",
+          "title": "Rising Stars",
+          "description": "Newly popular collections",
+          "count": 78,
+          "rating": 4.7,
+          "image": "https://i.postimg.cc/66ZV8GdG/tempImageEpdAxY.avif",
+          "category": "new",
+          "views": 8900,
+          "price": 1499
+        },
+        {
+          "id": "community-favorites",
+          "title": "Community Favorites",
+          "description": "Highly rated by users",
+          "count": 234,
+          "rating": 4.9,
+          "image": "https://i.postimg.cc/L89jQCG1/tempImageQAFHVQ.avif",
+          "category": "community",
+          "views": 23400,
+          "price": 2999
+        },
+        {
+          "id": "editors-choice",
+          "title": "Editor's Choice",
+          "description": "Curated by our team",
+          "count": 123,
+          "rating": 4.8,
+          "image": "https://i.postimg.cc/cJ6w0KxH/tempImageyiRJ1l.avif",
+          "category": "editorial",
+          "views": 12300,
+          "price": 0
+        },
+        {
+          "id": "most-downloaded",
+          "title": "Most Downloaded",
+          "description": "Popular downloads",
+          "count": 345,
+          "rating": 4.6,
+          "image": "https://i.postimg.cc/Fs1PCKcg/tempImagez5mFhZ.avif",
+          "category": "downloads",
+          "views": 34500,
+          "price": 499
+        }
+      ]
+    }
+  },
+  "socialLinks": [
+    { "platform": "facebook", "icon": "fab fa-facebook", "url": "#" },
+    { "platform": "instagram", "icon": "fab fa-instagram", "url": "#" },
+    { "platform": "pinterest", "icon": "fab fa-pinterest", "url": "#" },
+    { "platform": "youtube", "icon": "fab fa-youtube", "url": "#" }
+  ],
+  "footer": {
+    "copyrightText": "© 2025 Vrindopnishad Collection. All images are property of their respective owners."
+  }
+}
