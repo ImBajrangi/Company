@@ -6,6 +6,12 @@
     <title>Collection Details - Vrindopnishad</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Add Razorpay Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- Link Pop-up Checker Script -->
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/js/popup-checker.js"></script>
+
+    
     <style>
         * {
             margin: 0;
@@ -300,6 +306,7 @@
             cursor: pointer;
             border: 2px solid transparent;
             transition: border-color 0.2s;
+            position: relative; /* Added for download button positioning */
         }
 
         .thumbnail.active {
@@ -308,6 +315,33 @@
 
         .thumbnail:hover {
             border-color: var(--border-color);
+        }
+
+        /* NEW: Style for the individual download button on thumbnails */
+        .thumbnail-download-btn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.8;
+            z-index: 10; /* Ensure it's on top */
+        }
+
+        .thumbnail-download-btn:hover {
+            background: var(--accent-blue);
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         .thumbnail img {
@@ -412,7 +446,14 @@
             justify-content: center;
             gap: 8px;
         }
-
+        
+        .btn:disabled {
+            background: var(--secondary-bg);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            border: none;
+        }
+        
         .btn-primary {
             background: var(--accent-blue);
             color: white;
@@ -420,6 +461,10 @@
 
         .btn-primary:hover {
             background: var(--accent-hover);
+        }
+        
+        .btn-primary:disabled:hover {
+            background: var(--secondary-bg);
         }
 
         .btn-secondary {
@@ -688,6 +733,133 @@
 
         .bag-checkout {
             margin-top: 24px;
+        }
+
+        /* Favorites Modal */
+        .like-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            background: var(--primary-bg);
+            box-shadow: -2px 0 20px rgba(0,0,0,0.1);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .like-modal.active {
+            right: 0;
+        }
+
+        .like-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.4);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .like-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .like-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .like-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .like-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .like-content {
+            padding: 24px;
+        }
+
+        .like-empty {
+            text-align: center;
+            padding: 60px 24px;
+        }
+
+        .like-empty i {
+            font-size: 64px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .like-empty p {
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        .like-item {
+            display: flex;
+            gap: 16px;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .like-item:last-child {
+            border-bottom: none;
+        }
+
+        .like-item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: var(--secondary-bg);
+        }
+
+        .like-item-info {
+            flex: 1;
+        }
+
+        .like-item-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .like-item-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .like-item-price {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .like-item-remove {
+            background: none;
+            border: none;
+            color: var(--accent-blue);
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
         }
 
         /* Toast Notification */
@@ -1024,6 +1196,23 @@
         </div>
     </div>
 
+    <!-- Favorites Modal -->
+    <div class="like-overlay" id="like-overlay"></div>
+    <div class="like-modal" id="like-modal">
+        <div class="like-header">
+            <h2 class="like-title">Favorites</h2>
+            <button class="like-close" id="like-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="like-content" id="like-content">
+            <div class="like-empty">
+                <i class="fas fa-heart"></i>
+                <p>Your favorites list is empty</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i> Added to bag
@@ -1091,8 +1280,10 @@
 
     <script>
         // Shopping bag and favorites state
-        let shoppingBag = [];
-        let favorites = [];
+        let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        // --- NEW: Add state for purchased items ---
+        let purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || [];
 
         // Collection data with tags and actual images (fallback data)
         const collectionsData = {
@@ -1228,6 +1419,97 @@
             ]
         };
 
+        // --- NEW: Function to save purchased items ---
+        function savePurchasedItems() {
+            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+        }
+
+        // --- NEW: Function to simulate file download ---
+        function downloadFile(filename, content) {
+            const element = document.createElement('a');
+            const file = new Blob([content], {type: 'text/plain'});
+            element.href = URL.createObjectURL(file);
+            element.download = filename;
+            document.body.appendChild(element); // Required for this to work in FireFox
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // --- NEW: Function to generate a license ---
+        function generateLicense(itemName) {
+            return `
+    VRINDOPNISHAD - DIGITAL ASSET LICENSE
+    =======================================
+    
+    This license grants you, the purchaser, a non-exclusive, worldwide, perpetual license to use the digital item "[${itemName}]" for personal and commercial projects.
+    
+    You are permitted to:
+    - Use the asset in digital or print media.
+    - Use the asset for commercial projects (websites, marketing, products).
+    - Modify or manipulate the asset.
+    
+    You are NOT permitted to:
+    - Resell or redistribute the original digital file.
+    - Claim ownership of the asset.
+    
+    Purchase Date: ${new Date().toUTCString()}
+    License Key: RZP-${Math.random().toString(36).substring(2, 9).toUpperCase()}
+    
+    © ${new Date().getFullYear()} Vrindopnishad. All rights reserved.
+            `;
+        }
+
+        // --- NEW: Function to generate a bill/receipt ---
+        function generateBill(item, paymentId) {
+            const subtotal = item.price;
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+
+            return `
+    VRINDOPNISHAD - OFFICIAL RECEIPT
+    ==================================
+    
+    Purchase Confirmation
+    ----------------------------------
+    Date: ${new Date().toUTCString()}
+    Payment ID (Razorpay): ${paymentId}
+    Billed To: Test User (test.user@example.com)
+    
+    Item Details
+    ----------------------------------
+    Item: ${item.title}
+    Description: ${item.description}
+    Price: ${formatPrice(subtotal)}
+    
+    Summary
+    ----------------------------------
+    Subtotal: ${formatPrice(subtotal)}
+    Tax (18%): ${formatPrice(tax)}
+    TOTAL PAID: ${formatPrice(total)}
+    
+    Thank you for your purchase!
+            `;
+        }
+        
+        // --- UPDATED: Function to download purchased items ---
+        function downloadCollection(item, paymentId) {
+            // Download License
+            const licenseContent = generateLicense(item.title);
+            downloadFile(`License_${item.id}.txt`, licenseContent);
+            
+            // Download Bill
+            const billContent = generateBill(item, paymentId);
+            downloadFile(`Bill_${item.id}.txt`, billContent);
+
+            // Open images in new tabs
+            showToast('Downloading files... Please save the images from the new tabs.');
+            item.images.forEach((img, index) => {
+                setTimeout(() => { // Stagger opening to avoid some popup blockers
+                    window.open(img, '_blank');
+                }, index * 250);
+            });
+        }
+
         // Get collection ID from URL
         function getCollectionIdFromURL() {
             const params = new URLSearchParams(window.location.search);
@@ -1308,6 +1590,9 @@
             const collectionImages = item.images || [item.image, item.image, item.image, item.image];
             console.log('Collection images:', collectionImages.length);
             
+            // --- UPDATED: Check purchase status *before* rendering thumbnails ---
+            const isPurchased = purchasedItems.includes(item.id);
+
             // Set main image with loading state
             const mainImg = document.getElementById('main-image');
             mainImg.classList.add('loading');
@@ -1323,11 +1608,21 @@
 
             // Render thumbnails with actual collection images
             const thumbnailGrid = document.getElementById('thumbnail-grid');
-            thumbnailGrid.innerHTML = collectionImages.map((img, index) => `
-                <div class="thumbnail ${index === 0 ? 'active' : ''} loading" data-image="${img}" data-index="${index}">
-                    <img src="${img}" alt="View ${index + 1}">
-                </div>
-            `).join('');
+            thumbnailGrid.innerHTML = collectionImages.map((img, index) => {
+                // NEW: Add download button if purchased
+                const downloadBtnHTML = isPurchased 
+                    ? `<button class="thumbnail-download-btn" data-img-src="${img}" title="Open this image to save">
+                           <i class="fas fa-download"></i>
+                       </button>`
+                    : '';
+                
+                return `
+                    <div class="thumbnail ${index === 0 ? 'active' : ''} loading" data-image="${img}" data-index="${index}">
+                        <img src="${img}" alt="View ${index + 1}">
+                        ${downloadBtnHTML} 
+                    </div>
+                `;
+            }).join('');
 
             // Thumbnail click handlers with loading states
             document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
@@ -1362,6 +1657,47 @@
             
             descriptionEl.textContent = description;
 
+            // --- NEW: Check purchase status and update buttons ---
+            const actionButtons = document.querySelector('.action-buttons');
+            const addToBagBtn = document.getElementById('add-to-bag');
+
+            if (isPurchased) { // Use the variable defined above
+                // Item is purchased
+                addToBagBtn.disabled = true;
+                addToBagBtn.innerHTML = '<i class="fas fa-check-circle"></i> Purchased';
+                
+                // Remove existing download button if it exists
+                const existingDownloadBtn = document.getElementById('download-btn');
+                if (existingDownloadBtn) {
+                    existingDownloadBtn.remove();
+                }
+
+                // Add download button
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn btn-primary';
+                downloadBtn.id = 'download-btn';
+                downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download Collection';
+                downloadBtn.style.order = '1'; // Make it appear before favorites
+                addToBagBtn.style.order = '2';
+
+                // --- UPDATED: Pass placeholder payment ID for re-downloads ---
+                downloadBtn.addEventListener('click', () => downloadCollection(item, "N/A (Already Purchased)"));
+                actionButtons.prepend(downloadBtn); // Add to the top of action buttons
+
+            } else {
+                // Item is not purchased - ensure state is normal
+                addToBagBtn.disabled = false;
+                addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
+                addToBagBtn.style.order = '1';
+                document.getElementById('add-to-wishlist').style.order = '2';
+                
+                // Remove download button if it exists
+                const existingDownloadBtn = document.getElementById('download-btn');
+                if (existingDownloadBtn) {
+                    existingDownloadBtn.remove();
+                }
+            }
+
             console.log('✓ Product rendered successfully');
         }
 
@@ -1389,6 +1725,7 @@
             const count = shoppingBag.length;
             document.getElementById('bag-count').textContent = count;
             document.getElementById('bag-count').style.display = count > 0 ? 'flex' : 'none';
+            localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
         }
 
         function updateLikeCount() {
@@ -1405,6 +1742,7 @@
                 likeBtn.classList.remove('liked');
                 likeBtn.querySelector('i').className = 'far fa-heart';
             }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
         }
 
         function addToFavorites(item) {
@@ -1416,15 +1754,34 @@
             } else {
                 favorites = favorites.filter(fav => fav.id !== item.id);
                 updateLikeCount();
+                renderFavorites(); // Update modal if open
                 showToast('Removed from favorites');
             }
         }
 
         function addToBag(item) {
+            // --- NEW: Check for duplicates or if already purchased ---
+            const exists = shoppingBag.find(bagItem => bagItem.id === item.id);
+            if (exists) {
+                showToast('Item is already in your bag');
+                return;
+            }
+
+            if (purchasedItems.includes(item.id)) {
+                showToast('You have already purchased this item.');
+                return;
+            }
+
             shoppingBag.push(item);
             updateBagCount();
             renderBag();
             showToast('Added to bag');
+        }
+
+        function removeFromFavorites(index) {
+            favorites.splice(index, 1);
+            updateLikeCount();
+            renderFavorites();
         }
 
         function removeFromBag(index) {
@@ -1479,7 +1836,7 @@
                     </div>
                 </div>
                 <div class="bag-checkout">
-                    <button class="btn btn-primary" style="width: 100%;">
+                    <button class="btn btn-primary" style="width: 100%;" id="checkout-btn">
                         <i class="fas fa-lock"></i>
                         Check Out
                     </button>
@@ -1487,9 +1844,114 @@
             `;
         }
 
+        function renderFavorites() {
+            const likeContent = document.getElementById('like-content');
+            
+            if (favorites.length === 0) {
+                likeContent.innerHTML = `
+                    <div class="like-empty">
+                        <i class="fas fa-heart"></i>
+                        <p>Your favorites list is empty</p>
+                    </div>
+                `;
+                return;
+            }
+
+            likeContent.innerHTML = `
+                <div>
+                    ${favorites.map((item, index) => `
+                        <div class="like-item">
+                            <img src="${item.image}" alt="${item.title}" class="like-item-image">
+                            <div class="like-item-info">
+                                <div class="like-item-title">${item.title}</div>
+                                <div class="like-item-desc">${item.description}</div>
+                                <div class="like-item-price">${formatPrice(item.price)}</div>
+                                <button class="like-item-remove" onclick="removeFromFavorites(${index})">Remove</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function handleCheckout() {
+            if (shoppingBag.length === 0) {
+                showToast('Your bag is empty!');
+                return;
+            }
+
+            const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+            const totalInPaise = Math.round(total * 100); // Razorpay requires amount in paise
+
+            const options = {
+                "key": "rzp_test_RU9lPJQl5wqQFM", // User provided key
+                "amount": totalInPaise,
+                "currency": "INR",
+                "name": "Vrindopnishad",
+                "description": "Art Collection Purchase",
+                "image": "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif", // Using one of the collection images as a logo
+                "handler": function (response){
+                    console.log(response);
+                    showToast('Payment Successful! ✅ Please save the images from the new tabs.');
+
+                    // --- UPDATED: Download items and add to purchased list ---
+                    const purchasedIds = shoppingBag.map(item => item.id);
+                    const paymentId = response.razorpay_payment_id;
+                    
+                    shoppingBag.forEach(item => {
+                        downloadCollection(item, paymentId); // Download each item
+                    });
+                    
+                    // Merge with existing purchased items and remove duplicates
+                    purchasedItems = [...new Set([...purchasedItems, ...purchasedIds])]; 
+                    savePurchasedItems(); // Save to localStorage
+
+                    shoppingBag = []; // Clear the bag
+                    updateBagCount(); // Update count and localStorage
+                    renderBag(); // Re-render the empty bag
+                    toggleBag(); // Close the modal
+
+                    // Re-render the current product page to show "Purchased"
+                    renderProduct(findCollection(getCollectionIdFromURL()));
+                },
+                "prefill": {
+                    "name": "Test User",
+                    "email": "test.user@example.com",
+                    "contact": "9999999999"
+                },
+                "notes": {
+                    "address": "Vrindopnishad Corporate Office"
+                },
+                "theme": {
+                    "color": "#0071e3" // Match accent color
+                }
+            };
+            const rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response){
+                    console.error(response);
+                    showToast('Payment Failed. Please try again. ❌');
+            });
+            rzp1.open();
+        }
+
         function toggleBag() {
             document.getElementById('bag-modal').classList.toggle('active');
             document.getElementById('bag-overlay').classList.toggle('active');
+            // Re-render bag content when opening to show persisted items
+            if (document.getElementById('bag-modal').classList.contains('active')) {
+                renderBag();
+            }
+        }
+
+        function toggleLikes() {
+            document.getElementById('like-modal').classList.toggle('active');
+            document.getElementById('like-overlay').classList.toggle('active');
+            // Re-render favorites content when opening
+            if (document.getElementById('like-modal').classList.contains('active')) {
+                renderFavorites();
+            }
         }
 
         function toggleSearch() {
@@ -1576,20 +2038,16 @@
         document.getElementById('bag-close').addEventListener('click', toggleBag);
         document.getElementById('bag-overlay').addEventListener('click', toggleBag);
 
+        document.getElementById('like-toggle').addEventListener('click', toggleLikes);
+        document.getElementById('like-close').addEventListener('click', toggleLikes);
+        document.getElementById('like-overlay').addEventListener('click', toggleLikes);
+
         document.getElementById('search-toggle').addEventListener('click', toggleSearch);
         document.getElementById('search-close').addEventListener('click', toggleSearch);
         document.getElementById('search-modal').addEventListener('click', (e) => {
             if (e.target.id === 'search-modal') toggleSearch();
         });
         document.getElementById('search-input').addEventListener('input', handleSearch);
-
-        document.getElementById('like-toggle').addEventListener('click', () => {
-            if (favorites.length > 0) {
-                showToast(`You have ${favorites.length} favorite${favorites.length > 1 ? 's' : ''} ❤️`);
-            } else {
-                showToast('No favorites yet. Start adding some!');
-            }
-        });
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -1600,6 +2058,9 @@
                 if (document.getElementById('bag-modal').classList.contains('active')) {
                     toggleBag();
                 }
+                if (document.getElementById('like-modal').classList.contains('active')) {
+                    toggleLikes();
+                }
             }
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
@@ -1609,8 +2070,13 @@
 
         // Make functions globally accessible
         window.removeFromBag = removeFromBag;
+        window.removeFromFavorites = removeFromFavorites;
         window.navigateToCollection = navigateToCollection;
         window.subscribeNewsletter = subscribeNewsletter;
+        window.downloadCollection = downloadCollection;
+        window.generateLicense = generateLicense;
+        window.downloadFile = downloadFile;
+        window.generateBill = generateBill;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -1635,8 +2101,32 @@
                 `;
             }
             
+            // Update counts on load from localStorage
             updateBagCount();
             updateLikeCount();
+            // Also render the bag/favorites in case it's opened without adding a new item
+            renderBag(); 
+            renderFavorites();
+
+            // Add event delegation for checkout button
+            document.getElementById('bag-content').addEventListener('click', (e) => {
+                // Check if the clicked element or its parent is the checkout button
+                if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
+                    handleCheckout();
+                }
+            });
+
+            // NEW: Add event delegation for individual thumbnail downloads
+            document.getElementById('thumbnail-grid').addEventListener('click', (e) => {
+                const downloadBtn = e.target.closest('.thumbnail-download-btn');
+                if (downloadBtn) {
+                    e.stopPropagation(); // VERY IMPORTANT: Prevents the thumbnail-click (to change main image)
+                    const imgSrc = downloadBtn.dataset.imgSrc;
+                    showToast('Opening image... Please right-click and save.');
+                    window.open(imgSrc, '_blank');
+                }
+            });
+
             console.log('=== Initialization Complete ===');
         });
     </script>
