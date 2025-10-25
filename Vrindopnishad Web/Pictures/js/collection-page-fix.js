@@ -3,90 +3,6 @@ let collectionsData = {};
 // const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
 const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collection_data_price.json";
 
-// Enhanced collection details map with all necessary data
-const collectionDetailsMap = {
-    "sacred-temples": {
-        images: [
-            "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
-            "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
-            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
-            "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif"
-        ],
-        price: 2999,
-        tags: ["temples", "architecture", "spiritual", "heritage"]
-    },
-    "divine-portraits": {
-        images: [
-            "https://i.postimg.cc/yx32SQ76/62.avif",
-            "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
-            "https://i.postimg.cc/SsNLXZf8/tempImageXR0Khf.avif",
-            "https://i.postimg.cc/66ZV8GdG/tempImageEpdAxY.avif"
-        ],
-        price: 3499,
-        tags: ["portraits", "deities", "art", "paintings"]
-    },
-    "spiritual-landscapes": {
-        images: [
-            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
-            "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
-            "https://i.postimg.cc/h4zxHqXr/temp-Image0m4o-HY.avif",
-            "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
-        ],
-        price: 2499,
-        tags: ["landscapes", "nature", "sacred", "pilgrimage"]
-    },
-    "festival-moments": {
-        images: [
-            "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif",
-            "https://i.postimg.cc/L89jQCG1/tempImageQAFHVQ.avif",
-            "https://i.postimg.cc/cJ6w0KxH/tempImageyiRJ1l.avif",
-            "https://i.postimg.cc/Fs1PCKcg/tempImagez5mFhZ.avif"
-        ],
-        price: 3999,
-        tags: ["festivals", "celebrations", "culture", "events"]
-    },
-    "meditation-spaces": {
-        images: [
-            "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
-            "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
-            "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
-            "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
-        ],
-        price: 2799,
-        tags: ["meditation", "peace", "zen", "tranquility"]
-    },
-    "character-art": {
-        images: [
-            "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif",
-            "https://i.postimg.cc/bN3NGZmF/temp-Imagefa-W5wa.avif",
-            "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif",
-            "https://i.postimg.cc/hPpPJX24/temp-Imageg-VDr-Y9.avif"
-        ],
-        price: 4999,
-        tags: ["characters", "illustrations", "anime", "art"]
-    },
-    "warrior-theme": {
-        images: [
-            "https://i.postimg.cc/XqVRBgBX/temp-Image-KVsh-Fy.avif",
-            "https://i.postimg.cc/0yF1XmFV/temp-Image-PRh2-Km.avif",
-            "https://i.postimg.cc/nzY8LWzT/temp-Image0-GHro6.avif",
-            "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif"
-        ],
-        price: 3299,
-        tags: ["warriors", "samurai", "knights", "battle"]
-    },
-    "dark-aesthetic": {
-        images: [
-            "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif",
-            "https://i.postimg.cc/FFVmFYkR/temp-Imageoo-RS7-Y.avif",
-            "https://i.postimg.cc/fWCnn11f/temp-Image-Qu2-Bi-Z.avif",
-            "https://i.postimg.cc/GmH1jz7H/temp-Image-UQR4i-G.avif"
-        ],
-        price: 3799,
-        tags: ["dark", "modern", "aesthetic", "moody"]
-    }
-};
-
 // Search functionality
 function initializeSearch() {
     const searchToggle = document.getElementById('search-toggle');
@@ -126,7 +42,8 @@ function initializeSearch() {
                 .filter(item => 
                     (item.title && item.title.toLowerCase().includes(query)) ||
                     (item.description && item.description.toLowerCase().includes(query)) ||
-                    (collectionDetailsMap[item.id]?.tags?.some(tag => tag.toLowerCase().includes(query)))
+                    // *** FIXED: Search item.tags directly from the JSON data
+                    (item.tags?.some(tag => tag.toLowerCase().includes(query)))
                 )
                 .slice(0, 10);
             
@@ -350,6 +267,11 @@ async function loadCollectionsData() {
         const data = await response.json();
         collectionsData = data.collections || data; 
         
+        // *** NEW: Store all collection data in session storage for the details page
+        if (data.collections) {
+            sessionStorage.setItem('allCollectionsData', JSON.stringify(data.collections));
+        }
+        
         if (data.heroSection) updateHeroSection(data.heroSection);
         if (data.siteConfig) updateSiteConfig(data.siteConfig);
         if (data.navigation) updateNavigation(data.navigation);
@@ -431,7 +353,7 @@ function openPopup(item) {
         
         newBtn.addEventListener('click', () => {
             if (item && item.id) {
-                // Prepare complete collection data with enhanced details
+                // *** FIXED: Prepare complete collection data directly from the 'item' (from JSON)
                 const detailsData = {
                     id: item.id,
                     title: item.title,
@@ -442,10 +364,10 @@ function openPopup(item) {
                     views: item.views || 0,
                     year: item.year || '2024',
                     image: item.image,
-                    // Enhanced data from collectionDetailsMap
-                    images: collectionDetailsMap[item.id]?.images || [item.image, item.image, item.image, item.image],
-                    price: collectionDetailsMap[item.id]?.price || 2999,
-                    tags: collectionDetailsMap[item.id]?.tags || ['collection', 'art']
+                    // *** Use data from the 'item' object (from JSON)
+                    images: item.images || [item.image], 
+                    price: item.price, // <-- *** USING item.price DIRECTLY FROM JSON
+                    tags: item.tags || [] 
                 };
                 
                 // Store in sessionStorage for the details page

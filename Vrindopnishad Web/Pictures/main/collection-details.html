@@ -1237,186 +1237,41 @@
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         let purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || [];
 
-        // Collection data with tags and actual images (fallback data)
-        const collectionsData = {
-            "featured": [
-                { 
-                    "id": "sacred-temples", 
-                    "title": "Sacred Temples", 
-                    "description": "Ancient temples and spiritual architecture", 
-                    "count": 45, 
-                    "rating": 4.8, 
-                    "image": "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif", 
-                    "price": 2999,
-                    "tags": ["temples", "architecture", "spiritual", "heritage"],
-                    "images": [
-                        "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
-                        "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
-                        "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
-                        "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif"
-                    ]
-                },
-                { 
-                    "id": "divine-portraits", 
-                    "title": "Divine Portraits", 
-                    "description": "Beautiful deity artwork and paintings", 
-                    "count": 67, 
-                    "rating": 4.9, 
-                    "image": "https://i.postimg.cc/yx32SQ76/62.avif", 
-                    "price": 3499,
-                    "tags": ["portraits", "deities", "art", "paintings"],
-                    "images": [
-                        "https://i.postimg.cc/yx32SQ76/62.avif",
-                        "https://i.postimg.cc/G2Jtvrzx/tempImageN7Ynt8.avif",
-                        "https://i.postimg.cc/SsNLXZf8/tempImageXR0Khf.avif",
-                        "https://i.postimg.cc/66ZV8GdG/tempImageEpdAxY.avif"
-                    ]
-                },
-                { 
-                    "id": "spiritual-landscapes", 
-                    "title": "Spiritual Landscapes", 
-                    "description": "Sacred places and holy sites", 
-                    "count": 34, 
-                    "rating": 4.7, 
-                    "image": "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif", 
-                    "price": 2499,
-                    "tags": ["landscapes", "nature", "sacred", "pilgrimage"],
-                    "images": [
-                        "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
-                        "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
-                        "https://i.postimg.cc/h4zxHqXr/temp-Image0m4o-HY.avif",
-                        "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
-                    ]
-                },
-                { 
-                    "id": "festival-moments", 
-                    "title": "Festival Moments", 
-                    "description": "Captured spiritual celebrations", 
-                    "count": 89, 
-                    "rating": 4.6, 
-                    "image": "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif", 
-                    "price": 3999,
-                    "tags": ["festivals", "celebrations", "culture", "events"],
-                    "images": [
-                        "https://i.postimg.cc/L82pZfGK/tempImage0MZ1Qo.avif",
-                        "https://i.postimg.cc/L89jQCG1/tempImageQAFHVQ.avif",
-                        "https://i.postimg.cc/cJ6w0KxH/tempImageyiRJ1l.avif",
-                        "https://i.postimg.cc/Fs1PCKcg/tempImagez5mFhZ.avif"
-                    ]
-                },
-                { 
-                    "id": "meditation-spaces", 
-                    "title": "Meditation Spaces", 
-                    "description": "Peaceful environments for contemplation", 
-                    "count": 23, 
-                    "rating": 4.8, 
-                    "image": "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif", 
-                    "price": 2799,
-                    "tags": ["meditation", "peace", "zen", "tranquility"],
-                    "images": [
-                        "https://i.postimg.cc/hjgy2bbR/tempImageO8LIr2.avif",
-                        "https://i.postimg.cc/nzYrqZTT/tempImagepeTFpY.avif",
-                        "https://i.postimg.cc/VsxMwHMk/temp-Image-DVx-VWQ.avif",
-                        "https://i.postimg.cc/g2Yxk92N/temp-Image-Y61d7-W.avif"
-                    ]
-                },
-                { 
-                    "id": "character-art", 
-                    "title": "Character Art", 
-                    "description": "Detailed character illustrations", 
-                    "count": 178, 
-                    "rating": 4.6, 
-                    "image": "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif", 
-                    "price": 4999,
-                    "tags": ["characters", "illustrations", "anime", "art"],
-                    "images": [
-                        "https://i.postimg.cc/RZhCwvYL/temp-Image-Fsblv-Q.avif",
-                        "https://i.postimg.cc/bN3NGZmF/temp-Imagefa-W5wa.avif",
-                        "https://i.postimg.cc/L6H86t3s/temp-Image6-M4-FDA.avif",
-                        "https://i.postimg.cc/hPpPJX24/temp-Imageg-VDr-Y9.avif"
-                    ]
-                },
-                { 
-                    "id": "warrior-theme", 
-                    "title": "Warrior Theme", 
-                    "description": "Ancient warriors and battle scenes", 
-                    "count": 56, 
-                    "rating": 4.8, 
-                    "image": "https://i.postimg.cc/XqVRBgBX/temp-Image-KVsh-Fy.avif", 
-                    "price": 3299,
-                    "tags": ["warriors", "samurai", "knights", "battle"],
-                    "images": [
-                        "https://i.postimg.cc/XqVRBgBX/temp-Image-KVsh-Fy.avif",
-                        "https://i.postimg.cc/0yF1XmFV/temp-Image-PRh2-Km.avif",
-                        "https://i.postimg.cc/nzY8LWzT/temp-Image0-GHro6.avif",
-                        "https://i.postimg.cc/BnXGCNYt/temp-Image4-RTJPu.avif"
-                    ]
-                },
-                { 
-                    "id": "dark-aesthetic", 
-                    "title": "Dark Aesthetic", 
-                    "description": "Modern dark themed artwork", 
-                    "count": 89, 
-                    "rating": 4.7, 
-                    "image": "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif", 
-                    "price": 3799,
-                    "tags": ["dark", "modern", "aesthetic", "moody"],
-                    "images": [
-                        "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif",
-                        "https://i.postimg.cc/FFVmFYkR/temp-Imageoo-RS7-Y.avif",
-                        "https://i.postimg.cc/fWCnn11f/temp-Image-Qu2-Bi-Z.avif",
-                        "https://i.postimg.cc/GmH1jz7H/temp-Image-UQR4i-G.avif"
-                    ]
-                }
-            ]
-        };
+        // --- *** REMOVED hardcoded collectionsData. It will now be loaded from sessionStorage. *** ---
 
         // Get collection ID from URL
         function getCollectionIdFromURL() {
             const params = new URLSearchParams(window.location.search);
-            return params.get('id') || 'sacred-temples';
+            return params.get('id'); // *** REMOVED fallback 'sacred-temples'
         }
 
-        // --- UPDATED: findCollection Function ---
-        // This function now correctly handles page refreshes.
+        // --- *** UPDATED: findCollection Function *** ---
+        // This function now *only* gets the specific item's data from sessionStorage.
         function findCollection(id) {
             console.log('Looking for collection:', id);
             
-            // 1. Check sessionStorage
+            // 1. Check sessionStorage for 'collectionData'
             const sessionData = sessionStorage.getItem('collectionData');
             if (sessionData) {
                 try {
                     const data = JSON.parse(sessionData);
                     // IMPORTANT: Check if the ID from sessionStorage MATCHES the ID from the URL.
                     if (data.id === id) {
-                        console.log('✓ Using data from sessionStorage (and NOT removing it).');
-                        // DO NOT REMOVE THE ITEM. This allows refreshes.
+                        console.log('✓ Using data from sessionStorage.');
                         return data; 
                     } else {
-                        console.warn('Session data ID does not match URL ID. Will try fallback.');
+                        console.warn('Session data ID does not match URL ID.');
+                        return null; // Mismatch, return null
                     }
                 } catch (e) {
                     console.error('Error parsing sessionStorage data:', e);
-                    // Don't remove, just ignore.
+                    return null; // Error, return null
                 }
             }
             
-            // 2. Fallback to local collectionsData
-            console.log('Session data not found or mismatched. Trying local fallback...');
-            for (const category in collectionsData) {
-                const found = collectionsData[category].find(item => item.id === id);
-                if (found) {
-                    console.log('✓ Using local fallback data:', found);
-                    // --- NEW: Since we found it locally, let's store it in session storage
-                    // for the *next* refresh. This is especially useful for "related items".
-                    sessionStorage.setItem('collectionData', JSON.stringify(found));
-                    return found;
-                }
-            }
-            
-            // 3. Return default if nothing found
-            console.warn('⚠ No data found for ID:', id, 'using default');
-            return collectionsData.featured[0];
+            // 2. Return null if nothing found
+            console.warn('⚠ No data found in sessionStorage for ID:', id);
+            return null;
         }
 
         // Format price
@@ -1447,15 +1302,16 @@
         function renderProduct(item) {
             console.log('Rendering product:', item.title);
             
+            // *** FIXED: Now correctly uses the price from the sessionData item
             document.getElementById('product-title').textContent = item.title;
             document.getElementById('product-subtitle').textContent = item.description;
-            document.getElementById('product-price').textContent = formatPrice(item.price);
+            document.getElementById('product-price').textContent = formatPrice(item.price); 
             document.getElementById('product-stars').innerHTML = renderStars(item.rating);
             document.getElementById('rating-text').textContent = `(${item.rating.toFixed(1)})`;
             document.title = `${item.title} - Vrindopnishad`;
 
             // Get actual images from collection or use main image as fallback
-            const collectionImages = item.images || [item.image, item.image, item.image, item.image];
+            const collectionImages = item.images && item.images.length > 0 ? item.images : [item.image];
             console.log('Collection images:', collectionImages.length);
             
             // Check purchase status *before* rendering thumbnails
@@ -1660,15 +1516,28 @@
 
         // Render related items (UPDATED LOGIC)
         function renderRelated(currentItem) {
+            const grid = document.getElementById('related-grid');
             if (!currentItem || !currentItem.tags || !Array.isArray(currentItem.tags)) {
                 console.warn('Cannot render related items: current item is invalid or has no tags.', currentItem);
-                const grid = document.getElementById('related-grid');
                 grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Could not load related items.</p>';
                 return;
             }
 
+            // *** FIXED: Load all collection data from session storage
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                console.warn('Cannot render related items: allCollectionsData not in sessionStorage.');
+                grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Could not load related items.</p>';
+                return;
+            }
+
+            const allCollections = JSON.parse(allCollectionsJson);
+            // Flatten all items from all categories
+            const allItems = Object.values(allCollections).flatMap(category => category.items || []);
+
             const currentTags = currentItem.tags;
-            const allOtherItems = collectionsData.featured.filter(item => item.id !== currentItem.id);
+            // *** FIXED: Filter from the 'allItems' loaded from session storage
+            const allOtherItems = allItems.filter(item => item.id !== currentItem.id);
 
             // 1. Calculate similarity score for all other items
             const scoredItems = allOtherItems.map(item => {
@@ -1683,7 +1552,6 @@
             });
 
             // 2. Sort by score (highest first).
-            // If scores are equal, add a bit of randomness to shuffle them.
             scoredItems.sort((a, b) => {
                 if (b.score !== a.score) {
                     return b.score - a.score; // Higher score first
@@ -1695,7 +1563,6 @@
             const related = scoredItems.slice(0, 4).map(scoredItem => scoredItem.item);
 
             // 4. Render them
-            const grid = document.getElementById('related-grid');
             if (related.length === 0) {
                 grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">No related items found.</p>';
                 return;
@@ -1955,7 +1822,15 @@
                 return;
             }
 
-            const allItems = collectionsData.featured;
+            // *** FIXED: Search from the 'allCollectionsData' in session storage
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                console.warn('Cannot search: allCollectionsData not in sessionStorage.');
+                return;
+            }
+            const allCollections = JSON.parse(allCollectionsJson);
+            const allItems = Object.values(allCollections).flatMap(category => category.items || []);
+
             const results = allItems.filter(item => 
                 item.title.toLowerCase().includes(query) ||
                 item.description.toLowerCase().includes(query) ||
@@ -1987,19 +1862,25 @@
                 event.preventDefault(); // Stop default link behavior if event is passed
             }
             
-            // Find the item from local data
-            let itemToNav;
-            for (const category in collectionsData) {
-                const found = collectionsData[category].find(item => item.id === id);
-                if (found) {
-                    itemToNav = found;
-                    break;
-                }
+            // *** FIXED: Find item from the 'allCollectionsData' in session storage
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                console.error('Cannot navigate: allCollectionsData not in sessionStorage.');
+                alert('An error occurred. Please go back to the gallery and try again.');
+                return;
             }
+            const allCollections = JSON.parse(allCollectionsJson);
+            const allItems = Object.values(allCollections).flatMap(category => category.items || []);
+            
+            const itemToNav = allItems.find(item => item.id === id);
             
             // IMPORTANT: Store it in session storage *before* navigating
             if (itemToNav) {
                 sessionStorage.setItem('collectionData', JSON.stringify(itemToNav));
+            } else {
+                 console.error(`Item with id ${id} not found in allCollectionsData.`);
+                 alert('Could not find item details. Please try again from the gallery.');
+                 return;
             }
             
             // Now navigate
@@ -2071,8 +1952,9 @@
                     // Update button on current page if item was purchased
                     const currentId = getCollectionIdFromURL();
                     if (purchasedIds.includes(currentId)) {
+                        // *** Re-find item to get fresh data (though it's already in 'item')
                         const item = findCollection(currentId);
-                        renderProduct(item); // Re-render product to show "Purchased"
+                        if (item) renderProduct(item); // Re-render product to show "Purchased"
                     }
                     
                     toggleBag(); // Close bag
@@ -2098,13 +1980,13 @@
         document.getElementById('add-to-bag').addEventListener('click', () => {
             const id = getCollectionIdFromURL();
             const item = findCollection(id);
-            addToBag(item);
+            if (item) addToBag(item); // Add check
         });
 
         document.getElementById('add-to-wishlist').addEventListener('click', () => {
             const id = getCollectionIdFromURL();
             const item = findCollection(id);
-            addToFavorites(item);
+            if (item) addToFavorites(item); // Add check
         });
 
         // Bag modal listeners
@@ -2162,18 +2044,32 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log('=== Collection Details Page Initializing ===');
             const id = getCollectionIdFromURL();
+            if (!id) {
+                 console.error('No collection ID found in URL');
+                 document.getElementById('product-container').innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <h2>No Collection Specified</h2>
+                        <p>Please return to the gallery and select a collection.</p>
+                        <a href="Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                            <i class="fas fa-arrow-left"></i> Back to Gallery
+                        </a>
+                    </div>
+                `;
+                 return; // Stop execution
+            }
+            
             console.log('Collection ID from URL:', id);
             
             const item = findCollection(id);
             if (item) {
                 renderProduct(item);
-                renderRelated(item); // <-- UPDATED to pass the full item object
+                renderRelated(item); // <-- This will now use allCollectionsData from session
             } else {
-                console.error('Failed to load collection data');
+                console.error('Failed to load collection data from sessionStorage');
                 document.getElementById('product-container').innerHTML = `
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>Collection Not Found</h2>
-                        <p>Sorry, we couldn't find the collection you're looking for.</p>
+                        <p>Sorry, we couldn't find the collection you're looking for. It might have expired.</p>
                         <a href="Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
@@ -2188,7 +2084,6 @@
             renderFavorites(); // Render favorites on load
             
             // Add event delegation for checkout button
-            // Note: Attaching to bag-footer which is persistent, unlike bag-content
             document.getElementById('bag-footer').addEventListener('click', (e) => {
                 if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
                     handleCheckout();

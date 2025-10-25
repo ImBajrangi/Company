@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         instagram: "https://www.instagram.com/vrindopnishad",
         pinterest: "www.pinterest.com/vrindopnishad",
         whatsapp_channel: "https://whatsapp.com/channel/0029Vb6UR3Z9mrGcDXbHzA1Q",
-        whatsapp_chat: "https://chat.whatsapp.com/JUUD0zZCbPyIemAQsxUdRm?mode=ems_copy_c"
+        whatsapp_chat_private: "https://chat.whatsapp.com/JUUD0zZCbPyIemAQsxUdRm?mode=ems_copy_c"
     };
 
     // Update links with data-link attribute
