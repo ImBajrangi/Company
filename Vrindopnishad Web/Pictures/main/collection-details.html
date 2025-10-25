@@ -2280,6 +2280,12 @@ Thank you for your purchase!
                         </a>
                     </div>
                 `;
+                 // *** HIDE COUNT BADGES ON ERROR ***
+                 const bagCountEl = document.getElementById('bag-count');
+                 const likeCountEl = document.getElementById('like-count');
+                 if (bagCountEl) bagCountEl.style.display = 'none';
+                 if (likeCountEl) likeCountEl.style.display = 'none';
+                 // *** END HIDE COUNT BADGES ***
                  return; // Stop execution
             }
             
