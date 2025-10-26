@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page-Specific Asset Manager</title>
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js"></script>
     <!-- We load Tailwind here just for styling this demo page -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -165,108 +166,108 @@ function loadPageAssets(pageName) {
       2. <script>loadPageAssets('home');</script>
     -->
     <script>
-        // --- This script is embedded for demo purposes ---
-        // --- In your real project, this code would be in 'asset-manager.js' ---
+        // // --- This script is embedded for demo purposes ---
+        // // --- In your real project, this code would be in 'asset-manager.js' ---
 
-        // 1. DEFINE ALL YOUR ASSETS HERE
-        const pageAssets = {
-          common: {
-            css: ['https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'],
-            js: []
-          },
-          home: {
-            css: [],
-            js: ['https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js']
-          },
-          about: {
-            css: ['styles/timeline.css'],
-            js: []
-          },
-          contact: {
-            css: [],
-            js: ['scripts/contact-form-validation.js']
-          }
-        };
+        // // 1. DEFINE ALL YOUR ASSETS HERE
+        // const pageAssets = {
+        //   common: {
+        //     css: ['https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'],
+        //     js: []
+        //   },
+        //   home: {
+        //     css: [],
+        //     js: ['https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js']
+        //   },
+        //   about: {
+        //     css: ['styles/timeline.css'],
+        //     js: []
+        //   },
+        //   contact: {
+        //     css: [],
+        //     js: ['scripts/contact-form-validation.js']
+        //   }
+        // };
 
-        // 2. HELPER FUNCTIONS TO LOAD FILES
-        function loadCss(href) {
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = href;
-          link.onerror = () => console.error(`Failed to load CSS: ${href}`);
-          document.head.appendChild(link);
-          console.log(`Loading CSS: ${href}`);
-        }
+        // // 2. HELPER FUNCTIONS TO LOAD FILES
+        // function loadCss(href) {
+        //   const link = document.createElement('link');
+        //   link.rel = 'stylesheet';
+        //   link.href = href;
+        //   link.onerror = () => console.error(`Failed to load CSS: ${href}`);
+        //   document.head.appendChild(link);
+        //   console.log(`Loading CSS: ${href}`);
+        // }
 
-        function loadJs(src) {
-          const script = document.createElement('script');
-          script.src = src;
-          script.defer = true;
-          script.onload = () => {
-              console.log(`Loaded JS: ${src}`);
-              // This part is just for the demo to work
-              if (typeof runDemo === 'function' && src.includes('lodash')) {
-                  runDemo();
-              }
-              // --- End of demo-only code ---
-          };
-          script.onerror = () => console.error(`Failed to load JS: ${src}`);
-          document.body.appendChild(script);
-          console.log(`Loading JS: ${src}`);
-        }
+        // function loadJs(src) {
+        //   const script = document.createElement('script');
+        //   script.src = src;
+        //   script.defer = true;
+        //   script.onload = () => {
+        //       console.log(`Loaded JS: ${src}`);
+        //       // This part is just for the demo to work
+        //       if (typeof runDemo === 'function' && src.includes('lodash')) {
+        //           runDemo();
+        //       }
+        //       // --- End of demo-only code ---
+        //   };
+        //   script.onerror = () => console.error(`Failed to load JS: ${src}`);
+        //   document.body.appendChild(script);
+        //   console.log(`Loading JS: ${src}`);
+        // }
 
-        // 3. THE MAIN FUNCTION TO CALL FROM YOUR HTML
-        function loadPageAssets(pageName) {
-          console.log(`Loading assets for: ${pageName}`);
+        // // 3. THE MAIN FUNCTION TO CALL FROM YOUR HTML
+        // function loadPageAssets(pageName) {
+        //   console.log(`Loading assets for: ${pageName}`);
           
-          // Always load common assets
-          const common = pageAssets.common;
-          if (common) {
-            common.css.forEach(loadCss);
-            common.js.forEach(loadJs);
-          }
+        //   // Always load common assets
+        //   const common = pageAssets.common;
+        //   if (common) {
+        //     common.css.forEach(loadCss);
+        //     common.js.forEach(loadJs);
+        //   }
 
-          // Load page-specific assets
-          const page = pageAssets[pageName];
-          if (page) {
-            page.css.forEach(loadCss);
-            page.js.forEach(loadJs);
-          } else {
-            console.warn(`No assets found for page: ${pageName}`);
-          }
-        }
+        //   // Load page-specific assets
+        //   const page = pageAssets[pageName];
+        //   if (page) {
+        //     page.css.forEach(loadCss);
+        //     page.js.forEach(loadJs);
+        //   } else {
+        //     console.warn(`No assets found for page: ${pageName}`);
+        //   }
+        // }
         
-        // --- This is the script that runs this demo page ---
-        // --- You would NOT include this in asset-manager.js ---
-        function runDemo() {
-            console.log("Running demo...");
-            const demoBox = document.getElementById('demo-box');
-            const lodashOutput = document.getElementById('lodash-output');
+        // // --- This is the script that runs this demo page ---
+        // // --- You would NOT include this in asset-manager.js ---
+        // function runDemo() {
+        //     console.log("Running demo...");
+        //     const demoBox = document.getElementById('demo-box');
+        //     const lodashOutput = document.getElementById('lodash-output');
 
-            // 1. Animate the box with Animate.css (from 'common')
-            setTimeout(() => {
-                if (demoBox) {
-                    demoBox.classList.add('animate__animated', 'animate__pulse', 'animate__infinite');
-                    demoBox.style.borderColor = '#0f766e';
-                    console.log('Animation applied.');
-                }
-            }, 500);
+        //     // 1. Animate the box with Animate.css (from 'common')
+        //     setTimeout(() => {
+        //         if (demoBox) {
+        //             demoBox.classList.add('animate__animated', 'animate__pulse', 'animate__infinite');
+        //             demoBox.style.borderColor = '#0f766e';
+        //             console.log('Animation applied.');
+        //         }
+        //     }, 500);
 
-            // 2. Use lodash (from 'home')
-            let checkLodash = setInterval(() => {
-                if (typeof _ !== 'undefined') {
-                    clearInterval(checkLodash);
-                    const demoText = 'Lodash.js (from home) has transformed this text!';
-                    if (lodashOutput) {
-                        lodashOutput.textContent = _.startCase(demoText);
-                        console.log('Lodash function executed.');
-                    }
-                }
-            }, 100);
-        }
+        //     // 2. Use lodash (from 'home')
+        //     let checkLodash = setInterval(() => {
+        //         if (typeof _ !== 'undefined') {
+        //             clearInterval(checkLodash);
+        //             const demoText = 'Lodash.js (from home) has transformed this text!';
+        //             if (lodashOutput) {
+        //                 lodashOutput.textContent = _.startCase(demoText);
+        //                 console.log('Lodash function executed.');
+        //             }
+        //         }
+        //     }, 100);
+        // }
         
-        // --- This is what you would call from your index.html ---
-        // This call starts everything.
+      //  // --- This is what you would call from your index.html ---
+      //  // This call starts everything.
         loadPageAssets('home');
     </script>
 </body>
