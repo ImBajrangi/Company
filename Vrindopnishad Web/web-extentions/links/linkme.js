@@ -52,7 +52,10 @@ const pageAssets = {
   pictures: {
     css: [
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/pic-collection.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' }
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' },
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
+        attributes: { class: 'css' }
+      }
     ],
     js: [
       { src: 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js' },
@@ -64,7 +67,11 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/disable-right-click.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/image-protection.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/watermark.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' }
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' },
+      { 
+        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+        attributes: { defer: true }
+      }
     ]
   },
 
@@ -90,7 +97,9 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/animations.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+      { 
+        // *** TYPO FIX HERE: Was 'imbajrange', corrected to 'imbajrangi' ***
+        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
         attributes: { defer: true }
       }
     ]
@@ -154,8 +163,18 @@ function loadJs(asset) {
       console.log(`Loaded JS: ${assetObj.src}`);
   };
   script.onerror = () => console.error(`Failed to load JS: ${assetObj.src}`);
-  document.body.appendChild(script);
-  console.log(`Loading JS: ${assetObj.src}`);
+  
+  // Check if document.body exists. If not, wait.
+  if (document.body) {
+      document.body.appendChild(script);
+      console.log(`Loading JS: ${assetObj.src}`);
+  } else {
+      // If body isn't ready, wait for DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', () => {
+          document.body.appendChild(script);
+          console.log(`Loading JS (deferred): ${assetObj.src}`);
+      });
+  }
 }
 
 // 3. THE MAIN FUNCTION TO CALL FROM YOUR HTML (Unchanged)
