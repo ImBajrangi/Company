@@ -718,7 +718,7 @@
                     const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
 
                     // Create the mailto link and trigger it
-                    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    const mailtoLink = `mailTo:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                     window.location.href = mailtoLink;
                 });
             }
