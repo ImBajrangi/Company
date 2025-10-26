@@ -69,16 +69,30 @@ const pageAssets = {
   },
 
   // 'home' assets for Home.html
-  home: {
+  index: {
     css: [
-      { href: 'https://fonts.googleapis.com/css2?family=Anton&display=swap' },
+      { href: 'https://fonts.googleapis.com/css2?family=Anton&display=swap',
+        attributes: { rel: 'stylesheet' }
+       },
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/styles.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/image-hover.css' }
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/image-hover.css' },
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
+        attributes: { class: 'stylesheet' }
+      },
+      { href: "https://fonts.googleapis.com/css2?family=Anton&display=swap",
+        attributes: { rel: 'stylesheet' }
+      },
+      { href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+        attributes: { rel: 'stylesheet' }
+      }
     ],
     js: [
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/animations.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' }
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' },
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+        attributes: { defer: true }
+      }
     ]
   }
 };
