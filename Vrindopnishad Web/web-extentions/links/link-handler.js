@@ -1,16 +1,9 @@
-// --- Automatic Link Applier ---
-// This script runs after 'paths.js' has loaded.
-// It finds all elements with a 'data-link' attribute
-// and applies the correct 'href' from the PROJECT_PATHS object.
-
-// --- Central Link & Path Management ---
-// Define all project-wide links in this one file.
-// The 'link-handler.js' script will use this object
-// to find and apply links to any <a data-link="..."> tag.
+// --- Unified Link Manager ---
+// This file defines all project paths (PROJECT_PATHS) and contains the logic
+// to automatically apply those links to any element with a 'data-link' attribute.
 
 const PROJECT_PATHS = {
   // --- Internal Page Links ---
-  // (Links from your main navigation)
   'home': 'https://imbajrangi.github.io/Company/',
   'about': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html',
   'gallery': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html',
@@ -19,8 +12,8 @@ const PROJECT_PATHS = {
   'book': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html',
   'articles': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/nw-read-me.html', // (aka web-content-manager)
 
-  // --- Tool Links (from home.html tools menu) ---
-  'stack': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html', // This was 'stack' in your HTML
+  // --- Tool Links ---
+  'stack': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html',
   'login-page': 'https://imbajrangi.github.io/Company/Projects/LoginPage/loginew.html',
   'cloud-kitchen': 'https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html',
   'vrinda-foods': 'https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(developer).html',
@@ -41,50 +34,38 @@ const PROJECT_PATHS = {
   'service-chat': 'https://imbajrangi.github.io/Company/Projects/Vrinda Chat/vrinda chat.html',
   'web-dev': 'https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html',
 
-  // --- Social Media Links (add your URLs here) ---
-  'instagram': 'https://www.instagram.com/your-username/',
-  'facebook': 'https://www.facebook.com/your-page/',
-  'youtube': 'https://www.youtube.com/your-channel/',
-  'whatsapp_channel': 'https://whatsapp.com/channel/your-channel-id',
-  'pinterest': 'https://www.pinterest.com/your-username/'
+  // --- Social Media Links ---
+  'instagram': 'https://www.instagram.com/vrindopnishad/',
+  'facebook': 'https://www.facebook.com/vrindopnishad/',
+  'youtube': 'https://www.youtube.com/vrindopnishad/',
+  'whatsapp_channel': 'https://whatsapp.com/channel/vrindopnishad/',
+  'pinterest': 'https://www.pinterest.com/vrindopnishad/'
 };
 
+// --- Link Application Logic ---
 document.addEventListener('DOMContentLoaded', () => {
-  // Ensure PROJECT_PATHS object exists
-  if (typeof PROJECT_PATHS === 'undefined') {
-    console.error('link-handler.js: PROJECT_PATHS object not found. Make sure paths.js is loaded first.');
-    return;
-  }
-
-  // Find all elements (like <a>) that have a [data-link] attribute
   const linkElements = document.querySelectorAll('[data-link]');
 
-  console.log(`link-handler.js: Found ${linkElements.length} elements with [data-link].`);
+  console.log(`link-manager.js: Found ${linkElements.length} elements with [data-link].`);
 
   linkElements.forEach(element => {
     const linkKey = element.getAttribute('data-link');
-    
-    // Find the matching URL in the PROJECT_PATHS object
     const destinationUrl = PROJECT_PATHS[linkKey];
 
     if (destinationUrl) {
-      // Apply the URL to the element
-      // Check if it's an <a> tag
       if (element.tagName === 'A') {
         element.href = destinationUrl;
         
-        // Optional: If it's an external link, add target="_blank"
+        // Handle target="_blank" for external links outside the GitHub domain
         if (destinationUrl.startsWith('http://') || destinationUrl.startsWith('https://')) {
-          // Don't add to internal links (assuming they are on your github.io page)
           if (!destinationUrl.includes('imbajrangi.github.io/Company/')) {
              element.target = '_blank';
              element.rel = 'noopener noreferrer';
           }
         }
       } else {
-        // Handle other elements (e.g., a button that navigates)
+        // Handle navigation for non-anchor tags (like buttons or divs)
         element.addEventListener('click', () => {
-          // Check if it's an external link
           if (destinationUrl.startsWith('http://') || destinationUrl.startsWith('https://')) {
              if (!destinationUrl.includes('imbajrangi.github.io/Company/')) {
                 window.open(destinationUrl, '_blank');
@@ -95,8 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     } else {
-      // Log a warning if a key is used in HTML but not defined in paths.js
-      console.warn(`link-handler.js: No path found for data-link key: "${linkKey}"`);
+      console.warn(`link-manager.js: No path found for data-link key: "${linkKey}"`);
     }
   });
 });
