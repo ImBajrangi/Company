@@ -162,7 +162,6 @@ function loadJs(asset, callback) {
       console.error(`Failed to load JS: ${assetObj.src}`);
       if (callback) callback(); // Still call callback to not break the chain
   };
-
   
   // Since the <script> tags in the HTML are at the end of the <body>,
   // document.body is guaranteed to exist. We can append directly.
