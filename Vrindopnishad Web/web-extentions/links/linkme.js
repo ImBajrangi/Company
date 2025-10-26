@@ -26,7 +26,7 @@ const pageAssets = {
     js: [
       { 
         src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
-        attributes: { defer: true }
+        attributes: { defer: true } // 'defer' is ok for a standalone script
       }
     ]
   },
@@ -43,7 +43,7 @@ const pageAssets = {
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.css' }
     ],
     js: [
-      { src: '/Vrindopnishad Web/Pictures/js/collection-page-fix.js' }, // The "CORRECT SCRIPT"
+      { src: '/Vrindopnishad Web/Pictures/js/collection-page-fix.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.js' }
     ]
   },
@@ -52,10 +52,7 @@ const pageAssets = {
   pictures: {
     css: [
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/pic-collection.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
-        attributes: { class: 'css' }
-      }
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' }
     ],
     js: [
       { src: 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js' },
@@ -67,10 +64,7 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/disable-right-click.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/image-protection.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/watermark.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' },
-      { 
-        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js'
-      }
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' }
     ]
   },
 
@@ -97,7 +91,6 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' },
       { 
-        // *** TYPO FIX HERE: Was 'imbajrange', corrected to 'imbajrangi' ***
         src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
         attributes: { defer: true }
       }
@@ -144,10 +137,12 @@ function loadJs(asset) {
   const script = document.createElement('script');
   script.src = assetObj.src;
   
-  // Set default defer = true
-  script.defer = true;
-
-  // Apply all custom attributes (which can override 'defer')
+  // *** FIX ***
+  // REMOVED 'script.defer = true;'
+  // This ensures scripts load and execute in the order they are added,
+  // which is required for dependencies like GSAP -> ScrollTrigger
+  
+  // Apply all custom attributes
   if (assetObj.attributes) {
     for (const [key, value] of Object.entries(assetObj.attributes)) {
       if (typeof value === 'boolean') {
@@ -162,18 +157,11 @@ function loadJs(asset) {
       console.log(`Loaded JS: ${assetObj.src}`);
   };
   script.onerror = () => console.error(`Failed to load JS: ${assetObj.src}`);
-  
-  // Check if document.body exists. If not, wait.
-  if (document.body) {
-      document.body.appendChild(script);
-      console.log(`Loading JS: ${assetObj.src}`);
-  } else {
-      // If body isn't ready, wait for DOMContentLoaded
-      document.addEventListener('DOMContentLoaded', () => {
-          document.body.appendChild(script);
-          console.log(`Loading JS (deferred): ${assetObj.src}`);
-      });
-  }
+
+  // Since the <script> tags in the HTML are at the end of the <body>,
+  // document.body is guaranteed to exist. We can append directly.
+  document.body.appendChild(script);
+  console.log(`Loading JS: ${assetObj.src}`);
 }
 
 // 3. THE MAIN FUNCTION TO CALL FROM YOUR HTML (Unchanged)
