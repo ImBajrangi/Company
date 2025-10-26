@@ -37,7 +37,7 @@ const PROJECT_PATHS = {
   // --- Social Media Links ---
   'instagram': 'https://www.instagram.com/vrindopnishad/',
   'facebook': 'https://www.facebook.com/vrindopnishad/',
-  'youtube': 'https://www.youtube.com/vrindopnishad/',
+  'youtube': 'https://www.youtube.com/@vrindopnishad/',
   'whatsapp_channel': 'https://whatsapp.com/channel/vrindopnishad/',
   'pinterest': 'https://www.pinterest.com/vrindopnishad/'
 };
