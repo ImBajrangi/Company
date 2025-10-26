@@ -26,7 +26,7 @@ const pageAssets = {
     js: [
       { 
         src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
-        attributes: { defer: true } // 'defer' is ok for a standalone script
+        attributes: { defer: true }
       }
     ]
   },
@@ -43,7 +43,7 @@ const pageAssets = {
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.css' }
     ],
     js: [
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/js/collection-page-fix.js' },
+      { src: '/Vrindopnishad Web/Pictures/js/collection-page-fix.js' }, // The "CORRECT SCRIPT"
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.js' }
     ]
   },
@@ -52,7 +52,10 @@ const pageAssets = {
   pictures: {
     css: [
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/pic-collection.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' }
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' },
+      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
+        attributes: { class: 'css' }
+      }
     ],
     js: [
       { src: 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js' },
@@ -64,7 +67,10 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/disable-right-click.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/image-protection.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/watermark.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' }
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' },
+      { 
+        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js'
+      }
     ]
   },
 
@@ -89,8 +95,12 @@ const pageAssets = {
     js: [
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/animations.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' }
-      // *** FIX: Removed duplicate custom-cursor.js. It's already in 'common'. ***
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' },
+      { 
+        // *** TYPO FIX HERE: Was 'imbajrange', corrected to 'imbajrangi' ***
+        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+        attributes: { defer: true }
+      }
     ]
   }
 };
@@ -123,112 +133,71 @@ function loadCss(asset) {
 }
 
 /**
- * *** NEW: Promise-based JS Loader ***
- * Creates a <script> tag and returns a Promise that resolves when it loads.
+ * Creates and appends a JS <script> tag to the <body>.
  * @param {object | string} asset - The asset object (or string for simple src).
- * @returns {Promise<void>}
  */
 function loadJs(asset) {
-  return new Promise((resolve, reject) => {
-    // Standardize: if asset is just a string, convert to object
-    const assetObj = typeof asset === 'string' ? { src: asset } : asset;
-    if (!assetObj.src) {
-      console.warn("loadJs: Asset object has no 'src'.", assetObj);
-      resolve(); // Resolve immediately if there's no script to load
-      return;
-    }
+  // Standardize: if asset is just a string, convert to object
+  const assetObj = typeof asset === 'string' ? { src: asset } : asset;
+  if (!assetObj.src) return;
 
-    const script = document.createElement('script');
-    script.src = assetObj.src;
-    
-    // Apply all custom attributes
-    if (assetObj.attributes) {
-      for (const [key, value] of Object.entries(assetObj.attributes)) {
-        if (typeof value === 'boolean') {
-          script[key] = value; // Handle boolean properties like defer, async
-        } else {
-          script.setAttribute(key, value); // Handle string properties
-        }
+  const script = document.createElement('script');
+  script.src = assetObj.src;
+  
+  // Set default defer = true
+  script.defer = true;
+
+  // Apply all custom attributes (which can override 'defer')
+  if (assetObj.attributes) {
+    for (const [key, value] of Object.entries(assetObj.attributes)) {
+      if (typeof value === 'boolean') {
+        script[key] = value; // Handle boolean properties like defer, async, nomodule
+      } else {
+        script.setAttribute(key, value); // Handle string properties like type, integrity
       }
     }
-
-    // Set up onload/onerror
-    script.onload = () => {
-        console.log(`Loaded JS: ${assetObj.src}`);
-        resolve(); // Script loaded successfully
-    };
-    script.onerror = () => {
-        console.error(`Failed to load JS: ${assetObj.src}`);
-        reject(new Error(`Failed to load script: ${assetObj.src}`)); // Script failed to load
-    };
-
-    // Append to the body
-    document.body.appendChild(script);
-    console.log(`Appending JS: ${assetObj.src}`);
-  });
-}
-
-/**
- * *** NEW: Sequential Asset Loader ***
- * Loads an array of JS assets one after another, waiting for each to complete.
- * @param {Array<object | string>} jsAssets - The list of assets to load.
- */
-async function loadJsSequential(jsAssets) {
-  if (!jsAssets || jsAssets.length === 0) {
-    return; // Nothing to load
   }
+
+  script.onload = () => {
+      console.log(`Loaded JS: ${assetObj.src}`);
+  };
+  script.onerror = () => console.error(`Failed to load JS: ${assetObj.src}`);
   
-  // This loop will run *one at a time*, 'awaiting' each script
-  // before starting the next one.
-  for (const asset of jsAssets) {
-    try {
-      await loadJs(asset);
-    } catch (error) {
-      console.error("Stopping script loading due to error:", error);
-      // You might want to break here if one script failing means others shouldn't run
-      // break; 
-    }
+  // Check if document.body exists. If not, wait.
+  if (document.body) {
+      document.body.appendChild(script);
+      console.log(`Loading JS: ${assetObj.src}`);
+  } else {
+      // If body isn't ready, wait for DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', () => {
+          document.body.appendChild(script);
+          console.log(`Loading JS (deferred): ${assetObj.src}`);
+      });
   }
 }
 
+// 3. THE MAIN FUNCTION TO CALL FROM YOUR HTML (Unchanged)
 
-// 3. THE MAIN FUNCTION TO CALL FROM YOUR HTML (MODIFIED)
-// *** Must be 'async' now to use 'await' ***
 /**
  * Loads all 'common' assets and all assets for a specific page.
  * @param {string} pageName - The key from pageAssets (e.g., 'gallery', 'pictures', 'home').
  */
-async function loadPageAssets(pageName) {
+function loadPageAssets(pageName) {
   console.log(`Loading assets for: ${pageName}`);
   
-  // Get assets
+  // Always load common assets
   const common = pageAssets.common;
-  const page = pageAssets[pageName];
+  if (common) {
+    common.css.forEach(loadCss);
+    common.js.forEach(loadJs);
+  }
 
-  if (!page) {
+  // Load page-specific assets
+  const page = pageAssets[pageName];
+  if (page) {
+    page.css.forEach(loadCss);
+    page.js.forEach(loadJs);
+  } else {
     console.warn(`No assets found for page: ${pageName}`);
   }
-
-  // --- CSS (can be loaded in parallel, this is fast) ---
-  if (common && common.css) {
-    common.css.forEach(loadCss);
-  }
-  if (page && page.css) {
-    page.css.forEach(loadCss);
-  }
-
-  // --- JS (will be loaded sequentially) ---
-  // 1. Load common scripts first, one by one
-  if (common && common.js) {
-    console.log('Loading common JS sequentially...');
-    await loadJsSequential(common.js);
-  }
-  
-  // 2. After common scripts are done, load page-specific scripts, one by one
-  if (page && page.js) {
-    console.log(`Loading page-specific JS sequentially for '${pageName}'...`);
-    await loadJsSequential(page.js);
-  }
-
-  console.log(`All assets for '${pageName}' have been processed.`);
 }
