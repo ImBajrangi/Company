@@ -65,7 +65,11 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/disable-right-click.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/image-protection.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/watermark.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' }
+      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' },
+      { 
+        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+        attributes: { defer: true } // 'defer' is ok for a standalone script
+      }
     ]
   },
 
@@ -162,7 +166,7 @@ function loadJs(asset, callback) {
       console.error(`Failed to load JS: ${assetObj.src}`);
       if (callback) callback(); // Still call callback to not break the chain
   };
-  
+
   // Since the <script> tags in the HTML are at the end of the <body>,
   // document.body is guaranteed to exist. We can append directly.
   document.body.appendChild(script);
