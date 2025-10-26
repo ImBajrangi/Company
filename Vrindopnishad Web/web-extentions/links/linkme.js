@@ -16,6 +16,7 @@ const pageAssets = {
           crossorigin: 'anonymous',
           referrerpolicy: 'no-referrer'
         }
+        
       },
       { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
       { 
@@ -69,8 +70,7 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/watermark.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' },
       { 
-        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
-        attributes: { defer: true }
+        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js'
       }
     ]
   },
