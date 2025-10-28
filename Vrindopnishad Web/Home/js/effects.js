@@ -775,7 +775,7 @@ function initAnimatedGradients() {
     });
 }
 
-/* Noise effect
+/* Noise effect */
 function initNoiseEffect() {
     if (!noiseElement) return;
     
@@ -792,7 +792,8 @@ function initNoiseEffect() {
         const data = imageData.data;
         
         for (let i = 0; i < data.length; i += 4) {
-            const value = Math.random() * 255;
+            // const value = Math.random() * 255;// Grayscale noise
+            const value = Math.random() * 500;
             data[i] = value;
             data[i + 1] = value;
             data[i + 2] = value;
@@ -811,7 +812,7 @@ function initNoiseEffect() {
     
     // Regenerate noise periodically
     setInterval(generateNoise, 500);
-}*/
+}
 
 // Distortion effect on images
 function initImageDistortion() {
