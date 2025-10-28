@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Menu System</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <!-- Menu Overlay -->
+    <div class="menu-overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">Vrindopnishad</a>
+
+        <!-- Desktop Navigation -->
+        <div class="main-nav">
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Mobile Header Right -->
+        <div class="header-right">
+            <!-- Tools Icon -->
+            <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </div>
+
+            <!-- Hamburger Menu Button -->
+            <button class="menu" aria-label="Toggle menu" aria-expanded="false">
+                <svg viewBox="0 0 64 48">
+                    <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
+                    <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
+                    <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav aria-hidden="true">
+        <div class="nav-header">
+            <div class="nav-logo">Menu</div>
+        </div>
+        
+        <ul>
+            <li>
+                <a href="#" class="active">
+                    <span class="link-icon">🏠</span>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="#about">
+                    <span class="link-icon">ℹ️</span>
+                    About
+                </a>
+            </li>
+            <li>
+                <a href="#gallery">
+                    <span class="link-icon">🖼️</span>
+                    Gallery
+                </a>
+            </li>
+            <li>
+                <a href="#services">
+                    <span class="link-icon">⚙️</span>
+                    Services
+                </a>
+            </li>
+            <li>
+                <a href="#contact">
+                    <span class="link-icon">📧</span>
+                    Contact
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-divider"></div>
+
+        <div class="language-item">
+            <div class="language-label">Language</div>
+            <div class="language-switch-nav">
+                <a href="#" class="language-btn-nav active">English</a>
+                <a href="#" class="language-btn-nav">हिन्दी</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Welcome to Vrindopnishad</h1>
+        <p>
+            Experience a beautifully crafted menu system with smooth animations and 
+            seamless interactions. The hamburger icon stays visible at all times, 
+            ensuring easy navigation on any device.
+        </p>
+        <p>
+            Scroll down to see the header behavior change. The menu features 
+            staggered animations, gradient effects, and thoughtful micro-interactions 
+            that make navigation a delight.
+        </p>
+        <p>
+            Try opening the menu and notice how the hamburger icon remains perfectly 
+            visible above all other elements. The menu slides in smoothly with 
+            beautiful animations for each menu item.
+        </p>
+    </div>
+
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/menu.js"></script>
+</body>
+</html>
