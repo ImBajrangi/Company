@@ -28,8 +28,9 @@
     <!-- <script src="/Vrindopnishad Web/js/universal resourse linker.js"></script> -->
     <!-- <script src="/web-extentions/links/project-config.js"></script> -->
     
-    <!-- Hamburger Menu Styles -->
-    <link rel="stylesheet" href="../css/hamburger.css">
+    <!-- Menu Styles -->
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/hamburger.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/menu.css">
 
 </head>
 <body>
@@ -80,7 +81,7 @@
     </audio>
 
     <!-- Menu overlay -->
-    <!-- <div class="menu-overlay"></div> -->
+    <div class="menu-overlay"></div>
 
     <!-- Image hover -->
     <div class="image-hover">
@@ -820,23 +821,20 @@
             const mobileMenuBtn = document.querySelector('.menu');
             const nav = document.querySelector('nav');
             const menuOverlay = document.querySelector('.menu-overlay');
-            // Removed nav close button
             const toolsIcon = document.querySelector('.tools-icon');
             
             // Check if elements exist
             if (!mobileMenuBtn || !nav) return;
             
-            // Create functions outside event listeners to improve performance
             function openMenu() {
                 mobileMenuBtn.classList.add('active');
                 nav.classList.add('active');
+                menuOverlay.classList.add('active');
                 document.body.classList.add('menu-open');
                 
-                // Add aria attributes for accessibility
                 mobileMenuBtn.setAttribute('aria-expanded', 'true');
                 nav.setAttribute('aria-hidden', 'false');
                 
-                // Ensure tools icon is visible above the menu overlay
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '1001';
                 }
@@ -845,13 +843,12 @@
             function closeMenu() {
                 mobileMenuBtn.classList.remove('active');
                 nav.classList.remove('active');
+                menuOverlay.classList.remove('active');
                 document.body.classList.remove('menu-open');
                 
-                // Update aria attributes
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
                 nav.setAttribute('aria-hidden', 'true');
                 
-                // Reset tools icon z-index
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '';
                 }
@@ -873,12 +870,17 @@
                 }
             });
             
-            // Menu will be closed using the hamburger button only
-            
             // Close menu when clicking on overlay
-            if (menuOverlay) {
-                menuOverlay.addEventListener('click', closeMenu);
-            }
+            menuOverlay.addEventListener('click', closeMenu);
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (nav.classList.contains('active') &&
+                    !nav.contains(event.target) &&
+                    !mobileMenuBtn.contains(event.target)) {
+                    closeMenu();
+                }
+            });
             
             // Close menu when clicking on links
             const navLinks = document.querySelectorAll('nav a');
@@ -913,6 +915,13 @@
             // Handle keyboard navigation
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && nav.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+            
+            // Prevent menu from staying open on resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && nav.classList.contains('active')) {
                     closeMenu();
                 }
             });
