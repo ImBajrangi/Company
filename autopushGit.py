@@ -52,7 +52,6 @@ class AutoPush(FileSystemEventHandler):
             print("⚙️ No new changes to commit.")
             return
 
-
         pull = safe_run(["git", "pull", "--rebase"])
         if not pull or pull.returncode != 0:
             print("⚠️ Pull failed, skipping push.")
