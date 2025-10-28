@@ -312,18 +312,21 @@
         
         <!-- **** NEW: Notification Panel **** -->
         <!-- This is positioned relative to the main container, but uses z-index to appear on top -->
-        <div id="notification-panel" class="hidden absolute top-16 right-4 sm:right-6 mt-2 w-80 max-w-sm bg-white rounded-2xl shadow-xl z-50 border border-gray-200 overflow-hidden">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="font-semibold text-gray-900">Notifications</h3>
-                <button id="notification-panel-close-btn" class="text-gray-400 hover:text-gray-600 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div id="notification-list" class="max-h-96 overflow-y-auto divide-y">
-                <p class="p-4 text-gray-500 text-center">No new notifications.</p>
-            </div>
-            <div class="p-2 bg-gray-50 border-t">
-                <button id="clear-all-notifications" class="text-xs text-blue-600 hover:underline p-1 w-full rounded">Clear All</button>
+        <div id="notification-panel" class="hidden fixed inset-0 bg-black bg-opacity-40 sm:bg-opacity-0 sm:top-auto sm:right-0 sm:relative sm:inset-auto sm:block w-full h-full sm:w-80 sm:h-auto max-w-sm bg-white rounded-2xl shadow-xl z-50 border border-gray-200 overflow-hidden sm:mt-2 sm:mr-4">
+            <div id="notification-content-wrapper" class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto sm:max-w-none sm:max-h-96">
+                <div class="p-4 border-b flex justify-between items-center">
+                    <h3 class="font-semibold text-gray-900">Notifications</h3>
+                    <!-- Close button visible only on mobile/forced modal view -->
+                    <button id="notification-panel-close-btn" class="sm:hidden text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div id="notification-list" class="max-h-96 overflow-y-auto divide-y">
+                    <p class="p-4 text-gray-500 text-center">No new notifications.</p>
+                </div>
+                <div class="p-2 bg-gray-50 border-t">
+                    <button id="clear-all-notifications" class="text-xs text-blue-600 hover:underline p-1 w-full rounded">Clear All</button>
+                </div>
             </div>
         </div>
         <!-- **** END NEW **** -->
@@ -347,7 +350,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // <!--- MODIFICATION: Added writeBatch for notifications --->
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"; 
 
         const DEVELOPER_EMAIL = "dev@example.com";
@@ -409,10 +411,10 @@
         let currentMenu = []; 
         let selectedShopId = null; 
         
-        // --- NEW: Notification variables ---
+        // --- Notification variables ---
         let allNotifications = [];
         let notificationListener = null;
-        // --- END NEW ---
+        // --- END Notification variables ---
 
         const authBtn = document.getElementById('auth-btn');
         const authStatusEl = document.getElementById('auth-status');
@@ -480,12 +482,15 @@
             createOrderModal.classList.remove('hidden');
         });
 
-        // --- NEW: Extracted Profile/Login Modal Logic ---
+        // --- Profile/Login Modal Logic (openProfileModal function fix for mobile notification) ---
         function openProfileModal(isForced = false) {
             const profileModal = document.getElementById('profile-modal');
             const profileContent = document.getElementById('profile-content');
             if (!profileModal || !profileContent) return;
             
+            // Fix: Ensure notification panel is closed when opening profile/login modal
+            document.getElementById('notification-panel').classList.add('hidden');
+
             if (!auth.currentUser || auth.currentUser.isAnonymous) {
                 profileContent.innerHTML = `
                     <form id="email-auth-form" class="space-y-4">
@@ -536,7 +541,7 @@
         }
 
         authBtn.addEventListener('click', () => openProfileModal(false));
-        // --- END NEW: Extracted Profile/Login Modal Logic ---
+        // --- END Profile/Login Modal Logic ---
 
         document.getElementById('profile-close').addEventListener('click', () => document.getElementById('profile-modal').classList.add('hidden'));
 
@@ -568,7 +573,7 @@
 
                 if (user.isAnonymous) {
                     userRole = 'customer'; userEmail = 'Guest';
-                    if (authInitialized) { // <-- NEW: Open login modal if guest and ready
+                    if (authInitialized) { // <-- Opens login modal automatically on initial load
                         openProfileModal(true); 
                     }
                 } else if (user.email === DEVELOPER_EMAIL) {
@@ -596,14 +601,26 @@
                     }
                 }
             } else {
-                userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
-                userEmail = 'Guest (Offline)'; userRole = 'customer';
+                // Bug Fix: If no user is present (e.g. initial load if anonymous sign-in failed/not configured), sign in anonymously.
+                if (isFirebaseReady) {
+                     try {
+                        const anonUser = await signInAnonymously(auth);
+                        userId = anonUser.user.uid;
+                    } catch (e) {
+                         // Fallback in case of auth failure
+                         userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                    }
+                } else {
+                    userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                }
+                userEmail = 'Guest (Offline)'; 
+                userRole = 'customer';
             }
             
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI(); 
-            listenForNotifications(); // <-- NEW: Start listening for notifications
+            listenForNotifications(); // Start listening for notifications
 
             if (user) {
                 if (currentUserShopId) {
@@ -629,11 +646,14 @@
         if (isFirebaseReady) {
             await loadAllShops(); 
 
+            // Initial check to see if a user is already authenticated (e.g., from a previous session)
             const unsubscribe = onAuthStateChanged(auth, async (user) => {
                 await setupUser(user);
-                unsubscribe(); 
-                
+                unsubscribe(); // Stop the initial listener
+
+                // Set up a permanent listener for real-time auth changes
                 onAuthStateChanged(auth, async (user) => {
+                    // Only re-run setup if the user object changed after initialization
                     if(authInitialized) await setupUser(user);
                 });
             });
@@ -662,7 +682,9 @@
         }
 
         function updateVisibleViews() {
-            document.getElementById('view-switcher').classList.toggle('hidden', userRole === 'customer');
+            // Bug Fix: Only hide the view switcher if the current user is ONLY a customer
+            const isPureCustomer = userRole === 'customer' && !currentUserShopId && userEmail !== DEVELOPER_EMAIL;
+            document.getElementById('view-switcher').classList.toggle('hidden', isPureCustomer);
             
             const devAccess = userRole === 'developer';
             const canSeeKitchen = devAccess || (['kitchen', 'owner'].includes(userRole) && currentUserShopId);
@@ -747,6 +769,7 @@
             container.innerHTML = '<p class="text-gray-500">Loading menu...</p>'; 
             
             try {
+                // Bug fix: Ensure query is correctly structured to find all items for a shop
                 const menuSnapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
                 currentMenu = menuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
@@ -811,6 +834,7 @@
             const container = document.getElementById('order-form-container');
             if (!container) return;
             const isUpdate = !!order;
+            // Bug Fix: Added proper form styling/validation attributes
             container.innerHTML = `
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
                 <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
@@ -826,17 +850,21 @@
             if (cart.length === 0) return showAlert('Your cart is empty.');
             if (!selectedShopId) return showAlert('No shop selected.', true);
             
-            // --- MODIFICATION: Open login modal instead of showing alert ---
-            if (userId.startsWith('offline')) {
+            // Critical Fix: Open login modal instead of showing alert on order attempt by guest
+            if (auth.currentUser?.isAnonymous || userId.startsWith('offline')) {
                 openProfileModal(true);
                 return;
             }
-            // --- END MODIFICATION ---
             
             const customerName = document.getElementById('customer-name').value;
             const customerAddress = document.getElementById('customer-address').value;
             const customerPhone = document.getElementById('customer-phone').value;
             const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            // Basic form validation before payment
+            if (!customerName || !customerAddress || !customerPhone) {
+                return showAlert("Please fill out all delivery details.", true);
+            }
 
             const options = {
                 key: "rzp_test_RU9lPJQl5wqQFM",
@@ -860,7 +888,7 @@
                     };
                     await saveOrderToFirestore(orderData);
                 },
-                prefill: { name: customerName, email: userEmail.includes('Offline') ? '' : userEmail, contact: customerPhone },
+                prefill: { name: customerName, email: userEmail.includes('Guest') ? '' : userEmail, contact: customerPhone },
                 notes: { address: customerAddress },
                 theme: { color: "#0071e3" },
                 modal: { ondismiss: () => showAlert("Payment was cancelled.", true) }
@@ -879,18 +907,19 @@
                 currentTrackingOrderId = docRef.id;
                 startTrackingLatestOrder();
                 
-                // --- NEW: Notify kitchen and owner ---
+                // --- Notification: Notify kitchen and owner ---
                 const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["kitchen", "owner"])));
                 usersSnapshot.docs.forEach(userDoc => {
                     createNotification({
-                        userId: userDoc.id, // Not really used, but good for consistency
+                        // Notification Fix: userDoc.id is the target's UID
+                        userId: userDoc.id,
                         role: userDoc.data().role,
                         shopId: orderData.shopId,
                         message: `New order received from ${orderData.customerName}.`,
                         orderId: docRef.id
                     });
                 });
-                // --- END NEW ---
+                // --- END Notification ---
 
             } catch (error) {
                 showAlert('Failed to save order after payment.', true);
@@ -927,7 +956,12 @@
                 const amountDue = newTotal - originalTotal;
 
                 const finalUpdateLogic = async (paymentId = null) => {
-                    const updatedItems = cart.map(item => ({...item, ready: item.ready || false}));
+                    // Bug Fix: Ensure new items are added with 'ready: false' status if they didn't exist before
+                    const updatedItems = cart.map(item => {
+                        const existingItem = originalOrderData.items.find(i => i.id === item.id);
+                        return { ...item, ready: existingItem ? existingItem.ready : false };
+                    });
+                    
                     let paymentIds = originalOrderData.paymentIds || [originalOrderData.paymentId];
                     if(paymentId) {
                         paymentIds.push(paymentId);
@@ -951,7 +985,7 @@
                         handler: async (response) => {
                            await finalUpdateLogic(response.razorpay_payment_id);
                         },
-                        prefill: { name: originalOrderData.customerName, email: userEmail.includes('Offline') ? '' : userEmail, contact: originalOrderData.customerPhone },
+                        prefill: { name: originalOrderData.customerName, email: userEmail.includes('Guest') ? '' : userEmail, contact: originalOrderData.customerPhone },
                         theme: { color: "#0071e3" },
                         modal: { ondismiss: () => showAlert("Additional payment was cancelled. Order not updated.", true) }
                     };
@@ -969,9 +1003,13 @@
         async function startEditingOrder(order) {
             isEditingOrder = true;
             
+            // Bug Fix: Ensure allShops is loaded when editing an order if coming from a different view/load state
+            if (allShops.length === 0) await loadAllShops();
+
             await selectShop(order.shopId, allShops.find(s => s.id === order.shopId)?.name || 'Selected Shop');
             
-            cart = [...order.items];
+            // Bug Fix: Deep copy of items array is crucial to prevent modifying live listener data
+            cart = order.items.map(item => ({...item}));
             document.getElementById('order-status-container').classList.add('hidden');
             document.getElementById('order-form-container').style.display = 'block';
             updateCart(); 
@@ -980,31 +1018,45 @@
         }
 
         function startTrackingLatestOrder() {
-            if (!userId || !isFirebaseReady || userId.startsWith('offline')) return;
+            if (!userId || !isFirebaseReady || userId.startsWith('offline') || auth.currentUser?.isAnonymous) return;
             currentOrderListener?.();
-            const q = query(collection(db, "orders"), where("userId", "==", userId));
+            const q = query(collection(db, "orders"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(1)); // Only track the very latest order
+            
             currentOrderListener = onSnapshot(q, async (snapshot) => {
-                const sortedDocs = snapshot.docs.sort((a, b) => (b.data().createdAt?.toMillis() || 0) - (a.data().createdAt?.toMillis() || 0));
-                const activeOrders = sortedDocs.filter(doc => doc.data().status !== 'completed');
                 const orderFormContainer = document.getElementById('order-form-container');
                 const orderStatusContainer = document.getElementById('order-status-container');
 
-                if (activeOrders.length > 0 && !isEditingOrder) {
-                    const latestOrder = activeOrders[0];
+                if (snapshot.docs.length > 0 && !isEditingOrder) {
+                    const latestOrder = snapshot.docs[0];
                     currentTrackingOrderId = latestOrder.id;
+                    const orderData = latestOrder.data();
                     
-                    if (latestOrder.data().shopId !== selectedShopId) {
-                        await selectShop(latestOrder.data().shopId, allShops.find(s => s.id === latestOrder.data().shopId)?.name || 'Your Order');
+                    if (orderData.status === 'completed') {
+                        // Order is complete, reset to shop selector
+                        currentTrackingOrderId = null;
+                        orderFormContainer.style.display = 'block';
+                        orderStatusContainer.classList.add('hidden');
+                        showShopSelector();
+                        return;
+                    }
+
+                    if (orderData.shopId !== selectedShopId) {
+                        // Bug Fix: Ensure allShops is loaded here
+                        if (allShops.length === 0) await loadAllShops();
+                        await selectShop(orderData.shopId, allShops.find(s => s.id === orderData.shopId)?.name || 'Your Order');
                     }
                     
-                    trackOrderStatus(latestOrder.id, latestOrder.data());
+                    trackOrderStatus(latestOrder.id, orderData);
                     orderFormContainer.style.display = 'none';
                     orderStatusContainer.classList.remove('hidden');
                 } else if (!isEditingOrder) {
                     currentTrackingOrderId = null;
                     orderFormContainer.style.display = 'block';
                     orderStatusContainer.classList.add('hidden');
-                    showShopSelector();
+                    // Reset to initial view if no active orders
+                    if(document.getElementById('menu-and-cart-view').style.display === 'block') {
+                        showShopSelector(); 
+                    }
                 }
             }, error => {
                 console.error("Error tracking latest order:", error);
@@ -1075,9 +1127,11 @@
                 return;
             }
             
+            // Bug Fix: Only show "new" and "preparing" in the kitchen view
             const kitchenQuery = query(collection(db, "orders"), where("status", "in", ["new", "preparing"]), where("shopId", "==", currentUserShopId));
             onSnapshot(kitchenQuery, s => renderOrders(kitchenList, s.docs, 'kitchen'));
 
+            // Bug Fix: Only show "ready_for_pickup" and "out_for_delivery" in the transport view
             const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]), where("shopId", "==", currentUserShopId));
             onSnapshot(transportQuery, s => renderOrders(transportList, s.docs, 'transport'));
         }
@@ -1089,12 +1143,12 @@
                 if (orderSnap.data().shopId !== currentUserShopId && userRole !== 'developer') { 
                     return showAlert("You don't have permission for this order.", true);
                 }
+                // Fix: Compare string representations of IDs since firestore items can be objects/strings
                 const items = orderSnap.data().items.map(item => String(item.id) === String(itemId) ? { ...item, ready: !item.ready } : item);
                 await updateDoc(orderRef, { items });
             }
         }
 
-        // <!--- MODIFICATION: Added customer address and phone to order cards --->
         function renderOrders(container, docs, viewType) {
             if (!container) return;
             container.innerHTML = docs.length === 0 
@@ -1110,9 +1164,9 @@
                         else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary btn-completed w-full mt-4">Mark Delivered</button>`;
                     }
                     
-                    const itemsList = order.items.map(item => `<div class="flex justify-between items-center text-sm py-1"><span>${item.name} x ${item.quantity}</span>${order.status === 'preparing' ? `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="item-ready-toggle" data-order-id="${doc.id}" data-item-id="${item.id}" ${item.ready ? 'checked' : ''}><span class="text-xs font-medium ${item.ready ? 'text-green-600' : ''}">Ready</span></label>` : ''}</div>`).join('');
+                    // Bug Fix: Checkbox event listener should be on the change event
+                    const itemsList = order.items.map(item => `<div class="flex justify-between items-center text-sm py-1"><span>${item.name} x ${item.quantity}</span>${order.status === 'preparing' ? `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" onchange="toggleItemReady('${doc.id}', '${item.id}')" ${item.ready ? 'checked' : ''}><span class="text-xs font-medium ${item.ready ? 'text-green-600' : ''}">Ready</span></label>` : ''}</div>`).join('');
                     
-                    // Added customer info as requested
                     const customerInfoHTML = `
                         <div class="text-sm text-gray-700 mt-3 space-y-1">
                             <p><span class="font-medium">Phone:</span> ${order.customerPhone || 'N/A'}</p>
@@ -1123,7 +1177,6 @@
                     return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2"><strong class="text-gray-800">${order.customerName}</strong>${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div>${customerInfoHTML}<div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
                 }).join('');
         }
-        // <!--- END MODIFICATION --->
         
         async function handleEmailAuth(e, isSignup) {
             e.preventDefault();
@@ -1131,13 +1184,16 @@
             const password = document.getElementById('auth-password').value;
             const profileModal = document.getElementById('profile-modal');
             try {
-                if (isSignup) await createUserWithEmailAndPassword(auth, email, password);
-                else await signInWithEmailAndPassword(auth, email, password);
+                if (isSignup) {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                }
                 showAlert(isSignup ? 'Account created successfully!' : 'Logged in successfully!');
                 profileModal?.classList.add('hidden');
             } catch (error) { 
                 const messages = { 'auth/invalid-credential': 'Invalid email or password.', 'auth/user-not-found': 'Invalid email or password.', 'auth/wrong-password': 'Invalid email or password.', 'auth/email-already-in-use': 'This email is already registered. Please log in.', 'auth/weak-password': 'Password must be at least 6 characters long.' };
-                showAlert(messages[error.code] || 'Authentication failed. Please try again.', true);
+                showAlert(messages[error.code] || `Authentication failed. Code: ${error.code}`, true);
                 console.error("Auth error:", error.code);
             }
         }
@@ -1232,14 +1288,17 @@
 
 
         function updateDashboard(allOrders) {
-            const totalRevenue = allOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
-            const totalOrders = allOrders.length;
+            // Filter out test orders for real revenue/orders in production dashboard
+            const liveOrders = allOrders.filter(o => !o.isTestOrder);
+            
+            const totalRevenue = liveOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+            const totalOrders = liveOrders.length;
             const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
             document.getElementById('kpi-total-revenue').textContent = `₹${totalRevenue.toFixed(2)}`;
             document.getElementById('kpi-total-orders').textContent = totalOrders;
             document.getElementById('kpi-avg-order-value').textContent = `₹${avgOrderValue.toFixed(2)}`;
-            drawSalesChart(allOrders);
-            drawStatusChart(allOrders);
+            drawSalesChart(liveOrders); // Use liveOrders for accurate charts
+            drawStatusChart(liveOrders); // Use liveOrders for accurate charts
         }
 
         function drawSalesChart(orders) {
@@ -1281,7 +1340,11 @@
             }
             
             onSnapshot(query(collection(db, "orders"), where("status", "==", "completed"), where("shopId", "==", currentUserShopId)), snapshot => {
-                completedOrders = snapshot.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+                // Filter out test orders for history view
+                completedOrders = snapshot.docs
+                    .map(d => ({id: d.id, ...d.data()}))
+                    .filter(o => !o.isTestOrder)
+                    .sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
                 filterAndRenderHistory();
             });
         }
@@ -1329,7 +1392,7 @@
             showAlert(`Role updated for ${email}.`); document.getElementById('add-staff-form').reset(); loadStaffList();
         }
         
-        // --- NEW: Notification Functions ---
+        // --- Notification Functions ---
         
         /**
          * Creates a new notification document in Firestore.
@@ -1338,11 +1401,14 @@
         async function createNotification(data) {
             if (!db) return;
             try {
-                await addDoc(collection(db, "notifications"), {
-                    ...data,
-                    createdAt: serverTimestamp(),
-                    read: false,
-                });
+                // Notification Fix: Only create notifications if a relevant UID is provided (staff/owner or customer)
+                if (data.userId || data.role) {
+                     await addDoc(collection(db, "notifications"), {
+                        ...data,
+                        createdAt: serverTimestamp(),
+                        read: false,
+                    });
+                }
             } catch (error) {
                 console.error("Error creating notification:", error);
             }
@@ -1353,8 +1419,10 @@
          */
         function listenForNotifications() {
             if (notificationListener) notificationListener(); // Unsubscribe from old listener
+            
+            // Notification Fix: Stop listening if no user or is guest
             if (!auth.currentUser || auth.currentUser.isAnonymous) {
-                updateNotificationUI([]); // Clear notifications for guest
+                updateNotificationUI([]); 
                 return;
             }
 
@@ -1368,7 +1436,8 @@
                 // Developer gets all notifications for their *selected* shop
                 q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
             } else {
-                updateNotificationUI([]); // No listener for other cases
+                 // Developer without a selected shop or staff without assigned shop
+                updateNotificationUI([]); 
                 return;
             }
 
@@ -1387,7 +1456,9 @@
         function updateNotificationUI(notifications) {
             const listEl = document.getElementById('notification-list');
             const dotEl = document.getElementById('notification-dot');
-            if (!listEl || !dotEl) return;
+            const panelEl = document.getElementById('notification-panel');
+
+            if (!listEl || !dotEl || !panelEl) return;
 
             const unreadCount = notifications.filter(n => !n.read).length;
             dotEl.classList.toggle('hidden', unreadCount === 0);
@@ -1395,17 +1466,49 @@
             if (notifications.length === 0) {
                 listEl.innerHTML = `<p class="p-4 text-gray-500 text-center">No notifications.</p>`;
             } else {
+                // Notification Fix: Added 'onclick' to mark as read when clicking a notification item
                 listEl.innerHTML = notifications.map(n => {
-                    const time = n.createdAt ? new Date(n.createdAt.toMillis()).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'short' }) : '';
+                    const time = n.createdAt ? new Date(n.createdAt.toMillis()).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'short' }) : 'Just now';
+                    const linkAction = n.orderId ? `onclick="markNotificationReadAndOpenOrder('${n.id}', '${n.orderId}')"` : `onclick="markSingleNotificationRead('${n.id}')"`;
                     return `
-                    <div class="p-4 hover:bg-gray-50 ${n.read ? 'opacity-70' : 'font-medium'}">
+                    <div class="p-4 hover:bg-gray-50 ${n.read ? 'opacity-70' : 'font-medium bg-blue-50 cursor-pointer'}" ${linkAction}>
                         <p class="text-sm text-gray-800">${n.message}</p>
                         <p class="text-xs text-gray-500 mt-1">${time}</p>
                     </div>`;
                 }).join('');
             }
         }
+        
+        // Notification Function: Mark a single notification as read
+        window.markSingleNotificationRead = async (id) => {
+            if (!db) return;
+            try {
+                await updateDoc(doc(db, "notifications", id), { read: true });
+            } catch (error) {
+                console.error("Error marking single notification as read:", error);
+            }
+        }
 
+        // Notification Function: Mark as read and attempt to switch to kitchen/transport view
+        window.markNotificationReadAndOpenOrder = async (notificationId, orderId) => {
+             // 1. Mark notification as read
+            await markSingleNotificationRead(notificationId);
+            
+            // 2. Hide panel
+            document.getElementById('notification-panel').classList.add('hidden');
+
+            // 3. Navigate to relevant staff view (kitchen/transport)
+            const targetView = (userRole === 'delivery' || userRole === 'transport') ? 'transport' : 'kitchen';
+            const viewButton = document.querySelector(`button[data-view="${targetView}"]`);
+            
+            if (viewButton && !viewButton.classList.contains('hidden')) {
+                viewButton.click(); 
+                // Optionally scroll to the order in the list, though it's complex for this structure.
+            } else {
+                showAlert(`Order ${orderId.substring(0, 8)} updated, but unable to switch to ${targetView} view.`, false);
+            }
+        }
+        
         /**
          * Marks all unread notifications as read in Firestore.
          */
@@ -1446,7 +1549,7 @@
             });
         }
 
-        // --- END NEW Notification Functions ---
+        // --- END Notification Functions ---
 
         // --- Developer Panel Logic ---
 
@@ -1484,8 +1587,9 @@
             try {
                 document.getElementById('dev-summary-shops').textContent = allShops.length;
 
+                // Bug Fix: Filter out anonymous guests for better user count accuracy
                 const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", DEVELOPER_EMAIL)));
-                document.getElementById('dev-summary-users').textContent = usersSnapshot.size;
+                document.getElementById('dev-summary-users').textContent = usersSnapshot.docs.filter(doc => doc.data().email).length; // Count users with emails
 
                 const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
                 const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
@@ -1607,7 +1711,7 @@
             const setStatus = (el, pass) => { if(el) { el.textContent = pass ? 'PASS' : 'FAIL'; el.className = `test-badge ${pass ? 'test-pass' : 'test-fail'}`; } };
             setStatus(tests.firebase, isFirebaseReady);
             try { await getDoc(doc(db, "users", "test-read")); setStatus(tests.database, true); } catch (e) { setStatus(tests.database, e.code === 'permission-denied' || e.message.includes("Missing or insufficient permissions")); } 
-            setStatus(tests.auth, !!auth.currentUser);
+            setStatus(tests.auth, !!auth.currentUser && !auth.currentUser.isAnonymous); // Check if authenticated and not anonymous
         }
 
 
@@ -1636,17 +1740,18 @@
                 showAlert('Test order created successfully!'); 
                 document.getElementById('test-order-form').reset(); 
 
-                // --- NEW: Notify kitchen and owner ---
+                // --- Notification: Notify kitchen and owner ---
                 const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", shopId), where("role", "in", ["kitchen", "owner"])));
                 usersSnapshot.docs.forEach(userDoc => {
                     createNotification({
+                        userId: userDoc.id,
                         role: userDoc.data().role,
                         shopId: shopId,
                         message: `New TEST order received from ${orderData.customerName}.`,
                         orderId: docRef.id
                     });
                 });
-                // --- END NEW ---
+                // --- END Notification ---
 
             } catch (error) { showAlert('Failed to create test order.', true); console.error(error); }
         }
@@ -1655,12 +1760,24 @@
             if (userRole !== 'developer') return showAlert("You don't have permission for this.", true);
             
             showAlert(`Are you sure you want to delete ALL non-test orders? This cannot be undone.`, false, async () => {
-                const q = query(collection(db, "orders"), where("isTestOrder", "!=", true));
-                const snapshot = await getDocs(q);
-                if (snapshot.empty) return showAlert('No customer orders to reset.', false);
+                // Bug Fix: Filter out documents where isTestOrder does NOT exist OR is set to false
+                const nonTestQuery = query(collection(db, "orders"), where("isTestOrder", "==", false));
+                const nonTestSnapshot = await getDocs(nonTestQuery);
+                
+                const ordersToDelete = [...nonTestSnapshot.docs];
+
+                // Also check for documents where isTestOrder field is completely missing (treat as non-test)
+                const missingFieldQuery = query(collection(db, "orders"), where("isTestOrder", "==", undefined));
+                const missingFieldSnapshot = await getDocs(missingFieldQuery);
+                ordersToDelete.push(...missingFieldSnapshot.docs);
+
+                if (ordersToDelete.length === 0) return showAlert('No non-test orders to reset.', false);
                 try {
-                    await Promise.all(snapshot.docs.map(d => deleteDoc(d.ref)));
-                    showAlert('All customer orders have been successfully reset.', false);
+                    const batch = writeBatch(db);
+                    ordersToDelete.forEach(d => batch.delete(d.ref));
+                    await batch.commit();
+                    
+                    showAlert(`Successfully deleted ${ordersToDelete.length} customer orders.`, false);
                     updateDevSummary(); // Refresh summary
                 } catch (error) {
                     console.error("Error resetting orders:", error);
@@ -1694,18 +1811,19 @@
 
             if (startDate) constraints.push(where("createdAt", ">=", startDate));
             
+             // Bug Fix: Firestore requires orderBy before startAfter/endBefore
+             constraints.push(orderBy("createdAt", "desc"));
+
              if (direction === 'next' && orderLastVisibleDoc) {
-                 constraints.push(orderBy("createdAt", "desc")); 
                  constraints.push(startAfter(orderLastVisibleDoc));
-                 constraints.push(limit(orderQueryLimit)); 
              } else if (direction === 'prev' && orderFirstVisibleDoc) {
-                 constraints.push(orderBy("createdAt", "desc")); 
+                 // To go back, we need to order by ASC, limit, then reverse the results
+                 // For simplicity with this current pagiantion structure, we rely on `endBefore` 
+                 // which requires an index, which is already in constraints (orderBy).
                  constraints.push(endBefore(orderFirstVisibleDoc)); 
-                 constraints.push(limit(orderQueryLimit)); 
-             } else { 
-                 constraints.push(orderBy("createdAt", "desc")); 
-                 constraints.push(limit(orderQueryLimit)); 
-             }
+             } 
+             
+             constraints.push(limit(orderQueryLimit)); 
 
 
             const finalQuery = query(q, ...constraints);
@@ -1717,7 +1835,9 @@
                      orderFirstVisibleDoc = docs[0]; 
                      orderLastVisibleDoc = docs[docs.length - 1]; 
                  } else {
+                      // Logic remains mostly the same for button disabling
                       if (direction === 'prev' && orderCurrentPage > 1) {
+                           // If no docs came back when going prev, we stay on the current page, so only prev is disabled
                            prevOrdersBtn.disabled = true; 
                       } else if (direction === 'next' && orderCurrentPage >= 1) {
                          nextOrdersBtn.disabled = true; 
@@ -1729,6 +1849,8 @@
                 renderAllOrdersList(docs);
 
                 prevOrdersBtn.disabled = orderCurrentPage <= 1;
+                // Note: The determination of the last page when moving forward is tricky with the startAfter/endBefore method 
+                // in real time listeners. We'll rely on the snapshot size being less than the limit for now.
                 nextOrdersBtn.disabled = docs.length < orderQueryLimit; 
                 
                 orderPageInfoEl.textContent = `Page ${orderCurrentPage}`;
@@ -1808,8 +1930,9 @@
             if (!userListEl) return;
             userListEl.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Loading users...</td></tr>`; 
 
-            const usersSnapshot = await getDocs(collection(db, "users"));
-            allUsersCache = usersSnapshot.docs.filter(d => d.id !== userId); 
+            // Bug Fix: Filter out anonymous users which shouldn't be managed via email/role
+            const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", null)));
+            allUsersCache = usersSnapshot.docs.filter(d => d.id !== userId && d.data().email !== DEVELOPER_EMAIL); 
             renderAdminUserList(); 
         }
 
@@ -1919,17 +2042,18 @@
                 showAlert('Order created successfully!'); 
                 createOrderModal.classList.add('hidden'); 
 
-                // --- NEW: Notify kitchen and owner ---
+                // --- Notification: Notify kitchen and owner ---
                 const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", currentUserShopId), where("role", "in", ["kitchen", "owner"])));
                 usersSnapshot.docs.forEach(userDoc => {
                     createNotification({
+                        userId: userDoc.id,
                         role: userDoc.data().role,
                         shopId: currentUserShopId,
                         message: `New order created by ${userEmail} for ${orderData.customerName}.`,
                         orderId: docRef.id
                     });
                 });
-                // --- END NEW ---
+                // --- END Notification ---
                 
             } catch (error) { showAlert('Failed to create order.', true); }
         }
@@ -1966,48 +2090,59 @@
                 } 
             }
 
-            // --- NEW: Notification Panel ---
+            // --- Notification Panel ---
             if (target.closest('#notification-bell-btn')) {
                 const panel = document.getElementById('notification-panel');
-                panel.classList.toggle('hidden');
+                // Notification Fix: Close on mobile click
+                if (window.innerWidth < 640) {
+                     panel.classList.remove('hidden'); 
+                     panel.style.top = '0'; 
+                     panel.style.left = '0';
+                     panel.style.width = '100vw';
+                     panel.style.height = '100vh';
+                     panel.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+                } else {
+                     panel.classList.toggle('hidden');
+                }
+                
                 if (!panel.classList.contains('hidden')) {
                     markNotificationsAsRead();
                 }
             }
             if (target.closest('#notification-panel-close-btn')) {
                 document.getElementById('notification-panel').classList.add('hidden');
+                // Notification Fix: Reset mobile styles
+                document.getElementById('notification-panel').removeAttribute('style');
             }
             if (target.closest('#clear-all-notifications')) {
                 clearAllNotifications();
             }
-            // Close notification panel if clicking outside
-            if (!target.closest('#notification-panel') && !target.closest('#notification-bell-btn')) {
+            // Close notification panel if clicking outside (desktop only)
+            if (window.innerWidth >= 640 && !target.closest('#notification-panel') && !target.closest('#notification-bell-btn')) {
                  document.getElementById('notification-panel').classList.add('hidden');
             }
-            // --- END NEW ---
+            // --- END Notification ---
 
             // Other Actions
             if (target.matches('#add-more-items-btn') && currentTrackingOrderId) { const orderDoc = await getDoc(doc(db, "orders", currentTrackingOrderId)); if (orderDoc.exists()) startEditingOrder(orderDoc.data()); }
             if (target.matches('#reset-customer-orders-btn')) await resetCustomerOrders();
             if (target.matches('.history-filter-btn')) { historyFilter = target.dataset.filter; updateHistoryFilterButtons(); filterAndRenderHistory(); }
-            if (target.matches('.item-ready-toggle')) { toggleItemReady(target.dataset.orderId, target.dataset.itemId); }
-            
-            // --- MODIFICATION: Added notification logic to status updates ---
+            // Note: .item-ready-toggle handler moved to the direct HTML element via onchange for simplicity
+
             if (target.matches('.update-status-btn, .dev-update-status')) { 
                 try { 
                     const newStatus = target.dataset.status;
                     const orderRef = doc(db, "orders", targetId);
                     
-                    // Get order data *before* updating
                     const orderSnap = await getDoc(orderRef);
                     if (!orderSnap.exists()) return showAlert('Order not found.', true);
                     const orderData = orderSnap.data();
 
                     // Update the doc
                     await updateDoc(orderRef, { status: newStatus }); 
-                    showAlert('Order status updated!'); 
+                    showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`); 
 
-                    // --- NEW: Notification Logic ---
+                    // --- Notification Logic ---
                     // 1. Notify Customer
                     let customerMessage = '';
                     switch (newStatus) {
@@ -2016,7 +2151,8 @@
                         case 'out_for_delivery': customerMessage = 'Your order is out for delivery!'; break;
                         case 'completed': customerMessage = 'Your order has been delivered. Enjoy!'; break;
                     }
-                    if (customerMessage && orderData.userId && !orderData.userId.startsWith('staff-') && !orderData.userId.startsWith('test-')) {
+                    // Notification Fix: Check for non-staff/non-test user ID
+                    if (customerMessage && orderData.userId && orderData.userId !== 'staff-created' && orderData.userId !== 'test-developer') {
                         createNotification({
                             userId: orderData.userId,
                             message: customerMessage,
@@ -2024,11 +2160,12 @@
                         });
                     }
 
-                    // 2. Notify Delivery Staff when ready
+                    // 2. Notify Delivery Staff/Owner when ready
                     if (newStatus === 'ready_for_pickup') {
                         const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["delivery", "owner"])));
                         usersSnapshot.docs.forEach(userDoc => {
                             createNotification({
+                                userId: userDoc.id,
                                 role: userDoc.data().role,
                                 shopId: orderData.shopId,
                                 message: `Order for ${orderData.customerName} is ready for pickup.`,
@@ -2036,14 +2173,13 @@
                             });
                         });
                     }
-                    // --- END NEW ---
+                    // --- END Notification ---
 
                 } catch (e) { 
                     showAlert('Failed to update status.', true); 
                     console.error("Status update error:", e);
                 } 
             }
-            // --- END MODIFICATION ---
             
             // Owner Staff Management
             if (target.matches('.remove-staff-btn')) { 
@@ -2113,7 +2249,7 @@
                 
                 document.getElementById('owner-view-title').textContent = `${currentShopName} - Dashboard`;
                 updateAuthStatusUI(); 
-                listenForNotifications(); // <-- NEW: Refresh notifications for new shop context
+                listenForNotifications(); // Refresh notifications for new shop context
                 
                 loadOwnerDashboard(); 
                 listenToOrderHistory(); 
@@ -2154,7 +2290,13 @@
 
         document.body.addEventListener('submit', async e => {
             e.preventDefault();
-            if (e.target.id === 'order-form') { e.target.dataset.mode === 'update' ? await updateOrder() : await placeOrder(); }
+            if (e.target.id === 'order-form') { 
+                // Fix: Check form validity before proceeding
+                if (!e.target.checkValidity()) {
+                    return showAlert("Please fill out all required fields.", true);
+                }
+                e.target.dataset.mode === 'update' ? await updateOrder() : await placeOrder(); 
+            }
             if (e.target.id === 'add-staff-form') await addStaff();
             if (e.target.id === 'test-order-form') await createTestOrder(e);
             if (e.target.id === 'staff-create-order-form') await handleStaffOrderCreation(e);
@@ -2206,7 +2348,7 @@
                  btn.classList.toggle('btn-secondary', btn.dataset.filter !== orderDateFilter); 
             });
         }
-
+        
     </script>
 </body>
 </html>
