@@ -83,3 +83,4 @@ if __name__ == "__main__":
             time.sleep(2)
     except KeyboardInterrupt:
         stop_autopush(observer, handler)
+
