@@ -169,7 +169,7 @@ class CursorElement {
 	 * Scale up and fade out.
 	 */
 	enter() {
-		//this.renderedStyles['radius'].current = this.radiusOnEnter;
+		// this.renderedStyles['radius'].current = this.radiusOnEnter;
 		this.renderedStyles['opacity'].current = this.opacityOnEnter;
 
 		this.filterTimeline.restart();
