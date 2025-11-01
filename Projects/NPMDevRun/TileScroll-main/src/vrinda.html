@@ -29,12 +29,302 @@
     <!-- <script src="/web-extentions/links/project-config.js"></script> -->
     
     <!-- Menu Styles -->
-    <link rel="stylesheet" href="../css/hamburger.css">
-    <link rel="stylesheet" href="../css/menu.css">
-    <link rel="stylesheet" href="../css/cloude.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/hamburger.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/menu.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/cloude.css">
+
+    <!-- STYLES ADDED FROM index2.html -->
+    <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
+    <style>
+        /* Minimal styles from base.css needed for the tile scroll effect */
+        :root {
+            /* These variables are from base.css and might conflict with your existing styles.
+               Adjust them as needed. */
+            --color-text: #fff;
+            --color-bg: #111;
+            --color-link: #aaa;
+            --color-link-hover: #fff;
+            --color-alt: #7f6a57;
+        }
+
+        /* Apply base.css body styles only if a class from it is present */
+        body.demo-2 {
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            font-family: neuzeit-grotesk, sans-serif;
+        }
+
+        /* Page Loader from base.css */
+        .js .loading::before,
+        .js .loading::after {
+            content: '';
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .js .loading::before {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-bg);
+        }
+
+        .js .loading::after {
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            margin: -30px 0 0 -30px;
+            border-radius: 50%;
+            opacity: 0.4;
+            background: var(--color-link);
+            animation: loaderAnim 0.7s linear infinite alternate forwards;
+        }
+
+        @keyframes loaderAnim {
+            to {
+                opacity: 1;
+                transform: scale3d(0.5,0.5,1);
+            }
+        }
+
+        /* Tile styles from base.css */
+        .tiles {
+            --tiles-height: 52vw;
+            height: var(--tiles-height);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tiles--columns-rotated {
+            --tiles-height: 180vmax;
+        }
+
+        .tiles--columns {
+            --tiles-height: 140vh;
+        }
+
+        .tiles--oneline {
+            --tiles-height: 50vh;
+            min-height: 400px;
+            margin: 10vh 0;
+        }
+
+        .tiles--small {
+            --tiles-height: 100px;
+            margin: 10vh 0 0;
+        }
+
+        .tiles--fixed {
+            --tiles-height: 65vw;
+            margin-top: 25vh;
+        }
+
+        .tiles--perspective {
+            overflow: visible;
+            perspective: 1000px;
+            --tiles-height: 500px;
+        }
+
+        .tiles__wrap {
+            width: 150%;
+            --tileswrap-height: var(--tiles-height);
+            height: var(--tileswrap-height);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%,-50%, 0);
+        }
+
+        .tiles--rotated .tiles__wrap {
+            --tileswrap-height: calc(var(--tiles-height) * 1.8);
+            transform: translate3d(-50%,-50%, 0) rotate(22.5deg);
+        }
+
+        .tiles--columns-rotated .tiles__wrap {
+            width: 150%;
+            display: flex;
+            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
+            left: 50%;
+            top: 50%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tiles--columns .tiles__wrap {
+            width: 100%;
+            display: flex;
+            --tileswrap-height: calc(var(--tiles-height) * 1.4);
+            transform: translate3d(0,-50%,0);
+            left: 0;
+            top: 50%;
+        }
+
+        .tiles--perspective .tiles__wrap {
+            width: 200%;
+            transform: translate3d(-50%,-50%,0) translateX(-25%) translateZ(-1200px) rotateX(75.5deg) rotateZ(12deg);
+        }
+
+        .tiles--fixed .tiles__wrap {
+            width: 100%;
+        }
+
+        .tiles__line {
+            display: flex;
+        }
+
+        .tiles--columns .tiles__line {
+            width: 25%;
+            padding: 0 1rem;
+            display: block;
+        }
+
+        .tiles--columns-rotated .tiles__line {
+            width: 320px;
+            flex: none;
+            padding: 0 1.5vw;
+            display: block;
+        }
+
+        .tiles--columns-rotated .tiles__line:nth-child(even) {
+            margin-top: -160px;
+        }
+
+        .tiles--oneline .tiles__line {
+            height: 100%;
+        }
+
+        .tiles--small .tiles__line {
+            height: 100%;
+        }
+
+        .tiles__line-img {
+            --tile-margin: 2vw;
+            flex: none;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc( var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
+            margin: var(--tile-margin);
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+
+        .tiles--perspective .tiles__line-img {
+            backface-visibility: hidden;
+            outline: 1px solid transparent;
+            --tile-margin: 1vw;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc(16.666vw * 1.3);
+        }
+
+        .tiles--oneline .tiles__line-img {
+            --tile-margin: 1vw;
+            margin: 0 var(--tile-margin);
+            width: calc(25% - var(--tile-margin) * 2);
+            height: 100%;
+        }
+
+        .tiles--small .tiles__line-img {
+            --tile-margin: 5px;
+            margin: 0 var(--tile-margin);
+            width: calc(12.5% - var(--tile-margin) * 2);
+            height: 100%;
+        }
+
+        .tiles--rotated .tiles__line-img {
+            --tile-margin: 1vw;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc( var(--tileswrap-height) / 5 - (4 * var(--tile-margin) / 2));
+        }
+
+        .tiles--columns-rotated .tiles__line-img {
+            --tile-margin: 3vw 0;
+            width: 100%;
+            height: 400px;
+        }
+
+        .tiles--columns .tiles__line-img {
+            --tile-margin: 2rem 0;
+            width: 100%;
+            height: calc(25vw * 1.3);
+        }
+
+        .tiles--fixed .tiles__line-img {
+            --tile-margin: 10px;
+            -webkit-filter: brightness(0.8);
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc( var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
+        }
+
+        .tiles--darker .tiles__line-img {
+            opacity: 0.7;
+        }
+
+        .tiles__title {
+            position: absolute;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10vw;
+            padding: 3rem;
+            margin: 0;
+            line-height: 0.8;
+            font-family: span, serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .tiles__title--alt {
+            font-size: 9vw;
+            font-size: clamp(2rem, 9vw, 7.25rem);
+        }
+
+        .tiles__title--intro {
+            padding-top: 10vh;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .tiles__title--right {
+            justify-content: flex-end;
+        }
+
+        .tiles__title--left {
+            justify-content: flex-start;
+        }
+
+        .tiles__title--full {
+            height: 100%;
+        }
+
+        /* Locomotive Scroll styles from base.css */
+        html.has-scroll-smooth {
+            overflow: hidden; 
+        }
+        
+        html.has-scroll-dragging {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; 
+        }
+        
+        .has-scroll-smooth body {
+            overflow: hidden; 
+        }
+        
+        .has-scroll-smooth [data-scroll-container] {
+            min-height: 100vh; 
+        }
+    </style>
+    <!-- END ADDED STYLES -->
 
 </head>
-<body>
+<!-- ADDED 'demo-2 loading' TILE CLASSES TO BODY -->
+<body class="demo-2 loading">
     <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload lazyload></script>
     <script>
         loadPageAssets('index')
@@ -79,7 +369,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             min-height: 200vh;
-            padding-top: 80px;
+            /* padding-top: 80px; */ /* This might conflict with locomotive scroll */
         }
 
         /* ========================================
@@ -760,6 +1050,8 @@
            ======================================== */
         main {
             padding: 2rem;
+            /* Remove padding-top if locomotive-scroll is managing the container */
+            padding-top: 0;
         }
 
         section {
@@ -787,7 +1079,7 @@
             margin: 0 auto;
             opacity: 0.7;
         }
-    </style>
+</style>
 </head>
 
 <body>
@@ -840,7 +1132,7 @@
     </div>
 
     <!-- Header -->
-    <header>
+    <header data-scroll-section> <!-- Added data-scroll-section for locomotive -->
         <a href="https://imbajrangi.github.io/Company/" class="logo magnetic" data-magnetic-strength="0.7"><span>Vrindopnishad</span></a>
         
         <!-- Main navigation (visible) -->
@@ -1324,9 +1616,56 @@
     </nav>
 
     <!-- Main content -->
-    <main>
+    <!-- ADDED data-scroll-container TO MAIN -->
+    <main data-scroll-container>
+        
+        <!-- START: ADDED SECTION FROM index2.html -->
+        <section class="tiles tiles--columns-rotated tiles--darker" id="grid" data-scroll-section> <!-- Added data-scroll-section -->
+            <div class="tiles__wrap">
+                <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
+                    <!-- Updated image paths -->
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/1.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/2.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/3.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/4.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/5.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/5.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/6.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/7.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/8.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/9.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/9.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/10.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/11.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/12.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/13.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/13.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/14.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/15.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/16.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/17.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/17.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/18.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/19.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/20.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(../../TileScroll-main/src/img/demo2/1.jpg)"></div>
+                </div>
+            </div>
+            <h2 class="tiles__title" data-scroll data-scroll-speed="1">Constrasts</h2> <!-- Added data-scroll -->
+        </section>
+        <!-- END: ADDED SECTION -->
+
+
         <!-- Hero section -->
-        <section id="home" class="hero">
+        <section id="home" class="hero" data-scroll-section> <!-- Added data-scroll-section -->
         <!-- <section id="home"> -->
             <div class="text-container">
                 <h1 class="hero-title">
@@ -1352,7 +1691,7 @@
         </section>
 
         <!-- Projects section -->
-        <section id="projects">
+        <section id="projects" data-scroll-section> <!-- Added data-scroll-section -->
             <h2 class="section-title reveal-element">
                 Our Work
             </h2>
@@ -1421,7 +1760,7 @@
         </section>
 
         <!-- Horizontal scroll section -->
-        <section class="horizontal-section">
+        <section class="horizontal-section" data-scroll-section> <!-- Added data-scroll-section -->
             <div class="horizontal-content">
                 <div class="horizontal-item">
                     <h2 class="horizontal-title text-gradient reveal-element">
@@ -1461,7 +1800,7 @@
         </section>
 
         <!-- About section -->
-        <section id="about">
+        <section id="about" data-scroll-section> <!-- Added data-scroll-section -->
             <div class="about-content">
                 <div class="about-text">
                     <h2 class="text-gradient reveal-element">Our Digital Universe</h2>
@@ -1476,14 +1815,14 @@
                     <a data-link="about" class="btn magnetic"><span>Learn More</span></a>
                 </div>
                 <div class="about-image reveal-element">
-                    <img src="https://i.postimg.cc/rFGD2ns7/94.avif" alt="About Image" loading="lazy">
+                    <img src="./image/Home Pics/img1.jpg" alt="About Image" loading="lazy">
                     <!-- <div class="reveal-mask"></div> -->
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer id="contact">
+        <footer id="contact" data-scroll-section> <!-- Added data-scroll-section -->
             <div class="footer-content">
                 <div>
                     <div class="footer-logo text-gradient">Vrindopnishad</div>
@@ -1571,7 +1910,7 @@
             }
         };
         
-        updateCounter();
+        // updateCounter(); // Commented out to use the new preloader logic
     </script>
     <script>
         // Mobile menu toggle with improved performance
@@ -1698,7 +2037,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const header = document.querySelector('header');
             
-            if (header) {
+            if (header && !window.LocomotiveScroll) { // Only run if locomotive scroll is not active
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 50) {
                         header.classList.add('scrolled');
@@ -1896,7 +2235,7 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             checkAuthStatus();
-            fetchContent();
+            // fetchContent(); // Disabled to keep your static content
         });
     </script>
 
@@ -1906,38 +2245,42 @@
             const imageHover = document.querySelector('.image-hover');
             const projectItems = document.querySelectorAll('.project-item');
             
-            projectItems.forEach(item => {
-                const imageUrl = item.getAttribute('data-image');
-                
-                item.addEventListener('mouseenter', () => {
-                    if (imageUrl) {
-                        const img = imageHover.querySelector('img');
-                        img.src = imageUrl;
-                        imageHover.style.opacity = '1';
-                        imageHover.style.visibility = 'visible';
-                    }
-                });
-                
-                item.addEventListener('mouseleave', () => {
-                    imageHover.style.opacity = '0';
-                    imageHover.style.visibility = 'hidden';
-                });
-                
-                item.addEventListener('mousemove', (e) => {
-                    const rect = imageHover.getBoundingClientRect();
-                    const x = e.clientX - (rect.width / 2);
-                    const y = e.clientY - (rect.height / 2);
+            if (imageHover && projectItems.length > 0) { // Check if elements exist
+                projectItems.forEach(item => {
+                    const imageUrl = item.getAttribute('data-image');
                     
-                    imageHover.style.transform = `translate(${x}px, ${y}px)`;
+                    item.addEventListener('mouseenter', () => {
+                        if (imageUrl) {
+                            const img = imageHover.querySelector('img');
+                            if (img) { // Check if img exists
+                                img.src = imageUrl;
+                                imageHover.style.opacity = '1';
+                                imageHover.style.visibility = 'visible';
+                            }
+                        }
+                    });
+                    
+                    item.addEventListener('mouseleave', () => {
+                        imageHover.style.opacity = '0';
+                        imageHover.style.visibility = 'hidden';
+                    });
+                    
+                    item.addEventListener('mousemove', (e) => {
+                        const rect = imageHover.getBoundingClientRect();
+                        const x = e.clientX - (rect.width / 2);
+                        const y = e.clientY - (rect.height / 2);
+                        
+                        imageHover.style.transform = `translate(${x}px, ${y}px)`;
+                    });
                 });
-            });
+            }
         });
     </script>
 
     <!-- Resource and Link Management Scripts -->
-    <script src="/web-extentions/links/paths.js"></script>
-    <script src="/web-extentions/links/image path manager.js"></script>
-    <script src="/web-extentions/links/link-handler.js" defer></script>
+    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/paths.js"></script> -->
+    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/image path manager.js"></script> -->
+    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js" defer></script> -->
 
     <!-- Developer Guide Toggle Script -->
     <script>
@@ -2265,12 +2608,12 @@
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', async () => {
-            const books = await loadBooksData();
+            // const books = await loadBooksData(); // Disabled to keep static content
             
             // Update featured content if available
-            if (books.length > 0) {
-                updateFeaturedContent(books);
-            }
+            // if (books.length > 0) {
+            //     updateFeaturedContent(books);
+            // }
         });
 
         // ... rest of your existing script ...
@@ -2307,11 +2650,11 @@
                 }
 
                 // Show welcome notification
-                showNotification(`${greeting}! Welcome to Vrindopnishad 🙏`, 'success', {
-                    appName: 'Vrindopnishad',
-                    duration: 5000,
-                    playSound: true
-                });
+                // showNotification(`${greeting}! Welcome to Vrindopnishad 🙏`, 'success', {
+                //     appName: 'Vrindopnishad',
+                //     duration: 5000,
+                //     playSound: true
+                // });
             }, 2000);
         });
     </script>
@@ -2327,16 +2670,16 @@
                     !document.querySelector('nav.active')) {
                     
                     // Remove any overflow: hidden that might be stuck
-                    document.documentElement.style.removeProperty('overflow');
-                    document.body.style.removeProperty('overflow');
+                    // document.documentElement.style.removeProperty('overflow');
+                    // document.body.style.removeProperty('overflow');
                     
                     // Remove any height constraints
-                    document.documentElement.style.removeProperty('height');
-                    document.body.style.removeProperty('height');
+                    // document.documentElement.style.removeProperty('height');
+                    // document.body.style.removeProperty('height');
                     
                     // Force scroll to be available
-                    document.documentElement.style.overflowY = 'auto';
-                    document.body.style.overflowY = 'auto';
+                    // document.documentElement.style.overflowY = 'auto';
+                    // document.body.style.overflowY = 'auto';
                     
                     // Remove any stuck classes
                     document.body.classList.remove('tools-menu-open');
@@ -2351,8 +2694,8 @@
                     !e.target.closest('.mobile-menu-btn')) {
                     
                     // Force enable scrolling
-                    document.documentElement.style.overflowY = 'auto';
-                    document.body.style.overflowY = 'auto';
+                    // document.documentElement.style.overflowY = 'auto';
+                    // document.body.style.overflowY = 'auto';
                     document.body.classList.remove('tools-menu-open');
                 }
             });
@@ -2363,12 +2706,12 @@
     <script>
         // Manually initialize magnetic effect
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('Manually initializing magnetic effect...');
+            // console.log('Manually initializing magnetic effect...');
             const magneticElements = document.querySelectorAll('.magnetic');
-            console.log(`Found ${magneticElements.length} magnetic elements.`);
+            // console.log(`Found ${magneticElements.length} magnetic elements.`);
             
             if (magneticElements.length === 0) {
-                console.warn('No magnetic elements found!');
+                // console.warn('No magnetic elements found!');
                 return;
             }
             
@@ -2392,7 +2735,7 @@
                 // Ensure element has inner span
                 let innerElement = element.querySelector('span');
                 if (!innerElement) {
-                    console.log(`Adding span element to magnetic element:`, element);
+                    // console.log(`Adding span element to magnetic element:`, element);
                     const content = element.innerHTML;
                     element.innerHTML = `<span>${content}</span>`;
                     innerElement = element.querySelector('span');
@@ -2520,8 +2863,132 @@
                     }
                 });
             });
-            console.log('Magnetic effect initialization complete!');
+            // console.log('Magnetic effect initialization complete!');
         });
     </script>
+
+    <!-- START: ADDED SCRIPT FOR TILE SCROLL -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.js"></script>
+    <script>
+        // From utils.js
+        const preloadImages = (selector = 'img') => {
+            // Use window.imagesLoaded from the CDN
+            return new Promise((resolve) => {
+                imagesLoaded(document.querySelectorAll(selector), {background: true}, resolve);
+            });
+        };
+
+        const preloadFonts = (id) => {
+            return new Promise((resolve) => {
+                // Use window.WebFont from the CDN
+                WebFont.load({
+                    typekit: {
+                        id: id
+                    },
+                    active: resolve
+                });
+            });
+        };
+
+        // From index.js
+        // Preload images and fonts
+        Promise.all([preloadImages('.tiles__line-img'), preloadFonts('rmd7deq')]).then(() => {
+            // Remove loader (loading class)
+            document.body.classList.remove('loading');
+            
+            // Find the loader from nwHome.html and hide it
+            const existingLoader = document.querySelector('.loader');
+            if (existingLoader) {
+                 setTimeout(() => {
+                    existingLoader.classList.add('hide');
+                }, 50);
+            }
+
+
+            // Initialize the Locomotive scroll
+            // Use window.LocomotiveScroll from the CDN
+            const scroll = new LocomotiveScroll({
+                el: document.querySelector('[data-scroll-container]'),
+                smooth: true
+            });
+
+            // Re-add your existing header scroll logic, but make it work with Locomotive Scroll
+            const header = document.querySelector('header');
+            if (header) {
+                scroll.on('scroll', (args) => {
+                    // args.scroll.y holds the scroll position
+                    if (args.scroll.y > 50) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // Re-add your existing IntersectionObservers, but make them work with Locomotive Scroll
+            // We need to re-initialize them *after* Locomotive Scroll
+            
+            // Handle fade-up animations
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                fadeObserver.observe(element);
+            });
+            
+            // Handle staggered animations
+            const staggeredLists = document.querySelectorAll('.staggered-list');
+            staggeredLists.forEach(list => {
+                const items = list.querySelectorAll('.staggered-item');
+                const staggerObserver = new IntersectionObserver((entries) => {
+                    let delay = 0;
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                            delay += 100;
+                            staggerObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                items.forEach(item => {
+                    staggerObserver.observe(item);
+                });
+            });
+            
+            // Handle reveal elements
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+            
+            // Update Locomotive Scroll on image load, just in case
+            imagesLoaded( document.body, function() {
+                scroll.update();
+            });
+
+        });
+    </script>
+    <!-- END: ADDED SCRIPT -->
 </body>
 </html>

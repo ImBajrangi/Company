@@ -29,19 +29,304 @@
     <!-- <script src="/web-extentions/links/project-config.js"></script> -->
     
     <!-- Menu Styles -->
-    <link rel="stylesheet" href="../css/hamburger.css">
-    <link rel="stylesheet" href="../css/menu.css">
-    <link rel="stylesheet" href="../css/cloude.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/hamburger.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/menu.css">
+    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/cloude.css">
+
+    <!-- STYLES ADDED FROM index2.html -->
+    <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
+    <style>/* Minimal styles from base.css needed for the tile scroll effect */
+        :root {
+            /* These variables are from base.css and might conflict with your existing styles.
+               Adjust them as needed. */
+            --color-text: #fff;
+            --color-bg: #111;
+            --color-link: #aaa;
+            --color-link-hover: #fff;
+            --color-alt: #7f6a57;
+        }
+
+        /* Apply base.css body styles only if a class from it is present */
+        body.demo-2 {
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            font-family: neuzeit-grotesk, sans-serif;
+        }
+
+        /* Page Loader from base.css */
+        .js .loading::before,
+        .js .loading::after {
+            content: '';
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .js .loading::before {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-bg);
+        }
+
+        .js .loading::after {
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            margin: -30px 0 0 -30px;
+            border-radius: 50%;
+            opacity: 0.4;
+            background: var(--color-link);
+            animation: loaderAnim 0.7s linear infinite alternate forwards;
+        }
+
+        @keyframes loaderAnim {
+            to {
+                opacity: 1;
+                transform: scale3d(0.5,0.5,1);
+            }
+        }
+
+        /* Tile styles from base.css */
+        .tiles {
+            --tiles-height: 52vw;
+            height: var(--tiles-height);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tiles--columns-rotated {
+            --tiles-height: 180vmax;
+        }
+
+        .tiles--columns {
+            --tiles-height: 140vh;
+        }
+
+        .tiles--oneline {
+            --tiles-height: 50vh;
+            min-height: 400px;
+            margin: 10vh 0;
+        }
+
+        .tiles--small {
+            --tiles-height: 100px;
+            margin: 10vh 0 0;
+        }
+
+        .tiles--fixed {
+            --tiles-height: 65vw;
+            margin-top: 25vh;
+        }
+
+        .tiles--perspective {
+            overflow: visible;
+            perspective: 1000px;
+            --tiles-height: 500px;
+        }
+
+        .tiles__wrap {
+            width: 150%;
+            --tileswrap-height: var(--tiles-height);
+            height: var(--tileswrap-height);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%,-50%, 0);
+        }
+
+        .tiles--rotated .tiles__wrap {
+            --tileswrap-height: calc(var(--tiles-height) * 1.8);
+            transform: translate3d(-50%,-50%, 0) rotate(22.5deg);
+        }
+
+        .tiles--columns-rotated .tiles__wrap {
+            width: 150%;
+            display: flex;
+            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
+            left: 50%;
+            top: 50%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tiles--columns .tiles__wrap {
+            width: 100%;
+            display: flex;
+            --tileswrap-height: calc(var(--tiles-height) * 1.4);
+            transform: translate3d(0,-50%,0);
+            left: 0;
+            top: 50%;
+        }
+
+        .tiles--perspective .tiles__wrap {
+            width: 200%;
+            transform: translate3d(-50%,-50%,0) translateX(-25%) translateZ(-1200px) rotateX(75.5deg) rotateZ(12deg);
+        }
+
+        .tiles--fixed .tiles__wrap {
+            width: 100%;
+        }
+
+        .tiles__line {
+            display: flex;
+        }
+
+        .tiles--columns .tiles__line {
+            width: 25%;
+            padding: 0 1rem;
+            display: block;
+        }
+
+        .tiles--columns-rotated .tiles__line {
+            width: 320px;
+            flex: none;
+            padding: 0 1.5vw;
+            display: block;
+        }
+
+        .tiles--columns-rotated .tiles__line:nth-child(even) {
+            margin-top: -160px;
+        }
+
+        .tiles--oneline .tiles__line {
+            height: 100%;
+        }
+
+        .tiles--small .tiles__line {
+            height: 100%;
+        }
+
+        .tiles__line-img {
+            --tile-margin: 2vw;
+            flex: none;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc( var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
+            margin: var(--tile-margin);
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+
+        .tiles--perspective .tiles__line-img {
+            backface-visibility: hidden;
+            outline: 1px solid transparent;
+            --tile-margin: 1vw;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc(16.666vw * 1.3);
+        }
+
+        .tiles--oneline .tiles__line-img {
+            --tile-margin: 1vw;
+            margin: 0 var(--tile-margin);
+            width: calc(25% - var(--tile-margin) * 2);
+            height: 100%;
+        }
+
+        .tiles--small .tiles__line-img {
+            --tile-margin: 5px;
+            margin: 0 var(--tile-margin);
+            width: calc(12.5% - var(--tile-margin) * 2);
+            height: 100%;
+        }
+
+        .tiles--rotated .tiles__line-img {
+            --tile-margin: 1vw;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc( var(--tileswrap-height) / 5 - (4 * var(--tile-margin) / 2));
+        }
+
+        .tiles--columns-rotated .tiles__line-img {
+            --tile-margin: 3vw 0;
+            width: 100%;
+            height: 400px;
+        }
+
+        .tiles--columns .tiles__line-img {
+            --tile-margin: 2rem 0;
+            width: 100%;
+            height: calc(25vw * 1.3);
+        }
+
+        .tiles--fixed .tiles__line-img {
+            --tile-margin: 10px;
+            -webkit-filter: brightness(0.8);
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc( var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
+        }
+
+        .tiles--darker .tiles__line-img {
+            opacity: 0.7;
+        }
+
+        .tiles__title {
+            position: absolute;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10vw;
+            padding: 3rem;
+            margin: 0;
+            line-height: 0.8;
+            font-family: span, serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .tiles__title--alt {
+            font-size: 9vw;
+            font-size: clamp(2rem, 9vw, 7.25rem);
+        }
+
+        .tiles__title--intro {
+            padding-top: 10vh;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .tiles__title--right {
+            justify-content: flex-end;
+        }
+
+        .tiles__title--left {
+            justify-content: flex-start;
+        }
+
+        .tiles__title--full {
+            height: 100%;
+        }
+
+        /* Locomotive Scroll styles from base.css */
+        html.has-scroll-smooth {
+            overflow: hidden; 
+        }
+        
+        html.has-scroll-dragging {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; 
+        }
+        
+        .has-scroll-smooth body {
+            overflow: hidden; 
+        }
+        
+        .has-scroll-smooth [data-scroll-container] {
+            min-height: 100vh; 
+        }</style>
+    <!-- END ADDED STYLES -->
 
 </head>
-<body>
-    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload lazyload></script>
-    <script>
-        loadPageAssets('index')
-    </script>
+<!-- ADDED 'demo-2 loading' TILE CLASSES TO BODY -->
+<body class="demo-2 loading">
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload="" lazyload=""></script>
+    <script>loadPageAssets('index');</script>
 </body>
-<style>
-        * {
+<style>* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -79,7 +364,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             min-height: 200vh;
-            padding-top: 80px;
+            /* padding-top: 80px; */ /* This might conflict with locomotive scroll */
         }
 
         /* ========================================
@@ -760,6 +1045,8 @@
            ======================================== */
         main {
             padding: 2rem;
+            /* Remove padding-top if locomotive-scroll is managing the container */
+            padding-top: 0;
         }
 
         section {
@@ -786,9 +1073,8 @@
             max-width: 600px;
             margin: 0 auto;
             opacity: 0.7;
-        }
-    </style>
-</head>
+        }</style>
+
 
 <body>
     <!-- Add noise element for texture -->
@@ -836,11 +1122,11 @@
 
     <!-- Image hover -->
     <div class="image-hover">
-        <img src="../image/Home Pics/img_vas.jpg" alt="Decorative image" class="distort-on-hover" loading="lazy">
+        <img src="/e5845129e6b463f62fa4fb6dc488a4ad.jpg" alt="Decorative image" class="distort-on-hover" loading="lazy">
     </div>
 
     <!-- Header -->
-    <header>
+    <header data-scroll-section=""> <!-- Added data-scroll-section for locomotive -->
         <a href="https://imbajrangi.github.io/Company/" class="logo magnetic" data-magnetic-strength="0.7"><span>Vrindopnishad</span></a>
         
         <!-- Main navigation (visible) -->
@@ -1294,7 +1580,7 @@
                     <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
                 </svg>
             </button> -->
-        </div>
+        
         <ul>
             <li>
                 <a data-link="home" class="active">Home</a>
@@ -1324,9 +1610,56 @@
     </nav>
 
     <!-- Main content -->
-    <main>
+    <!-- ADDED data-scroll-container TO MAIN -->
+    <main data-scroll-container="">
+        
+        <!-- START: ADDED SECTION FROM index2.html -->
+        <section class="tiles tiles--columns-rotated tiles--darker" id="grid" data-scroll-section=""> <!-- Added data-scroll-section -->
+            <div class="tiles__wrap">
+                <div class="tiles__line" data-scroll="" data-scroll-speed="1" data-scroll-target="#grid">
+                    <!-- Updated image paths -->
+                    <div class="tiles__line-img" style="background-image:url(/1.b2dd7476.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/2.c629256c.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/3.449799ca.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/4.00c00e57.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/5.208189fa.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll="" data-scroll-speed="-1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(/5.208189fa.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/6.3ade7d4e.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/7.0a1756e3.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/8.2c69e487.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/9.022cbb30.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll="" data-scroll-speed="1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(/9.022cbb30.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/10.4f66b9bf.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/11.bc61a1e3.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/12.d01438d5.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/13.a8b9e252.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll="" data-scroll-speed="-1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(/13.a8b9e252.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/14.e53accbf.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/15.cfb90561.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/16.bf2e6aed.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/17.79dee7e7.jpg)"></div>
+                </div>
+                <div class="tiles__line" data-scroll="" data-scroll-speed="1" data-scroll-target="#grid">
+                    <div class="tiles__line-img" style="background-image:url(/17.79dee7e7.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/18.8ad6a6a5.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/19.70099d5f.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/20.79785ea9.jpg)"></div>
+                    <div class="tiles__line-img" style="background-image:url(/1.b2dd7476.jpg)"></div>
+                </div>
+            </div>
+            <h2 class="tiles__title" data-scroll="" data-scroll-speed="1">Constrasts</h2> <!-- Added data-scroll -->
+        </section>
+        <!-- END: ADDED SECTION -->
+
+
         <!-- Hero section -->
-        <section id="home" class="hero">
+        <section id="home" class="hero" data-scroll-section=""> <!-- Added data-scroll-section -->
         <!-- <section id="home"> -->
             <div class="text-container">
                 <h1 class="hero-title">
@@ -1352,7 +1685,7 @@
         </section>
 
         <!-- Projects section -->
-        <section id="projects">
+        <section id="projects" data-scroll-section=""> <!-- Added data-scroll-section -->
             <h2 class="section-title reveal-element">
                 Our Work
             </h2>
@@ -1421,7 +1754,7 @@
         </section>
 
         <!-- Horizontal scroll section -->
-        <section class="horizontal-section">
+        <section class="horizontal-section" data-scroll-section=""> <!-- Added data-scroll-section -->
             <div class="horizontal-content">
                 <div class="horizontal-item">
                     <h2 class="horizontal-title text-gradient reveal-element">
@@ -1461,7 +1794,7 @@
         </section>
 
         <!-- About section -->
-        <section id="about">
+        <section id="about" data-scroll-section=""> <!-- Added data-scroll-section -->
             <div class="about-content">
                 <div class="about-text">
                     <h2 class="text-gradient reveal-element">Our Digital Universe</h2>
@@ -1476,14 +1809,14 @@
                     <a data-link="about" class="btn magnetic"><span>Learn More</span></a>
                 </div>
                 <div class="about-image reveal-element">
-                    <img src="https://i.postimg.cc/rFGD2ns7/94.avif" alt="About Image" loading="lazy">
+                    <img src="/a9b1e8f9f15a17d9588955c04d75210a.jpg" alt="About Image" loading="lazy">
                     <!-- <div class="reveal-mask"></div> -->
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer id="contact">
+        <footer id="contact" data-scroll-section=""> <!-- Added data-scroll-section -->
             <div class="footer-content">
                 <div>
                     <div class="footer-logo text-gradient">Vrindopnishad</div>
@@ -1552,976 +1885,1095 @@
         </footer>
     </main>
 
-    <script>
-        // Loader
-        const loader = document.querySelector('.loader');
-        const counter = document.querySelector('.counter');
-        let count = 10;
-        
-        const updateCounter = () => {
-            if (count < 100) {
-                count++;
-                counter.textContent = count + '%';
-                setTimeout(updateCounter, Math.floor(Math.random() * 30));
-            } else {
-                counter.textContent = '100%';
-                setTimeout(() => {
-                    loader.classList.add('hide');
-                }, 50);
-            }
-        };
-        
-        updateCounter();
-    </script>
-    <script>
-        // Mobile menu toggle with improved performance
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileMenuBtn = document.querySelector('.menu');
-            const nav = document.querySelector('nav');
-            const menuOverlay = document.querySelector('.menu-overlay');
-            const toolsIcon = document.querySelector('.tools-icon');
-            
-            // Check if elements exist
-            if (!mobileMenuBtn || !nav) return;
-            
-            function openMenu() {
-                mobileMenuBtn.classList.add('active');
-                nav.classList.add('active');
-                menuOverlay.classList.add('active');
-                document.body.classList.add('menu-open');
-                
-                mobileMenuBtn.setAttribute('aria-expanded', 'true');
-                nav.setAttribute('aria-hidden', 'false');
-                
-                if (toolsIcon) {
-                    toolsIcon.style.zIndex = '1001';
-                }
-            }
-            
-            function closeMenu() {
-                mobileMenuBtn.classList.remove('active');
-                nav.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                document.body.classList.remove('menu-open');
-                
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                nav.setAttribute('aria-hidden', 'true');
-                
-                if (toolsIcon) {
-                    toolsIcon.style.zIndex = '';
-                }
-            }
-            
-            // Set initial aria attributes
-            mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            nav.setAttribute('aria-hidden', 'true');
-            
-            // Toggle menu on hamburger click
-            mobileMenuBtn.addEventListener('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                
-                if (nav.classList.contains('active')) {
-                    closeMenu();
-                } else {
-                    openMenu();
-                }
-            });
-            
-            // Close menu when clicking on overlay
-            menuOverlay.addEventListener('click', closeMenu);
-            
-            // Close menu when clicking outside or on the close button
-            document.addEventListener('click', (event) => {
-                if ((nav.classList.contains('active') &&
-                    !nav.contains(event.target) &&
-                    !mobileMenuBtn.contains(event.target)) ||
-                    event.target.closest('.nav-close')) {
-                    closeMenu();
-                }
-            });
-            
-            // Add close button functionality
-            const closeBtn = document.querySelector('.nav-close');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeMenu);
-            }
-            
-            // Close menu when clicking on links
-            const navLinks = document.querySelectorAll('nav a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', closeMenu);
-            });
-            
-            // Add touch events for mobile with better performance
-            let touchStartX = 0;
-            let touchStartTime = 0;
-            
-            nav.addEventListener('touchstart', (event) => {
-                touchStartX = event.touches[0].clientX;
-                touchStartTime = Date.now();
-            }, { passive: true });
-            
-            nav.addEventListener('touchend', (event) => {
-                if (!nav.classList.contains('active')) return;
-                
-                const touchEndX = event.changedTouches[0].clientX;
-                const touchEndTime = Date.now();
-                
-                const diff = touchStartX - touchEndX;
-                const timeDiff = touchEndTime - touchStartTime;
-                
-                // If swipe is fast enough and distance is enough
-                if (diff > 50 && timeDiff < 300) {
-                    closeMenu();
-                }
-            }, { passive: true });
-            
-            // Handle keyboard navigation
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && nav.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
-            
-            // Prevent menu from staying open on resize
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768 && nav.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
-        });
-    </script>
+    <script>// Loader
+var loader = document.querySelector('.loader');
+var counter = document.querySelector('.counter');
+var count = 10;
+var _updateCounter = function updateCounter() {
+  if (count < 100) {
+    count++;
+    counter.textContent = count + '%';
+    setTimeout(_updateCounter, Math.floor(Math.random() * 30));
+  } else {
+    counter.textContent = '100%';
+    setTimeout(function () {
+      loader.classList.add('hide');
+    }, 50);
+  }
+};
 
-    <script>
-        // Header scroll effect
-        document.addEventListener('DOMContentLoaded', () => {
-            const header = document.querySelector('header');
-            
-            if (header) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 50) {
-                        header.classList.add('scrolled');
-                    } else {
-                        header.classList.remove('scrolled');
-                    }
-                });
-            }
-        });
-    </script>
+// updateCounter(); // Commented out to use the new preloader logic</script>
+    <script>// Mobile menu toggle with improved performance
+document.addEventListener('DOMContentLoaded', function () {
+  var mobileMenuBtn = document.querySelector('.menu');
+  var nav = document.querySelector('nav');
+  var menuOverlay = document.querySelector('.menu-overlay');
+  var toolsIcon = document.querySelector('.tools-icon');
 
-    <script>
-        // Add IntersectionObserver for animations
-        document.addEventListener('DOMContentLoaded', () => {
-            // Handle fade-up animations
-            const fadeElements = document.querySelectorAll('.fade-up');
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        fadeObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            fadeElements.forEach(element => {
-                fadeObserver.observe(element);
-            });
-            
-            // Handle staggered animations
-            const staggeredLists = document.querySelectorAll('.staggered-list');
-            staggeredLists.forEach(list => {
-                const items = list.querySelectorAll('.staggered-item');
-                const staggerObserver = new IntersectionObserver((entries) => {
-                    let delay = 0;
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            setTimeout(() => {
-                                entry.target.classList.add('visible');
-                            }, delay);
-                            delay += 100;
-                            staggerObserver.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.1 });
-                
-                items.forEach(item => {
-                    staggerObserver.observe(item);
-                });
-            });
-            
-            // Handle reveal elements
-            const revealElements = document.querySelectorAll('.reveal-element');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            revealElements.forEach(element => {
-                revealObserver.observe(element);
-            });
-        });
-    </script>
+  // Check if elements exist
+  if (!mobileMenuBtn || !nav) return;
+  function openMenu() {
+    mobileMenuBtn.classList.add('active');
+    nav.classList.add('active');
+    menuOverlay.classList.add('active');
+    document.body.classList.add('menu-open');
+    mobileMenuBtn.setAttribute('aria-expanded', 'true');
+    nav.setAttribute('aria-hidden', 'false');
+    if (toolsIcon) {
+      toolsIcon.style.zIndex = '1001';
+    }
+  }
+  function closeMenu() {
+    mobileMenuBtn.classList.remove('active');
+    nav.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    nav.setAttribute('aria-hidden', 'true');
+    if (toolsIcon) {
+      toolsIcon.style.zIndex = '';
+    }
+  }
 
-    <script>
-        // Fix for mobile viewport height issues
-        function setVH() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
+  // Set initial aria attributes
+  mobileMenuBtn.setAttribute('aria-expanded', 'false');
+  nav.setAttribute('aria-hidden', 'true');
+
+  // Toggle menu on hamburger click
+  mobileMenuBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (nav.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Close menu when clicking on overlay
+  menuOverlay.addEventListener('click', closeMenu);
+
+  // Close menu when clicking outside or on the close button
+  document.addEventListener('click', function (event) {
+    if (nav.classList.contains('active') && !nav.contains(event.target) && !mobileMenuBtn.contains(event.target) || event.target.closest('.nav-close')) {
+      closeMenu();
+    }
+  });
+
+  // Add close button functionality
+  var closeBtn = document.querySelector('.nav-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeMenu);
+  }
+
+  // Close menu when clicking on links
+  var navLinks = document.querySelectorAll('nav a');
+  navLinks.forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Add touch events for mobile with better performance
+  var touchStartX = 0;
+  var touchStartTime = 0;
+  nav.addEventListener('touchstart', function (event) {
+    touchStartX = event.touches[0].clientX;
+    touchStartTime = Date.now();
+  }, {
+    passive: true
+  });
+  nav.addEventListener('touchend', function (event) {
+    if (!nav.classList.contains('active')) return;
+    var touchEndX = event.changedTouches[0].clientX;
+    var touchEndTime = Date.now();
+    var diff = touchStartX - touchEndX;
+    var timeDiff = touchEndTime - touchStartTime;
+
+    // If swipe is fast enough and distance is enough
+    if (diff > 50 && timeDiff < 300) {
+      closeMenu();
+    }
+  }, {
+    passive: true
+  });
+
+  // Handle keyboard navigation
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && nav.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+
+  // Prevent menu from staying open on resize
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768 && nav.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+});</script>
+
+    <script>// Header scroll effect
+document.addEventListener('DOMContentLoaded', function () {
+  var header = document.querySelector('header');
+  if (header && !window.LocomotiveScroll) {
+    // Only run if locomotive scroll is not active
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  }
+});</script>
+
+    <script>// Add IntersectionObserver for animations
+document.addEventListener('DOMContentLoaded', function () {
+  // Handle fade-up animations
+  var fadeElements = document.querySelectorAll('.fade-up');
+  var fadeObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+  fadeElements.forEach(function (element) {
+    fadeObserver.observe(element);
+  });
+
+  // Handle staggered animations
+  var staggeredLists = document.querySelectorAll('.staggered-list');
+  staggeredLists.forEach(function (list) {
+    var items = list.querySelectorAll('.staggered-item');
+    var staggerObserver = new IntersectionObserver(function (entries) {
+      var delay = 0;
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setTimeout(function () {
+            entry.target.classList.add('visible');
+          }, delay);
+          delay += 100;
+          staggerObserver.unobserve(entry.target);
         }
-        
-        // Set the value on initial load
-        setVH();
-        
-        // Reset on resize and orientation change
-        window.addEventListener('resize', setVH);
-        window.addEventListener('orientationchange', setVH);
-    </script>
+      });
+    }, {
+      threshold: 0.1
+    });
+    items.forEach(function (item) {
+      staggerObserver.observe(item);
+    });
+  });
 
-    <script>
-        // Store language preference when a language is selected
-        document.addEventListener('DOMContentLoaded', () => {
-            const englishBtn = document.querySelector('.language-btn-nav[href="../Home/home.html"]');
-            const hindiBtn = document.querySelector('.language-btn-nav[href="../Home/home_hindi.html"]');
-            
-            if (englishBtn) {
-                englishBtn.addEventListener('click', () => {
-                    localStorage.setItem('preferredLanguage', 'english');
-                });
-            }
-            
-            if (hindiBtn) {
-                hindiBtn.addEventListener('click', () => {
-                    localStorage.setItem('preferredLanguage', 'hindi');
-                });
-            }
-        });
-    </script>
+  // Handle reveal elements
+  var revealElements = document.querySelectorAll('.reveal-element');
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+  revealElements.forEach(function (element) {
+    revealObserver.observe(element);
+  });
+});</script>
+
+    <script>// Fix for mobile viewport height issues
+function setVH() {
+  var vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
+}
+
+// Set the value on initial load
+setVH();
+
+// Reset on resize and orientation change
+window.addEventListener('resize', setVH);
+window.addEventListener('orientationchange', setVH);</script>
+
+    <script>// Store language preference when a language is selected
+document.addEventListener('DOMContentLoaded', function () {
+  var englishBtn = document.querySelector('.language-btn-nav[href="../Home/home.html"]');
+  var hindiBtn = document.querySelector('.language-btn-nav[href="../Home/home_hindi.html"]');
+  if (englishBtn) {
+    englishBtn.addEventListener('click', function () {
+      localStorage.setItem('preferredLanguage', 'english');
+    });
+  }
+  if (hindiBtn) {
+    hindiBtn.addEventListener('click', function () {
+      localStorage.setItem('preferredLanguage', 'hindi');
+    });
+  }
+});</script>
 
     <!-- Backend Connection Script -->
-    <script>
-        // API Configuration
-        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'http://localhost:5000/api' 
-            : 'https://api.vrindopnishad.com/api';
-        
-        // Check if user is logged in
-        function checkAuthStatus() {
-            const token = localStorage.getItem('vrindopnishad_token');
-            if (token) {
-                // Add admin panel link if user is authenticated
-                const navUl = document.querySelector('nav ul');
-                if (navUl) {
-                    const adminLi = document.createElement('li');
-                    const adminLink = document.createElement('a');
-                    adminLink.href = 'admins code/admin.html';
-                    adminLink.className = 'text-hover';
-                    adminLink.textContent = 'Admin Panel';
-                    adminLi.appendChild(adminLink);
-                    navUl.insertBefore(adminLi, document.querySelector('.nav-divider'));
-                }
-            }
-        }
-        
-        // Fetch content from API
-        async function fetchContent() {
-            try {
-                // Fetch featured content for homepage
-                const response = await fetch(`${API_BASE_URL}/collections/featured`);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success && data.data.length > 0) {
-                        updateFeaturedContent(data.data);
-                    }
-                }
-            } catch (error) {
-                console.error('Error fetching content:', error);
-            }
-        }
-        
-        // Update featured content on the page
-        function updateFeaturedContent(items) {
-            const projectList = document.querySelector('.project-list');
-            if (!projectList || !items.length) return;
-            
-            // Keep only the first 6 items or less
-            const displayItems = items.slice(0, 6);
-            
-            // Clear existing items
-            projectList.innerHTML = '';
-            
-            // Add new items
-            displayItems.forEach(item => {
-                const projectItem = document.createElement('div');
-                projectItem.className = 'project-item staggered-item';
-                projectItem.setAttribute('data-image', item.imageUrl || './image/Home Pics/img2.jpg');
-                
-                projectItem.innerHTML = `
-                    <div class="project-title">${item.title}</div>
-                    <div class="project-category">${item.category}</div>
-                `;
-                
-                projectList.appendChild(projectItem);
-            });
-            
-            // Re-initialize staggered animations
-            initStaggeredAnimations();
-        }
-        
-        // Initialize staggered animations
-        function initStaggeredAnimations() {
-            const staggeredItems = document.querySelectorAll('.staggered-item');
-            const staggerObserver = new IntersectionObserver((entries) => {
-                let delay = 0;
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.classList.add('visible');
-                        }, delay);
-                        delay += 100;
-                        staggerObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            staggeredItems.forEach(item => {
-                staggerObserver.observe(item);
-            });
-        }
-        
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAuthStatus();
-            fetchContent();
-        });
-    </script>
+    <script>function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+// API Configuration
+var API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/api' : 'https://api.vrindopnishad.com/api';
+
+// Check if user is logged in
+function checkAuthStatus() {
+  var token = localStorage.getItem('vrindopnishad_token');
+  if (token) {
+    // Add admin panel link if user is authenticated
+    var navUl = document.querySelector('nav ul');
+    if (navUl) {
+      var adminLi = document.createElement('li');
+      var adminLink = document.createElement('a');
+      adminLink.href = 'admins code/admin.html';
+      adminLink.className = 'text-hover';
+      adminLink.textContent = 'Admin Panel';
+      adminLi.appendChild(adminLink);
+      navUl.insertBefore(adminLi, document.querySelector('.nav-divider'));
+    }
+  }
+}
+
+// Fetch content from API
+function fetchContent() {
+  return _fetchContent.apply(this, arguments);
+} // Update featured content on the page
+function _fetchContent() {
+  _fetchContent = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+    var response, data, _t;
+    return _regenerator().w(function (_context) {
+      while (1) switch (_context.p = _context.n) {
+        case 0:
+          _context.p = 0;
+          _context.n = 1;
+          return fetch("".concat(API_BASE_URL, "/collections/featured"));
+        case 1:
+          response = _context.v;
+          if (!response.ok) {
+            _context.n = 3;
+            break;
+          }
+          _context.n = 2;
+          return response.json();
+        case 2:
+          data = _context.v;
+          if (data.success && data.data.length > 0) {
+            updateFeaturedContent(data.data);
+          }
+        case 3:
+          _context.n = 5;
+          break;
+        case 4:
+          _context.p = 4;
+          _t = _context.v;
+          console.error('Error fetching content:', _t);
+        case 5:
+          return _context.a(2);
+      }
+    }, _callee, null, [[0, 4]]);
+  }));
+  return _fetchContent.apply(this, arguments);
+}
+function updateFeaturedContent(items) {
+  var projectList = document.querySelector('.project-list');
+  if (!projectList || !items.length) return;
+
+  // Keep only the first 6 items or less
+  var displayItems = items.slice(0, 6);
+
+  // Clear existing items
+  projectList.innerHTML = '';
+
+  // Add new items
+  displayItems.forEach(function (item) {
+    var projectItem = document.createElement('div');
+    projectItem.className = 'project-item staggered-item';
+    projectItem.setAttribute('data-image', item.imageUrl || './image/Home Pics/img2.jpg');
+    projectItem.innerHTML = "\n                    <div class=\"project-title\">".concat(item.title, "</div>\n                    <div class=\"project-category\">").concat(item.category, "</div>\n                ");
+    projectList.appendChild(projectItem);
+  });
+
+  // Re-initialize staggered animations
+  initStaggeredAnimations();
+}
+
+// Initialize staggered animations
+function initStaggeredAnimations() {
+  var staggeredItems = document.querySelectorAll('.staggered-item');
+  var staggerObserver = new IntersectionObserver(function (entries) {
+    var delay = 0;
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        setTimeout(function () {
+          entry.target.classList.add('visible');
+        }, delay);
+        delay += 100;
+        staggerObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+  staggeredItems.forEach(function (item) {
+    staggerObserver.observe(item);
+  });
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+  checkAuthStatus();
+  // fetchContent(); // Disabled to keep your static content
+});</script>
 
     <!-- Project Image Hover Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const imageHover = document.querySelector('.image-hover');
-            const projectItems = document.querySelectorAll('.project-item');
-            
-            projectItems.forEach(item => {
-                const imageUrl = item.getAttribute('data-image');
-                
-                item.addEventListener('mouseenter', () => {
-                    if (imageUrl) {
-                        const img = imageHover.querySelector('img');
-                        img.src = imageUrl;
-                        imageHover.style.opacity = '1';
-                        imageHover.style.visibility = 'visible';
-                    }
-                });
-                
-                item.addEventListener('mouseleave', () => {
-                    imageHover.style.opacity = '0';
-                    imageHover.style.visibility = 'hidden';
-                });
-                
-                item.addEventListener('mousemove', (e) => {
-                    const rect = imageHover.getBoundingClientRect();
-                    const x = e.clientX - (rect.width / 2);
-                    const y = e.clientY - (rect.height / 2);
-                    
-                    imageHover.style.transform = `translate(${x}px, ${y}px)`;
-                });
-            });
-        });
-    </script>
+    <script>document.addEventListener('DOMContentLoaded', function () {
+  var imageHover = document.querySelector('.image-hover');
+  var projectItems = document.querySelectorAll('.project-item');
+  if (imageHover && projectItems.length > 0) {
+    // Check if elements exist
+    projectItems.forEach(function (item) {
+      var imageUrl = item.getAttribute('data-image');
+      item.addEventListener('mouseenter', function () {
+        if (imageUrl) {
+          var img = imageHover.querySelector('img');
+          if (img) {
+            // Check if img exists
+            img.src = imageUrl;
+            imageHover.style.opacity = '1';
+            imageHover.style.visibility = 'visible';
+          }
+        }
+      });
+      item.addEventListener('mouseleave', function () {
+        imageHover.style.opacity = '0';
+        imageHover.style.visibility = 'hidden';
+      });
+      item.addEventListener('mousemove', function (e) {
+        var rect = imageHover.getBoundingClientRect();
+        var x = e.clientX - rect.width / 2;
+        var y = e.clientY - rect.height / 2;
+        imageHover.style.transform = "translate(".concat(x, "px, ").concat(y, "px)");
+      });
+    });
+  }
+});</script>
 
     <!-- Resource and Link Management Scripts -->
-    <script src="/web-extentions/links/paths.js"></script>
-    <script src="/web-extentions/links/image path manager.js"></script>
-    <script src="/web-extentions/links/link-handler.js" defer></script>
+    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/paths.js"></script> -->
+    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/image path manager.js"></script> -->
+    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js" defer></script> -->
 
     <!-- Developer Guide Toggle Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize developer guide in hidden state
-            const devGuide = document.querySelector('.developer-guide');
-            const devToggleBtn = document.querySelector('.dev-toggle-btn');
-            
-            if (devGuide && devToggleBtn) {
-                // Check if developer mode was previously enabled
-                const devModeEnabled = localStorage.getItem('devModeEnabled') === 'true';
-                
-                // Set initial state
-                if (!devModeEnabled) {
-                    devGuide.classList.add('hidden');
-                }
-                
-                // Toggle developer guide visibility
-                devToggleBtn.addEventListener('click', () => {
-                    devGuide.classList.toggle('hidden');
-                    
-                    // Store preference
-                    const isHidden = devGuide.classList.contains('hidden');
-                    localStorage.setItem('devModeEnabled', !isHidden);
-                    
-                    // Update button text
-                    devToggleBtn.querySelector('span').textContent = isHidden 
-                        ? 'Show Developer Details' 
-                        : 'Hide Developer Details';
-                });
-                
-                // Set initial button text
-                devToggleBtn.querySelector('span').textContent = devGuide.classList.contains('hidden')
-                    ? 'Show Developer Details'
-                    : 'Hide Developer Details';
-                
-                // Add keyboard shortcut (Ctrl+Shift+D) to toggle developer mode
-                document.addEventListener('keydown', (event) => {
-                    if (event.ctrlKey && event.shiftKey && event.key === 'D') {
-                        event.preventDefault();
-                        devToggleBtn.click();
-                    }
-                });
-                
-                // Add interactive features to the developer blocks
-                const treeNodes = document.querySelectorAll('.tree-node');
-                treeNodes.forEach(node => {
-                    node.addEventListener('click', () => {
-                        // Highlight corresponding section in the page if it exists
-                        const nodeName = node.textContent.trim();
-                        let targetElement;
-                        
-                        switch(nodeName) {
-                            case 'hero section':
-                                targetElement = document.querySelector('.hero');
-                                break;
-                            case 'projects section':
-                                targetElement = document.querySelector('.projects');
-                                break;
-                            case 'horizontal section':
-                                targetElement = document.querySelector('.horizontal-section');
-                                break;
-                            case 'about section':
-                                targetElement = document.querySelector('.about');
-                                break;
-                            case 'footer':
-                                targetElement = document.querySelector('footer');
-                                break;
-                            case 'header':
-                                targetElement = document.querySelector('header');
-                                break;
-                            default:
-                                // Try to find by class name
-                                targetElement = document.querySelector(`.${nodeName}`);
-                        }
-                        
-                        if (targetElement) {
-                            // Remove previous highlights
-                            document.querySelectorAll('.dev-highlight').forEach(el => {
-                                el.classList.remove('dev-highlight');
-                            });
-                            
-                            // Add highlight
-                            targetElement.classList.add('dev-highlight');
-                            
-                            // Scroll to element
-                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            
-                            // Remove highlight after 2 seconds
-                            setTimeout(() => {
-                                targetElement.classList.remove('dev-highlight');
-                            }, 2000);
-                        }
-                    });
-                });
-                
-                // Add copy functionality to code snippets
-                document.querySelectorAll('.api-endpoint code').forEach(codeBlock => {
-                    codeBlock.addEventListener('click', () => {
-                        const code = codeBlock.textContent;
-                        navigator.clipboard.writeText(code).then(() => {
-                            // Show copied notification
-                            const notification = document.createElement('div');
-                            notification.className = 'copy-notification';
-                            notification.textContent = 'Code copied!';
-                            document.body.appendChild(notification);
-                            
-                            // Remove notification after 2 seconds
-                            setTimeout(() => {
-                                notification.classList.add('fade-out');
-                                setTimeout(() => {
-                                    document.body.removeChild(notification);
-                                }, 300);
-                            }, 1700);
-                        });
-                    });
-                });
-            }
+    <script>document.addEventListener('DOMContentLoaded', function () {
+  // Initialize developer guide in hidden state
+  var devGuide = document.querySelector('.developer-guide');
+  var devToggleBtn = document.querySelector('.dev-toggle-btn');
+  if (devGuide && devToggleBtn) {
+    // Check if developer mode was previously enabled
+    var devModeEnabled = localStorage.getItem('devModeEnabled') === 'true';
+
+    // Set initial state
+    if (!devModeEnabled) {
+      devGuide.classList.add('hidden');
+    }
+
+    // Toggle developer guide visibility
+    devToggleBtn.addEventListener('click', function () {
+      devGuide.classList.toggle('hidden');
+
+      // Store preference
+      var isHidden = devGuide.classList.contains('hidden');
+      localStorage.setItem('devModeEnabled', !isHidden);
+
+      // Update button text
+      devToggleBtn.querySelector('span').textContent = isHidden ? 'Show Developer Details' : 'Hide Developer Details';
+    });
+
+    // Set initial button text
+    devToggleBtn.querySelector('span').textContent = devGuide.classList.contains('hidden') ? 'Show Developer Details' : 'Hide Developer Details';
+
+    // Add keyboard shortcut (Ctrl+Shift+D) to toggle developer mode
+    document.addEventListener('keydown', function (event) {
+      if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+        event.preventDefault();
+        devToggleBtn.click();
+      }
+    });
+
+    // Add interactive features to the developer blocks
+    var treeNodes = document.querySelectorAll('.tree-node');
+    treeNodes.forEach(function (node) {
+      node.addEventListener('click', function () {
+        // Highlight corresponding section in the page if it exists
+        var nodeName = node.textContent.trim();
+        var targetElement;
+        switch (nodeName) {
+          case 'hero section':
+            targetElement = document.querySelector('.hero');
+            break;
+          case 'projects section':
+            targetElement = document.querySelector('.projects');
+            break;
+          case 'horizontal section':
+            targetElement = document.querySelector('.horizontal-section');
+            break;
+          case 'about section':
+            targetElement = document.querySelector('.about');
+            break;
+          case 'footer':
+            targetElement = document.querySelector('footer');
+            break;
+          case 'header':
+            targetElement = document.querySelector('header');
+            break;
+          default:
+            // Try to find by class name
+            targetElement = document.querySelector(".".concat(nodeName));
+        }
+        if (targetElement) {
+          // Remove previous highlights
+          document.querySelectorAll('.dev-highlight').forEach(function (el) {
+            el.classList.remove('dev-highlight');
+          });
+
+          // Add highlight
+          targetElement.classList.add('dev-highlight');
+
+          // Scroll to element
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+
+          // Remove highlight after 2 seconds
+          setTimeout(function () {
+            targetElement.classList.remove('dev-highlight');
+          }, 2000);
+        }
+      });
+    });
+
+    // Add copy functionality to code snippets
+    document.querySelectorAll('.api-endpoint code').forEach(function (codeBlock) {
+      codeBlock.addEventListener('click', function () {
+        var code = codeBlock.textContent;
+        navigator.clipboard.writeText(code).then(function () {
+          // Show copied notification
+          var notification = document.createElement('div');
+          notification.className = 'copy-notification';
+          notification.textContent = 'Code copied!';
+          document.body.appendChild(notification);
+
+          // Remove notification after 2 seconds
+          setTimeout(function () {
+            notification.classList.add('fade-out');
+            setTimeout(function () {
+              document.body.removeChild(notification);
+            }, 300);
+          }, 1700);
         });
-    </script>
+      });
+    });
+  }
+});</script>
 
     <!-- Tools Menu Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Tools menu elements
-            const toolsIcon = document.querySelector('.tools-icon');
-            const toolsMenu = document.querySelector('.tools-menu');
-            const toolsMenuClose = document.querySelector('.tools-menu-close');
-            const toolItems = document.querySelectorAll('.tool-item');
-            const hamburgerMenu = document.querySelector('.menu');
-            
-            // Track menu state
-            let isToolsMenuOpen = false;
-            
-            // Update hamburger menu z-index when tools menu opens/closes
-            function updateHamburgerZIndex(isOpen) {
-                if (hamburgerMenu) {
-                    hamburgerMenu.style.zIndex = isOpen ? '100000' : '9999';
-                }
-            }
-            
-            // Function to open tools menu
-            function openToolsMenu() {
-                if (isToolsMenuOpen) return;
-                
-                isToolsMenuOpen = true;
-                
-                // Add animation before opening the menu
-                const iconSvg = toolsIcon?.querySelector('svg');
-                if (iconSvg) {
-                    iconSvg.style.transform = 'translate(-50%, -50%) rotate(90deg)';
-                    iconSvg.style.color = 'var(--accent-color)';
-                    
-                    // Add pulse effect to the icon
-                    toolsIcon.classList.add('pulse-animation');
-                }
-                
-                // Update hamburger menu z-index
-                updateHamburgerZIndex(true);
-                
-                // Delay opening the menu slightly for better UX
-                setTimeout(() => {
-                    toolsMenu.classList.add('active');
-                    document.body.classList.add('tools-menu-open'); // Use class-based approach
-                }, 200);
-            }
-            
-            // Function to close tools menu
-            function closeToolsMenu() {
-                if (!isToolsMenuOpen) return;
-                
-                isToolsMenuOpen = false;
-                toolsMenu.classList.remove('active');
-                document.body.classList.remove('tools-menu-open'); // Use class-based approach
-                
-                // Reset icon state
-                const iconSvg = toolsIcon?.querySelector('svg');
-                if (iconSvg) {
-                    setTimeout(() => {
-                        iconSvg.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-                        iconSvg.style.color = '';
-                        toolsIcon.classList.remove('pulse-animation');
-                    }, 300);
-                }
-            }
-            
-            // Open tools menu with animation
-            if (toolsIcon) {
-                toolsIcon.addEventListener('click', openToolsMenu);
-            }
-            
-            // Close tools menu
-            if (toolsMenuClose) {
-                toolsMenuClose.addEventListener('click', closeToolsMenu);
-            }
-            
-            // Add click event to all tool links to close the menu when clicked
-            document.querySelectorAll('.tool-item .tool-link').forEach(link => {
-                link.addEventListener('click', closeToolsMenu);
-            });
-            
-            // Close on escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && isToolsMenuOpen) {
-                    closeToolsMenu();
-                }
-            });
-            
-            // Handle tool item hover effects
-            toolItems.forEach(item => {
-                item.addEventListener('mouseenter', () => {
-                    const bgColor = item.getAttribute('data-bg-color');
-                    const textColor = item.getAttribute('data-text-color');
-                    
-                    if (bgColor && textColor) {
-                        item.style.backgroundColor = bgColor;
-                        item.style.color = textColor;
-                        
-                        // Change icon color
-                        const icon = item.querySelector('.tool-icon svg');
-                        if (icon) {
-                            icon.style.color = textColor;
-                        }
-                        
-                        // Apply styles to child elements
-                        const h3 = item.querySelector('h3');
-                        const p = item.querySelector('p');
-                        
-                        if (h3) h3.style.color = textColor;
-                        if (p) p.style.color = textColor;
-                    }
-                });
-                
-                item.addEventListener('mouseleave', () => {
-                    item.style.backgroundColor = '';
-                    item.style.color = '';
-                    
-                    // Reset icon color
-                    const icon = item.querySelector('.tool-icon svg');
-                    if (icon) {
-                        icon.style.color = '';
-                    }
-                    
-                    // Reset styles for child elements
-                    const h3 = item.querySelector('h3');
-                    const p = item.querySelector('p');
-                    
-                    if (h3) h3.style.color = '';
-                    if (p) p.style.color = '';
-                });
-            });
-            
-            // Add subtle parallax effect to tool items
-            let mouseX = 0;
-            let mouseY = 0;
-            
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                
-                if (isToolsMenuOpen) {
-                    toolItems.forEach(item => {
-                        const rect = item.getBoundingClientRect();
-                        const itemX = rect.left + rect.width / 2;
-                        const itemY = rect.top + rect.height / 2;
-                        
-                        const diffX = mouseX - itemX;
-                        const diffY = mouseY - itemY;
-                        
-                        // Calculate distance from mouse to item center
-                        const distance = Math.sqrt(diffX * diffX + diffY * diffY);
-                        const maxDistance = Math.max(window.innerWidth, window.innerHeight) / 2;
-                        
-                        // Calculate movement factor based on distance (closer = more movement)
-                        const factor = 1 - Math.min(distance / maxDistance, 1);
-                        const moveX = diffX * factor * 0.03;
-                        const moveY = diffY * factor * 0.03;
-                        
-                        // Apply subtle transform
-                        item.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-                    });
-                }
-            });
+    <script>document.addEventListener('DOMContentLoaded', function () {
+  // Tools menu elements
+  var toolsIcon = document.querySelector('.tools-icon');
+  var toolsMenu = document.querySelector('.tools-menu');
+  var toolsMenuClose = document.querySelector('.tools-menu-close');
+  var toolItems = document.querySelectorAll('.tool-item');
+  var hamburgerMenu = document.querySelector('.menu');
 
-            // Fix for page navigation: ensure body scrolling is restored when navigating away
-            window.addEventListener('beforeunload', () => {
-                document.body.classList.remove('tools-menu-open');
-            });
-            
-            // Close tools menu when clicking anywhere outside the menu
-            document.addEventListener('click', (e) => {
-                if (isToolsMenuOpen && 
-                    !toolsMenu.contains(e.target) && 
-                    !toolsIcon.contains(e.target)) {
-                    closeToolsMenu();
-                    // Update hamburger menu z-index
-                    updateHamburgerZIndex(false);
-                }
-            });
-            
-            // Handle popstate event (back/forward navigation)
-            window.addEventListener('popstate', () => {
-                if (isToolsMenuOpen) {
-                    closeToolsMenu();
-                }
-            });
-        });
-    </script>
-    <!-- Backend Connection Script -->
-    <script>
-        // Load books data from JSON
-        async function loadBooksData() {
-            try {
-                const response = await fetch('./Stack/books-data.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load books data');
-                }
-                const data = await response.json();
-                return data.books;
-            } catch (error) {
-                console.error('Error loading books:', error);
-                return [];
-            }
+  // Track menu state
+  var isToolsMenuOpen = false;
+
+  // Update hamburger menu z-index when tools menu opens/closes
+  function updateHamburgerZIndex(isOpen) {
+    if (hamburgerMenu) {
+      hamburgerMenu.style.zIndex = isOpen ? '100000' : '9999';
+    }
+  }
+
+  // Function to open tools menu
+  function openToolsMenu() {
+    if (isToolsMenuOpen) return;
+    isToolsMenuOpen = true;
+
+    // Add animation before opening the menu
+    var iconSvg = toolsIcon === null || toolsIcon === void 0 ? void 0 : toolsIcon.querySelector('svg');
+    if (iconSvg) {
+      iconSvg.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+      iconSvg.style.color = 'var(--accent-color)';
+
+      // Add pulse effect to the icon
+      toolsIcon.classList.add('pulse-animation');
+    }
+
+    // Update hamburger menu z-index
+    updateHamburgerZIndex(true);
+
+    // Delay opening the menu slightly for better UX
+    setTimeout(function () {
+      toolsMenu.classList.add('active');
+      document.body.classList.add('tools-menu-open'); // Use class-based approach
+    }, 200);
+  }
+
+  // Function to close tools menu
+  function closeToolsMenu() {
+    if (!isToolsMenuOpen) return;
+    isToolsMenuOpen = false;
+    toolsMenu.classList.remove('active');
+    document.body.classList.remove('tools-menu-open'); // Use class-based approach
+
+    // Reset icon state
+    var iconSvg = toolsIcon === null || toolsIcon === void 0 ? void 0 : toolsIcon.querySelector('svg');
+    if (iconSvg) {
+      setTimeout(function () {
+        iconSvg.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+        iconSvg.style.color = '';
+        toolsIcon.classList.remove('pulse-animation');
+      }, 300);
+    }
+  }
+
+  // Open tools menu with animation
+  if (toolsIcon) {
+    toolsIcon.addEventListener('click', openToolsMenu);
+  }
+
+  // Close tools menu
+  if (toolsMenuClose) {
+    toolsMenuClose.addEventListener('click', closeToolsMenu);
+  }
+
+  // Add click event to all tool links to close the menu when clicked
+  document.querySelectorAll('.tool-item .tool-link').forEach(function (link) {
+    link.addEventListener('click', closeToolsMenu);
+  });
+
+  // Close on escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isToolsMenuOpen) {
+      closeToolsMenu();
+    }
+  });
+
+  // Handle tool item hover effects
+  toolItems.forEach(function (item) {
+    item.addEventListener('mouseenter', function () {
+      var bgColor = item.getAttribute('data-bg-color');
+      var textColor = item.getAttribute('data-text-color');
+      if (bgColor && textColor) {
+        item.style.backgroundColor = bgColor;
+        item.style.color = textColor;
+
+        // Change icon color
+        var icon = item.querySelector('.tool-icon svg');
+        if (icon) {
+          icon.style.color = textColor;
         }
 
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', async () => {
-            const books = await loadBooksData();
-            
-            // Update featured content if available
-            if (books.length > 0) {
-                updateFeaturedContent(books);
-            }
-        });
+        // Apply styles to child elements
+        var h3 = item.querySelector('h3');
+        var p = item.querySelector('p');
+        if (h3) h3.style.color = textColor;
+        if (p) p.style.color = textColor;
+      }
+    });
+    item.addEventListener('mouseleave', function () {
+      item.style.backgroundColor = '';
+      item.style.color = '';
 
-        // ... rest of your existing script ...
-    </script>
+      // Reset icon color
+      var icon = item.querySelector('.tool-icon svg');
+      if (icon) {
+        icon.style.color = '';
+      }
+
+      // Reset styles for child elements
+      var h3 = item.querySelector('h3');
+      var p = item.querySelector('p');
+      if (h3) h3.style.color = '';
+      if (p) p.style.color = '';
+    });
+  });
+
+  // Add subtle parallax effect to tool items
+  var mouseX = 0;
+  var mouseY = 0;
+  document.addEventListener('mousemove', function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (isToolsMenuOpen) {
+      toolItems.forEach(function (item) {
+        var rect = item.getBoundingClientRect();
+        var itemX = rect.left + rect.width / 2;
+        var itemY = rect.top + rect.height / 2;
+        var diffX = mouseX - itemX;
+        var diffY = mouseY - itemY;
+
+        // Calculate distance from mouse to item center
+        var distance = Math.sqrt(diffX * diffX + diffY * diffY);
+        var maxDistance = Math.max(window.innerWidth, window.innerHeight) / 2;
+
+        // Calculate movement factor based on distance (closer = more movement)
+        var factor = 1 - Math.min(distance / maxDistance, 1);
+        var moveX = diffX * factor * 0.03;
+        var moveY = diffY * factor * 0.03;
+
+        // Apply subtle transform
+        item.style.transform = "translate3d(".concat(moveX, "px, ").concat(moveY, "px, 0)");
+      });
+    }
+  });
+
+  // Fix for page navigation: ensure body scrolling is restored when navigating away
+  window.addEventListener('beforeunload', function () {
+    document.body.classList.remove('tools-menu-open');
+  });
+
+  // Close tools menu when clicking anywhere outside the menu
+  document.addEventListener('click', function (e) {
+    if (isToolsMenuOpen && !toolsMenu.contains(e.target) && !toolsIcon.contains(e.target)) {
+      closeToolsMenu();
+      // Update hamburger menu z-index
+      updateHamburgerZIndex(false);
+    }
+  });
+
+  // Handle popstate event (back/forward navigation)
+  window.addEventListener('popstate', function () {
+    if (isToolsMenuOpen) {
+      closeToolsMenu();
+    }
+  });
+});</script>
+    <!-- Backend Connection Script -->
+    <script>function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+// Load books data from JSON
+function loadBooksData() {
+  return _loadBooksData.apply(this, arguments);
+} // Initialize when DOM is loaded
+function _loadBooksData() {
+  _loadBooksData = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+    var response, data, _t;
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.p = _context2.n) {
+        case 0:
+          _context2.p = 0;
+          _context2.n = 1;
+          return fetch('./Stack/books-data.json');
+        case 1:
+          response = _context2.v;
+          if (response.ok) {
+            _context2.n = 2;
+            break;
+          }
+          throw new Error('Failed to load books data');
+        case 2:
+          _context2.n = 3;
+          return response.json();
+        case 3:
+          data = _context2.v;
+          return _context2.a(2, data.books);
+        case 4:
+          _context2.p = 4;
+          _t = _context2.v;
+          console.error('Error loading books:', _t);
+          return _context2.a(2, []);
+      }
+    }, _callee2, null, [[0, 4]]);
+  }));
+  return _loadBooksData.apply(this, arguments);
+}
+document.addEventListener('DOMContentLoaded', /*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  return _regenerator().w(function (_context) {
+    while (1) switch (_context.n) {
+      case 0:
+        return _context.a(2);
+    }
+  }, _callee);
+})));
+
+// ... rest of your existing script ...</script>
 
     <!-- Notification Sound Script -->
-    <script>
-        // Initialize user interaction flag
-        let hasUserInteracted = false;
+    <script>// Initialize user interaction flag
+var hasUserInteracted = false;
 
-        // Set user interaction flag on any user action
-        ['click', 'touchstart', 'keydown'].forEach(event => {
-            document.addEventListener(event, () => {
-                hasUserInteracted = true;
-            }, { once: true });
-        });
+// Set user interaction flag on any user action
+['click', 'touchstart', 'keydown'].forEach(function (event) {
+  document.addEventListener(event, function () {
+    hasUserInteracted = true;
+  }, {
+    once: true
+  });
+});
 
-        // Show welcome notification after page load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Wait for loader to complete
-            setTimeout(() => {
-                // Get current hour for greeting
-                const hour = new Date().getHours();
-                let greeting;
-                
-                if (hour >= 5 && hour < 12) {
-                    greeting = "Good Morning";
-                } else if (hour >= 12 && hour < 17) {
-                    greeting = "Good Afternoon";
-                } else if (hour >= 17 && hour < 22) {
-                    greeting = "Good Evening";
-                } else {
-                    greeting = "Welcome";
-                }
+// Show welcome notification after page load
+document.addEventListener('DOMContentLoaded', function () {
+  // Wait for loader to complete
+  setTimeout(function () {
+    // Get current hour for greeting
+    var hour = new Date().getHours();
+    var greeting;
+    if (hour >= 5 && hour < 12) {
+      greeting = "Good Morning";
+    } else if (hour >= 12 && hour < 17) {
+      greeting = "Good Afternoon";
+    } else if (hour >= 17 && hour < 22) {
+      greeting = "Good Evening";
+    } else {
+      greeting = "Welcome";
+    }
 
-                // Show welcome notification
-                showNotification(`${greeting}! Welcome to Vrindopnishad 🙏`, 'success', {
-                    appName: 'Vrindopnishad',
-                    duration: 5000,
-                    playSound: true
-                });
-            }, 2000);
-        });
-    </script>
+    // Show welcome notification
+    // showNotification(`${greeting}! Welcome to Vrindopnishad 🙏`, 'success', {
+    //     appName: 'Vrindopnishad',
+    //     duration: 5000,
+    //     playSound: true
+    // });
+  }, 2000);
+});</script>
 
     <!-- Scrolling Fix Script -->
-    <script>
-        // Emergency fix for scrolling issues
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check every 1 second if scrolling is improperly locked
-            setInterval(() => {
-                // Only run if there's no active menu
-                if (!document.querySelector('.tools-menu.active') && 
-                    !document.querySelector('nav.active')) {
-                    
-                    // Remove any overflow: hidden that might be stuck
-                    document.documentElement.style.removeProperty('overflow');
-                    document.body.style.removeProperty('overflow');
-                    
-                    // Remove any height constraints
-                    document.documentElement.style.removeProperty('height');
-                    document.body.style.removeProperty('height');
-                    
-                    // Force scroll to be available
-                    document.documentElement.style.overflowY = 'auto';
-                    document.body.style.overflowY = 'auto';
-                    
-                    // Remove any stuck classes
-                    document.body.classList.remove('tools-menu-open');
-                }
-            }, 1000);
-            
-            // When user clicks anywhere that's not a menu
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.tools-menu') && 
-                    !e.target.closest('.tools-icon') &&
-                    !e.target.closest('nav') && 
-                    !e.target.closest('.mobile-menu-btn')) {
-                    
-                    // Force enable scrolling
-                    document.documentElement.style.overflowY = 'auto';
-                    document.body.style.overflowY = 'auto';
-                    document.body.classList.remove('tools-menu-open');
-                }
-            });
-        });
-    </script>
+    <script>// Emergency fix for scrolling issues
+document.addEventListener('DOMContentLoaded', function () {
+  // Check every 1 second if scrolling is improperly locked
+  setInterval(function () {
+    // Only run if there's no active menu
+    if (!document.querySelector('.tools-menu.active') && !document.querySelector('nav.active')) {
+      // Remove any overflow: hidden that might be stuck
+      // document.documentElement.style.removeProperty('overflow');
+      // document.body.style.removeProperty('overflow');
+
+      // Remove any height constraints
+      // document.documentElement.style.removeProperty('height');
+      // document.body.style.removeProperty('height');
+
+      // Force scroll to be available
+      // document.documentElement.style.overflowY = 'auto';
+      // document.body.style.overflowY = 'auto';
+
+      // Remove any stuck classes
+      document.body.classList.remove('tools-menu-open');
+    }
+  }, 1000);
+
+  // When user clicks anywhere that's not a menu
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.tools-menu') && !e.target.closest('.tools-icon') && !e.target.closest('nav') && !e.target.closest('.mobile-menu-btn')) {
+      // Force enable scrolling
+      // document.documentElement.style.overflowY = 'auto';
+      // document.body.style.overflowY = 'auto';
+      document.body.classList.remove('tools-menu-open');
+    }
+  });
+});</script>
     
     <!-- Fix for magnetic effect -->
-    <script>
-        // Manually initialize magnetic effect
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('Manually initializing magnetic effect...');
-            const magneticElements = document.querySelectorAll('.magnetic');
-            console.log(`Found ${magneticElements.length} magnetic elements.`);
-            
-            if (magneticElements.length === 0) {
-                console.warn('No magnetic elements found!');
-                return;
-            }
-            
-            // Initialize magnetic effect for each element
-            magneticElements.forEach(element => {
-                // Create state object for each element
-                const state = {
-                    x: 0,             // Current x position
-                    y: 0,             // Current y position
-                    targetX: 0,       // Target x position
-                    targetY: 0,       // Target y position
-                    lastX: 0,         // Last x position before click
-                    lastY: 0,         // Last y position before click
-                    active: false,    // Is currently being clicked
-                    hovering: false   // Is being hovered
-                };
-                
-                // Get strength from data attribute or use default
-                const strength = parseFloat(element.getAttribute('data-magnetic-strength')) || 0.5;
-                
-                // Ensure element has inner span
-                let innerElement = element.querySelector('span');
-                if (!innerElement) {
-                    console.log(`Adding span element to magnetic element:`, element);
-                    const content = element.innerHTML;
-                    element.innerHTML = `<span>${content}</span>`;
-                    innerElement = element.querySelector('span');
-                }
-                
-                // Add event listeners for hover
-                element.addEventListener('mouseenter', () => {
-                    state.hovering = true;
-                    element.classList.add('magnetic-hover');
-                    
-                    // Add cursor effect if exists
-                    const cursor = document.querySelector('.cursor');
-                    const cursorFollower = document.querySelector('.cursor-follower');
-                    if (cursor && cursorFollower) {
-                        cursor.classList.add('magnetic-hover');
-                        cursorFollower.classList.add('magnetic-hover');
-                    }
-                });
-                
-                // Track mouse movement for magnetic effect
-                element.addEventListener('mousemove', (e) => {
-                    if (!state.hovering) return;
-                    
-                    // Get element dimensions
-                    const rect = element.getBoundingClientRect();
-                    
-                    // Calculate mouse position relative to center
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-                    
-                    // Distance from center
-                    const distX = e.clientX - centerX;
-                    const distY = e.clientY - centerY;
-                    
-                    // Set target positions with strength factor
-                    state.targetX = distX * strength;
-                    state.targetY = distY * strength;
-                    
-                    // Apply transform with easing
-                    const ease = state.active ? 0.1 : 0.2;
-                    state.x += (state.targetX - state.x) * ease;
-                    state.y += (state.targetY - state.y) * ease;
-                    
-                    // Apply to element
-                    element.style.transform = `translate3d(${state.x}px, ${state.y}px, 0)`;
-                    
-                    // Move inner element in opposite direction
-                    if (innerElement) {
-                        innerElement.style.transform = `translate3d(${state.x * -0.2}px, ${state.y * -0.2}px, 0)`;
-                    }
-                });
-                
-                // Reset on mouse leave
-                element.addEventListener('mouseleave', () => {
-                    state.hovering = false;
-                    element.classList.remove('magnetic-hover');
-                    
-                    // Reset positions
-                    state.targetX = 0;
-                    state.targetY = 0;
-                    
-                    // Animate back to original position
-                    element.style.transform = 'translate3d(0px, 0px, 0)';
-                    element.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-                    
-                    if (innerElement) {
-                        innerElement.style.transform = 'translate3d(0px, 0px, 0)';
-                        innerElement.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-                    }
-                    
-                    // Remove cursor effect
-                    // const cursor = document.querySelector('.cursor');
-                    // const cursorFollower = document.querySelector('.cursor-follower');
-                    // if (cursor && cursorFollower) {
-                    //     cursor.classList.remove('magnetic-hover');
-                    //     cursorFollower.classList.remove('magnetic-hover');
-                    // }
-                    
-                    // Clear transition after animation completes
-                    setTimeout(() => {
-                        element.style.transition = '';
-                        if (innerElement) innerElement.style.transition = '';
-                    }, 400);
-                });
-                
-                // Handle click effect
-                element.addEventListener('mousedown', () => {
-                    state.active = true;
-                    element.classList.add('active');
-                    
-                    // Add cursor effect
-                    // const cursor = document.querySelector('.cursor');
-                    // const cursorFollower = document.querySelector('.cursor-follower');
-                    // if (cursor && cursorFollower) {
-                    //     cursor.classList.add('magnetic-click');
-                    //     cursorFollower.classList.add('magnetic-click');
-                    // }
-                    
-                    // Scale inner element
-                    if (innerElement) {
-                        innerElement.style.transform = `translate3d(${state.x * -0.1}px, ${state.y * -0.1}px, 0) scale(0.95)`;
-                    }
-                });
-                
-                // Handle release
-                element.addEventListener('mouseup', () => {
-                    state.active = false;
-                    
-                    // Delayed removal of active class for better effect
-                    setTimeout(() => {
-                        element.classList.remove('active');
-                    }, 300);
-                    
-                    // Remove cursor effect
-                    // const cursor = document.querySelector('.cursor');
-                    // const cursorFollower = document.querySelector('.cursor-follower');
-                    // if (cursor && cursorFollower) {
-                    //     cursor.classList.remove('magnetic-click');
-                    //     cursorFollower.classList.remove('magnetic-click');
-                    // }
-                    
-                    // Reset inner element
-                    if (innerElement) {
-                        innerElement.style.transform = `translate3d(${state.x * -0.2}px, ${state.y * -0.2}px, 0) scale(1)`;
-                    }
-                });
-            });
-            console.log('Magnetic effect initialization complete!');
-        });
-    </script>
+    <script>// Manually initialize magnetic effect
+document.addEventListener('DOMContentLoaded', function () {
+  // console.log('Manually initializing magnetic effect...');
+  var magneticElements = document.querySelectorAll('.magnetic');
+  // console.log(`Found ${magneticElements.length} magnetic elements.`);
+
+  if (magneticElements.length === 0) {
+    // console.warn('No magnetic elements found!');
+    return;
+  }
+
+  // Initialize magnetic effect for each element
+  magneticElements.forEach(function (element) {
+    // Create state object for each element
+    var state = {
+      x: 0,
+      // Current x position
+      y: 0,
+      // Current y position
+      targetX: 0,
+      // Target x position
+      targetY: 0,
+      // Target y position
+      lastX: 0,
+      // Last x position before click
+      lastY: 0,
+      // Last y position before click
+      active: false,
+      // Is currently being clicked
+      hovering: false // Is being hovered
+    };
+
+    // Get strength from data attribute or use default
+    var strength = parseFloat(element.getAttribute('data-magnetic-strength')) || 0.5;
+
+    // Ensure element has inner span
+    var innerElement = element.querySelector('span');
+    if (!innerElement) {
+      // console.log(`Adding span element to magnetic element:`, element);
+      var content = element.innerHTML;
+      element.innerHTML = "<span>".concat(content, "</span>");
+      innerElement = element.querySelector('span');
+    }
+
+    // Add event listeners for hover
+    element.addEventListener('mouseenter', function () {
+      state.hovering = true;
+      element.classList.add('magnetic-hover');
+
+      // Add cursor effect if exists
+      var cursor = document.querySelector('.cursor');
+      var cursorFollower = document.querySelector('.cursor-follower');
+      if (cursor && cursorFollower) {
+        cursor.classList.add('magnetic-hover');
+        cursorFollower.classList.add('magnetic-hover');
+      }
+    });
+
+    // Track mouse movement for magnetic effect
+    element.addEventListener('mousemove', function (e) {
+      if (!state.hovering) return;
+
+      // Get element dimensions
+      var rect = element.getBoundingClientRect();
+
+      // Calculate mouse position relative to center
+      var centerX = rect.left + rect.width / 2;
+      var centerY = rect.top + rect.height / 2;
+
+      // Distance from center
+      var distX = e.clientX - centerX;
+      var distY = e.clientY - centerY;
+
+      // Set target positions with strength factor
+      state.targetX = distX * strength;
+      state.targetY = distY * strength;
+
+      // Apply transform with easing
+      var ease = state.active ? 0.1 : 0.2;
+      state.x += (state.targetX - state.x) * ease;
+      state.y += (state.targetY - state.y) * ease;
+
+      // Apply to element
+      element.style.transform = "translate3d(".concat(state.x, "px, ").concat(state.y, "px, 0)");
+
+      // Move inner element in opposite direction
+      if (innerElement) {
+        innerElement.style.transform = "translate3d(".concat(state.x * -0.2, "px, ").concat(state.y * -0.2, "px, 0)");
+      }
+    });
+
+    // Reset on mouse leave
+    element.addEventListener('mouseleave', function () {
+      state.hovering = false;
+      element.classList.remove('magnetic-hover');
+
+      // Reset positions
+      state.targetX = 0;
+      state.targetY = 0;
+
+      // Animate back to original position
+      element.style.transform = 'translate3d(0px, 0px, 0)';
+      element.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+      if (innerElement) {
+        innerElement.style.transform = 'translate3d(0px, 0px, 0)';
+        innerElement.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+      }
+
+      // Remove cursor effect
+      // const cursor = document.querySelector('.cursor');
+      // const cursorFollower = document.querySelector('.cursor-follower');
+      // if (cursor && cursorFollower) {
+      //     cursor.classList.remove('magnetic-hover');
+      //     cursorFollower.classList.remove('magnetic-hover');
+      // }
+
+      // Clear transition after animation completes
+      setTimeout(function () {
+        element.style.transition = '';
+        if (innerElement) innerElement.style.transition = '';
+      }, 400);
+    });
+
+    // Handle click effect
+    element.addEventListener('mousedown', function () {
+      state.active = true;
+      element.classList.add('active');
+
+      // Add cursor effect
+      // const cursor = document.querySelector('.cursor');
+      // const cursorFollower = document.querySelector('.cursor-follower');
+      // if (cursor && cursorFollower) {
+      //     cursor.classList.add('magnetic-click');
+      //     cursorFollower.classList.add('magnetic-click');
+      // }
+
+      // Scale inner element
+      if (innerElement) {
+        innerElement.style.transform = "translate3d(".concat(state.x * -0.1, "px, ").concat(state.y * -0.1, "px, 0) scale(0.95)");
+      }
+    });
+
+    // Handle release
+    element.addEventListener('mouseup', function () {
+      state.active = false;
+
+      // Delayed removal of active class for better effect
+      setTimeout(function () {
+        element.classList.remove('active');
+      }, 300);
+
+      // Remove cursor effect
+      // const cursor = document.querySelector('.cursor');
+      // const cursorFollower = document.querySelector('.cursor-follower');
+      // if (cursor && cursorFollower) {
+      //     cursor.classList.remove('magnetic-click');
+      //     cursorFollower.classList.remove('magnetic-click');
+      // }
+
+      // Reset inner element
+      if (innerElement) {
+        innerElement.style.transform = "translate3d(".concat(state.x * -0.2, "px, ").concat(state.y * -0.2, "px, 0) scale(1)");
+      }
+    });
+  });
+  // console.log('Magnetic effect initialization complete!');
+});</script>
+
+    <!-- START: ADDED SCRIPT FOR TILE SCROLL -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.js"></script>
+    <script>// From utils.js
+var preloadImages = function preloadImages() {
+  var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'img';
+  // Use window.imagesLoaded from the CDN
+  return new Promise(function (resolve) {
+    imagesLoaded(document.querySelectorAll(selector), {
+      background: true
+    }, resolve);
+  });
+};
+var preloadFonts = function preloadFonts(id) {
+  return new Promise(function (resolve) {
+    // Use window.WebFont from the CDN
+    WebFont.load({
+      typekit: {
+        id: id
+      },
+      active: resolve
+    });
+  });
+};
+
+// From index.js
+// Preload images and fonts
+Promise.all([preloadImages('.tiles__line-img'), preloadFonts('rmd7deq')]).then(function () {
+  // Remove loader (loading class)
+  document.body.classList.remove('loading');
+
+  // Find the loader from nwHome.html and hide it
+  var existingLoader = document.querySelector('.loader');
+  if (existingLoader) {
+    setTimeout(function () {
+      existingLoader.classList.add('hide');
+    }, 50);
+  }
+
+  // Initialize the Locomotive scroll
+  // Use window.LocomotiveScroll from the CDN
+  var scroll = new LocomotiveScroll({
+    el: document.querySelector('[data-scroll-container]'),
+    smooth: true
+  });
+
+  // Re-add your existing header scroll logic, but make it work with Locomotive Scroll
+  var header = document.querySelector('header');
+  if (header) {
+    scroll.on('scroll', function (args) {
+      // args.scroll.y holds the scroll position
+      if (args.scroll.y > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  }
+
+  // Re-add your existing IntersectionObservers, but make them work with Locomotive Scroll
+  // We need to re-initialize them *after* Locomotive Scroll
+
+  // Handle fade-up animations
+  var fadeElements = document.querySelectorAll('.fade-up');
+  var fadeObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+  fadeElements.forEach(function (element) {
+    fadeObserver.observe(element);
+  });
+
+  // Handle staggered animations
+  var staggeredLists = document.querySelectorAll('.staggered-list');
+  staggeredLists.forEach(function (list) {
+    var items = list.querySelectorAll('.staggered-item');
+    var staggerObserver = new IntersectionObserver(function (entries) {
+      var delay = 0;
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setTimeout(function () {
+            entry.target.classList.add('visible');
+          }, delay);
+          delay += 100;
+          staggerObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+    items.forEach(function (item) {
+      staggerObserver.observe(item);
+    });
+  });
+
+  // Handle reveal elements
+  var revealElements = document.querySelectorAll('.reveal-element');
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+  revealElements.forEach(function (element) {
+    revealObserver.observe(element);
+  });
+
+  // Update Locomotive Scroll on image load, just in case
+  imagesLoaded(document.body, function () {
+    scroll.update();
+  });
+});</script>
+    <!-- END: ADDED SCRIPT -->
 </body>
 </html>
