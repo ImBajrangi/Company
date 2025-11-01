@@ -18,7 +18,7 @@ var supportsCssVars = function supportsCssVars() {
   return t.innerHTML = "root: { --tmp-var: bold; }", document.head.appendChild(t), e = !!(window.CSS && window.CSS.supports && window.CSS.supports("font-weight", "var(--tmp-var)")), t.parentNode.removeChild(t), e;
 };
 supportsCssVars() || alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
-	</head>
+	<script src="/vrinda.js"></script></head>
 	<body class="demo-3 loading">
 		<main id="main" data-scroll-container="">
 			<section id="header" class="content content--auto">
