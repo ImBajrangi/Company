@@ -21,7 +21,7 @@
             --border-radius-md: 20px;
             --blur-effect: blur(20px);
             --shadow-md: 0 15px 35px rgba(31, 38, 135, 0.5);
-            --star-color: rgba(255, 255, 255, 0.9);
+            --star-color: rgba(255, 255, 255, 0.8);
             --nebula-color-1: rgba(123, 31, 162, 0.15);
             --nebula-color-2: rgba(32, 84, 174, 0.15);
             --nebula-color-3: rgb(175, 38, 255, 0.15);
@@ -40,8 +40,8 @@
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
         }
 
         @keyframes shooting-star {
@@ -77,11 +77,6 @@
             }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
         body {
             font-family: var(--font-body);
             line-height: var(--line-height);
@@ -91,17 +86,6 @@
             position: relative;
             background: #0a0015;
             overflow-x: hidden;
-        }
-
-        .star-field {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            pointer-events: none;
-            overflow: hidden;
         }
 
         body::after {
@@ -117,7 +101,7 @@
                 linear-gradient(135deg, rgba(45, 0, 102, 0.7), transparent),
                 linear-gradient(-135deg, rgba(74, 0, 114, 0.6), transparent);
             background-size: 400% 400%, 400% 400%, 400% 400%, 400% 400%;
-            z-index: -3;
+            z-index: -2;
             pointer-events: none;
             will-change: transform;
         }
@@ -133,15 +117,10 @@
                 radial-gradient(2px 2px at 20% 30%, var(--star-color) 50%, transparent 50%),
                 radial-gradient(2px 2px at 40% 70%, var(--star-color) 50%, transparent 50%),
                 radial-gradient(2px 2px at 60% 20%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(2px 2px at 80% 90%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 10% 50%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 30% 80%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 70% 40%, var(--star-color) 50%, transparent 50%),
-                radial-gradient(1px 1px at 90% 60%, var(--star-color) 50%, transparent 50%);
-            background-size: 200px 200px, 300px 300px, 250px 250px, 275px 275px, 
-                           150px 150px, 180px 180px, 220px 220px, 190px 190px;
+                radial-gradient(2px 2px at 80% 90%, var(--star-color) 50%, transparent 50%);
+            background-size: 200px 200px, 300px 300px, 250px 250px, 275px 275px;
             z-index: -1;
-            opacity: 0.9;
+            opacity: 0.8;
             mix-blend-mode: screen;
             pointer-events: none;
         }
@@ -150,30 +129,15 @@
             position: absolute;
             border-radius: 50%;
             background: var(--star-color);
-            box-shadow: 0 0 6px var(--star-color);
             animation: twinkle 3s ease-in-out infinite;
             pointer-events: none;
         }
 
-        .particle.bright {
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
-        }
-
-        .particle.colored {
-            animation: twinkle 4s ease-in-out infinite;
-        }
-
-        .particle.floating {
-            animation: twinkle 3s ease-in-out infinite, float 6s ease-in-out infinite;
-        }
-
         .shooting-star {
             position: absolute;
-            width: 120px;
+            width: 100px;
             height: 2px;
             background: linear-gradient(90deg, white, transparent);
-            box-shadow: 0 0 6px white;
             animation: shooting-star 2s linear infinite;
             opacity: 0;
         }
@@ -200,7 +164,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 80px;
+            height: 70px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
@@ -223,11 +187,13 @@
 
         .author-header {
             font-family: "poppins";
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: rgb(255, 255, 255);
             text-shadow: 0px 0px 5px rgba(255, 237, 132, 0.6);
             transition: opacity 0.5s var(--transition-smooth);
             animation: authorFade 0.5s var(--transition-smooth);
+            max-width: 300px;
+            text-align: center;
         }
 
         .header-controls {
@@ -238,35 +204,36 @@
 
         .container {
             max-width: 900px;
-            margin: 6rem auto 0;
+            margin: 90px auto 0;
             position: relative;
-            padding: 0 2rem;
-            min-height: calc(100vh - 80px);
+            padding: 0 2rem 2rem;
+            min-height: calc(100vh - 90px);
         }
 
         .grid-container {
             max-width: 1200px;
-            margin: 6rem auto 0;
-            padding: 0 2rem;
-            min-height: calc(100vh - 80px);
+            margin: 90px auto 0;
+            padding: 0 2rem 2rem;
+            min-height: calc(100vh - 90px);
         }
 
         h1.page-title {
             font-family: var(--font-headings);
             color: white;
-            font-size: 3.5rem;
+            font-size: 3rem;
             text-align: center;
             margin-bottom: 3rem;
             font-weight: 600;
             background: linear-gradient(135deg, #fff, rgba(255,255,255,0.7));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         h1.dynamic-title {
             font-family: var(--font-headings);
             color: white;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
@@ -282,17 +249,18 @@
         .sidebar {
             position: fixed;
             left: 0;
-            top: 80px;
-            width: 280px;
-            height: calc(100vh - 80px);
-            background: rgba(255, 255, 255, 0.05);
+            top: 70px;
+            width: 320px;
+            height: calc(100vh - 70px);
+            background: rgba(15, 5, 30, 0.95);
             backdrop-filter: var(--blur-effect);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
             padding: 2rem;
             overflow-y: auto;
             transform: translateX(-100%);
             transition: transform 0.3s ease;
             z-index: 999;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .sidebar.active {
@@ -300,29 +268,40 @@
         }
 
         .category-filter h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #a78bfa;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: #c4b5fd;
+            font-weight: 600;
+            text-align: center;
+            font-family: var(--font-headings);
         }
 
         .category-btn {
             display: block;
             width: 100%;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 12px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
             font-family: var(--font-body);
+            font-size: 1rem;
         }
 
-        .category-btn:hover, .category-btn.active {
-            background: linear-gradient(135deg, #190050, #2e0040);
+        .category-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateX(5px);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
             border-color: transparent;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         .content-grid {
@@ -332,7 +311,7 @@
         }
 
         .content-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -344,23 +323,26 @@
         }
 
         .content-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
-            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(167, 139, 250, 0.4);
         }
 
         .content-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #a78bfa;
+            color: #c4b5fd;
             font-weight: 600;
+            font-family: var(--font-headings);
         }
 
         .content-card p {
-            opacity: 0.8;
-            line-height: 1.6;
+            opacity: 0.85;
+            line-height: 1.7;
             margin-bottom: 1rem;
             color: white;
+            font-size: 1rem;
         }
 
         .content-card .tags {
@@ -373,9 +355,9 @@
         .tag {
             background: rgba(142, 68, 173, 0.3);
             color: white;
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 0.9rem;
             border-radius: 15px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             border: 1px solid rgba(142, 68, 173, 0.5);
         }
 
@@ -388,7 +370,7 @@
         }
 
         .reader {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             padding: 3rem;
@@ -401,10 +383,10 @@
 
         .poem-title {
             font-family: var(--font-headings);
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #fff;
-            margin-bottom: 1rem;
-            font-weight: 500;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
         }
 
         .poem-meta {
@@ -417,14 +399,14 @@
 
         .poem-author {
             font-style: italic;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             font-size: 1.1rem;
         }
 
         .poem-type, .poem-status {
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 1rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 500;
             text-transform: uppercase;
         }
@@ -455,8 +437,8 @@
 
         .poem-content {
             white-space: pre-line;
-            font-size: 1.3rem;
-            line-height: 2.2;
+            font-size: 1.25rem;
+            line-height: 2;
             color: white;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
             word-wrap: break-word;
@@ -473,18 +455,18 @@
         }
 
         .media-title {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             text-align: center;
             font-family: var(--font-headings);
         }
 
         .image-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
             margin-top: 1rem;
         }
 
@@ -494,9 +476,9 @@
 
         .media-item img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s var(--transition-smooth);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -504,70 +486,40 @@
         }
 
         .media-item img:hover {
-            transform: scale(1.02);
-            border-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 10px 25px rgba(49, 0, 64, 0.4);
+            transform: scale(1.03);
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
         }
 
         .media-caption {
-            margin-top: 0.5rem;
+            margin-top: 0.7rem;
             color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-style: italic;
         }
 
-        .audio-track {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .audio-player {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 1rem;
-            transition: background 0.3s ease;
-        }
-        .audio-track:last-child {
-            margin-bottom: 0;
-        }
-        .audio-track:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .audio-track.playing {
-             background: linear-gradient(90deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
         }
 
-        .track-info {
+        .audio-player audio {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .audio-info {
             color: rgba(255, 255, 255, 0.9);
         }
 
-        .track-title {
+        .audio-title {
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: 0.3rem;
-        }
-        
-        .play-track-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        .play-track-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-         .audio-track.playing .play-track-btn {
-            background: #8b5cf6;
-            border-color: #8b5cf6;
         }
 
         .links-grid {
@@ -577,45 +529,44 @@
 
         .sacred-link {
             display: block;
-            padding: 1rem;
-            background: rgba(118, 0, 158, 0.5);
+            padding: 1.2rem;
+            background: rgba(118, 0, 158, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
+            border-radius: 12px;
             text-decoration: none;
-            color: rgba(99, 0, 129, 0.9);
             transition: all 0.3s var(--transition-smooth);
             position: relative;
             overflow: hidden;
         }
 
         .sacred-link:hover {
-            background: rgba(108, 0, 181, 0.6);
-            border-color: rgba(255, 255, 255, 0.05);
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(57, 0, 89, 0.2);
+            background: rgba(139, 92, 246, 0.4);
+            border-color: rgba(167, 139, 250, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
         }
 
         .sacred-link::before {
             content: '🔗';
             position: absolute;
-            right: 1rem;
+            right: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
             opacity: 0.5;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
         
         .link-title {
             font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
             color: rgba(255, 255, 255, 0.95);
         }
 
         .link-description {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .navigation {
@@ -627,32 +578,35 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.8rem;
             border-radius: 12px;
             cursor: pointer;
             font-family: var(--font-body);
             font-weight: 500;
-            transition: all 0.4s var(--transition-bounce);
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .nav-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px) scale(1.005);
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         .nav-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
         .poem-counter {
             color: white;
             font-weight: 500;
+            font-size: 1.05rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
@@ -662,7 +616,7 @@
             right: 2rem;
             display: flex;
             gap: 1rem;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: opacity 0.3s ease;
             z-index: 1000;
             flex-direction: column;
@@ -679,30 +633,22 @@
         }
 
         .music-player-container {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(20, 10, 40, 0.95);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
-            padding: 1rem;
+            padding: 1.2rem;
             display: none;
             flex-direction: column;
-            gap: 0.8rem;
-            min-width: 280px;
-            max-width: 320px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-            transform: translateY(0);
+            gap: 1rem;
+            min-width: 300px;
+            max-width: 340px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .music-player-container.active {
             display: flex;
-        }
-
-        .music-player-container.hidden {
-            opacity: 0;
-            transform: translateY(100%);
-            pointer-events: none;
         }
 
         .music-player-header {
@@ -711,34 +657,36 @@
             align-items: center;
             color: white;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .music-close-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             padding: 0;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
+            border-radius: 50%;
+            opacity: 0.8;
+            transition: all 0.3s ease;
         }
 
         .music-close-btn:hover {
             opacity: 1;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .music-track-info {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            max-height: 40px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-height: 45px;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -767,85 +715,11 @@
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-        
-        .image-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-        }
-        .image-modal.visible {
-            display: flex;
-        }
-        .modal-backdrop {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        .modal-content {
-            position: relative;
-            max-width: 90vw;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .modal-image {
-            max-width: 100%;
-            max-height: 80vh;
-            object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        .modal-title {
-            color: white;
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-        .modal-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            font-size: 2rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            line-height: 1;
-        }
-
-        @media (max-width: 768px) {
-            .controls {
-                bottom: 1rem;
-                right: 1rem;
-            }
-
-            .music-player-container {
-                min-width: 250px;
-                max-width: 280px;
-                padding: 0.8rem;
-            }
+            50% { transform: scale(1.15); opacity: 0.8; }
         }
 
         .control-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             color: white;
@@ -855,14 +729,16 @@
             cursor: pointer;
             font-family: var(--font-body);
             font-weight: 500;
-            transition: all 0.5s var(--transition-bounce);
+            font-size: 1rem;
+            transition: all 0.3s ease;
             width: auto;
             height: auto;
         }
 
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-0.5px) scale3d(1.02, 1.02, 1.5);
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         #themeToggle i {
@@ -871,7 +747,7 @@
         }
 
         #themeToggle i.fa-sun {
-            color: #ffde24;
+            color: #ffd700;
         }
 
         #themeToggle i.fa-moon {
@@ -879,14 +755,63 @@
         }
 
         #themeToggle:hover i {
-            transform: rotate(45deg);
+            transform: rotate(180deg);
         }
 
         .menu-toggle {
             display: none;
-            width: 50px;
+            width: 60px;
             height: 50px;
-            border-radius: 50%;
+            background: transparent;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .wrapper-menu {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 330ms ease-out;
+            padding: 8px 0;
+        }
+
+        .wrapper-menu.open {
+            transform: rotate(-45deg);
+        }
+
+        .line-menu {
+            background-color: #fff;
+            border-radius: 3px;
+            width: 100%;
+            height: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .line-menu.half {
+            width: 70%;
+        }
+
+        .line-menu.start {
+            transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
+            transform-origin: right;
+        }
+
+        .wrapper-menu.open .line-menu.start {
+            transform: rotate(-90deg) translateX(3px);
+        }
+
+        .line-menu.end {
+            align-self: flex-end;
+            transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
+            transform-origin: left;
+        }
+
+        .wrapper-menu.open .line-menu.end {
+            transform: rotate(-90deg) translateX(-3px);
         }
 
         footer {
@@ -1157,58 +1082,117 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 2rem;
             }
+
+            h1.page-title {
+                font-size: 2.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
-            .container, .grid-container {
-                margin-top: 5rem;
-                padding: 0 1rem;
+            header {
+                height: 60px;
+                padding: 0.8rem 1rem;
             }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .author-header {
+                font-size: 0.85rem;
+                max-width: 150px;
+            }
+
+            .container, .grid-container {
+                margin-top: 80px;
+                padding: 0 1rem 1.5rem;
+            }
+
             .sidebar {
                 width: 100%;
+                top: 60px;
+                height: calc(100vh - 60px);
             }
+
             .menu-toggle {
                 display: flex;
+                align-items: center;
+                justify-content: center;
             }
+
+            .wrapper-menu {
+                width: 40px;
+                height: 40px;
+            }
+
+            .line-menu {
+                height: 5px;
+            }
+
             .content-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
+
             .reader {
-                padding: 2rem;
+                padding: 1.5rem;
             }
-            h1.page-title, h1.dynamic-title {
-                font-size: 2.5rem;
+
+            h1.page-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
             }
+
+            h1.dynamic-title {
+                font-size: 1.8rem;
+            }
+
             .poem-title {
                 font-size: 1.6rem;
             }
+
             .poem-content {
                 font-size: 1.1rem;
                 line-height: 1.9;
             }
+
             .controls {
                 bottom: 1rem;
                 right: 1rem;
                 gap: 0.5rem;
             }
+
             .control-btn {
                 padding: 0.8rem 1rem;
                 font-size: 0.9rem;
             }
+
             .navigation {
                 flex-direction: column;
                 gap: 1rem;
             }
+
+            .nav-btn {
+                width: 100%;
+                padding: 0.9rem 1.5rem;
+            }
+
             .image-grid {
                 grid-template-columns: 1fr;
             }
+
             .media-item img {
                 height: 250px;
             }
-            .author-header {
-                font-size: 0.9rem;
-                max-width: 50%;
-                text-align: right;
+
+            .music-player-container {
+                min-width: 260px;
+                max-width: 290px;
+                padding: 1rem;
             }
 
             .footer-content {
@@ -1253,19 +1237,40 @@
                 gap: 1rem;
             }
         }
+
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1000px;
+            }
+
+            .grid-container {
+                max-width: 1400px;
+            }
+
+            h1.page-title {
+                font-size: 3.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="star-field"></div>
     <div class="nebula"></div>
     <header>
         <div class="logo">वृंदोपनिषद्</div>
         <div id="authorDisplay" class="author-header"></div>
         <div class="header-controls">
-            <button class="control-btn menu-toggle" id="menuToggle" aria-label="Toggle Menu">
-                <i class="fas fa-bars"></i>
+            <button class="control-btn menu-toggle" id="menuToggle">
+                <div class="wrapper-menu" id="wrapperMenu">
+                    <div class="line-menu half start"></div>
+                    <div class="line-menu"></div>
+                    <div class="line-menu half end"></div>
+                </div>
             </button>
-            <button class="control-btn" id="backBtn" style="display: none;" aria-label="Go Back">
+            <button class="control-btn" id="backBtn" style="display: none;">
                 <i class="fas fa-arrow-left"></i>
             </button>
         </div>
@@ -1302,9 +1307,9 @@
                 
                 <div class="footer-section">
                     <h3>Quick Links</h3>
-                    <ul class="footer-links" id="footerQuickLinks">
-                        <li><a href="#" data-category="all">All Content</a></li>
-                        <li><a href="#" data-action="toggle-menu">Categories</a></li>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="filterByCategory('all'); return false;">All Content</a></li>
+                        <li><a href="#" onclick="document.getElementById('menuToggle').click(); return false;">Categories</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">FAQ</a></li>
@@ -1366,33 +1371,24 @@
         <h1 id="dynamicTitle" class="dynamic-title"></h1>
         <div id="contentArea"></div>
     </div>
-    
-    <div class="image-modal" id="imageModal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Close image viewer">×</button>
-            <img src="" alt="" class="modal-image">
-            <p class="modal-title"></p>
-        </div>
-    </div>
 
     <div class="controls">
         <div class="music-player-container" id="musicPlayer">
             <div class="music-player-header">
                 <span><i class="fas fa-music"></i> Now Playing</span>
-                <button class="music-close-btn" id="closeMusicPlayer" aria-label="Close Music Player">×</button>
+                <button class="music-close-btn" id="closeMusicPlayer">×</button>
             </div>
             <div class="music-track-info" id="musicTrackInfo">Select a track</div>
             <audio id="audioPlayer" controls preload="metadata"></audio>
         </div>
         <div class="controls-row">
-            <button class="control-btn music-toggle-btn" id="musicToggle" style="display: none;" aria-label="Play or Pause Music">
-                <i class="fas fa-play"></i>
+            <button class="control-btn music-toggle-btn" id="musicToggle" style="display: none;">
+                <i class="fas fa-music"></i>
                 <span class="music-badge"></span>
             </button>
-            <button class="control-btn" id="fontDown" aria-label="Decrease Font Size">A-</button>
-            <button class="control-btn" id="fontUp" aria-label="Increase Font Size">A+</button>
-            <button class="control-btn" id="themeToggle" aria-label="Toggle Dark Theme">
+            <button class="control-btn" id="fontDown">A-</button>
+            <button class="control-btn" id="fontUp">A+</button>
+            <button class="control-btn" id="themeToggle">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
@@ -1400,8 +1396,8 @@
 
     <script>
         const JSON_FILES = [
-            'https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/Default%20Collection-2025-09-24T15-20-20.json',
-            'https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/ye%20dekho%20shyam%20audio-file.json'
+            'https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/Default Collection-2025-09-24T15-20-20.json',
+            'https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/ye dekho shyam audio-file.json'
         ];
 
         let allEntries = [];
@@ -1420,46 +1416,41 @@
         const categoryList = document.getElementById('categoryList');
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menuToggle');
+        const wrapperMenu = document.getElementById('wrapperMenu');
         const backBtn = document.getElementById('backBtn');
         const musicToggle = document.getElementById('musicToggle');
         const musicPlayer = document.getElementById('musicPlayer');
         const audioPlayer = document.getElementById('audioPlayer');
         const musicTrackInfo = document.getElementById('musicTrackInfo');
         const closeMusicPlayer = document.getElementById('closeMusicPlayer');
-        const starField = document.querySelector('.star-field');
-        const imageModal = document.getElementById('imageModal');
-        
-        let hidePlayerTimeout;
+
+        let currentAudioUrl = null;
 
         async function loadAllData() {
             gridView.innerHTML = '<p style="text-align: center; padding: 3rem; opacity: 0.7; color: white;">Loading content...</p>';
             
             try {
-                const promises = JSON_FILES.map(file => fetch(file).then(res => res.json()));
-                const results = await Promise.allSettled(promises);
-
-                const loadedEntries = [];
-                results.forEach(result => {
-                    if (result.status === 'fulfilled' && result.value?.collection?.entries) {
-                        loadedEntries.push(...result.value.collection.entries);
-                    } else if (result.status === 'rejected') {
-                        console.error("Failed to load a data file:", result.reason);
-                    }
+                const promises = JSON_FILES.map(async (file) => {
+                    const response = await fetch(file);
+                    if (!response.ok) throw new Error(`Failed to load ${file}`);
+                    return await response.json();
                 });
                 
-                const uniqueEntries = new Map();
-                loadedEntries.forEach(entry => uniqueEntries.set(entry.id, entry));
-                allEntries = Array.from(uniqueEntries.values());
+                const results = await Promise.all(promises);
+                
+                results.forEach(data => {
+                    if (data?.collection?.entries) {
+                        allEntries.push(...data.collection.entries);
+                    }
+                });
 
                 if (allEntries.length === 0) {
-                    throw new Error('No entries found or all data sources failed.');
+                    throw new Error('No entries found');
                 }
 
-                const categorySet = new Set();
                 allEntries.forEach(entry => {
-                    if (entry.category) categorySet.add(entry.category);
+                    if (entry.category) categories.add(entry.category);
                 });
-                categories = [...categorySet].sort();
 
                 renderCategories();
                 filterByCategory('all');
@@ -1475,12 +1466,12 @@
         }
 
         function renderCategories() {
-            categoryList.innerHTML = '';
             categories.forEach(category => {
                 const btn = document.createElement('button');
                 btn.className = 'category-btn';
                 btn.textContent = category;
                 btn.dataset.category = category;
+                btn.onclick = () => filterByCategory(category);
                 categoryList.appendChild(btn);
             });
         }
@@ -1496,26 +1487,21 @@
 
             renderGrid();
             sidebar.classList.remove('active');
+            wrapperMenu.classList.remove('open');
         }
 
         function renderGrid() {
-            if (filteredEntries.length === 0) {
-                 gridView.innerHTML = '<p style="text-align: center; padding: 3rem; opacity: 0.7; color: white;">No content found in this category.</p>';
-                 return;
-            }
-            gridView.innerHTML = filteredEntries.map(entry => {
-                const tags = entry.content?.tags || entry.tags || [];
-                return `
-                <div class="content-card" onclick="openReader('${entry.id}')" onkeydown="if(event.key==='Enter') openReader('${entry.id}')" role="button" tabindex="0" aria-label="Read ${entry.title || 'Untitled'}">
+            gridView.innerHTML = filteredEntries.map(entry => `
+                <div class="content-card" onclick="openReader('${entry.id}')">
                     <h3>${entry.title || 'Untitled'}</h3>
                     <p>${entry.description || entry.content?.excerpt || ''}</p>
-                    ${tags.length > 0 ? `
+                    ${entry.tags?.length ? `
                         <div class="tags">
-                            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     ` : ''}
                 </div>
-            `}).join('');
+            `).join('');
         }
 
         function openReader(entryId) {
@@ -1526,7 +1512,6 @@
 
             const poemContent = currentEntry.content;
             const content = formatContent(poemContent?.content || '');
-            const tags = poemContent?.tags || currentEntry.tags || [];
 
             dynamicTitle.style.opacity = '0';
             authorDisplay.style.opacity = '0';
@@ -1538,10 +1523,16 @@
                 authorDisplay.style.opacity = '1';
             }, 250);
 
-            const firstPlayableAudio = currentEntry.audios?.find(a => !a.url.includes('youtube.com') && !a.url.includes('youtu.be'));
-            musicToggle.style.display = firstPlayableAudio ? 'flex' : 'none';
+            if (currentEntry.videos && currentEntry.videos.length > 0) {
+                currentAudioUrl = currentEntry.videos[0].url;
+                musicToggle.style.display = 'flex';
+            } else {
+                currentAudioUrl = null;
+                musicToggle.style.display = 'none';
+                musicPlayer.classList.remove('active');
+            }
 
-            const { imageContent, audioContent, videoContent, linkContent } = generateMediaContent(currentEntry);
+            const { imageContent, audioContent, linkContent } = generateMediaContent(currentEntry);
 
             const navigation = filteredEntries.length > 1 ? `
                 <div class="navigation">
@@ -1557,41 +1548,54 @@
                     <div class="poem-meta">
                         <div class="poem-author">${currentEntry.description || 'श्री हरिवंश'}</div>
                         <div class="poem-type">${currentEntry.category || 'भाव'}</div>
-                        <div class="poem-status ${poemContent?.status === 'draft' ? 'draft' : ''}">${poemContent?.status || 'published'}</div>
+                        <div class="poem-status ${currentEntry.status === 'draft' ? 'draft' : ''}">${currentEntry.status || 'published'}</div>
                     </div>
-                    ${tags.length > 0 ? `
+                    ${currentEntry.tags?.length ? `
                         <div class="poem-tags">
-                            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${currentEntry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     ` : ''}
                     <div class="poem-content">${content}</div>
                     ${linkContent}
-                    ${videoContent}
                     ${audioContent}
                     ${imageContent}
                 </div>
                 ${navigation}
             `;
-            
-            updateTrackUI();
 
             gridContainer.style.display = 'none';
             readerContainer.style.display = 'block';
             backBtn.style.display = 'flex';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         function formatContent(content) {
             if (!content) return '';
+            
             let formattedContent = content.trim();
-            return formattedContent.replace(/\n\s*\n/g, '\n\n').replace(/\n/g, '<br>');
-        }
-        
-        function getPlayableUrl(url) {
-            if (url.includes('github.com') && url.includes('/tree/main/')) {
-                return url.replace('github.com', 'raw.githubusercontent.com').replace('/tree/main/', '/main/');
+            
+            const words = formattedContent.split(/\s+/);
+            if (words.length > 10 && words.every(word => word.toLowerCase() === words[0].toLowerCase())) {
+                const uniqueWord = words[0];
+                const count = words.length;
+                
+                if (count > 20) {
+                    let formatted = '';
+                    for (let i = 0; i < count; i++) {
+                        if (i > 0 && i % 8 === 0) {
+                            formatted += '\n\n';
+                        } else if (i > 0) {
+                            formatted += ' ';
+                        }
+                        formatted += uniqueWord;
+                    }
+                    return formatted;
+                }
             }
-            return url;
+            
+            return formattedContent
+                .replace(/\n\s*\n\s*\n/g, '\n\n')
+                .replace(/\n/g, '\n');
         }
 
         function generateMediaContent(entry) {
@@ -1609,44 +1613,16 @@
                 </div>`
                 : '';
             
-            const audioContent = entry.audios && entry.audios.length > 0
+            const audioContent = entry.videos && entry.videos.length > 0
                 ? `<div class="media-audio">
                     <h3 class="media-title">Sacred Audio</h3>
-                    ${entry.audios.map(audio => {
-                        const title = audio.title || 'Sacred Audio';
-                        if (audio.url.includes('youtu.be') || audio.url.includes('youtube.com')) {
-                            return `<div class="audio-track">
-                                        <div class="track-info">
-                                            <p class="track-title">${title}</p>
-                                        </div>
-                                        <a href="${audio.url}" target="_blank" rel="noopener noreferrer" class="play-track-btn" style="text-decoration: none;" aria-label="Listen to ${title} on YouTube">
-                                            <i class="fab fa-youtube"></i>
-                                        </a>
-                                   </div>`;
-                        }
-                        const playableUrl = getPlayableUrl(audio.url);
-                        return `<div class="audio-track" data-url="${playableUrl}" data-title="${title}">
-                                    <div class="track-info">
-                                        <p class="track-title">${title}</p>
-                                    </div>
-                                    <button class="play-track-btn" aria-label="Play ${title}">
-                                        <i class="fas fa-play"></i>
-                                    </button>
-                                </div>`;
-                    }).join('')}
-                </div>`
-                : '';
-
-            const videoContent = entry.videos && entry.videos.length > 0
-                ? `<div class="media-links">
-                    <h3 class="media-title">Sacred Videos</h3>
-                    <div class="links-grid">
-                        ${entry.videos.map(video => `
-                            <a href="${video.url}" target="_blank" rel="noopener noreferrer" class="sacred-link">
-                                <div class="link-title">${video.title}</div>
-                                <div class="link-description">Watch on YouTube <i class="fab fa-youtube" style="color: #ff0000;"></i></div>
-                            </a>
-                        `).join('')}
+                    <div class="audio-player">
+                        <audio controls preload="metadata">
+                            <source src="${entry.videos[0].url}" type="video/mp4">
+                        </audio>
+                        <div class="audio-info">
+                            <p class="audio-title">${entry.videos[0].title || 'Sacred Audio'}</p>
+                        </div>
                     </div>
                 </div>`
                 : '';
@@ -1665,239 +1641,215 @@
                 </div>`
                 : '';
             
-            return { imageContent, audioContent, videoContent, linkContent };
+            return { imageContent, audioContent, linkContent };
         }
-        
-        function navigate(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < filteredEntries.length) {
-                openReader(filteredEntries[newIndex].id);
-            }
-        }
-        
+
         function openImageModal(src, title) {
-            const modalImg = imageModal.querySelector('.modal-image');
-            const modalTitle = imageModal.querySelector('.modal-title');
-            modalImg.src = src;
-            modalImg.alt = title;
-            modalTitle.textContent = title;
-            imageModal.classList.add('visible');
+            const modal = document.createElement('div');
+            modal.className = 'image-modal';
+            modal.innerHTML = `
+                <div class="modal-backdrop" onclick="closeImageModal()"></div>
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeImageModal()">×</button>
+                    <img src="${src}" alt="${title}" class="modal-image">
+                    <p class="modal-title">${title}</p>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+            
+            if (!document.querySelector('#modal-styles')) {
+                const styles = document.createElement('style');
+                styles.id = 'modal-styles';
+                styles.textContent = `
+                    .image-modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.95);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 10000;
+                        backdrop-filter: blur(10px);
+                    }
+                    .modal-backdrop {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                    }
+                    .modal-content {
+                        position: relative;
+                        max-width: 90vw;
+                        max-height: 90vh;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+                    .modal-image {
+                        max-width: 100%;
+                        max-height: 80vh;
+                        object-fit: contain;
+                        border-radius: 10px;
+                        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+                    }
+                    .modal-title {
+                        color: white;
+                        margin-top: 1rem;
+                        text-align: center;
+                        font-size: 1.2rem;
+                    }
+                    .modal-close {
+                        position: absolute;
+                        top: -40px;
+                        right: 0;
+                        background: rgba(255, 255, 255, 0.2);
+                        color: white;
+                        border: none;
+                        font-size: 2rem;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0;
+                        line-height: 1;
+                        transition: background 0.3s ease;
+                    }
+                `;
+                document.head.appendChild(styles);
+            }
         }
 
         function closeImageModal() {
-            imageModal.classList.remove('visible');
-        }
-        
-        function updateTrackUI() {
-            document.querySelectorAll('.audio-track[data-url]').forEach(track => {
-                const url = track.dataset.url;
-                const btn = track.querySelector('.play-track-btn i');
-                const btnWrapper = track.querySelector('.play-track-btn');
-                const title = track.dataset.title;
-
-                if (url === audioPlayer.src && !audioPlayer.paused) {
-                    track.classList.add('playing');
-                    if(btn) btn.className = 'fas fa-pause';
-                    if(btnWrapper) btnWrapper.setAttribute('aria-label', `Pause ${title}`);
-                } else {
-                    track.classList.remove('playing');
-                    if(btn) btn.className = 'fas fa-play';
-                    if(btnWrapper) btnWrapper.setAttribute('aria-label', `Play ${title}`);
-                }
-            });
-        }
-        
-        function showAndAutoHidePlayer() {
-            if (!audioPlayer.src) return;
-            musicPlayer.classList.add('active');
-            musicPlayer.classList.remove('hidden');
-
-            clearTimeout(hidePlayerTimeout);
-            hidePlayerTimeout = setTimeout(() => {
-                musicPlayer.classList.add('hidden');
-            }, 2000);
+            const modal = document.querySelector('.image-modal');
+            if (modal) modal.remove();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadAllData();
+        function navigate(direction) {
+            currentIndex += direction;
+            if (currentIndex >= 0 && currentIndex < filteredEntries.length) {
+                openReader(filteredEntries[currentIndex].id);
+            }
+        }
 
-            contentArea.addEventListener('click', event => {
-                const playButton = event.target.closest('.play-track-btn');
-                if (playButton) {
-                    const trackDiv = playButton.closest('.audio-track');
-                    const url = trackDiv.dataset.url;
-                    const title = trackDiv.dataset.title;
-                    if (!url || !title) return;
-                    
-                    if (audioPlayer.src === url && !audioPlayer.paused) {
-                        audioPlayer.pause();
-                    } else {
-                        audioPlayer.src = url;
-                        musicTrackInfo.textContent = title;
-                        audioPlayer.play().catch(e => console.error("Playback error:", e));
-                    }
-                }
-            });
-            
-            sidebar.addEventListener('click', (event) => {
-                if (event.target.matches('.category-btn')) {
-                    const category = event.target.dataset.category;
-                    if (category) filterByCategory(category);
-                }
-            });
-            
-            document.getElementById('footerQuickLinks').addEventListener('click', (event) => {
-                event.preventDefault();
-                const target = event.target;
-                if (target.dataset.category) {
-                    filterByCategory(target.dataset.category);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-                if (target.dataset.action === 'toggle-menu') {
-                    menuToggle.click();
-                }
-            });
+        backBtn.onclick = () => {
+            readerContainer.style.display = 'none';
+            gridContainer.style.display = 'block';
+            backBtn.style.display = 'none';
+            authorDisplay.textContent = '';
+            musicToggle.style.display = 'none';
+            musicPlayer.classList.remove('active');
+            audioPlayer.pause();
+        };
 
-            audioPlayer.addEventListener('play', () => {
-                musicToggle.innerHTML = '<i class="fas fa-pause"></i><span class="music-badge"></span>';
-                musicPlayer.classList.add('active');
-                updateTrackUI();
-            });
+        menuToggle.onclick = () => {
+            sidebar.classList.toggle('active');
+            wrapperMenu.classList.toggle('open');
+        };
 
-            audioPlayer.addEventListener('pause', () => {
-                musicToggle.innerHTML = '<i class="fas fa-play"></i><span class="music-badge"></span>';
-                clearTimeout(hidePlayerTimeout);
-                updateTrackUI();
-            });
-
-            audioPlayer.addEventListener('ended', updateTrackUI);
-
-            musicToggle.addEventListener('mouseenter', showAndAutoHidePlayer);
-            musicToggle.onclick = () => {
-                if (!audioPlayer.src) {
-                    const firstPlayable = document.querySelector('.audio-track[data-url]');
-                    if (firstPlayable) {
-                         firstPlayable.querySelector('.play-track-btn').click();
-                    }
-                    showAndAutoHidePlayer();
-                    return;
-                }
-
-                showAndAutoHidePlayer();
-                if (audioPlayer.paused) audioPlayer.play().catch(e => console.error("Audio playback error:", e));
-                else audioPlayer.pause();
-            };
-
-            closeMusicPlayer.onclick = () => {
-                musicPlayer.classList.add('hidden');
-                clearTimeout(hidePlayerTimeout);
-            };
-
-            backBtn.onclick = () => {
-                readerContainer.style.display = 'none';
-                gridContainer.style.display = 'block';
-                backBtn.style.display = 'none';
-                authorDisplay.textContent = '';
-                musicToggle.style.display = 'none';
+        musicToggle.onclick = () => {
+            if (musicPlayer.classList.contains('active')) {
                 musicPlayer.classList.remove('active');
-                audioPlayer.pause();
-                audioPlayer.src = "";
-                clearTimeout(hidePlayerTimeout);
-            };
-
-            menuToggle.onclick = () => sidebar.classList.toggle('active');
-
-            document.getElementById('fontDown').onclick = () => {
-                const content = document.querySelector('.poem-content');
-                if (content) {
-                    const size = parseFloat(window.getComputedStyle(content).fontSize);
-                    content.style.fontSize = `${Math.max(size * 0.9, 16)}px`;
+            } else {
+                musicPlayer.classList.add('active');
+                if (currentAudioUrl && currentEntry) {
+                    audioPlayer.src = currentAudioUrl;
+                    const trackTitle = currentEntry.videos?.[0]?.title || currentEntry.title || 'Sacred Audio';
+                    musicTrackInfo.textContent = trackTitle;
                 }
-            };
+            }
+        };
 
-            document.getElementById('fontUp').onclick = () => {
-                const content = document.querySelector('.poem-content');
-                if (content) {
-                    const size = parseFloat(window.getComputedStyle(content).fontSize);
-                    content.style.fontSize = `${Math.min(size * 1.1, 40)}px`;
-                }
-            };
+        closeMusicPlayer.onclick = () => {
+            musicPlayer.classList.remove('active');
+            audioPlayer.pause();
+        };
 
-            document.getElementById('themeToggle').onclick = () => {
-                const themeIcon = document.querySelector('#themeToggle i');
-                isDark = !isDark;
-                if (isDark) {
-                    document.body.style.background = '#000015';
-                    themeIcon.className = 'fas fa-sun';
-                } else {
-                    document.body.style.background = '#0a0015';
-                    themeIcon.className = 'fas fa-moon';
-                }
-            };
+        document.getElementById('fontDown').onclick = () => {
+            const content = document.querySelector('.poem-content');
+            if (content) {
+                const size = parseFloat(getComputedStyle(content).fontSize);
+                content.style.fontSize = Math.max(size * 0.85, 16) + 'px';
+            }
+        };
 
-            imageModal.querySelector('.modal-backdrop').onclick = closeImageModal;
-            imageModal.querySelector('.modal-close').onclick = closeImageModal;
+        document.getElementById('fontUp').onclick = () => {
+            const content = document.querySelector('.poem-content');
+            if (content) {
+                const size = parseFloat(getComputedStyle(content).fontSize);
+                content.style.fontSize = Math.min(size * 1.15, 40) + 'px';
+            }
+        };
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (imageModal.classList.contains('visible')) closeImageModal();
-                    else if(readerContainer.style.display === 'block') backBtn.click();
-                }
-                if (readerContainer.style.display === 'block') {
-                    if (e.key === 'ArrowLeft') navigate(-1);
-                    if (e.key === 'ArrowRight') navigate(1);
-                }
-            });
+        document.getElementById('themeToggle').onclick = () => {
+            if (isDark) {
+                document.body.style.background = '#0a0015';
+                document.documentElement.style.setProperty('--nebula-color-1', 'rgba(123, 31, 162, 0.15)');
+                document.documentElement.style.setProperty('--nebula-color-2', 'rgba(32, 84, 174, 0.15)');
+                document.documentElement.style.setProperty('--nebula-color-3', 'rgba(175, 38, 255, 0.15)');
+                
+                document.body.style.setProperty('--gradient-1', 'rgba(0, 8, 45, 0.8)');
+                document.body.style.setProperty('--gradient-2', 'rgba(63, 0, 125, 0.6)');
+                document.body.style.setProperty('--gradient-3', 'rgba(45, 0, 102, 0.7)');
+                document.body.style.setProperty('--gradient-4', 'rgba(74, 0, 114, 0.6)');
+                
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.style.background = '#000015';
+                document.documentElement.style.setProperty('--nebula-color-1', 'rgba(60, 0, 120, 0.35)');
+                document.documentElement.style.setProperty('--nebula-color-2', 'rgba(0, 45, 105, 0.35)');
+                document.documentElement.style.setProperty('--nebula-color-3', 'rgba(73, 0, 115, 0.35)');
+                
+                document.body.style.setProperty('--gradient-1', 'rgba(0, 0, 54, 0.9)');
+                document.body.style.setProperty('--gradient-2', 'rgba(0, 0, 71, 0.7)');
+                document.body.style.setProperty('--gradient-3', 'rgba(45, 0, 102, 0.8)');
+                document.body.style.setProperty('--gradient-4', 'rgba(51, 0, 79, 0.7)');
+                
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            isDark = !isDark;
+        };
 
-            createStars(200);
-            setInterval(createShootingStar, 5000);
+        document.addEventListener('keydown', (e) => {
+            if (readerContainer.style.display === 'block') {
+                if (e.key === 'ArrowLeft' && currentIndex > 0) navigate(-1);
+                if (e.key === 'ArrowRight' && currentIndex < filteredEntries.length - 1) navigate(1);
+                if (e.key === 'Escape') backBtn.click();
+            }
         });
 
         function createStars(count) {
-            const colors = [
-                'rgba(255, 255, 255, 0.9)',
-                'rgba(255, 255, 255, 0.7)',
-                'rgba(200, 220, 255, 0.8)',
-                'rgba(255, 230, 200, 0.8)',
-                'rgba(200, 255, 255, 0.7)'
-            ];
-
             for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle';
-                
-                const size = Math.random() * 3 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                
-                if (Math.random() > 0.7) {
-                    star.classList.add('bright');
-                }
-                
-                if (Math.random() > 0.8) {
-                    star.classList.add('floating');
-                    star.style.background = colors[Math.floor(Math.random() * colors.length)];
-                }
-                
-                starField.appendChild(star);
+                star.style.width = (Math.random() * 3 + 1) + 'px';
+                star.style.height = star.style.width;
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(star);
             }
         }
 
         function createShootingStar() {
             const star = document.createElement('div');
             star.className = 'shooting-star';
-            star.style.top = `${Math.random() * 50}%`;
-            star.style.left = `${Math.random() * 50}%`;
-            star.style.animationDuration = `${Math.random() * 1 + 1.5}s`;
-            starField.appendChild(star);
-            setTimeout(() => star.remove(), 3000);
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.transform = `rotate(${Math.random() * 45}deg)`;
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 2000);
         }
+
+        createStars(50);
+        setInterval(createShootingStar, 8000);
+        loadAllData();
     </script>
 </body>
 </html>
