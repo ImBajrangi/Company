@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#8E7F7F">
-    <title>Vrindopnishad - Complete</title>
+    <title>Vrindopnishad - Complete with Page Transitions</title>
     
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
@@ -98,6 +98,21 @@
             height: 100%;
         }
 
+        /* Page Transition Overlay */
+        .page-transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .page-transition-overlay__path {
+            fill: #aaa;
+        }
+
         .js .loading::before,
         .js .loading::after {
             content: '';
@@ -161,6 +176,7 @@
             text-decoration: none;
             letter-spacing: -0.5px;
             z-index: 1;
+            cursor: pointer;
         }
 
         .header-right {
@@ -716,7 +732,6 @@
             opacity: 0.9;
         }
 
-        /* Shader Section Styles */
         .shader-section {
             min-height: 100vh;
             padding: 6rem 2rem 4rem;
@@ -862,18 +877,6 @@
             cursor: grabbing;
         }
 
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
         @media (min-width: 768px) {
             .tiles--columns-rotated .tiles__line {
                 width: 33vmax;
@@ -979,18 +982,23 @@
         document.documentElement.className = "js";
     </script>
 
+    <!-- Page Transition Overlay -->
+    <svg class="page-transition-overlay" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path class="page-transition-overlay__path" vector-effect="non-scaling-stroke" d="M 0 0 h 0 c 0 50 0 50 0 100 H 0 V 0 Z" />
+    </svg>
+
     <div class="menu-overlay"></div>
 
     <header>
-        <a href="https://imbajrangi.github.io/Company/" class="logo">
+        <a href="#" class="logo page-transition-link" data-url="https://imbajrangi.github.io/Company/">
             <span>Vrindopnishad</span>
         </a>
         
         <div class="main-nav">
             <ul>
-                <li><a href="https://imbajrangi.github.io/Company/" class="active">Home</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
+                <li><a href="#" class="active page-transition-link" data-url="https://imbajrangi.github.io/Company/">Home</a></li>
+                <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
+                <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
             </ul>
         </div>
         
@@ -1014,11 +1022,11 @@
     
     <nav aria-hidden="true">
         <ul>
-            <li><a href="https://imbajrangi.github.io/Company/" class="active">Home</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Photos</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html">PDF Library</a></li>
+            <li><a href="#" class="active page-transition-link" data-url="https://imbajrangi.github.io/Company/">Home</a></li>
+            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
+            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Photos</a></li>
+            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
+            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html">PDF Library</a></li>
         </ul>
     </nav>
 
@@ -1046,7 +1054,7 @@
                         <h3>Collection</h3>
                         <p>Browse our curated collections</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html" class="tool-link"></a>
+                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html"></a>
                 </div>
                 
                 <div class="tool-item">
@@ -1061,7 +1069,7 @@
                         <h3>Photos</h3>
                         <p>Explore our photo gallery</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html" class="tool-link"></a>
+                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html"></a>
                 </div>
                 
                 <div class="tool-item">
@@ -1078,7 +1086,7 @@
                         <h3>PDF Library</h3>
                         <p>Access our digital document collection</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html" class="tool-link"></a>
+                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"></a>
                 </div>
                 
                 <div class="tool-item">
@@ -1092,7 +1100,7 @@
                         <h3>Spiritual Texts</h3>
                         <p>Explore ancient wisdom and teachings</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html" class="tool-link"></a>
+                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"></a>
                 </div>
             </div>
         </div>
@@ -1138,7 +1146,7 @@
                     <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
                 </div>
             </div>
-            <h2 class="tiles__title" data-scroll data-scroll-speed="5">Shri Harivansh</h2>
+            <h2 class="tiles__title" data-scroll data-scroll-speed="-7">Shri Harivansh</h2>
         </section>
 
         <section class="hero" data-scroll-section>
@@ -1152,7 +1160,6 @@
             </div>
         </section>
 
-        <!-- Shader Effects Section -->
         <section class="shader-section" data-scroll-section>
             <div class="shader-container">
                 <h2 class="shader-title" data-scroll data-scroll-speed="1">Interactive Gallery</h2>
@@ -1161,22 +1168,22 @@
                     <div class="shader-item" data-scroll data-scroll-speed="1">
                         <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Gallery Image 1" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
-                        <span class="shader-label">Pose — 001</span>
+                        <span class="shader-label">Pose – 001</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="1">
                         <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800" alt="Gallery Image 2" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
-                        <span class="shader-label">Stand — 002</span>
+                        <span class="shader-label">Stand – 002</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="1">
                         <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800" alt="Gallery Image 3" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
-                        <span class="shader-label">Dance — 003</span>
+                        <span class="shader-label">Dance – 003</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="1">
                         <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800" alt="Gallery Image 4" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
-                        <span class="shader-label">Attitude — 004</span>
+                        <span class="shader-label">Attitude – 004</span>
                     </div>
                 </div>
             </div>
@@ -1257,13 +1264,102 @@
         </footer>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <script>
-        // WebGL Shader Effect Implementation
+        // Page Transition System
+        class PageTransition {
+            constructor() {
+                this.overlayPath = document.querySelector('.page-transition-overlay__path');
+                this.isAnimating = false;
+                
+                this.paths = {
+                    step1: {
+                        unfilled: 'M 0 0 h 0 c 0 50 0 50 0 100 H 0 V 0 Z',
+                        inBetween: 'M 0 0 h 33 c -30 54 113 65 0 100 H 0 V 0 Z',
+                        filled: 'M 0 0 h 100 c 0 50 0 50 0 100 H 0 V 0 Z',
+                    },
+                    step2: {
+                        filled: 'M 100 0 H 0 c 0 50 0 50 0 100 h 100 V 50 Z',
+                        inBetween: 'M 100 0 H 50 c 28 43 4 81 0 100 h 50 V 0 Z',
+                        unfilled: 'M 100 0 H 100 c 0 50 0 50 0 100 h 0 V 0 Z',
+                    }
+                };
+                
+                this.setupTimeline();
+                this.attachEventListeners();
+            }
+            
+            setupTimeline() {
+                this.timeline = gsap.timeline({
+                    paused: true,
+                    onComplete: () => {
+                        this.isAnimating = false;
+                    }
+                })
+                .set(this.overlayPath, {
+                    attr: { d: this.paths.step1.unfilled }
+                })
+                .to(this.overlayPath, { 
+                    duration: 0.8,
+                    ease: 'power3.in',
+                    attr: { d: this.paths.step1.inBetween }
+                }, 0)
+                .to(this.overlayPath, { 
+                    duration: 0.2,
+                    ease: 'power1',
+                    attr: { d: this.paths.step1.filled },
+                    onComplete: () => this.navigateToPage()
+                })
+                .set(this.overlayPath, { 
+                    attr: { d: this.paths.step2.filled }
+                })
+                .to(this.overlayPath, { 
+                    duration: 0.15,
+                    ease: 'sine.in',
+                    attr: { d: this.paths.step2.inBetween }
+                })
+                .to(this.overlayPath, { 
+                    duration: 1,
+                    ease: 'power4',
+                    attr: { d: this.paths.step2.unfilled }
+                });
+            }
+            
+            attachEventListeners() {
+                const links = document.querySelectorAll('.page-transition-link');
+                
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        
+                        if (this.isAnimating) return;
+                        
+                        this.targetUrl = link.getAttribute('data-url') || link.href;
+                        this.startTransition();
+                    });
+                });
+            }
+            
+            startTransition() {
+                if (this.isAnimating) return;
+                
+                this.isAnimating = true;
+                this.timeline.play(0);
+            }
+            
+            navigateToPage() {
+                if (this.targetUrl) {
+                    window.location.href = this.targetUrl;
+                }
+            }
+        }
+
+        // WebGL Shader Effect
         class ShaderEffect {
             constructor(container) {
                 this.container = container;
@@ -1276,14 +1372,12 @@
             }
             
             init() {
-                // Wait for image to load
                 if (this.img.complete) {
                     this.setup();
                 } else {
                     this.img.addEventListener('load', () => this.setup());
                 }
                 
-                // Click handler
                 this.container.addEventListener('click', (e) => this.onClick(e));
             }
             
@@ -1292,7 +1386,6 @@
                 this.canvas.width = rect.width;
                 this.canvas.height = rect.height;
                 
-                // Setup Three.js scene
                 this.scene = new THREE.Scene();
                 this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
                 
@@ -1304,14 +1397,12 @@
                 this.renderer.setSize(rect.width, rect.height);
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 
-                // Load texture
                 const loader = new THREE.TextureLoader();
                 loader.crossOrigin = 'anonymous';
                 const texture = loader.load(this.img.src, () => {
                     this.img.classList.add('loaded');
                 });
                 
-                // Create shader material
                 this.material = new THREE.ShaderMaterial({
                     uniforms: {
                         uTexture: { value: texture },
@@ -1390,12 +1481,10 @@
                     `
                 });
                 
-                // Create plane
                 const geometry = new THREE.PlaneGeometry(2, 2, 50, 50);
                 this.mesh = new THREE.Mesh(geometry, this.material);
                 this.scene.add(this.mesh);
                 
-                // Start render loop
                 this.render();
             }
             
@@ -1420,8 +1509,6 @@
                 if (!this.material) return;
                 
                 this.isAnimating = true;
-                
-                // Toggle state
                 this.isBw = !this.isBw;
                 
                 const duration = 1500;
@@ -1434,11 +1521,9 @@
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    // Update uniforms
                     this.material.uniforms.uGrayscaleProgress.value = progress;
                     this.material.uniforms.uTime.value += 0.1;
                     
-                    // Ripple effect (0 -> 1 -> 0)
                     if (progress < 0.5) {
                         this.material.uniforms.uRippleProgress.value = progress * 2;
                     } else {
@@ -1456,7 +1541,7 @@
             }
         }
         
-        // Initialize everything
+        // Initialize
         const preloadImages = (selector = 'img') => {
             return new Promise((resolve) => {
                 imagesLoaded(document.querySelectorAll(selector), {background: true}, resolve);
@@ -1479,7 +1564,8 @@
         ]).then(() => {
             document.body.classList.remove('loading');
 
-            // Initialize Locomotive Scroll
+            new PageTransition();
+
             const scroll = new LocomotiveScroll({
                 el: document.querySelector('[data-scroll-container]'),
                 smooth: true,
@@ -1496,13 +1582,11 @@
                 }
             });
 
-            // Initialize shader effects
             const shaderItems = document.querySelectorAll('.shader-item');
             shaderItems.forEach(item => {
                 new ShaderEffect(item);
             });
 
-            // Header scroll effect
             const header = document.querySelector('header');
             if (header) {
                 scroll.on('scroll', (args) => {
@@ -1536,7 +1620,6 @@
         });
     </script>
 
-    <!-- Mobile Menu Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mobileMenuBtn = document.querySelector('.menu');
@@ -1618,7 +1701,6 @@
         });
     </script>
 
-    <!-- Tools Menu Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const toolsIcon = document.querySelector('.tools-icon');
@@ -1688,4 +1770,4 @@
         });
     </script>
 </body>
-</html>
+</html
