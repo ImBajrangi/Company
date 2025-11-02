@@ -12,6 +12,7 @@ IGNORED_EXTENSIONS = {".swp", ".tmp", ".log", ".env"}
 IGNORED_DIRS = {".vscode", "__pycache__"}
 
 # ---------------
+
 class AutoPush(FileSystemEventHandler):
     def __init__(self):
         self.timer = None
