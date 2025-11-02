@@ -1,39 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" data-load-bundle="home">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#8E7F7F">
-    <title>Vrindopnishad</title>
-    
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
-
-    <!-- <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/styles.css"> -->
-    <!-- <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/image-hover.css"> -->
-    <!-- <link href="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css" rel="stylesheet"> -->
-    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js" defer></script> -->
-    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/animations.js"></script> -->
-    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js"></script> -->
-    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js"></script> -->
-
-    <!-- External Resources -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
-    
-    <!-- Resource Management System -->
-    <!-- <script src="/web-extentions/links/universal-linker.js"></script> -->
-    <!-- <script src="/Vrindopnishad Web/js/universal resourse linker.js"></script> -->
-    <!-- <script src="/web-extentions/links/project-config.js"></script> -->
-    
-    <!-- Menu Styles -->
-    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/hamburger.css">
-    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/menu.css">
-    <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/cloude.css">
-
-<!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
@@ -112,6 +77,10 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+            ::selection {
+                background-color: var(--accent-color);
+                color: var(--bg-color);
+            }
         }
 
         body.demo-2 {
@@ -558,13 +527,23 @@
         }
 
         .tiles {
-            --tiles-height: 180vmax;
+            --tiles-height: 52vw;
             height: var(--tiles-height);
             position: relative;
             overflow: hidden;
             will-change: transform;
             transform: translateZ(0);
             backface-visibility: hidden;
+        }
+
+        .tiles--columns-rotated {
+            --tiles-height: 180vmax;
+        }
+
+        .tiles--oneline {
+            --tiles-height: 50vh;
+            min-height: 400px;
+            margin: 10vh 0;
         }
 
         .tiles__wrap {
@@ -574,15 +553,26 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transform: translate3d(-50%,-50%,0);
             backface-visibility: hidden;
             transform-style: preserve-3d;
         }
 
+        .tiles--columns-rotated .tiles__wrap {
+            width: 150%;
+            display: flex;
+            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
+            left: 50%;
+            top: 50%;
+            align-items: center;
+            justify-content: center;
+        }
+
         .tiles__line {
+            display: flex;
+        }
+
+        .tiles--columns-rotated .tiles__line {
             width: 320px;
             flex: none;
             padding: 0 1.5vw;
@@ -591,11 +581,36 @@
             backface-visibility: hidden;
         }
 
-        .tiles__line:nth-child(even) {
+        .tiles--columns-rotated .tiles__line:nth-child(even) {
             margin-top: -160px;
         }
 
+        .tiles--oneline .tiles__line {
+            height: 100%;
+        }
+
         .tiles__line-img {
+            --tile-margin: 2vw;
+            flex: none;
+            width: calc(16.6666% - var(--tile-margin) * 2);
+            height: calc(var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
+            margin: var(--tile-margin);
+            background-size: cover;
+            background-position: 50% 50%;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* FIXED: Match index3.html tile widths for oneline variant */
+        .tiles--oneline .tiles__line-img {
+            --tile-margin: 1vw;
+            margin: 0 var(--tile-margin);
+            width: calc(25% - var(--tile-margin) * 2);
+            height: 100%;
+        }
+
+        .tiles--columns-rotated .tiles__line-img {
             --tile-margin: 3vw 0;
             width: 100%;
             height: 400px;
@@ -626,6 +641,23 @@
             font-weight: 700;
             will-change: transform;
             backface-visibility: hidden;
+        }
+
+        .tiles__title--alt {
+            font-size: 9vw;
+            font-size: clamp(2rem, 9vw, 7.25rem);
+        }
+
+        .tiles__title--right {
+            justify-content: flex-end;
+        }
+
+        .tiles__title--left {
+            justify-content: flex-start;
+        }
+
+        .tiles__title--full {
+            height: 100%;
         }
 
         section {
@@ -769,15 +801,15 @@
         }
 
         @media (min-width: 768px) {
-            .tiles__line {
+            .tiles--columns-rotated .tiles__line {
                 width: 33vmax;
             }
             
-            .tiles__line:nth-child(even) {
+            .tiles--columns-rotated .tiles__line:nth-child(even) {
                 margin-top: -20vmax;
             }
             
-            .tiles__line-img {
+            .tiles--columns-rotated .tiles__line-img {
                 height: 40vmax;
             }
 
@@ -1034,7 +1066,7 @@
                     <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
                 </div>
             </div>
-            <h2 class="tiles__title" data-scroll data-scroll-speed="5">Contrasts</h2>
+            <h2 class="tiles__title" data-scroll data-scroll-speed="5">Shri Harivansh</h2>
         </section>
 
         <!-- Hero section -->
@@ -1049,6 +1081,19 @@
             </div>
         </section>
 
+        <!-- Oneline Tiles Section 1 -->
+        <section class="tiles tiles--oneline" id="grid2" data-scroll-section>
+            <div class="tiles__wrap">
+                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid2" data-scroll-direction="horizontal">
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)"></div>
+                </div>
+            </div>
+            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Civilization</h2>
+        </section>
+
         <!-- Content Section 1 -->
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
@@ -1057,12 +1102,38 @@
             </div>
         </section>
 
+        <!-- Oneline Tiles Section 2 -->
+        <section class="tiles tiles--oneline" id="grid3" data-scroll-section>
+            <div class="tiles__wrap">
+                <div class="tiles__line" data-scroll data-scroll-speed="-2" data-scroll-target="#grid3" data-scroll-direction="horizontal">
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)"></div>
+                </div>
+            </div>
+            <h2 class="tiles__title tiles__title--left tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Empowerment</h2>
+        </section>
+
         <!-- Content Section 2 -->
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Artistic Excellence</h2>
                 <p>Curated collections of stunning artworks that blend traditional techniques with modern digital innovations.</p>
             </div>
+        </section>
+
+        <!-- Oneline Tiles Section 3 -->
+        <section class="tiles tiles--oneline" id="grid4" data-scroll-section>
+            <div class="tiles__wrap">
+                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid4" data-scroll-direction="horizontal">
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)"></div>
+                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)"></div>
+                </div>
+            </div>
+            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Apocalypse</h2>
         </section>
 
         <!-- Content Section 3 -->
