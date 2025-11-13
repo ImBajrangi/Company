@@ -190,9 +190,9 @@ class CursorElement {
             }
         })
         .to(this.primitiveValues, { 
-            duration: 1,
+            duration: 2,
 			ease: 'back',
-            startAt: {turbulence: 0.85},
+            startAt: {turbulence: 0.12},
             turbulence: 0
         });
     }
@@ -219,6 +219,6 @@ class CursorElement {
 		requestAnimationFrame(() => this.render());
 	}
 }
- 
+
  // Initialize custom cursor
  const customCursor = new Cursor(document.querySelectorAll('.cursor'));
