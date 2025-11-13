@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="footer mt-auto py-3 bg-dark text-white">
       <div className="container text-center">
-        <span>&copy; {currentYear} Cloud Kitchen. All rights reserved.</span>
+        <span>&copy; {currentYear} CloudKitchen. All rights reserved.</span>
         <div className="mt-2">
           <a href="#" className="text-white me-3">Privacy Policy</a>
           <a href="#" className="text-white">Terms of Service</a>
