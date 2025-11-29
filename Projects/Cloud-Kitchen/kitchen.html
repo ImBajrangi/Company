@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -435,8 +436,7 @@
                 <div class="flex items-center gap-3 w-full sm:w-auto flex-grow sm:flex-grow-0">
                     <div
                         class="w-10 h-10 bg-black rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <img src="https://placehold.co/100x100/000000/FFFFFF?text=CK" alt="Cloud Kitchen Logo"
-                            class="w-full h-full object-cover">
+                        <img src="icon.svg" alt="Cloud Kitchen Logo" class="w-full h-full object-cover p-1">
                     </div>
                     <div>
                         <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">Cloud Kitchen</h1>
@@ -750,6 +750,14 @@
                                     System</span><span id="test-auth" class="test-badge test-pending">Testing...</span>
                             </div>
                         </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2"><span class="font-medium">Push
+                                    Notif.</span>
+                                <button id="test-push-btn"
+                                    class="text-xs bg-blue-600 text-white px-2 py-1 rounded">Test</button>
+                            </div>
+                            <p class="text-xs text-gray-500">Click to simulate system notification (5s delay)</p>
+                        </div>
                     </div>
                     <div class="flex items-center gap-4"><button id="run-system-test" class="btn-primary">Run Full
                             System Test</button><button id="reset-customer-orders-btn"
@@ -904,6 +912,9 @@
                 class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto sm:max-h-[32rem] border border-gray-200 m-4 sm:m-0">
                 <div class="p-4 border-b flex justify-between items-center">
                     <h3 class="font-semibold text-gray-900">Notifications</h3>
+                    <button id="enable-push-btn"
+                        class="hidden text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 transition-colors mr-2">Enable
+                        Push</button>
                     <!-- Close button visible only on mobile/forced modal view -->
                     <button id="notification-panel-close-btn"
                         class="sm:hidden text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
@@ -969,7 +980,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const DEVELOPER_EMAIL = "dev@example.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
@@ -991,6 +1002,16 @@
         try {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
+
+            // ENABLE OFFLINE PERSISTENCE
+            enableIndexedDbPersistence(db).catch((err) => {
+                if (err.code == 'failed-precondition') {
+                    console.warn('Persistence failed: Multiple tabs open');
+                } else if (err.code == 'unimplemented') {
+                    console.warn('Persistence failed: Browser not supported');
+                }
+            });
+
             auth = getAuth(app);
             isFirebaseReady = true;
             console.log("✅ Firebase initialized successfully");
@@ -1344,7 +1365,13 @@
             }
             container.innerHTML = allShops.map(shop => `
                 <div class="shop-card card p-0 cursor-pointer" data-shop-id="${shop.id}" data-shop-name="${shop.name}">
-                    <img src="${shop.image || 'https://placehold.co/600x400/cccccc/ffffff?text=Shop'}" alt="${shop.name}" class="w-full h-40 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image';">
+                    <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
+                        <img src="${shop.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EShop%3C/text%3E%3C/svg%3E'}" 
+                             alt="${shop.name}" 
+                             class="w-full h-full object-cover" 
+                             loading="lazy"
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+                    </div>
                     <div class="p-5">
                         <h3 class="text-lg font-semibold">${shop.name}</h3>
                         <p class="text-gray-600 text-sm">${shop.address || 'No address provided'}</p>
@@ -1418,7 +1445,13 @@
                     }
                     container.innerHTML += `
                         <div class="menu-item card p-0">
-                            <img src="${item.image || 'https://placehold.co/600x400/cccccc/ffffff?text=Item'}" alt="${item.name}" class="w-full h-40 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image';">
+                            <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
+                                <img src="${item.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EItem%3C/text%3E%3C/svg%3E'}" 
+                                     alt="${item.name}" 
+                                     class="w-full h-full object-cover" 
+                                     loading="lazy"
+                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+                            </div>
                             <div class="p-5">
                                 <h3 class="text-lg font-semibold">${item.name}</h3>
                                 <p class="text-gray-600">₹${item.price}</p>
@@ -2098,6 +2131,10 @@
          * Updates the notification bell icon and panel.
          * @param {Array} notifications - List of notification objects.
          */
+        /**
+         * Updates the notification bell icon and panel.
+         * @param {Array} notifications - List of notification objects.
+         */
         function updateNotificationUI(notifications) {
             const listEl = document.getElementById('notification-list');
             const dotEl = document.getElementById('notification-dot');
@@ -2107,6 +2144,28 @@
 
             const unreadCount = notifications.filter(n => !n.read).length;
             dotEl.classList.toggle('hidden', unreadCount === 0);
+
+            // NEW: Trigger System Notification for the latest unread notification
+            // This simulates the "Push" behavior when the app is open/backgrounded
+            if (unreadCount > 0 && notifications.length > 0) {
+                const latest = notifications[0];
+                // Simple check to avoid spamming: only notify if it's very recent (e.g., < 5 seconds ago) 
+                // In a real app, you'd track 'lastNotifiedId'
+                const now = Date.now();
+                const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
+                if (now - notifTime < 10000 && !latest.read) {
+                    if (Notification.permission === 'granted') {
+                        navigator.serviceWorker.ready.then(registration => {
+                            registration.showNotification('Cloud Kitchen', {
+                                body: latest.message,
+                                icon: 'icon.svg',
+                                vibrate: [200, 100, 200],
+                                tag: latest.id // Prevent duplicate notifications
+                            });
+                        });
+                    }
+                }
+            }
 
             if (notifications.length === 0) {
                 listEl.innerHTML = `<p class="p-4 text-gray-500 text-center">No notifications.</p>`;
@@ -2909,6 +2968,24 @@
                 runSystemTests();
                 showAlert('System tests completed.');
             }
+            if (target.matches('#test-push-btn')) {
+                if (Notification.permission === 'granted') {
+                    showAlert('Simulating push in 5 seconds... Close the app to test background behavior (if supported).');
+                    setTimeout(() => {
+                        if ('serviceWorker' in navigator) {
+                            navigator.serviceWorker.ready.then(registration => {
+                                registration.showNotification('Test Notification', {
+                                    body: 'This is a test notification from the System!',
+                                    icon: 'icon.svg',
+                                    vibrate: [200, 100, 200]
+                                });
+                            });
+                        }
+                    }, 5000);
+                } else {
+                    showAlert('Please enable notifications first (in Notification Panel).', true);
+                }
+            }
             if (target.matches('#refresh-orders')) {
                 orderCurrentPage = 1; orderFirstVisibleDoc = null; orderLastVisibleDoc = null;
                 loadAllOrders('start');
@@ -3007,6 +3084,50 @@
             });
         }
 
+        // --- Push Notification Logic ---
+        const enablePushBtn = document.getElementById('enable-push-btn');
+
+        function checkPushPermission() {
+            if (!('Notification' in window)) return;
+            if (Notification.permission === 'default') {
+                enablePushBtn.classList.remove('hidden');
+            } else {
+                enablePushBtn.classList.add('hidden');
+            }
+        }
+
+        // Initial check
+        checkPushPermission();
+
+        enablePushBtn.addEventListener('click', () => {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                    enablePushBtn.classList.add('hidden');
+                    // Subscribe to push (mock subscription for now as we don't have a VAPID key/backend)
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.ready.then(registration => {
+                            // In a real app, you would pass your VAPID public key here
+                            // registration.pushManager.subscribe({
+                            //     userVisibleOnly: true,
+                            //     applicationServerKey: urlBase64ToUint8Array('YOUR_PUBLIC_VAPID_KEY')
+                            // }).then(subscription => {
+                            //     // Send subscription to server
+                            // });
+
+                            // For this demo, we just confirm it works
+                            registration.showNotification('Notifications Enabled', {
+                                body: 'You will now receive updates!',
+                                icon: 'icon.svg'
+                            });
+                        });
+                    }
+                } else {
+                    console.log('Notification permission denied.');
+                }
+            });
+        });
+
         // --- PWA Install Logic ---
         let deferredPrompt;
         const installBtn = document.getElementById('install-app-btn');
@@ -3018,7 +3139,12 @@
         }
 
         // Detect if already installed
-        const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+        // Detect if already installed (Standard + iOS)
+        const isAppInstalled = () => {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                window.navigator.standalone ||
+                document.referrer.includes('android-app://');
+        };
 
         // Handle 'beforeinstallprompt' (Android/Desktop)
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -3028,8 +3154,8 @@
             console.log("✅ 'beforeinstallprompt' fired!");
         });
 
-        // Show button for iOS users too (if not already installed)
-        if (isIos() && !isInStandaloneMode()) {
+        // Force show button if not installed (Fallback for when event doesn't fire immediately)
+        if (!isAppInstalled()) {
             installBtn.classList.remove('hidden');
         }
 
