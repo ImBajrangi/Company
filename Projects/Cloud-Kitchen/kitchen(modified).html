@@ -1914,16 +1914,28 @@
 
         async function handleGoogleLogin() {
             try {
-                // Use Redirect ONLY for installed PWA to keep the app feel.
-                // For regular web (mobile or desktop), use Popup which is often smoother and doesn't reload the page.
-                if (window.matchMedia('(display-mode: standalone)').matches) {
-                    await signInWithRedirect(auth, new GoogleAuthProvider());
+                // Unified login flow: Use Popup for everything.
+                // It provides a better UX (no page reload) and works well in modern PWAs.
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
+
+                document.getElementById('profile-modal')?.classList.add('hidden');
+                showAlert('Logged in with Google successfully!');
+
+            } catch (error) {
+                console.error("Google Login Error:", error);
+                // Fallback to redirect if popup fails (e.g., restricted browser environment)
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+                    showAlert("Popup blocked. Trying redirect method...", false);
+                    try {
+                        await signInWithRedirect(auth, new GoogleAuthProvider());
+                    } catch (redirectError) {
+                        showAlert(redirectError.message, true);
+                    }
                 } else {
-                    await signInWithPopup(auth, new GoogleAuthProvider());
-                    document.getElementById('profile-modal')?.classList.add('hidden');
-                    showAlert('Logged in with Google successfully!');
+                    showAlert(error.message, true);
                 }
-            } catch (error) { showAlert(error.message, true); }
+            }
         }
 
         // Check for Redirect Result (for Mobile Auth return)
