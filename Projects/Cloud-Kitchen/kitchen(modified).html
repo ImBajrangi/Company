@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Cloud Kitchen Order System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,6 +13,7 @@
     <link rel="apple-touch-icon" href="./icon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
+        
         // Capture the install prompt early, before the main module loads
         window.deferredPrompt = null;
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -2230,25 +2232,37 @@
             }
 
             let q;
+            // SIMPLIFIED QUERIES to avoid "Missing Index" errors
+            // We will sort client-side to ensure correct order without requiring manual index creation
             if (userRole === 'customer') {
-                q = query(getCollectionRef("notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
+                q = query(getCollectionRef("notifications"), where("userId", "==", userId), limit(50));
             } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
                 // Staff/Owners get notifications for their shop and role
-                q = query(getCollectionRef("notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
+                q = query(getCollectionRef("notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), limit(50));
             } else if (userRole === 'developer' && currentUserShopId) {
                 // Developer gets all notifications for their *selected* shop
-                q = query(getCollectionRef("notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
+                q = query(getCollectionRef("notifications"), where("shopId", "==", currentUserShopId), limit(50));
             } else {
                 // Developer without a selected shop or staff without assigned shop
                 updateNotificationUI([]);
                 return;
             }
 
+            console.log("🔔 Starting notification listener for role:", userRole);
+
             notificationListener = onSnapshot(q, (snapshot) => {
                 allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                // Client-side sort to ensure correct order (Newest first)
+                allNotifications.sort((a, b) => {
+                    const tA = a.createdAt ? a.createdAt.toMillis() : 0;
+                    const tB = b.createdAt ? b.createdAt.toMillis() : 0;
+                    return tB - tA;
+                });
+
                 updateNotificationUI(allNotifications);
             }, (error) => {
-                console.error("Error listening for notifications:", error);
+                console.error("❌ Error listening for notifications:", error);
             });
         }
 
@@ -3529,4 +3543,5 @@
         });
     </script>
 </body>
+
 </html>
