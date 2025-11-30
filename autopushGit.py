@@ -1,7 +1,6 @@
 import subprocess
 import time
 import os
-# import signal
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Timer

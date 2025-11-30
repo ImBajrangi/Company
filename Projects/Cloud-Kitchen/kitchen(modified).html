@@ -1914,10 +1914,10 @@
 
         async function handleGoogleLogin() {
             try {
-                // Use Redirect for Mobile/PWA to avoid popup blocking issues
-                if (window.matchMedia('(display-mode: standalone)').matches || /iphone|ipad|ipod|android/.test(window.navigator.userAgent.toLowerCase())) {
+                // Use Redirect ONLY for installed PWA to keep the app feel.
+                // For regular web (mobile or desktop), use Popup which is often smoother and doesn't reload the page.
+                if (window.matchMedia('(display-mode: standalone)').matches) {
                     await signInWithRedirect(auth, new GoogleAuthProvider());
-                    // The page will redirect, so no further code execution happens here
                 } else {
                     await signInWithPopup(auth, new GoogleAuthProvider());
                     document.getElementById('profile-modal')?.classList.add('hidden');
