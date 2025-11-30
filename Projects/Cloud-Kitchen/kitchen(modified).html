@@ -1561,8 +1561,8 @@
             if (cart.length === 0) return showAlert('Your cart is empty.');
             if (!selectedShopId) return showAlert('No shop selected.', true);
 
-            // Critical Fix: Open login modal instead of showing alert on order attempt by guest
-            if (auth.currentUser?.isAnonymous || userId.startsWith('offline')) {
+            // Critical Fix: Handle null userId and ensure user is logged in
+            if (!auth.currentUser || auth.currentUser.isAnonymous || !userId || (typeof userId === 'string' && userId.startsWith('offline'))) {
                 openProfileModal(true);
                 return;
             }
@@ -1583,6 +1583,7 @@
                 currency: "INR", name: "CloudKitchen", description: "Order Payment",
                 image: "https://placehold.co/100x100/000000/FFFFFF?text=CK",
                 handler: async (response) => {
+                    const paymentId = response.razorpay_payment_id || null;
                     const orderData = {
                         shopId: selectedShopId,
                         customerName,
@@ -1594,8 +1595,8 @@
                         createdAt: serverTimestamp(),
                         userId,
                         isTestOrder: false,
-                        paymentId: response.razorpay_payment_id,
-                        paymentIds: [response.razorpay_payment_id]
+                        paymentId: paymentId,
+                        paymentIds: paymentId ? [paymentId] : []
                     };
                     await saveOrderToFirestore(orderData);
                 },
@@ -1610,7 +1611,13 @@
 
         async function saveOrderToFirestore(orderData) {
             try {
-                const docRef = await addDoc(collection(db, "orders"), orderData);
+                // Sanitize data: Firestore throws error on 'undefined' values.
+                // JSON.stringify removes keys with undefined values.
+                const sanitizedData = JSON.parse(JSON.stringify(orderData));
+                // Restore serverTimestamp (which is lost during stringify)
+                sanitizedData.createdAt = serverTimestamp();
+
+                const docRef = await addDoc(collection(db, "orders"), sanitizedData);
                 showAlert('Payment successful! Order placed.');
                 cart = []; isEditingOrder = false;
                 updateCart();
@@ -1619,21 +1626,25 @@
                 startTrackingLatestOrder();
 
                 // --- Notification: Notify kitchen and owner ---
-                const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["kitchen", "owner"])));
-                usersSnapshot.docs.forEach(userDoc => {
-                    createNotification({
-                        // Notification Fix: userDoc.id is the target's UID
-                        userId: userDoc.id,
-                        role: userDoc.data().role,
-                        shopId: orderData.shopId,
-                        message: `New order received from ${orderData.customerName}.`,
-                        orderId: docRef.id
+                try {
+                    const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["kitchen", "owner"])));
+                    usersSnapshot.docs.forEach(userDoc => {
+                        createNotification({
+                            userId: userDoc.id,
+                            role: userDoc.data().role,
+                            shopId: orderData.shopId,
+                            message: `New order received from ${orderData.customerName}.`,
+                            orderId: docRef.id
+                        });
                     });
-                });
+                } catch (notifError) {
+                    console.error("Notification error (non-critical):", notifError);
+                }
                 // --- END Notification ---
 
             } catch (error) {
-                showAlert('Failed to save order after payment.', true);
+                // Show specific error message to help debugging
+                showAlert(`Failed to save order: ${error.message}`, true);
                 console.error("Order save error: ", error);
             }
         }
