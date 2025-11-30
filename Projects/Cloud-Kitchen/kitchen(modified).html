@@ -975,6 +975,48 @@
                 <div id="create-order-content"></div>
             </div>
         </div>
+
+        <!-- **** NEW: Dedicated Install Instructions Modal **** -->
+        <div id="install-modal"
+            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[60] p-4">
+            <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center relative">
+                <button id="install-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Install App</h3>
+                <p class="text-gray-600 mb-6 text-sm">Get the best experience by installing the app on your device.</p>
+
+                <div id="install-instructions-android" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Tap the <strong>three dots</strong> <span
+                                class="inline-block bg-gray-200 rounded px-1">⋮</span> in the browser menu.</li>
+                        <li>Select <strong>Install App</strong> or <strong>Add to Home Screen</strong>.</li>
+                        <li>Tap <strong>Install</strong> to confirm.</li>
+                    </ol>
+                </div>
+
+                <div id="install-instructions-ios" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Tap the <strong>Share</strong> button <span
+                                class="inline-block bg-gray-200 rounded px-1">⎋</span>.</li>
+                        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+                        <li>Tap <strong>Add</strong> in the top right.</li>
+                    </ol>
+                </div>
+
+                <button id="install-modal-ok" class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Got it</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
@@ -3258,6 +3300,17 @@
             checkInstallEligibility(); // Ensure button is visible
         });
 
+        // Install Modal Logic
+        const installModal = document.getElementById('install-modal');
+        const installModalClose = document.getElementById('install-modal-close');
+        const installModalOk = document.getElementById('install-modal-ok');
+        const androidInstr = document.getElementById('install-instructions-android');
+        const iosInstr = document.getElementById('install-instructions-ios');
+
+        const closeInstallModal = () => installModal.classList.add('hidden');
+        installModalClose.addEventListener('click', closeInstallModal);
+        installModalOk.addEventListener('click', closeInstallModal);
+
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 // 1. Native Prompt Available (Chrome/Edge/Samsung Internet)
@@ -3269,19 +3322,22 @@
                     installBtn.classList.add('hidden');
                 }
             } else {
-                // 2. Fallback: Show Manual Instructions (iOS, Firefox, or Chrome before prompt)
+                // 2. Fallback: Show Dedicated Install Modal
                 const isIosDevice = isIos();
                 const isAndroidDevice = isAndroid();
 
-                let msg = "To install this app:\nTap the browser menu and select 'Install App' or 'Add to Home Screen'.";
+                // Reset visibility
+                androidInstr.classList.add('hidden');
+                iosInstr.classList.add('hidden');
 
                 if (isIosDevice) {
-                    msg = "To install on iPhone/iPad:\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap 'Add to Home Screen'";
-                } else if (isAndroidDevice) {
-                    msg = "To install on Android:\n1. Tap the browser menu (three dots ⠇)\n2. Select 'Install App' or 'Add to Home Screen'";
+                    iosInstr.classList.remove('hidden');
+                } else {
+                    // Default to Android/Generic instructions
+                    androidInstr.classList.remove('hidden');
                 }
 
-                showAlert(msg);
+                installModal.classList.remove('hidden');
             }
         });
 
