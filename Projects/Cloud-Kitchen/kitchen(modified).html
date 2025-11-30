@@ -3233,8 +3233,30 @@
             }
         }
 
-        // Initial check
+        // Initial check and auto-request
         checkPushPermission();
+
+        // Auto-request permission on first load if not already decided
+        if ('Notification' in window && Notification.permission === 'default') {
+            // Small delay to allow page to load
+            setTimeout(() => {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted automatically.');
+                        enablePushBtn.classList.add('hidden');
+                        if ('serviceWorker' in navigator) {
+                            navigator.serviceWorker.ready.then(registration => {
+                                registration.showNotification('Notifications Enabled', {
+                                    body: 'You will now receive updates!',
+                                    icon: './icon.svg'
+                                });
+                            });
+                        }
+                    }
+                    checkPushPermission();
+                });
+            }, 1000);
+        }
 
         enablePushBtn.addEventListener('click', () => {
             Notification.requestPermission().then(permission => {
