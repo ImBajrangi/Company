@@ -3216,8 +3216,13 @@
         // Detect iOS
         const isIos = () => {
             const userAgent = window.navigator.userAgent.toLowerCase();
-            // Check for iOS devices
             return /iphone|ipad|ipod/.test(userAgent);
+        }
+
+        // Detect Android
+        const isAndroid = () => {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /android/.test(userAgent);
         }
 
         // Detect if already installed (Standard + iOS)
@@ -3228,67 +3233,53 @@
         };
 
         /**
-         * Checks if the install button should be visible based on OS and installation status.
-         * For iOS: Show if it's an iOS device AND the app is not already installed.
-         * For Android/Desktop: Managed by deferredPrompt state.
-         * @param {boolean} isPromptAvailable - True if the beforeinstallprompt event has fired.
+         * Checks if the install button should be visible.
+         * Logic: Show button ALWAYS if app is not installed.
          */
-        const checkInstallEligibility = (isPromptAvailable = false) => {
-            // 1. Hide the button by default
-            installBtn.classList.add('hidden');
-
+        const checkInstallEligibility = () => {
             if (isAppInstalled()) {
                 console.log("App is already installed, hiding install button.");
-                return; // Already installed, do nothing
-            }
-
-            // 2. Show for iOS (which never fires beforeinstallprompt)
-            if (isIos()) {
+                installBtn.classList.add('hidden');
+            } else {
+                // If NOT installed, show the button so user can at least see instructions
                 installBtn.classList.remove('hidden');
-                console.log("Showing install button for iOS.");
-                return;
+                console.log("App not installed, showing install button.");
             }
-
-            // 3. Show for Android/Desktop if the prompt event has fired
-            if (isPromptAvailable) {
-                installBtn.classList.remove('hidden');
-                console.log("Showing install button as prompt is available.");
-            }
-            // Note: If on Android/Desktop and prompt hasn't fired, keep it hidden.
         };
 
-        // Check eligibility on initial load (primarily for iOS)
+        // Check eligibility on initial load
         checkInstallEligibility();
 
-        // Handle 'beforeinstallprompt' (Android/Desktop)
+        // Handle 'beforeinstallprompt' (Android/Desktop Chrome)
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            checkInstallEligibility(true); // Now the prompt is available
-            console.log("✅ 'beforeinstallprompt' fired, checking eligibility.");
+            console.log("✅ 'beforeinstallprompt' fired, native prompt available.");
+            checkInstallEligibility(); // Ensure button is visible
         });
 
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // Android/Desktop: Trigger native prompt
-                installBtn.classList.add('hidden');
+                // 1. Native Prompt Available (Chrome/Edge/Samsung Internet)
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 console.log(`User response: ${outcome}`);
                 deferredPrompt = null;
-                // After prompt, hide button unless the user explicitly denied it, and the browser allows it to be shown again.
                 if (outcome === 'accepted') {
                     installBtn.classList.add('hidden');
-                } else {
-                    // If denied, we check eligibility again (might be hidden or re-shown later by browser policy)
-                    checkInstallEligibility(false);
                 }
             } else {
-                // iOS or Fallback: Show instructions
+                // 2. Fallback: Show Manual Instructions (iOS, Firefox, or Chrome before prompt)
                 const isIosDevice = isIos();
-                const msg = isIosDevice
-                    ? "To install on iPhone/iPad:\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap 'Add to Home Screen'"
-                    : "To install:\nTap the browser menu (three dots) and select 'Install App' or 'Add to Home Screen'.";
+                const isAndroidDevice = isAndroid();
+
+                let msg = "To install this app:\nTap the browser menu and select 'Install App' or 'Add to Home Screen'.";
+
+                if (isIosDevice) {
+                    msg = "To install on iPhone/iPad:\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap 'Add to Home Screen'";
+                } else if (isAndroidDevice) {
+                    msg = "To install on Android:\n1. Tap the browser menu (three dots ⠇)\n2. Select 'Install App' or 'Add to Home Screen'";
+                }
 
                 showAlert(msg);
             }
