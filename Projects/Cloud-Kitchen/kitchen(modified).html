@@ -1648,22 +1648,50 @@
                 currentTrackingOrderId = docRef.id;
                 startTrackingLatestOrder();
 
-                // --- Notification: Notify kitchen and owner ---
+                // --- COMPREHENSIVE NEW ORDER NOTIFICATIONS ---
                 try {
-                    const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("shopId", "==", orderData.shopId), where("role", "in", ["kitchen", "owner"])));
-                    usersSnapshot.docs.forEach(userDoc => {
+                    console.log(`📢 Sending new order notifications for order #${docRef.id}`);
+
+                    // 1. Notify Kitchen Staff
+                    const kitchenStaff = await getDocs(query(
+                        getCollectionRef("users"),
+                        where("shopId", "==", orderData.shopId),
+                        where("role", "==", "kitchen")
+                    ));
+
+                    kitchenStaff.docs.forEach(userDoc => {
                         createNotification({
                             userId: userDoc.id,
-                            role: userDoc.data().role,
+                            role: 'kitchen',
                             shopId: orderData.shopId,
-                            message: `New order received from ${orderData.customerName}.`,
+                            message: `🆕 New order from ${orderData.customerName} - ${orderData.items.length} items, ₹${orderData.totalAmount}`,
                             orderId: docRef.id
                         });
                     });
+                    console.log(`✉️ Notified ${kitchenStaff.size} kitchen staff members`);
+
+                    // 2. Notify Owners
+                    const owners = await getDocs(query(
+                        getCollectionRef("users"),
+                        where("shopId", "==", orderData.shopId),
+                        where("role", "==", "owner")
+                    ));
+
+                    owners.docs.forEach(userDoc => {
+                        createNotification({
+                            userId: userDoc.id,
+                            role: 'owner',
+                            shopId: orderData.shopId,
+                            message: `💰 New order #${docRef.id.substring(0, 8)} received! Customer: ${orderData.customerName}, Amount: ₹${orderData.totalAmount}`,
+                            orderId: docRef.id
+                        });
+                    });
+                    console.log(`✉️ Notified ${owners.size} shop owners`);
+
                 } catch (notifError) {
                     console.error("⚠️ Failed to send notifications (non-critical):", notifError);
                 }
-                // --- END Notification ---
+                // --- END NEW ORDER NOTIFICATIONS ---
 
             } catch (error) {
                 console.error("❌ Order save error:", error);
@@ -3022,43 +3050,123 @@
                     const orderSnap = await getDoc(orderRef);
                     if (!orderSnap.exists()) return showAlert('Order not found.', true);
                     const orderData = orderSnap.data();
+                    const oldStatus = orderData.status;
 
                     // Update the doc
                     await updateDoc(orderRef, { status: newStatus });
                     showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
 
-                    // --- Notification Logic ---
-                    // 1. Notify Customer
+                    console.log(`📋 Order ${targetId} status changed: ${oldStatus} → ${newStatus}`);
+
+                    // --- COMPREHENSIVE NOTIFICATION LOGIC ---
+
+                    // 1. NOTIFY CUSTOMER about their order progress
                     let customerMessage = '';
                     switch (newStatus) {
-                        case 'preparing': customerMessage = `Your order from ${currentShopName || 'the kitchen'} is now being prepared!`; break;
-                        case 'ready_for_pickup': customerMessage = `Your order from ${currentShopName || 'the kitchen'} is ready for pickup!`; break;
-                        case 'out_for_delivery': customerMessage = 'Your order is out for delivery!'; break;
-                        case 'completed': customerMessage = 'Your order has been delivered. Enjoy!'; break;
+                        case 'preparing':
+                            customerMessage = `Your order from ${currentShopName || 'the kitchen'} is now being prepared! 👨‍🍳`;
+                            break;
+                        case 'ready_for_pickup':
+                            customerMessage = `Your order from ${currentShopName || 'the kitchen'} is ready for pickup! 📦`;
+                            break;
+                        case 'out_for_delivery':
+                            customerMessage = 'Your order is out for delivery! 🚚 It will arrive soon.';
+                            break;
+                        case 'completed':
+                            customerMessage = 'Your order has been delivered. Enjoy your meal! 🎉';
+                            break;
                     }
-                    // Notification Fix: Check for non-staff/non-test user ID
-                    if (customerMessage && orderData.userId && orderData.userId !== 'staff-created' && orderData.userId !== 'test-developer') {
+
+                    // Send notification to customer (if not a staff-created or test order)
+                    if (customerMessage && orderData.userId &&
+                        orderData.userId !== 'staff-created' &&
+                        orderData.userId !== 'test-developer' &&
+                        !orderData.userId.startsWith('offline-guest')) {
                         createNotification({
                             userId: orderData.userId,
                             message: customerMessage,
                             orderId: targetId
                         });
+                        console.log(`✉️ Customer notification sent: ${customerMessage}`);
                     }
 
-                    // 2. Notify Delivery Staff/Owner when ready
+                    // 2. NOTIFY DELIVERY STAFF when order is ready for pickup
                     if (newStatus === 'ready_for_pickup') {
-                        const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("shopId", "==", orderData.shopId), where("role", "in", ["delivery", "owner"])));
-                        usersSnapshot.docs.forEach(userDoc => {
+                        const deliveryStaff = await getDocs(query(
+                            getCollectionRef("users"),
+                            where("shopId", "==", orderData.shopId),
+                            where("role", "==", "delivery")
+                        ));
+
+                        deliveryStaff.docs.forEach(userDoc => {
                             createNotification({
                                 userId: userDoc.id,
-                                role: userDoc.data().role,
+                                role: 'delivery',
                                 shopId: orderData.shopId,
-                                message: `Order for ${orderData.customerName} is ready for pickup.`,
+                                message: `📦 Order #${targetId.substring(0, 8)} for ${orderData.customerName} is ready for pickup!`,
                                 orderId: targetId
                             });
                         });
+                        console.log(`✉️ Notified ${deliveryStaff.size} delivery staff members`);
                     }
-                    // --- END Notification ---
+
+                    // 3. NOTIFY OWNER at key milestones
+                    if (['preparing', 'ready_for_pickup', 'out_for_delivery', 'completed'].includes(newStatus)) {
+                        const owners = await getDocs(query(
+                            getCollectionRef("users"),
+                            where("shopId", "==", orderData.shopId),
+                            where("role", "==", "owner")
+                        ));
+
+                        let ownerMessage = '';
+                        switch (newStatus) {
+                            case 'preparing':
+                                ownerMessage = `Kitchen started preparing order #${targetId.substring(0, 8)} for ${orderData.customerName}`;
+                                break;
+                            case 'ready_for_pickup':
+                                ownerMessage = `Order #${targetId.substring(0, 8)} is ready for delivery`;
+                                break;
+                            case 'out_for_delivery':
+                                ownerMessage = `Order #${targetId.substring(0, 8)} is out for delivery to ${orderData.customerName}`;
+                                break;
+                            case 'completed':
+                                ownerMessage = `Order #${targetId.substring(0, 8)} completed! Revenue: ₹${orderData.totalAmount}`;
+                                break;
+                        }
+
+                        owners.docs.forEach(userDoc => {
+                            createNotification({
+                                userId: userDoc.id,
+                                role: 'owner',
+                                shopId: orderData.shopId,
+                                message: ownerMessage,
+                                orderId: targetId
+                            });
+                        });
+                        console.log(`✉️ Notified ${owners.size} shop owners`);
+                    }
+
+                    // 4. NOTIFY KITCHEN STAFF when order moves to delivery
+                    if (newStatus === 'out_for_delivery') {
+                        const kitchenStaff = await getDocs(query(
+                            getCollectionRef("users"),
+                            where("shopId", "==", orderData.shopId),
+                            where("role", "==", "kitchen")
+                        ));
+
+                        kitchenStaff.docs.forEach(userDoc => {
+                            createNotification({
+                                userId: userDoc.id,
+                                role: 'kitchen',
+                                shopId: orderData.shopId,
+                                message: `✅ Order #${targetId.substring(0, 8)} picked up for delivery`,
+                                orderId: targetId
+                            });
+                        });
+                        console.log(`✉️ Notified ${kitchenStaff.size} kitchen staff members`);
+                    }
+
+                    // --- END COMPREHENSIVE NOTIFICATION LOGIC ---
 
                 } catch (e) {
                     showAlert('Failed to update status.', true);
