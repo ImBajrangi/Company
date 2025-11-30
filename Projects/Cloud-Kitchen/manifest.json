@@ -14,14 +14,14 @@
       "purpose": "any maskable"
     },
     {
-      "src": "https://placehold.co/192x192.png?text=CK&bg=0071e3&color=ffffff",
+      "src": "./icon.svg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "https://placehold.co/512x512.png?text=CK&bg=0071e3&color=ffffff",
+      "src": "./icon.svg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/svg+xml"
     }
   ]
 }

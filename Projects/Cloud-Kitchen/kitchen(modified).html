@@ -13,6 +13,21 @@
     <meta name="theme-color" content="#0071e3">
     <link rel="apple-touch-icon" href="./icon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        // Capture the install prompt early, before the main module loads
+        window.deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            window.deferredPrompt = e;
+            console.log("✅ 'beforeinstallprompt' fired early and captured.");
+
+            // Dispatch a custom event to notify the main script if it's already listening
+            window.dispatchEvent(new CustomEvent('deferred-prompt-ready'));
+        });
+    </script>
     <style>
         * {
             -webkit-font-smoothing: antialiased;
@@ -3252,7 +3267,6 @@
         });
 
         // --- PWA Install Logic ---
-        let deferredPrompt;
         const installBtn = document.getElementById('install-app-btn');
 
         // Detect iOS
@@ -3292,12 +3306,10 @@
         // Check eligibility on initial load
         checkInstallEligibility();
 
-        // Handle 'beforeinstallprompt' (Android/Desktop Chrome)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            console.log("✅ 'beforeinstallprompt' fired, native prompt available.");
-            checkInstallEligibility(); // Ensure button is visible
+        // Listen for the custom event in case the prompt fires after this script loads
+        window.addEventListener('deferred-prompt-ready', () => {
+            console.log("✅ Custom 'deferred-prompt-ready' event received.");
+            checkInstallEligibility();
         });
 
         // Install Modal Logic
@@ -3312,12 +3324,12 @@
         installModalOk.addEventListener('click', closeInstallModal);
 
         installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
+            if (window.deferredPrompt) {
                 // 1. Native Prompt Available (Chrome/Edge/Samsung Internet)
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
+                window.deferredPrompt.prompt();
+                const { outcome } = await window.deferredPrompt.userChoice;
                 console.log(`User response: ${outcome}`);
-                deferredPrompt = null;
+                window.deferredPrompt = null;
                 if (outcome === 'accepted') {
                     installBtn.classList.add('hidden');
                 }
