@@ -1,6 +1,6 @@
-const CACHE_NAME = 'cloud-kitchen-v2';
+const CACHE_NAME = 'cloud-kitchen-v3';
 const ASSETS_TO_CACHE = [
-  './kitchen.html',
+  './kitchen(modified).html',
   './manifest.json',
   './icon.svg'
 ];
@@ -120,6 +120,6 @@ self.addEventListener('notificationclick', (event) => {
   }
 
   event.waitUntil(
-    clients.openWindow('./kitchen.html')
+    clients.openWindow('./kitchen(modified).html')
   );
 });
