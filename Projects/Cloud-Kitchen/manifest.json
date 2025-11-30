@@ -1,6 +1,6 @@
 {
-  "name": "Cloud Kitchen",
-  "short_name": "CloudKitchen",
+  "name": "Foody Vrinda",
+  "short_name": "Foody Vrinda",
   "start_url": "./kitchen(modified).html",
   "display": "standalone",
   "background_color": "#f5f5f7",
