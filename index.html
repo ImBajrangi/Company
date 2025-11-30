@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" data-load-bundle="home">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#8E7F7F">
     <title>Vrindopnishad</title>
-    
+
     <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
@@ -22,12 +23,12 @@
     <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
-    
+
     <!-- Resource Management System -->
     <!-- <script src="/web-extentions/links/universal-linker.js"></script> -->
     <!-- <script src="/Vrindopnishad Web/js/universal resourse linker.js"></script> -->
     <!-- <script src="/web-extentions/links/project-config.js"></script> -->
-    
+
     <!-- Menu Styles -->
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/hamburger.css">
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/menu.css">
@@ -35,7 +36,7 @@
 
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
-    
+
 </head>
 <!-- <body>
     <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload lazyload></script>
@@ -44,969 +45,983 @@
     </script>
 </body> -->
 
-    <style>
-        *,
-        *::after,
-        *::before {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+    *,
+    *::after,
+    *::before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-        * {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+    * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
+    :root {
+        font-size: 16px;
+        --color-text: #fff;
+        --color-bg: #111;
+        --color-link: #aaa;
+        --color-link-hover: #fff;
+        --color-alt: #7f6a57;
+        --bg-color: #ffffff;
+        --bg-color-rgb: 255, 255, 255;
+        --text-color: #111111;
+        --text-color-rgb: 17, 17, 17;
+        --accent-color: #56544aed;
+        --accent-color-rgb: 86, 84, 74;
+        --secondary-color: #025b5e;
+        --menu-bg: rgba(255, 255, 255, 0.98);
+        --transition-smooth: cubic-bezier(0.77, 0, 0.175, 1);
+        --transition-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        --spacing-md: 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
         :root {
-            font-size: 16px;
-            --color-text: #fff;
-            --color-bg: #111;
-            --color-link: #aaa;
-            --color-link-hover: #fff;
-            --color-alt: #7f6a57;
-            --bg-color: #ffffff;
-            --bg-color-rgb: 255, 255, 255;
-            --text-color: #111111;
-            --text-color-rgb: 17, 17, 17;
-            --accent-color: #56544aed;
-            --accent-color-rgb: 86, 84, 74;
-            --secondary-color: #025b5e;
-            --menu-bg: rgba(255, 255, 255, 0.98);
-            --transition-smooth: cubic-bezier(0.77, 0, 0.175, 1);
-            --transition-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
-            --spacing-md: 1rem;
+            --bg-color: #111111;
+            --bg-color-rgb: 17, 17, 17;
+            --text-color: #f5f5f5;
+            --text-color-rgb: 245, 245, 245;
+            --accent-color: #f5f5f5;
+            --accent-color-rgb: 245, 245, 245;
+            --secondary-color: #bfbfac;
+            --menu-bg: rgba(17, 17, 17, 0.98);
         }
+    }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #111111;
-                --bg-color-rgb: 17, 17, 17;
-                --text-color: #f5f5f5;
-                --text-color-rgb: 245, 245, 245;
-                --accent-color: #f5f5f5;
-                --accent-color-rgb: 245, 245, 245;
-                --secondary-color: #bfbfac;
-                --menu-bg: rgba(17, 17, 17, 0.98);
-            }
-        }
+    html.has-scroll-smooth {
+        overflow: hidden;
+    }
 
-        html.has-scroll-smooth {
-            overflow: hidden;
-        }
-        
-        html.has-scroll-dragging {
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        
-        .has-scroll-smooth body {
-            overflow: hidden;
-        }
-        
-        .has-scroll-smooth [data-scroll-container] {
-            min-height: 100vh;
-        }
+    html.has-scroll-dragging {
+        -webkit-user-select: none;
+        user-select: none;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
+    .has-scroll-smooth body {
+        overflow: hidden;
+    }
 
-        ::selection {
-            background: var(--accent-color);
-            color: var(--bg-color);
-        }
+    .has-scroll-smooth [data-scroll-container] {
+        min-height: 100vh;
+    }
 
-        body.demo-2 {
-            color: var(--color-text);
-            background-color: var(--color-bg);
-            font-family: neuzeit-grotesk, sans-serif;
-        }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
 
-        body.menu-open,
-        body.tools-menu-open {
-            overflow: hidden !important;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-        }
+    ::selection {
+        background: var(--accent-color);
+        color: var(--bg-color);
+    }
 
-        .js .loading::before,
-        .js .loading::after {
-            content: '';
-            position: fixed;
-            z-index: 10000;
-        }
+    body.demo-2 {
+        color: var(--color-text);
+        background-color: var(--color-bg);
+        font-family: neuzeit-grotesk, sans-serif;
+    }
 
-        .js .loading::before {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-bg);
-        }
+    body.menu-open,
+    body.tools-menu-open {
+        overflow: hidden !important;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
 
-        .js .loading::after {
-            top: 50%;
-            left: 50%;
-            width: 60px;
-            height: 60px;
-            margin: -30px 0 0 -30px;
-            border-radius: 50%;
-            opacity: 0.4;
-            background: var(--color-link);
-            animation: loaderAnim 0.7s linear infinite alternate forwards;
-        }
+    .js .loading::before,
+    .js .loading::after {
+        content: '';
+        position: fixed;
+        z-index: 10000;
+    }
 
-        @keyframes loaderAnim {
-            to {
-                opacity: 1;
-                transform: scale3d(0.5,0.5,1);
-            }
-        }
+    .js .loading::before {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--color-bg);
+    }
 
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--spacing-md) 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            transition: all 0.3s var(--transition-smooth);
-            background-color: rgba(var(--bg-color-rgb), 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
-        }
+    .js .loading::after {
+        top: 50%;
+        left: 50%;
+        width: 60px;
+        height: 60px;
+        margin: -30px 0 0 -30px;
+        border-radius: 50%;
+        opacity: 0.4;
+        background: var(--color-link);
+        animation: loaderAnim 0.7s linear infinite alternate forwards;
+    }
 
-        header.scrolled {
-            padding: 0.8rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-color);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-            z-index: 1;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            z-index: 101;
-        }
-
-        .tools-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background-color: rgba(var(--text-color-rgb), 0.12);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(var(--text-color-rgb), 0.08);
-        }
-
-        .tools-icon:hover {
-            background-color: rgba(var(--text-color-rgb), 0.18);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .tools-icon svg {
-            width: 22px;
-            height: 22px;
-            color: var(--text-color);
-            transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6), color 0.3s ease;
-        }
-
-        .tools-icon:hover svg {
-            transform: rotate(90deg);
-            color: var(--accent-color);
-        }
-
-        .menu {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            margin: 0;
-            outline: none;
-            position: relative;
-            border: none;
-            background: rgba(var(--text-color-rgb), 0.12);
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-            -webkit-tap-highlight-color: transparent;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .menu:hover {
-            background: rgba(var(--text-color-rgb), 0.18);
-            transform: scale(1.05);
-        }
-
-        .menu svg {
-            width: 52px;
-            height: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            stroke: var(--text-color);
-            stroke-width: 4px;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
-            display: block;
-            pointer-events: none;
-        }
-
-        .menu svg path {
-            transition: stroke-dasharray var(--duration, .85s) var(--easing, ease) var(--delay, 0s),
-                        stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
-            stroke-dasharray: var(--array-1, 26px) var(--array-2, 100px);
-            stroke-dashoffset: var(--offset, 126px);
-            transform: translateZ(0);
-        }
-
-        .menu svg path:nth-child(2) {
-            --duration: .7s;
-            --easing: ease-in;
-            --offset: 100px;
-            --array-2: 74px;
-        }
-
-        .menu svg path:nth-child(3) {
-            --offset: 133px;
-            --array-2: 107px;
-        }
-
-        .menu.active svg path {
-            --offset: 57px;
-        }
-
-        .menu.active svg path:nth-child(1),
-        .menu.active svg path:nth-child(3) {
-            --delay: .15s;
-            --easing: cubic-bezier(.2, .4, .2, 1.1);
-        }
-
-        .menu.active svg path:nth-child(2) {
-            --duration: .4s;
-            --offset: 2px;
-            --array-1: 1px;
-        }
-
-        .menu.active svg path:nth-child(3) {
-            --offset: 58px;
-        }
-
-        .menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 90;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: all 0.4s ease;
-        }
-
-        .menu-overlay.active {
+    @keyframes loaderAnim {
+        to {
             opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
+            transform: scale3d(0.5, 0.5, 1);
         }
+    }
 
-        nav {
-            position: fixed !important;
-            top: 0 !important;
-            right: -100%;
-            width: 100%;
-            max-width: 420px;
-            height: 100vh !important;
-            height: 100dvh !important;
-            background: var(--menu-bg);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            padding: 6rem 2.5rem 2rem;
-            z-index: 95 !important;
-            transition: right 0.5s var(--transition-smooth);
-            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            transform: translateZ(0) !important;
-            will-change: right;
-        }
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md) 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        transition: all 0.3s var(--transition-smooth);
+        background-color: rgba(var(--bg-color-rgb), 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
+    }
 
-        nav.active {
-            right: 0 !important;
-        }
+    header.scrolled {
+        padding: 0.8rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+        z-index: 1;
+    }
 
-        nav li {
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 101;
+    }
 
-        nav.active li:nth-child(1) { animation: slideIn 0.3s ease forwards 0.1s; }
-        nav.active li:nth-child(2) { animation: slideIn 0.3s ease forwards 0.15s; }
-        nav.active li:nth-child(3) { animation: slideIn 0.3s ease forwards 0.2s; }
-        nav.active li:nth-child(4) { animation: slideIn 0.3s ease forwards 0.25s; }
-        nav.active li:nth-child(5) { animation: slideIn 0.3s ease forwards 0.3s; }
+    .tools-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background-color: rgba(var(--text-color-rgb), 0.12);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(var(--text-color-rgb), 0.08);
+    }
 
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+    .tools-icon:hover {
+        background-color: rgba(var(--text-color-rgb), 0.18);
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-        nav a {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 500;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+    .tools-icon svg {
+        width: 22px;
+        height: 22px;
+        color: var(--text-color);
+        transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6), color 0.3s ease;
+    }
 
-        nav a::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(180deg, var(--accent-color), var(--secondary-color));
-            transform: scaleY(0);
-            transition: transform 0.3s var(--transition-bounce);
-        }
+    .tools-icon:hover svg {
+        transform: rotate(90deg);
+        color: var(--accent-color);
+    }
 
-        nav a:hover,
-        nav a.active {
-            color: var(--accent-color);
-            transform: translateX(8px);
-            background: rgba(var(--accent-color-rgb), 0.05);
-        }
+    .menu {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        position: relative;
+        border: none;
+        background: rgba(var(--text-color-rgb), 0.12);
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
 
-        nav a:hover::before,
-        nav a.active::before {
-            transform: scaleY(1);
-        }
+    .menu:hover {
+        background: rgba(var(--text-color-rgb), 0.18);
+        transform: scale(1.05);
+    }
 
-        .main-nav {
-            display: none;
-        }
+    .menu svg {
+        width: 52px;
+        height: 40px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        stroke: var(--text-color);
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        display: block;
+        pointer-events: none;
+    }
 
-        .tools-menu {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-color);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            overflow-y: auto;
-            transition: all 0.4s ease;
-        }
+    .menu svg path {
+        transition: stroke-dasharray var(--duration, .85s) var(--easing, ease) var(--delay, 0s),
+            stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
+        stroke-dasharray: var(--array-1, 26px) var(--array-2, 100px);
+        stroke-dashoffset: var(--offset, 126px);
+        transform: translateZ(0);
+    }
 
-        .tools-menu.active {
+    .menu svg path:nth-child(2) {
+        --duration: .7s;
+        --easing: ease-in;
+        --offset: 100px;
+        --array-2: 74px;
+    }
+
+    .menu svg path:nth-child(3) {
+        --offset: 133px;
+        --array-2: 107px;
+    }
+
+    .menu.active svg path {
+        --offset: 57px;
+    }
+
+    .menu.active svg path:nth-child(1),
+    .menu.active svg path:nth-child(3) {
+        --delay: .15s;
+        --easing: cubic-bezier(.2, .4, .2, 1.1);
+    }
+
+    .menu.active svg path:nth-child(2) {
+        --duration: .4s;
+        --offset: 2px;
+        --array-1: 1px;
+    }
+
+    .menu.active svg path:nth-child(3) {
+        --offset: 58px;
+    }
+
+    .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 90;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0.4s ease;
+    }
+
+    .menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    nav {
+        position: fixed !important;
+        top: 0 !important;
+        right: -100%;
+        width: 100%;
+        max-width: 420px;
+        height: 100vh !important;
+        height: 100dvh !important;
+        background: var(--menu-bg);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        padding: 6rem 2.5rem 2rem;
+        z-index: 95 !important;
+        transition: right 0.5s var(--transition-smooth);
+        box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        transform: translateZ(0) !important;
+        will-change: right;
+    }
+
+    nav.active {
+        right: 0 !important;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    nav li {
+        margin-bottom: 1rem;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    nav.active li:nth-child(1) {
+        animation: slideIn 0.3s ease forwards 0.1s;
+    }
+
+    nav.active li:nth-child(2) {
+        animation: slideIn 0.3s ease forwards 0.15s;
+    }
+
+    nav.active li:nth-child(3) {
+        animation: slideIn 0.3s ease forwards 0.2s;
+    }
+
+    nav.active li:nth-child(4) {
+        animation: slideIn 0.3s ease forwards 0.25s;
+    }
+
+    nav.active li:nth-child(5) {
+        animation: slideIn 0.3s ease forwards 0.3s;
+    }
+
+    @keyframes slideIn {
+        to {
             opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
+            transform: translateX(0);
         }
+    }
 
-        .tools-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem;
-            border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
-            position: sticky;
-            top: 0;
-            background: var(--bg-color);
-            z-index: 10;
-        }
+    nav a {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-weight: 500;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
 
-        .tools-menu-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-color);
-        }
+    nav a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(180deg, var(--accent-color), var(--secondary-color));
+        transform: scaleY(0);
+        transition: transform 0.3s var(--transition-bounce);
+    }
 
-        .tools-menu-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(var(--text-color-rgb), 0.1);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
+    nav a:hover,
+    nav a.active {
+        color: var(--accent-color);
+        transform: translateX(8px);
+        background: rgba(var(--accent-color-rgb), 0.05);
+    }
 
-        .tools-menu-close:hover {
-            background: rgba(var(--text-color-rgb), 0.2);
-            transform: scale(1.05);
-        }
+    nav a:hover::before,
+    nav a.active::before {
+        transform: scaleY(1);
+    }
 
-        .tools-menu-close svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--text-color);
-        }
+    .main-nav {
+        display: none;
+    }
 
-        .tools-menu-content {
-            padding: 2rem;
-        }
+    .tools-menu {
+        position: fixed;
+        inset: 0;
+        background: var(--bg-color);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        overflow-y: auto;
+        transition: all 0.4s ease;
+    }
 
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+    .tools-menu.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
 
-        .tool-item {
-            position: relative;
-            padding: 2rem;
-            border-radius: 16px;
-            background: rgba(var(--text-color-rgb), 0.05);
-            border: 1px solid rgba(var(--text-color-rgb), 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
+    .tools-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem;
+        border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
+        position: sticky;
+        top: 0;
+        background: var(--bg-color);
+        z-index: 10;
+    }
 
-        .tool-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            background: rgba(var(--accent-color-rgb), 0.1);
-        }
+    .tools-menu-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
 
-        .tool-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1rem;
-        }
+    .tools-menu-close {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(var(--text-color-rgb), 0.1);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
 
-        .tool-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--text-color);
-            transition: all 0.3s ease;
-        }
+    .tools-menu-close:hover {
+        background: rgba(var(--text-color-rgb), 0.2);
+        transform: scale(1.05);
+    }
 
-        .tool-item:hover .tool-icon svg {
-            stroke: var(--accent-color);
-            transform: scale(1.1);
-        }
+    .tools-menu-close svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--text-color);
+    }
 
-        .tool-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-color);
-        }
+    .tools-menu-content {
+        padding: 2rem;
+    }
 
-        .tool-info p {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            color: var(--text-color);
-        }
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-        .tool-link {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
+    .tool-item {
+        position: relative;
+        padding: 2rem;
+        border-radius: 16px;
+        background: rgba(var(--text-color-rgb), 0.05);
+        border: 1px solid rgba(var(--text-color-rgb), 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
 
-        .tiles {
-            --tiles-height: 52vw;
-            height: var(--tiles-height);
-            position: relative;
-            overflow: hidden;
-            will-change: transform;
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
+    .tool-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        background: rgba(var(--accent-color-rgb), 0.1);
+    }
 
-        .tiles--columns-rotated {
-            --tiles-height: 180vmax;
-        }
+    .tool-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1rem;
+    }
 
-        .tiles--oneline {
-            --tiles-height: 50vh;
-            min-height: 400px;
-            margin: 10vh 0;
-        }
+    .tool-icon svg {
+        width: 100%;
+        height: 100%;
+        stroke: var(--text-color);
+        transition: all 0.3s ease;
+    }
 
-        .tiles__wrap {
-            width: 150%;
-            --tileswrap-height: var(--tiles-height);
-            height: var(--tileswrap-height);
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate3d(-50%,-50%,0);
-            backface-visibility: hidden;
-            transform-style: preserve-3d;
-        }
+    .tool-item:hover .tool-icon svg {
+        stroke: var(--accent-color);
+        transform: scale(1.1);
+    }
 
-        .tiles--columns-rotated .tiles__wrap {
-            width: 150%;
-            display: flex;
-            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
-            left: 50%;
-            top: 50%;
-            align-items: center;
-            justify-content: center;
-        }
+    .tool-info h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
 
-        .tiles__line {
-            display: flex;
-        }
+    .tool-info p {
+        font-size: 0.9rem;
+        opacity: 0.7;
+        color: var(--text-color);
+    }
 
+    .tool-link {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    .tiles {
+        --tiles-height: 52vw;
+        height: var(--tiles-height);
+        position: relative;
+        overflow: hidden;
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    .tiles--columns-rotated {
+        --tiles-height: 180vmax;
+    }
+
+    .tiles--oneline {
+        --tiles-height: 50vh;
+        min-height: 400px;
+        margin: 10vh 0;
+    }
+
+    .tiles__wrap {
+        width: 150%;
+        --tileswrap-height: var(--tiles-height);
+        height: var(--tileswrap-height);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+    }
+
+    .tiles--columns-rotated .tiles__wrap {
+        width: 150%;
+        display: flex;
+        transform: translate3d(-50%, -50%, 0) rotate(-22.5deg);
+        left: 50%;
+        top: 50%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tiles__line {
+        display: flex;
+    }
+
+    .tiles--columns-rotated .tiles__line {
+        width: 320px;
+        flex: none;
+        padding: 0 1.5vw;
+        display: block;
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .tiles--columns-rotated .tiles__line:nth-child(even) {
+        margin-top: -160px;
+    }
+
+    .tiles--oneline .tiles__line {
+        height: 100%;
+    }
+
+    .tiles__line-img {
+        --tile-margin: 2vw;
+        flex: none;
+        width: calc(16.6666% - var(--tile-margin) * 2);
+        height: calc(var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
+        margin: var(--tile-margin);
+        background-size: cover;
+        background-position: 50% 50%;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    .tiles--oneline .tiles__line-img {
+        --tile-margin: 1vw;
+        margin: 0 var(--tile-margin);
+        width: calc(25% - var(--tile-margin) * 2);
+        height: 100%;
+    }
+
+    .tiles--columns-rotated .tiles__line-img {
+        --tile-margin: 3vw 0;
+        width: 100%;
+        height: 400px;
+        margin: var(--tile-margin);
+        background-size: cover;
+        background-position: 50% 50%;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    .tiles--darker .tiles__line-img {
+        opacity: 0.7;
+    }
+
+    .tiles__title {
+        position: absolute;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10vw;
+        padding: 3rem;
+        margin: 0;
+        line-height: 0.8;
+        font-family: span, serif;
+        font-weight: 700;
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .tiles__title--alt {
+        font-size: 9vw;
+        font-size: clamp(2rem, 9vw, 7.25rem);
+    }
+
+    .tiles__title--right {
+        justify-content: flex-end;
+    }
+
+    .tiles__title--left {
+        justify-content: flex-start;
+    }
+
+    .tiles__title--full {
+        height: 100%;
+    }
+
+    section {
+        will-change: transform;
+        backface-visibility: hidden;
+        position: relative;
+    }
+
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 2rem 2rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 8vw, 5rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        opacity: 0.7;
+        line-height: 1.6;
+        font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .content-section {
+        min-height: 80vh;
+        padding: 4rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content-box {
+        max-width: 800px;
+        text-align: center;
+    }
+
+    .content-box h2 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        margin-bottom: 2rem;
+        color: var(--color-alt);
+    }
+
+    .content-box p {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        line-height: 1.6;
+        opacity: 0.9;
+    }
+
+    /* Shader Section Styles */
+    .shader-section {
+        min-height: 100vh;
+        padding: 6rem 2rem 4rem;
+        background: var(--color-bg);
+    }
+
+    .shader-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .shader-title {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: var(--color-text);
+    }
+
+    .shader-description {
+        text-align: center;
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        opacity: 0.7;
+        margin-bottom: 4rem;
+        color: var(--color-text);
+    }
+
+    .shader-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+        padding: 0 1rem;
+    }
+
+    .shader-item {
+        position: relative;
+        aspect-ratio: 3/4;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .shader-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .shader-image.loaded {
+        opacity: 1;
+    }
+
+    .shader-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+
+    .shader-label {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        color: var(--color-text);
+        font-size: 1rem;
+        font-weight: 500;
+        z-index: 3;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    footer {
+        padding: 4rem 2rem;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        backface-visibility: hidden;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--color-text);
+    }
+
+    .footer-content p {
+        opacity: 0.7;
+        margin-bottom: 1rem;
+    }
+
+    .footer-bottom {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+        opacity: 0.5;
+        font-size: 0.9rem;
+    }
+
+    .c-scrollbar {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 11px;
+        height: 100vh;
+        transform-origin: center right;
+        transition: transform 0.3s, opacity 0.3s;
+        opacity: 0;
+    }
+
+    .c-scrollbar:hover {
+        transform: scaleX(1.45);
+    }
+
+    .c-scrollbar:hover,
+    .has-scroll-scrolling .c-scrollbar,
+    .has-scroll-dragging .c-scrollbar {
+        opacity: 1;
+    }
+
+    .c-scrollbar_thumb {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: var(--color-alt);
+        opacity: 0.5;
+        width: 7px;
+        border-radius: 10px;
+        margin: 2px;
+        cursor: grab;
+    }
+
+    .has-scroll-dragging .c-scrollbar_thumb {
+        cursor: grabbing;
+    }
+
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (min-width: 768px) {
         .tiles--columns-rotated .tiles__line {
-            width: 320px;
-            flex: none;
-            padding: 0 1.5vw;
-            display: block;
-            will-change: transform;
-            backface-visibility: hidden;
+            width: 33vmax;
         }
 
         .tiles--columns-rotated .tiles__line:nth-child(even) {
-            margin-top: -160px;
-        }
-
-        .tiles--oneline .tiles__line {
-            height: 100%;
-        }
-
-        .tiles__line-img {
-            --tile-margin: 2vw;
-            flex: none;
-            width: calc(16.6666% - var(--tile-margin) * 2);
-            height: calc(var(--tileswrap-height) / 3 - (3 * var(--tile-margin) / 2));
-            margin: var(--tile-margin);
-            background-size: cover;
-            background-position: 50% 50%;
-            backface-visibility: hidden;
-            transform: translateZ(0);
-            will-change: transform;
-        }
-
-        .tiles--oneline .tiles__line-img {
-            --tile-margin: 1vw;
-            margin: 0 var(--tile-margin);
-            width: calc(25% - var(--tile-margin) * 2);
-            height: 100%;
+            margin-top: -20vmax;
         }
 
         .tiles--columns-rotated .tiles__line-img {
-            --tile-margin: 3vw 0;
-            width: 100%;
-            height: 400px;
-            margin: var(--tile-margin);
-            background-size: cover;
-            background-position: 50% 50%;
-            backface-visibility: hidden;
-            transform: translateZ(0);
-            will-change: transform;
+            height: 40vmax;
         }
 
-        .tiles--darker .tiles__line-img {
-            opacity: 0.7;
-        }
-
-        .tiles__title {
-            position: absolute;
-            height: 100vh;
-            width: 100%;
+        .main-nav {
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 10vw;
-            padding: 3rem;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
             margin: 0;
-            line-height: 0.8;
-            font-family: span, serif;
-            font-weight: 700;
-            will-change: transform;
-            backface-visibility: hidden;
+            padding: 0;
+            gap: 2rem;
         }
 
-        .tiles__title--alt {
-            font-size: 9vw;
-            font-size: clamp(2rem, 9vw, 7.25rem);
-        }
-
-        .tiles__title--right {
-            justify-content: flex-end;
-        }
-
-        .tiles__title--left {
-            justify-content: flex-start;
-        }
-
-        .tiles__title--full {
-            height: 100%;
-        }
-
-        section {
-            will-change: transform;
-            backface-visibility: hidden;
+        .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
             position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
         }
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 6rem 2rem 2rem;
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
         }
 
-        .hero h1 {
-            font-size: clamp(2rem, 8vw, 5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--accent-color);
         }
 
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            opacity: 0.7;
-            line-height: 1.6;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            width: 100%;
         }
 
-        .content-section {
-            min-height: 80vh;
-            padding: 4rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .menu {
+            display: none !important;
         }
 
-        .content-box {
-            max-width: 800px;
-            text-align: center;
+        .menu-overlay {
+            display: none !important;
         }
 
-        .content-box h2 {
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin-bottom: 2rem;
-            color: var(--color-alt);
+        nav {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        header {
+            padding: 1rem;
         }
 
-        .content-box p {
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            line-height: 1.6;
-            opacity: 0.9;
+        .menu,
+        .tools-icon {
+            width: 40px;
+            height: 40px;
         }
 
-        /* Shader Section Styles */
-        .shader-section {
-            min-height: 100vh;
-            padding: 6rem 2rem 4rem;
-            background: var(--color-bg);
+        nav {
+            max-width: 90%;
         }
 
-        .shader-container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .main-nav {
+            display: none !important;
         }
 
-        .shader-title {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 1rem;
-            color: var(--color-text);
-        }
-
-        .shader-description {
-            text-align: center;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            opacity: 0.7;
-            margin-bottom: 4rem;
-            color: var(--color-text);
+        .tools-grid {
+            grid-template-columns: 1fr;
         }
 
         .shader-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            padding: 0 1rem;
+            grid-template-columns: 1fr;
+            gap: 2rem;
         }
-
-        .shader-item {
-            position: relative;
-            aspect-ratio: 3/4;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .shader-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .shader-image.loaded {
-            opacity: 1;
-        }
-
-        .shader-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
-
-        .shader-label {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 1.5rem;
-            color: var(--color-text);
-            font-size: 1rem;
-            font-weight: 500;
-            z-index: 3;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        footer {
-            padding: 4rem 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            backface-visibility: hidden;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--color-text);
-        }
-
-        .footer-content p {
-            opacity: 0.7;
-            margin-bottom: 1rem;
-        }
-
-        .footer-bottom {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-bottom p {
-            opacity: 0.5;
-            font-size: 0.9rem;
-        }
-
-        .c-scrollbar {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 11px;
-            height: 100vh;
-            transform-origin: center right;
-            transition: transform 0.3s, opacity 0.3s;
-            opacity: 0;
-        }
-
-        .c-scrollbar:hover {
-            transform: scaleX(1.45);
-        }
-
-        .c-scrollbar:hover,
-        .has-scroll-scrolling .c-scrollbar,
-        .has-scroll-dragging .c-scrollbar {
-            opacity: 1;
-        }
-
-        .c-scrollbar_thumb {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--color-alt);
-            opacity: 0.5;
-            width: 7px;
-            border-radius: 10px;
-            margin: 2px;
-            cursor: grab;
-        }
-
-        .has-scroll-dragging .c-scrollbar_thumb {
-            cursor: grabbing;
-        }
-
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        @media (min-width: 768px) {
-            .tiles--columns-rotated .tiles__line {
-                width: 33vmax;
-            }
-            
-            .tiles--columns-rotated .tiles__line:nth-child(even) {
-                margin-top: -20vmax;
-            }
-            
-            .tiles--columns-rotated .tiles__line-img {
-                height: 40vmax;
-            }
-
-            .main-nav {
-                display: flex;
-                align-items: center;
-            }
-            
-            .main-nav ul {
-                display: flex;
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                gap: 2rem;
-            }
-            
-            .main-nav a {
-                color: var(--text-color);
-                text-decoration: none;
-                font-weight: 500;
-                position: relative;
-                padding: 0.5rem 0;
-                transition: color 0.3s ease;
-            }
-            
-            .main-nav a::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 0;
-                height: 2px;
-                background-color: var(--accent-color);
-                transition: width 0.3s ease;
-            }
-            
-            .main-nav a:hover,
-            .main-nav a.active {
-                color: var(--accent-color);
-            }
-            
-            .main-nav a:hover::after,
-            .main-nav a.active::after {
-                width: 100%;
-            }
-            
-            .menu {
-                display: none !important;
-            }
-            
-            .menu-overlay {
-                display: none !important;
-            }
-            
-            nav {
-                display: none !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem;
-            }
-
-            .menu,
-            .tools-icon {
-                width: 40px;
-                height: 40px;
-            }
-
-            nav {
-                max-width: 90%;
-            }
-
-            .main-nav {
-                display: none !important;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .shader-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body class="demo-2 loading">
@@ -1020,23 +1035,31 @@
         <a href="https://imbajrangi.github.io/Company/" class="logo">
             <span>Vrindopnishad</span>
         </a>
-        
+
         <div class="main-nav">
             <ul>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/main/home.html" class="active">Home</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
+                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/main/home.html"
+                        class="active">Home</a></li>
+                <li><a
+                        href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a>
+                </li>
+                <li><a
+                        href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
+                </li>
             </ul>
         </div>
-        
+
         <div class="header-right">
             <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
                 </svg>
             </div>
-            
+
             <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
                 <svg viewBox="0 0 64 48">
                     <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
@@ -1046,15 +1069,20 @@
             </button>
         </div>
     </header>
-    
+
     <nav aria-hidden="true">
         <ul>
             <li><a href="https://imbajrangi.github.io/Company/" class="active">Home</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Photos</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html">PDF Library</a></li>
-            <li><a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen.html">Cloud Kitchen</a></li>
+            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
+            </li>
+            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Photos</a>
+            </li>
+            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a>
+            </li>
+            <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html">PDF
+                    Library</a></li>
+            <li><a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(modified).html">Cloud
+                    Kitchen</a></li>
         </ul>
     </nav>
 
@@ -1062,18 +1090,20 @@
         <div class="tools-menu-header">
             <div class="tools-menu-logo">Vrindopnishad Tools</div>
             <div class="tools-menu-close" aria-label="Close tools menu" role="button" tabindex="0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </div>
         </div>
-        
+
         <div class="tools-menu-content">
             <div class="tools-grid">
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="9" y1="3" x2="9" y2="21"></line>
                         </svg>
@@ -1082,12 +1112,14 @@
                         <h3>Collection</h3>
                         <p>Browse our curated collections</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html"
+                        class="tool-link"></a>
                 </div>
 
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="9" y1="3" x2="9" y2="21"></line>
                         </svg>
@@ -1096,12 +1128,14 @@
                         <h3>Foody Vrinda</h3>
                         <p>Explore our Cloud Kitchen</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen.html"
+                        class="tool-link"></a>
                 </div>
-                
+
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <circle cx="8.5" cy="8.5" r="1.5"></circle>
                             <polyline points="21 15 16 10 5 21"></polyline>
@@ -1111,12 +1145,14 @@
                         <h3>Photos</h3>
                         <p>Explore our photo gallery</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html"
+                        class="tool-link"></a>
                 </div>
-                
+
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -1128,12 +1164,14 @@
                         <h3>PDF Library</h3>
                         <p>Access our digital document collection</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+                        class="tool-link"></a>
                 </div>
-                
+
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1142,50 +1180,101 @@
                         <h3>Spiritual Texts</h3>
                         <p>Explore ancient wisdom and teachings</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
+                        class="tool-link"></a>
                 </div>
             </div>
         </div>
     </div>
 
     <main data-scroll-container>
-        
+
         <section class="tiles tiles--columns-rotated tiles--darker" id="grid" data-scroll-section>
             <div class="tiles__wrap">
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
                 </div>
             </div>
             <h2 class="tiles__title" data-scroll data-scroll-speed="-6">Shri Harivansh</h2>
@@ -1198,7 +1287,8 @@
                     <div>Cosmic</div>
                     <div>Journey</div>
                 </h1>
-                <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for spiritual and creative exploration</p>
+                <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
+                    spiritual and creative exploration</p>
             </div>
         </section>
 
@@ -1209,17 +1299,20 @@
                 <p class="shader-description" data-scroll data-scroll-speed="-2">Click on an image to see the effect</p>
                 <div class="shader-grid">
                     <div class="shader-item" data-scroll data-scroll-speed="2">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Gallery Image 1" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+                            alt="Gallery Image 1" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Pose — 001</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="2">
-                        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800" alt="Gallery Image 2" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800"
+                            alt="Gallery Image 2" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Stand — 002</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="2">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800" alt="Gallery Image 3" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800"
+                            alt="Gallery Image 3" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Dance — 003</span>
                     </div>
@@ -1229,58 +1322,91 @@
 
         <section class="tiles tiles--oneline" id="grid2" data-scroll-section>
             <div class="tiles__wrap">
-                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid2" data-scroll-direction="horizontal">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)"></div>
+                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid2"
+                    data-scroll-direction="horizontal">
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
+                    </div>
                 </div>
             </div>
-            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Civilization</h2>
+            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
+                data-scroll-speed="2">Civilization</h2>
         </section>
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Digital Sanctuary</h2>
-                <p>A space where creativity and spirituality converge in harmony, fostering deeper connections with art and wisdom.</p>
+                <p>A space where creativity and spirituality converge in harmony, fostering deeper connections with art
+                    and wisdom.</p>
             </div>
         </section>
 
         <section class="tiles tiles--oneline" id="grid3" data-scroll-section>
             <div class="tiles__wrap">
-                <div class="tiles__line" data-scroll data-scroll-speed="-2" data-scroll-target="#grid3" data-scroll-direction="horizontal">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)"></div>
+                <div class="tiles__line" data-scroll data-scroll-speed="-2" data-scroll-target="#grid3"
+                    data-scroll-direction="horizontal">
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
+                    </div>
                 </div>
             </div>
-            <h2 class="tiles__title tiles__title--left tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Empowerment</h2>
+            <h2 class="tiles__title tiles__title--left tiles__title--full tiles__title--alt" data-scroll
+                data-scroll-speed="2">Empowerment</h2>
         </section>
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Artistic Excellence</h2>
-                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital innovations.</p>
+                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital
+                    innovations.</p>
             </div>
         </section>
 
         <section class="tiles tiles--oneline" id="grid4" data-scroll-section>
             <div class="tiles__wrap">
-                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid4" data-scroll-direction="horizontal">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)"></div>
+                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid4"
+                    data-scroll-direction="horizontal">
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
+                    </div>
                 </div>
             </div>
-            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Apocalypse</h2>
+            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
+                data-scroll-speed="2">Apocalypse</h2>
         </section>
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Visual Stories</h2>
-                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.</p>
+                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.
+                </p>
             </div>
         </section>
 
@@ -1306,7 +1432,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+
     <script>
         // WebGL Shader Effect Implementation
         class ShaderEffect {
@@ -1316,10 +1442,10 @@
                 this.canvas = container.querySelector('.shader-canvas');
                 this.isBw = false;
                 this.isAnimating = false;
-                
+
                 this.init();
             }
-            
+
             init() {
                 // Wait for image to load
                 if (this.img.complete) {
@@ -1327,20 +1453,20 @@
                 } else {
                     this.img.addEventListener('load', () => this.setup());
                 }
-                
+
                 // Click handler
                 this.container.addEventListener('click', (e) => this.onClick(e));
             }
-            
+
             setup() {
                 const rect = this.img.getBoundingClientRect();
                 this.canvas.width = rect.width;
                 this.canvas.height = rect.height;
-                
+
                 // Setup Three.js scene
                 this.scene = new THREE.Scene();
                 this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-                
+
                 this.renderer = new THREE.WebGLRenderer({
                     canvas: this.canvas,
                     alpha: true,
@@ -1348,14 +1474,14 @@
                 });
                 this.renderer.setSize(rect.width, rect.height);
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                
+
                 // Load texture
                 const loader = new THREE.TextureLoader();
                 loader.crossOrigin = 'anonymous';
                 const texture = loader.load(this.img.src, () => {
                     this.img.classList.add('loaded');
                 });
-                
+
                 // Create shader material
                 this.material = new THREE.ShaderMaterial({
                     uniforms: {
@@ -1434,77 +1560,77 @@
                         }
                     `
                 });
-                
+
                 // Create plane
                 const geometry = new THREE.PlaneGeometry(2, 2, 50, 50);
                 this.mesh = new THREE.Mesh(geometry, this.material);
                 this.scene.add(this.mesh);
-                
+
                 // Start render loop
                 this.render();
             }
-            
+
             render() {
                 if (this.renderer) {
                     this.renderer.render(this.scene, this.camera);
                 }
                 requestAnimationFrame(() => this.render());
             }
-            
+
             onClick(e) {
                 if (this.isAnimating) return;
-                
+
                 const rect = this.container.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = 1 - (e.clientY - rect.top) / rect.height;
-                
+
                 this.animate(x, y);
             }
-            
+
             animate(x, y) {
                 if (!this.material) return;
-                
+
                 this.isAnimating = true;
-                
+
                 // Toggle state
                 this.isBw = !this.isBw;
-                
+
                 const duration = 1500;
                 const startTime = Date.now();
-                
+
                 this.material.uniforms.uMouse.value.set(x, y);
                 this.material.uniforms.uDirection.value = this.isBw ? 1.0 : -1.0;
-                
+
                 const animateFrame = () => {
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    
+
                     // Update uniforms
                     this.material.uniforms.uGrayscaleProgress.value = progress;
                     this.material.uniforms.uTime.value += 0.1;
-                    
+
                     // Ripple effect (0 -> 1 -> 0)
                     if (progress < 0.5) {
                         this.material.uniforms.uRippleProgress.value = progress * 2;
                     } else {
                         this.material.uniforms.uRippleProgress.value = (1 - progress) * 2;
                     }
-                    
+
                     if (progress < 1) {
                         requestAnimationFrame(animateFrame);
                     } else {
                         this.isAnimating = false;
                     }
                 };
-                
+
                 animateFrame();
             }
         }
-        
+
         // Initialize everything
         const preloadImages = (selector = 'img') => {
             return new Promise((resolve) => {
-                imagesLoaded(document.querySelectorAll(selector), {background: true}, resolve);
+                imagesLoaded(document.querySelectorAll(selector), { background: true }, resolve);
             });
         };
 
@@ -1519,7 +1645,7 @@
         };
 
         Promise.all([
-            preloadImages('.tiles__line-img, .shader-image'), 
+            preloadImages('.tiles__line-img, .shader-image'),
             preloadFonts('rmd7deq')
         ]).then(() => {
             document.body.classList.remove('loading');
@@ -1588,53 +1714,53 @@
             const nav = document.querySelector('nav');
             const menuOverlay = document.querySelector('.menu-overlay');
             const toolsIcon = document.querySelector('.tools-icon');
-            
+
             if (!mobileMenuBtn || !nav) return;
-            
+
             function openMenu() {
                 mobileMenuBtn.classList.add('active');
                 nav.classList.add('active');
                 menuOverlay.classList.add('active');
                 document.body.classList.add('menu-open');
-                
+
                 mobileMenuBtn.setAttribute('aria-expanded', 'true');
                 nav.setAttribute('aria-hidden', 'false');
-                
+
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '1001';
                 }
             }
-            
+
             function closeMenu() {
                 mobileMenuBtn.classList.remove('active');
                 nav.classList.remove('active');
                 menuOverlay.classList.remove('active');
                 document.body.classList.remove('menu-open');
-                
+
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
                 nav.setAttribute('aria-hidden', 'true');
-                
+
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '';
                 }
             }
-            
+
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
             nav.setAttribute('aria-hidden', 'true');
-            
+
             mobileMenuBtn.addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                
+
                 if (nav.classList.contains('active')) {
                     closeMenu();
                 } else {
                     openMenu();
                 }
             });
-            
+
             menuOverlay.addEventListener('click', closeMenu);
-            
+
             document.addEventListener('click', (event) => {
                 if ((nav.classList.contains('active') &&
                     !nav.contains(event.target) &&
@@ -1643,18 +1769,18 @@
                     closeMenu();
                 }
             });
-            
+
             const navLinks = document.querySelectorAll('nav a');
             navLinks.forEach(link => {
                 link.addEventListener('click', closeMenu);
             });
-            
+
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && nav.classList.contains('active')) {
                     closeMenu();
                 }
             });
-            
+
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 768 && nav.classList.contains('active')) {
                     closeMenu();
@@ -1669,33 +1795,33 @@
             const toolsIcon = document.querySelector('.tools-icon');
             const toolsMenu = document.querySelector('.tools-menu');
             const toolsMenuClose = document.querySelector('.tools-menu-close');
-            
+
             let isToolsMenuOpen = false;
-            
+
             function openToolsMenu() {
                 if (isToolsMenuOpen) return;
-                
+
                 isToolsMenuOpen = true;
-                
+
                 const iconSvg = toolsIcon?.querySelector('svg');
                 if (iconSvg) {
                     iconSvg.style.transform = 'rotate(90deg)';
                     iconSvg.style.color = 'var(--accent-color)';
                 }
-                
+
                 setTimeout(() => {
                     toolsMenu.classList.add('active');
                     document.body.classList.add('tools-menu-open');
                 }, 200);
             }
-            
+
             function closeToolsMenu() {
                 if (!isToolsMenuOpen) return;
-                
+
                 isToolsMenuOpen = false;
                 toolsMenu.classList.remove('active');
                 document.body.classList.remove('tools-menu-open');
-                
+
                 const iconSvg = toolsIcon?.querySelector('svg');
                 if (iconSvg) {
                     setTimeout(() => {
@@ -1704,28 +1830,28 @@
                     }, 300);
                 }
             }
-            
+
             if (toolsIcon) {
                 toolsIcon.addEventListener('click', openToolsMenu);
             }
-            
+
             if (toolsMenuClose) {
                 toolsMenuClose.addEventListener('click', closeToolsMenu);
             }
-            
+
             document.querySelectorAll('.tool-item .tool-link').forEach(link => {
                 link.addEventListener('click', closeToolsMenu);
             });
-            
+
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && isToolsMenuOpen) {
                     closeToolsMenu();
                 }
             });
-            
+
             document.addEventListener('click', (e) => {
-                if (isToolsMenuOpen && 
-                    !toolsMenu.contains(e.target) && 
+                if (isToolsMenuOpen &&
+                    !toolsMenu.contains(e.target) &&
                     !toolsIcon.contains(e.target)) {
                     closeToolsMenu();
                 }
@@ -1733,4 +1859,5 @@
         });
     </script>
 </body>
+
 </html>
