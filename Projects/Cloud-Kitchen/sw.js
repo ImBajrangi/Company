@@ -5,6 +5,7 @@ const ASSETS_TO_CACHE = [
   './icon.svg'
 ];
 
+
 // Install event: Cache core assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
