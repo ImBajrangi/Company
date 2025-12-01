@@ -2,15 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Cloud Kitchen Order System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link rel="manifest" href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
-    <link rel="apple-touch-icon" href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/icon.svg">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <!-- FIX: Added favicon link to prevent 404 error on favicon.ico -->
+    <link rel="icon" type="image/svg+xml" href="./icon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Notification Sound -->
+    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"
+        preload="auto"></audio>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        console.log("🚀 APP VERSION: 2.2 (Error Fixes Applied)");
+        
+        // FIX: Removed the unnecessary loadDeveloperPanel check that was causing an early error log.
+        // The script it refers to runs in the module below.
+
+        // Capture the install prompt early, before the main module loads
+        window.deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            window.deferredPrompt = e;
+            console.log("✅ 'beforeinstallprompt' fired early and captured.");
+
+            // Dispatch a custom event to notify the main script if it's already listening
+            window.dispatchEvent(new CustomEvent('deferred-prompt-ready'));
+        });
+    </script>
     <style>
         * {
             -webkit-font-smoothing: antialiased;
@@ -973,6 +1003,48 @@
                 <div id="create-order-content"></div>
             </div>
         </div>
+
+        <!-- **** NEW: Dedicated Install Instructions Modal **** -->
+        <div id="install-modal"
+            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[60] p-4">
+            <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center relative">
+                <button id="install-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Install App</h3>
+                <p class="text-gray-600 mb-6 text-sm">Get the best experience by installing the app on your device.</p>
+
+                <div id="install-instructions-android" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Tap the <strong>three dots</strong> <span
+                                class="inline-block bg-gray-200 rounded px-1">⋮</span> in the browser menu.</li>
+                        <li>Select <strong>Install App</strong> or <strong>Add to Home Screen</strong>.</li>
+                        <li>Tap <strong>Install</strong> to confirm.</li>
+                    </ol>
+                </div>
+
+                <div id="install-instructions-ios" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Tap the <strong>Share</strong> button <span
+                                class="inline-block bg-gray-200 rounded px-1">⎋</span>.</li>
+                        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+                        <li>Tap <strong>Add</strong> in the top right.</li>
+                    </ol>
+                </div>
+
+                <button id="install-modal-ok" class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Got it</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
@@ -1108,7 +1180,6 @@
             alertModal.classList.add('hidden');
             currentConfirmCallback = null;
         });
-
 
         document.getElementById('create-order-close-btn').addEventListener('click', () => createOrderModal.classList.add('hidden'));
         document.getElementById('create-order-btn').addEventListener('click', () => {
@@ -2152,6 +2223,20 @@
                 const now = Date.now();
                 const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
                 if (now - notifTime < 10000 && !latest.read) {
+
+                    // 1. Play Sound
+                    const audio = document.getElementById('notification-sound');
+                    if (audio) {
+                        audio.play().catch(e => console.log("Audio play failed (user interaction needed first):", e));
+                    }
+
+                    // 2. Vibrate Device
+                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
+                    // 3. Show In-App Toast
+                    showToast(latest.message, 'info');
+
+                    // 4. System Notification (Service Worker)
                     if (Notification.permission === 'granted') {
                         navigator.serviceWorker.ready.then(registration => {
                             registration.showNotification('Cloud Kitchen', {
@@ -2252,6 +2337,40 @@
         }
 
         // --- END Notification Functions ---
+
+        /**
+         * Shows a temporary toast notification.
+         * @param {string} message - The message to display.
+         * @param {string} type - 'success', 'error', or 'info'
+         */
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 transform transition-all duration-300 translate-x-full opacity-0`;
+
+            let icon = '';
+            if (type === 'success') icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></div>';
+            else if (type === 'error') icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></div>';
+            else icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg></div>';
+
+            toast.innerHTML = `${icon}<div class="pl-4 text-sm font-normal">${message}</div>`;
+            container.appendChild(toast);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            });
+
+            // Remove after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    if (container.contains(toast)) container.removeChild(toast);
+                }, 300);
+            }, 5000);
+        }
 
         // --- Developer Panel Logic ---
 
@@ -2760,20 +2879,102 @@
             } catch (error) { showAlert('Failed to create order.', true); }
         }
 
+        // --- Core Fix: Localized Menu Item Control Update ---
+
+        /**
+         * Updates the control (Add button or Quantity Selector) for a single menu item.
+         * This function avoids re-rendering the entire menu to prevent screen flicker.
+         * @param {string} itemId The ID of the menu item to update.
+         */
+        function updateMenuItemControls(itemId) {
+            // Find the menu item card using the item ID in the button/selector
+            const itemCard = document.querySelector(`.menu-item button[data-id="${itemId}"]`)?.closest('.menu-item') ||
+                document.querySelector(`.menu-item span[data-id="${itemId}"]`)?.closest('.menu-item');
+
+            if (!itemCard) return;
+
+            const item = currentMenu.find(m => m.id === itemId);
+            const cartItem = cart.find(ci => ci.id === itemId);
+
+            if (!item) return;
+
+            let buttonHTML;
+            if (cartItem) {
+                // Generate quantity selector HTML
+                buttonHTML = `
+                    <div class="quantity-selector mt-4">
+                        <button class="quantity-btn quantity-minus" data-id="${itemId}">-</button>
+                        <span class="quantity-display">${cartItem.quantity}</span>
+                        <button class="quantity-btn quantity-plus" data-id="${itemId}">+</button>
+                    </div>
+                `;
+            } else {
+                // Generate Add to Cart button HTML
+                buttonHTML = `<button data-id="${itemId}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
+            }
+
+            // Find the dynamic controls area (it's the last element of the inner p-5 div)
+            const controlsContainer = itemCard.querySelector('.p-5');
+            if (!controlsContainer) return;
+
+            // Find existing control elements
+            const existingButton = controlsContainer.querySelector('.add-to-cart-btn');
+            const existingSelector = controlsContainer.querySelector('.quantity-selector');
+
+            if (existingButton && cartItem) {
+                // It was 'Add to Cart', now replace it with selector
+                existingButton.outerHTML = buttonHTML;
+            } else if (existingSelector) {
+                if (cartItem) {
+                    // It's a quantity selector, update the quantity text only for smoothness
+                    const display = existingSelector.querySelector('.quantity-display');
+                    if (display) display.textContent = cartItem.quantity;
+                } else {
+                    // Quantity went to zero, replace selector with button
+                    existingSelector.outerHTML = buttonHTML;
+                }
+            } else if (!existingButton && !existingSelector && cartItem) {
+                // Fallback: If controls are missing but item is in cart (shouldn't happen often)
+                controlsContainer.insertAdjacentHTML('beforeend', buttonHTML);
+            }
+        }
+
+        // --- End Core Fix ---
+
+
         // --- Global Event Listeners ---
 
         document.body.addEventListener('click', async e => {
             const target = e.target;
             const targetId = target.dataset.id;
+            let isCartAction = false;
 
-            // Customer Cart
+            // Customer Cart (Modify Cart Data)
             if (target.matches('.add-to-cart-btn')) {
                 const item = currentMenu.find(m => m.id === targetId);
                 if (item) cart.push({ ...item, quantity: 1 });
+                isCartAction = true;
             }
-            if (target.matches('.quantity-plus')) { const item = cart.find(m => m.id === targetId); if (item) item.quantity++; }
-            if (target.matches('.quantity-minus')) { const idx = cart.findIndex(m => m.id === targetId); if (idx > -1) { cart[idx].quantity--; if (cart[idx].quantity <= 0) cart.splice(idx, 1); } }
-            if (target.matches('.add-to-cart-btn, .quantity-plus, .quantity-minus')) { updateCart(); renderMenu(selectedShopId); }
+            if (target.matches('.quantity-plus')) {
+                const item = cart.find(m => m.id === targetId);
+                if (item) item.quantity++;
+                isCartAction = true;
+            }
+            if (target.matches('.quantity-minus')) {
+                const idx = cart.findIndex(m => m.id === targetId);
+                if (idx > -1) {
+                    cart[idx].quantity--;
+                    if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+                }
+                isCartAction = true;
+            }
+
+            if (isCartAction) {
+                updateCart();
+                // FIX: Use the localized update function instead of full menu re-render
+                updateMenuItemControls(targetId);
+                // Removed: renderMenu(selectedShopId); which caused flicker
+            }
 
             // Staff Create Order Cart
             if (target.matches('.staff-quantity-plus')) {
@@ -2981,7 +3182,8 @@
                         }
                     }, 5000);
                 } else {
-                    showAlert('Please enable notifications first (in Notification Panel).', true);
+                    // FIX: Replaced the failing immediate request with instructions on how to enable
+                    showAlert('Notification permission not granted. Please click "Enable Push" in the Notification Panel and grant permission to test.', true);
                 }
             }
             if (target.matches('#refresh-orders')) {
@@ -3072,7 +3274,7 @@
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/sw.js')
+                navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
@@ -3097,7 +3299,11 @@
         // Initial check
         checkPushPermission();
 
+        // FIX: Removed the automatic Notification.requestPermission() block to comply with user gesture policies.
+        // Permission is now ONLY requested on the 'enablePushBtn' click.
+
         enablePushBtn.addEventListener('click', () => {
+            // FIX: This call is now correctly nested inside the user gesture handler
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     console.log('Notification permission granted.');
@@ -3123,11 +3329,11 @@
                 } else {
                     console.log('Notification permission denied.');
                 }
+                checkPushPermission(); // Update UI after attempt
             });
         });
 
         // --- PWA Install Logic ---
-        let deferredPrompt;
         const installBtn = document.getElementById('install-app-btn');
 
         // Detect iOS
@@ -3136,7 +3342,12 @@
             return /iphone|ipad|ipod/.test(userAgent);
         }
 
-        // Detect if already installed
+        // Detect Android
+        const isAndroid = () => {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /android/.test(userAgent);
+        }
+
         // Detect if already installed (Standard + iOS)
         const isAppInstalled = () => {
             return window.matchMedia('(display-mode: standalone)').matches ||
@@ -3144,35 +3355,68 @@
                 document.referrer.includes('android-app://');
         };
 
-        // Handle 'beforeinstallprompt' (Android/Desktop)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.classList.remove('hidden');
-            console.log("✅ 'beforeinstallprompt' fired!");
+        /**
+         * Checks if the install button should be visible.
+         * Logic: Show button ALWAYS if app is not installed.
+         */
+        const checkInstallEligibility = () => {
+            if (isAppInstalled()) {
+                console.log("App is already installed, hiding install button.");
+                installBtn.classList.add('hidden');
+            } else {
+                // If NOT installed, show the button so user can at least see instructions
+                installBtn.classList.remove('hidden');
+                console.log("App not installed, showing install button.");
+            }
+        };
+
+        // Check eligibility on initial load
+        checkInstallEligibility();
+
+        // Listen for the custom event in case the prompt fires after this script loads
+        window.addEventListener('deferred-prompt-ready', () => {
+            console.log("✅ Custom 'deferred-prompt-ready' event received.");
+            checkInstallEligibility();
         });
 
-        // Force show button if not installed (Fallback for when event doesn't fire immediately)
-        if (!isAppInstalled()) {
-            installBtn.classList.remove('hidden');
-        }
+        // Install Modal Logic
+        const installModal = document.getElementById('install-modal');
+        const installModalClose = document.getElementById('install-modal-close');
+        const installModalOk = document.getElementById('install-modal-ok');
+        const androidInstr = document.getElementById('install-instructions-android');
+        const iosInstr = document.getElementById('install-instructions-ios');
+
+        const closeInstallModal = () => installModal.classList.add('hidden');
+        installModalClose.addEventListener('click', closeInstallModal);
+        installModalOk.addEventListener('click', closeInstallModal);
 
         installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                // Android/Desktop: Trigger native prompt
-                installBtn.classList.add('hidden');
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
+            if (window.deferredPrompt) {
+                // 1. Native Prompt Available (Chrome/Edge/Samsung Internet)
+                window.deferredPrompt.prompt();
+                const { outcome } = await window.deferredPrompt.userChoice;
                 console.log(`User response: ${outcome}`);
-                deferredPrompt = null;
+                window.deferredPrompt = null;
+                if (outcome === 'accepted') {
+                    installBtn.classList.add('hidden');
+                }
             } else {
-                // iOS or Fallback: Show instructions
+                // 2. Fallback: Show Dedicated Install Modal
                 const isIosDevice = isIos();
-                const msg = isIosDevice
-                    ? "To install on iPhone/iPad:\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap 'Add to Home Screen'"
-                    : "To install:\nTap the browser menu (three dots) and select 'Install App' or 'Add to Home Screen'.";
+                const isAndroidDevice = isAndroid();
 
-                showAlert(msg);
+                // Reset visibility
+                androidInstr.classList.add('hidden');
+                iosInstr.classList.add('hidden');
+
+                if (isIosDevice) {
+                    iosInstr.classList.remove('hidden');
+                } else {
+                    // Default to Android/Generic instructions
+                    androidInstr.classList.remove('hidden');
+                }
+
+                installModal.classList.remove('hidden');
             }
         });
 

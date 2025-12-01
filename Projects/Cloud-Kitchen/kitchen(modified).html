@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -1075,16 +1076,6 @@
             document.body.innerHTML = `<div class="w-screen h-screen flex items-center justify-center bg-red-100 text-red-800 p-8"><strong>Application Error:</strong> Could not connect to the database.</div>`;
         }
 
-        // --- SIMPLE PATH CONFIGURATION (Using original Firebase paths) ---
-        function getCollectionRef(collectionName) {
-            return collection(db, collectionName);
-        }
-
-        function getDocumentRef(collectionName, docId) {
-            return doc(db, collectionName, docId);
-        }
-        // --- END PATH CONFIGURATION ---
-
         let userRole = 'customer';
         let userId = null;
         let userEmail = 'Guest';
@@ -1251,7 +1242,7 @@
 
         async function loadAllShops() {
             try {
-                const snapshot = await getDocs(getCollectionRef("shops"));
+                const snapshot = await getDocs(collection(db, "shops"));
                 allShops = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 console.log('Loaded shops:', allShops);
                 renderShopSelector();
@@ -1280,11 +1271,13 @@
                 if (user.isAnonymous) {
                     userRole = 'customer';
                     userEmail = 'Guest';
+                    // FIX: Removed the following check to stop repetitive login prompts on app load.
+                    // if (authInitialized) { openProfileModal(true); } 
                 } else if (user.email === DEVELOPER_EMAIL) {
                     userRole = 'developer';
-                    await setDoc(getDocumentRef("users", userId), { email: user.email, role: 'developer' }, { merge: true });
+                    await setDoc(doc(db, "users", userId), { email: user.email, role: 'developer' }, { merge: true });
                 } else {
-                    const userDocSnap = await getDoc(getDocumentRef("users", userId));
+                    const userDocSnap = await getDoc(doc(db, "users", userId));
                     if (userDocSnap.exists()) {
                         const userData = userDocSnap.data();
                         userRole = userData.role || 'customer';
@@ -1295,18 +1288,28 @@
                             if (shop) {
                                 currentShopName = shop.name;
                             } else {
-                                const shopDoc = await getDoc(getDocumentRef("shops", currentUserShopId));
+                                const shopDoc = await getDoc(doc(db, "shops", currentUserShopId));
                                 if (shopDoc.exists()) currentShopName = shopDoc.data().name;
                             }
                         }
                     } else {
                         userRole = 'customer';
-                        await setDoc(getDocumentRef("users", userId), { email: user.email, role: 'customer' });
+                        await setDoc(doc(db, "users", userId), { email: user.email, role: 'customer' });
                     }
                 }
             } else {
-                // Fallback for offline/failed auth
-                userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                // Bug Fix: If no user is present (e.g. initial load if anonymous sign-in failed/not configured), sign in anonymously.
+                if (isFirebaseReady) {
+                    try {
+                        const anonUser = await signInAnonymously(auth);
+                        userId = anonUser.user.uid;
+                    } catch (e) {
+                        // Fallback in case of auth failure
+                        userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                    }
+                } else {
+                    userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                }
                 userEmail = 'Guest (Offline)';
                 userRole = 'customer';
             }
@@ -1314,7 +1317,7 @@
             updateAuthStatusUI();
             updateVisibleViews();
             renderCustomerUI();
-            listenForNotifications();
+            listenForNotifications(); // Start listening for notifications
 
             if (user) {
                 if (currentUserShopId) {
@@ -1338,30 +1341,18 @@
         }
 
         if (isFirebaseReady) {
-            let isAuthCheckComplete = false;
+            await loadAllShops();
 
-            onAuthStateChanged(auth, async (user) => {
-                if (!user && !isAuthCheckComplete) {
-                    // No user found on initial load, try anonymous sign-in
-                    try {
-                        console.log("No user found, attempting anonymous sign-in...");
-                        await signInAnonymously(auth);
-                        // The listener will fire again with the new user, so we return here.
-                        return;
-                    } catch (error) {
-                        console.error("Anonymous sign-in failed:", error);
-                        // Fall through to setupUser(null) which handles offline guest mode
-                    }
-                }
-
-                isAuthCheckComplete = true;
+            // Initial check to see if a user is already authenticated (e.g., from a previous session)
+            const unsubscribe = onAuthStateChanged(auth, async (user) => {
                 await setupUser(user);
+                unsubscribe(); // Stop the initial listener
 
-                // Only load shops if we have a user (even anon) or if we failed to auth (offline mode)
-                // This prevents loading shops before auth is ready.
-                if (allShops.length === 0 && !currentUserShopId) {
-                    await loadAllShops();
-                }
+                // Set up a permanent listener for real-time auth changes
+                onAuthStateChanged(auth, async (user) => {
+                    // Only re-run setup if the user object changed after initialization
+                    if (authInitialized) await setupUser(user);
+                });
             });
         }
 
@@ -1484,7 +1475,7 @@
 
             try {
                 // Bug fix: Ensure query is correctly structured to find all items for a shop
-                const menuSnapshot = await getDocs(query(getCollectionRef("menus"), where("shopId", "==", shopId)));
+                const menuSnapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
                 currentMenu = menuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
                 if (currentMenu.length === 0) {
@@ -1619,27 +1610,7 @@
 
         async function saveOrderToFirestore(orderData) {
             try {
-                console.log("💾 Attempting to save order:", orderData);
-                console.log("🔐 Current user:", auth.currentUser);
-                console.log("👤 User ID:", userId);
-                console.log("📧 User email:", userEmail);
-
-                // Validate that we have a real authenticated user
-                if (!auth.currentUser || auth.currentUser.isAnonymous) {
-                    throw new Error("Cannot place order as guest. Please login or sign up first.");
-                }
-
-                // Validate order data
-                if (!orderData.shopId) throw new Error("Missing shop ID");
-                if (!orderData.customerName) throw new Error("Missing customer name");
-                if (!orderData.customerAddress) throw new Error("Missing customer address");
-                if (!orderData.customerPhone) throw new Error("Missing customer phone");
-                if (!orderData.items || orderData.items.length === 0) throw new Error("No items in order");
-                if (!orderData.totalAmount || orderData.totalAmount <= 0) throw new Error("Invalid total amount");
-
-                const docRef = await addDoc(getCollectionRef("orders"), orderData);
-                console.log("✅ Order saved successfully with ID:", docRef.id);
-
+                const docRef = await addDoc(collection(db, "orders"), orderData);
                 showAlert('Payment successful! Order placed.');
                 cart = []; isEditingOrder = false;
                 updateCart();
@@ -1647,65 +1618,23 @@
                 currentTrackingOrderId = docRef.id;
                 startTrackingLatestOrder();
 
-                // --- COMPREHENSIVE NEW ORDER NOTIFICATIONS ---
-                try {
-                    console.log(`📢 Sending new order notifications for order #${docRef.id}`);
-
-                    // 1. Notify Kitchen Staff
-                    const kitchenStaff = await getDocs(query(
-                        getCollectionRef("users"),
-                        where("shopId", "==", orderData.shopId),
-                        where("role", "==", "kitchen")
-                    ));
-
-                    kitchenStaff.docs.forEach(userDoc => {
-                        createNotification({
-                            userId: userDoc.id,
-                            role: 'kitchen',
-                            shopId: orderData.shopId,
-                            message: `🆕 New order from ${orderData.customerName} - ${orderData.items.length} items, ₹${orderData.totalAmount}`,
-                            orderId: docRef.id
-                        });
+                // --- Notification: Notify kitchen and owner ---
+                const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["kitchen", "owner"])));
+                usersSnapshot.docs.forEach(userDoc => {
+                    createNotification({
+                        // Notification Fix: userDoc.id is the target's UID
+                        userId: userDoc.id,
+                        role: userDoc.data().role,
+                        shopId: orderData.shopId,
+                        message: `New order received from ${orderData.customerName}.`,
+                        orderId: docRef.id
                     });
-                    console.log(`✉️ Notified ${kitchenStaff.size} kitchen staff members`);
-
-                    // 2. Notify Owners
-                    const owners = await getDocs(query(
-                        getCollectionRef("users"),
-                        where("shopId", "==", orderData.shopId),
-                        where("role", "==", "owner")
-                    ));
-
-                    owners.docs.forEach(userDoc => {
-                        createNotification({
-                            userId: userDoc.id,
-                            role: 'owner',
-                            shopId: orderData.shopId,
-                            message: `💰 New order #${docRef.id.substring(0, 8)} received! Customer: ${orderData.customerName}, Amount: ₹${orderData.totalAmount}`,
-                            orderId: docRef.id
-                        });
-                    });
-                    console.log(`✉️ Notified ${owners.size} shop owners`);
-
-                } catch (notifError) {
-                    console.error("⚠️ Failed to send notifications (non-critical):", notifError);
-                }
-                // --- END NEW ORDER NOTIFICATIONS ---
+                });
+                // --- END Notification ---
 
             } catch (error) {
-                console.error("❌ Order save error:", error);
-                console.error("Error code:", error.code);
-                console.error("Error message:", error.message);
-
-                let errorMessage = 'Failed to save order after payment.';
-
-                if (error.code === 'permission-denied') {
-                    errorMessage = 'Permission denied. Please ensure you are logged in (not as Guest) to place orders.';
-                } else if (error.message) {
-                    errorMessage = error.message;
-                }
-
-                showAlert(errorMessage, true);
+                showAlert('Failed to save order after payment.', true);
+                console.error("Order save error: ", error);
             }
         }
 
@@ -1713,7 +1642,7 @@
             if (cart.length === 0) return showAlert('Your cart cannot be empty.');
             if (!currentTrackingOrderId) return showAlert('No order selected for update.', true);
 
-            const orderDocRef = getDocumentRef("orders", currentTrackingOrderId);
+            const orderDocRef = doc(db, "orders", currentTrackingOrderId);
             try {
                 const orderDocSnap = await getDoc(orderDocRef);
                 if (!orderDocSnap.exists()) {
@@ -1802,7 +1731,7 @@
         function startTrackingLatestOrder() {
             if (!userId || !isFirebaseReady || userId.startsWith('offline') || auth.currentUser?.isAnonymous) return;
             currentOrderListener?.();
-            const q = query(getCollectionRef("orders"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(1)); // Only track the very latest order
+            const q = query(collection(db, "orders"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(1)); // Only track the very latest order
 
             currentOrderListener = onSnapshot(q, async (snapshot) => {
                 const orderFormContainer = document.getElementById('order-form-container');
@@ -1913,16 +1842,16 @@
             }
 
             // Bug Fix: Only show "new" and "preparing" in the kitchen view
-            const kitchenQuery = query(getCollectionRef("orders"), where("status", "in", ["new", "preparing"]), where("shopId", "==", currentUserShopId));
+            const kitchenQuery = query(collection(db, "orders"), where("status", "in", ["new", "preparing"]), where("shopId", "==", currentUserShopId));
             onSnapshot(kitchenQuery, s => renderOrders(kitchenList, s.docs, 'kitchen'));
 
             // Bug Fix: Only show "ready_for_pickup" and "out_for_delivery" in the transport view
-            const transportQuery = query(getCollectionRef("orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]), where("shopId", "==", currentUserShopId));
+            const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]), where("shopId", "==", currentUserShopId));
             onSnapshot(transportQuery, s => renderOrders(transportList, s.docs, 'transport'));
         }
 
         async function toggleItemReady(orderId, itemId) {
-            const orderRef = getDocumentRef("orders", orderId);
+            const orderRef = doc(db, "orders", orderId);
             const orderSnap = await getDoc(orderRef);
             if (orderSnap.exists()) {
                 if (orderSnap.data().shopId !== currentUserShopId && userRole !== 'developer') {
@@ -1985,10 +1914,10 @@
 
         async function handleGoogleLogin() {
             try {
-                // Use Redirect ONLY for installed PWA to keep the app feel.
-                // For regular web (mobile or desktop), use Popup which is often smoother and doesn't reload the page.
-                if (window.matchMedia('(display-mode: standalone)').matches) {
+                // Use Redirect for Mobile/PWA to avoid popup blocking issues
+                if (window.matchMedia('(display-mode: standalone)').matches || /iphone|ipad|ipod|android/.test(window.navigator.userAgent.toLowerCase())) {
                     await signInWithRedirect(auth, new GoogleAuthProvider());
+                    // The page will redirect, so no further code execution happens here
                 } else {
                     await signInWithPopup(auth, new GoogleAuthProvider());
                     document.getElementById('profile-modal')?.classList.add('hidden');
@@ -2084,7 +2013,7 @@
             document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
             document.getElementById('owner-view').querySelector('p').textContent = 'A high-level overview of your kitchen\'s performance.';
 
-            onSnapshot(query(getCollectionRef("orders"), where("shopId", "==", currentUserShopId)), (snapshot) => {
+            onSnapshot(query(collection(db, "orders"), where("shopId", "==", currentUserShopId)), (snapshot) => {
                 updateDashboard(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
             });
             loadStaffList();
@@ -2143,7 +2072,7 @@
                 return;
             }
 
-            onSnapshot(query(getCollectionRef("orders"), where("status", "==", "completed"), where("shopId", "==", currentUserShopId)), snapshot => {
+            onSnapshot(query(collection(db, "orders"), where("status", "==", "completed"), where("shopId", "==", currentUserShopId)), snapshot => {
                 // Filter out test orders for history view
                 completedOrders = snapshot.docs
                     .map(d => ({ id: d.id, ...d.data() }))
@@ -2180,7 +2109,7 @@
                 return;
             }
 
-            const snapshot = await getDocs(query(getCollectionRef("users"), where("role", "in", ["kitchen", "delivery"]), where("shopId", "==", currentUserShopId)));
+            const snapshot = await getDocs(query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]), where("shopId", "==", currentUserShopId)));
             staffListEl.innerHTML = snapshot.empty ? '<p class="text-gray-500">No staff members found.</p>' : snapshot.docs.map(doc => { const s = doc.data(); return `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${s.email}</p><p class="text-sm text-gray-500 capitalize">${s.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>` }).join('');
         }
 
@@ -2190,9 +2119,9 @@
                 return showAlert(msg, true);
             }
             const email = document.getElementById('staff-email').value; const role = document.getElementById('staff-role').value;
-            const snapshot = await getDocs(query(getCollectionRef("users"), where("email", "==", email)));
+            const snapshot = await getDocs(query(collection(db, "users"), where("email", "==", email)));
             if (snapshot.empty) return showAlert("Error: User must sign up first before being assigned a role.", true);
-            await setDoc(getDocumentRef("users", snapshot.docs[0].id), { role, shopId: currentUserShopId }, { merge: true });
+            await setDoc(doc(db, "users", snapshot.docs[0].id), { role, shopId: currentUserShopId }, { merge: true });
             showAlert(`Role updated for ${email}.`); document.getElementById('add-staff-form').reset(); loadStaffList();
         }
 
@@ -2207,7 +2136,7 @@
             try {
                 // Notification Fix: Only create notifications if a relevant UID is provided (staff/owner or customer)
                 if (data.userId || data.role) {
-                    await addDoc(getCollectionRef("notifications"), {
+                    await addDoc(collection(db, "notifications"), {
                         ...data,
                         createdAt: serverTimestamp(),
                         read: false,
@@ -2231,37 +2160,25 @@
             }
 
             let q;
-            // SIMPLIFIED QUERIES to avoid "Missing Index" errors
-            // We will sort client-side to ensure correct order without requiring manual index creation
             if (userRole === 'customer') {
-                q = query(getCollectionRef("notifications"), where("userId", "==", userId), limit(50));
+                q = query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
             } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
                 // Staff/Owners get notifications for their shop and role
-                q = query(getCollectionRef("notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), limit(50));
+                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
             } else if (userRole === 'developer' && currentUserShopId) {
                 // Developer gets all notifications for their *selected* shop
-                q = query(getCollectionRef("notifications"), where("shopId", "==", currentUserShopId), limit(50));
+                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
             } else {
                 // Developer without a selected shop or staff without assigned shop
                 updateNotificationUI([]);
                 return;
             }
 
-            console.log("🔔 Starting notification listener for role:", userRole);
-
             notificationListener = onSnapshot(q, (snapshot) => {
                 allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                // Client-side sort to ensure correct order (Newest first)
-                allNotifications.sort((a, b) => {
-                    const tA = a.createdAt ? a.createdAt.toMillis() : 0;
-                    const tB = b.createdAt ? b.createdAt.toMillis() : 0;
-                    return tB - tA;
-                });
-
                 updateNotificationUI(allNotifications);
             }, (error) => {
-                console.error("❌ Error listening for notifications:", error);
+                console.error("Error listening for notifications:", error);
             });
         }
 
@@ -2325,7 +2242,7 @@
         window.markSingleNotificationRead = async (id) => {
             if (!db) return;
             try {
-                await updateDoc(getDocumentRef("notifications", id), { read: true });
+                await updateDoc(doc(db, "notifications", id), { read: true });
             } catch (error) {
                 console.error("Error marking single notification as read:", error);
             }
@@ -2361,7 +2278,7 @@
             try {
                 const batch = writeBatch(db);
                 unreadIds.forEach(id => {
-                    batch.update(getDocumentRef("notifications", id), { read: true });
+                    batch.update(doc(db, "notifications", id), { read: true });
                 });
                 await batch.commit();
             } catch (error) {
@@ -2379,7 +2296,7 @@
                 try {
                     const batch = writeBatch(db);
                     allNotifications.forEach(n => {
-                        batch.delete(getDocumentRef("notifications", n.id));
+                        batch.delete(doc(db, "notifications", n.id));
                     });
                     await batch.commit();
                     updateNotificationUI([]); // UI will be updated by listener, but this is faster
@@ -2430,15 +2347,15 @@
                 document.getElementById('dev-summary-shops').textContent = allShops.length;
 
                 // Bug Fix: Filter out anonymous guests for better user count accuracy
-                const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("email", "!=", DEVELOPER_EMAIL)));
+                const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", DEVELOPER_EMAIL)));
                 document.getElementById('dev-summary-users').textContent = usersSnapshot.docs.filter(doc => doc.data().email).length; // Count users with emails
 
                 const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
                 const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
-                const ordersTodaySnapshot = await getDocs(query(getCollectionRef("orders"), where("createdAt", ">=", Timestamp.fromDate(todayStart)), where("createdAt", "<=", Timestamp.fromDate(todayEnd))));
+                const ordersTodaySnapshot = await getDocs(query(collection(db, "orders"), where("createdAt", ">=", Timestamp.fromDate(todayStart)), where("createdAt", "<=", Timestamp.fromDate(todayEnd))));
                 document.getElementById('dev-summary-orders-today').textContent = ordersTodaySnapshot.size;
 
-                const allOrdersSnapshot = await getDocs(getCollectionRef("orders"));
+                const allOrdersSnapshot = await getDocs(collection(db, "orders"));
                 document.getElementById('dev-summary-orders-all').textContent = allOrdersSnapshot.size;
 
             } catch (error) {
@@ -2478,7 +2395,7 @@
             const address = document.getElementById('shop-address').value;
             const image = document.getElementById('shop-image').value;
             try {
-                await addDoc(getCollectionRef("shops"), { name, address, image: image || null });
+                await addDoc(collection(db, "shops"), { name, address, image: image || null });
                 showAlert('Shop created successfully!');
                 document.getElementById('create-shop-form').reset();
                 await loadAllShops();
@@ -2500,7 +2417,7 @@
             if (isNaN(price) || price <= 0) return showAlert("Please enter a valid price.", true);
 
             try {
-                await addDoc(getCollectionRef("menus"), { shopId, name, price, image: image || null });
+                await addDoc(collection(db, "menus"), { shopId, name, price, image: image || null });
                 showAlert('Menu item added!');
                 document.getElementById('create-menu-item-form').reset();
                 renderDevMenuItemList(shopId);
@@ -2513,7 +2430,7 @@
         async function renderDevMenuItemList(shopId) {
             const container = document.getElementById('dev-menu-item-list');
             container.innerHTML = '<p class="text-gray-500">Loading items...</p>';
-            const snapshot = await getDocs(query(getCollectionRef("menus"), where("shopId", "==", shopId)));
+            const snapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
             const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             if (items.length === 0) {
@@ -2538,7 +2455,7 @@
                 return;
             }
             container.innerHTML = '<p class="text-gray-500 text-sm">Loading items...</p>';
-            const snapshot = await getDocs(query(getCollectionRef("menus"), where("shopId", "==", shopId)));
+            const snapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
             const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             if (items.length === 0) {
@@ -2552,7 +2469,7 @@
             const tests = { firebase: document.getElementById('test-firebase'), database: document.getElementById('test-database'), auth: document.getElementById('test-auth') };
             const setStatus = (el, pass) => { if (el) { el.textContent = pass ? 'PASS' : 'FAIL'; el.className = `test-badge ${pass ? 'test-pass' : 'test-fail'}`; } };
             setStatus(tests.firebase, isFirebaseReady);
-            try { await getDoc(getDocumentRef("users", "test-read")); setStatus(tests.database, true); } catch (e) { setStatus(tests.database, e.code === 'permission-denied' || e.message.includes("Missing or insufficient permissions")); }
+            try { await getDoc(doc(db, "users", "test-read")); setStatus(tests.database, true); } catch (e) { setStatus(tests.database, e.code === 'permission-denied' || e.message.includes("Missing or insufficient permissions")); }
             setStatus(tests.auth, !!auth.currentUser && !auth.currentUser.isAnonymous); // Check if authenticated and not anonymous
         }
 
@@ -2578,12 +2495,12 @@
                 isTestOrder: true,
             };
             try {
-                const docRef = await addDoc(getCollectionRef("orders"), orderData);
+                const docRef = await addDoc(collection(db, "orders"), orderData);
                 showAlert('Test order created successfully!');
                 document.getElementById('test-order-form').reset();
 
                 // --- Notification: Notify kitchen and owner ---
-                const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("shopId", "==", shopId), where("role", "in", ["kitchen", "owner"])));
+                const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", shopId), where("role", "in", ["kitchen", "owner"])));
                 usersSnapshot.docs.forEach(userDoc => {
                     createNotification({
                         userId: userDoc.id,
@@ -2603,13 +2520,13 @@
 
             showAlert(`Are you sure you want to delete ALL non-test orders? This cannot be undone.`, false, async () => {
                 // Bug Fix: Filter out documents where isTestOrder does NOT exist OR is set to false
-                const nonTestQuery = query(getCollectionRef("orders"), where("isTestOrder", "==", false));
+                const nonTestQuery = query(collection(db, "orders"), where("isTestOrder", "==", false));
                 const nonTestSnapshot = await getDocs(nonTestQuery);
 
                 const ordersToDelete = [...nonTestSnapshot.docs];
 
                 // Also check for documents where isTestOrder field is completely missing (treat as non-test)
-                const missingFieldQuery = query(getCollectionRef("orders"), where("isTestOrder", "==", undefined));
+                const missingFieldQuery = query(collection(db, "orders"), where("isTestOrder", "==", undefined));
                 const missingFieldSnapshot = await getDocs(missingFieldQuery);
                 ordersToDelete.push(...missingFieldSnapshot.docs);
 
@@ -2635,7 +2552,7 @@
 
             orderQueryUnsubscribe?.();
 
-            let q = getCollectionRef("orders");
+            let q = collection(db, "orders");
             const constraints = [];
 
             const now = new Date();
@@ -2773,7 +2690,7 @@
             userListEl.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Loading users...</td></tr>`;
 
             // Bug Fix: Filter out anonymous users which shouldn't be managed via email/role
-            const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("email", "!=", null)));
+            const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", null)));
             allUsersCache = usersSnapshot.docs.filter(d => d.id !== userId && d.data().email !== DEVELOPER_EMAIL);
             renderAdminUserList();
         }
@@ -2819,7 +2736,7 @@
         async function deleteUserFromDatabase(deleteUserId) {
             if (!deleteUserId) return;
             try {
-                await deleteDoc(getDocumentRef("users", deleteUserId));
+                await deleteDoc(doc(db, "users", deleteUserId));
                 showAlert("User deleted successfully.");
                 allUsersCache = allUsersCache.filter(doc => doc.id !== deleteUserId);
                 renderAdminUserList();
@@ -2833,7 +2750,7 @@
         async function renderCreateOrderModal(shopId) {
             staffCart = [];
 
-            const menuSnapshot = await getDocs(query(getCollectionRef("menus"), where("shopId", "==", shopId)));
+            const menuSnapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
             const staffMenu = menuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             if (staffMenu.length === 0) {
@@ -2880,12 +2797,12 @@
                 createdBy: userEmail
             };
             try {
-                const docRef = await addDoc(getCollectionRef("orders"), orderData);
+                const docRef = await addDoc(collection(db, "orders"), orderData);
                 showAlert('Order created successfully!');
                 createOrderModal.classList.add('hidden');
 
                 // --- Notification: Notify kitchen and owner ---
-                const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("shopId", "==", currentUserShopId), where("role", "in", ["kitchen", "owner"])));
+                const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", currentUserShopId), where("role", "in", ["kitchen", "owner"])));
                 usersSnapshot.docs.forEach(userDoc => {
                     createNotification({
                         userId: userDoc.id,
@@ -3048,7 +2965,7 @@
             // --- END Notification ---
 
             // Other Actions
-            if (target.matches('#add-more-items-btn') && currentTrackingOrderId) { const orderDoc = await getDoc(getDocumentRef("orders", currentTrackingOrderId)); if (orderDoc.exists()) startEditingOrder(orderDoc.data()); }
+            if (target.matches('#add-more-items-btn') && currentTrackingOrderId) { const orderDoc = await getDoc(doc(db, "orders", currentTrackingOrderId)); if (orderDoc.exists()) startEditingOrder(orderDoc.data()); }
             if (target.matches('#reset-customer-orders-btn')) await resetCustomerOrders();
             if (target.matches('.history-filter-btn')) { historyFilter = target.dataset.filter; updateHistoryFilterButtons(); filterAndRenderHistory(); }
             // Note: .item-ready-toggle handler moved to the direct HTML element via onchange for simplicity
@@ -3056,128 +2973,48 @@
             if (target.matches('.update-status-btn, .dev-update-status')) {
                 try {
                     const newStatus = target.dataset.status;
-                    const orderRef = getDocumentRef("orders", targetId);
+                    const orderRef = doc(db, "orders", targetId);
 
                     const orderSnap = await getDoc(orderRef);
                     if (!orderSnap.exists()) return showAlert('Order not found.', true);
                     const orderData = orderSnap.data();
-                    const oldStatus = orderData.status;
 
                     // Update the doc
                     await updateDoc(orderRef, { status: newStatus });
                     showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
 
-                    console.log(`📋 Order ${targetId} status changed: ${oldStatus} → ${newStatus}`);
-
-                    // --- COMPREHENSIVE NOTIFICATION LOGIC ---
-
-                    // 1. NOTIFY CUSTOMER about their order progress
+                    // --- Notification Logic ---
+                    // 1. Notify Customer
                     let customerMessage = '';
                     switch (newStatus) {
-                        case 'preparing':
-                            customerMessage = `Your order from ${currentShopName || 'the kitchen'} is now being prepared! 👨‍🍳`;
-                            break;
-                        case 'ready_for_pickup':
-                            customerMessage = `Your order from ${currentShopName || 'the kitchen'} is ready for pickup! 📦`;
-                            break;
-                        case 'out_for_delivery':
-                            customerMessage = 'Your order is out for delivery! 🚚 It will arrive soon.';
-                            break;
-                        case 'completed':
-                            customerMessage = 'Your order has been delivered. Enjoy your meal! 🎉';
-                            break;
+                        case 'preparing': customerMessage = `Your order from ${currentShopName || 'the kitchen'} is now being prepared!`; break;
+                        case 'ready_for_pickup': customerMessage = `Your order from ${currentShopName || 'the kitchen'} is ready for pickup!`; break;
+                        case 'out_for_delivery': customerMessage = 'Your order is out for delivery!'; break;
+                        case 'completed': customerMessage = 'Your order has been delivered. Enjoy!'; break;
                     }
-
-                    // Send notification to customer (if not a staff-created or test order)
-                    if (customerMessage && orderData.userId &&
-                        orderData.userId !== 'staff-created' &&
-                        orderData.userId !== 'test-developer' &&
-                        !orderData.userId.startsWith('offline-guest')) {
+                    // Notification Fix: Check for non-staff/non-test user ID
+                    if (customerMessage && orderData.userId && orderData.userId !== 'staff-created' && orderData.userId !== 'test-developer') {
                         createNotification({
                             userId: orderData.userId,
                             message: customerMessage,
                             orderId: targetId
                         });
-                        console.log(`✉️ Customer notification sent: ${customerMessage}`);
                     }
 
-                    // 2. NOTIFY DELIVERY STAFF when order is ready for pickup
+                    // 2. Notify Delivery Staff/Owner when ready
                     if (newStatus === 'ready_for_pickup') {
-                        const deliveryStaff = await getDocs(query(
-                            getCollectionRef("users"),
-                            where("shopId", "==", orderData.shopId),
-                            where("role", "==", "delivery")
-                        ));
-
-                        deliveryStaff.docs.forEach(userDoc => {
+                        const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["delivery", "owner"])));
+                        usersSnapshot.docs.forEach(userDoc => {
                             createNotification({
                                 userId: userDoc.id,
-                                role: 'delivery',
+                                role: userDoc.data().role,
                                 shopId: orderData.shopId,
-                                message: `📦 Order #${targetId.substring(0, 8)} for ${orderData.customerName} is ready for pickup!`,
+                                message: `Order for ${orderData.customerName} is ready for pickup.`,
                                 orderId: targetId
                             });
                         });
-                        console.log(`✉️ Notified ${deliveryStaff.size} delivery staff members`);
                     }
-
-                    // 3. NOTIFY OWNER at key milestones
-                    if (['preparing', 'ready_for_pickup', 'out_for_delivery', 'completed'].includes(newStatus)) {
-                        const owners = await getDocs(query(
-                            getCollectionRef("users"),
-                            where("shopId", "==", orderData.shopId),
-                            where("role", "==", "owner")
-                        ));
-
-                        let ownerMessage = '';
-                        switch (newStatus) {
-                            case 'preparing':
-                                ownerMessage = `Kitchen started preparing order #${targetId.substring(0, 8)} for ${orderData.customerName}`;
-                                break;
-                            case 'ready_for_pickup':
-                                ownerMessage = `Order #${targetId.substring(0, 8)} is ready for delivery`;
-                                break;
-                            case 'out_for_delivery':
-                                ownerMessage = `Order #${targetId.substring(0, 8)} is out for delivery to ${orderData.customerName}`;
-                                break;
-                            case 'completed':
-                                ownerMessage = `Order #${targetId.substring(0, 8)} completed! Revenue: ₹${orderData.totalAmount}`;
-                                break;
-                        }
-
-                        owners.docs.forEach(userDoc => {
-                            createNotification({
-                                userId: userDoc.id,
-                                role: 'owner',
-                                shopId: orderData.shopId,
-                                message: ownerMessage,
-                                orderId: targetId
-                            });
-                        });
-                        console.log(`✉️ Notified ${owners.size} shop owners`);
-                    }
-
-                    // 4. NOTIFY KITCHEN STAFF when order moves to delivery
-                    if (newStatus === 'out_for_delivery') {
-                        const kitchenStaff = await getDocs(query(
-                            getCollectionRef("users"),
-                            where("shopId", "==", orderData.shopId),
-                            where("role", "==", "kitchen")
-                        ));
-
-                        kitchenStaff.docs.forEach(userDoc => {
-                            createNotification({
-                                userId: userDoc.id,
-                                role: 'kitchen',
-                                shopId: orderData.shopId,
-                                message: `✅ Order #${targetId.substring(0, 8)} picked up for delivery`,
-                                orderId: targetId
-                            });
-                        });
-                        console.log(`✉️ Notified ${kitchenStaff.size} kitchen staff members`);
-                    }
-
-                    // --- END COMPREHENSIVE NOTIFICATION LOGIC ---
+                    // --- END Notification ---
 
                 } catch (e) {
                     showAlert('Failed to update status.', true);
@@ -3188,13 +3025,13 @@
             // Owner Staff Management
             if (target.matches('.remove-staff-btn')) {
                 showAlert(`Are you sure you want to remove this staff member?`, false, async () => {
-                    await setDoc(getDocumentRef("users", targetId), { role: 'customer', shopId: null }, { merge: true });
+                    await setDoc(doc(db, "users", targetId), { role: 'customer', shopId: null }, { merge: true });
                     showAlert('Staff member removed.');
                     loadStaffList();
                     if (userRole === 'developer') {
                         const userIndex = allUsersCache.findIndex(d => d.id === targetId);
                         if (userIndex > -1) {
-                            allUsersCache[userIndex] = await getDoc(getDocumentRef("users", targetId));
+                            allUsersCache[userIndex] = await getDoc(doc(db, "users", targetId));
                             renderAdminUserList();
                         }
                     }
@@ -3205,10 +3042,10 @@
             if (target.matches('.dev-remove-shop-btn')) {
                 showAlert(`Are you sure you want to delete this shop? This will also unassign all staff. This cannot be undone.`, false, async () => {
                     try {
-                        const usersSnapshot = await getDocs(query(getCollectionRef("users"), where("shopId", "==", targetId)));
+                        const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", targetId)));
                         await Promise.all(usersSnapshot.docs.map(userDoc => setDoc(userDoc.ref, { shopId: null }, { merge: true })));
 
-                        await deleteDoc(getDocumentRef("shops", targetId));
+                        await deleteDoc(doc(db, "shops", targetId));
                         showAlert('Shop removed and staff unassigned.');
                         await loadAllShops();
                         if (userRole === 'developer') await loadAdminPanel();
@@ -3218,7 +3055,7 @@
             if (target.matches('.dev-remove-menu-item-btn')) {
                 showAlert(`Are you sure you want to delete this menu item?`, false, async () => {
                     try {
-                        await deleteDoc(getDocumentRef("menus", targetId));
+                        await deleteDoc(doc(db, "menus", targetId));
                         showAlert('Menu item removed.');
                         renderDevMenuItemList(target.dataset.shopId);
                     } catch (e) { console.error(e); showAlert('Could not remove item.', true); }
@@ -3234,7 +3071,7 @@
             if (target.matches('.dev-delete-order-btn')) {
                 showAlert(`Are you sure you want to delete this order?`, false, async () => {
                     try {
-                        await deleteDoc(getDocumentRef("orders", targetId));
+                        await deleteDoc(doc(db, "orders", targetId));
                         showAlert('Order deleted.');
                     } catch (e) {
                         console.error("Error deleting order: ", e);
@@ -3339,12 +3176,12 @@
                     updateData.shopId = null;
                 }
 
-                await setDoc(getDocumentRef("users", uid), updateData, { merge: true });
+                await setDoc(doc(db, "users", uid), updateData, { merge: true });
                 showAlert('User role updated.');
 
                 const userIndex = allUsersCache.findIndex(doc => doc.id === uid);
                 if (userIndex > -1) {
-                    allUsersCache[userIndex] = await getDoc(getDocumentRef("users", uid));
+                    allUsersCache[userIndex] = await getDoc(doc(db, "users", uid));
                     renderAdminUserList();
                 } else {
                     await loadAdminPanel();
@@ -3352,11 +3189,11 @@
             }
             if (e.target.classList.contains('shop-selector')) {
                 const newShopId = e.target.value;
-                await setDoc(getDocumentRef("users", uid), { shopId: newShopId || null }, { merge: true });
+                await setDoc(doc(db, "users", uid), { shopId: newShopId || null }, { merge: true });
 
                 const userIndex = allUsersCache.findIndex(doc => doc.id === uid);
                 if (userIndex > -1) {
-                    allUsersCache[userIndex] = await getDoc(getDocumentRef("users", uid));
+                    allUsersCache[userIndex] = await getDoc(doc(db, "users", uid));
                     renderAdminUserList();
                 }
                 showAlert('User shop updated.');
@@ -3532,6 +3369,7 @@
                     // Default to Android/Generic instructions
                     androidInstr.classList.remove('hidden');
                 }
+
                 installModal.classList.remove('hidden');
             }
         });
