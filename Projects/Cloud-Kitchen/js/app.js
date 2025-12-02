@@ -2,6 +2,7 @@ import { app, db, auth, isFirebaseReady } from "./firebase-config.js";
 import { onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { showAlert, showToast, initAlertSystem } from "./utils.js";
+import { createNotification, listenForNotifications, markSingleNotificationRead, markNotificationsAsRead, clearAllNotifications } from "./notifications.js";
 
 const DEVELOPER_EMAIL = "dev@example.com";
 
@@ -36,11 +37,6 @@ let allShops = [];
 let currentMenu = [];
 let selectedShopId = null;
 
-// --- Notification variables ---
-let allNotifications = [];
-let notificationListener = null;
-// --- END Notification variables ---
-
 const authBtn = document.getElementById('auth-btn');
 const authStatusEl = document.getElementById('auth-status');
 const createOrderModal = document.getElementById('create-order-modal');
@@ -59,6 +55,32 @@ const orderPageInfoEl = document.getElementById('order-page-info');
 // Initialize Alert System
 initAlertSystem();
 
+// Expose notification functions to window for HTML onclick attributes
+window.markSingleNotificationRead = markSingleNotificationRead;
+window.markNotificationReadAndOpenOrder = async (notificationId, orderId) => {
+    await markSingleNotificationRead(notificationId);
+    document.getElementById('notification-panel').classList.add('hidden');
+    
+    // Route to correct view based on role
+    if (userRole === 'customer') {
+         document.querySelector('[data-view="customer"]').click();
+         // Tracking logic will pick up latest order
+    } else {
+        // For staff, try to find the order in the relevant list
+        const targetView = (userRole === 'delivery' || userRole === 'transport') ? 'transport' : 'kitchen';
+        const viewButton = document.querySelector(`button[data-view="${targetView}"]`);
+        
+        if (viewButton && !viewButton.classList.contains('hidden')) {
+            viewButton.click();
+            // Highlight the order if possible
+            setTimeout(() => {
+               const orderCard = document.querySelector(`button[data-id="${orderId}"]`);
+               if(orderCard) orderCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+    }
+};
+
 document.getElementById('create-order-close-btn').addEventListener('click', () => createOrderModal.classList.add('hidden'));
 document.getElementById('create-order-btn').addEventListener('click', () => {
     if (!currentUserShopId) {
@@ -70,17 +92,12 @@ document.getElementById('create-order-btn').addEventListener('click', () => {
 });
 
 // --- Service Worker Message Listener (For Mobile Notifications) ---
-// This listens for "PostMessage" from the Service Worker when a user clicks a system notification
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.addEventListener('message', (event) => {
-        console.log("Message from SW:", event.data);
         if (event.data && event.data.action === 'OPEN_ORDER') {
             const orderId = event.data.orderId;
-            // Switch view based on role
             if (userRole === 'customer') {
                 document.querySelector('[data-view="customer"]').click();
-                // Logic to start tracking this order specifically could go here
-                // For now, the latest order tracker will pick it up if it's recent
             } else if (['kitchen', 'owner'].includes(userRole)) {
                 document.querySelector('[data-view="kitchen"]').click();
             } else if (['delivery', 'owner'].includes(userRole)) {
@@ -112,7 +129,6 @@ function openProfileModal(isForced = false) {
             </form>
             <div class="relative my-6"><div class="absolute inset-0 flex items-center"><span class="w-full border-t"></span></div><div class="relative flex justify-center text-sm"><span class="bg-white px-2 text-gray-500">OR</span></div></div>
             <button id="google-login-btn" class="btn-primary w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.012 36.49 44 30.65 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
                 Continue with Google
             </button>
         `;
@@ -154,7 +170,6 @@ async function loadAllShops() {
     try {
         const snapshot = await getDocs(collection(db, "shops"));
         allShops = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log('Loaded shops:', allShops);
         renderShopSelector();
         if (userRole === 'developer') {
             populateShopDropdowns();
@@ -162,8 +177,7 @@ async function loadAllShops() {
         }
         updateDevSummary();
     } catch (error) {
-        console.error("❌ CRITICAL FIREBASE ERROR: Failed to load shops.", error);
-        showAlert("Could not load kitchens. Please check the Developer Console.", true);
+        console.error("Failed to load shops.", error);
     }
 }
 
@@ -192,9 +206,8 @@ async function setupUser(user) {
                 if (currentUserShopId) {
                     if (allShops.length === 0) await loadAllShops();
                     const shop = allShops.find(s => s.id === currentUserShopId);
-                    if (shop) {
-                        currentShopName = shop.name;
-                    } else {
+                    if (shop) currentShopName = shop.name;
+                    else {
                         const shopDoc = await getDoc(doc(db, "shops", currentUserShopId));
                         if (shopDoc.exists()) currentShopName = shopDoc.data().name;
                     }
@@ -210,10 +223,8 @@ async function setupUser(user) {
                 const anonUser = await signInAnonymously(auth);
                 userId = anonUser.user.uid;
             } catch (e) {
-                userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
+                userId = 'offline-' + Math.random().toString(36).substring(2);
             }
-        } else {
-            userId = 'offline-guest-' + Math.random().toString(36).substring(2, 9);
         }
         userEmail = 'Guest (Offline)';
         userRole = 'customer';
@@ -222,19 +233,17 @@ async function setupUser(user) {
     updateAuthStatusUI();
     updateVisibleViews();
     renderCustomerUI();
-    listenForNotifications();
+    
+    // Use imported notification listener
+    listenForNotifications(userRole, userId, currentUserShopId);
 
     if (user) {
         if (currentUserShopId) {
             if (['owner', 'developer'].includes(userRole)) { loadOwnerDashboard(); listenToOrderHistory(); }
             if (['kitchen', 'delivery', 'owner', 'developer'].includes(userRole)) { listenToStaffOrders(); }
-
             document.getElementById('kitchen-view-title').textContent = currentShopName || 'Kitchen';
             document.getElementById('transport-view-title').textContent = currentShopName || 'Delivery';
             document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
-
-        } else if (userRole !== 'customer' && userRole !== 'developer') {
-            showAlert("You are not assigned to a shop. Please contact the developer.", true);
         }
 
         if (userRole === 'developer') {
@@ -263,16 +272,11 @@ function updateAuthStatusUI() {
     }
     authStatusEl.textContent = statusText;
     authBtn.textContent = (userEmail === 'Guest' || userEmail.includes('Offline')) ? 'Login' : 'Profile';
-
     let subtitle = 'Find your favorite local kitchens';
     if (currentShopName) {
-        if (userRole === 'developer') {
-            subtitle = `Dev View: ${currentShopName}`;
-        } else if (userRole === 'customer') {
-            subtitle = `Ordering from ${currentShopName}`;
-        } else {
-            subtitle = `Managing: ${currentShopName}`;
-        }
+        if (userRole === 'developer') subtitle = `Dev View: ${currentShopName}`;
+        else if (userRole === 'customer') subtitle = `Ordering from ${currentShopName}`;
+        else subtitle = `Managing: ${currentShopName}`;
     }
     document.getElementById('header-subtitle').textContent = subtitle;
 }
@@ -340,9 +344,6 @@ function showShopSelector() {
     currentMenu = [];
     cart = [];
     updateCart();
-    if (userRole === 'customer') {
-        document.getElementById('header-subtitle').textContent = 'Find your favorite local kitchens';
-    }
 }
 
 async function selectShop(shopId, shopName) {
@@ -400,7 +401,6 @@ async function renderMenu(shopId) {
         });
     } catch (error) {
         console.error("Error loading menu:", error);
-        container.innerHTML = '<p class="text-red-500">Could not load menu.</p>';
     }
 }
 
@@ -498,50 +498,39 @@ async function saveOrderToFirestore(orderData) {
         currentTrackingOrderId = docRef.id;
         startTrackingLatestOrder();
 
+        // ** NOTIFY KITCHEN & OWNER **
         const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["kitchen", "owner"])));
+        
         usersSnapshot.docs.forEach(userDoc => {
             createNotification({
                 userId: userDoc.id,
                 role: userDoc.data().role,
                 shopId: orderData.shopId,
-                message: `New order received from ${orderData.customerName}.`,
+                message: `New Order! ${orderData.customerName} ordered ₹${orderData.totalAmount}.`,
                 orderId: docRef.id
             });
         });
 
     } catch (error) {
-        showAlert('Failed to save order after payment.', true);
+        showAlert('Failed to save order.', true);
         console.error("Order save error: ", error);
     }
 }
 
 async function updateOrder() {
     if (cart.length === 0) return showAlert('Your cart cannot be empty.');
-    if (!currentTrackingOrderId) return showAlert('No order selected for update.', true);
+    if (!currentTrackingOrderId) return showAlert('No order selected.', true);
 
     const orderDocRef = doc(db, "orders", currentTrackingOrderId);
     try {
         const orderDocSnap = await getDoc(orderDocRef);
-        if (!orderDocSnap.exists()) {
-            showAlert("Order not found.", true); return;
-        }
+        if (!orderDocSnap.exists()) return showAlert("Order not found.", true);
 
         const originalOrderData = orderDocSnap.data();
-        const currentStatus = originalOrderData.status;
+        if (!['new', 'preparing'].includes(originalOrderData.status)) return showAlert('Too late to modify this order.', true);
 
-        if (!['new', 'preparing'].includes(currentStatus)) {
-            showAlert('Sorry, it is too late to modify this order.', true);
-            cart = []; isEditingOrder = false;
-            updateCart();
-            renderMenu(selectedShopId);
-            renderOrderForm();
-            startTrackingLatestOrder();
-            return;
-        }
-
-        const originalTotal = originalOrderData.totalAmount;
         const newTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const amountDue = newTotal - originalTotal;
+        const amountDue = newTotal - originalOrderData.totalAmount;
 
         const finalUpdateLogic = async (paymentId = null) => {
             const updatedItems = cart.map(item => {
@@ -550,9 +539,7 @@ async function updateOrder() {
             });
 
             let paymentIds = originalOrderData.paymentIds || [originalOrderData.paymentId];
-            if (paymentId) {
-                paymentIds.push(paymentId);
-            }
+            if (paymentId) paymentIds.push(paymentId);
 
             await updateDoc(orderDocRef, { items: updatedItems, totalAmount: newTotal, paymentIds });
             showAlert('Order updated successfully!');
@@ -567,14 +554,10 @@ async function updateOrder() {
             const options = {
                 key: "rzp_test_RU9lPJQl5wqQFM",
                 amount: amountDue * 100,
-                currency: "INR", name: "CloudKitchen", description: `Additional payment for Order #${currentTrackingOrderId.substring(0, 6)}`,
-                image: "https://placehold.co/100x100/000000/FFFFFF?text=CK",
-                handler: async (response) => {
-                    await finalUpdateLogic(response.razorpay_payment_id);
-                },
-                prefill: { name: originalOrderData.customerName, email: userEmail.includes('Guest') ? '' : userEmail, contact: originalOrderData.customerPhone },
-                theme: { color: "#0071e3" },
-                modal: { ondismiss: () => showAlert("Additional payment was cancelled. Order not updated.", true) }
+                currency: "INR", name: "CloudKitchen", description: "Order Update",
+                handler: async (response) => await finalUpdateLogic(response.razorpay_payment_id),
+                prefill: { name: originalOrderData.customerName, contact: originalOrderData.customerPhone },
+                theme: { color: "#0071e3" }
             };
             const rzp = new Razorpay(options);
             rzp.open();
@@ -583,7 +566,6 @@ async function updateOrder() {
         }
     } catch (error) {
         showAlert('Failed to update order.', true);
-        console.error("Order update error: ", error);
     }
 }
 
@@ -668,7 +650,7 @@ function trackOrderStatus(orderId, order) {
             ${progressStepsHTML}
         </div>
         <div class="flex justify-between text-xs text-gray-500 px-2">
-            <span>Placed</span><span>Preparing</span><span>Ready</span><span>Out for Delivery</span><span>Completed</span>
+            <span>Placed</span><span>Preparing</span><span>Ready</span><span>Out</span><span>Delivered</span>
         </div>
         <div class="mt-6 p-4 bg-gray-50 rounded-lg">
             <h3 class="font-semibold mb-2">Item Details</h3>
@@ -739,11 +721,8 @@ async function handleEmailAuth(e, isSignup) {
     const password = document.getElementById('auth-password').value;
     const profileModal = document.getElementById('profile-modal');
     try {
-        if (isSignup) {
-            await createUserWithEmailAndPassword(auth, email, password);
-        } else {
-            await signInWithEmailAndPassword(auth, email, password);
-        }
+        if (isSignup) await createUserWithEmailAndPassword(auth, email, password);
+        else await signInWithEmailAndPassword(auth, email, password);
         showAlert(isSignup ? 'Account created successfully!' : 'Logged in successfully!');
         profileModal?.classList.add('hidden');
     } catch (error) {
@@ -769,10 +748,7 @@ if (isFirebaseReady) {
             document.getElementById('profile-modal')?.classList.add('hidden');
             showAlert('Logged in with Google successfully!');
         }
-    }).catch((error) => {
-        console.error("Redirect auth error:", error);
-        showAlert(error.message, true);
-    });
+    }).catch((error) => console.error(error));
 }
 
 viewSwitcher.addEventListener('click', (e) => {
@@ -788,15 +764,10 @@ viewSwitcher.addEventListener('click', (e) => {
         owner: ['owner', 'developer'],
         developer: ['developer']
     };
-    allowed.delivery = ['delivery', 'owner', 'developer'];
 
     if (userRole !== 'developer') {
-        if (!allowed[view]?.includes(userRole)) {
-            return showAlert("You don't have permission to access this view.", true);
-        }
-        if (['kitchen', 'transport', 'owner'].includes(view) && !currentUserShopId) {
-            return showAlert("You must be assigned to a shop to access this view.", true);
-        }
+        if (!allowed[view]?.includes(userRole)) return showAlert("You don't have permission to access this view.", true);
+        if (['kitchen', 'transport', 'owner'].includes(view) && !currentUserShopId) return showAlert("You must be assigned to a shop to access this view.", true);
     }
 
     Object.values(views).forEach(v => v.classList.add('view-hidden'));
@@ -806,46 +777,22 @@ viewSwitcher.addEventListener('click', (e) => {
     Array.from(viewSwitcher.querySelectorAll('button')).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === view));
 
     if (currentUserShopId) {
-        if (view === 'owner') {
-            loadOwnerDashboard();
-            listenToOrderHistory();
-        } else if (view === 'kitchen' || view === 'transport') {
-            listenToStaffOrders();
-        }
+        if (view === 'owner') { loadOwnerDashboard(); listenToOrderHistory(); }
+        else if (view === 'kitchen' || view === 'transport') { listenToStaffOrders(); }
     }
 
     if (view === 'developer' && userRole === 'developer') {
-        orderCurrentPage = 1;
-        orderFirstVisibleDoc = null;
-        orderLastVisibleDoc = null;
-        orderDateFilter = 'all';
-        updateOrderFilterButtons();
-        loadAllOrders('start');
-        updateDevSummary();
+        orderCurrentPage = 1; orderFirstVisibleDoc = null; orderLastVisibleDoc = null; orderDateFilter = 'all';
+        updateOrderFilterButtons(); loadAllOrders('start'); updateDevSummary();
     }
 });
+
 function loadOwnerDashboard() {
-    if (!isFirebaseReady) return;
-    if (!['owner', 'developer'].includes(userRole)) return;
-
-    if (!currentUserShopId) {
-        if (userRole === 'developer') {
-            document.getElementById('kpi-total-revenue').textContent = `₹0`;
-            document.getElementById('kpi-total-orders').textContent = `0`;
-            document.getElementById('kpi-avg-order-value').textContent = `₹0`;
-            document.getElementById('owner-view-title').textContent = 'Owner Dashboard';
-            document.getElementById('owner-view').querySelector('p').textContent = 'Please select a shop from the Dev Panel to view its dashboard.';
-            salesChartInstance?.destroy();
-            statusChartInstance?.destroy();
-        }
-        return;
-    }
-
-    document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
-    document.getElementById('owner-view').querySelector('p').textContent = 'A high-level overview of your kitchen\'s performance.';
+    if (!isFirebaseReady || !['owner', 'developer'].includes(userRole)) return;
+    if (!currentUserShopId) return;
 
     onSnapshot(query(collection(db, "orders"), where("shopId", "==", currentUserShopId)), (snapshot) => {
-        updateDashboard(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+        updateDashboard(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     });
     loadStaffList();
 }
@@ -874,7 +821,7 @@ function drawSalesChart(orders) {
         return acc;
     }, {});
     const sortedDates = Object.keys(salesByDate).sort();
-    salesChartInstance = new Chart(ctx, { type: 'bar', data: { labels: sortedDates.map(d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })), datasets: [{ label: 'Sales', data: sortedDates.map(d => salesByDate[d]), backgroundColor: 'rgba(94, 92, 230, 0.8)', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: v => '₹' + v } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` Sales: ₹${c.raw.toFixed(2)}` } } } } });
+    salesChartInstance = new Chart(ctx, { type: 'bar', data: { labels: sortedDates.map(d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })), datasets: [{ label: 'Sales', data: sortedDates.map(d => salesByDate[d]), backgroundColor: 'rgba(94, 92, 230, 0.8)', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: v => '₹' + v } } }, plugins: { legend: { display: false } } } });
 }
 
 function drawStatusChart(orders) {
@@ -893,11 +840,7 @@ function drawStatusChart(orders) {
 
 function listenToOrderHistory() {
     if (!['owner', 'developer'].includes(userRole)) return;
-    const listEl = document.getElementById('order-history-list');
-    if (!currentUserShopId) {
-        if (userRole === 'developer' && listEl) listEl.innerHTML = '<p class="text-gray-500 text-center py-4">Select a shop from the Dev Panel to see history.</p>';
-        return;
-    }
+    if (!currentUserShopId) return;
     onSnapshot(query(collection(db, "orders"), where("status", "==", "completed"), where("shopId", "==", currentUserShopId)), snapshot => {
         completedOrders = snapshot.docs.map(d => ({ id: d.id, ...d.data() })).filter(o => !o.isTestOrder).sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
         filterAndRenderHistory();
@@ -907,15 +850,11 @@ function listenToOrderHistory() {
 function filterAndRenderHistory() {
     const listEl = document.getElementById('order-history-list');
     if (!listEl) return;
-    if (!currentUserShopId && userRole === 'developer') {
-        listEl.innerHTML = '<p class="text-gray-500 text-center py-4">Select a shop from the Dev Panel to see history.</p>';
-        return;
-    }
     const now = new Date(); const startOfWeek = new Date(now); startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); startOfWeek.setHours(0, 0, 0, 0); const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     let filtered = completedOrders;
     if (historyFilter === 'week') filtered = completedOrders.filter(o => o.createdAt?.toDate() >= startOfWeek);
     if (historyFilter === 'month') filtered = completedOrders.filter(o => o.createdAt?.toDate() >= startOfMonth);
-    listEl.innerHTML = filtered.length === 0 ? `<p class="text-gray-500 text-center py-4">No past orders for this period.</p>` : filtered.map(o => `<div class="bg-gray-50 p-4 rounded-lg border"><div class="flex justify-between items-start"><div><p class="font-semibold">${o.customerName}</p><p class="text-sm text-gray-500">${o.createdAt.toDate().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p><p class="text-sm text-gray-600 mt-1">Total: ₹${o.totalAmount}</p></div><div class="flex flex-col items-end gap-2"><p class="text-xs text-gray-500 bg-white px-2 py-1 rounded-md">ID: ${o.id.substring(0, 8)}</p>${o.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">TEST</span>' : ''}</div></div><p class="text-sm text-gray-500 mt-2 pt-2 border-t">Items: ${o.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</p></div>`).join('');
+    listEl.innerHTML = filtered.length === 0 ? `<p class="text-gray-500 text-center py-4">No past orders.</p>` : filtered.map(o => `<div class="bg-gray-50 p-4 rounded-lg border"><div class="flex justify-between items-start"><div><p class="font-semibold">${o.customerName}</p><p class="text-sm text-gray-500">${o.createdAt.toDate().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p><p class="text-sm text-gray-600 mt-1">Total: ₹${o.totalAmount}</p></div><div class="flex flex-col items-end gap-2"><p class="text-xs text-gray-500 bg-white px-2 py-1 rounded-md">ID: ${o.id.substring(0, 8)}</p></div></div></div>`).join('');
 }
 
 function updateHistoryFilterButtons() {
@@ -923,158 +862,29 @@ function updateHistoryFilterButtons() {
 }
 
 async function loadStaffList() {
-    if (!['owner', 'developer'].includes(userRole)) return;
+    if (!['owner', 'developer'].includes(userRole) || !currentUserShopId) return;
     const staffListEl = document.getElementById('staff-list');
-    if (!currentUserShopId) {
-        if (userRole === 'developer' && staffListEl) staffListEl.innerHTML = '<p class="text-gray-500">Select a shop from the Dev Panel to see staff.</p>';
-        return;
-    }
     const snapshot = await getDocs(query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]), where("shopId", "==", currentUserShopId)));
     staffListEl.innerHTML = snapshot.empty ? '<p class="text-gray-500">No staff members found.</p>' : snapshot.docs.map(doc => { const s = doc.data(); return `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${s.email}</p><p class="text-sm text-gray-500 capitalize">${s.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>` }).join('');
 }
 
 async function addStaff() {
-    if (!currentUserShopId) {
-        const msg = (userRole === 'developer') ? "Please select a shop from the Dev Panel first." : "You must manage a shop to add staff.";
-        return showAlert(msg, true);
-    }
+    if (!currentUserShopId) return showAlert("You must manage a shop to add staff.", true);
     const email = document.getElementById('staff-email').value; const role = document.getElementById('staff-role').value;
     const snapshot = await getDocs(query(collection(db, "users"), where("email", "==", email)));
-    if (snapshot.empty) return showAlert("Error: User must sign up first before being assigned a role.", true);
+    if (snapshot.empty) return showAlert("User must sign up first.", true);
     await setDoc(doc(db, "users", snapshot.docs[0].id), { role, shopId: currentUserShopId }, { merge: true });
     showAlert(`Role updated for ${email}.`); document.getElementById('add-staff-form').reset(); loadStaffList();
 }
 
-async function createNotification(data) {
-    if (!db) return;
-    try {
-        if (data.userId || data.role) {
-            await addDoc(collection(db, "notifications"), { ...data, createdAt: serverTimestamp(), read: false });
-        }
-    } catch (error) { console.error("Error creating notification:", error); }
-}
-
-function listenForNotifications() {
-    if (notificationListener) notificationListener();
-    if (!auth.currentUser || auth.currentUser.isAnonymous) { updateNotificationUI([]); return; }
-
-    let q;
-    if (userRole === 'customer') {
-        q = query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
-    } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
-        q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
-    } else if (userRole === 'developer' && currentUserShopId) {
-        q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
-    } else {
-        updateNotificationUI([]); return;
-    }
-
-    notificationListener = onSnapshot(q, (snapshot) => {
-        allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        updateNotificationUI(allNotifications);
-    }, (error) => { console.error("Error listening for notifications:", error); });
-}
-
-function updateNotificationUI(notifications) {
-    const listEl = document.getElementById('notification-list');
-    const dotEl = document.getElementById('notification-dot');
-    const panelEl = document.getElementById('notification-panel');
-    if (!listEl || !dotEl || !panelEl) return;
-
-    const unreadCount = notifications.filter(n => !n.read).length;
-    dotEl.classList.toggle('hidden', unreadCount === 0);
-
-    if (unreadCount > 0 && notifications.length > 0) {
-        const latest = notifications[0];
-        const now = Date.now();
-        const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
-        if (now - notifTime < 10000 && !latest.read) {
-            const audio = document.getElementById('notification-sound');
-            if (audio) audio.play().catch(e => console.log("Audio play failed:", e));
-            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-            showToast(latest.message, 'info');
-            if (Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification('Cloud Kitchen', { body: latest.message, icon: 'icon.svg', vibrate: [200, 100, 200], tag: latest.id });
-                });
-            }
-        }
-    }
-
-    if (notifications.length === 0) {
-        listEl.innerHTML = `<p class="p-4 text-gray-500 text-center">No notifications.</p>`;
-    } else {
-        listEl.innerHTML = notifications.map(n => {
-            const time = n.createdAt ? new Date(n.createdAt.toMillis()).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'short' }) : 'Just now';
-            const linkAction = n.orderId ? `onclick="window.markNotificationReadAndOpenOrder('${n.id}', '${n.orderId}')"` : `onclick="window.markSingleNotificationRead('${n.id}')"`;
-            return `<div class="p-4 hover:bg-gray-50 ${n.read ? 'opacity-70' : 'font-medium bg-blue-50 cursor-pointer'}" ${linkAction}><p class="text-sm text-gray-800">${n.message}</p><p class="text-xs text-gray-500 mt-1">${time}</p></div>`;
-        }).join('');
-    }
-}
-
-window.markSingleNotificationRead = async (id) => {
-    if (!db) return;
-    try { await updateDoc(doc(db, "notifications", id), { read: true }); } catch (error) { console.error("Error marking single notification as read:", error); }
-}
-
-window.markNotificationReadAndOpenOrder = async (notificationId, orderId) => {
-    await markSingleNotificationRead(notificationId);
-    document.getElementById('notification-panel').classList.add('hidden');
-    // If it's a customer, createOrderModal shouldn't open, instead we show status
-    if (userRole === 'customer') {
-        // Just triggering tracking logic which picks up latest order usually
-        // A full implementation would set 'currentTrackingOrderId' here
-        document.querySelector('[data-view="customer"]').click();
-    } else {
-        const targetView = (userRole === 'delivery' || userRole === 'transport') ? 'transport' : 'kitchen';
-        const viewButton = document.querySelector(`button[data-view="${targetView}"]`);
-        if (viewButton && !viewButton.classList.contains('hidden')) {
-            viewButton.click();
-        } else {
-            showAlert(`Order ${orderId.substring(0, 8)} updated, but unable to switch to ${targetView} view.`, false);
-        }
-    }
-}
-
-async function markNotificationsAsRead() {
-    const unreadIds = allNotifications.filter(n => !n.read).map(n => n.id);
-    if (unreadIds.length === 0) return;
-    try {
-        const batch = writeBatch(db);
-        unreadIds.forEach(id => batch.update(doc(db, "notifications", id), { read: true }));
-        await batch.commit();
-    } catch (error) { console.error("Error marking notifications as read:", error); }
-}
-
-async function clearAllNotifications() {
-    if (allNotifications.length === 0) return;
-    showAlert("Are you sure you want to clear all your notifications?", false, async () => {
-        try {
-            const batch = writeBatch(db);
-            allNotifications.forEach(n => batch.delete(doc(db, "notifications", n.id)));
-            await batch.commit();
-            updateNotificationUI([]);
-            document.getElementById('notification-panel').classList.add('hidden');
-        } catch (error) { console.error("Error clearing notifications:", error); showAlert("Failed to clear notifications.", true); }
-    });
-}
-
-// --- Developer Panel Logic ---
 async function loadDeveloperPanel() {
     await loadAllShops();
     await loadAdminPanel();
-    document.getElementById('order-search-input').addEventListener('input', () => {
-        orderCurrentPage = 1; orderFirstVisibleDoc = null; orderLastVisibleDoc = null; loadAllOrders('start');
-    });
+    document.getElementById('order-search-input').addEventListener('input', () => { orderCurrentPage = 1; orderFirstVisibleDoc = null; orderLastVisibleDoc = null; loadAllOrders('start'); });
     document.getElementById('dev-menu-shop-select').addEventListener('change', (e) => {
         const shopId = e.target.value;
-        if (shopId) {
-            document.getElementById('dev-menu-manager-content').style.display = 'grid';
-            renderDevMenuItemList(shopId);
-        } else {
-            document.getElementById('dev-menu-manager-content').style.display = 'none';
-            document.getElementById('dev-menu-item-list').innerHTML = '<p class="text-gray-500">Select a shop to see its menu.</p>';
-        }
+        if (shopId) { document.getElementById('dev-menu-manager-content').style.display = 'grid'; renderDevMenuItemList(shopId); }
+        else { document.getElementById('dev-menu-manager-content').style.display = 'none'; }
     });
     document.getElementById('test-order-shop-select').addEventListener('change', (e) => renderTestMenuItems(e.target.value));
     document.querySelectorAll('#developer-view .sortable-header').forEach(header => header.addEventListener('click', handleUserSort));
@@ -1087,13 +897,12 @@ async function updateDevSummary() {
         document.getElementById('dev-summary-shops').textContent = allShops.length;
         const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", DEVELOPER_EMAIL)));
         document.getElementById('dev-summary-users').textContent = usersSnapshot.docs.filter(doc => doc.data().email).length;
-        const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
-        const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
+        const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0); const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
         const ordersTodaySnapshot = await getDocs(query(collection(db, "orders"), where("createdAt", ">=", Timestamp.fromDate(todayStart)), where("createdAt", "<=", Timestamp.fromDate(todayEnd))));
         document.getElementById('dev-summary-orders-today').textContent = ordersTodaySnapshot.size;
         const allOrdersSnapshot = await getDocs(collection(db, "orders"));
         document.getElementById('dev-summary-orders-all').textContent = allOrdersSnapshot.size;
-    } catch (error) { console.error("Error updating dev summary:", error); }
+    } catch (error) { console.error(error); }
 }
 
 function populateShopDropdowns() {
@@ -1106,8 +915,7 @@ function populateShopDropdowns() {
 function renderDevShopList() {
     const container = document.getElementById('dev-shop-list');
     if (!container) return;
-    if (allShops.length === 0) { container.innerHTML = '<p class="text-gray-500">No shops created yet.</p>'; return; }
-    container.innerHTML = allShops.map(shop => `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${shop.name}</p><p class="text-sm text-gray-500">${shop.address || 'No address'}</p></div><button data-id="${shop.id}" class="dev-remove-shop-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`).join('');
+    container.innerHTML = allShops.length === 0 ? '<p class="text-gray-500">No shops created yet.</p>' : allShops.map(shop => `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${shop.name}</p><p class="text-sm text-gray-500">${shop.address || 'No address'}</p></div><button data-id="${shop.id}" class="dev-remove-shop-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`).join('');
 }
 
 async function createShop(e) {
@@ -1115,47 +923,30 @@ async function createShop(e) {
     const name = document.getElementById('shop-name').value;
     const address = document.getElementById('shop-address').value;
     const image = document.getElementById('shop-image').value;
-    try {
-        await addDoc(collection(db, "shops"), { name, address, image: image || null });
-        showAlert('Shop created successfully!');
-        document.getElementById('create-shop-form').reset();
-        await loadAllShops();
-    } catch (error) { console.error("Error creating shop: ", error); showAlert("Failed to create shop.", true); }
+    try { await addDoc(collection(db, "shops"), { name, address, image: image || null }); showAlert('Shop created successfully!'); document.getElementById('create-shop-form').reset(); await loadAllShops(); } catch (error) { showAlert("Failed to create shop.", true); }
 }
 
 async function createMenuItem(e) {
     e.preventDefault();
     const shopId = document.getElementById('dev-menu-shop-select').value;
     if (!shopId) return showAlert("Please select a shop first.", true);
-    const name = document.getElementById('menu-item-name').value;
-    const price = parseFloat(document.getElementById('menu-item-price').value);
-    const image = document.getElementById('menu-item-image').value;
-    if (isNaN(price) || price <= 0) return showAlert("Please enter a valid price.", true);
-    try {
-        await addDoc(collection(db, "menus"), { shopId, name, price, image: image || null });
-        showAlert('Menu item added!');
-        document.getElementById('create-menu-item-form').reset();
-        renderDevMenuItemList(shopId);
-    } catch (error) { console.error("Error adding menu item: ", error); showAlert("Failed to add item.", true); }
+    const name = document.getElementById('menu-item-name').value; const price = parseFloat(document.getElementById('menu-item-price').value); const image = document.getElementById('menu-item-image').value;
+    try { await addDoc(collection(db, "menus"), { shopId, name, price, image: image || null }); showAlert('Menu item added!'); document.getElementById('create-menu-item-form').reset(); renderDevMenuItemList(shopId); } catch (error) { showAlert("Failed to add item.", true); }
 }
 
 async function renderDevMenuItemList(shopId) {
     const container = document.getElementById('dev-menu-item-list');
-    container.innerHTML = '<p class="text-gray-500">Loading items...</p>';
     const snapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
     const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    if (items.length === 0) { container.innerHTML = '<p class="text-gray-500">No menu items for this shop.</p>'; return; }
-    container.innerHTML = items.map(item => `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${item.name}</p><p class="text-sm text-gray-500">₹${item.price}</p></div><button data-id="${item.id}" data-shop-id="${shopId}" class="dev-remove-menu-item-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`).join('');
+    container.innerHTML = items.length === 0 ? '<p class="text-gray-500">No menu items.</p>' : items.map(item => `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${item.name}</p><p class="text-sm text-gray-500">₹${item.price}</p></div><button data-id="${item.id}" data-shop-id="${shopId}" class="dev-remove-menu-item-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>`).join('');
 }
 
 async function renderTestMenuItems(shopId) {
     const container = document.getElementById('test-menu-items');
-    if (!shopId) { container.innerHTML = '<p class="text-gray-500 text-sm">Select a shop to see items.</p>'; return; }
-    container.innerHTML = '<p class="text-gray-500 text-sm">Loading items...</p>';
+    if (!shopId) { container.innerHTML = '<p class="text-gray-500 text-sm">Select a shop.</p>'; return; }
     const snapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
     const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    if (items.length === 0) { container.innerHTML = '<p class="text-gray-500 text-sm">No items for this shop.</p>'; return; }
-    container.innerHTML = items.map(item => `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100"><input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}"><span class="text-sm">${item.name} (₹${item.price})</span></label>`).join('');
+    container.innerHTML = items.length === 0 ? '<p class="text-gray-500 text-sm">No items.</p>' : items.map(item => `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100"><input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}"><span class="text-sm">${item.name} (₹${item.price})</span></label>`).join('');
 }
 
 async function runSystemTests() {
@@ -1171,85 +962,63 @@ async function createTestOrder(e) {
     const shopId = document.getElementById('test-order-shop-select').value;
     if (!shopId) return showAlert('Please select a shop.', true);
     const items = Array.from(document.querySelectorAll('.test-menu-checkbox:checked')).map(cb => ({ id: cb.dataset.id, name: cb.dataset.name, price: parseFloat(cb.dataset.price), quantity: 1, ready: false }));
-    if (items.length === 0) return showAlert('Please select at least one item.', true);
-    const orderData = { shopId, customerName: document.getElementById('test-name').value, customerAddress: document.getElementById('test-address').value, customerPhone: document.getElementById('test-phone').value, items, totalAmount: items.reduce((s, i) => s + i.price, 0), status: 'new', createdAt: serverTimestamp(), userId: 'test-developer', isTestOrder: true, };
+    if (items.length === 0) return showAlert('Select at least one item.', true);
+    const orderData = { shopId, customerName: document.getElementById('test-name').value, customerAddress: document.getElementById('test-address').value, customerPhone: document.getElementById('test-phone').value, items, totalAmount: items.reduce((s, i) => s + i.price, 0), status: 'new', createdAt: serverTimestamp(), userId: 'test-developer', isTestOrder: true };
     try {
         const docRef = await addDoc(collection(db, "orders"), orderData);
-        showAlert('Test order created successfully!');
-        document.getElementById('test-order-form').reset();
+        showAlert('Test order created!');
+        // Notify kitchen/owner of test order
         const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", shopId), where("role", "in", ["kitchen", "owner"])));
-        usersSnapshot.docs.forEach(userDoc => { createNotification({ userId: userDoc.id, role: userDoc.data().role, shopId: shopId, message: `New TEST order received from ${orderData.customerName}.`, orderId: docRef.id }); });
-    } catch (error) { showAlert('Failed to create test order.', true); console.error(error); }
+        usersSnapshot.docs.forEach(userDoc => { createNotification({ userId: userDoc.id, role: userDoc.data().role, shopId: shopId, message: `New TEST order from ${orderData.customerName}.`, orderId: docRef.id }); });
+        document.getElementById('test-order-form').reset();
+    } catch (error) { showAlert('Failed to create test order.', true); }
 }
 
 async function resetCustomerOrders() {
-    if (userRole !== 'developer') return showAlert("You don't have permission for this.", true);
-    showAlert(`Are you sure you want to delete ALL non-test orders? This cannot be undone.`, false, async () => {
-        const nonTestQuery = query(collection(db, "orders"), where("isTestOrder", "==", false));
-        const nonTestSnapshot = await getDocs(nonTestQuery);
-        const ordersToDelete = [...nonTestSnapshot.docs];
-        const missingFieldQuery = query(collection(db, "orders"), where("isTestOrder", "==", undefined));
-        const missingFieldSnapshot = await getDocs(missingFieldQuery);
-        ordersToDelete.push(...missingFieldSnapshot.docs);
-        if (ordersToDelete.length === 0) return showAlert('No non-test orders to reset.', false);
-        try {
-            const batch = writeBatch(db);
-            ordersToDelete.forEach(d => batch.delete(d.ref));
-            await batch.commit();
-            showAlert(`Successfully deleted ${ordersToDelete.length} customer orders.`, false);
-            updateDevSummary();
-        } catch (error) { console.error("Error resetting orders:", error); showAlert("Failed to reset orders.", true); }
+    if (userRole !== 'developer') return showAlert("No permission.", true);
+    showAlert(`Delete ALL non-test orders?`, false, async () => {
+        const batch = writeBatch(db);
+        const snapshot = await getDocs(query(collection(db, "orders")));
+        let count = 0;
+        snapshot.docs.forEach(doc => { if (!doc.data().isTestOrder) { batch.delete(doc.ref); count++; } });
+        await batch.commit(); showAlert(`Deleted ${count} orders.`);
     });
 }
 
 function loadAllOrders(direction = 'start') {
+    if (userRole !== 'developer') return;
     const container = document.getElementById('all-orders-list');
-    if (!container || userRole !== 'developer') return;
     container.innerHTML = '<p class="text-gray-500 text-center py-4">Loading orders...</p>';
     orderQueryUnsubscribe?.();
     let q = collection(db, "orders");
-    const constraints = [];
-    const now = new Date();
-    let startDate, endDate = Timestamp.now();
-    if (orderDateFilter === 'today') { startDate = new Date(now); startDate.setHours(0, 0, 0, 0); startDate = Timestamp.fromDate(startDate); }
-    else if (orderDateFilter === 'week') { startDate = new Date(now); startDate.setDate(startDate.getDate() - now.getDay()); startDate.setHours(0, 0, 0, 0); startDate = Timestamp.fromDate(startDate); }
-    else if (orderDateFilter === 'month') { startDate = new Date(now.getFullYear(), now.getMonth(), 1); startDate = Timestamp.fromDate(startDate); }
-    if (startDate) constraints.push(where("createdAt", ">=", startDate));
-    constraints.push(orderBy("createdAt", "desc"));
-    if (direction === 'next' && orderLastVisibleDoc) { constraints.push(startAfter(orderLastVisibleDoc)); }
-    else if (direction === 'prev' && orderFirstVisibleDoc) { constraints.push(endBefore(orderFirstVisibleDoc)); }
-    constraints.push(limit(orderQueryLimit));
-    const finalQuery = query(q, ...constraints);
-    orderQueryUnsubscribe = onSnapshot(finalQuery, (snapshot) => {
+    const constraints = [orderBy("createdAt", "desc"), limit(orderQueryLimit)];
+    if (direction === 'next' && orderLastVisibleDoc) constraints.unshift(startAfter(orderLastVisibleDoc));
+    if (direction === 'prev' && orderFirstVisibleDoc) constraints.unshift(endBefore(orderFirstVisibleDoc));
+    
+    orderQueryUnsubscribe = onSnapshot(query(q, ...constraints), (snapshot) => {
         let docs = snapshot.docs;
         if (docs.length > 0) { orderFirstVisibleDoc = docs[0]; orderLastVisibleDoc = docs[docs.length - 1]; }
-        else { if (direction === 'prev' && orderCurrentPage > 1) { prevOrdersBtn.disabled = true; } else if (direction === 'next' && orderCurrentPage >= 1) { nextOrdersBtn.disabled = true; } else { orderFirstVisibleDoc = null; orderLastVisibleDoc = null; } }
         renderAllOrdersList(docs);
         prevOrdersBtn.disabled = orderCurrentPage <= 1;
         nextOrdersBtn.disabled = docs.length < orderQueryLimit;
         orderPageInfoEl.textContent = `Page ${orderCurrentPage}`;
-    }, (error) => { console.error("Error loading all orders:", error); container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`; prevOrdersBtn.disabled = true; nextOrdersBtn.disabled = true; });
+    });
 }
 
 function renderAllOrdersList(docs) {
     const container = document.getElementById('all-orders-list');
     const searchTerm = document.getElementById('order-search-input').value.trim().toLowerCase();
     let filteredDocs = docs.filter(doc => !searchTerm || doc.data().customerName.toLowerCase().includes(searchTerm));
-    container.innerHTML = filteredDocs.length === 0 ? '<p class="text-gray-500 text-center py-4">No orders found.</p>' : filteredDocs.map(docSnap => {
+    container.innerHTML = filteredDocs.length === 0 ? '<p class="text-gray-500 text-center py-4">No orders.</p>' : filteredDocs.map(docSnap => {
         const order = docSnap.data();
-        const shopName = allShops.find(s => s.id === order.shopId)?.name || 'Unknown Shop';
-        const statusColors = { 'new': 'bg-blue-100 text-blue-800', 'preparing': 'bg-orange-100 text-orange-800', 'ready_for_pickup': 'bg-green-100 text-green-800', 'out_for_delivery': 'bg-purple-100 text-purple-800', 'completed': 'bg-gray-100 text-gray-800' };
-        const devButtonStatusColors = { 'new': 'bg-blue-500 hover:bg-blue-600', 'preparing': 'bg-orange-500 hover:bg-orange-600', 'ready_for_pickup': 'bg-green-500 hover:bg-green-600', 'out_for_delivery': 'bg-purple-500 hover:bg-purple-600', 'completed': 'bg-gray-500 hover:bg-gray-600' };
-        const devButtonsHTML = ['new', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed'].map(s => `<button data-id="${docSnap.id}" data-status="${s}" class="dev-update-status text-xs px-3 py-1 text-white rounded ${devButtonStatusColors[s]} capitalize">${s.split('_')[0]}</button>`).join('');
-        const deleteButtonHTML = `<button data-id="${docSnap.id}" class="dev-delete-order-btn text-xs px-3 py-1 text-white rounded bg-red-600 hover:bg-red-700">Delete</button>`;
-        return `<div class="bg-gray-50 p-4 rounded-lg"><div class="flex justify-between items-start mb-3"><div><p class="font-semibold">${order.customerName} (<span class="text-sm font-normal text-indigo-600">${shopName}</span>)</p><p class="text-xs text-gray-500">ID: ${docSnap.id.substring(0, 12)}</p><p class="text-xs text-gray-500">${order.createdAt?.toDate().toLocaleString() || 'N/A'}</p></div><div class="flex gap-2 items-center">${order.isTestOrder ? '<span class="test-badge text-pending">TEST</span>' : ''}<span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status] || 'bg-gray-100'}">${order.status.replace(/_/g, ' ').toUpperCase()}</span></div></div><div class="grid grid-cols-2 gap-2 text-sm"><div><span class="text-gray-600">Phone:</span> ${order.customerPhone}</div><div><span class="text-gray-600">Amount:</span> ₹${order.totalAmount}</div><div class="col-span-2"><span class="text-gray-600">Address:</span> ${order.customerAddress}</div><div class="col-span-2"><span class="text-gray-600">Items:</span> ${order.items.map(i => i.name).join(', ')}</div></div><div class="mt-3 flex gap-2 flex-wrap">${devButtonsHTML} ${deleteButtonHTML}</div></div>`;
+        const shopName = allShops.find(s => s.id === order.shopId)?.name || 'Unknown';
+        return `<div class="bg-gray-50 p-4 rounded-lg"><div class="flex justify-between items-start mb-3"><div><p class="font-semibold">${order.customerName} (${shopName})</p><p class="text-xs text-gray-500">ID: ${docSnap.id}</p></div><div><span class="px-3 py-1 rounded-full text-xs font-semibold bg-gray-200">${order.status}</span></div></div></div>`;
     }).join('');
 }
 
 function handleUserSort(e) {
     const newCriteria = e.target.closest('[data-sort]').dataset.sort;
-    if (!newCriteria) return;
-    if (userSortCriteria === newCriteria) { userSortDirection = userSortDirection === 'asc' ? 'desc' : 'asc'; }
+    if (userSortCriteria === newCriteria) userSortDirection = userSortDirection === 'asc' ? 'desc' : 'asc';
     else { userSortCriteria = newCriteria; userSortDirection = 'asc'; }
     renderAdminUserList();
 }
@@ -1258,45 +1027,32 @@ function sortUsers(users) {
     return users.sort((a, b) => {
         let valA, valB; const dataA = a.data(); const dataB = b.data();
         switch (userSortCriteria) {
-            case 'email': valA = dataA.email?.toLowerCase() || ''; valB = dataB.email?.toLowerCase() || ''; break;
+            case 'email': valA = dataA.email || ''; valB = dataB.email || ''; break;
             case 'role': valA = dataA.role || ''; valB = dataB.role || ''; break;
-            case 'shop': const shopA = allShops.find(s => s.id === dataA.shopId)?.name?.toLowerCase() || ''; const shopB = allShops.find(s => s.id === dataB.shopId)?.name?.toLowerCase() || ''; valA = shopA; valB = shopB; break;
             default: return 0;
         }
-        if (valA < valB) return userSortDirection === 'asc' ? -1 : 1; if (valA > valB) return userSortDirection === 'asc' ? 1 : -1; return 0;
+        return (valA < valB ? -1 : 1) * (userSortDirection === 'asc' ? 1 : -1);
     });
 }
 
 async function loadAdminPanel() {
-    const userListEl = document.getElementById('admin-user-list');
-    if (!userListEl) return;
-    userListEl.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Loading users...</td></tr>`;
-    const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", null)));
-    allUsersCache = usersSnapshot.docs.filter(d => d.id !== userId && d.data().email !== DEVELOPER_EMAIL);
+    const snapshot = await getDocs(query(collection(db, "users"), where("email", "!=", null)));
+    allUsersCache = snapshot.docs.filter(d => d.id !== userId && d.data().email !== DEVELOPER_EMAIL);
     renderAdminUserList();
 }
 
 function renderAdminUserList() {
     const userListEl = document.getElementById('admin-user-list');
-    if (!userListEl) return;
     const sortedUsers = sortUsers([...allUsersCache]);
-    document.querySelectorAll('#developer-view .sortable-header').forEach(header => {
-        const arrow = header.querySelector('.sort-arrow');
-        if (arrow) {
-            header.classList.remove('sort-asc', 'sort-desc');
-            if (header.dataset.sort === userSortCriteria) { header.classList.add(userSortDirection === 'asc' ? 'sort-asc' : 'sort-desc'); }
-        }
-    });
     userListEl.innerHTML = sortedUsers.map(doc => {
         const userData = doc.data();
         const roles = ['customer', 'kitchen', 'delivery', 'owner', 'developer'];
-        const roleOptions = roles.map(r => `<option value="${r}" ${userData.role === r ? 'selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`).join('');
+        const roleOptions = roles.map(r => `<option value="${r}" ${userData.role === r ? 'selected' : ''}>${r}</option>`).join('');
         let shopSelectHTML = '<span class="text-gray-400">N/A</span>';
         if (['kitchen', 'delivery', 'owner'].includes(userData.role)) {
             shopSelectHTML = `<select data-uid="${doc.id}" class="shop-selector border rounded px-2 py-1 text-sm"><option value="">-- None --</option>${allShops.map(s => `<option value="${s.id}" ${userData.shopId === s.id ? 'selected' : ''}>${s.name}</option>`).join('')}</select>`;
         }
-        const deleteButtonHTML = `<button data-id="${doc.id}" data-email="${userData.email || 'this user'}" class="dev-delete-user-btn btn-danger text-xs px-2 py-1">Delete</button>`;
-        return `<tr><td class="px-6 py-4 whitespace-nowrap text-sm">${userData.email || 'N/A'}</td><td class="px-6 py-4 whitespace-nowrap capitalize text-sm">${userData.role}</td><td class="px-6 py-4 whitespace-nowrap"><select data-uid="${doc.id}" class="role-selector border rounded px-2 py-1 text-sm">${roleOptions}</select></td><td class="px-6 py-4 whitespace-nowrap text-sm" id="shop-cell-${doc.id}">${shopSelectHTML}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${deleteButtonHTML}</td></tr>`;
+        return `<tr><td class="px-6 py-4 text-sm">${userData.email}</td><td class="px-6 py-4 capitalize text-sm">${userData.role}</td><td class="px-6 py-4"><select data-uid="${doc.id}" class="role-selector border rounded px-2 py-1 text-sm">${roleOptions}</select></td><td class="px-6 py-4">${shopSelectHTML}</td><td class="px-6 py-4"><button data-id="${doc.id}" class="dev-delete-user-btn btn-danger text-xs px-2 py-1">Delete</button></td></tr>`;
     }).join('');
 }
 
@@ -1304,39 +1060,39 @@ async function deleteUserFromDatabase(deleteUserId) {
     if (!deleteUserId) return;
     try {
         await deleteDoc(doc(db, "users", deleteUserId));
-        showAlert("User deleted successfully.");
+        showAlert("User deleted.");
         allUsersCache = allUsersCache.filter(doc => doc.id !== deleteUserId);
         renderAdminUserList();
-        updateDevSummary();
-    } catch (error) { console.error("Error deleting user:", error); showAlert("Failed to delete user.", true); }
+    } catch (error) { showAlert("Failed to delete user.", true); }
 }
 
 async function renderCreateOrderModal(shopId) {
     staffCart = [];
     const menuSnapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
     const staffMenu = menuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    if (staffMenu.length === 0) { document.getElementById('create-order-content').innerHTML = `<p class="text-red-500 text-center">Your shop has no menu items. Please ask a developer to add some.</p>`; return; }
-    document.getElementById('create-order-content').innerHTML = `<form id="staff-create-order-form"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h3 class="text-lg font-medium">Details</h3><div class="space-y-4 mt-4"><input type="text" id="staff-customer-name" placeholder="Customer Name" class="w-full" required><input type="text" id="staff-customer-address" placeholder="Address" class="w-full" required><input type="tel" id="staff-customer-phone" placeholder="Phone" class="w-full" required></div></div><div><h3 class="text-lg font-medium">Select Items</h3><div id="staff-menu-selection" class="space-y-3 mt-4 max-h-64 overflow-y-auto pr-2">${staffMenu.map(item => `<div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg"><div><p class="font-medium">${item.name}</p><p class="text-sm text-gray-500">₹${item.price}</p></div><div class="quantity-selector"><button type="button" class="quantity-btn staff-quantity-minus" data-id="${item.id}" data-price="${item.price}" data-name="${item.name}">-</button><span id="staff-qty-${item.id}" class="quantity-display">0</span><button type="button" class="quantity-btn staff-quantity-plus" data-id="${item.id}" data-price="${item.price}" data-name="${item.name}">+</button></div></div>`).join('')}</div><div id="staff-cart-summary" class="border-t pt-4 mt-4"><div class="flex justify-between font-bold text-lg"><span>Total</span><span>₹0</span></div></div></div></div><div class="mt-8 pt-6 border-t"><button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Order (No Payment)</button></div></form>`;
+    if (staffMenu.length === 0) return document.getElementById('create-order-content').innerHTML = `<p class="text-red-500 text-center">No menu items.</p>`;
+    document.getElementById('create-order-content').innerHTML = `<form id="staff-create-order-form"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h3 class="text-lg font-medium">Details</h3><div class="space-y-4 mt-4"><input type="text" id="staff-customer-name" placeholder="Name" class="w-full" required><input type="text" id="staff-customer-address" placeholder="Address" class="w-full" required><input type="tel" id="staff-customer-phone" placeholder="Phone" class="w-full" required></div></div><div><h3 class="text-lg font-medium">Items</h3><div id="staff-menu-selection" class="space-y-3 mt-4 max-h-64 overflow-y-auto">${staffMenu.map(item => `<div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg"><div><p class="font-medium">${item.name}</p><p class="text-sm">₹${item.price}</p></div><div class="quantity-selector"><button type="button" class="quantity-btn staff-quantity-minus" data-id="${item.id}" data-price="${item.price}" data-name="${item.name}">-</button><span id="staff-qty-${item.id}" class="quantity-display">0</span><button type="button" class="quantity-btn staff-quantity-plus" data-id="${item.id}" data-price="${item.price}" data-name="${item.name}">+</button></div></div>`).join('')}</div><div id="staff-cart-summary" class="border-t pt-4 mt-4 flex justify-between font-bold"><span>Total</span><span>₹0</span></div></div></div><div class="mt-8 pt-6 border-t"><button type="submit" class="btn-primary w-full bg-green-600">Create Order</button></div></form>`;
 }
 
 function updateStaffCartUI() {
     let total = staffCart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     staffCart.forEach(item => { const el = document.getElementById(`staff-qty-${item.id}`); if (el) el.textContent = item.quantity; });
-    document.querySelectorAll('#staff-menu-selection .quantity-display').forEach(el => { const id = el.id.replace('staff-qty-', ''); if (!staffCart.find(item => item.id === id)) { el.textContent = '0'; } });
+    document.querySelectorAll('#staff-menu-selection .quantity-display').forEach(el => { const id = el.id.replace('staff-qty-', ''); if (!staffCart.find(item => item.id === id)) el.textContent = '0'; });
     document.querySelector('#staff-cart-summary span:last-child').textContent = `₹${total}`;
 }
 
 async function handleStaffOrderCreation(e) {
     e.preventDefault();
-    if (staffCart.length === 0) return showAlert('Please add at least one item.', true);
-    if (!currentUserShopId) return showAlert('Cannot create order, staff shop is not set.', true);
+    if (staffCart.length === 0) return showAlert('Add at least one item.', true);
+    if (!currentUserShopId) return showAlert('No shop set.', true);
     const orderData = { shopId: currentUserShopId, customerName: document.getElementById('staff-customer-name').value, customerAddress: document.getElementById('staff-customer-address').value, customerPhone: document.getElementById('staff-customer-phone').value, items: staffCart.map(item => ({ ...item, ready: false })), totalAmount: staffCart.reduce((s, i) => s + i.price * i.quantity, 0), status: 'new', createdAt: serverTimestamp(), userId: 'staff-created', isTestOrder: false, createdBy: userEmail };
     try {
         const docRef = await addDoc(collection(db, "orders"), orderData);
-        showAlert('Order created successfully!');
+        showAlert('Order created!');
         createOrderModal.classList.add('hidden');
+        // Notify kitchen/owner of manual order
         const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", currentUserShopId), where("role", "in", ["kitchen", "owner"])));
-        usersSnapshot.docs.forEach(userDoc => { createNotification({ userId: userDoc.id, role: userDoc.data().role, shopId: currentUserShopId, message: `New order created by ${userEmail} for ${orderData.customerName}.`, orderId: docRef.id }); });
+        usersSnapshot.docs.forEach(userDoc => { createNotification({ userId: userDoc.id, role: userDoc.data().role, shopId: currentUserShopId, message: `Manual order by ${userEmail}.`, orderId: docRef.id }); });
     } catch (error) { showAlert('Failed to create order.', true); }
 }
 
@@ -1345,45 +1101,35 @@ function updateMenuItemControls(itemId) {
     if (!itemCard) return;
     const item = currentMenu.find(m => m.id === itemId);
     const cartItem = cart.find(ci => ci.id === itemId);
-    if (!item) return;
-    let buttonHTML;
-    if (cartItem) {
-        buttonHTML = `<div class="quantity-selector mt-4"><button class="quantity-btn quantity-minus" data-id="${itemId}">-</button><span class="quantity-display">${cartItem.quantity}</span><button class="quantity-btn quantity-plus" data-id="${itemId}">+</button></div>`;
-    } else {
-        buttonHTML = `<button data-id="${itemId}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
-    }
+    const buttonHTML = cartItem ? `<div class="quantity-selector mt-4"><button class="quantity-btn quantity-minus" data-id="${itemId}">-</button><span class="quantity-display">${cartItem.quantity}</span><button class="quantity-btn quantity-plus" data-id="${itemId}">+</button></div>` : `<button data-id="${itemId}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
     const controlsContainer = itemCard.querySelector('.p-5');
-    if (!controlsContainer) return;
     const existingButton = controlsContainer.querySelector('.add-to-cart-btn');
     const existingSelector = controlsContainer.querySelector('.quantity-selector');
-    if (existingButton && cartItem) { existingButton.outerHTML = buttonHTML; }
-    else if (existingSelector) { if (cartItem) { const display = existingSelector.querySelector('.quantity-display'); if (display) display.textContent = cartItem.quantity; } else { existingSelector.outerHTML = buttonHTML; } }
-    else if (!existingButton && !existingSelector && cartItem) { controlsContainer.insertAdjacentHTML('beforeend', buttonHTML); }
+    if (existingButton && cartItem) existingButton.outerHTML = buttonHTML;
+    else if (existingSelector) { if (cartItem) existingSelector.querySelector('.quantity-display').textContent = cartItem.quantity; else existingSelector.outerHTML = buttonHTML; }
+    else if (!existingButton && !existingSelector && cartItem) controlsContainer.insertAdjacentHTML('beforeend', buttonHTML);
 }
 
 document.body.addEventListener('click', async e => {
     const target = e.target;
     const targetId = target.dataset.id;
-    let isCartAction = false;
-    if (target.matches('.add-to-cart-btn')) { const item = currentMenu.find(m => m.id === targetId); if (item) cart.push({ ...item, quantity: 1 }); isCartAction = true; }
-    if (target.matches('.quantity-plus')) { const item = cart.find(m => m.id === targetId); if (item) item.quantity++; isCartAction = true; }
-    if (target.matches('.quantity-minus')) { const idx = cart.findIndex(m => m.id === targetId); if (idx > -1) { cart[idx].quantity--; if (cart[idx].quantity <= 0) cart.splice(idx, 1); } isCartAction = true; }
-    if (isCartAction) { updateCart(); updateMenuItemControls(targetId); }
-    if (target.matches('.staff-quantity-plus')) { const item = { id: targetId, price: parseFloat(target.dataset.price), name: target.dataset.name }; let cartItem = staffCart.find(ci => ci.id === targetId); if (cartItem) cartItem.quantity++; else staffCart.push({ ...item, quantity: 1 }); updateStaffCartUI(); }
+    if (target.matches('.add-to-cart-btn')) { const item = currentMenu.find(m => m.id === targetId); if (item) cart.push({ ...item, quantity: 1 }); updateCart(); updateMenuItemControls(targetId); }
+    if (target.matches('.quantity-plus')) { const item = cart.find(m => m.id === targetId); if (item) item.quantity++; updateCart(); updateMenuItemControls(targetId); }
+    if (target.matches('.quantity-minus')) { const idx = cart.findIndex(m => m.id === targetId); if (idx > -1) { cart[idx].quantity--; if (cart[idx].quantity <= 0) cart.splice(idx, 1); } updateCart(); updateMenuItemControls(targetId); }
+    if (target.matches('.staff-quantity-plus')) { let item = staffCart.find(ci => ci.id === targetId); if (item) item.quantity++; else staffCart.push({ id: targetId, price: parseFloat(target.dataset.price), name: target.dataset.name, quantity: 1 }); updateStaffCartUI(); }
     if (target.matches('.staff-quantity-minus')) { let idx = staffCart.findIndex(m => m.id === targetId); if (idx > -1) { staffCart[idx].quantity--; if (staffCart[idx].quantity <= 0) staffCart.splice(idx, 1); updateStaffCartUI(); } }
     if (target.closest('#notification-bell-btn')) {
         const panel = document.getElementById('notification-panel');
         if (window.innerWidth < 640) { panel.classList.remove('hidden'); panel.style.top = '0'; panel.style.left = '0'; panel.style.width = '100vw'; panel.style.height = '100vh'; panel.style.backgroundColor = 'rgba(0, 0, 0, 0.4)'; } else { panel.classList.toggle('hidden'); }
-        if (!panel.classList.contains('hidden')) { markNotificationsAsRead(); }
+        if (!panel.classList.contains('hidden')) markNotificationsAsRead();
     }
-    if (target.closest('#notification-panel-close-btn')) { document.getElementById('notification-panel').classList.add('hidden'); document.getElementById('notification-panel').removeAttribute('style'); }
-    if (target.closest('#clear-all-notifications')) { clearAllNotifications(); }
-    if (window.innerWidth >= 640 && !target.closest('#notification-panel') && !target.closest('#notification-bell-btn')) { document.getElementById('notification-panel').classList.add('hidden'); }
+    if (target.closest('#notification-panel-close-btn')) document.getElementById('notification-panel').classList.add('hidden');
+    if (target.closest('#clear-all-notifications')) clearAllNotifications();
+    if (window.innerWidth >= 640 && !target.closest('#notification-panel') && !target.closest('#notification-bell-btn')) document.getElementById('notification-panel').classList.add('hidden');
     if (target.matches('#add-more-items-btn') && currentTrackingOrderId) { const orderDoc = await getDoc(doc(db, "orders", currentTrackingOrderId)); if (orderDoc.exists()) startEditingOrder(orderDoc.data()); }
     if (target.matches('#reset-customer-orders-btn')) await resetCustomerOrders();
-    if (target.matches('.history-filter-btn')) { historyFilter = target.dataset.filter; updateHistoryFilterButtons(); filterAndRenderHistory(); }
     
-    // --- UPDATED STATUS BUTTON HANDLER (More Detailed Notifications) ---
+    // --- STATUS UPDATE LOGIC ---
     if (target.matches('.update-status-btn, .dev-update-status')) {
         try {
             const newStatus = target.dataset.status;
@@ -1393,87 +1139,43 @@ document.body.addEventListener('click', async e => {
             const orderData = orderSnap.data();
             
             await updateDoc(orderRef, { status: newStatus });
-            showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
+            showAlert(`Status updated to ${newStatus.replace(/_/g, ' ')}`);
             
-            let customerMessage = '';
             const orderIdShort = targetId.substring(0, 5).toUpperCase();
             
-            // Generate detailed message
-            switch (newStatus) {
-                case 'preparing':
-                    customerMessage = `Your order #${orderIdShort} from ${currentShopName || 'the kitchen'} is now being prepared!`;
-                    break;
-                case 'ready_for_pickup':
-                    customerMessage = `Your order #${orderIdShort} from ${currentShopName || 'the kitchen'} is ready for pickup!`;
-                    break;
-                case 'out_for_delivery':
-                    customerMessage = `Order #${orderIdShort} is out for delivery with ${orderData.items.length} items!`;
-                    break;
-                case 'completed':
-                    customerMessage = `Order #${orderIdShort} delivered. Enjoy your meal!`;
-                    break;
-                case 'new':
-                    customerMessage = `Order #${orderIdShort} status reset to New.`;
-                    break;
+            // 1. Notify Customer
+            if (orderData.userId && !['staff-created', 'test-developer'].includes(orderData.userId)) {
+                let msg = '';
+                if (newStatus === 'preparing') msg = `Your order #${orderIdShort} is being prepared!`;
+                else if (newStatus === 'ready_for_pickup') msg = `Your order #${orderIdShort} is ready!`;
+                else if (newStatus === 'out_for_delivery') msg = `Order #${orderIdShort} is out for delivery.`;
+                else if (newStatus === 'completed') msg = `Order #${orderIdShort} delivered. Enjoy!`;
+                
+                if (msg) createNotification({ userId: orderData.userId, role: 'customer', message: msg, orderId: targetId });
             }
-            
-            // Notify Customer
-            if (customerMessage && orderData.userId && orderData.userId !== 'staff-created' && orderData.userId !== 'test-developer') { 
-                createNotification({ 
-                    userId: orderData.userId, 
-                    message: customerMessage, 
-                    orderId: targetId 
-                }); 
-            }
-            
-            // Notify Staff for 'ready_for_pickup' (Delivery/Owner)
+
+            // 2. Notify Delivery & Owner (When Ready)
             if (newStatus === 'ready_for_pickup') {
-                const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["delivery", "owner"])));
-                usersSnapshot.docs.forEach(userDoc => { 
-                    createNotification({ 
-                        userId: userDoc.id, 
-                        role: userDoc.data().role, 
-                        shopId: orderData.shopId, 
-                        message: `Order #${orderIdShort} for ${orderData.customerName} is ready for pickup.`, 
-                        orderId: targetId 
-                    }); 
-                });
+                const staff = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["delivery", "owner"])));
+                staff.docs.forEach(u => createNotification({ userId: u.id, role: u.data().role, shopId: orderData.shopId, message: `Order #${orderIdShort} ready for pickup!`, orderId: targetId }));
             }
-        } catch (e) { showAlert('Failed to update status.', true); console.error("Status update error:", e); }
+        } catch (e) { showAlert('Failed to update status.', true); }
     }
     
-    if (target.matches('.remove-staff-btn')) { showAlert(`Are you sure you want to remove this staff member?`, false, async () => { await setDoc(doc(db, "users", targetId), { role: 'customer', shopId: null }, { merge: true }); showAlert('Staff member removed.'); loadStaffList(); if (userRole === 'developer') { const userIndex = allUsersCache.findIndex(d => d.id === targetId); if (userIndex > -1) { allUsersCache[userIndex] = await getDoc(doc(db, "users", targetId)); renderAdminUserList(); } } }); }
-    if (target.matches('.dev-remove-shop-btn')) { showAlert(`Are you sure you want to delete this shop?`, false, async () => { try { const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", targetId))); await Promise.all(usersSnapshot.docs.map(userDoc => setDoc(userDoc.ref, { shopId: null }, { merge: true }))); await deleteDoc(doc(db, "shops", targetId)); showAlert('Shop removed.'); await loadAllShops(); if (userRole === 'developer') await loadAdminPanel(); } catch (e) { console.error(e); showAlert('Could not remove shop.', true); } }); }
-    if (target.matches('.dev-remove-menu-item-btn')) { showAlert(`Are you sure you want to delete this menu item?`, false, async () => { try { await deleteDoc(doc(db, "menus", targetId)); showAlert('Menu item removed.'); renderDevMenuItemList(target.dataset.shopId); } catch (e) { console.error(e); showAlert('Could not remove item.', true); } }); }
-    if (target.matches('.dev-delete-user-btn')) { const userToDeleteId = target.dataset.id; const userToDeleteEmail = target.dataset.email; showAlert(`Are you sure you want to delete the user ${userToDeleteEmail}?`, false, async () => { await deleteUserFromDatabase(userToDeleteId); }); }
-    if (target.matches('.dev-delete-order-btn')) { showAlert(`Are you sure you want to delete this order?`, false, async () => { try { await deleteDoc(doc(db, "orders", targetId)); showAlert('Order deleted.'); } catch (e) { console.error("Error deleting order: ", e); showAlert('Could not delete order.', true); } }); }
-    if (target.matches('#dev-view-dashboard-btn')) {
-        const shopId = document.getElementById('dev-dashboard-shop-select').value;
-        if (!shopId) return showAlert('Please select a shop to view.', true);
-        const shop = allShops.find(s => s.id === shopId);
-        if (!shop) return showAlert('Shop not found.', true);
-        currentUserShopId = shop.id; currentShopName = shop.name;
-        document.getElementById('owner-view-title').textContent = `${currentShopName} - Dashboard`;
-        updateAuthStatusUI(); listenForNotifications(); loadOwnerDashboard(); listenToOrderHistory(); listenToStaffOrders();
-        Object.values(views).forEach(v => v.classList.add('view-hidden')); views['owner'].classList.remove('view-hidden'); views['owner'].classList.add('view-active');
-        Array.from(viewSwitcher.querySelectorAll('button')).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === 'owner'));
-    }
-    if (target.matches('#run-system-test') || target.matches('#run-system-test-summary')) { runSystemTests(); showAlert('System tests completed.'); }
-    if (target.matches('#test-push-btn')) {
-        if (Notification.permission === 'granted') {
-            showAlert('Simulating push in 5 seconds...');
-            setTimeout(() => { if ('serviceWorker' in navigator) { navigator.serviceWorker.ready.then(registration => { registration.showNotification('Test Notification', { body: 'This is a test notification!', icon: 'icon.svg', vibrate: [200, 100, 200] }); }); } }, 5000);
-        } else { showAlert('Notification permission not granted.', true); }
-    }
-    if (target.matches('#refresh-orders')) { orderCurrentPage = 1; orderFirstVisibleDoc = null; orderLastVisibleDoc = null; loadAllOrders('start'); }
+    if (target.matches('.remove-staff-btn')) { showAlert(`Remove this staff member?`, false, async () => { await setDoc(doc(db, "users", targetId), { role: 'customer', shopId: null }, { merge: true }); showAlert('Removed.'); loadStaffList(); }); }
+    if (target.matches('.dev-remove-shop-btn')) { showAlert(`Delete this shop?`, false, async () => { try { const users = await getDocs(query(collection(db, "users"), where("shopId", "==", targetId))); users.docs.forEach(u => setDoc(u.ref, { shopId: null }, { merge: true })); await deleteDoc(doc(db, "shops", targetId)); showAlert('Shop removed.'); await loadAllShops(); } catch (e) { showAlert('Error removing shop.', true); } }); }
+    if (target.matches('.dev-delete-user-btn')) { showAlert(`Delete user?`, false, async () => deleteUserFromDatabase(target.dataset.id)); }
+    if (target.matches('#dev-view-dashboard-btn')) { const shopId = document.getElementById('dev-dashboard-shop-select').value; if (shopId) { currentUserShopId = shopId; currentShopName = allShops.find(s => s.id === shopId).name; updateAuthStatusUI(); loadOwnerDashboard(); listenToOrderHistory(); listenToStaffOrders(); document.querySelector('[data-view="owner"]').click(); } }
+    if (target.matches('#run-system-test')) { runSystemTests(); showAlert('Tests completed.'); }
+    if (target.matches('#test-push-btn')) { if (Notification.permission === 'granted' && 'serviceWorker' in navigator) navigator.serviceWorker.ready.then(reg => reg.showNotification('Test', { body: 'It works!', icon: 'icon.svg' })); else showAlert('Grant notification permission first.'); }
     if (target.matches('#next-orders-btn')) { orderCurrentPage++; loadAllOrders('next'); }
-    if (target.matches('#prev-orders-btn')) { if (orderCurrentPage > 1) { orderCurrentPage--; loadAllOrders('prev'); } }
-    if (target.matches('.order-filter-btn')) { orderDateFilter = target.dataset.filter; orderCurrentPage = 1; orderFirstVisibleDoc = null; orderLastVisibleDoc = null; updateOrderFilterButtons(); loadAllOrders('start'); }
+    if (target.matches('#prev-orders-btn') && orderCurrentPage > 1) { orderCurrentPage--; loadAllOrders('prev'); }
+    if (target.matches('.order-filter-btn')) { orderDateFilter = target.dataset.filter; orderCurrentPage = 1; updateOrderFilterButtons(); loadAllOrders('start'); }
 });
 
 document.body.addEventListener('submit', async e => {
     e.preventDefault();
-    if (e.target.id === 'order-form') { if (!e.target.checkValidity()) { return showAlert("Please fill out all required fields.", true); } e.target.dataset.mode === 'update' ? await updateOrder() : await placeOrder(); }
+    if (e.target.id === 'order-form') { if (e.target.checkValidity()) e.target.dataset.mode === 'update' ? await updateOrder() : await placeOrder(); else showAlert("Fill all fields.", true); }
     if (e.target.id === 'add-staff-form') await addStaff();
     if (e.target.id === 'test-order-form') await createTestOrder(e);
     if (e.target.id === 'staff-create-order-form') await handleStaffOrderCreation(e);
@@ -1484,60 +1186,21 @@ document.body.addEventListener('submit', async e => {
 document.body.addEventListener('change', async e => {
     const uid = e.target.dataset.uid;
     if (!uid) return;
-    if (e.target.classList.contains('role-selector')) {
-        const newRole = e.target.value; const updateData = { role: newRole };
-        if (newRole === 'customer' || newRole === 'developer') { updateData.shopId = null; }
-        await setDoc(doc(db, "users", uid), updateData, { merge: true }); showAlert('User role updated.');
-        const userIndex = allUsersCache.findIndex(doc => doc.id === uid); if (userIndex > -1) { allUsersCache[userIndex] = await getDoc(doc(db, "users", uid)); renderAdminUserList(); } else { await loadAdminPanel(); }
-    }
-    if (e.target.classList.contains('shop-selector')) {
-        const newShopId = e.target.value; await setDoc(doc(db, "users", uid), { shopId: newShopId || null }, { merge: true });
-        const userIndex = allUsersCache.findIndex(doc => doc.id === uid); if (userIndex > -1) { allUsersCache[userIndex] = await getDoc(doc(db, "users", uid)); renderAdminUserList(); } showAlert('User shop updated.');
-    }
+    if (e.target.classList.contains('role-selector')) { await setDoc(doc(db, "users", uid), { role: e.target.value }, { merge: true }); showAlert('Role updated.'); if (userRole === 'developer') loadAdminPanel(); }
+    if (e.target.classList.contains('shop-selector')) { await setDoc(doc(db, "users", uid), { shopId: e.target.value || null }, { merge: true }); showAlert('Shop updated.'); if (userRole === 'developer') loadAdminPanel(); }
 });
 
-function updateOrderFilterButtons() {
-    document.querySelectorAll('.order-filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === orderDateFilter);
-        btn.classList.toggle('btn-primary', btn.dataset.filter === orderDateFilter);
-        btn.classList.toggle('btn-secondary', btn.dataset.filter !== orderDateFilter);
-    });
-}
-
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(r => console.log('SW registered')).catch(e => console.log('SW failed', e)); }); }
-
+function updateOrderFilterButtons() { document.querySelectorAll('.order-filter-btn').forEach(btn => { btn.classList.toggle('active', btn.dataset.filter === orderDateFilter); btn.classList.toggle('btn-primary', btn.dataset.filter === orderDateFilter); btn.classList.toggle('btn-secondary', btn.dataset.filter !== orderDateFilter); }); }
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW fail', e)));
 const enablePushBtn = document.getElementById('enable-push-btn');
-function checkPushPermission() { if (!('Notification' in window)) return; if (Notification.permission === 'default') { enablePushBtn.classList.remove('hidden'); } else { enablePushBtn.classList.add('hidden'); } }
+const checkPushPermission = () => { if ('Notification' in window) enablePushBtn.classList.toggle('hidden', Notification.permission !== 'default'); };
 checkPushPermission();
-enablePushBtn.addEventListener('click', () => { Notification.requestPermission().then(permission => { if (permission === 'granted') { enablePushBtn.classList.add('hidden'); if ('serviceWorker' in navigator) { navigator.serviceWorker.ready.then(registration => { registration.showNotification('Notifications Enabled', { body: 'You will now receive updates!', icon: 'icon.svg' }); }); } } checkPushPermission(); }); });
+enablePushBtn.addEventListener('click', () => Notification.requestPermission().then(() => checkPushPermission()));
 
 const installBtn = document.getElementById('install-app-btn');
-const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-const isAndroid = () => /android/.test(window.navigator.userAgent.toLowerCase());
-const isAppInstalled = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
-const checkInstallEligibility = () => { if (isAppInstalled()) { installBtn.classList.add('hidden'); } else { installBtn.classList.remove('hidden'); } };
+const checkInstallEligibility = () => installBtn.classList.toggle('hidden', window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone);
 checkInstallEligibility();
-window.addEventListener('deferred-prompt-ready', () => { checkInstallEligibility(); });
-
-const installModal = document.getElementById('install-modal');
-const installModalClose = document.getElementById('install-modal-close');
-const installModalOk = document.getElementById('install-modal-ok');
-const androidInstr = document.getElementById('install-instructions-android');
-const iosInstr = document.getElementById('install-instructions-ios');
-const closeInstallModal = () => installModal.classList.add('hidden');
-installModalClose.addEventListener('click', closeInstallModal);
-installModalOk.addEventListener('click', closeInstallModal);
-
-installBtn.addEventListener('click', async () => {
-    if (window.deferredPrompt) {
-        window.deferredPrompt.prompt();
-        const { outcome } = await window.deferredPrompt.userChoice;
-        window.deferredPrompt = null;
-        if (outcome === 'accepted') installBtn.classList.add('hidden');
-    } else {
-        androidInstr.classList.add('hidden'); iosInstr.classList.add('hidden');
-        if (isIos()) { iosInstr.classList.remove('hidden'); } else { androidInstr.classList.remove('hidden'); }
-        installModal.classList.remove('hidden');
-    }
-});
-window.addEventListener('appinstalled', () => { installBtn.classList.add('hidden'); });
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); window.deferredPrompt = e; checkInstallEligibility(); });
+installBtn.addEventListener('click', async () => { if (window.deferredPrompt) { window.deferredPrompt.prompt(); window.deferredPrompt = null; installBtn.classList.add('hidden'); } else { document.getElementById('install-modal').classList.remove('hidden'); } });
+document.getElementById('install-modal-close').addEventListener('click', () => document.getElementById('install-modal').classList.add('hidden'));
+document.getElementById('install-modal-ok').addEventListener('click', () => document.getElementById('install-modal').classList.add('hidden'));
