@@ -1,6 +1,11 @@
 const CACHE_NAME = 'cloud-kitchen-v3';
 const ASSETS_TO_CACHE = [
-  './kitchen(modified).html',
+  './kitchen.html',
+  './kitchen.css',
+  './pwa-init.js',
+  './js/app.js',
+  './js/utils.js',
+  './js/firebase-config.js',
   './manifest.json',
   './icon.svg'
 ];
@@ -120,6 +125,6 @@ self.addEventListener('notificationclick', (event) => {
   }
 
   event.waitUntil(
-    clients.openWindow('./kitchen(modified).html')
+    clients.openWindow('./kitchen.html')
   );
 });
