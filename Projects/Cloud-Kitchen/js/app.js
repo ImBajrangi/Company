@@ -36,10 +36,7 @@ let allShops = [];
 let currentMenu = [];
 let selectedShopId = null;
 
-// --- Notification variables ---
-let allNotifications = [];
-let notificationListener = null;
-// --- END Notification variables ---
+
 
 const authBtn = document.getElementById('auth-btn');
 const authStatusEl = document.getElementById('auth-status');
@@ -201,7 +198,7 @@ async function setupUser(user) {
     updateAuthStatusUI();
     updateVisibleViews();
     renderCustomerUI();
-    listenForNotifications();
+    listenForNotifications(userRole, userId, currentUserShopId);
 
     if (user) {
         if (currentUserShopId) {
@@ -924,77 +921,10 @@ async function addStaff() {
     showAlert(`Role updated for ${email}.`); document.getElementById('add-staff-form').reset(); loadStaffList();
 }
 
-async function createNotification(data) {
-    if (!db) return;
-    try {
-        if (data.userId || data.role) {
-            await addDoc(collection(db, "notifications"), { ...data, createdAt: serverTimestamp(), read: false });
-        }
-    } catch (error) { console.error("Error creating notification:", error); }
-}
+import { createNotification, listenForNotifications, markSingleNotificationRead, markNotificationsAsRead, clearAllNotifications } from "./notifications.js";
 
-function listenForNotifications() {
-    if (notificationListener) notificationListener();
-    if (!auth.currentUser || auth.currentUser.isAnonymous) { updateNotificationUI([]); return; }
-
-    let q;
-    if (userRole === 'customer') {
-        q = query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
-    } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
-        q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
-    } else if (userRole === 'developer' && currentUserShopId) {
-        q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
-    } else {
-        updateNotificationUI([]); return;
-    }
-
-    notificationListener = onSnapshot(q, (snapshot) => {
-        allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        updateNotificationUI(allNotifications);
-    }, (error) => { console.error("Error listening for notifications:", error); });
-}
-
-function updateNotificationUI(notifications) {
-    const listEl = document.getElementById('notification-list');
-    const dotEl = document.getElementById('notification-dot');
-    const panelEl = document.getElementById('notification-panel');
-    if (!listEl || !dotEl || !panelEl) return;
-
-    const unreadCount = notifications.filter(n => !n.read).length;
-    dotEl.classList.toggle('hidden', unreadCount === 0);
-
-    if (unreadCount > 0 && notifications.length > 0) {
-        const latest = notifications[0];
-        const now = Date.now();
-        const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
-        if (now - notifTime < 10000 && !latest.read) {
-            const audio = document.getElementById('notification-sound');
-            if (audio) audio.play().catch(e => console.log("Audio play failed:", e));
-            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-            showToast(latest.message, 'info');
-            if (Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification('Cloud Kitchen', { body: latest.message, icon: 'icon.svg', vibrate: [200, 100, 200], tag: latest.id });
-                });
-            }
-        }
-    }
-
-    if (notifications.length === 0) {
-        listEl.innerHTML = `<p class="p-4 text-gray-500 text-center">No notifications.</p>`;
-    } else {
-        listEl.innerHTML = notifications.map(n => {
-            const time = n.createdAt ? new Date(n.createdAt.toMillis()).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'short' }) : 'Just now';
-            const linkAction = n.orderId ? `onclick="markNotificationReadAndOpenOrder('${n.id}', '${n.orderId}')"` : `onclick="markSingleNotificationRead('${n.id}')"`;
-            return `<div class="p-4 hover:bg-gray-50 ${n.read ? 'opacity-70' : 'font-medium bg-blue-50 cursor-pointer'}" ${linkAction}><p class="text-sm text-gray-800">${n.message}</p><p class="text-xs text-gray-500 mt-1">${time}</p></div>`;
-        }).join('');
-    }
-}
-
-window.markSingleNotificationRead = async (id) => {
-    if (!db) return;
-    try { await updateDoc(doc(db, "notifications", id), { read: true }); } catch (error) { console.error("Error marking single notification as read:", error); }
-}
+// Expose these to window for HTML onclick handlers
+window.markSingleNotificationRead = markSingleNotificationRead;
 
 window.markNotificationReadAndOpenOrder = async (notificationId, orderId) => {
     await markSingleNotificationRead(notificationId);
@@ -1006,29 +936,6 @@ window.markNotificationReadAndOpenOrder = async (notificationId, orderId) => {
     } else {
         showAlert(`Order ${orderId.substring(0, 8)} updated, but unable to switch to ${targetView} view.`, false);
     }
-}
-
-async function markNotificationsAsRead() {
-    const unreadIds = allNotifications.filter(n => !n.read).map(n => n.id);
-    if (unreadIds.length === 0) return;
-    try {
-        const batch = writeBatch(db);
-        unreadIds.forEach(id => batch.update(doc(db, "notifications", id), { read: true }));
-        await batch.commit();
-    } catch (error) { console.error("Error marking notifications as read:", error); }
-}
-
-async function clearAllNotifications() {
-    if (allNotifications.length === 0) return;
-    showAlert("Are you sure you want to clear all your notifications?", false, async () => {
-        try {
-            const batch = writeBatch(db);
-            allNotifications.forEach(n => batch.delete(doc(db, "notifications", n.id)));
-            await batch.commit();
-            updateNotificationUI([]);
-            document.getElementById('notification-panel').classList.add('hidden');
-        } catch (error) { console.error("Error clearing notifications:", error); showAlert("Failed to clear notifications.", true); }
-    });
 }
 
 // --- Developer Panel Logic ---
@@ -1414,7 +1321,7 @@ document.body.addEventListener('click', async e => {
         if (!shop) return showAlert('Shop not found.', true);
         currentUserShopId = shop.id; currentShopName = shop.name;
         document.getElementById('owner-view-title').textContent = `${currentShopName} - Dashboard`;
-        updateAuthStatusUI(); listenForNotifications(); loadOwnerDashboard(); listenToOrderHistory(); listenToStaffOrders();
+        updateAuthStatusUI(); listenForNotifications(userRole, userId, currentUserShopId); loadOwnerDashboard(); listenToOrderHistory(); listenToStaffOrders();
         Object.values(views).forEach(v => v.classList.add('view-hidden')); views['owner'].classList.remove('view-hidden'); views['owner'].classList.add('view-active');
         Array.from(viewSwitcher.querySelectorAll('button')).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === 'owner'));
     }

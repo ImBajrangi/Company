@@ -1,7 +1,7 @@
 {
   "name": "Foody Vrinda",
   "short_name": "Foody Vrinda",
-  "start_url": "./kitchen(modified).html",
+  "start_url": "./kitchen.html",
   "display": "standalone",
   "background_color": "#f5f5f7",
   "theme_color": "#0071e3",
