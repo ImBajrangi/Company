@@ -1,13 +1,14 @@
-const CACHE_NAME = 'cloud-kitchen-v3';
+const CACHE_NAME = 'cloud-kitchen-v4';
 const ASSETS_TO_CACHE = [
   './kitchen.html',
+  './manifest.json',
+  './icon.svg',
   './kitchen.css',
   './pwa-init.js',
   './js/app.js',
+  './js/notifications.js',
   './js/utils.js',
-  './js/firebase-config.js',
-  './manifest.json',
-  './icon.svg'
+  './js/firebase-config.js'
 ];
 
 // Install event: Cache core assets
@@ -36,32 +37,26 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event: Network first, then cache
 // Fetch event: Strategic Caching
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   // STRATEGY 1: Cache First for Images (including cross-origin like placehold.co)
-  // This ensures images are downloaded once and served from cache forever
   if (event.request.destination === 'image' || url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/)) {
     event.respondWith(
       caches.open('cloud-kitchen-images-v1').then(async (cache) => {
         const cachedResponse = await cache.match(event.request);
-        if (cachedResponse) {
-          return cachedResponse; // Return cached image immediately
-        }
+        if (cachedResponse) return cachedResponse;
 
         try {
           const networkResponse = await fetch(event.request);
-          // Cache the new image for next time
           if (networkResponse && networkResponse.status === 200) {
             cache.put(event.request, networkResponse.clone());
           }
           return networkResponse;
         } catch (error) {
-          console.log('[Service Worker] Image fetch failed', error);
-          // Optional: Return a fallback placeholder if offline
-          return new Response('<svg>...</svg>', { headers: { 'Content-Type': 'image/svg+xml' } });
+          // Fallback placeholder
+          return new Response('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#eee"/></svg>', { headers: { 'Content-Type': 'image/svg+xml' } });
         }
       })
     );
@@ -69,7 +64,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // STRATEGY 2: Network First for App Shell (HTML, JS, CSS)
-  // Only for same-origin requests to avoid CORS issues with APIs
+  // We use Network First to ensure the user always gets the latest code updates
   if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(event.request)
@@ -91,40 +86,61 @@ self.addEventListener('fetch', (event) => {
 });
 
 // Push event: Handle incoming push notifications
+// Note: This requires a backend server sending push payloads. 
+// However, the client-side 'notifications.js' can also trigger notifications locally.
 self.addEventListener('push', (event) => {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  if (!event.data) return;
+  
+  const payload = event.data.text();
+  console.log('[Service Worker] Push Received:', payload);
 
   const title = 'Cloud Kitchen Update';
   const options = {
-    body: event.data.text() || 'Your order status has changed!',
+    body: payload || 'Check your order status!',
     icon: './icon.svg',
     badge: './icon.svg',
-    vibrate: [100, 50, 100],
+    vibrate: [200, 100, 200],
     data: {
-      dateOfArrival: Date.now(),
-      primaryKey: '2'
+      time: Date.now()
     },
     actions: [
-      { action: 'explore', title: 'View Order', icon: './icon.svg' },
-      { action: 'close', title: 'Close', icon: './icon.svg' },
+      { action: 'view', title: 'View Order' }
     ]
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
-// Notification click event
+// Notification click event - Handles "Mobile Direct" interaction
 self.addEventListener('notificationclick', (event) => {
   console.log('[Service Worker] Notification click Received.');
 
   event.notification.close();
 
-  if (event.action === 'close') {
-    return;
-  }
+  if (event.action === 'close') return;
 
+  // This looks for an open window/tab of the app
   event.waitUntil(
-    clients.openWindow('./kitchen.html')
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // 1. Try to find an existing open tab
+      for (const client of clientList) {
+        if (client.url.includes('kitchen.html') && 'focus' in client) {
+          return client.focus().then((focusedClient) => {
+             // 2. Send a message to the app to route to the specific order
+             if(event.notification.data && event.notification.data.orderId) {
+                 focusedClient.postMessage({
+                     action: 'OPEN_ORDER',
+                     orderId: event.notification.data.orderId
+                 });
+             }
+             return focusedClient;
+          });
+        }
+      }
+      // 3. If no tab is open, open a new one
+      if (clients.openWindow) {
+        return clients.openWindow('./kitchen.html');
+      }
+    })
   );
 });

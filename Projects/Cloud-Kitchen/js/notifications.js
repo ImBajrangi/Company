@@ -58,14 +58,35 @@ function updateNotificationUI(notifications) {
         const latest = notifications[0];
         const now = Date.now();
         const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
+        
+        // Only notify if the notification is new (within last 10 seconds) and unread
         if (now - notifTime < 10000 && !latest.read) {
+            
+            // 1. Play Sound
             const audio = document.getElementById('notification-sound');
-            if (audio) audio.play().catch(e => console.log("Audio play failed:", e));
+            if (audio) audio.play().catch(e => console.log("Audio play prevented by browser:", e));
+            
+            // 2. Vibrate Device
             if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            
+            // 3. Show In-App Toast
             showToast(latest.message, 'info');
+
+            // 4. Show System Notification (Status Bar)
             if (Notification.permission === 'granted') {
                 navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification('Cloud Kitchen', { body: latest.message, icon: 'icon.svg', vibrate: [200, 100, 200], tag: latest.id });
+                    registration.showNotification('Cloud Kitchen Update', { 
+                        body: latest.message, 
+                        icon: './icon.svg', 
+                        badge: './icon.svg',
+                        vibrate: [200, 100, 200], 
+                        tag: latest.id, // Prevents duplicate notifications
+                        renotify: true,
+                        data: {
+                            orderId: latest.orderId,
+                            url: './kitchen.html'
+                        }
+                    });
                 });
             }
         }

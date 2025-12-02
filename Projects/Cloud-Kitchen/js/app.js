@@ -36,7 +36,10 @@ let allShops = [];
 let currentMenu = [];
 let selectedShopId = null;
 
-
+// --- Notification variables ---
+let allNotifications = [];
+let notificationListener = null;
+// --- END Notification variables ---
 
 const authBtn = document.getElementById('auth-btn');
 const authStatusEl = document.getElementById('auth-status');
@@ -65,6 +68,27 @@ document.getElementById('create-order-btn').addEventListener('click', () => {
     renderCreateOrderModal(currentUserShopId);
     createOrderModal.classList.remove('hidden');
 });
+
+// --- Service Worker Message Listener (For Mobile Notifications) ---
+// This listens for "PostMessage" from the Service Worker when a user clicks a system notification
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        console.log("Message from SW:", event.data);
+        if (event.data && event.data.action === 'OPEN_ORDER') {
+            const orderId = event.data.orderId;
+            // Switch view based on role
+            if (userRole === 'customer') {
+                document.querySelector('[data-view="customer"]').click();
+                // Logic to start tracking this order specifically could go here
+                // For now, the latest order tracker will pick it up if it's recent
+            } else if (['kitchen', 'owner'].includes(userRole)) {
+                document.querySelector('[data-view="kitchen"]').click();
+            } else if (['delivery', 'owner'].includes(userRole)) {
+                document.querySelector('[data-view="transport"]').click();
+            }
+        }
+    });
+}
 
 // --- Profile/Login Modal Logic ---
 function openProfileModal(isForced = false) {
@@ -198,7 +222,7 @@ async function setupUser(user) {
     updateAuthStatusUI();
     updateVisibleViews();
     renderCustomerUI();
-    listenForNotifications(userRole, userId, currentUserShopId);
+    listenForNotifications();
 
     if (user) {
         if (currentUserShopId) {
@@ -921,21 +945,118 @@ async function addStaff() {
     showAlert(`Role updated for ${email}.`); document.getElementById('add-staff-form').reset(); loadStaffList();
 }
 
-import { createNotification, listenForNotifications, markSingleNotificationRead, markNotificationsAsRead, clearAllNotifications } from "./notifications.js";
+async function createNotification(data) {
+    if (!db) return;
+    try {
+        if (data.userId || data.role) {
+            await addDoc(collection(db, "notifications"), { ...data, createdAt: serverTimestamp(), read: false });
+        }
+    } catch (error) { console.error("Error creating notification:", error); }
+}
 
-// Expose these to window for HTML onclick handlers
-window.markSingleNotificationRead = markSingleNotificationRead;
+function listenForNotifications() {
+    if (notificationListener) notificationListener();
+    if (!auth.currentUser || auth.currentUser.isAnonymous) { updateNotificationUI([]); return; }
+
+    let q;
+    if (userRole === 'customer') {
+        q = query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
+    } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
+        q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
+    } else if (userRole === 'developer' && currentUserShopId) {
+        q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
+    } else {
+        updateNotificationUI([]); return;
+    }
+
+    notificationListener = onSnapshot(q, (snapshot) => {
+        allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        updateNotificationUI(allNotifications);
+    }, (error) => { console.error("Error listening for notifications:", error); });
+}
+
+function updateNotificationUI(notifications) {
+    const listEl = document.getElementById('notification-list');
+    const dotEl = document.getElementById('notification-dot');
+    const panelEl = document.getElementById('notification-panel');
+    if (!listEl || !dotEl || !panelEl) return;
+
+    const unreadCount = notifications.filter(n => !n.read).length;
+    dotEl.classList.toggle('hidden', unreadCount === 0);
+
+    if (unreadCount > 0 && notifications.length > 0) {
+        const latest = notifications[0];
+        const now = Date.now();
+        const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
+        if (now - notifTime < 10000 && !latest.read) {
+            const audio = document.getElementById('notification-sound');
+            if (audio) audio.play().catch(e => console.log("Audio play failed:", e));
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            showToast(latest.message, 'info');
+            if (Notification.permission === 'granted') {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification('Cloud Kitchen', { body: latest.message, icon: 'icon.svg', vibrate: [200, 100, 200], tag: latest.id });
+                });
+            }
+        }
+    }
+
+    if (notifications.length === 0) {
+        listEl.innerHTML = `<p class="p-4 text-gray-500 text-center">No notifications.</p>`;
+    } else {
+        listEl.innerHTML = notifications.map(n => {
+            const time = n.createdAt ? new Date(n.createdAt.toMillis()).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'short' }) : 'Just now';
+            const linkAction = n.orderId ? `onclick="window.markNotificationReadAndOpenOrder('${n.id}', '${n.orderId}')"` : `onclick="window.markSingleNotificationRead('${n.id}')"`;
+            return `<div class="p-4 hover:bg-gray-50 ${n.read ? 'opacity-70' : 'font-medium bg-blue-50 cursor-pointer'}" ${linkAction}><p class="text-sm text-gray-800">${n.message}</p><p class="text-xs text-gray-500 mt-1">${time}</p></div>`;
+        }).join('');
+    }
+}
+
+window.markSingleNotificationRead = async (id) => {
+    if (!db) return;
+    try { await updateDoc(doc(db, "notifications", id), { read: true }); } catch (error) { console.error("Error marking single notification as read:", error); }
+}
 
 window.markNotificationReadAndOpenOrder = async (notificationId, orderId) => {
     await markSingleNotificationRead(notificationId);
     document.getElementById('notification-panel').classList.add('hidden');
-    const targetView = (userRole === 'delivery' || userRole === 'transport') ? 'transport' : 'kitchen';
-    const viewButton = document.querySelector(`button[data-view="${targetView}"]`);
-    if (viewButton && !viewButton.classList.contains('hidden')) {
-        viewButton.click();
+    // If it's a customer, createOrderModal shouldn't open, instead we show status
+    if (userRole === 'customer') {
+        // Just triggering tracking logic which picks up latest order usually
+        // A full implementation would set 'currentTrackingOrderId' here
+        document.querySelector('[data-view="customer"]').click();
     } else {
-        showAlert(`Order ${orderId.substring(0, 8)} updated, but unable to switch to ${targetView} view.`, false);
+        const targetView = (userRole === 'delivery' || userRole === 'transport') ? 'transport' : 'kitchen';
+        const viewButton = document.querySelector(`button[data-view="${targetView}"]`);
+        if (viewButton && !viewButton.classList.contains('hidden')) {
+            viewButton.click();
+        } else {
+            showAlert(`Order ${orderId.substring(0, 8)} updated, but unable to switch to ${targetView} view.`, false);
+        }
     }
+}
+
+async function markNotificationsAsRead() {
+    const unreadIds = allNotifications.filter(n => !n.read).map(n => n.id);
+    if (unreadIds.length === 0) return;
+    try {
+        const batch = writeBatch(db);
+        unreadIds.forEach(id => batch.update(doc(db, "notifications", id), { read: true }));
+        await batch.commit();
+    } catch (error) { console.error("Error marking notifications as read:", error); }
+}
+
+async function clearAllNotifications() {
+    if (allNotifications.length === 0) return;
+    showAlert("Are you sure you want to clear all your notifications?", false, async () => {
+        try {
+            const batch = writeBatch(db);
+            allNotifications.forEach(n => batch.delete(doc(db, "notifications", n.id)));
+            await batch.commit();
+            updateNotificationUI([]);
+            document.getElementById('notification-panel').classList.add('hidden');
+        } catch (error) { console.error("Error clearing notifications:", error); showAlert("Failed to clear notifications.", true); }
+    });
 }
 
 // --- Developer Panel Logic ---
@@ -1261,6 +1382,8 @@ document.body.addEventListener('click', async e => {
     if (target.matches('#add-more-items-btn') && currentTrackingOrderId) { const orderDoc = await getDoc(doc(db, "orders", currentTrackingOrderId)); if (orderDoc.exists()) startEditingOrder(orderDoc.data()); }
     if (target.matches('#reset-customer-orders-btn')) await resetCustomerOrders();
     if (target.matches('.history-filter-btn')) { historyFilter = target.dataset.filter; updateHistoryFilterButtons(); filterAndRenderHistory(); }
+    
+    // --- UPDATED STATUS BUTTON HANDLER (More Detailed Notifications) ---
     if (target.matches('.update-status-btn, .dev-update-status')) {
         try {
             const newStatus = target.dataset.status;
@@ -1268,47 +1391,57 @@ document.body.addEventListener('click', async e => {
             const orderSnap = await getDoc(orderRef);
             if (!orderSnap.exists()) return showAlert('Order not found.', true);
             const orderData = orderSnap.data();
+            
             await updateDoc(orderRef, { status: newStatus });
             showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
+            
             let customerMessage = '';
+            const orderIdShort = targetId.substring(0, 5).toUpperCase();
+            
+            // Generate detailed message
             switch (newStatus) {
-                case 'preparing': customerMessage = `Your order from ${currentShopName || 'the kitchen'} is now being prepared!`; break;
-                case 'ready_for_pickup': customerMessage = `Your order from ${currentShopName || 'the kitchen'} is ready for pickup!`; break;
-                case 'out_for_delivery': customerMessage = 'Your order is out for delivery!'; break;
-                case 'completed': customerMessage = 'Your order has been delivered. Enjoy!'; break;
+                case 'preparing':
+                    customerMessage = `Your order #${orderIdShort} from ${currentShopName || 'the kitchen'} is now being prepared!`;
+                    break;
+                case 'ready_for_pickup':
+                    customerMessage = `Your order #${orderIdShort} from ${currentShopName || 'the kitchen'} is ready for pickup!`;
+                    break;
+                case 'out_for_delivery':
+                    customerMessage = `Order #${orderIdShort} is out for delivery with ${orderData.items.length} items!`;
+                    break;
+                case 'completed':
+                    customerMessage = `Order #${orderIdShort} delivered. Enjoy your meal!`;
+                    break;
+                case 'new':
+                    customerMessage = `Order #${orderIdShort} status reset to New.`;
+                    break;
             }
-            // 1. Notify Customer
-            if (customerMessage && orderData.userId && orderData.userId !== 'staff-created' && orderData.userId !== 'test-developer') {
-                createNotification({ userId: orderData.userId, message: customerMessage, orderId: targetId });
+            
+            // Notify Customer
+            if (customerMessage && orderData.userId && orderData.userId !== 'staff-created' && orderData.userId !== 'test-developer') { 
+                createNotification({ 
+                    userId: orderData.userId, 
+                    message: customerMessage, 
+                    orderId: targetId 
+                }); 
             }
-
-            // 2. Notify Owner (ALWAYS on every step)
-            const ownerSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "==", "owner")));
-            ownerSnapshot.docs.forEach(userDoc => {
-                createNotification({
-                    userId: userDoc.id,
-                    role: 'owner',
-                    shopId: orderData.shopId,
-                    message: `Order #${targetId.substring(0, 6)} status updated to: ${newStatus.replace(/_/g, ' ').toUpperCase()}`,
-                    orderId: targetId
-                });
-            });
-
-            // 3. Notify Delivery (ONLY when ready for pickup)
+            
+            // Notify Staff for 'ready_for_pickup' (Delivery/Owner)
             if (newStatus === 'ready_for_pickup') {
-                const deliverySnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "==", "delivery")));
-                deliverySnapshot.docs.forEach(userDoc => {
-                    createNotification({
-                        userId: userDoc.id,
-                        role: 'delivery',
-                        shopId: orderData.shopId,
-                        message: `Order for ${orderData.customerName} is ready for pickup.`,
-                        orderId: targetId
-                    });
+                const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", orderData.shopId), where("role", "in", ["delivery", "owner"])));
+                usersSnapshot.docs.forEach(userDoc => { 
+                    createNotification({ 
+                        userId: userDoc.id, 
+                        role: userDoc.data().role, 
+                        shopId: orderData.shopId, 
+                        message: `Order #${orderIdShort} for ${orderData.customerName} is ready for pickup.`, 
+                        orderId: targetId 
+                    }); 
                 });
             }
         } catch (e) { showAlert('Failed to update status.', true); console.error("Status update error:", e); }
     }
+    
     if (target.matches('.remove-staff-btn')) { showAlert(`Are you sure you want to remove this staff member?`, false, async () => { await setDoc(doc(db, "users", targetId), { role: 'customer', shopId: null }, { merge: true }); showAlert('Staff member removed.'); loadStaffList(); if (userRole === 'developer') { const userIndex = allUsersCache.findIndex(d => d.id === targetId); if (userIndex > -1) { allUsersCache[userIndex] = await getDoc(doc(db, "users", targetId)); renderAdminUserList(); } } }); }
     if (target.matches('.dev-remove-shop-btn')) { showAlert(`Are you sure you want to delete this shop?`, false, async () => { try { const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", targetId))); await Promise.all(usersSnapshot.docs.map(userDoc => setDoc(userDoc.ref, { shopId: null }, { merge: true }))); await deleteDoc(doc(db, "shops", targetId)); showAlert('Shop removed.'); await loadAllShops(); if (userRole === 'developer') await loadAdminPanel(); } catch (e) { console.error(e); showAlert('Could not remove shop.', true); } }); }
     if (target.matches('.dev-remove-menu-item-btn')) { showAlert(`Are you sure you want to delete this menu item?`, false, async () => { try { await deleteDoc(doc(db, "menus", targetId)); showAlert('Menu item removed.'); renderDevMenuItemList(target.dataset.shopId); } catch (e) { console.error(e); showAlert('Could not remove item.', true); } }); }
@@ -1321,7 +1454,7 @@ document.body.addEventListener('click', async e => {
         if (!shop) return showAlert('Shop not found.', true);
         currentUserShopId = shop.id; currentShopName = shop.name;
         document.getElementById('owner-view-title').textContent = `${currentShopName} - Dashboard`;
-        updateAuthStatusUI(); listenForNotifications(userRole, userId, currentUserShopId); loadOwnerDashboard(); listenToOrderHistory(); listenToStaffOrders();
+        updateAuthStatusUI(); listenForNotifications(); loadOwnerDashboard(); listenToOrderHistory(); listenToStaffOrders();
         Object.values(views).forEach(v => v.classList.add('view-hidden')); views['owner'].classList.remove('view-hidden'); views['owner'].classList.add('view-active');
         Array.from(viewSwitcher.querySelectorAll('button')).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === 'owner'));
     }
