@@ -2,7 +2,8 @@ const CACHE_NAME = 'cloud-kitchen-v3';
 const ASSETS_TO_CACHE = [
   './kitchen.html',
   './kitchen(modified).html',
-  './kitchen-nw.html',
+  './notify.js',
+  './sw.js',
   './manifest.json',
   './icon.svg'
 ];
