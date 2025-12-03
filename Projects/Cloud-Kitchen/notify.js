@@ -197,3 +197,99 @@ export class NotificationManager {
         await Promise.all(batchPromises);
     }
 }
+
+// ------------------------------------------------------------------------------------------------------
+// --- Kitchen Notifier for Urgent Order Alerts ---
+// ------------------------------------------------------------------------------------------------------
+export class KitchenNotifier {
+    constructor() {
+        // High-pitch, repetitive alarm sound for urgency
+        this.alarmAudio = new Audio("https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3");
+        this.alarmAudio.loop = true; // Loops until stopped
+        this.alarmAudio.volume = 1.0;
+        
+        this.isPlaying = false;
+        this.hasInteracted = false;
+
+        // Try to get permission immediately
+        this.requestNotificationPermission();
+
+        // Bind stop function
+        this.stopAlarm = this.stopAlarm.bind(this);
+    }
+
+    async requestNotificationPermission() {
+        if ("Notification" in window) {
+            const permission = await Notification.requestPermission();
+            console.log("System Notification Permission:", permission);
+        }
+    }
+
+    // Call this on the first user click (e.g., login or opening dashboard) to unlock AudioContext
+    enableAudio() {
+        if (!this.hasInteracted) {
+            this.alarmAudio.play().then(() => {
+                this.alarmAudio.pause();
+                this.alarmAudio.currentTime = 0;
+                this.hasInteracted = true;
+                console.log("Audio enabled successfully");
+            }).catch(e => console.warn("Audio autoplay blocked until interaction"));
+        }
+    }
+
+    triggerNewOrderAlert(orderData) {
+        // 1. Play Loud Alarm
+        this.playAlarm();
+
+        // 2. Show System Notification (Works even if tab is backgrounded)
+        this.showSystemNotification(orderData);
+
+        // 3. Vibrate device (if mobile)
+        if (navigator.vibrate) {
+            navigator.vibrate([500, 200, 500, 200, 500]);
+        }
+    }
+
+    playAlarm() {
+        if (this.isPlaying) return;
+        
+        this.isPlaying = true;
+        this.alarmAudio.currentTime = 0;
+        this.alarmAudio.play().catch(error => {
+            console.error("Audio play failed (user interaction needed):", error);
+            alert("NEW ORDER RECEIVED! (Click OK to stop sound)");
+        });
+
+        // Show the Stop Button in UI
+        const stopBtn = document.getElementById('global-stop-alarm-btn');
+        if (stopBtn) stopBtn.classList.remove('hidden');
+    }
+
+    stopAlarm() {
+        this.isPlaying = false;
+        this.alarmAudio.pause();
+        this.alarmAudio.currentTime = 0;
+
+        // Hide the Stop Button in UI
+        const stopBtn = document.getElementById('global-stop-alarm-btn');
+        if (stopBtn) stopBtn.classList.add('hidden');
+    }
+
+    showSystemNotification(order) {
+        if (!("Notification" in window)) return;
+
+        if (Notification.permission === "granted") {
+            const notif = new Notification("🔔 NEW ORDER RECEIVED!", {
+                body: `Order for ${order.customerName} - ₹${order.totalAmount}\nClick to view details.`,
+                icon: './icon.svg', // Ensure this path is correct
+                requireInteraction: true, // Keeps notification on screen until clicked
+                tag: 'new-order-alert'
+            });
+
+            notif.onclick = function() {
+                window.focus();
+                notif.close();
+            };
+        }
+    }
+}

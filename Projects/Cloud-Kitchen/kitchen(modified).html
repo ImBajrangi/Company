@@ -9,10 +9,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link rel="manifest" href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
-    <link rel="apple-touch-icon" href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/icon.svg">
+    <link rel="apple-touch-icon" href="./icon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Capture the install prompt early, before the main module loads
+        window.deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            window.deferredPrompt = e;
+            console.log("✅ 'beforeinstallprompt' fired early and captured.");
+
+            // Dispatch a custom event to notify the main script if it's already listening
+            window.dispatchEvent(new CustomEvent('deferred-prompt-ready'));
+        });
+    </script>
     <style>
         * {
             -webkit-font-smoothing: antialiased;
@@ -423,6 +437,25 @@
             display: none;
             /* Hide scrollbar for Chrome, Safari, Edge */
         }
+
+        /* Blinking animation for urgent alarm modal */
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(229, 62, 62, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(229, 62, 62, 0);
+            }
+        }
+
+        .animate-pulse-red {
+            animation: pulse-red 2s infinite;
+        }
     </style>
 </head>
 
@@ -447,6 +480,17 @@
 
                 <!-- Auth, Notifications & Profile (Takes full width on smallest, then auto) -->
                 <div class="flex items-center justify-end gap-2 w-full sm:w-auto order-first sm:order-none">
+
+                    <!-- Audio Unlock Button (New) -->
+                    <button id="enable-audio-btn"
+                        class="hidden bg-yellow-100 text-yellow-800 px-3 py-1.5 text-xs font-bold rounded-lg hover:bg-yellow-200 transition-all flex items-center gap-1 animate-pulse">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                            </path>
+                        </svg>
+                        Enable Sound
+                    </button>
 
                     <!-- **** NEW: Notification Bell **** -->
                     <div class="relative flex-shrink-0">
@@ -570,6 +614,18 @@
                     <button id="create-order-btn"
                         class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
                 </div>
+                <!-- GLOBAL STOP ALARM BUTTON (Normally Hidden) -->
+                <button id="global-stop-alarm-btn"
+                    class="hidden w-full mb-6 bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg animate-pulse-red text-xl flex items-center justify-center gap-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
+                    </svg>
+                    STOP ALARM (NEW ORDER)
+                </button>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
@@ -975,12 +1031,57 @@
                 <div id="create-order-content"></div>
             </div>
         </div>
+
+        <!-- **** NEW: Dedicated Install Instructions Modal **** -->
+        <div id="install-modal"
+            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[60] p-4">
+            <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center relative">
+                <button id="install-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Install App</h3>
+                <p class="text-gray-600 mb-6 text-sm">Get the best experience by installing the app on your device.</p>
+
+                <div id="install-instructions-android" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Tap the <strong>three dots</strong> <span
+                                class="inline-block bg-gray-200 rounded px-1">⋮</span> in the browser menu.</li>
+                        <li>Select <strong>Install App</strong> or <strong>Add to Home Screen</strong>.</li>
+                        <li>Tap <strong>Install</strong> to confirm.</li>
+                    </ol>
+                </div>
+
+                <div id="install-instructions-ios" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Tap the <strong>Share</strong> button <span
+                                class="inline-block bg-gray-200 rounded px-1">⎋</span>.</li>
+                        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+                        <li>Tap <strong>Add</strong> in the top right.</li>
+                    </ol>
+                </div>
+
+                <button id="install-modal-ok" class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Got it</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- NEW IMPORT FOR FAST NOTIFICATIONS ---
+        import { FastOrderMonitor } from './fast_notify.js';
 
         const DEVELOPER_EMAIL = "dev@example.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
@@ -1025,6 +1126,7 @@
         let userEmail = 'Guest';
         let currentUserShopId = null;
         let currentShopName = null;
+        let fastMonitor = null; // Store the monitor instance
 
         let cart = [];
         let staffCart = [];
@@ -1110,7 +1212,6 @@
             alertModal.classList.add('hidden');
             currentConfirmCallback = null;
         });
-
 
         document.getElementById('create-order-close-btn').addEventListener('click', () => createOrderModal.classList.add('hidden'));
         document.getElementById('create-order-btn').addEventListener('click', () => {
@@ -1273,6 +1374,11 @@
                     document.getElementById('transport-view-title').textContent = currentShopName || 'Delivery';
                     document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
 
+                    // --- NEW: Initialize Fast Monitor if Kitchen/Owner ---
+                    if (currentUserShopId && (userRole === 'kitchen' || userRole === 'owner')) {
+                        initFastNotification(currentUserShopId);
+                    }
+
                 } else if (userRole !== 'customer' && userRole !== 'developer') {
                     showAlert("You are not assigned to a shop. Please contact the developer.", true);
                 }
@@ -1301,6 +1407,40 @@
             });
         }
 
+
+        // --- FAST NOTIFICATION INIT ---
+        function initFastNotification(shopId) {
+            if (fastMonitor) fastMonitor.stopListening();
+
+            fastMonitor = new FastOrderMonitor(db, shopId);
+            fastMonitor.startListening();
+
+            // Unlock Audio Button Logic
+            const audioBtn = document.getElementById('enable-audio-btn');
+            audioBtn.classList.remove('hidden');
+            audioBtn.addEventListener('click', () => {
+                fastMonitor.enableAudio();
+                audioBtn.classList.add('hidden');
+            });
+
+            // Listen for the Alert Event
+            window.addEventListener('fast-order-alert', (e) => {
+                const { order } = e.detail;
+
+                // Show Global Stop Button
+                const stopBtn = document.getElementById('global-stop-alarm-btn');
+                stopBtn.classList.remove('hidden');
+
+                // When clicked, stop alarm and hide button
+                stopBtn.onclick = () => {
+                    fastMonitor.stopAlarm();
+                    stopBtn.classList.add('hidden');
+
+                    // Switch to kitchen view
+                    document.querySelector('[data-view="kitchen"]').click();
+                };
+            });
+        }
 
         function updateAuthStatusUI() {
             let statusText = 'Guest';
@@ -2255,6 +2395,41 @@
 
         // --- END Notification Functions ---
 
+        /**
+         * Shows a temporary toast notification.
+         * @param {string} message - The message to display.
+         * @param {string} type - 'success', 'error', or 'info'
+         */
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 transform transition-all duration-300 translate-x-full opacity-0`;
+
+            let icon = '';
+            if (type === 'success') icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></div>';
+            else if (type === 'error') icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></div>';
+            else icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg></div>';
+
+            toast.innerHTML = `${icon}<div class="pl-4 text-sm font-normal">${message}</div>`;
+            container.appendChild(toast);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            });
+
+            // Remove after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    if (container.contains(toast)) container.removeChild(toast);
+                }, 300);
+            }, 5000);
+        }
+
         // --- Developer Panel Logic ---
 
         async function loadDeveloperPanel() {
@@ -2928,6 +3103,10 @@
                     await updateDoc(orderRef, { status: newStatus });
                     showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
 
+                    // Stop alarm if it was ringing for this order
+                    if (fastMonitor) fastMonitor.stopAlarm();
+                    document.getElementById('global-stop-alarm-btn').classList.add('hidden');
+
                     // --- Notification Logic ---
                     // 1. Notify Customer
                     let customerMessage = '';
@@ -3156,7 +3335,7 @@
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/sw.js')
+                navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
@@ -3178,8 +3357,30 @@
             }
         }
 
-        // Initial check
+        // Initial check and auto-request
         checkPushPermission();
+
+        // Auto-request permission on first load if not already decided
+        if ('Notification' in window && Notification.permission === 'default') {
+            // Small delay to allow page to load
+            setTimeout(() => {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted automatically.');
+                        enablePushBtn.classList.add('hidden');
+                        if ('serviceWorker' in navigator) {
+                            navigator.serviceWorker.ready.then(registration => {
+                                registration.showNotification('Notifications Enabled', {
+                                    body: 'You will now receive updates!',
+                                    icon: './icon.svg'
+                                });
+                            });
+                        }
+                    }
+                    checkPushPermission();
+                });
+            }, 1000);
+        }
 
         enablePushBtn.addEventListener('click', () => {
             Notification.requestPermission().then(permission => {
@@ -3211,14 +3412,18 @@
         });
 
         // --- PWA Install Logic ---
-        let deferredPrompt;
         const installBtn = document.getElementById('install-app-btn');
 
         // Detect iOS
         const isIos = () => {
             const userAgent = window.navigator.userAgent.toLowerCase();
-            // Check for iOS devices
             return /iphone|ipad|ipod/.test(userAgent);
+        }
+
+        // Detect Android
+        const isAndroid = () => {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /android/.test(userAgent);
         }
 
         // Detect if already installed (Standard + iOS)
@@ -3229,69 +3434,67 @@
         };
 
         /**
-         * Checks if the install button should be visible based on OS and installation status.
-         * For iOS: Show if it's an iOS device AND the app is not already installed.
-         * For Android/Desktop: Managed by deferredPrompt state.
-         * @param {boolean} isPromptAvailable - True if the beforeinstallprompt event has fired.
+         * Checks if the install button should be visible.
+         * Logic: Show button ALWAYS if app is not installed.
          */
-        const checkInstallEligibility = (isPromptAvailable = false) => {
-            // 1. Hide the button by default
-            installBtn.classList.add('hidden');
-
+        const checkInstallEligibility = () => {
             if (isAppInstalled()) {
                 console.log("App is already installed, hiding install button.");
-                return; // Already installed, do nothing
-            }
-
-            // 2. Show for iOS (which never fires beforeinstallprompt)
-            if (isIos()) {
+                installBtn.classList.add('hidden');
+            } else {
+                // If NOT installed, show the button so user can at least see instructions
                 installBtn.classList.remove('hidden');
-                console.log("Showing install button for iOS.");
-                return;
+                console.log("App not installed, showing install button.");
             }
-
-            // 3. Show for Android/Desktop if the prompt event has fired
-            if (isPromptAvailable) {
-                installBtn.classList.remove('hidden');
-                console.log("Showing install button as prompt is available.");
-            }
-            // Note: If on Android/Desktop and prompt hasn't fired, keep it hidden.
         };
 
-        // Check eligibility on initial load (primarily for iOS)
+        // Check eligibility on initial load
         checkInstallEligibility();
 
-        // Handle 'beforeinstallprompt' (Android/Desktop)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            checkInstallEligibility(true); // Now the prompt is available
-            console.log("✅ 'beforeinstallprompt' fired, checking eligibility.");
+        // Listen for the custom event in case the prompt fires after this script loads
+        window.addEventListener('deferred-prompt-ready', () => {
+            console.log("✅ Custom 'deferred-prompt-ready' event received.");
+            checkInstallEligibility();
         });
 
+        // Install Modal Logic
+        const installModal = document.getElementById('install-modal');
+        const installModalClose = document.getElementById('install-modal-close');
+        const installModalOk = document.getElementById('install-modal-ok');
+        const androidInstr = document.getElementById('install-instructions-android');
+        const iosInstr = document.getElementById('install-instructions-ios');
+
+        const closeInstallModal = () => installModal.classList.add('hidden');
+        installModalClose.addEventListener('click', closeInstallModal);
+        installModalOk.addEventListener('click', closeInstallModal);
+
         installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                // Android/Desktop: Trigger native prompt
-                installBtn.classList.add('hidden');
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
+            if (window.deferredPrompt) {
+                // 1. Native Prompt Available (Chrome/Edge/Samsung Internet)
+                window.deferredPrompt.prompt();
+                const { outcome } = await window.deferredPrompt.userChoice;
                 console.log(`User response: ${outcome}`);
-                deferredPrompt = null;
-                // After prompt, hide button unless the user explicitly denied it, and the browser allows it to be shown again.
+                window.deferredPrompt = null;
                 if (outcome === 'accepted') {
                     installBtn.classList.add('hidden');
-                } else {
-                    // If denied, we check eligibility again (might be hidden or re-shown later by browser policy)
-                    checkInstallEligibility(false);
                 }
             } else {
-                // iOS or Fallback: Show instructions
+                // 2. Fallback: Show Dedicated Install Modal
                 const isIosDevice = isIos();
-                const msg = isIosDevice
-                    ? "To install on iPhone/iPad:\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap 'Add to Home Screen'"
-                    : "To install:\nTap the browser menu (three dots) and select 'Install App' or 'Add to Home Screen'.";
+                const isAndroidDevice = isAndroid();
 
-                showAlert(msg);
+                // Reset visibility
+                androidInstr.classList.add('hidden');
+                iosInstr.classList.add('hidden');
+
+                if (isIosDevice) {
+                    iosInstr.classList.remove('hidden');
+                } else {
+                    // Default to Android/Generic instructions
+                    androidInstr.classList.remove('hidden');
+                }
+
+                installModal.classList.remove('hidden');
             }
         });
 
@@ -3300,6 +3503,7 @@
             installBtn.classList.add('hidden');
         });
     </script>
+    <script src="./notify.js"></script>
 </body>
 
 </html>
