@@ -624,7 +624,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
                     </svg>
-                    STOP ALARM (NEW ORDER)
+                    <span id="global-stop-alarm-text">STOP ALARM (NEW ORDER)</span>
                 </button>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
@@ -640,6 +640,18 @@
                         <p class="text-sm text-gray-500">Ready for delivery from your shop</p>
                     </div>
                 </div>
+                <!-- GLOBAL STOP ALARM BUTTON FOR DELIVERY (Normally Hidden) -->
+                <button id="global-stop-alarm-btn-delivery"
+                    class="hidden w-full mb-6 bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg animate-pulse-red text-xl flex items-center justify-center gap-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
+                    </svg>
+                    <span id="global-stop-alarm-text-delivery">STOP ALARM (ORDER READY)</span>
+                </button>
                 <div id="transport-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
@@ -1080,7 +1092,7 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- NEW IMPORT FOR FAST NOTIFICATIONS ---
+        // --- IMPORT FOR FAST NOTIFICATIONS ---
         import { FastOrderMonitor } from './fast_notify.js';
 
         const DEVELOPER_EMAIL = "dev@example.com";
@@ -1126,7 +1138,7 @@
         let userEmail = 'Guest';
         let currentUserShopId = null;
         let currentShopName = null;
-        let fastMonitor = null; // Store the monitor instance
+        let fastMonitor = null; // FastOrderMonitor instance
 
         let cart = [];
         let staffCart = [];
@@ -1374,9 +1386,9 @@
                     document.getElementById('transport-view-title').textContent = currentShopName || 'Delivery';
                     document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
 
-                    // --- NEW: Initialize Fast Monitor if Kitchen/Owner ---
-                    if (currentUserShopId && (userRole === 'kitchen' || userRole === 'owner')) {
-                        initFastNotification(currentUserShopId);
+                    // --- Initialize Fast Monitor for Kitchen/Owner/Delivery ---
+                    if (['kitchen', 'owner', 'delivery'].includes(userRole)) {
+                        initFastNotification(currentUserShopId, userRole);
                     }
 
                 } else if (userRole !== 'customer' && userRole !== 'developer') {
@@ -1407,39 +1419,80 @@
             });
         }
 
-
         // --- FAST NOTIFICATION INIT ---
-        function initFastNotification(shopId) {
+        function initFastNotification(shopId, role) {
             if (fastMonitor) fastMonitor.stopListening();
 
             fastMonitor = new FastOrderMonitor(db, shopId);
-            fastMonitor.startListening();
+            fastMonitor.startListening(role); // Pass role to monitor
 
-            // Unlock Audio Button Logic
+            // Smart Audio Unlock: Unlock on ANY user interaction
+            const unlockAudio = () => {
+                if (fastMonitor) {
+                    fastMonitor.enableAudio();
+                    // Hide the button once audio is unlocked
+                    const audioBtn = document.getElementById('enable-audio-btn');
+                    if (audioBtn) audioBtn.classList.add('hidden');
+                }
+                // Remove listeners once unlocked to avoid redundant calls
+                document.removeEventListener('click', unlockAudio);
+                document.removeEventListener('touchstart', unlockAudio);
+                document.removeEventListener('keydown', unlockAudio);
+            };
+
+            // Add global listeners for any user interaction
+            document.addEventListener('click', unlockAudio, { once: true });
+            document.addEventListener('touchstart', unlockAudio, { once: true });
+            document.addEventListener('keydown', unlockAudio, { once: true });
+
+            // Show button as visual feedback (will auto-hide on first interaction)
             const audioBtn = document.getElementById('enable-audio-btn');
-            audioBtn.classList.remove('hidden');
-            audioBtn.addEventListener('click', () => {
-                fastMonitor.enableAudio();
-                audioBtn.classList.add('hidden');
-            });
+            if (audioBtn) {
+                audioBtn.classList.remove('hidden');
+                audioBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent double firing
+                    unlockAudio();
+                }, { once: true });
+            }
 
             // Listen for the Alert Event
             window.addEventListener('fast-order-alert', (e) => {
-                const { order } = e.detail;
-
+                const { order, title } = e.detail;
                 // Show Global Stop Button
-                const stopBtn = document.getElementById('global-stop-alarm-btn');
-                stopBtn.classList.remove('hidden');
 
-                // When clicked, stop alarm and hide button
-                stopBtn.onclick = () => {
-                    fastMonitor.stopAlarm();
-                    stopBtn.classList.add('hidden');
+                // Determine which stop button to show based on role
+                let stopBtn, stopText;
 
-                    // Switch to kitchen view
-                    document.querySelector('[data-view="kitchen"]').click();
-                };
+                if (role === 'delivery') {
+                    stopBtn = document.getElementById('global-stop-alarm-btn-delivery');
+                    stopText = document.getElementById('global-stop-alarm-text-delivery');
+                } else {
+                    stopBtn = document.getElementById('global-stop-alarm-btn');
+                    stopText = document.getElementById('global-stop-alarm-text');
+                }
+
+                if (stopBtn && stopText) {
+                    stopText.textContent = `STOP ALARM (${title || 'NEW ALERT'})`;
+                    stopBtn.classList.remove('hidden');
+
+                    // When clicked, stop alarm and hide button
+                    stopBtn.onclick = () => {
+                        fastMonitor.stopAlarm();
+                        stopBtn.classList.add('hidden');
+
+                        // Switch to appropriate view based on role
+                        if (role === 'delivery') {
+                            const transportBtn = document.querySelector('[data-view="transport"]');
+                            if (transportBtn) transportBtn.click();
+                        } else {
+                            const kitchenBtn = document.querySelector('[data-view="kitchen"]');
+                            if (kitchenBtn) kitchenBtn.click();
+                        }
+                    };
+                }
             });
+
+            console.log(`FastOrderMonitor initialized for shop: ${shopId}, role: ${role}`);
         }
 
         function updateAuthStatusUI() {
@@ -2611,7 +2664,10 @@
                 totalAmount: items.reduce((s, i) => s + i.price, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
-                userId: 'test-developer',
+                // FIX: Use actual user ID to pass security rules
+                userId: auth.currentUser ? auth.currentUser.uid : 'test-developer',
+                paymentId: 'dev-test-skip', // Dummy payment ID for test orders
+                paymentIds: ['dev-test-skip'],
                 isTestOrder: true,
             };
             try {
@@ -2912,7 +2968,11 @@
                 totalAmount: staffCart.reduce((s, i) => s + i.price * i.quantity, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
-                userId: 'staff-created',
+                // FIX: Use actual user ID to pass security rules
+                userId: auth.currentUser ? auth.currentUser.uid : 'staff-created',
+                paymentId: 'manual-cash-entry', // Dummy payment ID for staff orders
+                paymentIds: ['manual-cash-entry'],
+                isPaid: true,
                 isTestOrder: false,
                 createdBy: userEmail
             };
@@ -3106,6 +3166,7 @@
                     // Stop alarm if it was ringing for this order
                     if (fastMonitor) fastMonitor.stopAlarm();
                     document.getElementById('global-stop-alarm-btn').classList.add('hidden');
+                    document.getElementById('global-stop-alarm-btn-delivery').classList.add('hidden');
 
                     // --- Notification Logic ---
                     // 1. Notify Customer

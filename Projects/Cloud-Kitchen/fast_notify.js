@@ -1,9 +1,10 @@
 import { collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 /**
- * A dedicated, high-speed notification system for Kitchens.
- * Listens directly to the 'orders' collection to bypass any delays 
- * in the secondary 'notifications' collection creation process.
+ * A dedicated, high-speed notification system.
+ * Listens directly to the 'orders' collection.
+ * - Kitchen/Owner: Listens for 'new' orders.
+ * - Delivery: Listens for 'ready_for_pickup' orders.
  */
 export class FastOrderMonitor {
     constructor(db, shopId) {
@@ -12,60 +13,56 @@ export class FastOrderMonitor {
         this.unsubscribe = null;
         this.audioUnlocked = false;
 
-        // Load a distinct, loud alarm sound
-        // Using a different sound as requested (Emergency Alert style)
-        this.alarmSound = new Audio("https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3"); 
+        // Loud alarm sound
+        this.alarmSound = new Audio("https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3");
         this.alarmSound.loop = true;
         this.alarmSound.volume = 1.0;
     }
 
-    /**
-     * Call this on a user click (e.g., login or "Enable Sound" button) 
-     * to allow the browser to play audio.
-     */
     enableAudio() {
         if (this.audioUnlocked) return;
-        
-        // Play and immediately pause to unlock the AudioContext
         this.alarmSound.play().then(() => {
             this.alarmSound.pause();
             this.alarmSound.currentTime = 0;
             this.audioUnlocked = true;
-            console.log("🔊 Audio Context Unlocked - Alarms ready.");
-        }).catch(err => {
-            console.warn("Audio unlock failed (browser blocked):", err);
-        });
+            console.log("🔊 Audio Context Unlocked");
+        }).catch(err => console.warn("Audio unlock failed:", err));
     }
 
     /**
-     * Starts monitoring for new orders in real-time.
+     * Starts monitoring based on the user's role.
+     * @param {string} role - 'kitchen', 'owner', or 'delivery'
      */
-    startListening() {
+    startListening(role) {
         if (this.unsubscribe) this.unsubscribe();
-        if (!this.shopId) {
-            console.warn("FastOrderMonitor: No shopId provided.");
-            return;
+        if (!this.shopId) return;
+
+        let statusToWatch = 'new';
+        let alertTitle = "🔥 NEW ORDER!";
+
+        // Delivery staff needs to know when food is READY
+        if (role === 'delivery') {
+            statusToWatch = 'ready_for_pickup';
+            alertTitle = "📦 ORDER READY!";
         }
 
-        console.log(`🚀 Fast Monitor started for Shop: ${this.shopId}`);
+        console.log(`🚀 Fast Monitor started for Shop: ${this.shopId} | Role: ${role} | Watching: ${statusToWatch}`);
 
-        // Listen for ANY order with status 'new' for this shop
         const q = query(
             collection(this.db, "orders"),
             where("shopId", "==", this.shopId),
-            where("status", "==", "new")
+            where("status", "==", statusToWatch)
         );
 
         this.unsubscribe = onSnapshot(q, (snapshot) => {
             snapshot.docChanges().forEach((change) => {
-                if (change.type === "added") {
+                if (change.type === "added") { // New document added to this status query
                     const orderData = change.doc.data();
-                    
-                    // Filter out old orders (e.g., older than 5 minutes) to prevent 
-                    // alarm blasts on page reload
+
+                    // Only alert if the change happened recently (avoid alerts on page refresh for old orders)
                     if (this.isOrderRecent(orderData)) {
-                        console.log("🚨 NEW ORDER DETECTED DIRECTLY:", change.doc.id);
-                        this.triggerAlert(orderData, change.doc.id);
+                        console.log(`🚨 ALERT (${role}):`, change.doc.id);
+                        this.triggerAlert(orderData, change.doc.id, alertTitle);
                     }
                 }
             });
@@ -83,37 +80,37 @@ export class FastOrderMonitor {
     }
 
     isOrderRecent(order) {
-        if (!order.createdAt) return true; // Fallback if no timestamp
-        
-        // Check if created within the last 5 minutes
+        // We use a slightly different logic here depending on status if needed, 
+        // but generally checking createdAt vs now is a safe fallback for 'new'.
+        // For 'ready_for_pickup', strictly speaking we should check 'updatedAt', 
+        // but since we don't always track that, we'll rely on the real-time listener 'added' event 
+        // which fires when a doc enters the query view.
+        // To be safe against page refreshes, we ignore orders created > 2 hours ago.
+
         const now = Date.now();
-        const orderTime = order.createdAt.toMillis ? order.createdAt.toMillis() : now;
-        const fiveMinutes = 5 * 60 * 1000;
-        
-        return (now - orderTime) < fiveMinutes;
+        const orderTime = order.createdAt?.toMillis ? order.createdAt.toMillis() : now;
+        const twoHours = 2 * 60 * 60 * 1000;
+
+        // Simple check: if order is ancient, ignore it on load. 
+        // The real-time 'added' event handles new status changes for existing docs correctly.
+        return (now - orderTime) < twoHours;
     }
 
-    triggerAlert(order, orderId) {
-        // 1. Play Loud Loop Alarm
+    triggerAlert(order, orderId, title) {
         this.playAlarm();
+        this.sendSystemNotification(order, title);
 
-        // 2. Browser System Notification (Works when tab is backgrounded)
-        this.sendSystemNotification(order);
-
-        // 3. Show Visual Modal (Dispatch event for UI to handle)
-        window.dispatchEvent(new CustomEvent('fast-order-alert', { 
-            detail: { order, orderId } 
+        // Dispatch event for UI to handle (Show Stop Button)
+        window.dispatchEvent(new CustomEvent('fast-order-alert', {
+            detail: { order, orderId, title }
         }));
     }
 
     playAlarm() {
         this.alarmSound.currentTime = 0;
         const playPromise = this.alarmSound.play();
-        
         if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.error("🔊 Audio play failed. User interaction required.");
-            });
+            playPromise.catch(error => console.error("🔊 Audio play failed. Interaction needed."));
         }
     }
 
@@ -122,38 +119,23 @@ export class FastOrderMonitor {
         this.alarmSound.currentTime = 0;
     }
 
-    sendSystemNotification(order) {
+    sendSystemNotification(order, title) {
         if (!("Notification" in window)) return;
-
-        // Request permission if not already granted/denied
-        if (Notification.permission === "default") {
-            Notification.requestPermission();
-        }
+        if (Notification.permission === "default") Notification.requestPermission();
 
         if (Notification.permission === "granted") {
-            // Using the Service Worker if available for better background handling
+            const options = {
+                body: `${order.customerName}\nTotal: ₹${order.totalAmount}`,
+                icon: './icon.svg',
+                requireInteraction: true,
+                tag: 'alert-' + Date.now()
+            };
+
             if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification("🔥 NEW ORDER!", {
-                        body: `Customer: ${order.customerName}\nAmount: ₹${order.totalAmount}\nClick to View!`,
-                        icon: './icon.svg',
-                        vibrate: [200, 100, 200, 100, 200],
-                        tag: 'new-order-' + Date.now(),
-                        requireInteraction: true // Keeps it on screen
-                    });
-                });
+                navigator.serviceWorker.ready.then(reg => reg.showNotification(title, options));
             } else {
-                // Fallback to standard Notification API
-                const notif = new Notification("🔥 NEW ORDER!", {
-                    body: `Customer: ${order.customerName}\nTotal: ₹${order.totalAmount}`,
-                    icon: './icon.svg',
-                    requireInteraction: true
-                });
-                
-                notif.onclick = () => {
-                    window.focus();
-                    notif.close();
-                };
+                const notif = new Notification(title, options);
+                notif.onclick = () => { window.focus(); notif.close(); };
             }
         }
     }
