@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Cloud Kitchen Order System</title>
+    <title>Foody Vrinda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -484,12 +484,11 @@
                 <div class="flex items-center gap-3 w-full sm:w-auto flex-grow sm:flex-grow-0">
                     <div
                         class="w-10 h-10 bg-black rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <img src="icon.svg" alt="Cloud Kitchen Logo" class="w-full h-full object-cover p-1">
+                        <img src="icon.svg" alt="FoodyVrindaLogo" class="w-full h-full object-cover p-1">
                     </div>
                     <div>
-                        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">Cloud Kitchen</h1>
-                        <p class="text-xs sm:text-sm text-gray-500 truncate" id="header-subtitle">Find your favorite
-                            local kitchens</p>
+                        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">Foody Vrinda</h1>
+                        <p class="text-xs sm:text-sm text-gray-500 truncate" id="header-subtitle">Find your favorites</p>
                     </div>
                 </div>
 
@@ -1252,6 +1251,8 @@
         let allShops = [];
         let currentMenu = [];
         let selectedShopId = null;
+        let isShopCurrentlyClosed = false; // Track if selected shop is closed
+        const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         // --- Notification variables ---
         let allNotifications = [];
@@ -1638,19 +1639,38 @@
 
         // --- SHOP SCHEDULE CHECKER ---
         function isShopOpen(schedule) {
-            if (!schedule || !schedule.openTime || !schedule.closeTime) return true; // Default open if no schedule
-
-            const now = new Date();
-            const currentDay = now.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
-            const currentTime = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
-
-            // Check if today is in the operating days
-            if (schedule.daysOpen && schedule.daysOpen.length > 0) {
-                if (!schedule.daysOpen.includes(currentDay)) return false;
+            if (!schedule || !schedule.openTime || !schedule.closeTime || !schedule.daysOpen || schedule.daysOpen.length === 0) {
+                // Default: Always open if schedule isn't set
+                return true;
             }
 
-            // Check if current time is within operating hours
-            return currentTime >= schedule.openTime && currentTime <= schedule.closeTime;
+            const now = new Date();
+            const currentDay = DAYS_OF_WEEK[now.getDay()]; // Sun (0) -> 'Sun'
+
+            // Check if shop is open today
+            if (!schedule.daysOpen.includes(currentDay)) {
+                return false;
+            }
+
+            // Convert current UTC time to minutes from midnight
+            const currentHours = now.getUTCHours();
+            const currentMinutes = now.getUTCMinutes();
+            const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+
+            // Convert schedule times (e.g., "09:00") to minutes from midnight
+            const [openHour, openMinute] = schedule.openTime.split(':').map(Number);
+            const [closeHour, closeMinute] = schedule.closeTime.split(':').map(Number);
+
+            const openTimeInMinutes = openHour * 60 + openMinute;
+            const closeTimeInMinutes = closeHour * 60 + closeMinute;
+
+            if (openTimeInMinutes < closeTimeInMinutes) {
+                // Simple case: 09:00 to 23:00 (within the same day)
+                return currentTimeInMinutes >= openTimeInMinutes && currentTimeInMinutes < closeTimeInMinutes;
+            } else {
+                // Complex case: overnight shift, e.g., 23:00 to 05:00
+                return currentTimeInMinutes >= openTimeInMinutes || currentTimeInMinutes < closeTimeInMinutes;
+            }
         }
 
         function renderShopSelector() {
@@ -1721,6 +1741,17 @@
                 document.getElementById('header-subtitle').textContent = `Ordering from ${shopName}`;
             }
 
+            // Check closure status and set global flag
+            const shop = allShops.find(s => s.id === shopId);
+            isShopCurrentlyClosed = shop ? !isShopOpen(shop.schedule) : false;
+
+            if (isShopCurrentlyClosed) {
+                // If closed, clear cart and disable ordering elements
+                cart = [];
+                updateCart();
+                // Alert removed - UI will show disabled buttons instead
+            }
+
             await renderMenu(shopId);
         }
 
@@ -1730,7 +1761,6 @@
             container.innerHTML = '<p class="text-gray-500">Loading menu...</p>';
 
             try {
-                // Bug fix: Ensure query is correctly structured to find all items for a shop
                 const menuSnapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
                 currentMenu = menuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
@@ -1743,7 +1773,10 @@
                 currentMenu.forEach(item => {
                     const cartItem = cart.find(ci => ci.id === item.id);
                     let buttonHTML;
-                    if (cartItem) {
+
+                    if (isShopCurrentlyClosed) {
+                        buttonHTML = `<button disabled class="mt-4 btn-danger w-full opacity-70">CLOSED</button>`;
+                    } else if (cartItem) {
                         buttonHTML = `
                             <div class="quantity-selector mt-4">
                                 <button class="quantity-btn quantity-minus" data-id="${item.id}">-</button>
@@ -1754,6 +1787,7 @@
                     } else {
                         buttonHTML = `<button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
                     }
+
                     container.innerHTML += `
                         <div class="menu-item card p-0">
                             <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
@@ -1774,6 +1808,9 @@
                 console.error("Error loading menu:", error);
                 container.innerHTML = '<p class="text-red-500">Could not load menu.</p>';
             }
+
+            // Re-render order form to disable it if necessary
+            renderOrderForm(null, isShopCurrentlyClosed);
         }
 
 
@@ -1797,18 +1834,23 @@
             summaryEl.innerHTML = `<div class="flex justify-between font-bold text-xl"><span>Total</span><span>₹${total}</span></div>`;
         }
 
-        function renderOrderForm(order = null) {
+        function renderOrderForm(order = null, isDisabled = false) {
             const container = document.getElementById('order-form-container');
             if (!container) return;
             const isUpdate = !!order;
-            // Bug Fix: Added proper form styling/validation attributes
+
+            let buttonText = isUpdate ? 'Update & Pay Difference' : 'Pay & Place Order';
+            if (isDisabled) {
+                buttonText = 'Shop is Closed';
+            }
+
             container.innerHTML = `
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
                 <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
-                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${order?.customerName || ''}" ${isUpdate ? 'disabled' : ''} required></div>
-                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${order?.customerAddress || ''}" ${isUpdate ? 'disabled' : ''} required></div>
-                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate ? 'disabled' : ''} required></div>
-                    <button type="submit" class="btn-primary w-full">${isUpdate ? 'Update & Pay Difference' : 'Pay & Place Order'}</button>
+                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${order?.customerName || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
+                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${order?.customerAddress || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
+                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
+                    <button type="submit" class="btn-primary w-full" ${isDisabled ? 'disabled' : ''}>${buttonText}</button>
                 </form>
             `;
         }
@@ -1816,6 +1858,11 @@
         async function placeOrder() {
             if (cart.length === 0) return showAlert('Your cart is empty.');
             if (!selectedShopId) return showAlert('No shop selected.', true);
+
+            // CRITICAL CHECK: Prevent ordering if shop is closed
+            if (isShopCurrentlyClosed) {
+                return showAlert("Cannot place order: The selected shop is closed.", true);
+            }
 
             // Critical Fix: Open login modal instead of showing alert on order attempt by guest
             if (auth.currentUser?.isAnonymous || userId.startsWith('offline')) {
@@ -2467,7 +2514,7 @@
                 if (now - notifTime < 10000 && !latest.read) {
                     if (Notification.permission === 'granted') {
                         navigator.serviceWorker.ready.then(registration => {
-                            registration.showNotification('Cloud Kitchen', {
+                            registration.showNotification('Foody Vrinda', {
                                 body: latest.message,
                                 icon: 'icon.svg',
                                 vibrate: [200, 100, 200],
@@ -3763,4 +3810,5 @@
     </script>
     <script src="./notify.js"></script>
 </body>
+
 </html>
