@@ -124,7 +124,7 @@ def find_free_port(preferred=8000):
 
 def main():
     cwd = os.getcwd()
-    kitchen_dir = find_file_in_tree('kitchen.html', root=cwd)
+    kitchen_dir = find_file_in_tree('kitchen(modified).html', root=cwd)
     if kitchen_dir:
         serve_dir = kitchen_dir
     else:
