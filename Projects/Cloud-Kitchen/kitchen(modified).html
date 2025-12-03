@@ -456,6 +456,22 @@
         .animate-pulse-red {
             animation: pulse-red 2s infinite;
         }
+
+        /* Shop Schedule Tags */
+        .tag-open {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .tag-closed {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .tag-schedule {
+            background-color: #e0e7ff;
+            color: #4338ca;
+        }
     </style>
 </head>
 
@@ -550,7 +566,6 @@
             </div>
         </header>
         <!-- **** END OF UPDATED HEADER SECTION **** -->
-
 
         <main>
             <!-- All view containers -->
@@ -832,27 +847,101 @@
                             class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button></div>
                 </div>
 
+
                 <div class="card p-6">
                     <h3 class="text-xl font-semibold mb-4">Shop Management</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h4 class="text-lg font-semibold mb-3">Create New Shop</h4>
-                            <form id="create-shop-form" class="space-y-4"><input type="text" id="shop-name"
-                                    placeholder="Shop Name (e.g., Vrinda Foods - Downtown)" class="w-full"
-                                    required><input type="text" id="shop-address" placeholder="Shop Address"
-                                    class="w-full"><input type="text" id="shop-image"
-                                    placeholder="Shop Image URL (Optional)" class="w-full"><button type="submit"
-                                    class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Shop</button>
+                            <form id="create-shop-form" class="space-y-4">
+                                <input type="text" id="shop-name"
+                                    placeholder="Shop Name (e.g., Vrinda Foods - Downtown)" class="w-full" required>
+                                <input type="text" id="shop-address" placeholder="Shop Address" class="w-full">
+                                <input type="text" id="shop-image" placeholder="Shop Image URL (Optional)"
+                                    class="w-full">
+
+                                <div class="border-t pt-4">
+                                    <h5 class="font-medium mb-2">Shop Schedule</h5>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <input type="time" id="shop-open-time" placeholder="Open Time" class="w-full">
+                                        <input type="time" id="shop-close-time" placeholder="Close Time" class="w-full">
+                                    </div>
+                                    <div class="mt-2">
+                                        <label class="text-sm text-gray-600">Operating Days:</label>
+                                        <div class="flex flex-wrap gap-2 mt-1">
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Mon" checked> Mon</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Tue" checked> Tue</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Wed" checked> Wed</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Thu" checked> Thu</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Fri" checked> Fri</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Sat" checked> Sat</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Sun" checked> Sun</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create
+                                    Shop</button>
                             </form>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold mb-3">Existing Shops</h4>
-                            <div id="dev-shop-list" class="space-y-3 max-h-60 overflow-y-auto">
+                            <div id="dev-shop-list" class="space-y-3 max-h-96 overflow-y-auto">
                                 <p class="text-gray-500">Loading shops...</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Shop Schedule Management</h3>
+                    <div class="space-y-4">
+                        <select id="schedule-shop-select" class="w-full">
+                            <option value="">-- Select Shop to Update Schedule --</option>
+                        </select>
+                        <div id="schedule-editor" class="hidden space-y-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Open Time</label>
+                                    <input type="time" id="edit-open-time" class="w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Close Time</label>
+                                    <input type="time" id="edit-close-time" class="w-full">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Operating Days:</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Mon"> Mon</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Tue"> Tue</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Wed"> Wed</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Thu"> Thu</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Fri"> Fri</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Sat"> Sat</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Sun"> Sun</label>
+                                </div>
+                            </div>
+                            <button id="update-schedule-btn"
+                                class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Update Schedule</button>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card p-6">
                     <h3 class="text-xl font-semibold mb-4">Menu Management</h3>
@@ -1307,6 +1396,7 @@
                 if (userRole === 'developer') {
                     populateShopDropdowns();
                     renderDevShopList();
+                    populateScheduleSelect();
                 }
                 updateDevSummary();
             } catch (error) {
@@ -1547,30 +1637,59 @@
             showShopSelector();
         }
 
+        // --- SHOP SCHEDULE CHECKER ---
+        function isShopOpen(schedule) {
+            if (!schedule || !schedule.openTime || !schedule.closeTime) return true; // Default open if no schedule
+
+            const now = new Date();
+            const currentDay = now.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
+            const currentTime = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+
+            // Check if today is in the operating days
+            if (schedule.daysOpen && schedule.daysOpen.length > 0) {
+                if (!schedule.daysOpen.includes(currentDay)) return false;
+            }
+
+            // Check if current time is within operating hours
+            return currentTime >= schedule.openTime && currentTime <= schedule.closeTime;
+        }
+
         function renderShopSelector() {
             const container = document.getElementById('shop-list-container');
             if (!container) return;
             if (allShops.length === 0) {
-                // --- MODIFICATION: Informative message if no shops load ---
                 container.innerHTML = '<p class="text-gray-500 col-span-full text-center">No kitchens are currently available. This might be because the database is empty or security rules are blocking access.</p>';
-                // --- END MODIFICATION ---
                 return;
             }
-            container.innerHTML = allShops.map(shop => `
-                <div class="shop-card card p-0 cursor-pointer" data-shop-id="${shop.id}" data-shop-name="${shop.name}">
-                    <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
-                        <img src="${shop.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EShop%3C/text%3E%3C/svg%3E'}" 
-                             alt="${shop.name}" 
-                             class="w-full h-full object-cover" 
-                             loading="lazy"
-                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+
+            container.innerHTML = allShops.map(shop => {
+                const isOpen = isShopOpen(shop.schedule);
+                const statusTag = isOpen
+                    ? `<span class="tag-open px-2 py-0.5 rounded-full text-xs font-semibold">OPEN</span>`
+                    : `<span class="tag-closed px-2 py-0.5 rounded-full text-xs font-semibold">CLOSED</span>`;
+
+                const schedule = shop.schedule || {};
+                const timeTag = (schedule.openTime && schedule.closeTime) ?
+                    `<span class="tag-schedule px-2 py-0.5 rounded-full text-xs font-medium">${schedule.openTime} - ${schedule.closeTime} (${schedule.daysOpen ? schedule.daysOpen.join('/') : 'Everyday'})</span>` :
+                    '';
+
+                return `
+                    <div class="shop-card card p-0 cursor-pointer ${isOpen ? '' : 'opacity-60'}" data-shop-id="${shop.id}" data-shop-name="${shop.name}">
+                        <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
+                            <img src="${shop.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EShop%3C/text%3E%3C/svg%3E'}" 
+                                alt="${shop.name}" 
+                                class="w-full h-full object-cover" 
+                                loading="lazy"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold">${shop.name}</h3>
+                            <p class="text-gray-600 text-sm mb-3">${shop.address || 'No address provided'}</p>
+                            <div class="flex flex-wrap gap-2">${statusTag} ${timeTag}</div>
+                        </div>
                     </div>
-                    <div class="p-5">
-                        <h3 class="text-lg font-semibold">${shop.name}</h3>
-                        <p class="text-gray-600 text-sm">${shop.address || 'No address provided'}</p>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         document.getElementById('shop-list-container').addEventListener('click', (e) => {
@@ -2567,8 +2686,29 @@
             const name = document.getElementById('shop-name').value;
             const address = document.getElementById('shop-address').value;
             const image = document.getElementById('shop-image').value;
+
+            // Get schedule data
+            const openTime = document.getElementById('shop-open-time').value;
+            const closeTime = document.getElementById('shop-close-time').value;
+            const daysOpen = Array.from(document.querySelectorAll('input[name="shop-days"]:checked')).map(cb => cb.value);
+
+            const shopData = {
+                name,
+                address,
+                image: image || null
+            };
+
+            // Add schedule if provided
+            if (openTime && closeTime) {
+                shopData.schedule = {
+                    openTime,
+                    closeTime,
+                    daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                };
+            }
+
             try {
-                await addDoc(collection(db, "shops"), { name, address, image: image || null });
+                await addDoc(collection(db, "shops"), shopData);
                 showAlert('Shop created successfully!');
                 document.getElementById('create-shop-form').reset();
                 await loadAllShops();
@@ -2577,6 +2717,64 @@
                 showAlert("Failed to create shop.", true);
             }
         }
+
+        // --- SCHEDULE MANAGEMENT ---
+        function populateScheduleSelect() {
+            const select = document.getElementById('schedule-shop-select');
+            select.innerHTML = '<option value="">-- Select Shop to Update Schedule --</option>' +
+                allShops.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        }
+
+        document.getElementById('schedule-shop-select').addEventListener('change', async (e) => {
+            const shopId = e.target.value;
+            const editor = document.getElementById('schedule-editor');
+
+            if (!shopId) {
+                editor.classList.add('hidden');
+                return;
+            }
+
+            const shop = allShops.find(s => s.id === shopId);
+            if (shop) {
+                editor.classList.remove('hidden');
+
+                // Populate current schedule
+                const schedule = shop.schedule || {};
+                document.getElementById('edit-open-time').value = schedule.openTime || '';
+                document.getElementById('edit-close-time').value = schedule.closeTime || '';
+
+                // Set checkboxes
+                document.querySelectorAll('input[name="edit-days"]').forEach(cb => {
+                    cb.checked = schedule.daysOpen ? schedule.daysOpen.includes(cb.value) : true;
+                });
+            }
+        });
+
+        document.getElementById('update-schedule-btn').addEventListener('click', async () => {
+            const shopId = document.getElementById('schedule-shop-select').value;
+            if (!shopId) return;
+
+            const openTime = document.getElementById('edit-open-time').value;
+            const closeTime = document.getElementById('edit-close-time').value;
+            const daysOpen = Array.from(document.querySelectorAll('input[name="edit-days"]:checked')).map(cb => cb.value);
+
+            try {
+                await updateDoc(doc(db, "shops", shopId), {
+                    schedule: {
+                        openTime,
+                        closeTime,
+                        daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    }
+                });
+                showAlert('Schedule updated successfully!');
+                await loadAllShops();
+                document.getElementById('schedule-editor').classList.add('hidden');
+                document.getElementById('schedule-shop-select').value = '';
+            } catch (error) {
+                console.error("Error updating schedule: ", error);
+                showAlert("Failed to update schedule.", true);
+            }
+        });
 
         async function createMenuItem(e) {
             e.preventDefault();
