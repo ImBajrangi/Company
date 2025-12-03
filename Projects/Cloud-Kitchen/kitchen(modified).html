@@ -11,23 +11,8 @@
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
     <link rel="apple-touch-icon" href="./icon.svg">
-    <!-- FIX: Added favicon link to prevent 404 error on favicon.ico -->
-    <link rel="icon" type="image/svg+xml" href="./icon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Notification Sound -->
-    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"
-        preload="auto"></audio>
-
-    <!-- Toast Container -->
-    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
     <script>
-        console.log("🚀 APP VERSION: 2.2 (Error Fixes Applied)");
-        
-        // FIX: Removed the unnecessary loadDeveloperPanel check that was causing an early error log.
-        // The script it refers to runs in the module below.
-
         // Capture the install prompt early, before the main module loads
         window.deferredPrompt = null;
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -2223,20 +2208,6 @@
                 const now = Date.now();
                 const notifTime = latest.createdAt ? latest.createdAt.toMillis() : now;
                 if (now - notifTime < 10000 && !latest.read) {
-
-                    // 1. Play Sound
-                    const audio = document.getElementById('notification-sound');
-                    if (audio) {
-                        audio.play().catch(e => console.log("Audio play failed (user interaction needed first):", e));
-                    }
-
-                    // 2. Vibrate Device
-                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-
-                    // 3. Show In-App Toast
-                    showToast(latest.message, 'info');
-
-                    // 4. System Notification (Service Worker)
                     if (Notification.permission === 'granted') {
                         navigator.serviceWorker.ready.then(registration => {
                             registration.showNotification('Cloud Kitchen', {
@@ -2337,40 +2308,6 @@
         }
 
         // --- END Notification Functions ---
-
-        /**
-         * Shows a temporary toast notification.
-         * @param {string} message - The message to display.
-         * @param {string} type - 'success', 'error', or 'info'
-         */
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-
-            const toast = document.createElement('div');
-            toast.className = `pointer-events-auto flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 transform transition-all duration-300 translate-x-full opacity-0`;
-
-            let icon = '';
-            if (type === 'success') icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></div>';
-            else if (type === 'error') icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></div>';
-            else icon = '<div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg></div>';
-
-            toast.innerHTML = `${icon}<div class="pl-4 text-sm font-normal">${message}</div>`;
-            container.appendChild(toast);
-
-            // Animate in
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-x-full', 'opacity-0');
-            });
-
-            // Remove after 5 seconds
-            setTimeout(() => {
-                toast.classList.add('translate-x-full', 'opacity-0');
-                setTimeout(() => {
-                    if (container.contains(toast)) container.removeChild(toast);
-                }, 300);
-            }, 5000);
-        }
 
         // --- Developer Panel Logic ---
 
@@ -3182,8 +3119,7 @@
                         }
                     }, 5000);
                 } else {
-                    // FIX: Replaced the failing immediate request with instructions on how to enable
-                    showAlert('Notification permission not granted. Please click "Enable Push" in the Notification Panel and grant permission to test.', true);
+                    showAlert('Please enable notifications first (in Notification Panel).', true);
                 }
             }
             if (target.matches('#refresh-orders')) {
@@ -3296,14 +3232,32 @@
             }
         }
 
-        // Initial check
+        // Initial check and auto-request
         checkPushPermission();
 
-        // FIX: Removed the automatic Notification.requestPermission() block to comply with user gesture policies.
-        // Permission is now ONLY requested on the 'enablePushBtn' click.
+        // Auto-request permission on first load if not already decided
+        if ('Notification' in window && Notification.permission === 'default') {
+            // Small delay to allow page to load
+            setTimeout(() => {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted automatically.');
+                        enablePushBtn.classList.add('hidden');
+                        if ('serviceWorker' in navigator) {
+                            navigator.serviceWorker.ready.then(registration => {
+                                registration.showNotification('Notifications Enabled', {
+                                    body: 'You will now receive updates!',
+                                    icon: './icon.svg'
+                                });
+                            });
+                        }
+                    }
+                    checkPushPermission();
+                });
+            }, 1000);
+        }
 
         enablePushBtn.addEventListener('click', () => {
-            // FIX: This call is now correctly nested inside the user gesture handler
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     console.log('Notification permission granted.');
@@ -3329,7 +3283,6 @@
                 } else {
                     console.log('Notification permission denied.');
                 }
-                checkPushPermission(); // Update UI after attempt
             });
         });
 
