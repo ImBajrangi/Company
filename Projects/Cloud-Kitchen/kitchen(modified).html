@@ -8,10 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="imbajrangi.github.io/Company/Projects/Cloud-Kitchen/manifest.json">
     <meta name="theme-color" content="#0071e3">
-    <link rel="icon" href="./icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="./app-icon.png">
+    <link rel="icon" href="imbajrangi.github.io/Company/Projects/Cloud-Kitchen/public/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="imbajrangi.github.io/Company/Projects/Cloud-Kitchen/public/app-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         // Capture the install prompt early, before the main module loads
@@ -1181,7 +1181,7 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        import { FastOrderMonitor } from './fast_notify.js';
+        import { FastOrderMonitor } from 'imbajrangi.github.io/Company/Projects/Cloud-Kitchen/js/fast_notify.js';
 
         // // --- Fast Notification Monitor Class (Inlined to prevent 404s) ---
         // class FastOrderMonitor {
@@ -3758,7 +3758,7 @@
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                navigator.serviceWorker.register('imbajrangi.github.io/Company/Projects/Cloud-Kitchen/js/sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
@@ -3926,7 +3926,7 @@
             installBtn.classList.add('hidden');
         });
     </script>
-    <script src="./notify.js"></script>
+    <script src="imbajrangi.github.io/Company/Projects/Cloud-Kitchen/js/notify.js"></script>
 </body>
 
 </html>
