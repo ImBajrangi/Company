@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,10 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link rel="manifest" href="imbajrangi.github.io/Company/Projects/Cloud-Kitchen/manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
-    <link rel="icon" href="./icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="./app-icon.png">
+    <link rel="icon" href="./public/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./public/app-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         // Capture the install prompt early, before the main module loads
@@ -485,7 +486,7 @@
                 <div class="flex items-center gap-3 w-full sm:w-auto flex-grow sm:flex-grow-0">
                     <div
                         class="w-10 h-10 bg-black rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <img src="app-icon.png" alt="FoodyVrindaLogo" class="w-full h-full object-cover p-1">
+                        <img src="./public/app-icon.png" alt="FoodyVrindaLogo" class="w-full h-full object-cover p-1">
                     </div>
                     <div>
                         <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">Foody Vrinda</h1>
@@ -1181,7 +1182,7 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        import { FastOrderMonitor } from './fast_notify.js';
+        import { FastOrderMonitor } from './js/fast_notify.js';
 
         // // --- Fast Notification Monitor Class (Inlined to prevent 404s) ---
         // class FastOrderMonitor {
@@ -2138,6 +2139,11 @@
         function startTrackingLatestOrder() {
             if (!userId || !isFirebaseReady || userId.startsWith('offline') || auth.currentUser?.isAnonymous) return;
             currentOrderListener?.();
+
+            // NOTE: This query requires a composite Firestore index on (userId, createdAt DESC).
+            // The query is semantically correct (fetches the latest order for a specific user).
+            // If you see a Firestore error, create the index using the link provided in the console.
+            console.warn("⚠️ Order tracking query requires Firestore index: (userId ASC, createdAt DESC)");
             const q = query(collection(db, "orders"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(1)); // Only track the very latest order
 
             currentOrderListener = onSnapshot(q, async (snapshot) => {
@@ -2582,13 +2588,16 @@
 
             let q;
             if (userRole === 'customer') {
+                // Customer query: Only one where clause, so orderBy is safe
                 q = query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
             } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
-                // Staff/Owners get notifications for their shop and role
-                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
+                // FIX: Removed orderBy to prevent composite index error on (shopId + role + createdAt)
+                // We will sort locally after fetching (max 20 docs, so performance impact is negligible)
+                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), limit(20));
             } else if (userRole === 'developer' && currentUserShopId) {
-                // Developer gets all notifications for their *selected* shop
-                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
+                // FIX: Removed orderBy to prevent composite index error on (shopId + createdAt)
+                // We will sort locally after fetching (max 50 docs, so performance impact is negligible)
+                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), limit(50));
             } else {
                 // Developer without a selected shop or staff without assigned shop
                 updateNotificationUI([]);
@@ -2596,7 +2605,15 @@
             }
 
             notificationListener = onSnapshot(q, (snapshot) => {
-                allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                // Fetch data
+                let notifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                // FIX: Sort locally if we removed orderBy above (i.e., for non-customer roles)
+                if (userRole !== 'customer') {
+                    notifications.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+                }
+
+                allNotifications = notifications;
                 updateNotificationUI(allNotifications);
             }, (error) => {
                 console.error("Error listening for notifications:", error);
@@ -2634,7 +2651,7 @@
                         navigator.serviceWorker.ready.then(registration => {
                             registration.showNotification('Foody Vrinda', {
                                 body: latest.message,
-                                icon: 'icon.svg',
+                                icon: './public/icon.svg',
                                 vibrate: [200, 100, 200],
                                 tag: latest.id // Prevent duplicate notifications
                             });
@@ -3660,7 +3677,7 @@
                             navigator.serviceWorker.ready.then(registration => {
                                 registration.showNotification('Test Notification', {
                                     body: 'This is a test notification from the System!',
-                                    icon: 'icon.svg',
+                                    icon: './public/icon.svg',
                                     vibrate: [200, 100, 200]
                                 });
                             });
@@ -3758,7 +3775,7 @@
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('imbajrangi.github.io/Company/Projects/Cloud-Kitchen/js/sw.js')
+                navigator.serviceWorker.register('./js/sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
@@ -3795,7 +3812,7 @@
                             navigator.serviceWorker.ready.then(registration => {
                                 registration.showNotification('Notifications Enabled', {
                                     body: 'You will now receive updates!',
-                                    icon: './icon.svg'
+                                    icon: './public/icon.svg'
                                 });
                             });
                         }
@@ -3824,7 +3841,7 @@
                             // For this demo, we just confirm it works
                             registration.showNotification('Notifications Enabled', {
                                 body: 'You will now receive updates!',
-                                icon: 'icon.svg'
+                                icon: './public/icon.svg'
                             });
                         });
                     }
@@ -3926,7 +3943,7 @@
             installBtn.classList.add('hidden');
         });
     </script>
-    <script src="imbajrangi.github.io/Company/Projects/Cloud-Kitchen/js/notify.js"></script>
+    <script src="./js/notify.js"></script>
 </body>
 
 </html>

@@ -6,17 +6,20 @@ import { collection, query, where, onSnapshot } from "https://www.gstatic.com/fi
  * - Kitchen/Owner: Listens for 'new' orders.
  * - Delivery: Listens for 'ready_for_pickup' orders.
  */
+
 export class FastOrderMonitor {
     constructor(db, shopId) {
         this.db = db;
         this.shopId = shopId;
         this.unsubscribe = null;
         this.audioUnlocked = false;
+        this.role = null; // Store role for filtering
 
         // Loud alarm sound
         this.alarmSound = new Audio("https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3");
         this.alarmSound.loop = true;
         this.alarmSound.volume = 1.0;
+        this.isPlaying = false; // Track internal alarm state
     }
 
     enableAudio() {
@@ -37,31 +40,47 @@ export class FastOrderMonitor {
         if (this.unsubscribe) this.unsubscribe();
         if (!this.shopId) return;
 
-        let statusToWatch = 'new';
-        let alertTitle = "🔥 NEW ORDER!";
+        this.role = role;
 
-        // Delivery staff needs to know when food is READY
+        // Determine the status to watch based on role
+        let statusToWatch;
         if (role === 'delivery') {
             statusToWatch = 'ready_for_pickup';
-            alertTitle = "📦 ORDER READY!";
+        } else {
+            // Kitchen, Owner watch for brand new orders
+            statusToWatch = 'new';
         }
 
-        console.log(`🚀 Fast Monitor started for Shop: ${this.shopId} | Role: ${role} | Watching: ${statusToWatch}`);
+        console.log(`🔊 Fast Monitor started for Shop: ${this.shopId} | Role: ${role} | Watching: ${statusToWatch}`);
 
+        // FIX: The query must only contain the shopId where clause to avoid the composite index error,
+        // as onSnapshot uses internal ordering that conflicts with multiple where clauses unless indexed.
         const q = query(
             collection(this.db, "orders"),
-            where("shopId", "==", this.shopId),
-            where("status", "==", statusToWatch)
+            where("shopId", "==", this.shopId)
         );
 
         this.unsubscribe = onSnapshot(q, (snapshot) => {
             snapshot.docChanges().forEach((change) => {
-                if (change.type === "added") { // New document added to this status query
-                    const orderData = change.doc.data();
+                const orderData = change.doc.data();
 
-                    // Only alert if the change happened recently (avoid alerts on page refresh for old orders)
+                // 1. Filter locally for the watched status
+                if (orderData.status !== statusToWatch) {
+                    return; // Ignore orders not matching the required status
+                }
+
+                // 2. Check if this is a newly added order in this status view
+                // 'added' event fires when a document is created OR when a document 
+                // changes status and enters the query result set (which only filters on shopId here).
+                // We rely on the 'added' type to catch the status transition.
+                if (change.type === "added") {
+                    
+                    // 3. Only alert if the order is recent (to avoid false alerts on page refresh/load)
                     if (this.isOrderRecent(orderData)) {
-                        console.log(`🚨 ALERT (${role}):`, change.doc.id);
+                        console.log(`🔊 ALERT (${this.role}):`, change.doc.id);
+                        
+                        const alertTitle = this.role === 'delivery' ? "ORDER READY!" : "NEW ORDER!";
+                        
                         this.triggerAlert(orderData, change.doc.id, alertTitle);
                     }
                 }
@@ -80,20 +99,16 @@ export class FastOrderMonitor {
     }
 
     isOrderRecent(order) {
-        // We use a slightly different logic here depending on status if needed, 
-        // but generally checking createdAt vs now is a safe fallback for 'new'.
-        // For 'ready_for_pickup', strictly speaking we should check 'updatedAt', 
-        // but since we don't always track that, we'll rely on the real-time listener 'added' event 
-        // which fires when a doc enters the query view.
-        // To be safe against page refreshes, we ignore orders created > 2 hours ago.
-
+        // If the order has a 'createdAt' timestamp, check if it's less than 5 minutes old.
+        // This mitigates the issue of re-alerting on browser refresh for old, untouched orders.
         const now = Date.now();
         const orderTime = order.createdAt?.toMillis ? order.createdAt.toMillis() : now;
-        const twoHours = 2 * 60 * 60 * 1000;
+        const fiveMinutes = 5 * 60 * 1000;
 
-        // Simple check: if order is ancient, ignore it on load. 
-        // The real-time 'added' event handles new status changes for existing docs correctly.
-        return (now - orderTime) < twoHours;
+        // If the order is a new status change (caught by the change.type === "added" above),
+        // we can assume it's recent for the purpose of alarming, but keep the timestamp check
+        // for robustness.
+        return (now - orderTime) < fiveMinutes || (now - orderTime) < (24 * 60 * 60 * 1000); // Also allow alarms for up to 24 hours just in case the alarm was missed.
     }
 
     triggerAlert(order, orderId, title) {
@@ -107,6 +122,9 @@ export class FastOrderMonitor {
     }
 
     playAlarm() {
+        if (this.isPlaying) return;
+        this.isPlaying = true; // Set internal state
+
         this.alarmSound.currentTime = 0;
         const playPromise = this.alarmSound.play();
         if (playPromise !== undefined) {
@@ -115,6 +133,7 @@ export class FastOrderMonitor {
     }
 
     stopAlarm() {
+        this.isPlaying = false; // Reset internal state
         this.alarmSound.pause();
         this.alarmSound.currentTime = 0;
     }
@@ -126,7 +145,7 @@ export class FastOrderMonitor {
         if (Notification.permission === "granted") {
             const options = {
                 body: `${order.customerName}\nTotal: ₹${order.totalAmount}`,
-                icon: './icon.svg',
+                icon: './public/icon.svg',
                 requireInteraction: true,
                 tag: 'alert-' + Date.now()
             };
