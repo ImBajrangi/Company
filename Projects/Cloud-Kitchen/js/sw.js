@@ -2,10 +2,12 @@ const CACHE_NAME = 'cloud-kitchen-v3';
 const ASSETS_TO_CACHE = [
   './kitchen.html',
   './kitchen(modified).html',
-  './notify.js',
-  './sw.js',
+  './js/notify.js',
+  './js/sw.js',
+  './js/fast_notify.js',
   './manifest.json',
-  './icon.svg'
+  './public/icon.svg',
+  './public/app-icon.png'
 ];
 
 // Install event: Cache core assets
@@ -96,16 +98,16 @@ self.addEventListener('push', (event) => {
   const title = 'Cloud Kitchen Update';
   const options = {
     body: event.data.text() || 'Your order status has changed!',
-    icon: './icon.svg',
-    badge: './icon.svg',
+    icon: './public/icon.svg',
+    badge: './public/icon.svg',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
       primaryKey: '2'
     },
     actions: [
-      { action: 'explore', title: 'View Order', icon: './icon.svg' },
-      { action: 'close', title: 'Close', icon: './icon.svg' },
+      { action: 'explore', title: 'View Order', icon: './public/icon.svg' },
+      { action: 'close', title: 'Close', icon: './public/icon.svg' },
     ]
   };
 

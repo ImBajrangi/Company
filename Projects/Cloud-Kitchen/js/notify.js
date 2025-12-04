@@ -90,7 +90,7 @@ export class NotificationManager {
             navigator.serviceWorker.ready.then(reg => {
                 reg.showNotification('Cloud Kitchen', {
                     body: notif.message,
-                    icon: './icon.svg',
+                    icon: './public/icon.svg',
                     tag: notif.id // Prevent duplicates
                 });
             });
@@ -281,7 +281,7 @@ export class KitchenNotifier {
         if (Notification.permission === "granted") {
             const notif = new Notification("🔔 NEW ORDER RECEIVED!", {
                 body: `Order for ${order.customerName} - ₹${order.totalAmount}\nClick to view details.`,
-                icon: './icon.svg', // Ensure this path is correct
+                icon: './public/icon.svg',
                 requireInteraction: true, // Keeps notification on screen until clicked
                 tag: 'new-order-alert'
             });
