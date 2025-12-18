@@ -7,7 +7,7 @@
     <title>Vrindopnishad</title>
 
     <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=freight-display-pro&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
 
     <!-- <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/styles.css"> -->
@@ -35,6 +35,8 @@
 
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
+    <!-- Creative Button Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
 </head>
 <!-- <body>
@@ -1116,6 +1118,299 @@
             padding: 2rem 0;
         }
     }
+
+    /* Janus Button Style - Morphing Blob Effect */
+    .button-janus {
+        font-family: 'freight-display-pro', 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        letter-spacing: 0.08em;
+        width: 175px;
+        height: 120px;
+        color: var(--color-text);
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .button-janus::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-color);
+        opacity: 0.15;
+        z-index: -1;
+        -webkit-clip-path: path("M154.5,88.5 C131,113.5 62.5,110 30,89.5 C-2.5,69 -3.5,42 4.5,25.5 C12.5,9 33.5,-6 85,3.5 C136.5,13 178,63.5 154.5,88.5 Z");
+        clip-path: path("M154.5,88.5 C131,113.5 62.5,110 30,89.5 C-2.5,69 -3.5,42 4.5,25.5 C12.5,9 33.5,-6 85,3.5 C136.5,13 178,63.5 154.5,88.5 Z");
+        transition: clip-path 0.5s cubic-bezier(0.585, 2.5, 0.645, 0.55), -webkit-clip-path 0.5s cubic-bezier(0.585, 2.5, 0.645, 0.55), background 0.5s ease;
+    }
+
+    .button-janus:active::before,
+    .button-janus:hover::before {
+        background: var(--accent-color);
+        opacity: 0.3;
+        -webkit-clip-path: path("M143,77 C117,96 74,100.5 45.5,91.5 C17,82.5 -10.5,57 5.5,31.5 C21.5,6 79,-5.5 130.5,4 C182,13.5 169,58 143,77 Z");
+        clip-path: path("M143,77 C117,96 74,100.5 45.5,91.5 C17,82.5 -10.5,57 5.5,31.5 C21.5,6 79,-5.5 130.5,4 C182,13.5 169,58 143,77 Z");
+    }
+
+    .button-janus::after {
+        content: '';
+        position: absolute;
+        height: 86%;
+        width: 97%;
+        top: 5%;
+        left: 0;
+        border-radius: 58% 42% 55% 45% / 56% 45% 55% 44%;
+        border: 2px solid var(--accent-color);
+        transform: rotate(-20deg);
+        z-index: -1;
+        transition: transform 0.5s cubic-bezier(0.585, 2.5, 0.645, 0.55);
+    }
+
+    .button-janus:active::after,
+    .button-janus:hover::after {
+        transform: rotate(-20deg) translate3d(0, -5px, 0);
+    }
+
+    .button-janus span {
+        display: block;
+        transition: transform 0.3s ease;
+        position: relative;
+        z-index: 1;
+    }
+
+    .button-janus:active span,
+    .button-janus:hover span {
+        transform: translate3d(0, -10px, 0);
+    }
+
+    /* Bestia Button Style - Expanding Circle Effect */
+    .button-bestia {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+        font-size: 1.15rem;
+        letter-spacing: 0.06em;
+        color: var(--color-text);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .button-bestia .button__bg {
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(var(--accent-color-rgb), 0.15);
+        border-radius: 0.85rem;
+        overflow: hidden;
+        transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+    }
+
+    .button-bestia:active .button__bg,
+    .button-bestia:hover .button__bg {
+        transform: scale3d(1.2, 1.2, 1);
+    }
+
+    .button-bestia .button__bg::before,
+    .button-bestia .button__bg::after {
+        content: '';
+        position: absolute;
+        background: var(--accent-color);
+    }
+
+    .button-bestia .button__bg::before {
+        width: 110%;
+        height: 0;
+        padding-bottom: 110%;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
+    }
+
+    .button-bestia:active .button__bg::before,
+    .button-bestia:hover .button__bg::before {
+        transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+        transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+    }
+
+    .button-bestia .button__bg::after {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .button-bestia:active .button__bg::after,
+    .button-bestia:hover .button__bg::after {
+        opacity: 1;
+        transition-duration: 0.01s;
+        transition-delay: 0.3s;
+    }
+
+    .button-bestia span {
+        display: block;
+        position: relative;
+        padding: 1.5rem 3rem;
+        z-index: 1;
+        transition: color 0.3s ease;
+    }
+
+    .button-bestia:active span,
+    .button-bestia:hover span {
+        color: var(--bg-color);
+    }
+
+    /* Calypso Button Style - Dropping Circle Effect */
+    .button-calypso {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+        font-size: 1.1rem;
+        letter-spacing: 0.05em;
+        overflow: hidden;
+        border-radius: 2rem;
+        color: var(--color-text);
+        background: rgba(var(--accent-color-rgb), 0.15);
+        border: 2px solid var(--accent-color);
+        cursor: pointer;
+        padding: 1.2rem 3rem;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(var(--accent-color-rgb), 0.25);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .button-calypso:hover {
+        box-shadow: 0 8px 30px rgba(var(--accent-color-rgb), 0.4);
+        transform: translateY(-2px);
+    }
+
+    .button-calypso span {
+        display: block;
+        position: relative;
+        z-index: 10;
+        transition: color 0.3s ease;
+    }
+
+    .button-calypso:active span,
+    .button-calypso:hover span {
+        animation: MoveScaleUpInitial 0.3s forwards, MoveScaleUpEnd 0.3s forwards 0.3s;
+        color: var(--bg-color);
+    }
+
+    @keyframes MoveScaleUpInitial {
+        to {
+            transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+            opacity: 0;
+        }
+    }
+
+    @keyframes MoveScaleUpEnd {
+        from {
+            transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
+            opacity: 0;
+        }
+
+        to {
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+        }
+    }
+
+    .button-calypso::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-color);
+        width: 120%;
+        height: 0;
+        padding-bottom: 120%;
+        top: -110%;
+        left: -10%;
+        border-radius: 50%;
+        transform: translate3d(0, 68%, 0) scale3d(0, 0, 0);
+    }
+
+    .button-calypso:active::before,
+    .button-calypso:hover::before {
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+        transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+    }
+
+    .button-calypso::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-color);
+        transform: translate3d(0, -100%, 0);
+        transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+    }
+
+    .button-calypso:active::after,
+    .button-calypso:hover::after {
+        transform: translate3d(0, 0, 0);
+        transition-duration: 0.05s;
+        transition-delay: 0.4s;
+        transition-timing-function: linear;
+    }
+
+    /* Arrow Pointer - Desktop Only */
+    .arrow-pointer {
+        display: none;
+    }
+
+    @media (min-width: 1024px) {
+        .arrow-pointer {
+            display: block;
+            position: absolute;
+            width: 150px;
+            height: auto;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .arrow-pointer:hover {
+            opacity: 1;
+        }
+
+        /* Arrow coming from top-right, curving down to point at button */
+        .arrow-pointer--from-top {
+            right: -180px;
+            top: -80px;
+            transform: rotate(-40deg);
+        }
+
+        .arrow-pointer path {
+            fill: var(--color-text);
+        }
+    }
 </style>
 </head>
 
@@ -1423,6 +1718,9 @@
                 </h1>
                 <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
                     spiritual and creative exploration</p>
+                <a href="#horizontal-scroll" class="button-janus" data-scroll-to>
+                    <span>Explore</span>
+                </a>
             </div>
         </section>
 
@@ -1462,6 +1760,12 @@
                         <span class="shader-label">Dance — 003</span>
                     </div>
                 </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#grid2" class="button-bestia" data-scroll-to>
+                        <div class="button__bg"></div>
+                        <span>View More</span>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -1485,6 +1789,31 @@
             </div>
             <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
                 data-scroll-speed="2">Civilization</h2>
+        </section>
+
+        <!-- Button Section after Civilization -->
+        <section class="content-section" data-scroll-section style="min-height: 40vh; background: var(--bg-color);">
+            <div style="text-align: center; position: relative;" data-scroll data-scroll-speed="2">
+                <p
+                    style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    Continue your journey through our curated collection</p>
+                <div style="position: relative; display: inline-block;">
+                    <!-- Arrow Pointer - Desktop Only
+                    <svg class="arrow-pointer arrow-pointer--from-top" width="391.92154" height="597.75433"
+                        viewBox="0 0 391.92154 597.75433" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:svg="http://www.w3.org/2000/svg">
+                        <defs id="defs1" />
+                        <g id="g1" transform="translate(-114.46026,-21.222355)">
+                            <path style="fill:#3177be;"
+                                d="m 303.8772,462.05715 c -2.57893,-8.32953 -5.99867,-16.47566 -9.06,-24.64 -4.99467,-13.32035 -9.89156,-26.67746 -14.88027,-40 -1.85008,-4.94074 -3.33073,-10.32754 -5.74403,-15.02074 -1.14951,-2.23551 -3.17441,-4.05785 -5.83425,-3.89715 -4.85727,0.29336 -5.84559,5.49977 -6.59688,9.31789 -2.04766,10.40625 -4.31217,20.75039 -6.88457,31.04 -10.93652,43.74609 -25.06728,86.5323 -39.32,129.28 -5.71957,17.15453 -11.84545,34.18066 -17.95398,51.2 -1.33571,3.72145 -2.85856,7.41223 -3.99657,11.2 -0.71254,2.3716 -0.81611,4.85371 1.10287,6.70398 4.2286,4.07723 10.54135,-0.0507 14.76768,-2.00203 l 3.52,-1.61742 50.56,-23.01191 c 46.93652,-21.36133 94.05383,-42.47852 140.16,-65.59328 10.78172,-5.40528 21.46309,-11.04668 32,-16.91579 3.70242,-2.06222 9.76945,-4.86753 7.76836,-10.18441 -1.2068,-3.20641 -4.37391,-4.02898 -7.44836,-4.19461 -5.33086,-0.28715 -10.67109,-0.41 -16,-0.7118 -24.3023,-1.37632 -48.66156,-1.7166 -72.96,-3.11273 13.87461,-11.01824 27.69945,-22.05312 40.96,-33.81461 80.63809,-64.02091 129.51318,-159.00386 116.15486,-263.49553 -2.20839,-16.44648 -6.56011,-32.58848 -12.6914,-48 -7.69481,-19.3416 -18.33574,-37.44605 -32.07785,-53.119997 C 399.64324,23.283819 314.72818,15.443254 245.9572,24.07743 c -46.87073,5.884619 -83.55929,18.923168 -107.52,29.93124 -28.45223,13.071517 -39.11279,29.702031 10.88,16.13703 41.04266,-11.136608 74.38932,-15.122256 104.64,-13.79379 30.78574,1.35196 61.20961,8.51141 89.6,20.44094 26.88855,11.29848 52.8143,27.70946 70.65016,51.1843 7.68175,10.11043 13.74297,21.46828 17.53722,33.6 22.70861,77.59269 -12.1592,148.73664 -54.80125,210.56 -9.51195,14.24516 -19.87195,27.91086 -30.57023,41.28 -13.42067,16.77121 -27.5,33.25066 -42.4959,48.64 z" />
+                        </g>
+                    </svg> -->
+
+                    <a href="#grid3" class="button-calypso" data-scroll-to>
+                        <span>Discover More</span>
+                    </a>
+                </div>
+            </div>
         </section>
 
         <section class="content-section" data-scroll-section>
@@ -1545,6 +1874,21 @@
             </div>
             <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
                 data-scroll-speed="2">Apocalypse</h2>
+        </section>
+
+        <!-- Button Section after Apocalypse - View Gallery CTA -->
+        <section class="content-section" data-scroll-section style="min-height: 50vh; background: var(--bg-color);">
+            <div style="text-align: center;" data-scroll data-scroll-speed="2">
+                <h3 style="font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 1rem; font-weight: 600;">Explore Our
+                    Full Collection</h3>
+                <p
+                    style="font-size: 1.1rem; opacity: 0.7; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Dive deeper into our curated gallery of stunning visuals and sacred imagery</p>
+                <a href="./Vrindopnishad%20Web/Pictures/main/Gallery.html" class="button-calypso"
+                    style="font-size: 1.2rem; padding: 1.2rem 3rem;">
+                    <span>View Gallery</span>
+                </a>
+            </div>
         </section>
 
         <section class="content-section" data-scroll-section>
