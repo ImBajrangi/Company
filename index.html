@@ -83,6 +83,12 @@
         --transition-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
         --spacing-md: 1rem;
         --active-text-color: #ffffff;
+        /* Text Highlight Effect Colors - Light Theme */
+        --hx6-bg-highlight: #e8a76c;
+        --hx6-text-color: #5d3a1a;
+        --hx13-select-bg: rgba(26, 115, 232, 0.12);
+        --hx13-select-color: #1a73e8;
+        --hx13-glow-color: #1a73e8;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -101,6 +107,12 @@
             --secondary-color: #90caf9;
             --menu-bg: rgba(17, 17, 17, 0.98);
             --active-text-color: #111111;
+            /* Text Highlight Effect Colors - Dark Theme */
+            --hx6-bg-highlight: #dc764c;
+            --hx6-text-color: #fadabd;
+            --hx13-select-bg: rgba(109, 215, 230, 0.08);
+            --hx13-select-color: #6dd7e6;
+            --hx13-glow-color: #ffdbf5;
         }
     }
 
@@ -156,6 +168,90 @@
         color: var(--color-text);
         background-color: var(--color-bg);
         font-family: neuzeit-grotesk, sans-serif;
+    }
+
+    /* Text Highlight Effect (hx-6 / dynamics) */
+    .hx {
+        display: inline-block;
+        position: relative;
+        white-space: nowrap;
+        background: none;
+    }
+
+    .hx-6 {
+        display: inline-flex;
+        --after-width: 0%;
+        --after-width-final: 105%;
+        color: var(--hx6-text-color);
+    }
+
+    .hx-6::after {
+        content: '';
+        left: -2.5%;
+        top: 15%;
+        bottom: -10.5%;
+        position: absolute;
+        z-index: -1;
+        width: var(--after-width);
+        background: var(--hx6-bg-highlight);
+        border-radius: 8px;
+    }
+
+    .word,
+    .char {
+        display: inline-block;
+    }
+
+    /* Text Highlight Effect (hx-13 / reprehensible) */
+    .hx-13 {
+        position: relative;
+        --select-width: 0%;
+        --select-width-final: 103%;
+        --color-highlight-start: inherit;
+    }
+
+    .hx__select {
+        position: absolute;
+        width: var(--select-width);
+        height: 100%;
+        left: -1%;
+        top: 10%;
+        background: var(--hx13-select-bg);
+        mix-blend-mode: plus-lighter;
+        pointer-events: none;
+    }
+
+    .hx__select::before,
+    .hx__select::after {
+        content: '';
+        position: absolute;
+        top: -0.125em;
+        left: -0.075em;
+        width: 0.15em;
+        height: calc(100% + 0.125em);
+        border-left: 2px solid var(--hx13-select-color);
+        border-radius: 0;
+    }
+
+    .hx__select::before::after,
+    .hx__select::after::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -1px;
+        width: 8px;
+        height: 8px;
+        background: var(--hx13-select-color);
+        border-radius: 50%;
+    }
+
+    .hx__select::after {
+        transform: scaleY(-1);
+        left: auto;
+        right: -0.075em;
+        top: auto;
+
+        bottom: -0.125em;
     }
 
 
@@ -834,7 +930,7 @@
         font-size: clamp(1rem, 2vw, 1.3rem);
         opacity: 0.7;
         margin-bottom: 4rem;
-        color: var(--color-text);
+        color: var(--bg-color);
     }
 
     .shader-grid {
@@ -1714,7 +1810,7 @@
             <div data-scroll data-scroll-speed="5">
                 <h1>
                     <div>Start Your</div>
-                    <div>Cosmic</div>
+                    <div><mark class="hx hx-6">Cosmic</mark></div>
                     <div>Journey</div>
                 </h1>
                 <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
@@ -1739,7 +1835,8 @@
         <!-- Shader Effects Section -->
         <section class="shader-section" data-scroll-section>
             <div class="shader-container">
-                <h2 class="shader-title" data-scroll data-scroll-speed="-2">Interactive Gallery</h2>
+                <h2 class="shader-title" data-scroll data-scroll-speed="-2">Interactive <mark class="hx hx-13"><span
+                            class="hx__select"></span>Gallery</mark></h2>
                 <p class="shader-description" data-scroll data-scroll-speed="-2">Click on an image to see the effect</p>
                 <div class="shader-grid">
                     <div class="shader-item" data-scroll data-scroll-speed="2">
@@ -2341,6 +2438,83 @@
                     closeToolsMenu();
                 }
             });
+        });
+    </script>
+    <!-- External Scripts for Text Highlight -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+
+    <script>
+        // Initialize Text Highlight Effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply Splitting to hx elements
+            const highlightedElements = document.querySelectorAll('.hx-6, .hx-13');
+            highlightedElements.forEach(el => {
+                el.dataset.splitting = '';
+            });
+
+            // Wait for next tick to ensure Splitting is done
+            setTimeout(() => {
+                if (typeof Splitting !== 'undefined') {
+                    Splitting();
+                    initHighlightEffects();
+                }
+            }, 100);
+
+            function initHighlightEffects() {
+                const observerOptions = { threshold: 0.5 };
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const el = entry.target;
+                        if (entry.isIntersecting) {
+                            if (el.classList.contains('hx-6')) animateDynamics(el);
+                            else if (el.classList.contains('hx-13')) animateReprehensible(el);
+                        } else {
+                            if (el.classList.contains('hx-6')) resetDynamics(el);
+                            else if (el.classList.contains('hx-13')) resetReprehensible(el);
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.hx-6, .hx-13').forEach(el => observer.observe(el));
+            }
+
+            // hx-6 Dynamics effect
+            function animateDynamics(el) {
+                const chars = el.querySelectorAll('.char');
+                const tl = gsap.timeline({ defaults: { duration: 0.1, ease: 'sine' } });
+                tl.to(chars, { stagger: (pos, _, arr) => 0.06 * (arr.length - 1 - pos), opacity: 0 })
+                    .to(chars, { stagger: pos => 0.2 + 0.05 * pos, opacity: 1 })
+                    .fromTo(el, { '--after-width': '0%' }, { duration: 1, ease: 'power4.out', '--after-width': '105%' }, '<');
+            }
+
+            function resetDynamics(el) {
+                const chars = el.querySelectorAll('.char');
+                gsap.killTweensOf([chars, el]);
+                gsap.set(el, { '--after-width': '0%' });
+                gsap.set(chars, { opacity: 1 });
+            }
+
+            // hx-13 Reprehensible effect
+            function animateReprehensible(el) {
+                const selectMarker = el.querySelector('.hx__select');
+                const chars = el.querySelectorAll('.char');
+                const glowColor = getComputedStyle(document.documentElement).getPropertyValue('--hx13-glow-color').trim();
+                const tl = gsap.timeline({ defaults: { duration: 0.4, ease: 'power1.inOut' } });
+
+                tl.fromTo(chars, { filter: `drop-shadow(0px 0px 0px ${glowColor})` }, { stagger: 0.03, filter: `drop-shadow(0px 0px 20px ${glowColor})` })
+                    .to(selectMarker, { duration: 0.8, ease: 'expo', '--select-width': '103%' }, 0);
+            }
+
+            function resetReprehensible(el) {
+                const selectMarker = el.querySelector('.hx__select');
+                const chars = el.querySelectorAll('.char');
+                const glowColor = getComputedStyle(document.documentElement).getPropertyValue('--hx13-glow-color').trim();
+                gsap.killTweensOf([chars, selectMarker]);
+                gsap.set(selectMarker, { '--select-width': '0%' });
+                gsap.set(chars, { filter: `drop-shadow(0px 0px 0px ${glowColor})` });
+            };
+
         });
     </script>
 </body>
