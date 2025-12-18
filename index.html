@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" data-load-bundle="home">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -1064,6 +1063,59 @@
             gap: 2rem;
         }
     }
+
+    /* Horizontal Scrolling Text Section */
+    .horizontal-scroll-section {
+        overflow: hidden;
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        background: var(--bg-color);
+        position: relative;
+        padding: 4rem 0;
+    }
+
+    .horizontal-scroll-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(var(--accent-color-rgb), 0.08) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .horizontal-scroll-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        overflow: visible;
+    }
+
+    .horizontal-scroll-text {
+        display: inline-block;
+        white-space: nowrap;
+        font-size: clamp(2.5rem, 8vw, 8rem);
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--color-text);
+        font-family: span, serif;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        will-change: transform;
+    }
+
+    @media (max-width: 768px) {
+        .horizontal-scroll-text {
+            font-size: clamp(1.5rem, 6vw, 3rem);
+        }
+
+        .horizontal-scroll-section {
+            min-height: 30vh;
+            padding: 2rem 0;
+        }
+    }
 </style>
 </head>
 
@@ -1371,6 +1423,17 @@
                 </h1>
                 <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
                     spiritual and creative exploration</p>
+            </div>
+        </section>
+
+        <!-- Horizontal Scrolling Text Section -->
+        <section class="horizontal-scroll-section" id="horizontal-scroll" data-scroll-section>
+            <div class="horizontal-scroll-container">
+                <h3 class="horizontal-scroll-text" data-scroll data-scroll-speed="90" data-scroll-direction="horizontal"
+                    data-scroll-target="#horizontal-scroll">
+                    • Discover Sacred Wisdom • Experience Divine Art • Journey Through Spirituality • Embrace Ancient
+                    Knowledge • Find Inner Peace • Connect With Tradition •
+                </h3>
             </div>
         </section>
 

@@ -1,0 +1,36 @@
+import type { LoadedFont } from '../types';
+import { convertFontFeaturesToString } from './fontFeatures';
+
+export class TextMeasurer {
+  // Measures text width including letter spacing
+  // (letter spacing is added uniformly after each glyph during measurement,
+  // so the widths given to the line-breaking algorithm already account for tracking)
+  public static measureTextWidth(
+    loadedFont: LoadedFont,
+    text: string,
+    letterSpacing: number = 0
+  ): number {
+    const buffer = loadedFont.hb.createBuffer();
+    buffer.addText(text);
+    buffer.guessSegmentProperties();
+    
+    const featuresString = convertFontFeaturesToString(loadedFont.fontFeatures);
+    loadedFont.hb.shape(loadedFont.font, buffer, featuresString);
+
+    const glyphInfos = buffer.json(loadedFont.font);
+    const letterSpacingInFontUnits = letterSpacing * loadedFont.upem;
+
+    // Calculate total advance width with letter spacing
+    let totalWidth = 0;
+    glyphInfos.forEach((glyph: any) => {
+      totalWidth += glyph.ax;
+
+      if (letterSpacingInFontUnits !== 0) {
+        totalWidth += letterSpacingInFontUnits;
+      }
+    });
+
+    buffer.destroy();
+    return totalWidth;
+  }
+}

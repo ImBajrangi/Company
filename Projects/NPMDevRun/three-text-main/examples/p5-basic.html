@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>three-text p5.js Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  <style>
+    body { 
+      margin: 0; 
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    #status {
+      position: fixed;
+      bottom: 50px;
+      left: 20px;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 4px;
+      font-size: 12px;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    .status-loading { color: #ffa500; }
+    .status-ready { color: #00ff00; }
+    .status-error { color: #ff4444; }
+    #p5_loading { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="status" class="status-loading">Initializing p5.js...</div>
+
+  <script type="module">
+    import '../dist/p5/index.js';
+
+    const status = document.getElementById('status');
+    let font;
+    let textResult;
+
+    window.preload = function() {
+      status.textContent = 'Loading text shaper...';
+      loadThreeTextShaper('/examples/hb/hb.wasm');
+      
+      status.textContent = 'Loading font...';
+      font = loadThreeTextFont('./fonts/NimbusSanL-Reg.woff');
+    };
+
+    window.setup = async function() {
+      createCanvas(windowWidth, windowHeight, WEBGL);
+      setAttributes('antialias', true);
+      
+      status.textContent = 'Creating text geometry...';
+
+      try {
+        textResult = await createThreeTextGeometry('Hello p5!', {
+          font: font,
+          size: 72,
+          depth: 30
+        });
+
+        status.textContent = 'Ready';
+        status.className = 'status-ready';
+      } catch (err) {
+        console.error(err);
+        status.textContent = `Error: ${err.message}`;
+        status.className = 'status-error';
+      }
+    };
+
+    window.draw = function() {
+      background(20);
+      
+      if (!textResult || !textResult.geometry) return;
+      
+      const { geometry, planeBounds } = textResult;
+      const centerX = (planeBounds.min.x + planeBounds.max.x) / 2;
+      const centerY = (planeBounds.min.y + planeBounds.max.y) / 2;
+      const centerZ = (planeBounds.min.z + planeBounds.max.z) / 2;
+      
+      ambientLight(150);
+      directionalLight(200, 200, 200, 0.5, 0.5, -1);
+      
+      push();
+      rotateY(frameCount * 0.01);
+      rotateX(0.3);
+      translate(-centerX, centerY, -centerZ);
+      
+      fill(255);
+      noStroke();
+      model(geometry);
+      pop();
+    };
+
+    window.windowResized = function() {
+      resizeCanvas(windowWidth, windowHeight);
+    };
+  </script>
+</body>
+</html>
+

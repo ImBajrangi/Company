@@ -1,0 +1,118 @@
+{
+  "name": "three-text",
+  "version": "0.2.12",
+  "description": "3D font rendering and text layout engine for the web",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./three": {
+      "import": "./dist/three/index.js",
+      "require": "./dist/three/index.cjs"
+    },
+    "./three/react": {
+      "import": "./dist/three/react.js",
+      "require": "./dist/three/react.cjs"
+    },
+    "./webgl": {
+      "import": "./dist/webgl/index.js",
+      "require": "./dist/webgl/index.cjs"
+    },
+    "./webgpu": {
+      "import": "./dist/webgpu/index.js",
+      "require": "./dist/webgpu/index.cjs"
+    },
+    "./p5": {
+      "import": "./dist/p5/index.js",
+      "require": "./dist/p5/index.cjs"
+    },
+    "./patterns/*": "./dist/patterns/*"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "LICENSE_THIRD_PARTY"
+  ],
+  "scripts": {
+    "build:patterns": "node scripts/convertPatterns.js",
+    "build:patterns:en-us": "node scripts/convertPatterns.js --languages en-us",
+    "copy:harfbuzz": "mkdir -p examples/hb && cp node_modules/harfbuzzjs/hb.wasm examples/hb/",
+    "build": "rollup -c && npm run copy:harfbuzz",
+    "dev": "rollup -c -w",
+    "serve": "npx http-server . -c-1 -p 8080 --cors",
+    "clean": "rimraf dist/index.* dist/react dist/three dist/hb dist/types",
+    "prepublishOnly": "npm run clean && npm run test:build && npm run build",
+    "test": "vitest run",
+    "test:build": "node scripts/verifyBuild.mjs",
+    "benchmark": "THREE_TEXT_LOG=true vitest run test/pipelinePerf.test.ts",
+    "format": "prettier --write \"**/*.{js,ts,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,json,md}\""
+  },
+  "keywords": [
+    "three.js",
+    "text",
+    "font",
+    "typography",
+    "layout",
+    "knuth-plass",
+    "harfbuzz"
+  ],
+  "author": "Jeremy Tribby, Countertype LLC",
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/countertype/three-text.git"
+  },
+  "bugs": {
+    "url": "https://github.com/countertype/three-text/issues"
+  },
+  "homepage": "https://countertype.com/tools/three-text/demo",
+  "peerDependencies": {
+    "@react-three/fiber": ">=8.0.0",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "three": ">=0.160.0"
+  },
+  "peerDependenciesMeta": {
+    "@react-three/fiber": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "harfbuzzjs": "^0.4.11",
+    "libtess": "^1.2.2"
+  },
+  "devDependencies": {
+    "@react-three/fiber": ">=8.0.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/libtess": "^1.2.0",
+    "@types/react": ">=17.0.0",
+    "@types/three": ">=0.175.0",
+    "http-server": "^14.1.1",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.6.2",
+    "rimraf": "^4.1.2",
+    "rollup": "^3.18.0",
+    "rollup-plugin-dts": "^5.2.0",
+    "terser": "^5.43.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
