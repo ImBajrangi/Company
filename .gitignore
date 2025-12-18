@@ -1,0 +1,15 @@
+
+# System Files
+.DS_Store
+
+# Large Media Files
+*.mov
+*.mp4
+*.avi
+*.mkv
+
+# Dependencies
+node_modules/
+dist/
+build/
+.env

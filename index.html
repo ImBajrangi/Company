@@ -63,13 +63,14 @@
 
     :root {
         font-size: 16px;
-        --color-text: #fff;
-        --color-bg: #111;
-        --color-link: #aaa;
-        --color-link-hover: #fff;
+        /* Light mode colors */
+        --color-text: #2c3e50;
+        --color-bg: #f8f9fa;
+        --color-link: #5a6a7a;
+        --color-link-hover: #1a73e8;
         --color-alt: #7f6a57;
-        --bg-color: #ffffff;
-        --bg-color-rgb: 255, 255, 255;
+        --bg-color: #f8f9fa;
+        --bg-color-rgb: 248, 249, 250;
         --text-color: #2c3e50;
         --text-color-rgb: 44, 62, 80;
         --accent-color: #1a73e8;
@@ -84,13 +85,18 @@
 
     @media (prefers-color-scheme: dark) {
         :root {
+            /* Dark mode colors */
+            --color-text: #f5f5f5;
+            --color-bg: #111111;
+            --color-link: #aaaaaa;
+            --color-link-hover: #ffffff;
             --bg-color: #111111;
             --bg-color-rgb: 17, 17, 17;
             --text-color: #f5f5f5;
             --text-color-rgb: 245, 245, 245;
-            --accent-color: #f5f5f5;
-            --accent-color-rgb: 245, 245, 245;
-            --secondary-color: #bfbfac;
+            --accent-color: #64b5f6;
+            --accent-color-rgb: 100, 181, 246;
+            --secondary-color: #90caf9;
             --menu-bg: rgba(17, 17, 17, 0.98);
             --active-text-color: #111111;
         }
@@ -149,6 +155,7 @@
         background-color: var(--color-bg);
         font-family: neuzeit-grotesk, sans-serif;
     }
+
 
     body.menu-open,
     body.tools-menu-open {
@@ -721,6 +728,10 @@
         font-weight: 700;
         will-change: transform;
         backface-visibility: hidden;
+        /* Text visibility for both themes */
+        color: #ffffff;
+        text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5),
+            0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .tiles__title--alt {
