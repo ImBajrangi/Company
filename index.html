@@ -140,8 +140,8 @@
     }
 
     ::selection {
-        background: var(--accent-color);
-        color: var(--bg-color);
+        background: var(--color-text);
+        color: var(--color-bg);
     }
 
     body.demo-2 {
@@ -442,24 +442,13 @@
         align-items: center;
         padding: 0.8rem 1.5rem;
         color: var(--text-color) !important;
-        /* Forces dark color in Bright Mode */
         text-decoration: none;
         font-size: 1.3rem;
         font-weight: 500;
         border-radius: 12px;
         position: relative;
         overflow: hidden;
-        margin: 0.3rem 0;
-        /* Smooth animation properties */
-        transition: color 0.3s ease,
-            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            background-color 0.3s ease,
-            box-shadow 0.3s ease;
-        /* Hardware acceleration for smooth rendering */
-        transform: translateZ(0);
-        will-change: transform, background-color;
-        backface-visibility: hidden;
-        -webkit-font-smoothing: antialiased;
+        transition: all 0.3s ease;
     }
 
     nav a::before {
@@ -475,18 +464,13 @@
     }
 
     nav a:hover,
-    nav a:active,
     nav a.active {
-        color: var(--active-text-color) !important;
-        /* Dynamic contrast color */
-        transform: translateX(10px) translateZ(0);
-        background: var(--accent-color) !important;
-        /* Solid block color */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        color: var(--accent-color);
+        transform: translateX(8px);
+        background: rgba(var(--accent-color-rgb), 0.05);
     }
 
     nav a:hover::before,
-    nav a:active::before,
     nav a.active::before {
         transform: scaleY(1);
     }
