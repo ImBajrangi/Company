@@ -14,7 +14,7 @@
 		<script>document.documentElement.className="js";</script>
 	</head>
 	<body class="demo-1">
-		<main>
+		<main data-scroll-container>
 			<header class="frame frame--header type-small">
 				<h1 class="frame__title">Blurry Text Reveal on Scroll</h1> 
 				<a class="frame__back" href="https://tympanus.net/codrops/?p=76992">Article</a>
@@ -88,9 +88,9 @@
 		<!-- SplitType for text manipulation: https://github.com/lukePeavey/SplitType -->
 		<script src="js/split-type.min.js"></script>
 
-		<!-- Add (Lenis) smooth scroll -->
-		<script src="js/lenis.min.js"></script>
-		<script src="js/smoothscroll.js"></script>
+		<!-- Locomotive Scroll -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
 
 		<!-- Scripts for the effect -->
 		<script type="module" src="js/index.js"></script>

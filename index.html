@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/cloude.css">
 
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
+    <link rel="stylesheet" href="https://use.typekit.net/cvn8slu.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
     <!-- Creative Button Font -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
@@ -170,12 +171,21 @@
         font-family: neuzeit-grotesk, sans-serif;
     }
 
+    body.menu-open,
+    body.tools-menu-open {
+        overflow: hidden !important;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
     /* Text Highlight Effect (hx-6 / dynamics) */
     .hx {
         display: inline-block;
         position: relative;
         white-space: nowrap;
         background: none;
+        color: inherit;
     }
 
     .hx-6 {
@@ -905,6 +915,56 @@
         opacity: 0.9;
     }
 
+    /* Typography Section - Lucid Dreaming Effect */
+    .typography-section .content__title {
+        font-size: 12vw;
+        line-height: 0.9;
+        text-align: center;
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        color: var(--text-color);
+    }
+
+    .splitting .word {
+        white-space: nowrap;
+    }
+
+    .font-lucid-1 {
+        font-family: hoss-round-wide, sans-serif;
+        font-weight: 400;
+    }
+
+    .font-lucid-2 {
+        font-family: campaign-serif, sans-serif;
+        font-weight: 400;
+        font-style: italic;
+    }
+
+    .font-lucid-3 {
+        font-family: wayfinder-cf, serif;
+        font-weight: 100;
+    }
+
+    .font-medium {
+        font-size: 6vw;
+        margin-top: 1rem;
+    }
+
+    /* Blur Text Paragraph Effect */
+    .blur-text {
+        max-width: 800px;
+        line-height: 1.5;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        text-align: center;
+        letter-spacing: -0.02em;
+    }
+
+    .blur-text .word {
+        display: inline-block;
+        will-change: opacity, filter, transform;
+    }
+
     /* Shader Section Styles */
     .shader-section {
         min-height: 100vh;
@@ -930,7 +990,7 @@
         font-size: clamp(1rem, 2vw, 1.3rem);
         opacity: 0.7;
         margin-bottom: 4rem;
-        color: var(--bg-color);
+        color: rgba(var(--color-bg), 0.9);
     }
 
     .shader-grid {
@@ -1583,7 +1643,8 @@
         <div class="header-right">
             <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="transform: rotate(0deg);">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path
                         d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
@@ -2027,15 +2088,16 @@
             </div>
         </section>
 
-        <section class="content-section" data-scroll-section>
+        <section class="content-section typography-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
-                <h2>Visual Stories</h2>
-                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.
-                </p>
+                <h2 class="content__title" data-splitting data-effect10><span class="font-lucid-1">Visual</span><span
+                        class="font-lucid-2">Stories</span><span class="font-lucid-3 font-medium">Gallery</span></h2>
+                <p class="blur-text" data-splitting data-blur-text>Captivating photography that captures moments of
+                    beauty, devotion, and wonder across time and space. Each frame tells a story of the divine, weaving
+                    together tradition and artistry in a tapestry of sacred imagery that transcends the ordinary and
+                    touches the soul.</p>
             </div>
         </section>
-
-
 
         <footer data-scroll-section>
             <div class="footer-content">
@@ -2423,6 +2485,12 @@
             const toolsMenu = document.querySelector('.tools-menu');
             const toolsMenuClose = document.querySelector('.tools-menu-close');
 
+            // Debug logging
+            console.log('Tools Menu Script Loaded');
+            console.log('toolsIcon found:', !!toolsIcon);
+            console.log('toolsMenu found:', !!toolsMenu);
+            console.log('toolsMenuClose found:', !!toolsMenuClose);
+
             let isToolsMenuOpen = false;
 
             function openToolsMenu() {
@@ -2458,28 +2526,42 @@
                 }
             }
 
+            // Add click event listener
             if (toolsIcon) {
                 toolsIcon.addEventListener('click', openToolsMenu);
+
+                // Also add keyboard support for accessibility
+                toolsIcon.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openToolsMenu();
+                    }
+                });
             }
 
             if (toolsMenuClose) {
                 toolsMenuClose.addEventListener('click', closeToolsMenu);
             }
 
+            // Close when clicking tool links
             document.querySelectorAll('.tool-item .tool-link').forEach(link => {
-                link.addEventListener('click', closeToolsMenu);
+                link.addEventListener('click', () => {
+                    closeToolsMenu();
+                });
             });
 
+            // Close on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && isToolsMenuOpen) {
                     closeToolsMenu();
                 }
             });
 
+            // Close when clicking outside
             document.addEventListener('click', (e) => {
                 if (isToolsMenuOpen &&
-                    !toolsMenu.contains(e.target) &&
-                    !toolsIcon.contains(e.target)) {
+                    toolsMenu && !toolsMenu.contains(e.target) &&
+                    toolsIcon && !toolsIcon.contains(e.target)) {
                     closeToolsMenu();
                 }
             });
@@ -2509,21 +2591,81 @@
             }, 100);
 
             function initHighlightEffects() {
-                const observerOptions = { threshold: 0.5 };
+                const observerOptions = { threshold: 0.3 };
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         const el = entry.target;
                         if (entry.isIntersecting) {
                             if (el.classList.contains('hx-6')) animateDynamics(el);
                             else if (el.classList.contains('hx-13')) animateReprehensible(el);
+                            else if (el.hasAttribute('data-effect10')) animateLucidDreaming(el);
+                            else if (el.hasAttribute('data-blur-text')) animateBlurText(el);
                         } else {
                             if (el.classList.contains('hx-6')) resetDynamics(el);
                             else if (el.classList.contains('hx-13')) resetReprehensible(el);
+                            else if (el.hasAttribute('data-effect10')) resetLucidDreaming(el);
+                            else if (el.hasAttribute('data-blur-text')) resetBlurText(el);
                         }
                     });
                 }, observerOptions);
 
                 document.querySelectorAll('.hx-6, .hx-13').forEach(el => observer.observe(el));
+
+                // Also observe effect10 titles
+                document.querySelectorAll('.content__title[data-splitting][data-effect10]').forEach(el => observer.observe(el));
+
+                // Also observe blur-text paragraphs
+                document.querySelectorAll('[data-blur-text]').forEach(el => observer.observe(el));
+            }
+
+            // Effect 10 - Lucid Dreaming Diaries (Blur effect on chars)
+            function animateLucidDreaming(el) {
+                const chars = el.querySelectorAll('.char');
+                gsap.killTweensOf(chars);
+
+                gsap.fromTo(chars, {
+                    opacity: 0,
+                    filter: 'blur(20px)'
+                },
+                    {
+                        duration: 0.4,
+                        ease: 'power2.out',
+                        opacity: 1,
+                        filter: 'blur(0px)',
+                        stagger: { each: 0.04, from: 'random' }
+                    });
+            }
+
+            function resetLucidDreaming(el) {
+                const chars = el.querySelectorAll('.char');
+                gsap.killTweensOf(chars);
+                gsap.set(chars, { opacity: 0, filter: 'blur(20px)' });
+            }
+
+            // Blur Text Effect (effect-4 style) - Word by word with skew and blur
+            function animateBlurText(el) {
+                const words = el.querySelectorAll('.word');
+                gsap.killTweensOf(words);
+
+                gsap.fromTo(words, {
+                    opacity: 0,
+                    skewX: -20,
+                    filter: 'blur(8px)'
+                },
+                    {
+                        duration: 0.6,
+                        ease: 'sine.out',
+                        opacity: 1,
+                        skewX: 0,
+                        filter: 'blur(0px)',
+                        stagger: 0.04
+                    });
+            }
+
+            function resetBlurText(el) {
+                const words = el.querySelectorAll('.word');
+                gsap.killTweensOf(words);
+                gsap.set(words, { opacity: 0, skewX: -20, filter: 'blur(8px)' });
             }
 
             // hx-6 Dynamics effect

@@ -25,7 +25,7 @@ export class BlurScrollEffect {
       resizeCallback: textResizeCallback,
       splitTypeTypes: 'words, chars'
     });
-    
+
     // Trigger the initial scroll effect.
     this.scroll();
   }
@@ -38,15 +38,15 @@ export class BlurScrollEffect {
       filter: 'blur(10px) brightness(0%)',
       willChange: 'filter'
     }, {
-        ease: 'none', // Animation easing.
-        filter: 'blur(0px) brightness(100%)',
-        stagger: 0.05, // Delay between starting animations for each character.
-        scrollTrigger: {
-          trigger: this.textElement, // Element that triggers the animation.
-          start: 'top bottom-=15%', // Animation starts when element hits bottom of viewport.
-          end: 'bottom center+=15%', // Animation ends in the center of the viewport.
-          scrub: true, // Animation progress tied to scroll position.
-        },
+      ease: 'none', // Animation easing.
+      filter: 'blur(0px) brightness(100%)',
+      stagger: 0.05, // Delay between starting animations for each character.
+      scrollTrigger: {
+        trigger: this.textElement, // Element that triggers the animation.
+        start: 'top bottom-=15%', // Animation starts when element hits bottom of viewport.
+        end: 'bottom center+=15%', // Animation ends in the center of the viewport.
+        scrub: true, // Animation progress tied to scroll position.
+      },
     });
   }
 }
