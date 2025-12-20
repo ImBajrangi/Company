@@ -532,6 +532,9 @@
                         <button onclick="window.showQrCodeModal()" class="w-full p-2 rounded bg-indigo-100 text-indigo-600 text-sm font-medium hover:bg-indigo-200 transition shadow-sm flex items-center justify-center">
                             <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M15 14h2M10 17h1M10 21h1M15 18h2M20 20h1"/></svg> Share ID
                         </button>
+                        <a href="../../Vrindopnishad Web/Pictures/main/pictures.html" class="w-full p-2 rounded border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Browse Gallery
+                        </a>
                     </div>
                 </div>
                 <div class="p-4 border-b border-gray-100 bg-gray-50">
@@ -671,9 +674,70 @@
                     appState.isAuthReady = true;
                     renderUI();
                     subscribeToMessages();
+                    checkPendingFeedback(); // Check for feedback from feedback.html
                 }, 50);
             });
         };
+
+        async function checkPendingFeedback() {
+            const raw = sessionStorage.getItem('pending_feedback');
+            if (!raw) return;
+
+            const data = JSON.parse(raw);
+            sessionStorage.removeItem('pending_feedback'); // Clear it immediately
+
+            try {
+                const text = `📬 FEEDBACK [${data.type.toUpperCase()}]\n${data.message}`;
+                let file = null;
+
+                if (data.screenshot) {
+                    try {
+                        const response = await fetch(data.screenshot);
+                        const blob = await response.blob();
+                        file = new File([blob], `feedback_screenshot_${Date.now()}.png`, { type: 'image/png' });
+                    } catch (e) {
+                        console.error('Screenshot conversion failed:', e);
+                    }
+                }
+
+                await autoSendFeedbackMessage(text, file);
+            } catch (err) {
+                console.error('Failed to auto-send feedback:', err);
+            }
+        }
+
+        async function autoSendFeedbackMessage(text, file) {
+            if (!db || !appState.currentUserId) return;
+
+            try {
+                const messagesRef = collection(db, `artifacts/${APP_ID}/public/data/group_messages`);
+                let messageData = {
+                    userId: appState.currentUserId,
+                    createdAt: serverTimestamp(),
+                    type: 'text',
+                    text: text
+                };
+
+                if (file) {
+                    const storageRef = ref(window.firebaseStorage, `chat_media/${appState.currentUserId}/${Date.now()}_${file.name}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    await new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed', null, reject, async () => {
+                            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                            messageData.type = 'image';
+                            messageData.url = downloadURL;
+                            resolve();
+                        });
+                    });
+                }
+
+                await addDoc(messagesRef, messageData);
+                console.log('Feedback auto-sent successfully');
+            } catch (e) {
+                console.error('Auto-send feedback error:', e);
+            }
+        }
 
         // --- 6. Event Handlers ---
 
@@ -841,6 +905,21 @@
             DOMElements.messageInput.addEventListener('input', updateInputState);
             DOMElements.mediaInput.addEventListener('change', handleMediaSelection);
             DOMElements.emojiToggle.addEventListener('click', handleEmojiToggle);
+
+            // Clipboard Paste Support for Images
+            DOMElements.messageInput.addEventListener('paste', (e) => {
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        const blob = item.getAsFile();
+                        const fileEvent = { target: { files: [blob] } };
+                        handleMediaSelection(fileEvent);
+                        e.preventDefault();
+                        break;
+                    }
+                }
+            });
 
             initializeAppAndAuth();
         };

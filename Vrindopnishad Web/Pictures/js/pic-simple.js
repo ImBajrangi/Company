@@ -41,7 +41,7 @@ function createImageCard(image, index) {
     imageCard.setAttribute('data-category', image.category);
     imageCard.setAttribute('data-index', index);
     imageCard.setAttribute('data-image-id', image.id || index);
-    
+
     imageCard.innerHTML = `
         <img src="${image.src}" alt="${image.alt}" loading="lazy">
         <div class="image-overlay">
@@ -70,7 +70,7 @@ function createImageCard(image, index) {
             </div>
         </div>
     `;
-    
+
     // Add CSS to ensure proper action button animations matching pic-collection.js
     const actionButtonsStyle = document.createElement('style');
     actionButtonsStyle.textContent = `
@@ -102,14 +102,16 @@ function createImageCard(image, index) {
             transform: translateY(-5px) !important;
         }
     `;
-    
+
     if (!document.getElementById('action-buttons-style')) {
         actionButtonsStyle.id = 'action-buttons-style';
         document.head.appendChild(actionButtonsStyle);
     }
-    
+
     return imageCard;
-}// Register ScrollTrigger plugin
+}
+
+// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // Global variables
@@ -128,14 +130,14 @@ const imageObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         const img = entry.target;
         const src = img.dataset.src;
-        
+
         if (!src) return;
-        
+
         if (entry.isIntersecting) {
             // Add to preload queue with priority based on viewport position
             const priority = Math.abs(entry.boundingClientRect.y);
             addToPreloadQueue({ img, src, priority });
-            
+
             // Start preloading if not already running
             if (!isPreloading) {
                 processPreloadQueue();
@@ -155,11 +157,11 @@ function addToPreloadQueue({ img, src, priority }) {
     if (imageCache.has(src) || preloadQueue.some(item => item.src === src)) {
         return;
     }
-    
+
     // Insert into queue based on priority
     const queueItem = { img, src, priority };
     const insertIndex = preloadQueue.findIndex(item => item.priority > priority);
-    
+
     if (insertIndex === -1) {
         preloadQueue.push(queueItem);
     } else {
@@ -170,31 +172,31 @@ function addToPreloadQueue({ img, src, priority }) {
 // Process the preload queue
 async function processPreloadQueue() {
     if (isPreloading || preloadQueue.length === 0) return;
-    
+
     isPreloading = true;
-    
+
     while (preloadQueue.length > 0) {
         const { img, src } = preloadQueue.shift();
-        
+
         try {
             // Check cache first
             if (imageCache.has(src)) {
                 applyImage(img, src);
                 continue;
             }
-            
+
             // Load and cache the image
             await loadImage(img, src);
-            
+
         } catch (error) {
             console.warn(`Failed to load image: ${src}`, error);
             setFallbackImage(img);
         }
-        
+
         // Small delay to prevent blocking
         await new Promise(resolve => setTimeout(resolve, 10));
     }
-    
+
     isPreloading = false;
 }
 
@@ -202,17 +204,17 @@ async function processPreloadQueue() {
 function loadImage(img, src) {
     return new Promise((resolve, reject) => {
         const tmpImg = new Image();
-        
+
         tmpImg.onload = () => {
             imageCache.set(src, true);
             applyImage(img, src);
             resolve();
         };
-        
+
         tmpImg.onerror = () => {
             reject(new Error(`Failed to load image: ${src}`));
         };
-        
+
         tmpImg.src = src;
     });
 }
@@ -233,11 +235,11 @@ function setFallbackImage(img) {
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM Content Loaded - Starting initialization");
-    
+
     // Load gallery from JSON first, then initialize everything else
     loadGalleryFromJSON().then(() => {
         initializeAllFeatures();
-        
+
         // Start observing all lazy images
         document.querySelectorAll('img.lazy').forEach(img => {
             imageObserver.observe(img);
@@ -256,10 +258,10 @@ function initializeAllFeatures() {
     initializeToolsMenu();
     initializeMagneticEffect();
     initializeAnimations();
-    
+
     // Load saved like states after everything is initialized
     setTimeout(loadLikeStates, 100);
-    
+
     console.log("All features initialized");
 }
 
@@ -273,32 +275,32 @@ async function loadGalleryFromJSON() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        
+
         // Clear existing content
         const masonryLayout = document.querySelector('.masonry-layout');
         if (!masonryLayout) {
             console.error("Masonry layout container not found");
             return;
         }
-        
+
         const existingCards = masonryLayout.querySelectorAll('.image-card');
         existingCards.forEach(card => card.remove());
-        
+
         // Store images globally
         allImages = data.images;
         console.log(`Loaded ${allImages.length} images`);
-        
+
         // Generate image cards
         data.images.forEach((image, index) => {
             const imageCard = createImageCard(image, index);
             masonryLayout.appendChild(imageCard);
         });
-        
+
         // Update filter buttons
         updateFilterButtons(data.categories, data.images);
-        
+
         console.log(`Generated ${data.images.length} image cards`);
-        
+
     } catch (error) {
         console.error('Failed to load JSON:', error);
         // Keep existing HTML images as fallback
@@ -313,7 +315,7 @@ function createImageCard(image, index) {
     imageCard.setAttribute('data-category', image.category);
     imageCard.setAttribute('data-index', index);
     imageCard.setAttribute('data-image-id', image.id || index);
-    
+
     imageCard.innerHTML = `
         <img src="${image.src}" alt="${image.alt}" loading="lazy">
         <div class="image-overlay">
@@ -342,17 +344,17 @@ function createImageCard(image, index) {
             </div>
         </div>
     `;
-    
+
     return imageCard;
 }
 
 // Initialize comprehensive action button handling
 function initializeAllActionButtons() {
     console.log("Setting up action button handlers...");
-    
+
     // Use event delegation for all action buttons
     document.addEventListener('click', handleAllActionButtons);
-    
+
     console.log("Action button handlers ready");
 }
 
@@ -360,12 +362,12 @@ function initializeAllActionButtons() {
 function handleAllActionButtons(e) {
     // Check if clicked element or its parent is an action button
     const button = e.target.closest('.action-btn, .like-btn, .view-btn, .download-btn');
-    
+
     if (!button) return;
-    
+
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Determine action type
     let action = button.getAttribute('data-action');
     if (!action) {
@@ -373,7 +375,7 @@ function handleAllActionButtons(e) {
         else if (button.classList.contains('view-btn')) action = 'view';
         else if (button.classList.contains('download-btn')) action = 'download';
     }
-    
+
     // Get image index
     let imageIndex = parseInt(button.getAttribute('data-image-index'));
     if (isNaN(imageIndex)) {
@@ -382,19 +384,19 @@ function handleAllActionButtons(e) {
             imageIndex = parseInt(imageCard.getAttribute('data-index'));
         }
     }
-    
+
     if (isNaN(imageIndex) || imageIndex < 0) {
         console.error("Could not determine image index for button:", button);
         return;
     }
-    
+
     console.log(`Action button clicked: ${action} for image ${imageIndex}`);
-    
+
     // Add visual feedback
     addButtonClickFeedback(button);
-    
+
     // Execute action
-    switch(action) {
+    switch (action) {
         case 'like':
             handleLikeAction(button, imageIndex);
             break;
@@ -412,17 +414,17 @@ function handleAllActionButtons(e) {
 // Add visual feedback to button clicks
 function addButtonClickFeedback(button) {
     // Scale animation
-    gsap.fromTo(button, 
-        { scale: 1 }, 
-        { 
-            scale: 0.9, 
+    gsap.fromTo(button,
+        { scale: 1 },
+        {
+            scale: 0.9,
             duration: 0.1,
             yoyo: true,
             repeat: 1,
             ease: "power2.inOut"
         }
     );
-    
+
     // Add ripple effect
     const ripple = document.createElement('div');
     ripple.style.cssText = `
@@ -434,15 +436,15 @@ function addButtonClickFeedback(button) {
         pointer-events: none;
         z-index: 1000;
     `;
-    
+
     const rect = button.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
     ripple.style.width = ripple.style.height = size + 'px';
     ripple.style.left = (rect.width - size) / 2 + 'px';
     ripple.style.top = (rect.height - size) / 2 + 'px';
-    
+
     button.appendChild(ripple);
-    
+
     setTimeout(() => {
         if (ripple.parentNode) {
             ripple.parentNode.removeChild(ripple);
@@ -453,11 +455,11 @@ function addButtonClickFeedback(button) {
 // Handle like action with proper state management
 function handleLikeAction(button, imageIndex) {
     console.log("Processing like action for image:", imageIndex);
-    
+
     const icon = button.querySelector('i');
     const isLiked = button.classList.contains('liked');
     const imageId = allImages[imageIndex]?.id || imageIndex;
-    
+
     if (isLiked) {
         // Unlike
         button.classList.remove('liked');
@@ -473,20 +475,20 @@ function handleLikeAction(button, imageIndex) {
         showNotification('Added to favorites!', 'success', 2000);
         saveLikeState(imageId, true);
     }
-    
+
     // Heart animation with enhanced effect
     gsap.timeline()
-        .to(button, { 
-            scale: 1.4, 
-            duration: 0.2, 
+        .to(button, {
+            scale: 1.4,
+            duration: 0.2,
             ease: "back.out(2)"
         })
-        .to(button, { 
-            scale: 1, 
-            duration: 0.3, 
+        .to(button, {
+            scale: 1,
+            duration: 0.3,
             ease: "elastic.out(1, 0.5)"
         });
-    
+
     // Add floating heart effect for likes
     if (!isLiked) {
         createFloatingHeart(button);
@@ -506,13 +508,13 @@ function createFloatingHeart(button) {
         opacity: 1;
         transform: translateY(0px);
     `;
-    
+
     const rect = button.getBoundingClientRect();
     heart.style.left = (rect.left + rect.width / 2 - 10) + 'px';
     heart.style.top = (rect.top + rect.height / 2 - 10) + 'px';
-    
+
     document.body.appendChild(heart);
-    
+
     // Animate floating heart
     gsap.to(heart, {
         y: -50,
@@ -533,14 +535,14 @@ function handleViewAction(imageIndex) {
     console.log("Processing view action for image:", imageIndex);
     console.log("All images array:", allImages);
     console.log("Requested image:", allImages[imageIndex]);
-    
+
     if (!allImages[imageIndex]) {
         console.error("Image not found at index:", imageIndex);
         console.error("Available images:", allImages.length);
         showNotification('Image not found', 'error');
         return;
     }
-    
+
     const image = allImages[imageIndex];
     console.log("Image data:", {
         id: image.id,
@@ -548,7 +550,7 @@ function handleViewAction(imageIndex) {
         alt: image.alt,
         category: image.category
     });
-    
+
     // Test if the image URL is accessible
     const testImg = new Image();
     testImg.onload = () => {
@@ -567,19 +569,19 @@ function handleViewAction(imageIndex) {
 // Handle download action with enhanced feedback
 function handleDownloadAction(imageIndex) {
     console.log("Processing download action for image:", imageIndex);
-    
+
     const image = allImages[imageIndex];
     if (!image) {
         console.error("Image not found at index:", imageIndex);
         showNotification('Image not found', 'error');
         return;
     }
-    
+
     const filename = (image.title || image.alt || 'image').replace(/\s+/g, '_').toLowerCase();
-    
+
     // Show immediate feedback
     showNotification('Starting download...', 'info', 1500);
-    
+
     // Start download
     downloadImage(image.src, filename).then(success => {
         if (success) {
@@ -599,7 +601,7 @@ function updateFilterButtons(categories, images) {
         nature: images.filter(img => img.category === 'nature').length,
         spiritual: images.filter(img => img.category === 'spiritual').length
     };
-    
+
     categories.forEach(category => {
         const button = document.querySelector(`[data-filter="${category.id}"]`);
         if (button && counts[category.id] !== undefined) {
@@ -613,7 +615,7 @@ function initializeFallbackImages() {
     console.log("Initializing fallback images...");
     const existingCards = document.querySelectorAll('.image-card');
     allImages = [];
-    
+
     existingCards.forEach((card, index) => {
         const img = card.querySelector('img');
         if (img) {
@@ -624,11 +626,11 @@ function initializeFallbackImages() {
                 category: card.getAttribute('data-category') || 'anime'
             };
             allImages.push(imageData);
-            
+
             // Update card attributes
             card.setAttribute('data-index', index);
             card.setAttribute('data-image-id', index);
-            
+
             // Update action buttons
             const actionButtons = card.querySelectorAll('.action-btn');
             actionButtons.forEach(btn => {
@@ -641,14 +643,14 @@ function initializeFallbackImages() {
             });
         }
     });
-    
+
     console.log(`Using ${allImages.length} fallback images`);
 }
 
 // Animation functions
 function initializeAnimations() {
     const imageCards = document.querySelectorAll('.image-card');
-    
+
     imageCards.forEach((card, index) => {
         gsap.fromTo(card, {
             opacity: 0,
@@ -675,18 +677,18 @@ function initializeAnimations() {
 // Filter functionality
 function initializeFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    
+
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            
+
             // Add active class to clicked button
             button.classList.add('active');
-            
+
             const filterValue = button.getAttribute('data-filter');
             currentFilter = filterValue;
-            
+
             // Apply filter with animation
             applyCurrentFilters();
         });
@@ -697,15 +699,15 @@ function initializeFilters() {
 function applyCurrentFilters() {
     const imageCards = document.querySelectorAll('.image-card');
     const searchValue = document.getElementById('search-input')?.value.toLowerCase() || '';
-    
+
     imageCards.forEach((card, index) => {
         const category = card.getAttribute('data-category');
         const img = card.querySelector('img');
         const imgAlt = img ? img.getAttribute('alt').toLowerCase() : '';
-        
+
         const categoryMatch = currentFilter === 'all' || category === currentFilter;
         const searchMatch = !searchValue || imgAlt.includes(searchValue);
-        
+
         if (categoryMatch && searchMatch) {
             // Show card with staggered animation
             card.style.display = 'block';
@@ -735,7 +737,7 @@ function applyCurrentFilters() {
             });
         }
     });
-    
+
     // Refresh ScrollTrigger after layout changes
     setTimeout(() => {
         ScrollTrigger.refresh();
@@ -745,7 +747,7 @@ function applyCurrentFilters() {
 // Lightbox functionality
 function initializeLightbox() {
     console.log("Initializing lightbox...");
-    
+
     if (!lightboxInitialized) {
         createLightbox();
         attachLightboxEvents();
@@ -761,7 +763,7 @@ function createLightbox() {
     if (existingLightbox) {
         existingLightbox.remove();
     }
-    
+
     const lightboxHTML = `
         <div class="lightbox" id="mainLightbox">
             <div class="lightbox-content">
@@ -790,9 +792,9 @@ function createLightbox() {
             </button>
         </div>
     `;
-    
+
     document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-    
+
     // Add enhanced CSS for better functionality
     const lightboxStyle = document.createElement('style');
     lightboxStyle.id = 'lightbox-enhanced-styles';
@@ -927,17 +929,17 @@ function createLightbox() {
             #mainLightbox .lightbox-download-btn { top: 15px !important; left: 15px !important; }
         }
     `;
-    
+
     document.head.appendChild(lightboxStyle);
 }
 
 // Attach lightbox event listeners
 function attachLightboxEvents() {
     console.log("Attaching lightbox event listeners...");
-    
+
     document.addEventListener('click', handleLightboxClicks);
     document.addEventListener('keydown', handleLightboxKeyboard);
-    
+
     console.log("Lightbox event listeners attached");
 }
 
@@ -945,20 +947,20 @@ function attachLightboxEvents() {
 function handleLightboxClicks(e) {
     const lightbox = document.querySelector('#mainLightbox');
     if (!lightbox) return;
-    
+
     // Check for lightbox action buttons
     const actionButton = e.target.closest('[data-lightbox-action]');
     if (actionButton && lightbox.classList.contains('active')) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const action = actionButton.getAttribute('data-lightbox-action');
         console.log(`Lightbox button clicked: ${action}`);
-        
+
         // Add visual feedback
         addButtonClickFeedback(actionButton);
-        
-        switch(action) {
+
+        switch (action) {
             case 'close':
                 closeLightboxFunction();
                 break;
@@ -974,7 +976,7 @@ function handleLightboxClicks(e) {
         }
         return;
     }
-    
+
     // Check for background click
     if (e.target === lightbox && lightbox.classList.contains('active')) {
         console.log("Lightbox background clicked");
@@ -986,8 +988,8 @@ function handleLightboxClicks(e) {
 function handleLightboxKeyboard(e) {
     const lightbox = document.querySelector('#mainLightbox');
     if (!lightbox || !lightbox.classList.contains('active')) return;
-    
-    switch(e.key) {
+
+    switch (e.key) {
         case 'ArrowRight':
         case 'ArrowDown':
             e.preventDefault();
@@ -1012,32 +1014,32 @@ function handleLightboxKeyboard(e) {
 // Open lightbox at specific index
 function openLightbox(index) {
     console.log("Opening lightbox for image:", index);
-    
+
     const lightbox = document.querySelector('#mainLightbox');
     const lightboxImg = document.querySelector('.lightbox-img');
     const lightboxCaption = document.querySelector('.lightbox-caption');
-    
+
     if (!lightbox || !allImages[index]) {
         console.error('Lightbox or image not found:', { lightbox: !!lightbox, imageExists: !!allImages[index], index });
         return;
     }
-    
+
     currentLightboxIndex = index;
     const image = allImages[index];
-    
+
     // Set image with loading animation
     gsap.set(lightboxImg, { opacity: 0, scale: 0.8 });
-    
+
     lightboxImg.src = image.src;
     lightboxImg.alt = image.alt;
-    lightboxCaption.innerHTML = image.title ? 
-        `<h3>${image.title}</h3><p>${image.alt}</p>` : 
+    lightboxCaption.innerHTML = image.title ?
+        `<h3>${image.title}</h3><p>${image.alt}</p>` :
         `<p>${image.alt}</p>`;
-    
+
     // Show lightbox
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
-    
+
     // Animate image in
     lightboxImg.onload = () => {
         gsap.to(lightboxImg, {
@@ -1047,17 +1049,17 @@ function openLightbox(index) {
             ease: "back.out(1.7)"
         });
     };
-    
+
     console.log('Lightbox opened successfully for image:', index);
 }
 
 // Navigate lightbox with enhanced animations
 function navigateLightbox(direction) {
     const newIndex = currentLightboxIndex + direction;
-    
+
     if (newIndex < 0 || newIndex >= allImages.length) {
         console.log('Navigation out of bounds:', newIndex, '/', allImages.length);
-        
+
         // Add shake effect to indicate boundary
         const lightboxImg = document.querySelector('.lightbox-img');
         if (lightboxImg) {
@@ -1071,17 +1073,17 @@ function navigateLightbox(direction) {
         }
         return;
     }
-    
+
     const lightboxImg = document.querySelector('.lightbox-img');
     const lightboxCaption = document.querySelector('.lightbox-caption');
-    
+
     if (!lightboxImg || !lightboxCaption) {
         console.error('Lightbox elements not found');
         return;
     }
-    
+
     console.log(`Navigating from ${currentLightboxIndex} to ${newIndex}`);
-    
+
     // Slide out current image
     gsap.to(lightboxImg, {
         x: direction * -100,
@@ -1091,17 +1093,17 @@ function navigateLightbox(direction) {
         onComplete: () => {
             currentLightboxIndex = newIndex;
             const image = allImages[newIndex];
-            
+
             if (image) {
                 lightboxImg.src = image.src;
                 lightboxImg.alt = image.alt;
-                lightboxCaption.innerHTML = image.title ? 
-                    `<h3>${image.title}</h3><p>${image.alt}</p>` : 
+                lightboxCaption.innerHTML = image.title ?
+                    `<h3>${image.title}</h3><p>${image.alt}</p>` :
                     `<p>${image.alt}</p>`;
-                
+
                 // Set up for slide in from opposite direction
                 gsap.set(lightboxImg, { x: direction * 100, opacity: 0 });
-                
+
                 // Slide in new image
                 gsap.to(lightboxImg, {
                     x: 0,
@@ -1109,7 +1111,7 @@ function navigateLightbox(direction) {
                     duration: 0.3,
                     ease: "power2.out"
                 });
-                
+
                 console.log('Navigated to image:', newIndex);
             }
         }
@@ -1121,7 +1123,7 @@ function closeLightboxFunction() {
     console.log("Closing lightbox");
     const lightbox = document.querySelector('#mainLightbox');
     const lightboxImg = document.querySelector('.lightbox-img');
-    
+
     if (lightbox) {
         // Animate image out
         if (lightboxImg) {
@@ -1132,7 +1134,7 @@ function closeLightboxFunction() {
                 ease: "back.in(1.7)"
             });
         }
-        
+
         // Close lightbox
         setTimeout(() => {
             lightbox.classList.remove('active');
@@ -1160,9 +1162,9 @@ function downloadCurrentLightboxImage() {
 function initializeThemeToggle() {
     const themeToggle = document.querySelector('.theme-toggle');
     const themeIcon = themeToggle?.querySelector('i');
-    
+
     if (!themeToggle || !themeIcon) return;
-    
+
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -1170,15 +1172,15 @@ function initializeThemeToggle() {
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
     }
-    
+
     // Toggle theme with animation
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        
+
         // Animate theme transition
-        gsap.fromTo('body', 
+        gsap.fromTo('body',
             { filter: 'brightness(1)' },
-            { 
+            {
                 filter: 'brightness(0.8)',
                 duration: 0.1,
                 yoyo: true,
@@ -1186,7 +1188,7 @@ function initializeThemeToggle() {
                 ease: "power2.inOut"
             }
         );
-        
+
         // Toggle icon with rotation
         if (document.body.classList.contains('dark-mode')) {
             gsap.to(themeIcon, {
@@ -1219,19 +1221,19 @@ function initializeThemeToggle() {
 // Search functionality with live filtering
 function initializeSearch() {
     const searchInput = document.getElementById('search-input');
-    
+
     if (searchInput) {
         // Add debouncing for better performance
         let searchTimeout;
-        
+
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
-            
+
             searchTimeout = setTimeout(() => {
                 applyCurrentFilters();
             }, 300); // 300ms debounce
         });
-        
+
         // Clear search on escape
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -1245,7 +1247,7 @@ function initializeSearch() {
 // Enhanced download functionality with multiple fallback methods
 async function downloadImage(imgSrc, fileName) {
     console.log("Starting download for:", imgSrc);
-    
+
     try {
         // Method 1: Try direct blob download (works for same-origin and CORS-enabled images)
         const response = await fetch(imgSrc, {
@@ -1254,79 +1256,79 @@ async function downloadImage(imgSrc, fileName) {
                 'Origin': window.location.origin
             }
         });
-        
+
         if (response.ok) {
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
-            
+
             const link = document.createElement('a');
             link.href = blobUrl;
             link.download = `${fileName}_${Date.now()}.jpg`;
             link.style.display = 'none';
-            
+
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
+
             // Clean up
             setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-            
+
             return true;
         } else {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
     } catch (error) {
         console.log("Blob download failed, trying canvas method:", error);
-        
+
         // Method 2: Try canvas method for cross-origin images
         return new Promise((resolve) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
-            
-            img.onload = function() {
+
+            img.onload = function () {
                 try {
                     const canvas = document.createElement('canvas');
                     canvas.width = img.width;
                     canvas.height = img.height;
-                    
+
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0);
-                    
-                    canvas.toBlob(function(blob) {
+
+                    canvas.toBlob(function (blob) {
                         if (blob) {
                             const blobUrl = URL.createObjectURL(blob);
-                            
+
                             const link = document.createElement('a');
                             link.href = blobUrl;
                             link.download = `${fileName}_${Date.now()}.png`;
                             link.style.display = 'none';
-                            
+
                             document.body.appendChild(link);
                             link.click();
                             document.body.removeChild(link);
-                            
+
                             setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-                            
+
                             resolve(true);
                         } else {
                             throw new Error('Failed to create blob');
                         }
                     }, 'image/png');
-                    
+
                 } catch (canvasError) {
                     console.log("Canvas method failed:", canvasError);
                     fallbackDownload(imgSrc, fileName);
                     resolve(false);
                 }
             };
-            
-            img.onerror = function() {
+
+            img.onerror = function () {
                 console.log("Image load failed, using fallback");
                 fallbackDownload(imgSrc, fileName);
                 resolve(false);
             };
-            
+
             img.src = imgSrc;
         });
     }
@@ -1335,18 +1337,18 @@ async function downloadImage(imgSrc, fileName) {
 // Fallback download method - opens in new tab
 function fallbackDownload(imgSrc, fileName) {
     console.log("Using fallback download method");
-    
+
     const link = document.createElement('a');
     link.href = imgSrc;
     link.download = `${fileName}_${Date.now()}.jpg`;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    
+
     // For mobile devices, try to trigger download
     if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         link.download = '';
     }
-    
+
     link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
@@ -1359,13 +1361,13 @@ function initializeToolsMenu() {
     const toolsMenu = document.querySelector('.tools-menu');
     const toolsMenuClose = document.querySelector('.tools-menu-close');
     const toolItems = document.querySelectorAll('.tool-item');
-    
+
     if (!toolsIcon || !toolsMenu || !toolsMenuClose) return;
-    
+
     // Open tools menu with enhanced animation
     toolsIcon.addEventListener('click', () => {
         toolsIcon.classList.add('pulse-animation');
-        
+
         // Animate icon rotation
         gsap.to(toolsIcon, {
             rotation: 360,
@@ -1373,11 +1375,11 @@ function initializeToolsMenu() {
             duration: 0.5,
             ease: "back.out(1.7)"
         });
-        
+
         setTimeout(() => {
             toolsMenu.classList.add('active');
             document.body.style.overflow = 'hidden';
-            
+
             // Animate tool items
             toolItems.forEach((item, index) => {
                 gsap.fromTo(item, {
@@ -1395,19 +1397,19 @@ function initializeToolsMenu() {
             });
         }, 200);
     });
-    
+
     // Close tools menu
     toolsMenuClose.addEventListener('click', () => {
         closeToolsMenu();
     });
-    
+
     // Close on escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && toolsMenu.classList.contains('active')) {
             closeToolsMenu();
         }
     });
-    
+
     function closeToolsMenu() {
         // Animate tool items out
         toolItems.forEach((item, index) => {
@@ -1420,11 +1422,11 @@ function initializeToolsMenu() {
                 ease: "back.in(1.7)"
             });
         });
-        
+
         setTimeout(() => {
             toolsMenu.classList.remove('active');
             document.body.style.overflow = '';
-            
+
             // Reset tools icon
             toolsIcon.classList.remove('pulse-animation');
             gsap.to(toolsIcon, {
@@ -1435,13 +1437,13 @@ function initializeToolsMenu() {
             });
         }, 200);
     }
-    
+
     // Add hover effects to tool items
     toolItems.forEach(item => {
         item.addEventListener('mouseenter', () => {
             const bgColor = item.getAttribute('data-bg-color');
             const textColor = item.getAttribute('data-text-color');
-            
+
             if (bgColor && textColor) {
                 gsap.to(item, {
                     backgroundColor: bgColor,
@@ -1450,18 +1452,18 @@ function initializeToolsMenu() {
                     duration: 0.3,
                     ease: "power2.out"
                 });
-                
+
                 // Animate child elements
                 const icon = item.querySelector('.tool-icon');
                 const h3 = item.querySelector('h3');
                 const p = item.querySelector('p');
-                
+
                 if (icon) gsap.to(icon, { scale: 1.1, duration: 0.3 });
                 if (h3) gsap.to(h3, { color: textColor, duration: 0.3 });
                 if (p) gsap.to(p, { color: textColor, duration: 0.3 });
             }
         });
-        
+
         item.addEventListener('mouseleave', () => {
             gsap.to(item, {
                 backgroundColor: '',
@@ -1470,11 +1472,11 @@ function initializeToolsMenu() {
                 duration: 0.3,
                 ease: "power2.out"
             });
-            
+
             const icon = item.querySelector('.tool-icon');
             const h3 = item.querySelector('h3');
             const p = item.querySelector('p');
-            
+
             if (icon) gsap.to(icon, { scale: 1, duration: 0.3 });
             if (h3) gsap.to(h3, { color: '', duration: 0.3 });
             if (p) gsap.to(p, { color: '', duration: 0.3 });
@@ -1485,29 +1487,29 @@ function initializeToolsMenu() {
 // Enhanced magnetic effect functionality
 function initializeMagneticEffect() {
     const magneticElements = document.querySelectorAll('.magnetic');
-    
+
     magneticElements.forEach(elem => {
         const strength = parseFloat(elem.getAttribute('data-magnetic-strength')) || 0.3;
-        
+
         // Adjust strength based on element type
         let adjustedStrength = strength;
         if (elem.classList.contains('logo')) adjustedStrength = strength * 0.3;
         else if (elem.classList.contains('search-box')) adjustedStrength = strength * 0.2;
         else if (elem.classList.contains('filter-btn')) adjustedStrength = strength * 0.5;
         else if (elem.classList.contains('social-link')) adjustedStrength = strength * 0.4;
-        
+
         // Skip magnetic effect on touch devices
         if (window.matchMedia('(hover: none)').matches) {
             return;
         }
-        
+
         elem.addEventListener('mouseenter', () => {
             elem.classList.add('magnetic-active');
         });
-        
+
         elem.addEventListener('mouseleave', () => {
             elem.classList.remove('magnetic-active');
-            
+
             gsap.to(elem, {
                 x: 0,
                 y: 0,
@@ -1516,7 +1518,7 @@ function initializeMagneticEffect() {
                 duration: 0.7,
                 ease: 'elastic.out(1, 0.3)'
             });
-            
+
             // Reset child elements
             const children = elem.querySelectorAll('i, svg');
             children.forEach(child => {
@@ -1528,18 +1530,18 @@ function initializeMagneticEffect() {
                 });
             });
         });
-        
+
         elem.addEventListener('mousemove', (e) => {
             if (!elem.classList.contains('magnetic-active')) return;
-            
+
             const rect = elem.getBoundingClientRect();
             const relX = e.clientX - rect.left - rect.width / 2;
             const relY = e.clientY - rect.top - rect.height / 2;
-            
+
             const maxMove = 10 * adjustedStrength;
             const limitedX = Math.max(Math.min(relX * adjustedStrength, maxMove), -maxMove);
             const limitedY = Math.max(Math.min(relY * adjustedStrength, maxMove), -maxMove);
-            
+
             // Apply main element movement
             gsap.to(elem, {
                 duration: 0.3,
@@ -1547,16 +1549,16 @@ function initializeMagneticEffect() {
                 y: limitedY,
                 ease: 'power2.out'
             });
-            
+
             // Add subtle rotation for certain elements
-            if (!elem.classList.contains('tools-icon') && 
+            if (!elem.classList.contains('tools-icon') &&
                 !elem.classList.contains('logo') &&
                 !elem.classList.contains('search-box')) {
                 const rotationStrength = adjustedStrength * 5;
                 const maxRotation = 10 * adjustedStrength;
                 const rotationX = Math.max(Math.min(relY * rotationStrength * -0.5, maxRotation), -maxRotation);
                 const rotationY = Math.max(Math.min(relX * rotationStrength * 0.5, maxRotation), -maxRotation);
-                
+
                 gsap.to(elem, {
                     duration: 0.3,
                     rotationX: rotationX,
@@ -1564,19 +1566,19 @@ function initializeMagneticEffect() {
                     ease: 'power2.out'
                 });
             }
-            
+
             // Animate child elements
             const children = elem.querySelectorAll('i, svg');
-            if (children.length > 0 && 
-                (elem.classList.contains('action-btn') || 
-                 elem.classList.contains('theme-toggle') ||
-                 elem.classList.contains('tools-icon') ||
-                 elem.classList.contains('social-link'))) {
-                
+            if (children.length > 0 &&
+                (elem.classList.contains('action-btn') ||
+                    elem.classList.contains('theme-toggle') ||
+                    elem.classList.contains('tools-icon') ||
+                    elem.classList.contains('social-link'))) {
+
                 const maxChildMove = 8 * adjustedStrength;
                 const childX = Math.max(Math.min(relX * adjustedStrength * 0.8, maxChildMove), -maxChildMove);
                 const childY = Math.max(Math.min(relY * adjustedStrength * 0.8, maxChildMove), -maxChildMove);
-                
+
                 children.forEach(child => {
                     gsap.to(child, {
                         duration: 0.3,
@@ -1594,13 +1596,13 @@ function initializeMagneticEffect() {
 function saveLikeState(imageId, isLiked) {
     try {
         let likedImages = JSON.parse(localStorage.getItem('likedImages') || '[]');
-        
+
         if (isLiked && !likedImages.includes(imageId)) {
             likedImages.push(imageId);
         } else if (!isLiked) {
             likedImages = likedImages.filter(id => id !== imageId);
         }
-        
+
         localStorage.setItem('likedImages', JSON.stringify(likedImages));
         console.log(`Like state saved for image ${imageId}: ${isLiked}`);
     } catch (error) {
@@ -1612,7 +1614,7 @@ function loadLikeStates() {
     try {
         const likedImages = JSON.parse(localStorage.getItem('likedImages') || '[]');
         console.log('Loading like states for images:', likedImages);
-        
+
         likedImages.forEach(imageId => {
             const card = document.querySelector(`[data-image-id="${imageId}"]`);
             if (card) {
@@ -1636,13 +1638,13 @@ function loadLikeStates() {
 // Enhanced notification system
 function showNotification(message, type = 'info', duration = 3000) {
     let notificationContainer = document.querySelector('.notification-container');
-    
+
     if (!notificationContainer) {
         notificationContainer = document.createElement('div');
         notificationContainer.className = 'notification-container';
         document.body.appendChild(notificationContainer);
     }
-    
+
     // Define notification properties
     const notificationTypes = {
         info: { title: 'Information', icon: 'fa-info-circle', color: '#4a6fff' },
@@ -1650,14 +1652,14 @@ function showNotification(message, type = 'info', duration = 3000) {
         error: { title: 'Error', icon: 'fa-exclamation-circle', color: '#ff5a6a' },
         warning: { title: 'Warning', icon: 'fa-exclamation-triangle', color: '#ffb347' }
     };
-    
+
     const notifType = notificationTypes[type] || notificationTypes.info;
-    
+
     // Create notification
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.style.setProperty('--notification-color', notifType.color);
-    
+
     notification.innerHTML = `
         <div class="notification-icon">
             <i class="fas ${notifType.icon}"></i>
@@ -1667,15 +1669,15 @@ function showNotification(message, type = 'info', duration = 3000) {
             <div class="notification-message">${message}</div>
         </div>
     `;
-    
+
     // Add cosmic effects
     if (type === 'success' || type === 'error') {
         notification.classList.add('glow');
     }
-    
+
     // Add to container with animation
     notificationContainer.appendChild(notification);
-    
+
     // Animate in
     gsap.fromTo(notification, {
         x: 100,
@@ -1688,10 +1690,10 @@ function showNotification(message, type = 'info', duration = 3000) {
         duration: 0.5,
         ease: "back.out(1.7)"
     });
-    
+
     // Add sound effect
     playNotificationSound(type);
-    
+
     // Auto remove
     setTimeout(() => {
         gsap.to(notification, {
@@ -1714,16 +1716,16 @@ function playNotificationSound(type) {
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return;
-        
+
         const context = new AudioContext();
         const oscillator = context.createOscillator();
         const gainNode = context.createGain();
-        
+
         oscillator.connect(gainNode);
         gainNode.connect(context.destination);
-        
+
         // Configure sound based on type
-        switch(type) {
+        switch (type) {
             case 'success':
                 oscillator.frequency.setValueAtTime(880, context.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(660, context.currentTime + 0.2);
@@ -1747,10 +1749,10 @@ function playNotificationSound(type) {
                 gainNode.gain.setValueAtTime(0.08, context.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
         }
-        
+
         oscillator.start();
         oscillator.stop(context.currentTime + 0.5);
-        
+
     } catch (error) {
         // Silently fail if audio is not supported
         console.log('Audio notification not available:', error);
@@ -1765,7 +1767,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const category = urlParams.get('category');
     const title = urlParams.get('title');
     const count = urlParams.get('count');
-    
+
     // If coming from popup, apply the specific filter
     if (category && category !== 'all') {
         // Set the filter button as active
@@ -1776,16 +1778,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 btn.classList.add('active');
             }
         });
-        
+
         // Apply the filter
         currentFilter = category;
         applyCurrentFilters();
     }
-    
+
     // Update page title if specified
     if (title) {
         document.title = `${title} - Vrindopnishad Collection`;
-        
+
         // You could also add a header showing the specific collection
         const header = document.querySelector('.filter-container');
         if (header && collectionId) {
@@ -1799,7 +1801,7 @@ document.addEventListener("DOMContentLoaded", () => {
             header.insertBefore(collectionHeader, header.firstChild);
         }
     }
-    
+
     // Continue with your existing initialization
     loadGalleryFromJSON().then(() => {
         initializeAllFeatures();
