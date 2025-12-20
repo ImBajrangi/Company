@@ -1012,12 +1012,10 @@
         height: 100%;
         object-fit: cover;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        /* Always hidden - WebGL canvas shows the image */
+        pointer-events: none;
     }
 
-    .shader-image.loaded {
-        opacity: 1;
-    }
 
     .shader-canvas {
         position: absolute;
@@ -2123,7 +2121,7 @@
                 this.img = container.querySelector('.shader-image');
                 this.canvas = container.querySelector('.shader-canvas');
                 this.isBw = false;
-                this.isAnimating = false;
+                this.activeTimeline = null;
 
                 this.init();
             }
@@ -2243,7 +2241,7 @@
                     `
                 });
 
-                // Create plane
+                // Create plane with higher subdivision for smoother ripple
                 const geometry = new THREE.PlaneGeometry(2, 2, 50, 50);
                 this.mesh = new THREE.Mesh(geometry, this.material);
                 this.scene.add(this.mesh);
@@ -2260,52 +2258,62 @@
             }
 
             onClick(e) {
-                if (this.isAnimating) return;
+                if (!this.material) return;
 
                 const rect = this.container.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = 1 - (e.clientY - rect.top) / rect.height;
 
-                this.animate(x, y);
+                // Only trigger animation if one is not already active
+                if (this.activeTimeline && this.activeTimeline.isActive()) {
+                    return;
+                }
+
+                // Toggle isBw state
+                this.isBw = !this.isBw;
+
+                // Store the animation timeline
+                this.activeTimeline = this.animate(x, y);
             }
 
             animate(x, y) {
-                if (!this.material) return;
+                const material = this.material;
+                const isBw = this.isBw;
 
-                this.isAnimating = true;
-
-                // Toggle state
-                this.isBw = !this.isBw;
-
-                const duration = 1500;
-                const startTime = Date.now();
-
-                this.material.uniforms.uMouse.value.set(x, y);
-                this.material.uniforms.uDirection.value = this.isBw ? 1.0 : -1.0;
-
-                const animateFrame = () => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-
-                    // Update uniforms
-                    this.material.uniforms.uGrayscaleProgress.value = progress;
-                    this.material.uniforms.uTime.value += 0.1;
-
-                    // Ripple effect (0 -> 1 -> 0)
-                    if (progress < 0.5) {
-                        this.material.uniforms.uRippleProgress.value = progress * 2;
-                    } else {
-                        this.material.uniforms.uRippleProgress.value = (1 - progress) * 2;
+                // Create GSAP timeline exactly like the reference project
+                const tl = gsap.timeline({
+                    defaults: { duration: 1.5, ease: 'power3.inOut' },
+                    // Update the uTime uniform continuously during the animation
+                    onUpdate: () => {
+                        material.uniforms.uTime.value += 0.1;
                     }
+                });
 
-                    if (progress < 1) {
-                        requestAnimationFrame(animateFrame);
-                    } else {
-                        this.isAnimating = false;
-                    }
-                };
+                // Set mouse UV coordinates in the shader
+                tl.set(material.uniforms.uMouse, { value: { x: x, y: y } }, 0);
 
-                animateFrame();
+                // Set the direction of the grayscale effect (1 for BW, -1 for color)
+                tl.set(material.uniforms.uDirection, { value: isBw ? 1.0 : -1.0 }, 0);
+
+                // Animate grayscale progress from 0 to 1
+                tl.fromTo(material.uniforms.uGrayscaleProgress, { value: 0 }, { value: 1 }, 0);
+
+                // Animate a ripple effect using a keyframe sequence [0 → 1 → 0]
+                tl.to(material.uniforms.uRippleProgress, { keyframes: { value: [0, 1, 0] } }, 0);
+
+                return tl;
+            }
+
+            // Resize handler to update canvas dimensions
+            resize() {
+                if (!this.renderer || !this.img) return;
+
+                const rect = this.img.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) return;
+
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+                this.renderer.setSize(rect.width, rect.height);
             }
         }
 
@@ -2357,8 +2365,9 @@
 
             // Initialize shader effects
             const shaderItems = document.querySelectorAll('.shader-item');
+            const shaderEffects = [];
             shaderItems.forEach(item => {
-                new ShaderEffect(item);
+                shaderEffects.push(new ShaderEffect(item));
             });
 
             // Header scroll effect
@@ -2382,6 +2391,8 @@
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(() => {
                     scroll.update();
+                    // Resize all shader effects
+                    shaderEffects.forEach(effect => effect.resize());
                 }, 250);
             });
 
