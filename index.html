@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
     <!-- Creative Button Font -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Laila font for Hindi brand -->
+    <link href="https://fonts.googleapis.com/css2?family=Laila:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 </head>
 <!-- <body>
@@ -1037,39 +1039,208 @@
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
+    /* Modern Footer - Antigravity Inspired */
     footer {
-        padding: 4rem 2rem;
-        text-align: center;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        min-height: 100vh;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--color-bg);
+        position: relative;
         backface-visibility: hidden;
     }
 
-    .footer-content {
-        max-width: 1200px;
+    .footer-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 6rem 4rem 2rem;
+        max-width: 1400px;
+        width: 100%;
         margin: 0 auto;
     }
 
-    .footer-logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: var(--color-text);
+    .footer-top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 2rem;
+        padding-bottom: 2rem;
     }
 
-    .footer-content p {
-        opacity: 0.7;
+    .footer-tagline {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 300;
+        line-height: 1.2;
+        color: var(--color-text);
+        letter-spacing: -0.02em;
+    }
+
+    .footer-links-column h4 {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-text);
+        margin-bottom: 2rem;
+        opacity: 0.5;
+    }
+
+    .footer-links-column ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-links-column li {
         margin-bottom: 1rem;
+    }
+
+    .footer-links-column a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 1rem;
+        opacity: 0.8;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
+    }
+
+    .footer-links-column a:hover {
+        opacity: 1;
+        color: var(--accent-color);
+        transform: none; /* remove positional shift on hover */
+    }
+
+    .footer-brand {
+        padding: 2rem 0;
+        text-align: center;
+        overflow: visible;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer-brand-name {
+        font-size: clamp(4rem, 15vw, 18rem);
+        font-weight: 800;
+        line-height: 1;
+        color: var(--color-text);
+        letter-spacing: -0.05em;
+        white-space: nowrap;
+        cursor: pointer; /* indicate clickable */
+        text-decoration: none; /* if it's an anchor, remove underline */
+        margin: 0;
+        pointer-events: none;
+        user-select: none;
+        text-align: center;
     }
 
     .footer-bottom {
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        flex-wrap: wrap;
+        gap: 2rem;
     }
 
-    .footer-bottom p {
+    .footer-logo-small {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--color-text);
+        letter-spacing: 0.1em;
+    }
+
+    /* Use Laila for Hindi brand text */
+    .footer-logo-hindi {
+        font-family: 'Laila', serif;
+        font-weight: 600;
+        letter-spacing: 0; /* reset so Hindi reads naturally */
+        font-size: 1.2rem;
+    }
+
+    .footer-legal {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .footer-legal a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 0.85rem;
         opacity: 0.5;
-        font-size: 0.9rem;
+        transition: opacity 0.3s ease;
+    }
+
+    .footer-legal a:hover {
+        opacity: 1;
+    }
+
+    .footer-copyright {
+        font-size: 0.85rem;
+        color: var(--color-text);
+        opacity: 0.4;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .footer-top {
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-tagline {
+            grid-column: span 2;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand-name {
+            font-size: 20vw;
+        }
+    }
+
+    @media (max-width: 768px) {
+        footer {
+            min-height: auto;
+        }
+
+        .footer-main {
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-brand-name {
+            font-size: 18vw;
+        }
+
+        .footer-bottom {
+            padding: 2rem;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .footer-legal {
+            justify-content: center;
+            gap: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-top {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        .footer-tagline {
+            grid-column: span 1;
+            font-size: 1.5rem;
+        }
+
+        .footer-brand-name {
+            font-size: 15vw;
+        }
     }
 
     .c-scrollbar {
@@ -2098,12 +2269,57 @@
         </section>
 
         <footer data-scroll-section>
-            <div class="footer-content">
-                <div class="footer-logo">Vrindopnishad</div>
-                <p>A digital sanctuary where art, technology, and spirituality converge.</p>
+            <div class="footer-main">
+                <div class="footer-top">
+                    <div class="footer-tagline">
+                        Experience divinity through<br>art, wisdom, and digital<br>excellence.
+                    </div>
+
+                    <div class="footer-links-column">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="./index.html">Sanctuary</a></li>
+                            <li><a href="./Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
+                            <li><a href="./Vrindopnishad Web/Brij Yatra/index.html">Pilgrimage</a></li>
+                            <li><a href="./Vrindopnishad Web/ChatVrinda/ChatVrinda.html">Companion</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-links-column">
+                        <h4>Knowledge</h4>
+                        <ul>
+                            <li><a href="./Vrindopnishad Web/PDFLibrary/library.html">Library</a></li>
+                            <li><a href="./Vrindopnishad Web/Mantra Gyana/index.html">Scriptures</a></li>
+                            <li><a href="./cloud-kitchen/kitchen(modified).html">Foody Vrinda</a></li>
+                            <li><a href="./Projects/getMe/GLSL Particle Metamorphosis/index.html">Experiments</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-links-column">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="./Vrindopnishad Web/My Corner/index.html">Portfolio</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Press</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-brand" data-scroll data-scroll-speed="-1" data-scroll-position="bottom">
+                    <a href="./Vrindopnishad%20Web/Home/main/home.html" class="footer-brand-name" aria-label="Vrindopnishad Home">Vrindopnishad</a>
+                </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2025 Vrindopnishad. All rights reserved.</p>
+                <div class="footer-logo-small footer-logo-hindi">वृन्दोपनिषद्</div>
+                <div class="footer-legal">
+                    <a href="#">About Vrindopnishad</a>
+                    <a href="#">Our Products</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <div class="footer-copyright">&copy; 2026 Vrindopnishad</div>
             </div>
         </footer>
     </main>
