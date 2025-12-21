@@ -80,6 +80,9 @@ function initShader() {
     const shaderProgram = createShaderProgram(gl, vertexShader, fragmentShader);
     uniforms = getUniforms(shaderProgram);
 
+    // set a sensible clear color
+    gl.clearColor(0, 0, 0, 0);
+
     function getUniforms(program) {
         let uniforms = [];
         let uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
@@ -108,11 +111,12 @@ function initShader() {
 }
 
 function updateUniforms() {
-    gl.uniform1f(uniforms.u_blueish, params.blueish);
-    gl.uniform1f(uniforms.u_scale, params.scale);
-    gl.uniform1f(uniforms.u_illumination, params.illumination);
-    gl.uniform1f(uniforms.u_surface_distortion, params.surfaceDistortion);
-    gl.uniform1f(uniforms.u_water_distortion, params.waterDistortion);
+    if (!uniforms) return;
+    if (typeof uniforms.u_blueish !== 'undefined' && uniforms.u_blueish !== null) gl.uniform1f(uniforms.u_blueish, params.blueish);
+    if (typeof uniforms.u_scale !== 'undefined' && uniforms.u_scale !== null) gl.uniform1f(uniforms.u_scale, params.scale);
+    if (typeof uniforms.u_illumination !== 'undefined' && uniforms.u_illumination !== null) gl.uniform1f(uniforms.u_illumination, params.illumination);
+    if (typeof uniforms.u_surface_distortion !== 'undefined' && uniforms.u_surface_distortion !== null) gl.uniform1f(uniforms.u_surface_distortion, params.surfaceDistortion);
+    if (typeof uniforms.u_water_distortion !== 'undefined' && uniforms.u_water_distortion !== null) gl.uniform1f(uniforms.u_water_distortion, params.waterDistortion);
 
 }
 
@@ -122,31 +126,36 @@ function loadImage(src) {
     image.src = src;
     image.onload = () => {
         const imageTexture = gl.createTexture();
+        gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, imageTexture);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        gl.uniform1i(uniforms.u_image_texture, 0);
+        if (typeof uniforms.u_image_texture !== 'undefined' && uniforms.u_image_texture !== null) gl.uniform1i(uniforms.u_image_texture, 0);
         resizeCanvas();
     };
 }
 
 function render() {
     const currentTime = performance.now();
-    gl.uniform1f(uniforms.u_time, currentTime);
+    if (typeof uniforms.u_time !== 'undefined' && uniforms.u_time !== null) gl.uniform1f(uniforms.u_time, currentTime);
+    gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     requestAnimationFrame(render);
 }
 
 function resizeCanvas() {
+    if (!image || !image.naturalWidth) return;
     const imgRatio = image.naturalWidth / image.naturalHeight;
-    canvasEl.width = window.innerWidth * devicePixelRatio;
-    canvasEl.height = window.innerHeight * devicePixelRatio;
+    canvasEl.width = Math.round(window.innerWidth * devicePixelRatio);
+    canvasEl.height = Math.round(window.innerHeight * devicePixelRatio);
+    canvasEl.style.width = window.innerWidth + 'px';
+    canvasEl.style.height = window.innerHeight + 'px';
     gl.viewport(0, 0, canvasEl.width, canvasEl.height);
-    gl.uniform1f(uniforms.u_ratio, canvasEl.width / canvasEl.height);
-    gl.uniform1f(uniforms.u_img_ratio, imgRatio);
+    if (typeof uniforms.u_ratio !== 'undefined' && uniforms.u_ratio !== null) gl.uniform1f(uniforms.u_ratio, canvasEl.width / canvasEl.height);
+    if (typeof uniforms.u_img_ratio !== 'undefined' && uniforms.u_img_ratio !== null) gl.uniform1f(uniforms.u_img_ratio, imgRatio);
 }
 
 function createControls() {
