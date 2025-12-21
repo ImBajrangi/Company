@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Literary Hub - Book Collection</title>
-    
+
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
 
     <!-- Essential Meta Tags -->
     <meta name="description" content="Explore a curated collection of literary masterpieces across various genres">
     <meta name="keywords" content="books, literature, book collection, reading, library">
-    
+
     <!-- Accessibility Meta Tags -->
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#8b5cf6">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="collection-detail.css">
     <link rel="stylesheet" href="../search.css">
@@ -24,16 +25,21 @@
     <link rel="stylesheet" href="/Custom/custom-cursor.css" class="css">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
     <!-- Add preconnect for performance -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
     <!-- jQuery for better loader handling -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+
 <body class="no-js">
     <!-- Add skip link -->
     <a href="#main-content" class="skip-to-main">Skip to main content</a>
@@ -95,10 +101,10 @@
     <!-- Improve navigation accessibility -->
     <nav class="navigation" role="navigation" aria-label="Main navigation">
         <div class="logo">
-                <img src="../image/logos/logo.png" alt="Literary Hub Logo">
-                <span>Literary<em>Hub</em></span>
+            <img src="../image/logos/logo.png" alt="Literary Hub Logo">
+            <span>Literary<em>Hub</em></span>
         </div>
-        
+
         <ul class="nav-links">
             <li class="nav-item">
                 <a href="#home" aria-current="page">
@@ -137,56 +143,61 @@
                 </button>
             </li>
         </ul>
-        
+
         <div class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
-                <span></span>
-                <span></span>
-                <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </nav>
 
     <!-- Add proper landmarks -->
     <main id="main-content" role="main">
         <!-- Remove the floating search button -->
-        
+
         <section class="books-section" aria-label="Book collection">
             <div class="books-container">
                 <!-- Books Grid Section -->
                 <div class="books-content">
                     <h1>Book Collection</h1>
-                    
+
                     <!-- Collection Sharing Feature -->
                     <div class="collection-actions">
                         <button id="shareCollection" class="share-collection-btn" aria-label="Share collection">
                             <i class="fas fa-share-alt" aria-hidden="true"></i> Share Collection
                         </button>
-                        <button id="exportCollection" class="export-collection-btn" aria-label="Export collection as PDF">
+                        <button id="exportCollection" class="export-collection-btn"
+                            aria-label="Export collection as PDF">
                             <i class="fas fa-file-export" aria-hidden="true"></i> Export as PDF
                         </button>
                     </div>
-                    
+
                     <!-- Search and Filter Controls -->
                     <div class="books-controls" aria-label="Filter and sort controls">
                         <!-- Normal Search Bar -->
                         <div class="normal-search-container">
                             <form class="normal-search-form" role="search" aria-label="Search books">
                                 <div class="normal-search-input-wrapper">
-                                    <input type="text" class="normal-search-input" id="normalSearchInput" placeholder="Search books, authors, genres..." aria-label="Search books, authors, genres">
+                                    <input type="text" class="normal-search-input" id="normalSearchInput"
+                                        placeholder="Search books, authors, genres..."
+                                        aria-label="Search books, authors, genres">
                                     <button type="submit" class="normal-search-button" aria-label="Search">
                                         <i class="fas fa-search" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </form>
                         </div>
-                        
+
                         <div class="filter-sort-container">
                             <div class="filter-buttons" role="group" aria-label="Filter by genre">
-                                <button class="filter-btn active" data-genre="all" aria-pressed="true">All Books</button>
+                                <button class="filter-btn active" data-genre="all" aria-pressed="true">All
+                                    Books</button>
                                 <button class="filter-btn" data-genre="fiction" aria-pressed="false">Fiction</button>
-                                <button class="filter-btn" data-genre="non-fiction" aria-pressed="false">Non-Fiction</button>
+                                <button class="filter-btn" data-genre="non-fiction"
+                                    aria-pressed="false">Non-Fiction</button>
                                 <button class="filter-btn" data-genre="poetry" aria-pressed="false">Poetry</button>
                             </div>
-                        
+
                             <select id="sort-select" aria-label="Sort books by">
                                 <option value="rating">Sort by Rating</option>
                                 <option value="newest">Sort by Newest</option>
@@ -196,33 +207,39 @@
 
                         <!-- Advanced Filters Section -->
                         <div class="advanced-filters-toggle">
-                            <button id="toggleAdvancedFilters" aria-expanded="false" aria-controls="advancedFiltersPanel">
+                            <button id="toggleAdvancedFilters" aria-expanded="false"
+                                aria-controls="advancedFiltersPanel">
                                 <i class="fas fa-sliders-h" aria-hidden="true"></i> Advanced Filters
                             </button>
                         </div>
-                        
-                        <div id="advancedFiltersPanel" class="advanced-filters-panel" aria-label="Advanced filters" hidden>
+
+                        <div id="advancedFiltersPanel" class="advanced-filters-panel" aria-label="Advanced filters"
+                            hidden>
                             <div class="filter-row">
                                 <div class="filter-group">
                                     <label for="yearRangeMin">Publication Year</label>
                                     <div class="range-slider">
-                                        <span class="range-value" id="yearRangeValue" aria-live="polite">1900 - 2024</span>
+                                        <span class="range-value" id="yearRangeValue" aria-live="polite">1900 -
+                                            2024</span>
                                         <div class="slider-container">
-                                            <input type="range" id="yearRangeMin" min="1900" max="2024" value="1900" class="range-slider-input" aria-label="Minimum publication year">
-                                            <input type="range" id="yearRangeMax" min="1900" max="2024" value="2024" class="range-slider-input" aria-label="Maximum publication year">
+                                            <input type="range" id="yearRangeMin" min="1900" max="2024" value="1900"
+                                                class="range-slider-input" aria-label="Minimum publication year">
+                                            <input type="range" id="yearRangeMax" min="1900" max="2024" value="2024"
+                                                class="range-slider-input" aria-label="Maximum publication year">
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="filter-group">
                                     <label for="ratingRange">Minimum Rating</label>
                                     <div class="rating-filter">
-                                        <input type="range" id="ratingRange" min="1" max="5" step="0.5" value="1" class="rating-slider" aria-label="Minimum rating">
+                                        <input type="range" id="ratingRange" min="1" max="5" step="0.5" value="1"
+                                            class="rating-slider" aria-label="Minimum rating">
                                         <span class="rating-value" id="ratingValue" aria-live="polite">1.0+</span>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="filter-row">
                                 <div class="filter-group">
                                     <fieldset>
@@ -230,17 +247,19 @@
                                         <div class="checkbox-group">
                                             <label class="checkbox-label">
                                                 <input type="checkbox" name="length" value="short"> Short (<200 pages)
-                                            </label>
-                                            <label class="checkbox-label">
-                                                <input type="checkbox" name="length" value="medium"> Medium (200-400 pages)
-                                            </label>
-                                            <label class="checkbox-label">
-                                                <input type="checkbox" name="length" value="long"> Long (>400 pages)
-                                            </label>
+                                                    </label>
+                                                    <label class="checkbox-label">
+                                                        <input type="checkbox" name="length" value="medium"> Medium
+                                                        (200-400 pages)
+                                                    </label>
+                                                    <label class="checkbox-label">
+                                                        <input type="checkbox" name="length" value="long"> Long (>400
+                                                        pages)
+                                                    </label>
                                         </div>
                                     </fieldset>
                                 </div>
-                                
+
                                 <div class="filter-group">
                                     <fieldset>
                                         <legend>Availability</legend>
@@ -258,7 +277,7 @@
                                     </fieldset>
                                 </div>
                             </div>
-                            
+
                             <div class="filter-actions">
                                 <button id="applyFilters" class="btn-primary">Apply Filters</button>
                                 <button id="resetFilters" class="btn-secondary">Reset</button>
@@ -301,7 +320,8 @@
     </main>
 
     <!-- Improve modal accessibility -->
-    <div id="bookDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalBookTitle">
+    <div id="bookDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true"
+        aria-labelledby="modalBookTitle">
         <div class="modal-content">
             <span class="close-modal" aria-label="Close modal">&times;</span>
             <div class="modal-book-details">
@@ -311,7 +331,8 @@
     </div>
 
     <!-- Share Collection Modal -->
-    <div id="shareCollectionModal" class="share-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shareModalTitle">
+    <div id="shareCollectionModal" class="share-modal" role="dialog" aria-modal="true" aria-hidden="true"
+        aria-labelledby="shareModalTitle">
         <div class="share-modal-content">
             <div class="share-modal-header">
                 <h3 id="shareModalTitle">Share Book Collection</h3>
@@ -319,15 +340,18 @@
             </div>
             <p>Share this collection with friends and fellow book lovers:</p>
             <div class="share-options" role="group" aria-label="Share options">
-                <div class="share-option" data-platform="facebook" role="button" tabindex="0" aria-label="Share on Facebook">
+                <div class="share-option" data-platform="facebook" role="button" tabindex="0"
+                    aria-label="Share on Facebook">
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                     <span>Facebook</span>
                 </div>
-                <div class="share-option" data-platform="twitter" role="button" tabindex="0" aria-label="Share on Twitter">
+                <div class="share-option" data-platform="twitter" role="button" tabindex="0"
+                    aria-label="Share on Twitter">
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                     <span>Twitter</span>
                 </div>
-                <div class="share-option" data-platform="whatsapp" role="button" tabindex="0" aria-label="Share on WhatsApp">
+                <div class="share-option" data-platform="whatsapp" role="button" tabindex="0"
+                    aria-label="Share on WhatsApp">
                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                     <span>WhatsApp</span>
                 </div>
@@ -349,10 +373,11 @@
     <!-- Add proper footer landmarks -->
     <footer role="contentinfo">
         <div class="container">
-        <div class="footer-content">
+            <div class="footer-content">
                 <div class="footer-section about">
-                <h3>About Literary Hub</h3>
-                    <p>A digital sanctuary for book lovers, connecting readers with extraordinary stories from around the world.</p>
+                    <h3>About Literary Hub</h3>
+                    <p>A digital sanctuary for book lovers, connecting readers with extraordinary stories from around
+                        the world.</p>
                     <div class="social-icons">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
@@ -361,36 +386,37 @@
                     </div>
                 </div>
                 <div class="footer-section quick-links">
-                <h3>Quick Links</h3>
-                <ul>
+                    <h3>Quick Links</h3>
+                    <ul>
                         <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> Home</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> Books</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> Genres</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right" aria-hidden="true"></i> About</a></li>
-                </ul>
-            </div>
+                    </ul>
+                </div>
                 <div class="footer-section contact">
                     <h3>Contact Us</h3>
                     <ul>
                         <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> 123 Book Street, Literary Lane</li>
                         <li><i class="fas fa-phone" aria-hidden="true"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:contact@literaryhub.com">contact@literaryhub.com</a></li>
-                </ul>
-            </div>
-            <div class="footer-section newsletter">
-                <h3>Newsletter</h3>
+                        <li><i class="fas fa-envelope" aria-hidden="true"></i> <a
+                                href="mailto:contact@literaryhub.com">contact@literaryhub.com</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>Newsletter</h3>
                     <p>Subscribe to our newsletter for the latest book recommendations and updates.</p>
-                <form class="newsletter-form">
+                    <form class="newsletter-form">
                         <input type="email" placeholder="Enter your email" aria-label="Email for newsletter">
                         <button type="submit">Subscribe</button>
-                </form>
+                    </form>
                 </div>
             </div>
-        <div class="footer-bottom">
+            <div class="footer-bottom">
                 <p>&copy; 2024 Literary Hub. All Rights Reserved.</p>
                 <div class="footer-legal">
                     <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                    <a href="#">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -412,42 +438,42 @@
         // Add js class to body for progressive enhancement
         document.body.classList.remove('no-js');
         document.body.classList.add('js');
-        
+
         // Use jQuery for better cross-browser compatibility with loader
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Ensure all animations are running
-            setTimeout(function() {
+            setTimeout(function () {
                 $(".se-pre-con").fadeOut("slow");
                 document.body.classList.add('loaded');
             }, 3000);
         });
-        
+
         // Make navigation icons interactive
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navItems = document.querySelectorAll('.nav-item a, .nav-item button');
-            
+
             navItems.forEach(item => {
                 // Add pulse animation on click
-                item.addEventListener('click', function(e) {
+                item.addEventListener('click', function (e) {
                     const icon = this.querySelector('i');
                     if (icon) {
                         // Remove animation if it exists
                         icon.classList.remove('icon-pulse');
-                        
+
                         // Trigger reflow to restart animation
                         void icon.offsetWidth;
-                        
+
                         // Add animation class
                         icon.classList.add('icon-pulse');
                     }
                 });
-                
+
                 // Add hover effect for better visual feedback
-                item.addEventListener('mouseenter', function() {
+                item.addEventListener('mouseenter', function () {
                     this.classList.add('nav-hover');
                 });
-                
-                item.addEventListener('mouseleave', function() {
+
+                item.addEventListener('mouseleave', function () {
                     this.classList.remove('nav-hover');
                 });
             });
@@ -455,37 +481,37 @@
 
         // API Integration
         const API_BASE_URL = 'http://localhost:5000/api';
-        
+
         // Get token from localStorage
         const getToken = () => localStorage.getItem('token');
-        
+
         // Headers with authentication
         const getAuthHeaders = () => {
             const token = getToken();
             const headers = {
                 'Content-Type': 'application/json'
             };
-            
+
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;
             }
-            
+
             return headers;
         };
-        
+
         // Fetch collection details
         async function fetchCollectionDetails(collectionId) {
             if (!collectionId) {
                 showNotification('Collection ID not found in URL', 'error');
                 return null;
             }
-            
+
             try {
                 const response = await fetch(`${API_BASE_URL}/collections/${collectionId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch collection details');
                 }
-                
+
                 const data = await response.json();
                 return data.data;
             } catch (error) {
@@ -494,25 +520,25 @@
                 return null;
             }
         }
-        
+
         // Render collection details
         function renderCollectionDetails(collection) {
             if (!collection) return;
-            
+
             // Update page title
             document.title = `${collection.name} - Literary Hub`;
-            
+
             // Update collection header
             const collectionTitle = document.querySelector('h1');
             if (collectionTitle) {
                 collectionTitle.textContent = collection.name;
             }
-            
+
             // Render books in the collection
             const booksGrid = document.getElementById('booksGrid');
             if (booksGrid && collection.books && collection.books.length > 0) {
                 booksGrid.innerHTML = '';
-                
+
                 collection.books.forEach(book => {
                     const bookCard = createBookCard(book);
                     booksGrid.appendChild(bookCard);
@@ -526,18 +552,18 @@
                     </div>
                 `;
             }
-            
+
             // Update recommended books if available
             updateRecommendedBooks(collection);
         }
-        
+
         // Create book card element
         function createBookCard(book) {
             const bookCard = document.createElement('div');
             bookCard.className = 'book-card';
             bookCard.setAttribute('role', 'listitem');
             bookCard.setAttribute('data-id', book._id || book.id);
-            
+
             bookCard.innerHTML = `
                 <div class="book-cover">
                     <img src="${book.coverImage}" alt="${book.title}" loading="lazy" class="lazy-image">
@@ -558,37 +584,37 @@
                     ` : ''}
                 </div>
             `;
-            
+
             // Add click event to show book details
             bookCard.addEventListener('click', () => {
                 showBookDetails(book._id || book.id);
             });
-            
+
             return bookCard;
         }
-        
+
         // Update recommended books section
         function updateRecommendedBooks(collection) {
             const recommendedBooksList = document.getElementById('recommendedBooksList');
             if (!recommendedBooksList) return;
-            
+
             // Clear existing content
             recommendedBooksList.innerHTML = '';
-            
+
             // Get books for recommendations (using first 3 books or all if less than 3)
             const recommendedBooks = collection.books ? collection.books.slice(0, 3) : [];
-            
+
             if (recommendedBooks.length === 0) {
                 recommendedBooksList.innerHTML = '<p>No recommended books available</p>';
                 return;
             }
-            
+
             // Add recommended books
             recommendedBooks.forEach(book => {
                 const bookCard = document.createElement('div');
                 bookCard.className = 'recommended-book-card';
                 bookCard.setAttribute('role', 'listitem');
-                
+
                 bookCard.innerHTML = `
                     <img src="${book.coverImage}" alt="Book cover of ${book.title}">
                     <div class="recommended-book-info">
@@ -605,23 +631,23 @@
                         </div>
                     </div>
                 `;
-                
+
                 recommendedBooksList.appendChild(bookCard);
             });
         }
-        
+
         // Initialize page with collection data
-        document.addEventListener('DOMContentLoaded', async function() {
+        document.addEventListener('DOMContentLoaded', async function () {
             try {
                 // Get IDs from URL
                 const { collectionId, bookId } = getIdFromUrl();
-                
+
                 if (bookId) {
                     // If bookId is present, show single book details
                     await showBookDetails(bookId);
                     return;
                 }
-                
+
                 if (collectionId) {
                     // If only collectionId is present, show collection
                     const collection = await fetchCollectionDetails(collectionId);
@@ -637,13 +663,13 @@
                 showNotification('Error loading page data', 'error');
             }
         });
-        
+
         // Get collection or book ID from URL
         function getIdFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
             const collectionId = urlParams.get('id');
             const bookId = urlParams.get('bookId');
-            
+
             return { collectionId, bookId };
         }
 
@@ -655,22 +681,22 @@
                 if (!response.ok) {
                     throw new Error('Failed to fetch book details');
                 }
-                
+
                 const data = await response.json();
                 const book = data.data;
-                
+
                 if (!book) {
                     showNotification('Book not found', 'error');
                     return;
                 }
-                
+
                 // Update page title
                 document.title = `${book.title} - Literary Hub`;
-                
+
                 // Show book details in modal
                 const modal = document.getElementById('bookDetailsModal');
                 const modalContent = modal.querySelector('.modal-book-details');
-                
+
                 modalContent.innerHTML = `
                     <div class="modal-book-header">
                         <h2 id="modalBookTitle">${book.title}</h2>
@@ -709,18 +735,18 @@
                         </div>
                     </div>
                 `;
-                
+
                 // Show modal
                 modal.classList.add('show');
                 modal.setAttribute('aria-hidden', 'false');
-                
+
                 // Add event listeners
                 const closeBtn = modal.querySelector('.close-modal');
                 closeBtn.addEventListener('click', () => {
                     modal.classList.remove('show');
                     modal.setAttribute('aria-hidden', 'true');
                 });
-                
+
                 // Close on outside click
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
@@ -728,7 +754,7 @@
                         modal.setAttribute('aria-hidden', 'true');
                     }
                 });
-                
+
                 // Add reading list functionality
                 const addToReadingListBtn = modal.querySelector('.add-to-reading-list');
                 if (addToReadingListBtn) {
@@ -736,7 +762,7 @@
                         toggleReadingList(book._id, addToReadingListBtn);
                     });
                 }
-                
+
                 // Add share functionality
                 const shareBookBtn = modal.querySelector('.share-book');
                 if (shareBookBtn) {
@@ -744,30 +770,30 @@
                         shareBook(book);
                     });
                 }
-                
+
                 // Fetch and display related books
                 fetchRelatedBooks(book);
-                
+
             } catch (error) {
                 console.error('Error showing book details:', error);
                 showNotification('Error loading book details', 'error');
             }
         }
-        
+
         // Fetch related books based on genre or author
         async function fetchRelatedBooks(book) {
             try {
                 // Fetch books with the same genre or by the same author
                 const genreResponse = await fetch(`${API_BASE_URL}/books?genre=${encodeURIComponent(book.genre)}&limit=3`);
                 const authorResponse = await fetch(`${API_BASE_URL}/books?author=${encodeURIComponent(book.author)}&limit=3`);
-                
+
                 let relatedBooks = [];
-                
+
                 if (genreResponse.ok) {
                     const genreData = await genreResponse.json();
                     relatedBooks = [...relatedBooks, ...genreData.data.filter(b => b._id !== book._id)];
                 }
-                
+
                 if (authorResponse.ok) {
                     const authorData = await authorResponse.json();
                     // Add books by the same author that aren't already in the list
@@ -777,13 +803,13 @@
                         }
                     });
                 }
-                
+
                 // Limit to 4 related books
                 relatedBooks = relatedBooks.slice(0, 4);
-                
+
                 // Display related books
                 displayRelatedBooks(relatedBooks);
-                
+
             } catch (error) {
                 console.error('Error fetching related books:', error);
                 const relatedBooksContainer = document.getElementById('relatedBooksContainer');
@@ -792,19 +818,19 @@
                 }
             }
         }
-        
+
         // Display related books in the modal
         function displayRelatedBooks(books) {
             const relatedBooksContainer = document.getElementById('relatedBooksContainer');
             if (!relatedBooksContainer) return;
-            
+
             if (!books || books.length === 0) {
                 relatedBooksContainer.innerHTML = '<p>No related books found</p>';
                 return;
             }
-            
+
             let html = '<div class="related-books-grid">';
-            
+
             books.forEach(book => {
                 html += `
                     <div class="related-book-card" data-id="${book._id}">
@@ -821,10 +847,10 @@
                     </div>
                 `;
             });
-            
+
             html += '</div>';
             relatedBooksContainer.innerHTML = html;
-            
+
             // Add click event to related books
             const relatedBookCards = relatedBooksContainer.querySelectorAll('.related-book-card');
             relatedBookCards.forEach(card => {
@@ -834,7 +860,7 @@
                     const modal = document.getElementById('bookDetailsModal');
                     modal.classList.remove('show');
                     modal.setAttribute('aria-hidden', 'true');
-                    
+
                     // Show details for the clicked related book
                     setTimeout(() => {
                         showBookDetails(bookId);
@@ -844,4 +870,5 @@
         }
     </script>
 </body>
+
 </html>

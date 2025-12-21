@@ -1,8 +1,725 @@
-<div class="container">
-  <div class="tube">
-    <h1 class="line line1">SplitText</h1>
-    <h1 class="line line2">SplitText</h1>
-    <h1 class="line line3">SplitText</h1>
-    <h1 class="line line3">SplitText</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rolling Text Animation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+      background: #0a0a0a;
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      transition: height 0.4s ease;
+    }
+
+    body.panel-open .container {
+      height: calc(100% - 220px);
+    }
+
+    .tube {
+      position: relative;
+      width: 100%;
+      height: 24vw;
+      perspective: 700px;
+      cursor: pointer;
+    }
+
+    .line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 1;
+      margin: 0;
+      letter-spacing: -0.6vw;
+      font-size: 18vw;
+      font-weight: 700;
+      white-space: nowrap;
+      text-align: center;
+      display: flex;
+      transform-style: preserve-3d;
+    }
+
+    .line:nth-child(1) {
+      color: #4285F4;
+    }
+
+    .line:nth-child(2) {
+      color: #06b6d4;
+    }
+
+    .line:nth-child(3) {
+      color: #EC4899;
+    }
+
+    .line:nth-child(4) {
+      color: #10B981;
+    }
+
+    .char {
+      display: inline-block;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+    }
+
+    /* Toggle Button */
+    .toggle-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      background: #005462;
+      /* solid teal */
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(21, 180, 208, 0.18);
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 8px 30px rgba(141, 142, 255, 0.5);
+    }
+
+    body.panel-open .toggle-btn {
+      bottom: 240px;
+    }
+
+    /* Control Panel */
+    .control-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 15, 20, 0.98);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 20px 24px;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+    }
+
+    body.panel-open .control-panel {
+      transform: translateY(0);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .current-mode {
+      font-size: 12px;
+      padding: 6px 12px;
+      background: #06b6d4;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    /* Animation Modes */
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .mode-btn {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--mode-color);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .mode-btn:hover::before {
+      opacity: 0.1;
+    }
+
+    .mode-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .mode-btn.active {
+      background: var(--mode-color);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 12px var(--mode-shadow);
+    }
+
+    .mode-btn.active::before {
+      opacity: 0;
+    }
+
+    /* Mode-specific colors */
+    .mode-btn[data-mode="rolling"] {
+      --mode-color: #2563eb;
+      --mode-shadow: rgba(37, 99, 235, 0.25);
+    }
+
+    .mode-btn[data-mode="wave"] {
+      --mode-color: #0891b2;
+      --mode-shadow: rgba(8, 145, 178, 0.25);
+    }
+
+    .mode-btn[data-mode="bounce"] {
+      --mode-color: #d97706;
+      --mode-shadow: rgba(217, 119, 6, 0.25);
+    }
+
+    .mode-btn[data-mode="scatter"] {
+      --mode-color: #dc2626;
+      --mode-shadow: rgba(220, 38, 38, 0.25);
+    }
+
+    .mode-btn[data-mode="flip"] {
+      --mode-color: #06b6d4;
+      /* replaced purple with teal */
+      --mode-shadow: rgba(6, 182, 212, 0.2);
+    }
+
+    .mode-btn[data-mode="typewriter"] {
+      --mode-color: #059669;
+      --mode-shadow: rgba(5, 150, 105, 0.25);
+    }
+
+    .mode-btn[data-mode="glitch"] {
+      --mode-color: #db2777;
+      --mode-shadow: rgba(219, 39, 119, 0.25);
+    }
+
+    .mode-btn[data-mode="spiral"] {
+      --mode-color: #06b6d4;
+      --mode-shadow: rgba(6, 182, 212, 0.18);
+    }
+
+    .mode-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .mode-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    /* Sliders */
+    .sliders-row {
+      display: flex;
+      gap: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .slider-group {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      min-width: 55px;
+    }
+
+    .slider-input {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #2563eb;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .slider-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2563eb;
+      min-width: 45px;
+      text-align: right;
+    }
+
+    @media (max-width: 640px) {
+      .modes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sliders-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      body.panel-open .container {
+        height: calc(100% - 300px);
+      }
+
+      body.panel-open .toggle-btn {
+        bottom: 320px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="tube">
+      <h1 class="line line1">Rolling</h1>
+      <h1 class="line line2">Rolling</h1>
+      <h1 class="line line3">Rolling</h1>
+      <h1 class="line line4">Rolling</h1>
+    </div>
   </div>
-</div>
+
+  <!-- Toggle Button -->
+  <button class="toggle-btn" id="toggleBtn" title="Toggle Controls" aria-label="Toggle Controls">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="4" y1="6" x2="14" y2="6"></line>
+      <circle cx="18" cy="6" r="1.5"></circle>
+      <line x1="4" y1="12" x2="10" y2="12"></line>
+      <circle cx="14" cy="12" r="1.5"></circle>
+      <line x1="4" y1="18" x2="8" y2="18"></line>
+      <circle cx="12" cy="18" r="1.5"></circle>
+    </svg>
+  </button>
+
+  <!-- Control Panel -->
+  <div class="control-panel" id="controlPanel">
+    <div class="panel-header">
+      <span class="panel-title">Animation Controls</span>
+      <span class="current-mode" id="currentMode">Rolling</span>
+    </div>
+
+    <div class="modes-grid">
+      <button class="mode-btn active" data-mode="rolling">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+          </svg></span>
+        Rolling
+      </button>
+      <button class="mode-btn" data-mode="wave">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M17 16.99c-1.35 0-2.2.42-2.95.8-.65.33-1.18.6-2.05.6-.9 0-1.4-.25-2.05-.6-.75-.38-1.6-.8-2.95-.8s-2.2.42-2.95.8c-.65.33-1.17.6-2.05.6v1.95c1.35 0 2.2-.42 2.95-.8.65-.33 1.17-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.6.8 2.95.8s2.2-.42 2.95-.8c.65-.33 1.18-.6 2.05-.6.9 0 1.4.25 2.05.6.75.38 1.6.8 2.95.8v-1.95c-.9 0-1.4-.25-2.05-.6-.75-.38-1.6-.8-2.95-.8zm0-4.45c-1.35 0-2.2.43-2.95.8-.65.32-1.18.6-2.05.6-.9 0-1.4-.25-2.05-.6-.75-.38-1.6-.8-2.95-.8s-2.2.43-2.95.8c-.65.32-1.17.6-2.05.6v1.95c1.35 0 2.2-.43 2.95-.8.65-.35 1.15-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.6.8 2.95.8s2.2-.43 2.95-.8c.65-.35 1.15-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.6.8 2.95.8v-1.95c-.9 0-1.4-.25-2.05-.6-.75-.38-1.6-.8-2.95-.8zm2.95-8.08c-.75-.38-1.6-.8-2.95-.8s-2.2.42-2.95.8c-.65.32-1.18.6-2.05.6-.9 0-1.4-.25-2.05-.6-.75-.37-1.6-.8-2.95-.8s-2.2.42-2.95.8c-.65.33-1.17.6-2.05.6v1.93c1.35 0 2.2-.43 2.95-.8.65-.33 1.17-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.6.8 2.95.8s2.2-.43 2.95-.8c.65-.32 1.18-.6 2.05-.6.9 0 1.4.25 2.05.6.75.38 1.6.8 2.95.8V5.04c-.9 0-1.4-.25-2.05-.58z" />
+          </svg></span>
+        Wave
+      </button>
+      <button class="mode-btn" data-mode="bounce">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-5-9h10v2H7z" />
+          </svg></span>
+        Bounce
+      </button>
+      <button class="mode-btn" data-mode="scatter">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg></span>
+        Scatter
+      </button>
+      <button class="mode-btn" data-mode="flip">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M15.55 5.55L11 1v3.07C7.06 4.56 4 7.92 4 12s3.05 7.44 7 7.93v-2.02c-2.84-.48-5-2.94-5-5.91s2.16-5.43 5-5.91V10l4.55-4.45zM19.93 11c-.17-1.39-.72-2.73-1.62-3.89l-1.42 1.42c.54.75.88 1.6 1.02 2.47h2.02zM13 17.9v2.02c1.39-.17 2.74-.71 3.9-1.61l-1.44-1.44c-.75.54-1.59.89-2.46 1.03zm3.89-2.42l1.42 1.41c.9-1.16 1.45-2.5 1.62-3.89h-2.02c-.14.87-.48 1.72-1.02 2.48z" />
+          </svg></span>
+        Flip
+      </button>
+      <button class="mode-btn" data-mode="typewriter">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z" />
+          </svg></span>
+        Typewriter
+      </button>
+      <button class="mode-btn" data-mode="glitch">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path d="M7 2v11h3v9l7-12h-4l4-8z" />
+          </svg></span>
+        Glitch
+      </button>
+      <button class="mode-btn" data-mode="spiral">
+        <span class="mode-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 5-5v10zm2 0V7l5 5-5 5z" />
+          </svg></span>
+        Spiral
+      </button>
+    </div>
+
+    <div class="sliders-row">
+      <div class="slider-group">
+        <span class="slider-label">Speed</span>
+        <input type="range" class="slider-input" id="speedSlider" min="0.3" max="3" step="0.1" value="1">
+        <span class="slider-value" id="speedValue">1.0x</span>
+      </div>
+      <div class="slider-group">
+        <span class="slider-label">Intensity</span>
+        <input type="range" class="slider-input" id="intensitySlider" min="0.3" max="2" step="0.1" value="1">
+        <span class="slider-value" id="intensityValue">100%</span>
+      </div>
+      <div class="slider-group">
+        <span class="slider-label">Stagger</span>
+        <input type="range" class="slider-input" id="staggerSlider" min="0.01" max="0.15" step="0.01" value="0.08">
+        <span class="slider-value" id="staggerValue">0.08s</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script>
+    // Split text into characters
+    function splitText(element) {
+      const text = element.textContent;
+      element.innerHTML = '';
+      const chars = [];
+      for (let char of text) {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = char;
+        element.appendChild(span);
+        chars.push(span);
+      }
+      return { chars };
+    }
+
+    // Setup
+    const lines = document.querySelectorAll('.line');
+    const splitLines = Array.from(lines).map(line => splitText(line));
+    const allChars = splitLines.flatMap(s => s.chars);
+    const tube = document.querySelector('.tube');
+
+    // 3D setup
+    const width = window.innerWidth;
+    const depth = -width / 8;
+    const transformOrigin = `50% 50% ${depth}px`;
+
+    // Settings
+    let settings = { speed: 1, intensity: 1, stagger: 0.08, mode: 'rolling' };
+    let currentTl = null;
+
+    // Animation modes
+    const modes = {
+      rolling: () => {
+        const tl = gsap.timeline({ repeat: -1 });
+        const rot = 90 * settings.intensity;
+        splitLines.forEach((split, i) => {
+          tl.fromTo(split.chars,
+            { rotationX: -rot, transformOrigin },
+            { rotationX: rot, stagger: settings.stagger, duration: 0.9 / settings.speed, ease: 'none', transformOrigin },
+            i * 0.45 / settings.speed
+          );
+        });
+        return tl;
+      },
+
+      wave: () => {
+        const tl = gsap.timeline({ repeat: -1 });
+        const amp = 60 * settings.intensity;
+        tl.to(allChars, {
+          y: (i) => Math.sin(i * 0.5) * amp,
+          rotationZ: (i) => Math.sin(i * 0.5) * 20 * settings.intensity,
+          duration: 1.5 / settings.speed,
+          stagger: settings.stagger,
+          ease: 'sine.inOut'
+        }).to(allChars, {
+          y: 0, rotationZ: 0,
+          duration: 1.5 / settings.speed,
+          stagger: settings.stagger,
+          ease: 'sine.inOut'
+        });
+        return tl;
+      },
+
+      bounce: () => {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.3 });
+        tl.to(allChars, {
+          y: -100 * settings.intensity,
+          scaleY: 1.3,
+          duration: 0.35 / settings.speed,
+          stagger: { each: settings.stagger, from: 'random' },
+          ease: 'power2.out'
+        }).to(allChars, {
+          y: 0, scaleY: 1,
+          duration: 0.5 / settings.speed,
+          stagger: { each: settings.stagger * 0.5, from: 'random' },
+          ease: 'bounce.out'
+        });
+        return tl;
+      },
+
+      scatter: () => {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
+        const range = 250 * settings.intensity;
+        tl.to(allChars, {
+          x: () => gsap.utils.random(-range, range),
+          y: () => gsap.utils.random(-range, range),
+          rotation: () => gsap.utils.random(-180, 180),
+          opacity: 0.2,
+          duration: 0.7 / settings.speed,
+          stagger: { each: settings.stagger, from: 'center' },
+          ease: 'power2.out'
+        }).to(allChars, {
+          x: 0, y: 0, rotation: 0, opacity: 1,
+          duration: 0.9 / settings.speed,
+          stagger: { each: settings.stagger, from: 'edges' },
+          ease: 'elastic.out(1, 0.6)'
+        });
+        return tl;
+      },
+
+      flip: () => {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        tl.to(allChars, {
+          rotationY: 180 * settings.intensity,
+          duration: 0.5 / settings.speed,
+          stagger: { each: settings.stagger, from: 'start' },
+          ease: 'power2.inOut'
+        }).to(allChars, {
+          rotationY: 360 * settings.intensity,
+          duration: 0.5 / settings.speed,
+          stagger: { each: settings.stagger, from: 'end' },
+          ease: 'power2.inOut'
+        });
+        return tl;
+      },
+
+      typewriter: () => {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.2 });
+        gsap.set(allChars, { opacity: 0, x: 30 });
+        tl.to(allChars, {
+          opacity: 1, x: 0,
+          duration: 0.08 / settings.speed,
+          stagger: settings.stagger * 1.5,
+          ease: 'power1.out'
+        }).to(allChars, {
+          opacity: 0, x: -30,
+          duration: 0.08 / settings.speed,
+          stagger: settings.stagger * 1.5,
+          ease: 'power1.in',
+          delay: 0.8
+        });
+        return tl;
+      },
+
+      glitch: () => {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        const g = 25 * settings.intensity;
+        for (let i = 0; i < 4; i++) {
+          tl.to(allChars, {
+            x: () => gsap.utils.random(-g, g),
+            y: () => gsap.utils.random(-g / 2, g / 2),
+            skewX: () => gsap.utils.random(-15, 15) * settings.intensity,
+            duration: 0.04 / settings.speed,
+            stagger: { each: 0.008, from: 'random' }
+          }).to(allChars, { x: 0, y: 0, skewX: 0, duration: 0.08 / settings.speed });
+        }
+        tl.to({}, { duration: 0.8 });
+        return tl;
+      },
+
+      spiral: () => {
+        const tl = gsap.timeline({ repeat: -1 });
+        const r = 120 * settings.intensity;
+        allChars.forEach((char, i) => {
+          const angle = (i / allChars.length) * Math.PI * 2;
+          tl.to(char, {
+            x: Math.cos(angle) * r,
+            y: Math.sin(angle) * r,
+            rotation: 360,
+            duration: 2 / settings.speed,
+            ease: 'none'
+          }, 0);
+        });
+        tl.to(allChars, {
+          x: 0, y: 0, rotation: 0,
+          duration: 0.8 / settings.speed,
+          stagger: settings.stagger,
+          ease: 'back.out(1.5)'
+        });
+        return tl;
+      }
+    };
+
+    // Switch animation mode
+    function switchMode(mode) {
+      if (currentTl) currentTl.kill();
+      gsap.set(allChars, { x: 0, y: 0, rotation: 0, rotationX: 0, rotationY: 0, scale: 1, scaleY: 1, skewX: 0, opacity: 1 });
+      settings.mode = mode;
+      currentTl = modes[mode]();
+
+      // Update UI
+      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+      document.getElementById('currentMode').textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+    }
+
+    // Event listeners
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+    });
+
+    document.getElementById('speedSlider').addEventListener('input', (e) => {
+      settings.speed = parseFloat(e.target.value);
+      document.getElementById('speedValue').textContent = settings.speed.toFixed(1) + 'x';
+      switchMode(settings.mode);
+    });
+
+    document.getElementById('intensitySlider').addEventListener('input', (e) => {
+      settings.intensity = parseFloat(e.target.value);
+      document.getElementById('intensityValue').textContent = Math.round(settings.intensity * 100) + '%';
+      switchMode(settings.mode);
+    });
+
+    document.getElementById('staggerSlider').addEventListener('input', (e) => {
+      settings.stagger = parseFloat(e.target.value);
+      document.getElementById('staggerValue').textContent = settings.stagger.toFixed(2) + 's';
+      switchMode(settings.mode);
+    });
+
+    // Toggle panel
+    document.getElementById('toggleBtn').addEventListener('click', () => {
+      document.body.classList.toggle('panel-open');
+    });
+
+    // Keyboard shortcut
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'h' && !e.ctrlKey && !e.metaKey) {
+        document.body.classList.toggle('panel-open');
+      }
+    });
+
+
+    // Hover interaction - improved to resume smoothly
+    let hoverTween = null;
+    let savedProgress = 0;
+
+    tube.addEventListener('mouseenter', () => {
+      if (currentTl) {
+        savedProgress = currentTl.progress();
+        currentTl.pause();
+      }
+      if (hoverTween) hoverTween.kill();
+
+      hoverTween = gsap.to(allChars, {
+        rotationX: 0,
+        rotationY: 0,
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1.02,
+        scaleY: 1,
+        skewX: 0,
+        duration: 0.5,
+        stagger: { each: 0.04, from: 'start' },
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    });
+
+    tube.addEventListener('mouseleave', () => {
+      if (hoverTween) hoverTween.kill();
+
+      // Smoothly transition back and resume from saved position
+      hoverTween = gsap.to(allChars, {
+        scale: 1,
+        duration: 0.3,
+        stagger: { each: 0.02, from: 'end' },
+        ease: 'power2.inOut',
+        onComplete: () => {
+          hoverTween = null;
+          if (currentTl) {
+            // Resume from where we left off
+            currentTl.progress(savedProgress);
+            currentTl.play();
+          }
+        }
+      });
+    });
+
+
+    // Start
+    gsap.from(allChars, { y: 40, opacity: 0, stagger: 0.02, duration: 0.7, ease: 'power2.out' });
+    setTimeout(() => switchMode('rolling'), 800);
+  </script>
+</body>
+
+</html>
