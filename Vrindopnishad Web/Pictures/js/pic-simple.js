@@ -43,7 +43,7 @@ function createImageCard(image, index) {
     imageCard.setAttribute('data-image-id', image.id || index);
 
     imageCard.innerHTML = `
-        <img src="${image.src}" alt="${image.alt}" loading="lazy">
+        <img data-vault="${image.src}" alt="${image.alt}" loading="lazy">
         <div class="image-overlay">
             <div class="image-actions">
                 <button class="action-btn like-btn magnetic" 
@@ -71,9 +71,12 @@ function createImageCard(image, index) {
         </div>
     `;
 
-    // Add CSS to ensure proper action button animations matching pic-collection.js
-    const actionButtonsStyle = document.createElement('style');
-    actionButtonsStyle.textContent = `
+    return imageCard;
+}
+
+// Add CSS to ensure proper action button animations matching pic-collection.js
+const actionButtonsStyle = document.createElement('style');
+actionButtonsStyle.textContent = `
         .image-card .action-btn {
             transform: translateY(20px) !important;
             opacity: 0 !important;
@@ -103,11 +106,10 @@ function createImageCard(image, index) {
         }
     `;
 
-    if (!document.getElementById('action-buttons-style')) {
-        actionButtonsStyle.id = 'action-buttons-style';
-        document.head.appendChild(actionButtonsStyle);
-    }
-
+if (!document.getElementById('action-buttons-style')) {
+    actionButtonsStyle.id = 'action-buttons-style';
+    document.head.appendChild(actionButtonsStyle);
+    // }
     return imageCard;
 }
 
@@ -221,7 +223,7 @@ function loadImage(img, src) {
 
 // Apply loaded image to element
 function applyImage(img, src) {
-    img.src = src;
+    img.setAttribute('data-vault', src);
     img.classList.add('loaded');
     img.style.opacity = '1';
     img.removeAttribute('data-src');
@@ -308,7 +310,6 @@ async function loadGalleryFromJSON() {
     }
 }
 
-// Create image card element
 function createImageCard(image, index) {
     const imageCard = document.createElement('div');
     imageCard.className = 'image-card';
@@ -317,7 +318,7 @@ function createImageCard(image, index) {
     imageCard.setAttribute('data-image-id', image.id || index);
 
     imageCard.innerHTML = `
-        <img src="${image.src}" alt="${image.alt}" loading="lazy">
+        <img data-vault="${image.src}" alt="${image.alt}" loading="lazy">
         <div class="image-overlay">
             <div class="image-actions">
                 <button class="action-btn like-btn magnetic" 

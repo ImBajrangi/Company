@@ -45,16 +45,16 @@
     function lockUI() {
         document.addEventListener('contextmenu', e => e.preventDefault());
 
-        // document.addEventListener('keydown', e => {
-        //     // F12, Ctrl+Shift+I, J, C, U (View Source)
-        //     if (e.keyCode === 123 ||
-        //         (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
-        //         (e.metaKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
-        //         (e.ctrlKey && e.keyCode === 85) || (e.metaKey && e.keyCode === 85)) {
-        //         e.preventDefault();
-        //         return false;
-        //     }
-        // });
+        document.addEventListener('keydown', e => {
+            // F12, Ctrl+Shift+I, J, C, U (View Source)
+            if (e.keyCode === 123 ||
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+                (e.metaKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+                (e.ctrlKey && e.keyCode === 85) || (e.metaKey && e.keyCode === 85)) {
+                e.preventDefault();
+                return false;
+            }
+        });
 
         document.addEventListener('dragstart', e => e.preventDefault());
     }

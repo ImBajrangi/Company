@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <!-- Link Pop-up Checker Script -->
     <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/js/popup-checker.js"></script>
-    <!--    <script src="/Vrindopnishad Web/js/popup-checker.js"></script> -->
+    <!-- <script src="/Vrindopnishad Web/js/popup-checker.js"></script> -->
 
     <style>
         * {
@@ -1490,46 +1490,46 @@
 
                 // 1. Add License File
                 const licenseContent = `
-Vrindopnishad - Commercial License
-==================================
+                    Vrindopnishad - Commercial License
+                    ==================================
 
-Date: ${new Date().toLocaleDateString()}
-Collection: ${item.title}
-License ID: ${paymentId || 'N/A'}
+                    Date: ${new Date().toLocaleDateString()}
+                    Collection: ${item.title}
+                    License ID: ${paymentId || 'N/A'}
 
-This license grants you, the purchaser, a non-exclusive, worldwide license to use the images in this collection for personal and commercial projects.
+                    This license grants you, the purchaser, a non-exclusive, worldwide license to use the images in this collection for personal and commercial projects.
 
-Permitted Uses:
-- Websites, blogs, and social media.
-- Advertising and promotional materials.
-- Printed materials such as brochures and posters.
-- Digital media (videos, presentations).
+                    Permitted Uses:
+                    - Websites, blogs, and social media.
+                    - Advertising and promotional materials.
+                    - Printed materials such as brochures and posters.
+                    - Digital media (videos, presentations).
 
-Restrictions:
-- You may not resell or redistribute the original image files.
-- You may not use the images in a way that is defamatory or illegal.
+                    Restrictions:
+                    - You may not resell or redistribute the original image files.
+                    - You may not use the images in a way that is defamatory or illegal.
 
-Thank you for your purchase.
-Vrindopnishad
+                    Thank you for your purchase.
+                    Vrindopnishad
                 `;
                 zip.file(`License_${item.id}.txt`, licenseContent.trim());
 
                 // 2. Add Bill/Receipt File
                 const billContent = `
-Vrindopnishad - Purchase Receipt
-==================================
+                    Vrindopnishad - Purchase Receipt
+                    ==================================
 
-Date: ${new Date().toLocaleString()}
-Payment ID: ${paymentId || 'N/A'}
+                    Date: ${new Date().toLocaleString()}
+                    Payment ID: ${paymentId || 'N/A'}
 
-Item: ${item.title}
-Description: ${item.description}
-Price: ${formatPrice(item.price)}
+                    Item: ${item.title}
+                    Description: ${item.description}
+                    Price: ${formatPrice(item.price)}
 
-----------------------------------
-Total: ${formatPrice(item.price)}
+                    ----------------------------------
+                    Total: ${formatPrice(item.price)}
 
-Thank you for your purchase!
+                    Thank you for your purchase!
                 `;
                 zip.file(`Bill_${item.id}.txt`, billContent.trim());
 

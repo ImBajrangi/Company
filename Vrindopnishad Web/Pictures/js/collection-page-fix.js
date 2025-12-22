@@ -173,7 +173,8 @@ function generateCollectionItems(containerId, items) {
         itemElement.className = 'collection-item loading';
         itemElement.setAttribute('data-category', item.category || '');
         itemElement.setAttribute('data-id', item.id || index);
-        itemElement.style.backgroundImage = `url(${item.image})`;
+        // Use data-vault for security
+        itemElement.setAttribute('data-vault', item.image);
 
         itemElement.innerHTML = `
             <div class="item-content">
@@ -290,7 +291,8 @@ function updateHeroSection(heroData) {
     const heroDescription = document.querySelector('.hero-description');
 
     if (heroData.backgroundImage && heroSection) {
-        heroSection.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%), url('${heroData.backgroundImage}')`;
+        // Apply secondary security via data-vault if possible, otherwise use standard
+        heroSection.setAttribute('data-vault', heroData.backgroundImage);
     }
     if (heroTitle) heroTitle.textContent = heroData.title;
     if (heroDescription) heroDescription.textContent = heroData.description;
@@ -321,7 +323,7 @@ function openPopup(item) {
         return;
     }
 
-    hero.style.backgroundImage = `url(${item.image})`;
+    hero.setAttribute('data-vault', item.image);
 
     const
         popupTitle = document.querySelector('.popup-title'),
@@ -376,7 +378,6 @@ function openPopup(item) {
                 console.log('Stored data:', detailsData);
 
                 // Navigate to collection details page
-                // Update this path based on your actual file structure
                 const detailsPageUrl = `collection-details.html?id=${item.id}`;
                 window.location.href = detailsPageUrl;
             } else {
