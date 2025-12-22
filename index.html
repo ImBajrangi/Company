@@ -1901,7 +1901,7 @@
         background: radial-gradient(circle at center, rgba(64, 150, 255, 0.15) 0%, transparent 60%);
         opacity: 0.8;
         pointer-events: none;
-        z-index: 1;
+        z-index: 0;
     }
 
     .download-dots {
@@ -1916,6 +1916,7 @@
         mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
         -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
         z-index: 2;
+        pointer-events: none;
     }
 
     .download-content {
@@ -2365,7 +2366,689 @@
             </div>
         </section>
 
-        <!-- Shader Effects Section -->
+        <!-- Gradient 3D Carousel Section -->
+        <section class="gradient-carousel-section" data-scroll-section id="gradient-carousel-section">
+            <div class="gradient-carousel-wrapper">
+                <div class="gradient-carousel-header" data-scroll data-scroll-speed="1">
+                    <h2 class="gradient-carousel-title">Infinite <mark class="hx hx-6">Gallery</mark></h2>
+                    <p class="gradient-carousel-subtitle">Drag or scroll to explore our curated collection</p>
+                </div>
+                <div class="gradient-carousel-stage" id="gradient-carousel-stage">
+                    <div id="gradient-carousel-loader" class="gradient-carousel-loader">
+                        <div class="gradient-carousel-loader-ring"></div>
+                    </div>
+                    <canvas id="gradient-carousel-bg"></canvas>
+                    <section id="gradient-carousel-cards" class="gradient-carousel-cards"></section>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            /* Gradient Carousel Section Styles */
+            .gradient-carousel-section {
+                padding: 6rem 0;
+                background: var(--bg-color, #0a0a0a);
+                position: relative;
+                overflow: visible;
+            }
+
+            .gradient-carousel-wrapper {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0 2rem;
+            }
+
+            .gradient-carousel-header {
+                text-align: center;
+                margin-bottom: 3rem;
+            }
+
+            .gradient-carousel-title {
+                font-size: clamp(2rem, 6vw, 4rem);
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: var(--text-color, #fff);
+            }
+
+            .gradient-carousel-subtitle {
+                font-size: 1.1rem;
+                opacity: 0.6;
+                color: var(--text-color, #fff);
+            }
+
+            .gradient-carousel-stage {
+                position: relative;
+                width: 100%;
+                height: 70vh;
+                min-height: 500px;
+                max-height: 700px;
+                border-radius: 32px;
+                overflow: hidden;
+                background: #f0f0f0;
+                perspective: 1800px;
+                cursor: grab;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: none;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            }
+
+            .gradient-carousel-stage.dragging {
+                cursor: grabbing;
+            }
+
+            .gradient-carousel-loader {
+                position: absolute;
+                inset: 0;
+                z-index: 100;
+                display: grid;
+                place-items: center;
+                background: #ffffff;
+                transition: opacity 0.3s ease, visibility 0.3s linear;
+            }
+
+            .gradient-carousel-loader--hide {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            .gradient-carousel-loader-ring {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 3px solid #ddd;
+                border-top-color: #333;
+                animation: gradient-carousel-spin 1s linear infinite;
+            }
+
+            @keyframes gradient-carousel-spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            #gradient-carousel-bg {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                width: 100%;
+                height: 100%;
+                display: block;
+                filter: blur(24px) saturate(1.05);
+                pointer-events: none;
+            }
+
+            .gradient-carousel-cards {
+                position: absolute;
+                inset: 0;
+                z-index: 10;
+                transform-style: preserve-3d;
+            }
+
+            .gradient-carousel-card {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: min(26vw, 320px);
+                aspect-ratio: 4/5;
+                isolation: isolate;
+                transform-style: preserve-3d;
+                backface-visibility: hidden;
+                will-change: transform, filter;
+                transform-origin: 90% center;
+                contain: layout paint;
+            }
+
+            .gradient-carousel-card__img {
+                border-radius: 16px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transform: translateZ(0);
+                pointer-events: none;
+                -webkit-user-drag: none;
+                user-select: none;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            @media (max-width: 768px) {
+                .gradient-carousel-stage {
+                    height: 50vh;
+                    min-height: 350px;
+                    border-radius: 20px;
+                }
+
+                .gradient-carousel-card {
+                    width: min(50vw, 200px);
+                }
+
+                .gradient-carousel-section {
+                    padding: 4rem 0;
+                }
+            }
+        </style>
+
+        <script>
+            // Gradient Carousel - Self-contained implementation
+            (function () {
+                'use strict';
+
+                // Configuration
+                const CAROUSEL_IMAGES = [
+                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+                    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800',
+                    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800',
+                    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800',
+                    'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800',
+                    'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800',
+                    'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800',
+                    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800',
+                    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800',
+                    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800'
+                ];
+
+                // Physics constants - tuned for butter-smooth scrolling
+                const FRICTION = 0.92;          // Higher = longer momentum glide
+                const WHEEL_SENS = 0.5;         // Mouse wheel sensitivity
+                const DRAG_SENS = 1.2;          // Drag sensitivity
+                const VELOCITY_LERP = 0.15;     // Velocity smoothing (lower = smoother)
+                const MAX_ROTATION = 28;        // Maximum card rotation
+                const MAX_DEPTH = 140;          // Maximum Z-depth
+                const MIN_SCALE = 0.92;         // Minimum card scale
+                const SCALE_RANGE = 0.1;        // Scale variation range
+                const GAP = 28;                 // Gap between cards
+
+                // DOM References
+                const stage = document.getElementById('gradient-carousel-stage');
+                const cardsRoot = document.getElementById('gradient-carousel-cards');
+                const bgCanvas = document.getElementById('gradient-carousel-bg');
+                const bgCtx = bgCanvas?.getContext('2d', { alpha: false });
+                const loader = document.getElementById('gradient-carousel-loader');
+
+                if (!stage || !cardsRoot) return;
+
+                // State
+                let items = [];
+                let positions = [];
+                let activeIndex = -1;
+                let isEntering = true;
+
+                let CARD_W = 300, CARD_H = 400, STEP = CARD_W + GAP, TRACK = 0, SCROLL_X = 0;
+                let VW_HALF = stage.clientWidth * 0.5;
+                let vX = 0;                     // Current velocity
+                let targetVX = 0;               // Target velocity (for smoothing)
+                let rafId = null, bgRAF = null;
+                let lastTime = 0, lastBgDraw = 0;
+
+                let gradPalette = [];
+                let gradCurrent = { r1: 240, g1: 240, b1: 240, r2: 235, g2: 235, b2: 235 };
+                let bgFastUntil = 0;
+
+                function mod(n, m) { return ((n % m) + m) % m; }
+
+                function createCards() {
+                    cardsRoot.innerHTML = '';
+                    items = [];
+                    const fragment = document.createDocumentFragment();
+
+                    CAROUSEL_IMAGES.forEach((src, i) => {
+                        const card = document.createElement('article');
+                        card.className = 'gradient-carousel-card';
+                        card.style.willChange = 'transform';
+
+                        const img = new Image();
+                        img.className = 'gradient-carousel-card__img';
+                        img.decoding = 'async';
+                        img.loading = 'eager';
+                        img.draggable = false;
+                        img.crossOrigin = 'anonymous';
+                        img.src = src;
+
+                        card.appendChild(img);
+                        fragment.appendChild(card);
+                        items.push({ el: card, x: i * STEP });
+                    });
+
+                    cardsRoot.appendChild(fragment);
+                }
+
+                function measure() {
+                    const sample = items[0]?.el;
+                    if (!sample) return;
+
+                    const r = sample.getBoundingClientRect();
+                    CARD_W = r.width || CARD_W;
+                    CARD_H = r.height || CARD_H;
+                    STEP = CARD_W + GAP;
+                    TRACK = items.length * STEP;
+
+                    items.forEach((it, i) => { it.x = i * STEP; });
+                    positions = new Float32Array(items.length);
+                    VW_HALF = stage.clientWidth * 0.5;
+                }
+
+                function transformForScreenX(screenX) {
+                    const norm = Math.max(-1, Math.min(1, screenX / VW_HALF));
+                    const absNorm = Math.abs(norm);
+                    const invNorm = 1 - absNorm;
+
+                    const ry = -norm * MAX_ROTATION;
+                    const tz = invNorm * MAX_DEPTH;
+                    const scale = MIN_SCALE + invNorm * SCALE_RANGE;
+
+                    return {
+                        transform: `translate3d(${screenX}px,-50%,${tz}px) rotateY(${ry}deg) scale(${scale})`,
+                        z: tz
+                    };
+                }
+
+                function updateCarouselTransforms() {
+                    const half = TRACK / 2;
+                    let closestIdx = -1, closestDist = Infinity;
+
+                    for (let i = 0; i < items.length; i++) {
+                        let pos = items[i].x - SCROLL_X;
+                        if (pos < -half) pos += TRACK;
+                        if (pos > half) pos -= TRACK;
+                        positions[i] = pos;
+
+                        const dist = Math.abs(pos);
+                        if (dist < closestDist) {
+                            closestDist = dist;
+                            closestIdx = i;
+                        }
+                    }
+
+                    const prevIdx = (closestIdx - 1 + items.length) % items.length;
+                    const nextIdx = (closestIdx + 1) % items.length;
+
+                    for (let i = 0; i < items.length; i++) {
+                        const it = items[i];
+                        const pos = positions[i];
+                        const norm = Math.max(-1, Math.min(1, pos / VW_HALF));
+                        const { transform, z } = transformForScreenX(pos);
+
+                        it.el.style.transform = transform;
+                        it.el.style.zIndex = String(1000 + Math.round(z));
+
+                        const isCore = i === closestIdx || i === prevIdx || i === nextIdx;
+                        const blur = isCore ? 0 : 2 * Math.pow(Math.abs(norm), 1.1);
+                        it.el.style.filter = `blur(${blur.toFixed(2)}px)`;
+                    }
+
+                    if (closestIdx !== activeIndex) {
+                        setActiveGradient(closestIdx);
+                    }
+                }
+
+                function tick(t) {
+                    const dt = lastTime ? (t - lastTime) / 1000 : 0;
+                    lastTime = t;
+
+                    // Smooth velocity interpolation (lerp) for butter-smooth feel
+                    vX += (targetVX - vX) * VELOCITY_LERP;
+
+                    // Apply velocity to scroll position
+                    SCROLL_X = mod(SCROLL_X + vX * dt, TRACK);
+
+                    // Apply friction decay to target velocity
+                    const decay = Math.pow(FRICTION, dt * 60);
+                    targetVX *= decay;
+
+                    // Stop when velocity is negligible
+                    if (Math.abs(targetVX) < 0.01) targetVX = 0;
+                    if (Math.abs(vX) < 0.01 && Math.abs(targetVX) < 0.01) vX = 0;
+
+                    updateCarouselTransforms();
+                    rafId = requestAnimationFrame(tick);
+                }
+
+                function startCarousel() {
+                    if (rafId) cancelAnimationFrame(rafId);
+                    lastTime = 0;
+                    rafId = requestAnimationFrame((t) => {
+                        updateCarouselTransforms();
+                        tick(t);
+                    });
+                }
+
+                // Color extraction (simplified)
+                function rgbToHsl(r, g, b) {
+                    r /= 255; g /= 255; b /= 255;
+                    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+                    let h, s, l = (max + min) / 2;
+                    if (max === min) { h = s = 0; }
+                    else {
+                        const d = max - min;
+                        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                        switch (max) {
+                            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                            case g: h = (b - r) / d + 2; break;
+                            default: h = (r - g) / d + 4; break;
+                        }
+                        h /= 6;
+                    }
+                    return [h * 360, s, l];
+                }
+
+                function hslToRgb(h, s, l) {
+                    h = ((h % 360) + 360) % 360;
+                    h /= 360;
+                    let r, g, b;
+                    if (s === 0) { r = g = b = l; }
+                    else {
+                        const hue2rgb = (p, q, t) => {
+                            if (t < 0) t += 1;
+                            if (t > 1) t -= 1;
+                            if (t < 1 / 6) return p + (q - p) * 6 * t;
+                            if (t < 1 / 2) return q;
+                            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                            return p;
+                        };
+                        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                        const p = 2 * l - q;
+                        r = hue2rgb(p, q, h + 1 / 3);
+                        g = hue2rgb(p, q, h);
+                        b = hue2rgb(p, q, h - 1 / 3);
+                    }
+                    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+                }
+
+                function fallbackFromIndex(idx) {
+                    const h = (idx * 37) % 360;
+                    const s = 0.65;
+                    return { c1: hslToRgb(h, s, 0.52), c2: hslToRgb(h, s, 0.72) };
+                }
+
+                function extractColors(img, idx) {
+                    try {
+                        const MAX = 48;
+                        const ratio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
+                        const tw = ratio >= 1 ? MAX : Math.max(16, Math.round(MAX * ratio));
+                        const th = ratio >= 1 ? Math.max(16, Math.round(MAX / ratio)) : MAX;
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = tw;
+                        canvas.height = th;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, tw, th);
+                        const data = ctx.getImageData(0, 0, tw, th).data;
+
+                        let rSum = 0, gSum = 0, bSum = 0, count = 0;
+                        for (let i = 0; i < data.length; i += 4) {
+                            const a = data[i + 3] / 255;
+                            if (a < 0.05) continue;
+                            const [h, s, l] = rgbToHsl(data[i], data[i + 1], data[i + 2]);
+                            if (l < 0.1 || l > 0.92 || s < 0.08) continue;
+                            rSum += data[i];
+                            gSum += data[i + 1];
+                            bSum += data[i + 2];
+                            count++;
+                        }
+
+                        if (count === 0) return fallbackFromIndex(idx);
+
+                        const avgR = Math.round(rSum / count);
+                        const avgG = Math.round(gSum / count);
+                        const avgB = Math.round(bSum / count);
+                        let [h1, s1] = rgbToHsl(avgR, avgG, avgB);
+                        s1 = Math.max(0.45, Math.min(1, s1 * 1.15));
+                        return { c1: hslToRgb(h1, s1, 0.5), c2: hslToRgb(h1, s1, 0.72) };
+                    } catch {
+                        return fallbackFromIndex(idx);
+                    }
+                }
+
+                function buildPalette() {
+                    gradPalette = items.map((it, i) => {
+                        const img = it.el.querySelector('img');
+                        return extractColors(img, i);
+                    });
+                }
+
+                function setActiveGradient(idx) {
+                    if (!bgCtx || idx < 0 || idx >= items.length || idx === activeIndex) return;
+                    activeIndex = idx;
+                    const pal = gradPalette[idx] || { c1: [240, 240, 240], c2: [235, 235, 235] };
+                    const to = {
+                        r1: pal.c1[0], g1: pal.c1[1], b1: pal.c1[2],
+                        r2: pal.c2[0], g2: pal.c2[1], b2: pal.c2[2]
+                    };
+
+                    if (window.gsap) {
+                        bgFastUntil = performance.now() + 800;
+                        window.gsap.to(gradCurrent, { ...to, duration: 0.45, ease: 'power2.out' });
+                    } else {
+                        Object.assign(gradCurrent, to);
+                    }
+                }
+
+                function resizeBG() {
+                    if (!bgCanvas || !bgCtx) return;
+                    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+                    const w = bgCanvas.clientWidth || stage.clientWidth;
+                    const h = bgCanvas.clientHeight || stage.clientHeight;
+                    const tw = Math.floor(w * dpr);
+                    const th = Math.floor(h * dpr);
+
+                    if (bgCanvas.width !== tw || bgCanvas.height !== th) {
+                        bgCanvas.width = tw;
+                        bgCanvas.height = th;
+                        bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    }
+                }
+
+                function drawBackground() {
+                    if (!bgCanvas || !bgCtx) return;
+
+                    const now = performance.now();
+                    const minInterval = now < bgFastUntil ? 16 : 33;
+
+                    if (now - lastBgDraw < minInterval) {
+                        bgRAF = requestAnimationFrame(drawBackground);
+                        return;
+                    }
+
+                    lastBgDraw = now;
+                    resizeBG();
+
+                    const w = bgCanvas.clientWidth || stage.clientWidth;
+                    const h = bgCanvas.clientHeight || stage.clientHeight;
+
+                    bgCtx.fillStyle = '#f6f7f9';
+                    bgCtx.fillRect(0, 0, w, h);
+
+                    const time = now * 0.0002;
+                    const cx = w * 0.5, cy = h * 0.5;
+                    const a1 = Math.min(w, h) * 0.35;
+                    const a2 = Math.min(w, h) * 0.28;
+
+                    const x1 = cx + Math.cos(time) * a1;
+                    const y1 = cy + Math.sin(time * 0.8) * a1 * 0.4;
+                    const x2 = cx + Math.cos(-time * 0.9 + 1.2) * a2;
+                    const y2 = cy + Math.sin(-time * 0.7 + 0.7) * a2 * 0.5;
+
+                    const r1 = Math.max(w, h) * 0.75;
+                    const r2 = Math.max(w, h) * 0.65;
+
+                    const g1 = bgCtx.createRadialGradient(x1, y1, 0, x1, y1, r1);
+                    g1.addColorStop(0, `rgba(${gradCurrent.r1},${gradCurrent.g1},${gradCurrent.b1},0.85)`);
+                    g1.addColorStop(1, 'rgba(255,255,255,0)');
+                    bgCtx.fillStyle = g1;
+                    bgCtx.fillRect(0, 0, w, h);
+
+                    const g2 = bgCtx.createRadialGradient(x2, y2, 0, x2, y2, r2);
+                    g2.addColorStop(0, `rgba(${gradCurrent.r2},${gradCurrent.g2},${gradCurrent.b2},0.70)`);
+                    g2.addColorStop(1, 'rgba(255,255,255,0)');
+                    bgCtx.fillStyle = g2;
+                    bgCtx.fillRect(0, 0, w, h);
+
+                    bgRAF = requestAnimationFrame(drawBackground);
+                }
+
+                function startBG() {
+                    if (!bgCanvas || !bgCtx) return;
+                    if (bgRAF) cancelAnimationFrame(bgRAF);
+                    bgRAF = requestAnimationFrame(drawBackground);
+                }
+
+                // Event handlers - butter-smooth wheel scrolling
+                stage.addEventListener('wheel', (e) => {
+                    if (isEntering) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Use whichever axis has more movement
+                    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+                    // Add to target velocity for smooth acceleration
+                    targetVX += delta * WHEEL_SENS * 15;
+                }, { passive: false });
+
+                stage.addEventListener('dragstart', (e) => e.preventDefault());
+
+                // Drag state with velocity history for smooth momentum
+                let dragging = false;
+                let lastX = 0;
+                let lastT = 0;
+                let velocityHistory = [];
+                const VELOCITY_HISTORY_SIZE = 5;
+
+                stage.addEventListener('pointerdown', (e) => {
+                    if (isEntering) return;
+                    dragging = true;
+                    lastX = e.clientX;
+                    lastT = performance.now();
+                    velocityHistory = [];
+                    // Stop any existing momentum
+                    targetVX = 0;
+                    vX *= 0.5;
+                    stage.setPointerCapture(e.pointerId);
+                    stage.classList.add('dragging');
+                });
+
+                stage.addEventListener('pointermove', (e) => {
+                    if (!dragging) return;
+                    const now = performance.now();
+                    const dx = e.clientX - lastX;
+                    const dt = Math.max(1, now - lastT) / 1000;
+
+                    // Direct scroll position update while dragging
+                    SCROLL_X = mod(SCROLL_X - dx * DRAG_SENS, TRACK);
+
+                    // Track velocity history for smooth throw
+                    const velocity = dx / dt;
+                    velocityHistory.push(velocity);
+                    if (velocityHistory.length > VELOCITY_HISTORY_SIZE) {
+                        velocityHistory.shift();
+                    }
+
+                    lastX = e.clientX;
+                    lastT = now;
+                });
+
+                stage.addEventListener('pointerup', (e) => {
+                    if (!dragging) return;
+                    dragging = false;
+                    stage.releasePointerCapture(e.pointerId);
+                    stage.classList.remove('dragging');
+
+                    // Calculate average velocity from history for smooth throw
+                    if (velocityHistory.length > 0) {
+                        const avgVelocity = velocityHistory.reduce((a, b) => a + b, 0) / velocityHistory.length;
+                        targetVX = -avgVelocity * DRAG_SENS * 0.8;
+                    }
+                });
+
+                // Handle pointer cancel (e.g., when leaving viewport)
+                stage.addEventListener('pointercancel', (e) => {
+                    if (!dragging) return;
+                    dragging = false;
+                    stage.classList.remove('dragging');
+                    targetVX = 0;
+                });
+
+                function onResize() {
+                    const prevStep = STEP || 1;
+                    const ratio = SCROLL_X / (items.length * prevStep);
+                    measure();
+                    SCROLL_X = mod(ratio * TRACK, TRACK);
+                    updateCarouselTransforms();
+                    resizeBG();
+                }
+
+                window.addEventListener('resize', () => {
+                    clearTimeout(onResize._t);
+                    onResize._t = setTimeout(onResize, 80);
+                });
+
+                // Initialize
+                async function initGradientCarousel() {
+                    createCards();
+                    measure();
+                    updateCarouselTransforms();
+
+                    // Wait for images
+                    await Promise.all(items.map(it => {
+                        const img = it.el.querySelector('img');
+                        if (!img || img.complete) return Promise.resolve();
+                        return new Promise(resolve => {
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                        });
+                    }));
+
+                    buildPalette();
+
+                    const half = TRACK / 2;
+                    let closestIdx = 0, closestDist = Infinity;
+                    for (let i = 0; i < items.length; i++) {
+                        let pos = items[i].x - SCROLL_X;
+                        if (pos < -half) pos += TRACK;
+                        if (pos > half) pos -= TRACK;
+                        const d = Math.abs(pos);
+                        if (d < closestDist) { closestDist = d; closestIdx = i; }
+                    }
+
+                    setActiveGradient(closestIdx);
+                    resizeBG();
+
+                    if (bgCtx) {
+                        const w = bgCanvas.clientWidth || stage.clientWidth;
+                        const h = bgCanvas.clientHeight || stage.clientHeight;
+                        bgCtx.fillStyle = '#f6f7f9';
+                        bgCtx.fillRect(0, 0, w, h);
+                    }
+
+                    startBG();
+
+                    if (loader) loader.classList.add('gradient-carousel-loader--hide');
+
+                    // Fade in cards
+                    items.forEach((it, i) => {
+                        it.el.style.opacity = '0';
+                        setTimeout(() => {
+                            it.el.style.transition = 'opacity 0.5s ease';
+                            it.el.style.opacity = '1';
+                        }, i * 50);
+                    });
+
+                    setTimeout(() => {
+                        isEntering = false;
+                        startCarousel();
+                    }, 600);
+                }
+
+                // Start when DOM is ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initGradientCarousel);
+                } else {
+                    initGradientCarousel();
+                }
+            })();
+        </script>
+
         <section class="shader-section" data-scroll-section>
             <div class="shader-container">
                 <h2 class="shader-title" data-scroll data-scroll-speed="-2">Interactive <mark class="hx hx-13"><span
@@ -2527,50 +3210,1035 @@
             <div class="download-bg-pattern"></div>
             <div class="download-dots"></div>
 
-            <div class="download-content" data-scroll data-scroll-speed="1">
-                <div style="position: relative; display: inline-block; margin-bottom: 3.5rem;">
-                    <img src="./Vrindopnishad Web/class/logo/v-logo.png" alt="Sant-Vaani Icon" class="download-icon-img"
-                        style="width: 120px; height: 120px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.1);">
-                    <div class="download-icon-bg"
-                        style="position: absolute; bottom: -8px; right: -8px; background: #fff; color: #000; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 5;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 5v14M5 12l7 7 7-7" />
-                        </svg>
+            <!-- App Slider Container -->
+            <div class="app-slider-container">
+                <!-- Header with Title and Navigation -->
+                <div class="app-slider-header" data-scroll data-scroll-speed="1">
+                    <div class="app-slider-title-area">
+                        <h2 class="app-slider-title">Download Our <mark class="hx hx-6">Apps</mark></h2>
+                        <p class="app-slider-subtitle">Explore our collection of spiritual and utility applications</p>
                     </div>
                 </div>
 
-                <h2 class="download-title">
-                    Download Sant-Vaani<br>for Android<span class="download-cursor"></span>
-                </h2>
+                <!-- App Cards Slider Track -->
+                <div class="app-slider-viewport">
+                    <div class="app-slider-track" id="appSliderTrack">
 
-                <div class="download-btn-group">
-                    <a href="../Sant-Vaani/frontend/android/app/build/outputs/apk/debug/app-debug.apk" // apk link
-                        class="btn-antigravity primary" download>
-                        <span>Download for Android</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </a>
-                    <a href="#footer" class="btn-antigravity secondary">
-                        <span>Coming to iOS</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                    </a>
+                        <!-- App Card 1: Sant-Vaani -->
+                        <div class="app-card" data-app-index="0">
+                            <div class="app-card-image">
+                                <img src="./Vrindopnishad Web/class/logo/v-logo.png" alt="Sant-Vaani App"
+                                    loading="lazy">
+                                <div class="app-card-badge">
+                                    <span>v1.0.0</span>
+                                </div>
+                            </div>
+                            <div class="app-card-content">
+                                <h3 class="app-card-title">Sant-Vaani</h3>
+                                <p class="app-card-description">Divine spiritual companion featuring holy scriptures,
+                                    mantras, and sacred teachings in your pocket.</p>
+                                <div class="app-card-meta">
+                                    <span class="app-card-tag">Spiritual</span>
+                                    <span class="app-card-size">15 MB</span>
+                                </div>
+                                <div class="app-card-actions">
+                                    <a href="../Sant-Vaani/frontend/android/app/build/outputs/apk/debug/app-debug.apk"
+                                        class="app-card-btn primary" download>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        Download
+                                    </a>
+                                    <span class="app-card-platform">Android</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- App Card 2: Foody Vrinda -->
+                        <div class="app-card" data-app-index="1">
+                            <div class="app-card-image">
+                                <img src="./Projects/Cloud-Kitchen/icons/icon-192x192.png" alt="Foody Vrinda App"
+                                    loading="lazy">
+                                <div class="app-card-badge badge-pwa">
+                                    <span>PWA</span>
+                                </div>
+                            </div>
+                            <div class="app-card-content">
+                                <h3 class="app-card-title">Foody Vrinda</h3>
+                                <p class="app-card-description">Cloud kitchen management system for seamless food
+                                    ordering, delivery tracking, and kitchen operations.</p>
+                                <div class="app-card-meta">
+                                    <span class="app-card-tag">Food Tech</span>
+                                    <span class="app-card-size">Web App</span>
+                                </div>
+                                <div class="app-card-actions">
+                                    <a href="./Projects/Cloud-Kitchen/kitchen(modified).html"
+                                        class="app-card-btn primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                        </svg>
+                                        Open App
+                                    </a>
+                                    <span class="app-card-platform">All Platforms</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- App Card 3: Vrinda Chat -->
+                        <div class="app-card" data-app-index="2">
+                            <div class="app-card-image">
+                                <img src="./Vrindopnishad Web/class/logo/v-logo.png" alt="Vrinda Chat App"
+                                    loading="lazy">
+                                <div class="app-card-badge badge-ai">
+                                    <span>AI</span>
+                                </div>
+                            </div>
+                            <div class="app-card-content">
+                                <h3 class="app-card-title">Vrinda Chat</h3>
+                                <p class="app-card-description">AI-powered spiritual assistant for guidance, scripture
+                                    interpretation, and divine wisdom exploration.</p>
+                                <div class="app-card-meta">
+                                    <span class="app-card-tag">AI Assistant</span>
+                                    <span class="app-card-size">Web App</span>
+                                </div>
+                                <div class="app-card-actions">
+                                    <a href="./Projects/Vrinda%20Chat/vrinda%20chat.html" class="app-card-btn primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                        </svg>
+                                        Open App
+                                    </a>
+                                    <span class="app-card-platform">All Platforms</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- App Card 4: Brij Yatra -->
+                        <div class="app-card" data-app-index="3">
+                            <div class="app-card-image">
+                                <img src="./Vrindopnishad Web/class/logo/v-logo.png" alt="Brij Yatra App"
+                                    loading="lazy">
+                                <div class="app-card-badge badge-map">
+                                    <span>Map</span>
+                                </div>
+                            </div>
+                            <div class="app-card-content">
+                                <h3 class="app-card-title">Brij Yatra</h3>
+                                <p class="app-card-description">Interactive pilgrimage map guide featuring sacred
+                                    locations, temples, and spiritual journeys in Braj region.</p>
+                                <div class="app-card-meta">
+                                    <span class="app-card-tag">Pilgrimage</span>
+                                    <span class="app-card-size">Web App</span>
+                                </div>
+                                <div class="app-card-actions">
+                                    <a href="./Projects/Brij%20Yatra/vrinda%20yatra.html" class="app-card-btn primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                        </svg>
+                                        Open App
+                                    </a>
+                                    <span class="app-card-platform">All Platforms</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- App Card 5: PDF Library -->
+                        <div class="app-card" data-app-index="4">
+                            <div class="app-card-image">
+                                <img src="./Vrindopnishad Web/class/logo/v-logo.png" alt="PDF Library App"
+                                    loading="lazy">
+                                <div class="app-card-badge badge-docs">
+                                    <span>Docs</span>
+                                </div>
+                            </div>
+                            <div class="app-card-content">
+                                <h3 class="app-card-title">PDF Library</h3>
+                                <p class="app-card-description">Digital archive of sacred texts, scriptures, and
+                                    spiritual documents for offline reading and study.</p>
+                                <div class="app-card-meta">
+                                    <span class="app-card-tag">Library</span>
+                                    <span class="app-card-size">Web App</span>
+                                </div>
+                                <div class="app-card-actions">
+                                    <a href="./Vrindopnishad Web/pdf/main/pdf-viewer.html" class="app-card-btn primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                        </svg>
+                                        Open App
+                                    </a>
+                                    <span class="app-card-platform">All Platforms</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- App Card 6: Photo Gallery -->
+                        <div class="app-card" data-app-index="5">
+                            <div class="app-card-image">
+                                <img src="./Vrindopnishad Web/class/logo/v-logo.png" alt="Photo Gallery App"
+                                    loading="lazy">
+                                <div class="app-card-badge badge-media">
+                                    <span>Media</span>
+                                </div>
+                            </div>
+                            <div class="app-card-content">
+                                <h3 class="app-card-title">Photo Gallery</h3>
+                                <p class="app-card-description">Stunning visual collection of divine imagery, temple
+                                    photography, and sacred art from across traditions.</p>
+                                <div class="app-card-meta">
+                                    <span class="app-card-tag">Gallery</span>
+                                    <span class="app-card-size">Web App</span>
+                                </div>
+                                <div class="app-card-actions">
+                                    <a href="./Vrindopnishad Web/Pictures/main/pictures.html"
+                                        class="app-card-btn primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                        </svg>
+                                        Open App
+                                    </a>
+                                    <span class="app-card-platform">All Platforms</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="download-version-text"
-                    style="margin-top: 4rem; opacity: 0.3; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;">
-                    Version 1.0.0 • Digital Sanctuary App
+                <!-- Slider Navigation & Dots -->
+                <div class="app-slider-controls">
+                    <!-- Pill-shaped Navigation Arrows -->
+                    <div class="app-slider-nav">
+                        <button type="button" class="app-slider-arrow app-slider-prev" aria-label="Previous app"
+                            id="appSliderPrev" onclick="if(window.appSliderPrev) window.appSliderPrev();">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+                        <button type="button" class="app-slider-arrow app-slider-next" aria-label="Next app"
+                            id="appSliderNext" onclick="if(window.appSliderNext) window.appSliderNext();">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="9 6 15 12 9 18"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Progress Dots -->
+                    <div class="app-slider-dots" id="appSliderDots"></div>
                 </div>
             </div>
+
+            <!-- App Slider Styles -->
+            <style>
+                /* App Slider Container */
+                .app-slider-container {
+                    width: 100%;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 2rem;
+                }
+
+                /* Header with Title and Navigation */
+                .app-slider-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 3rem;
+                    gap: 2rem;
+                    flex-wrap: wrap;
+                }
+
+                .app-slider-title-area {
+                    flex: 1;
+                    min-width: 250px;
+                }
+
+                .app-slider-title {
+                    font-size: clamp(2rem, 5vw, 3.5rem);
+                    font-weight: 700;
+                    margin: 0 0 0.5rem 0;
+                    color: inherit;
+                    line-height: 1.2;
+                }
+
+                .app-slider-subtitle {
+                    font-size: 1.1rem;
+                    opacity: 0.6;
+                    margin: 0;
+                }
+
+                /* Slider Controls Container (Arrows + Dots) */
+                .app-slider-controls {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1.5rem;
+                    margin-top: 3rem;
+                    position: relative;
+                    z-index: 50;
+                }
+
+                .app-slider-nav {
+                    display: flex;
+                    gap: 0;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 50px;
+                    padding: 6px;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                    position: relative;
+                    z-index: 51;
+                    pointer-events: auto;
+                }
+
+                .app-slider-arrow {
+                    width: 48px;
+                    height: 48px;
+                    border: none;
+                    background: transparent;
+                    color: inherit;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    opacity: 0.7;
+                    pointer-events: auto;
+                    position: relative;
+                    z-index: 52;
+                }
+
+                .app-slider-arrow:hover {
+                    background: rgba(255, 255, 255, 0.15);
+                    opacity: 1;
+                    transform: scale(1.05);
+                }
+
+                .app-slider-arrow:active {
+                    transform: scale(0.95);
+                }
+
+                .app-slider-arrow:disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                }
+
+                .app-slider-arrow svg {
+                    width: 20px;
+                    height: 20px;
+                    pointer-events: none;
+                }
+
+                /* Slider Viewport */
+                .app-slider-viewport {
+                    overflow: hidden;
+                    margin: 0 -1rem;
+                    padding: 1rem;
+                    position: relative;
+                    z-index: 3;
+                }
+
+                .app-slider-track {
+                    display: flex;
+                    gap: 24px;
+                    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+                    will-change: transform;
+                    position: relative;
+                    z-index: 3;
+                    cursor: grab;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                }
+
+                /* App Card Styles */
+                .app-card {
+                    flex: 0 0 calc(33.333% - 16px);
+                    min-width: 300px;
+                    max-width: 380px;
+                    background: rgba(255, 255, 255, 0.02);
+                    border-radius: 24px;
+                    overflow: hidden;
+                    border: 1px solid rgba(255, 255, 255, 0.02);
+                    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    backdrop-filter: blur(1px);
+                    -webkit-backdrop-filter: blur(3px);
+                    position: relative;
+                    z-index: 5;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -webkit-touch-callout: none;
+                }
+
+                .app-card:hover {
+                    transform: translateY(-1px);
+                    box-shadow:
+                        0 4px 16px rgba(0, 0, 0, 0.04),
+                        0 12px 32px rgba(0, 0, 0, 0.06),
+                        0 24px 64px rgba(0, 0, 0, 0.08),
+                        0 40px 96px rgba(0, 0, 0, 0.06),
+                        0 60px 128px rgba(0, 0, 0, 0.04);
+                    border-color: rgba(255, 255, 255, 0.08);
+                    background: rgba(255, 255, 255, 0.06);
+                }
+
+                .app-card-image {
+                    position: relative;
+                    padding: 2rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+                }
+
+                .app-card-image img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 22px;
+                    object-fit: cover;
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+                    border: 2px solid rgba(255, 255, 255, 0.1);
+                    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                }
+
+                .app-card:hover .app-card-image img {
+                    transform: scale(1.05) rotate(-2deg);
+                }
+
+                .app-card-badge {
+                    position: absolute;
+                    top: 1.5rem;
+                    right: 1.5rem;
+                    background: rgba(255, 255, 255, 0.15);
+                    padding: 0.35rem 0.75rem;
+                    border-radius: 20px;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    letter-spacing: 0.05em;
+                    text-transform: uppercase;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                }
+
+                .app-card-badge.badge-pwa {
+                    background: rgba(52, 199, 89, 0.2);
+                    color: #34c759;
+                }
+
+                .app-card-badge.badge-ai {
+                    background: rgba(88, 86, 214, 0.2);
+                    color: #a8a6ff;
+                }
+
+                .app-card-badge.badge-map {
+                    background: rgba(255, 149, 0, 0.2);
+                    color: #ff9500;
+                }
+
+                .app-card-badge.badge-docs {
+                    background: rgba(0, 122, 255, 0.2);
+                    color: #64b5ff;
+                }
+
+                .app-card-badge.badge-media {
+                    background: rgba(255, 45, 85, 0.2);
+                    color: #ff6b8a;
+                }
+
+                .app-card-content {
+                    padding: 1.5rem 2rem 2rem;
+                }
+
+                .app-card-title {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin: 0 0 0.75rem 0;
+                    color: inherit;
+                }
+
+                .app-card-description {
+                    font-size: 0.95rem;
+                    line-height: 1.6;
+                    opacity: 0.7;
+                    margin: 0 0 1rem 0;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .app-card-meta {
+                    display: flex;
+                    gap: 0.75rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                .app-card-tag {
+                    background: rgba(255, 255, 255, 0.1);
+                    padding: 0.3rem 0.75rem;
+                    border-radius: 12px;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                }
+
+                .app-card-size {
+                    opacity: 0.5;
+                    font-size: 0.75rem;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .app-card-actions {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1rem;
+                }
+
+                .app-card-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.85rem 1.5rem;
+                    border-radius: 14px;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                }
+
+                .app-card-btn.primary {
+                    background: #fff;
+                    color: #000;
+                }
+
+                .app-card-btn.primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+                }
+
+                .app-card-platform {
+                    font-size: 0.8rem;
+                    opacity: 0.5;
+                }
+
+                /* Slider Progress Dots */
+                .app-slider-dots {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                }
+
+                .app-slider-dot {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.2);
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    padding: 0;
+                }
+
+                .app-slider-dot.active {
+                    width: 24px;
+                    height: 8px;
+                    border-radius: 4px;
+                    background: rgba(255, 255, 255, 0.9);
+                }
+
+                .app-slider-dot:hover {
+                    background: rgba(255, 255, 255, 0.5);
+                }
+
+                /* Dark mode adjustments */
+                @media (prefers-color-scheme: dark) {
+                    .app-slider-nav {
+                        background: rgba(0, 0, 0, 0.08);
+                        border-color: rgba(0, 0, 0, 0.08);
+                    }
+
+                    .app-slider-arrow:hover {
+                        background: rgba(0, 0, 0, 0.08);
+                    }
+
+                    .app-card {
+                        background: rgba(0, 0, 0, 0.05);
+                        border-color: rgba(0, 0, 0, 0.08);
+                    }
+
+                    .app-card:hover {
+                        box-shadow:
+                            0 4px 16px rgba(0, 0, 0, 0.02),
+                            0 12px 32px rgba(0, 0, 0, 0.03),
+                            0 24px 64px rgba(0, 0, 0, 0.04),
+                            0 40px 96px rgba(0, 0, 0, 0.03),
+                            0 60px 128px rgba(0, 0, 0, 0.02);
+                        border-color: rgba(0, 0, 0, 0.06);
+                    }
+
+                    .app-card-badge {
+                        background: rgba(0, 0, 0, 0.08);
+                    }
+
+                    .app-card-badge.badge-pwa {
+                        background: rgba(52, 199, 89, 0.15);
+                        color: #2a9d4a;
+                    }
+
+                    .app-card-badge.badge-ai {
+                        background: rgba(88, 86, 214, 0.15);
+                        color: #5856d6;
+                    }
+
+                    .app-card-badge.badge-map {
+                        background: rgba(255, 149, 0, 0.15);
+                        color: #cc7700;
+                    }
+
+                    .app-card-badge.badge-docs {
+                        background: rgba(0, 122, 255, 0.15);
+                        color: #007aff;
+                    }
+
+                    .app-card-badge.badge-media {
+                        background: rgba(255, 45, 85, 0.15);
+                        color: #ff2d55;
+                    }
+
+                    .app-card-btn.primary {
+                        background: #000;
+                        color: #fff;
+                    }
+
+                    .app-card-btn.primary:hover {
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .app-slider-dot {
+                        background: rgba(0, 0, 0, 0.15);
+                    }
+
+                    .app-slider-dot.active {
+                        background: rgba(0, 0, 0, 0.8);
+                    }
+
+                    .app-slider-dot:hover {
+                        background: rgba(0, 0, 0, 0.4);
+                    }
+                }
+
+                /* Responsive Styles */
+                @media (max-width: 1200px) {
+                    .app-card {
+                        flex: 0 0 calc(50% - 12px);
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .app-slider-container {
+                        padding: 0 1rem;
+                    }
+
+                    .app-slider-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 1.5rem;
+                    }
+
+                    .app-slider-nav {
+                        align-self: flex-end;
+                    }
+
+                    .app-slider-arrow {
+                        width: 42px;
+                        height: 42px;
+                    }
+
+                    .app-card {
+                        flex: 0 0 calc(100% - 48px);
+                        min-width: 280px;
+                    }
+
+                    .app-card-image {
+                        padding: 1.5rem;
+                    }
+
+                    .app-card-image img {
+                        width: 80px;
+                        height: 80px;
+                    }
+
+                    .app-card-content {
+                        padding: 1.25rem 1.5rem 1.5rem;
+                    }
+
+                    .app-card-title {
+                        font-size: 1.2rem;
+                    }
+
+                    .app-card-actions {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 0.75rem;
+                    }
+
+                    .app-card-btn {
+                        width: 100%;
+                        justify-content: center;
+                    }
+                }
+            </style>
+
+            <!-- App Slider JavaScript -->
+            <script>
+                // App Slider Initialization - runs after DOM is ready
+                (function initAppSlider() {
+                    'use strict';
+
+                    // Wait for DOM to be ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initSlider);
+                    } else {
+                        // DOM is already ready, but let's wait a tick for any dynamic content
+                        setTimeout(initSlider, 100);
+                    }
+
+                    function initSlider() {
+                        // DOM Elements
+                        const track = document.getElementById('appSliderTrack');
+                        const prevBtn = document.getElementById('appSliderPrev');
+                        const nextBtn = document.getElementById('appSliderNext');
+                        const dotsContainer = document.getElementById('appSliderDots');
+
+                        // Debug: Check if elements exist
+                        console.log('App Slider Init:', { track: !!track, prevBtn: !!prevBtn, nextBtn: !!nextBtn });
+
+                        if (!track) {
+                            console.error('App Slider: Track element not found');
+                            return;
+                        }
+
+                        const cards = track.querySelectorAll('.app-card');
+                        const totalCards = cards.length;
+
+                        if (totalCards === 0) {
+                            console.error('App Slider: No app cards found');
+                            return;
+                        }
+
+                        let currentIndex = 0;
+                        let cardsPerView = getCardsPerView();
+                        let maxIndex = Math.max(0, totalCards - cardsPerView);
+                        let isDragging = false;
+                        let currentTranslate = 0;
+                        let prevTranslate = 0;
+
+                        // Calculate cards per view based on viewport
+                        function getCardsPerView() {
+                            const viewportWidth = window.innerWidth;
+                            if (viewportWidth >= 1200) return 3;
+                            if (viewportWidth >= 768) return 2;
+                            return 1;
+                        }
+
+                        // Calculate card width including gap
+                        function getCardWidth() {
+                            if (cards.length === 0) return 0;
+                            const card = cards[0];
+                            const width = card.offsetWidth;
+                            const gap = 24; // Match CSS gap
+                            return width + gap;
+                        }
+
+                        // Create dots
+                        function createDots() {
+                            if (!dotsContainer) return;
+                            dotsContainer.innerHTML = '';
+                            const dotsCount = maxIndex + 1;
+                            for (let i = 0; i < dotsCount; i++) {
+                                const dot = document.createElement('button');
+                                dot.className = 'app-slider-dot' + (i === 0 ? ' active' : '');
+                                dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                                dot.setAttribute('type', 'button');
+                                const slideIndex = i;
+                                dot.onclick = function () {
+                                    goToSlide(slideIndex);
+                                };
+                                dotsContainer.appendChild(dot);
+                            }
+                        }
+
+                        // Update dots
+                        function updateDots() {
+                            if (!dotsContainer) return;
+                            const dots = dotsContainer.querySelectorAll('.app-slider-dot');
+                            dots.forEach(function (dot, i) {
+                                if (i === currentIndex) {
+                                    dot.classList.add('active');
+                                } else {
+                                    dot.classList.remove('active');
+                                }
+                            });
+                        }
+
+                        // Update button states
+                        function updateButtons() {
+                            if (prevBtn) {
+                                prevBtn.disabled = currentIndex === 0;
+                                prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '0.7';
+                            }
+                            if (nextBtn) {
+                                nextBtn.disabled = currentIndex >= maxIndex;
+                                nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '0.7';
+                            }
+                        }
+
+                        // Go to specific slide
+                        function goToSlide(index) {
+                            currentIndex = Math.max(0, Math.min(index, maxIndex));
+                            const cardWidth = getCardWidth();
+                            currentTranslate = -currentIndex * cardWidth;
+                            prevTranslate = currentTranslate;
+                            track.style.transform = 'translateX(' + currentTranslate + 'px)';
+                            updateDots();
+                            updateButtons();
+                            console.log('Slider: Moved to slide', currentIndex);
+                        }
+
+                        // Navigate slides
+                        function navigatePrev() {
+                            console.log('Slider: Prev clicked, currentIndex:', currentIndex);
+                            if (currentIndex > 0) {
+                                goToSlide(currentIndex - 1);
+                            }
+                        }
+
+                        function navigateNext() {
+                            console.log('Slider: Next clicked, currentIndex:', currentIndex, 'maxIndex:', maxIndex);
+                            if (currentIndex < maxIndex) {
+                                goToSlide(currentIndex + 1);
+                            }
+                        }
+
+                        // Expose navigation functions globally for onclick handlers
+                        window.appSliderPrev = navigatePrev;
+                        window.appSliderNext = navigateNext;
+
+                        // Touch/Mouse drag support
+                        let startX = 0;
+                        let startY = 0;
+                        let hasMoved = false;
+                        let clickedElement = null;
+
+                        function getPositionX(e) {
+                            if (e.type.includes('touch')) {
+                                return e.touches[0].clientX;
+                            }
+                            return e.pageX;
+                        }
+
+                        function getPositionY(e) {
+                            if (e.type.includes('touch')) {
+                                return e.touches[0].clientY;
+                            }
+                            return e.pageY;
+                        }
+
+                        function isInteractiveElement(el) {
+                            // Check if element or any parent is a button, link, or other interactive element
+                            while (el && el !== track) {
+                                const tagName = el.tagName.toLowerCase();
+                                if (tagName === 'a' || tagName === 'button' ||
+                                    el.classList.contains('app-card-btn') ||
+                                    el.classList.contains('app-card-actions') ||
+                                    el.onclick || el.hasAttribute('onclick')) {
+                                    return true;
+                                }
+                                el = el.parentElement;
+                            }
+                            return false;
+                        }
+
+                        function dragStart(e) {
+                            // Store the clicked element to check later
+                            clickedElement = e.target;
+
+                            // If clicking on interactive element, don't start drag
+                            if (isInteractiveElement(e.target)) {
+                                isDragging = false;
+                                return;
+                            }
+
+                            isDragging = true;
+                            hasMoved = false;
+                            startX = getPositionX(e);
+                            startY = getPositionY(e);
+                            track.style.cursor = 'grabbing';
+                        }
+
+                        function dragMove(e) {
+                            if (!isDragging) return;
+
+                            const currentX = getPositionX(e);
+                            const currentY = getPositionY(e);
+                            const diffX = currentX - startX;
+                            const diffY = currentY - startY;
+
+                            // Only consider it a drag if moved more than 10px horizontally
+                            // and movement is more horizontal than vertical
+                            if (!hasMoved && Math.abs(diffX) > 10 && Math.abs(diffX) > Math.abs(diffY)) {
+                                hasMoved = true;
+                                track.style.transition = 'none';
+                            }
+
+                            if (hasMoved) {
+                                e.preventDefault();
+                                currentTranslate = prevTranslate + diffX;
+                                track.style.transform = 'translateX(' + currentTranslate + 'px)';
+                            }
+                        }
+
+                        function dragEnd(e) {
+                            if (!isDragging) return;
+
+                            isDragging = false;
+                            track.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+                            track.style.cursor = 'grab';
+
+                            // If we didn't actually drag (just clicked), don't change slide
+                            if (!hasMoved) {
+                                return;
+                            }
+
+                            const cardWidth = getCardWidth();
+                            const movedBy = currentTranslate - prevTranslate;
+
+                            // Determine direction based on drag distance
+                            if (Math.abs(movedBy) > cardWidth / 4) {
+                                if (movedBy < 0 && currentIndex < maxIndex) {
+                                    currentIndex++;
+                                } else if (movedBy > 0 && currentIndex > 0) {
+                                    currentIndex--;
+                                }
+                            }
+
+                            goToSlide(currentIndex);
+                        }
+
+                        // ===== ATTACH EVENT LISTENERS =====
+
+                        // Button click events
+                        if (prevBtn) {
+                            prevBtn.onclick = function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                navigatePrev();
+                            };
+                            console.log('Slider: Prev button listener attached');
+                        }
+
+                        if (nextBtn) {
+                            nextBtn.onclick = function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                navigateNext();
+                            };
+                            console.log('Slider: Next button listener attached');
+                        }
+
+                        // Touch events for the track
+                        track.addEventListener('touchstart', dragStart, { passive: true });
+                        track.addEventListener('touchmove', function (e) {
+                            if (isDragging && hasMoved) {
+                                e.preventDefault();
+                            }
+                            dragMove(e);
+                        }, { passive: false });
+                        track.addEventListener('touchend', dragEnd);
+                        track.addEventListener('touchcancel', dragEnd);
+
+                        // Mouse events for the track
+                        track.addEventListener('mousedown', function (e) {
+                            if (e.button === 0) { // Left mouse button only
+                                dragStart(e);
+                            }
+                        });
+
+                        document.addEventListener('mousemove', function (e) {
+                            if (isDragging) {
+                                dragMove(e);
+                            }
+                        });
+
+                        document.addEventListener('mouseup', function (e) {
+                            if (isDragging) {
+                                dragEnd(e);
+                            }
+                        });
+
+                        // Prevent default drag behavior on images only (not links!)
+                        track.querySelectorAll('img').forEach(function (el) {
+                            el.addEventListener('dragstart', function (e) {
+                                e.preventDefault();
+                            });
+                        });
+
+                        // Keyboard navigation (only when slider section is in view)
+                        document.addEventListener('keydown', function (e) {
+                            if (e.key === 'ArrowLeft') {
+                                navigatePrev();
+                            } else if (e.key === 'ArrowRight') {
+                                navigateNext();
+                            }
+                        });
+
+                        // Resize handler
+                        let resizeTimeout;
+                        window.addEventListener('resize', function () {
+                            clearTimeout(resizeTimeout);
+                            resizeTimeout = setTimeout(function () {
+                                cardsPerView = getCardsPerView();
+                                maxIndex = Math.max(0, totalCards - cardsPerView);
+                                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                                createDots();
+                                goToSlide(currentIndex);
+                            }, 150);
+                        });
+
+                        // Set initial cursor style
+                        track.style.cursor = 'grab';
+
+                        // Initialize
+                        createDots();
+                        updateButtons();
+                        console.log('App Slider: Initialized successfully with', totalCards, 'cards');
+                    }
+                })();
+            </script>
         </section>
 
         <footer data-scroll-section>
