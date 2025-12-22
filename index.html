@@ -36,12 +36,15 @@
 
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
     <link rel="stylesheet" href="https://use.typekit.net/cvn8slu.css">
+    <link rel="stylesheet" href="https://use.typekit.net/zda3gdw.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
     <!-- Creative Button Font -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Laila font for Hindi brand -->
     <link href="https://fonts.googleapis.com/css2?family=Laila:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Image Resource Helper -->
+    <script src="./js/image-helper.js"></script>
 </head>
 <!-- <body>
     <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload lazyload></script>
@@ -171,6 +174,30 @@
         color: var(--color-text);
         background-color: var(--color-bg);
         font-family: neuzeit-grotesk, sans-serif;
+    }
+
+    /* Effect 22 Styles - Dance into Existence */
+    .font-23 {
+        font-family: "arsenica-variable", sans-serif;
+        font-variation-settings: "opsz" 1000, "wght" 300;
+    }
+
+    .font-16 {
+        font-family: "inge-variable", sans-serif;
+        font-variation-settings: "slnt" 0;
+    }
+
+    .font-upper {
+        text-transform: uppercase;
+    }
+
+    .content__title--effect-22 {
+        font-size: 10vw;
+        line-height: 0.8;
+        text-align: center;
+        display: grid;
+        gap: 2rem;
+        margin: 10vh 0;
     }
 
     body.menu-open,
@@ -1004,9 +1031,11 @@
 
     .shader-item {
         position: relative;
-        aspect-ratio: 3/4;
+        aspect-ratio: 1/1;
         cursor: pointer;
         overflow: hidden;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .shader-image {
@@ -1795,17 +1824,17 @@
     .download-section {
         background: #000;
         position: relative;
-        padding: 8rem 2rem;
+        padding: 5rem 2rem;
         overflow: hidden;
-        border-radius: 40px;
-        margin: 40px;
+        border-radius: 32px;
+        margin: 20px 40px;
         color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
-        min-height: 80vh;
+        min-height: 70vh;
         transition: background 0.5s ease, color 0.5s ease;
     }
 
@@ -1898,8 +1927,8 @@
         transform: translate(-50%, -50%);
         width: 150%;
         height: 150%;
-        background: radial-gradient(circle at center, rgba(64, 150, 255, 0.15) 0%, transparent 60%);
-        opacity: 0.8;
+        background: radial-gradient(circle at center, rgba(64, 150, 255, 0.1) 0%, transparent 60%);
+        opacity: 0.5;
         pointer-events: none;
         z-index: 0;
     }
@@ -1910,8 +1939,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px);
-        background-size: 50px 50px;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+        background-size: 60px 60px;
         background-position: center;
         mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
         -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
@@ -2248,93 +2277,48 @@
     </div>
 
     <main data-scroll-container>
-
         <section class="tiles tiles--columns-rotated tiles--darker" id="grid" data-scroll-section>
             <div class="tiles__wrap">
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
                     <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                        data-vault="vault:Blue_Krishna_as_synesthesia_visualization_with_sound_waves_crystallized_into_colors">
                     </div>
                     <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                        data-vault="vault:Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors">
                     </div>
                     <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                        data-vault="vault:Blue_Krishna_with_experimental_liquid_element_fusion_and_kaleidoscope_patterns">
                     </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (1)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (108)"></div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (119)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (12)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (124)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (141)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (143)"></div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (144)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (151)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (19)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (37)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (40)"></div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (44)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (53)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (69)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (71)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (72)"></div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (75)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (77)"></div>
+                    <div class="tiles__line-img" data-vault="vault:image (19)"></div>
+                    <div class="tiles__line-img" data-vault="vault:image (21)"></div>
+                    <div class="tiles__line-img" data-vault="vault:image (24)"></div>
                 </div>
             </div>
             <h2 class="tiles__title" data-scroll data-scroll-speed="-6">Shri Harivansh</h2>
@@ -2370,7 +2354,7 @@
         <section class="gradient-carousel-section" data-scroll-section id="gradient-carousel-section">
             <div class="gradient-carousel-wrapper">
                 <div class="gradient-carousel-header" data-scroll data-scroll-speed="1">
-                    <h2 class="gradient-carousel-title">Infinite <mark class="hx hx-6">Gallery</mark></h2>
+                    <h2 class="gradient-carousel-title" data-splitting data-effect22>Infinite Gallery</h2>
                     <p class="gradient-carousel-subtitle">Drag or scroll to explore our curated collection</p>
                 </div>
                 <div class="gradient-carousel-stage" id="gradient-carousel-stage">
@@ -2536,18 +2520,19 @@
                 'use strict';
 
                 // Configuration
-                const CAROUSEL_IMAGES = [
-                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
-                    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800',
-                    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800',
-                    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800',
-                    'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800',
-                    'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800',
-                    'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800',
-                    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800',
-                    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800',
-                    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800'
+                const CAROUSEL_IMAGES_RAW = [
+                    './Vrindopnishad%20Web/class/image/KRSHN/Blue_Krishna_as_synesthesia_visualization_with_sound_waves_crystallized_into_colors.png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors.png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/Blue_Krishna_with_experimental_liquid_element_fusion_and_kaleidoscope_patterns.png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(1).png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(108).png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(119).png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(12).png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(124).png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(141).png',
+                    './Vrindopnishad%20Web/class/image/KRSHN/generated-image%20(143).png'
                 ];
+                const CAROUSEL_IMAGES = CAROUSEL_IMAGES_RAW.map(src => typeof window.resolveImagePath === 'function' ? window.resolveImagePath(src) : src);
 
                 // Physics constants - tuned for butter-smooth scrolling
                 const FRICTION = 0.92;          // Higher = longer momentum glide
@@ -3057,20 +3042,20 @@
                     technology to transform your spiritual journey</p>
                 <div class="shader-grid">
                     <div class="shader-item" data-scroll data-scroll-speed="2">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+                        <img src="./Vrindopnishad%20Web/class/image/KRSHN/Blue_Krishna_with_experimental_liquid_element_fusion_and_kaleidoscope_patterns.png"
                             alt="Gallery Image 1" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Pose — 001</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="2">
-                        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800"
-                            alt="Gallery Image 2" class="shader-image">
+                        <img src="./Vrindopnishad%20Web/class/image/KRSHN/image%20(19).png" alt="Gallery Image 2"
+                            class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Stand — 002</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="2">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800"
-                            alt="Gallery Image 3" class="shader-image">
+                        <img src="./Vrindopnishad%20Web/class/image/KRSHN/image%20(24).png" alt="Gallery Image 3"
+                            class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Dance — 003</span>
                     </div>
@@ -3089,17 +3074,15 @@
                 <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid2"
                     data-scroll-direction="horizontal">
                     <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                        data-vault="vault:Blue_Krishna_as_synesthesia_visualization_with_sound_waves_crystallized_into_colors">
                     </div>
                     <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                        data-vault="vault:Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors">
                     </div>
                     <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                        data-vault="vault:Blue_Krishna_with_experimental_liquid_element_fusion_and_kaleidoscope_patterns">
                     </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (1)"></div>
                 </div>
             </div>
             <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
@@ -3132,18 +3115,10 @@
             <div class="tiles__wrap">
                 <div class="tiles__line" data-scroll data-scroll-speed="-2" data-scroll-target="#grid3"
                     data-scroll-direction="horizontal">
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (108)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (119)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (12)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (124)"></div>
                 </div>
             </div>
             <h2 class="tiles__title tiles__title--left tiles__title--full tiles__title--alt" data-scroll
@@ -3152,9 +3127,9 @@
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
-                <h2>Artistic Excellence</h2>
-                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital
-                    innovations.</p>
+                <h2 data-splitting data-effect22>Artistic Excellence</h2>
+                <p class="blur-text" data-splitting data-blur-text>Curated collections of stunning artworks that blend
+                    traditional techniques with modern digital innovations.</p>
             </div>
         </section>
 
@@ -3162,18 +3137,10 @@
             <div class="tiles__wrap">
                 <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid4"
                     data-scroll-direction="horizontal">
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)">
-                    </div>
-                    <div class="tiles__line-img"
-                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
-                    </div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (141)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (143)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (144)"></div>
+                    <div class="tiles__line-img" data-vault="vault:generated-image (151)"></div>
                 </div>
             </div>
             <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
@@ -3470,16 +3437,16 @@
                 }
 
                 .app-slider-title {
-                    font-size: clamp(2rem, 5vw, 3.5rem);
-                    font-weight: 700;
+                    font-size: clamp(1.8rem, 4vw, 3rem);
+                    font-weight: 600;
                     margin: 0 0 0.5rem 0;
                     color: inherit;
                     line-height: 1.2;
                 }
 
                 .app-slider-subtitle {
-                    font-size: 1.1rem;
-                    opacity: 0.6;
+                    font-size: 1rem;
+                    opacity: 0.5;
                     margin: 0;
                 }
 
@@ -3581,34 +3548,26 @@
                 /* App Card Styles */
                 .app-card {
                     flex: 0 0 calc(33.333% - 16px);
-                    min-width: 300px;
-                    max-width: 380px;
-                    background: rgba(255, 255, 255, 0.02);
-                    border-radius: 24px;
+                    min-width: 280px;
+                    max-width: 360px;
+                    background: rgba(255, 255, 255, 0.01);
+                    border-radius: 20px;
                     overflow: hidden;
-                    border: 1px solid rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
                     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                    backdrop-filter: blur(1px);
-                    -webkit-backdrop-filter: blur(3px);
+                    backdrop-filter: blur(8px);
+                    -webkit-backdrop-filter: blur(8px);
                     position: relative;
                     z-index: 5;
                     user-select: none;
                     -webkit-user-select: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
-                    -webkit-touch-callout: none;
                 }
 
                 .app-card:hover {
-                    transform: translateY(-1px);
-                    box-shadow:
-                        0 4px 16px rgba(0, 0, 0, 0.04),
-                        0 12px 32px rgba(0, 0, 0, 0.06),
-                        0 24px 64px rgba(0, 0, 0, 0.08),
-                        0 40px 96px rgba(0, 0, 0, 0.06),
-                        0 60px 128px rgba(0, 0, 0, 0.04);
-                    border-color: rgba(255, 255, 255, 0.08);
-                    background: rgba(255, 255, 255, 0.06);
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+                    border-color: rgba(255, 255, 255, 0.1);
+                    background: rgba(255, 255, 255, 0.03);
                 }
 
                 .app-card-image {
@@ -3679,9 +3638,9 @@
                 }
 
                 .app-card-title {
-                    font-size: 1.4rem;
-                    font-weight: 700;
-                    margin: 0 0 0.75rem 0;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin: 0 0 0.5rem 0;
                     color: inherit;
                 }
 
@@ -3798,13 +3757,9 @@
                     }
 
                     .app-card:hover {
-                        box-shadow:
-                            0 4px 16px rgba(0, 0, 0, 0.02),
-                            0 12px 32px rgba(0, 0, 0, 0.03),
-                            0 24px 64px rgba(0, 0, 0, 0.04),
-                            0 40px 96px rgba(0, 0, 0, 0.03),
-                            0 60px 128px rgba(0, 0, 0, 0.02);
-                        border-color: rgba(0, 0, 0, 0.06);
+                        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+                        border-color: rgba(0, 0, 0, 0.04);
+                        background: rgba(0, 0, 0, 0.03);
                     }
 
                     .app-card-badge {
@@ -4333,14 +4288,24 @@
 
                 // Click handler
                 this.container.addEventListener('click', (e) => this.onClick(e));
+
+                // Handle resize
+                window.addEventListener('resize', () => this.onResize());
+            }
+
+            onResize() {
+                if (this.renderer) {
+                    const rect = this.container.getBoundingClientRect();
+                    this.renderer.setSize(rect.width, rect.height);
+                    this.material.uniforms.uResolution.value.set(rect.width, rect.height);
+                }
             }
 
             setup() {
-                const rect = this.img.getBoundingClientRect();
+                const rect = this.container.getBoundingClientRect();
                 this.canvas.width = rect.width;
                 this.canvas.height = rect.height;
 
-                // Setup Three.js scene
                 this.scene = new THREE.Scene();
                 this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
@@ -4352,14 +4317,15 @@
                 this.renderer.setSize(rect.width, rect.height);
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-                // Load texture
                 const loader = new THREE.TextureLoader();
                 loader.crossOrigin = 'anonymous';
-                const texture = loader.load(this.img.src, () => {
+                const texture = loader.load(this.img.src, (tex) => {
                     this.img.classList.add('loaded');
+                    if (this.material) {
+                        this.material.uniforms.uImageResolution.value.set(tex.image.width, tex.image.height);
+                    }
                 });
 
-                // Create shader material
                 this.material = new THREE.ShaderMaterial({
                     uniforms: {
                         uTexture: { value: texture },
@@ -4367,38 +4333,61 @@
                         uRippleProgress: { value: 0 },
                         uTime: { value: 0 },
                         uDirection: { value: 1 },
-                        uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+                        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+                        uResolution: { value: new THREE.Vector2(rect.width, rect.height) },
+                        uImageResolution: { value: new THREE.Vector2(1, 1) }
                     },
                     vertexShader: `
-                        #define AMP 0.1
-                        #define FREQ 8.0
-                        #define PI 3.14159265359
-                        
                         varying vec2 vUv;
+                        varying vec2 vUvCorrected;
                         varying float vRipple;
                         
                         uniform float uRippleProgress;
                         uniform float uTime;
                         uniform vec2 uMouse;
+                        uniform vec2 uResolution;
+                        uniform vec2 uImageResolution;
                         
                         void main() {
+                            vUv = uv;
+                            
+                            // Aspect ratio correction (object-fit: cover)
+                            float ratio = uResolution.x / uResolution.y;
+                            float imgRatio = uImageResolution.x / uImageResolution.y;
+                            vUvCorrected = uv;
+                            if (ratio > imgRatio) {
+                                vUvCorrected.y = (uv.y - 0.5) * (imgRatio / ratio) + 0.5;
+                            } else {
+                                vUvCorrected.x = (uv.x - 0.5) * (ratio / imgRatio) + 0.5;
+                            }
+
                             vec3 pos = position;
                             
-                            float dist = distance(uv, uMouse);
-                            float decay = clamp(dist, 8.0, 10.0);
-                            float ripple = sin(-PI * FREQ * dist + uTime) * (AMP / decay);
+                            // Ripple calculation with aspect-aware distance
+                            vec2 aspectMouse = uMouse;
+                            vec2 aspectUv = uv;
+                            if (uResolution.x > uResolution.y) {
+                                aspectMouse.x *= uResolution.x / uResolution.y;
+                                aspectUv.x *= uResolution.x / uResolution.y;
+                            } else {
+                                aspectMouse.y *= uResolution.y / uResolution.x;
+                                aspectUv.y *= uResolution.y / uResolution.x;
+                            }
+
+                            float dist = distance(aspectUv, aspectMouse);
+                            float decay = clamp(dist * 5.0, 1.0, 10.0);
+                            float ripple = sin(-3.14159 * 8.0 * dist + uTime) * (0.05 / decay);
                             
                             ripple *= uRippleProgress;
                             pos.y += ripple;
                             
                             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-                            
-                            vUv = uv;
                             vRipple = ripple;
                         }
                     `,
                     fragmentShader: `
                         varying vec2 vUv;
+                        varying vec2 vUvCorrected;
                         varying float vRipple;
                         
                         uniform float uGrayscaleProgress;
@@ -4411,39 +4400,29 @@
                             return vec3(gray);
                         }
                         
-                        float getMaxDistFromCorners(vec2 coords) {
-                            float dist_bl = distance(coords, vec2(0.0, 0.0));
-                            float dist_br = distance(coords, vec2(1.0, 0.0));
-                            float dist_tl = distance(coords, vec2(0.0, 1.0));
-                            float dist_tr = distance(coords, vec2(1.0, 1.0));
-                            return max(dist_tl, max(dist_bl, max(dist_tr, dist_br)));
-                        }
-                        
                         void main() {
-                            vec4 diffuse = texture2D(uTexture, vUv);
+                            vec4 diffuse = texture2D(uTexture, vUvCorrected);
                             vec3 grayscale = toGrayscale(diffuse.rgb);
                             
+                            // Transition logic
                             float dist = distance(vUv, uMouse);
-                            float maxDist = getMaxDistFromCorners(uMouse);
-                            float mask = smoothstep(uGrayscaleProgress - 0.1, uGrayscaleProgress, dist / maxDist);
+                            float mask = smoothstep(uGrayscaleProgress - 0.15, uGrayscaleProgress, dist);
                             
                             vec3 color1 = uDirection > 0.0 ? diffuse.rgb : grayscale;
                             vec3 color2 = uDirection > 0.0 ? grayscale : diffuse.rgb;
                             
                             vec3 color = mix(color1, color2, mask);
-                            color += vRipple * 2.0;
+                            color += vRipple * 0.8;
                             
                             gl_FragColor = vec4(color, diffuse.a);
                         }
                     `
                 });
 
-                // Create plane with higher subdivision for smoother ripple
-                const geometry = new THREE.PlaneGeometry(2, 2, 50, 50);
+                const geometry = new THREE.PlaneGeometry(2, 2, 60, 60);
                 this.mesh = new THREE.Mesh(geometry, this.material);
                 this.scene.add(this.mesh);
 
-                // Start render loop
                 this.render();
             }
 
@@ -4559,6 +4538,12 @@
                     multiplier: 1.5
                 }
             });
+
+            // GSAP ScrollTrigger & Locomotive Scroll Synchronization
+            gsap.registerPlugin(ScrollTrigger);
+            scroll.on("scroll", ScrollTrigger.update);
+            ScrollTrigger.addEventListener("refresh", () => scroll.update());
+            ScrollTrigger.refresh();
 
             // Initialize shader effects
             const shaderItems = document.querySelectorAll('.shader-item');
@@ -4807,12 +4792,14 @@
                             if (el.classList.contains('hx-6')) animateDynamics(el);
                             else if (el.classList.contains('hx-13')) animateReprehensible(el);
                             else if (el.hasAttribute('data-effect10')) animateLucidDreaming(el);
+                            else if (el.hasAttribute('data-effect22')) animateDance(el);
                             else if (el.hasAttribute('data-effect28')) animateLiberation(el);
                             else if (el.hasAttribute('data-blur-text')) animateBlurText(el);
                         } else {
                             if (el.classList.contains('hx-6')) resetDynamics(el);
                             else if (el.classList.contains('hx-13')) resetReprehensible(el);
                             else if (el.hasAttribute('data-effect10')) resetLucidDreaming(el);
+                            else if (el.hasAttribute('data-effect22')) resetDance(el);
                             else if (el.hasAttribute('data-effect28')) resetLiberation(el);
                             else if (el.hasAttribute('data-blur-text')) resetBlurText(el);
                         }
@@ -4822,10 +4809,13 @@
                 document.querySelectorAll('.hx-6, .hx-13').forEach(el => observer.observe(el));
 
                 // Also observe effect10 titles
-                document.querySelectorAll('.content__title[data-splitting][data-effect10]').forEach(el => observer.observe(el));
+                document.querySelectorAll('[data-effect10]').forEach(el => observer.observe(el));
+
+                // Also observe effect22 titles (Dance animation)
+                document.querySelectorAll('[data-effect22]').forEach(el => observer.observe(el));
 
                 // Also observe effect28 titles (Liberation animation)
-                document.querySelectorAll('.content__title[data-splitting][data-effect28]').forEach(el => observer.observe(el));
+                document.querySelectorAll('[data-effect28]').forEach(el => observer.observe(el));
 
                 // Also observe blur-text paragraphs
                 document.querySelectorAll('[data-blur-text]').forEach(el => observer.observe(el));
@@ -4916,6 +4906,61 @@
                 gsap.set(selectMarker, { '--select-width': '0%' });
                 gsap.set(chars, { filter: `drop-shadow(0px 0px 0px ${glowColor})` });
             };
+
+            // Effect 22 - Dance into Existence Animation
+            function animateDance(el) {
+                const words = [...el.querySelectorAll('.word')];
+                for (const word of words) {
+                    const chars = word.querySelectorAll('.char');
+                    const charsTotal = chars.length;
+
+                    gsap.killTweensOf(chars);
+
+                    // Set initial scattered state
+                    chars.forEach((char, position) => {
+                        const factor = position < Math.ceil(charsTotal / 2) ? position : Math.ceil(charsTotal / 2) - Math.abs(Math.floor(charsTotal / 2) - position) - 1;
+                        const x = (charsTotal % 2 ? Math.abs(Math.ceil(charsTotal / 2) - 1 - factor) : Math.abs(Math.ceil(charsTotal / 2) - factor)) * 200 * (position < charsTotal / 2 ? -1 : 1);
+                        const y = factor * 60;
+                        const rotationZ = position < charsTotal / 2 ? Math.abs(factor - charsTotal / 2) * 8 : -1 * Math.abs(factor - charsTotal / 2) * 8;
+
+                        gsap.set(char.parentNode, { perspective: 1000 });
+                        gsap.set(char, {
+                            'will-change': 'transform, opacity',
+                            x: x,
+                            y: y,
+                            rotationY: -270,
+                            rotationZ: rotationZ,
+                            opacity: 0,
+                            scale: 0.5
+                        });
+                    });
+
+                    // Animate to final state
+                    gsap.to(chars, {
+                        duration: 1.2,
+                        ease: 'power2.out',
+                        x: 0,
+                        y: 0,
+                        rotationZ: 0,
+                        rotationY: 0,
+                        opacity: 1,
+                        scale: 1,
+                        stagger: {
+                            amount: 0.4,
+                            from: 'center'
+                        }
+                    });
+                }
+            }
+
+            function resetDance(el) {
+                const words = [...el.querySelectorAll('.word')];
+                for (const word of words) {
+                    const chars = word.querySelectorAll('.char');
+                    gsap.killTweensOf(chars);
+                    gsap.set(chars, { opacity: 0, x: 0, y: 0, rotationZ: 0, rotationY: 0 });
+                }
+            }
 
             // Effect 28 - Liberation Animation (scale, rotation, blur from center)
             function animateLiberation(el) {
