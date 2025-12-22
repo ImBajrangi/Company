@@ -3215,7 +3215,8 @@
                 <!-- Header with Title and Navigation -->
                 <div class="app-slider-header" data-scroll data-scroll-speed="1">
                     <div class="app-slider-title-area">
-                        <h2 class="app-slider-title">Download Our <mark class="hx hx-6">Apps</mark></h2>
+                        <h2 class="app-slider-title">Download Our <span class="content__title liberation-word"
+                                data-splitting data-effect28>Apps</span></h2>
                         <p class="app-slider-subtitle">Explore our collection of spiritual and utility applications</p>
                     </div>
                 </div>
@@ -3480,6 +3481,12 @@
                     font-size: 1.1rem;
                     opacity: 0.6;
                     margin: 0;
+                }
+
+                .liberation-word {
+                    display: inline-block;
+                    color: var(--accent-color);
+                    /* Added a slight color accent to the animated word */
                 }
 
                 /* Slider Controls Container (Arrows + Dots) */
@@ -4800,11 +4807,13 @@
                             if (el.classList.contains('hx-6')) animateDynamics(el);
                             else if (el.classList.contains('hx-13')) animateReprehensible(el);
                             else if (el.hasAttribute('data-effect10')) animateLucidDreaming(el);
+                            else if (el.hasAttribute('data-effect28')) animateLiberation(el);
                             else if (el.hasAttribute('data-blur-text')) animateBlurText(el);
                         } else {
                             if (el.classList.contains('hx-6')) resetDynamics(el);
                             else if (el.classList.contains('hx-13')) resetReprehensible(el);
                             else if (el.hasAttribute('data-effect10')) resetLucidDreaming(el);
+                            else if (el.hasAttribute('data-effect28')) resetLiberation(el);
                             else if (el.hasAttribute('data-blur-text')) resetBlurText(el);
                         }
                     });
@@ -4814,6 +4823,9 @@
 
                 // Also observe effect10 titles
                 document.querySelectorAll('.content__title[data-splitting][data-effect10]').forEach(el => observer.observe(el));
+
+                // Also observe effect28 titles (Liberation animation)
+                document.querySelectorAll('.content__title[data-splitting][data-effect28]').forEach(el => observer.observe(el));
 
                 // Also observe blur-text paragraphs
                 document.querySelectorAll('[data-blur-text]').forEach(el => observer.observe(el));
@@ -4904,6 +4916,81 @@
                 gsap.set(selectMarker, { '--select-width': '0%' });
                 gsap.set(chars, { filter: `drop-shadow(0px 0px 0px ${glowColor})` });
             };
+
+            // Effect 28 - Liberation Animation (scale, rotation, blur from center)
+            function animateLiberation(el) {
+                const words = [...el.querySelectorAll('.word')];
+
+                for (const word of words) {
+                    const chars = word.querySelectorAll('.char');
+                    const charsTotal = chars.length;
+
+                    gsap.killTweensOf(chars);
+
+                    // Set initial state
+                    chars.forEach((char, position) => {
+                        const factor = position < Math.ceil(charsTotal / 2) ? position : Math.ceil(charsTotal / 2) - Math.abs(Math.floor(charsTotal / 2) - position) - 1;
+
+                        const scale = gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), 0.5, 2.1, factor);
+                        const y = gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), 0, 60, factor);
+                        const rotation = position < charsTotal / 2
+                            ? gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), -4, 0, factor)
+                            : gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), 0, 4, factor);
+
+                        gsap.set(char, {
+                            transformOrigin: '50% 100%',
+                            scale: scale,
+                            y: y,
+                            rotation: rotation,
+                            filter: 'blur(12px) opacity(0)'
+                        });
+                    });
+
+                    // Animate to final state
+                    gsap.to(chars, {
+                        duration: 0.8,
+                        ease: 'power2.inOut',
+                        y: 0,
+                        rotation: 0,
+                        scale: 1,
+                        filter: 'blur(0px) opacity(1)',
+                        stagger: {
+                            amount: 0.15,
+                            from: 'center'
+                        }
+                    });
+                }
+            }
+
+            function resetLiberation(el) {
+                const words = [...el.querySelectorAll('.word')];
+
+                for (const word of words) {
+                    const chars = word.querySelectorAll('.char');
+                    const charsTotal = chars.length;
+
+                    gsap.killTweensOf(chars);
+
+                    // Reset to initial scattered state
+                    chars.forEach((char, position) => {
+                        const factor = position < Math.ceil(charsTotal / 2) ? position : Math.ceil(charsTotal / 2) - Math.abs(Math.floor(charsTotal / 2) - position) - 1;
+
+                        const scale = gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), 0.5, 2.1, factor);
+                        const y = gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), 0, 60, factor);
+                        const rotation = position < charsTotal / 2
+                            ? gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), -4, 0, factor)
+                            : gsap.utils.mapRange(0, Math.ceil(charsTotal / 2), 0, 4, factor);
+
+                        gsap.set(char, {
+                            transformOrigin: '50% 100%',
+                            scale: scale,
+                            y: y,
+                            rotation: rotation,
+                            filter: 'blur(12px) opacity(0)'
+                        });
+                    });
+                }
+            }
 
         });
     </script>
