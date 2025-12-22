@@ -1,116 +1,130 @@
 /**
- * Image Resource Vault & Helper
- * Implements obfuscation and protection layers to secure gallery assets.
+ * Elite Image Vault & Security System
+ * Advanced protection including Blob obfuscation, DevTools blocking, and UI lockdown.
  */
 (function () {
     'use strict';
 
-    // CONFIGURATION
-    const VAULT_PATH = './Vrindopnishad%20Web/class/image/KRSHN/'; // Hidden base path
+    const VAULT_PATH = './Vrindopnishad%20Web/class/image/KRSHN/';
     const DEFAULT_EXT = '.png';
     const KNOWN_AVIF = ['62', 'tempImageN7Ynt8', 'tempImage0MZ1Qo', 'tempImagepeTFpY', 'tempImageEpdAxY', 'tempImageXR0Khf', 'tempImageQAFHVQ', 'temp-Image-DVx-VWQ', 'temp-Image0m4o-HY', 'temp-Image-Y61d7-W', '32', 'temp-Imageq2-Af-Gz', 'temp-Image-Qu2-Bi-Z', 'temp-Image-KVsh-Fy', 'temp-Image-PRh2-Km'];
 
+    // Map to keep track of blob URLs
+    const blobCache = new Map();
+
     /**
-     * Obfuscation helper: Decodes a custom string or adds extensions
+     * Resolves and secures a path using Blob URLs
+     * This moves the images from the "Sources" file tree to the "blob:" section.
      */
-    window.resolveVaultPath = function (ref) {
+    async function getSecureBlobUrl(ref) {
         if (!ref) return null;
 
-        // If it's already a full URL/path with extension, just return it
-        if (ref.includes('://') || /\.[a-z0-9]{3,4}$/i.test(ref)) return ref;
-
-        // If it starts with KRSHN:, it's an obfuscated pointer
-        let finalPath = ref;
+        let targetUrl = ref;
         if (ref.startsWith('vault:')) {
             const fileName = ref.replace('vault:', '');
             const ext = KNOWN_AVIF.includes(fileName) ? '.avif' : DEFAULT_EXT;
-            finalPath = VAULT_PATH + encodeURIComponent(fileName) + ext;
-        } else if (!/\.[a-z0-9]{3,4}$/i.test(ref)) {
-            // Standard fallback
-            const ext = KNOWN_AVIF.includes(ref) ? '.avif' : DEFAULT_EXT;
-            finalPath = ref + ext;
+            targetUrl = VAULT_PATH + encodeURIComponent(fileName) + ext;
         }
 
-        return finalPath;
-    };
+        if (blobCache.has(targetUrl)) return blobCache.get(targetUrl);
+
+        try {
+            const response = await fetch(targetUrl);
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            blobCache.set(targetUrl, blobUrl);
+            return blobUrl;
+        } catch (e) {
+            return targetUrl; // Fallback
+        }
+    }
 
     /**
-     * Injects an invisible shielding layer to prevent right-click/save-as
+     * UI Lockdown: Blocks common inspection shortcuts
+     */
+    function lockUI() {
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // document.addEventListener('keydown', e => {
+        //     // F12, Ctrl+Shift+I, J, C, U (View Source)
+        //     if (e.keyCode === 123 ||
+        //         (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+        //         (e.metaKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+        //         (e.ctrlKey && e.keyCode === 85) || (e.metaKey && e.keyCode === 85)) {
+        //         e.preventDefault();
+        //         return false;
+        //     }
+        // });
+
+        document.addEventListener('dragstart', e => e.preventDefault());
+    }
+
+    /**
+     * Shielding Layer
      */
     function shieldElement(el) {
         if (el.dataset.shielded) return;
-
-        // Ensure container is relative
-        if (getComputedStyle(el).position === 'static') {
-            el.style.position = 'relative';
-        }
+        if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
 
         const shield = document.createElement('div');
         shield.className = 'img-vault-shield';
         Object.assign(shield.style, {
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
-            zIndex: '10',
-            backgroundColor: 'rgba(0,0,0,0)',
-            webkitUserSelect: 'none',
-            userSelect: 'none',
-            pointerEvents: 'auto'
+            position: 'absolute', top: '0', left: '0', width: '100%', height: '100%',
+            zIndex: '100', backgroundColor: 'rgba(0,0,0,0)',
+            userSelect: 'none', webkitUserSelect: 'none', pointerEvents: 'auto'
         });
-
-        // Block context menu on the shield
-        shield.addEventListener('contextmenu', (e) => e.preventDefault());
-        shield.addEventListener('dragstart', (e) => e.preventDefault());
 
         el.appendChild(shield);
         el.dataset.shielded = 'true';
     }
 
     /**
-     * Core application logic
+     * Master Security Loop
      */
-    window.applyVaultSecurity = function () {
-        // 1. Process [data-vault] images
-        document.querySelectorAll('[data-vault]').forEach(el => {
+    window.applyEliteSecurity = async function () {
+        const elements = document.querySelectorAll('[data-vault]');
+        for (const el of elements) {
             const ref = el.getAttribute('data-vault');
-            const realSrc = window.resolveVaultPath(ref);
+            el.removeAttribute('data-vault'); // Remove immediately to hide source
 
+            const secureUrl = await getSecureBlobUrl(ref);
             if (el.tagName === 'IMG') {
-                el.src = realSrc;
-                el.style.pointerEvents = 'none'; // Make image un-clickable
-                shieldElement(el.parentElement); // Shield the container
+                el.src = secureUrl;
+                el.style.pointerEvents = 'none';
+                shieldElement(el.parentElement);
             } else {
-                // Handle background images
-                el.style.backgroundImage = `url('${realSrc}')`;
+                el.style.backgroundImage = `url('${secureUrl}')`;
                 shieldElement(el);
             }
-        });
+        }
 
-        // 2. Global protection for all tiles and gallery items
-        const protectSelect = '.tiles__line-img, .gradient-carousel-card, .shader-item, .app-card-img';
-        document.querySelectorAll(protectSelect).forEach(el => {
-            shieldElement(el);
-            // Disable dragging on nested images
-            el.querySelectorAll('img').forEach(img => {
-                img.style.pointerEvents = 'none';
-                img.setAttribute('draggable', 'false');
-            });
-        });
+        const targetClasses = ['.tiles__line-img', '.gradient-carousel-card', '.shader-item', '.app-card-img'];
+        document.querySelectorAll(targetClasses.join(',')).forEach(shieldElement);
     };
 
     // Initialize
     const init = () => {
-        // Add shield styles to head
+        lockUI();
+
         const style = document.createElement('style');
         style.textContent = `
-            .img-vault-shield { touch-action: none; -webkit-touch-callout: none; }
-            img { pointer-events: none; -webkit-user-drag: none; }
+            .img-vault-shield { pointer-events: auto !important; }
+            img { pointer-events: none !important; -webkit-user-drag: none !important; }
+            * { -webkit-touch-callout: none !important; -webkit-user-select: none !important; user-select: none !important; }
         `;
         document.head.appendChild(style);
 
-        window.applyVaultSecurity();
+        window.applyEliteSecurity();
+        setInterval(window.applyEliteSecurity, 2000);
+
+        // Debugger trap: detects if DevTools is open by timing a debugger statement
+        setInterval(() => {
+            const startTime = performance.now();
+            debugger;
+            if (performance.now() - startTime > 100) {
+                document.body.innerHTML = '<div style="background:#000;color:#f00;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:2rem;text-align:center;padding:2rem;">Security Alert: Inspection is not permitted on this spiritual sanctuary. Please close DevTools to continue.</div>';
+            }
+        }, 1000);
     };
 
     if (document.readyState === 'loading') {
