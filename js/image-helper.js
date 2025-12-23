@@ -83,27 +83,34 @@
      */
     window.applyEliteSecurity = async function () {
         const elements = document.querySelectorAll('[data-vault]');
+        const promises = [];
+
         for (const el of elements) {
             const ref = el.getAttribute('data-vault');
             el.removeAttribute('data-vault'); // Remove immediately to hide source
 
-            const secureUrl = await getSecureBlobUrl(ref);
-            if (el.tagName === 'IMG') {
-                el.src = secureUrl;
-                el.style.pointerEvents = 'none';
-                shieldElement(el.parentElement);
-            } else {
-                el.style.backgroundImage = `url('${secureUrl}')`;
-                shieldElement(el);
-            }
+            const processElement = async () => {
+                const secureUrl = await getSecureBlobUrl(ref);
+                if (el.tagName === 'IMG') {
+                    el.src = secureUrl;
+                    el.style.pointerEvents = 'none';
+                    shieldElement(el.parentElement);
+                } else {
+                    el.style.backgroundImage = `url('${secureUrl}')`;
+                    shieldElement(el);
+                }
+            };
+            promises.push(processElement());
         }
+
+        await Promise.all(promises);
 
         const targetClasses = ['.tiles__line-img', '.gradient-carousel-card', '.shader-item', '.app-card-img'];
         document.querySelectorAll(targetClasses.join(',')).forEach(shieldElement);
     };
 
     // Initialize
-    const init = () => {
+    const init = async () => {
         lockUI();
 
         const style = document.createElement('style');
@@ -114,7 +121,7 @@
         `;
         document.head.appendChild(style);
 
-        window.applyEliteSecurity();
+        await window.applyEliteSecurity();
         setInterval(window.applyEliteSecurity, 2000);
 
         // Debugger trap: detects if DevTools is open by timing a debugger statement

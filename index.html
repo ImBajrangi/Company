@@ -167,6 +167,18 @@
         color: var(--text-color);
     }
 
+    [data-scroll-container] {
+        opacity: 1;
+        transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: opacity;
+    }
+
+    body.loading [data-scroll-container] {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
     ::selection {
         background: var(--color-text);
         color: var(--color-bg);
@@ -304,38 +316,84 @@
         height: 100%;
     }
 
-    .js .loading::before,
-    .js .loading::after {
-        content: '';
+    /* Page Loader Overlay */
+    .page-loader {
         position: fixed;
-        z-index: 10000;
-    }
-
-    .js .loading::before {
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         background: var(--color-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    .js .loading::after {
-        top: 50%;
-        left: 50%;
-        width: 60px;
-        height: 60px;
-        margin: -30px 0 0 -30px;
-        border-radius: 50%;
-        opacity: 0.4;
-        background: var(--color-link);
-        animation: loaderAnim 0.7s linear infinite alternate forwards;
+    .page-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 
-    @keyframes loaderAnim {
-        to {
-            opacity: 1;
-            transform: scale3d(0.5, 0.5, 1);
+    /* Loader3 Animation Styles */
+    @keyframes loaderRotate {
+        0% {
+            transform: rotate(0deg);
         }
+
+        50% {
+            transform: rotate(180deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .loader3-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: block;
+        overflow: hidden;
+    }
+
+    .loader3-container,
+    .loader3-container div {
+        border-radius: 50%;
+        padding: 6px;
+        border: 2px solid transparent;
+        border-top-color: var(--loader-color-primary, rgba(100, 181, 246, 0.7));
+        border-left-color: var(--loader-color-secondary, rgba(26, 115, 232, 0.5));
+        animation: loaderRotate 3s cubic-bezier(.55, .38, .21, .88) infinite;
+        will-change: transform;
+    }
+
+    .loader3-container div {
+        height: 100%;
+    }
+
+    /* Theme-aware loader colors */
+    :root {
+        --loader-color-primary: rgba(26, 115, 232, 0.7);
+        --loader-color-secondary: rgba(100, 181, 246, 0.5);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --loader-color-primary: rgba(100, 181, 246, 0.8);
+            --loader-color-secondary: rgba(144, 202, 249, 0.5);
+        }
+    }
+
+    /* Legacy loader styles - keeping for compatibility */
+    .js .loading::before,
+    .js .loading::after {
+        content: none;
     }
 
     header {
@@ -2060,6 +2118,23 @@
 </head>
 
 <body class="demo-2 loading">
+    <!-- Page Loader - Elegant Nested Rings -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader3-container">
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.documentElement.className = "js";
     </script>
@@ -4531,9 +4606,9 @@
         }
 
         // Initialize everything
-        const preloadImages = (selector = 'img') => {
+        const preloadImages = (selector = 'body') => {
             return new Promise((resolve) => {
-                imagesLoaded(document.querySelectorAll(selector), { background: true }, resolve);
+                imagesLoaded(document.querySelector(selector), { background: true }, resolve);
             });
         };
 
@@ -4547,12 +4622,18 @@
             });
         };
 
+        const waitForEliteImages = async () => {
+            if (window.applyEliteSecurity) {
+                await window.applyEliteSecurity();
+            }
+            // After applying security, we might have new blob URLs, so we should preload them too
+            return preloadImages('body');
+        };
+
         Promise.all([
-            preloadImages('.tiles__line-img, .shader-image'),
+            waitForEliteImages(),
             preloadFonts('rmd7deq')
         ]).then(() => {
-            document.body.classList.remove('loading');
-
             // Detect if mobile/touch device
             const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
@@ -4620,8 +4701,23 @@
             }, 1000);
 
 
+            setTimeout(() => {
+                // Hide the page loader with smooth transition
+                const pageLoader = document.getElementById('pageLoader');
+                if (pageLoader) {
+                    pageLoader.classList.add('hidden');
+                }
+                document.body.classList.remove('loading');
+                scroll.update();
+                ScrollTrigger.refresh();
+            }, 800);
+
         }).catch(error => {
             console.error('Error during initialization:', error);
+            const pageLoader = document.getElementById('pageLoader');
+            if (pageLoader) {
+                pageLoader.classList.add('hidden');
+            }
             document.body.classList.remove('loading');
         });
     </script>
