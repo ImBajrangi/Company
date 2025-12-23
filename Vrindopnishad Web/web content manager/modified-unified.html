@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad - Web Data Manager</title>
@@ -1934,7 +1935,7 @@ const stats = UnifiedAPI.getStats();</pre>
                             <strong>Category:</strong> ${this.escapeHtml(book.category || 'N/A')} | 
                             <strong>Language:</strong> ${this.escapeHtml(book.language || 'N/A')}
                         </div>
-                        ${book.cover ? `<img src="${book.cover}" alt="${book.title}" style="max-width: 100px; height: auto; border-radius: 8px; margin: 10px 0;">` : ''}
+                        ${book.cover ? `<img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web%20content%20manager/${book.cover}" alt="${book.title}" style="max-width: 100px; height: auto; border-radius: 8px; margin: 10px 0;">` : ''}
                         ${book.fileName ? `
                             <div class="item-meta" style="background: #e8f5e9; padding: 8px; border-radius: 4px; margin: 8px 0;">
                                 <i class="fas fa-file"></i> <strong>File:</strong> ${this.escapeHtml(book.fileName)} 
@@ -2091,7 +2092,7 @@ const stats = UnifiedAPI.getStats();</pre>
                         <div class="item-meta">
                             <strong>Category:</strong> ${this.escapeHtml(image.category || 'N/A')}
                         </div>
-                        ${image.src ? `<img src="${image.src}" alt="${image.alt || image.title}" style="max-width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin: 10px 0;">` : ''}
+                        ${image.src ? `<img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web%20content%20manager/${image.src}" alt="${image.alt || image.title}" style="max-width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin: 10px 0;">` : ''}
                         ${image.description ? `<div class="item-description">${this.escapeHtml(image.description)}</div>` : ''}
                     </div>
                 `).join('');

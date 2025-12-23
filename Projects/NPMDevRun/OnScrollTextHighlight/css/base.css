@@ -31,7 +31,7 @@ body {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url(../img/noise.png), radial-gradient(ellipse at top, #242937, transparent), radial-gradient(ellipse at bottom, #171340, transparent);
+  background-image: url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/OnScrollTextHighlight/img/noise.png'), radial-gradient(ellipse at top, #242937, transparent), radial-gradient(ellipse at bottom, #171340, transparent);
   background-size: 200px, 100%, 200%;
   background-attachment: fixed;
 }
@@ -390,7 +390,7 @@ main {
   left: -0.075em;
   width: 0.155em;
   height: calc(100% + 0.1275em);
-  background: url(../img/select.svg) no-repeat 0 0;
+  background: url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/OnScrollTextHighlight/img/select.svg') no-repeat 0 0;
   background-size: auto 100%;
 }
 

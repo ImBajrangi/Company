@@ -161,7 +161,7 @@ body {
     font-size: 3em;
 }
 .banner .content .model{
-    background-image: url(images_page_02/img_k2.png);
+    background-image: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Home%20code/images_page_02/img_k2.png');
     width: 100%;
     height: 75vh;
     position: absolute;

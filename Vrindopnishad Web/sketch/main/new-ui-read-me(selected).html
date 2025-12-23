@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad - Paath</title>
@@ -1605,7 +1606,7 @@
                     <div class="image-grid">
                         ${entry.images.map(img => `
                             <div class="media-item">
-                                <img src="${img.url}" alt="${img.title}" loading="lazy" onclick="openImageModal('${img.url}', '${img.title}')">
+                                <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${img.url}" alt="${img.title}" loading="lazy" onclick="openImageModal('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${img.url}', '${img.title}')">
                                 ${img.title ? `<p class="media-caption">${img.title}</p>` : ''}
                             </div>
                         `).join('')}
@@ -1651,7 +1652,7 @@
                 <div class="modal-backdrop" onclick="closeImageModal()"></div>
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeImageModal()">×</button>
-                    <img src="${src}" alt="${title}" class="modal-image">
+                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${src}" alt="${title}" class="modal-image">
                     <p class="modal-title">${title}</p>
                 </div>
             `;

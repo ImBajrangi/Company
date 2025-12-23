@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection Details - Vrindopnishad</title>
@@ -1367,7 +1368,7 @@
 
                 return `
                     <div class="thumbnail ${index === 0 ? 'active' : ''} loading" data-image="${img}" data-index="${index}">
-                        <img src="${img}" alt="View ${index + 1}">
+                        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${img}" alt="View ${index + 1}">
                         ${downloadBtnHTML} 
                     </div>
                 `;
@@ -1704,7 +1705,7 @@
 
             grid.innerHTML = related.map(item => `
                 <a href="?id=${item.id}" class="related-card" onclick="navigateToCollection(event, '${item.id}')">
-                    <img src="${item.image}" alt="${item.title}">
+                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${item.image}" alt="${item.title}">
                     <div class="related-info">
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
@@ -1789,7 +1790,7 @@
                 <div>
                     ${shoppingBag.map((item, index) => `
                         <div class="bag-item">
-                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${item.image}" alt="${item.title}" class="bag-item-image">
                             <div class="bag-item-info">
                                 <div class="bag-item-title">${item.title}</div>
                                 <div class="bag-item-desc">${item.description.substring(0, 50)}...</div>
@@ -1909,7 +1910,7 @@
                 <div>
                     ${favorites.map((item, index) => `
                         <div class="bag-item">
-                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${item.image}" alt="${item.title}" class="bag-item-image">
                             <div class="bag-item-info">
                                 <div class="bag-item-title">${item.title}</div>
                                 <div class="bag-item-desc">${item.description.substring(0, 50)}...</div>
@@ -2293,7 +2294,7 @@
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>No Collection Specified</h2>
                         <p>Please return to the gallery and select a collection.</p>
-                        <a href="Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                        <a href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                     </div>
@@ -2320,7 +2321,7 @@
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>Collection Not Found</h2>
                         <p>Sorry, we couldn't find the details for this collection. Please return to the gallery.</p>
-                        <a href="Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                        <a href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                     </div>

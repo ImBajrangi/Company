@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Literary Hub - Book Collection</title>
@@ -91,7 +92,7 @@
     <!-- Improve navigation accessibility -->
     <nav class="navigation" role="navigation" aria-label="Main navigation">
         <div class="logo">
-                <img src="../image/logos/logo.png" alt="Literary Hub Logo">
+                <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Gallery/image/logos/logo.png" alt="Literary Hub Logo">
                 <span>Literary<em>Hub</em></span>
         </div>
         
@@ -274,7 +275,7 @@
                     <div id="recommendedBooksList" class="recommended-books" role="list">
                         <!-- Dynamic content will be added here, but here's the template structure: -->
                         <div class="recommended-book-card" role="listitem">
-                            <img src="../image/Books/book1.jpg" alt="Book cover of The Great Gatsby">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Gallery/image/Books/book1.jpg" alt="Book cover of The Great Gatsby">
                             <div class="recommended-book-info">
                                 <div>
                                     <h4>The Great Gatsby</h4>
@@ -535,7 +536,7 @@
             
             bookCard.innerHTML = `
                 <div class="book-cover">
-                    <img src="${book.coverImage}" alt="${book.title}" loading="lazy" class="lazy-image">
+                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Gallery/Collection/${book.coverImage}" alt="${book.title}" loading="lazy" class="lazy-image">
                 </div>
                 <div class="book-info">
                     <h3>${book.title}</h3>
@@ -585,7 +586,7 @@
                 bookCard.setAttribute('role', 'listitem');
                 
                 bookCard.innerHTML = `
-                    <img src="${book.coverImage}" alt="Book cover of ${book.title}">
+                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Gallery/Collection/${book.coverImage}" alt="Book cover of ${book.title}">
                     <div class="recommended-book-info">
                         <div>
                             <h4>${book.title}</h4>
@@ -673,7 +674,7 @@
                     </div>
                     <div class="modal-book-content">
                         <div class="modal-book-image">
-                            <img src="${book.coverImage}" alt="Cover of ${book.title}">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Gallery/Collection/${book.coverImage}" alt="Cover of ${book.title}">
                         </div>
                         <div class="modal-book-info">
                             <div class="modal-book-meta">
@@ -804,7 +805,7 @@
                 html += `
                     <div class="related-book-card" data-id="${book._id}">
                         <div class="related-book-cover">
-                            <img src="${book.coverImage}" alt="Cover of ${book.title}" loading="lazy">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/Gallery/Collection/${book.coverImage}" alt="Cover of ${book.title}" loading="lazy">
                         </div>
                         <div class="related-book-info">
                             <h4>${book.title}</h4>

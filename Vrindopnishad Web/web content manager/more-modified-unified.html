@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad - Enhanced Web Data Manager</title>
@@ -1231,7 +1232,7 @@ UnifiedAPI.removeCategory('books', 'old-category');</pre>
                             <strong>Year:</strong> ${this.escapeHtml(book.year || 'N/A')} | 
                             <strong>Language:</strong> ${this.escapeHtml(book.language || 'N/A')}
                         </div>
-                        ${book.cover ? `<img src="${book.cover}" alt="${book.title}" style="max-width: 100px; height: auto; border-radius: 8px; margin: 10px 0;">` : ''}
+                        ${book.cover ? `<img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web%20content%20manager/${book.cover}" alt="${book.title}" style="max-width: 100px; height: auto; border-radius: 8px; margin: 10px 0;">` : ''}
                         ${book.description ? `<div class="item-description">${this.escapeHtml(book.description)}</div>` : ''}
                     </div>
                 `).join('');
@@ -1258,7 +1259,7 @@ UnifiedAPI.removeCategory('books', 'old-category');</pre>
                         <div class="item-categories">
                             <span class="item-category">${image.category || 'uncategorized'}</span>
                         </div>
-                        ${image.src ? `<img src="${image.src}" alt="${image.alt || image.title}" style="max-width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin: 10px 0;">` : ''}
+                        ${image.src ? `<img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web%20content%20manager/${image.src}" alt="${image.alt || image.title}" style="max-width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin: 10px 0;">` : ''}
                         ${image.description ? `<div class="item-description">${this.escapeHtml(image.description)}</div>` : ''}
                     </div>
                 `).join('');

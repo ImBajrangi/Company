@@ -21,7 +21,7 @@ body {
 	font-variation-settings: "wght" 400, "wdth" 100;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-image: url(../img/noise.png);
+	background-image: url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/ScrollBlurTypography/img/noise.png');
   background-size: 200px;
 }
 

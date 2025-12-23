@@ -13,7 +13,7 @@ html {
 }
 body {
 	animation: fadeIn 1s ease-in-out; /* Add fade-in animation */
-	cursor: url('./costum_cursor.svg'), auto; /* Add custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Add custom cursor */
 }
 @keyframes fadeIn {
 	from {
@@ -75,7 +75,7 @@ p {
 	transition-property: background-color, color;
 	position: relative;
 	overflow: hidden;
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 .cta::before {
 	content: '';
@@ -127,7 +127,7 @@ p {
 	border-radius: 10px;
 	box-shadow: 0 0.1px 0.1px rgba(248, 248, 79, 0.51); /* Subtle shadow */
 	overflow: hidden; /* Prevent scrollbar effect */
-	cursor: url('./costum_cursor.svg'), auto;
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto;
 }
 #header .header {
 	min-height: 8vh;
@@ -160,7 +160,7 @@ p {
 	overflow: hidden; /* Remove scrollbar */
 	transition: 0.5s ease left;
 	padding: 0 20px; /* Add padding to ensure enough space */
-	cursor: url('./costum_cursor.svg'), auto;
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto;
 }
 #header .nav-list ul.active {
 	left: 0%;
@@ -188,7 +188,7 @@ p {
 	letter-spacing: 50px;
 	z-index: -1;
 	transition: 0.3s ease letter-spacing;
-	cursor: url('./costum_cursor.svg'), auto;
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto;
 }
 #header .nav-list ul li {
 	flex: 1; /* Make the menu items flexible */
@@ -205,13 +205,13 @@ p {
 	transition: 0.5s;
 	margin: 10px 0; /* Add margin between items */
 	animation: initialHover 0.5s ease-in-out forwards; /* Add initial hover animation */
-	cursor: url('./costum_cursor.svg'), auto;
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto;
 }
 #header .nav-list ul li:hover {
 	background: var(--clr);
 	transform: translateY(-10px); /* Slight lift on hover */
 	box-shadow: 0 0 15px var(--clr); /* Add outer color's rounded box */
-	cursor: url('./costum_cursor.svg'), auto;
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto;
 }
 #header .nav-list ul li.active a {
 	width: 100%;
@@ -228,7 +228,7 @@ p {
 	filter: none;
 	opacity: 0;
 	transition: none;
-	cursor: url('./costum_cursor.svg'), auto;
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto;
 }
 #header .nav-list ul li.active {
 	background: var(--clr);
@@ -301,7 +301,7 @@ p {
 	transform: scale(0.8);
 	margin-right: 20px;
 	transition: transform 0.3s ease; /* Enhance animation */
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 #header .hamburger:after {
 	position: absolute;
@@ -404,7 +404,7 @@ p {
 
 /* Hero Section */
 #hero {
-	background-image: url(./img/hero-bg.jpeg);
+	background-image: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/img/hero-bg.jpeg');
 	background-size: cover;
 	background-position: top center;
 	position: relative;
@@ -496,7 +496,7 @@ p {
 	flex-direction: column;
 	padding: 30px;
 	border-radius: 10px; /* Rounded corners */
-	background-image: url(./img/img-1.png);
+	background-image: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/img/img-1.png');
 	background-size: cover;
 	margin: 10px 5%;
 	position: relative;
@@ -506,7 +506,7 @@ p {
 	transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
 	box-shadow: 20px -20px 18px 0 #0000002a; /* Add shadow effect */
 	transition: 0.5s ease box-shadow; /* Add transition for shadow */
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 #services .service-item::after {
 	content: '';
@@ -769,7 +769,7 @@ p {
 	font-size: 2rem;
 	position: relative;
 	overflow: hidden;
-	cursor: url('costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 #about .col-right .cta::before {
 	content: '';
@@ -843,7 +843,7 @@ p {
 }
 #contact .contact-item:hover {
 	box-shadow: -20px 15px 5px 0 #0000002a;
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 #contact .icon {
 	width: 70px;
@@ -895,16 +895,16 @@ p {
 #footer .social-item img {
 	filter: grayscale(1);
 	transition: 0.3s ease filter;
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 #footer .social-item:hover img {
 	filter: grayscale(0);
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 #footer p {
 	color: white;
 	font-size: 1.3rem;
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 
 /* Add styles for the footer */
@@ -1025,12 +1025,12 @@ footer {
 	0% {
 		transform: translateY(0);
 		box-shadow: none;
-		cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+		cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 	}
 	100% {
 		transform: translateY(-1px); /* Slight lift on hover */
 		box-shadow: 0 0 15px var(--clr); /* Add outer color's rounded box */
-		cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+		cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 	}
 }
 
@@ -1305,7 +1305,7 @@ footer {
 	transform: translateY(-10px); /* Reduce lift on hover */
 	box-shadow: 0 0 5px rgba(106, 17, 203, 0.3); /* Reduce outer color's rounded box */
 	transform: scale(1.1);
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 .box .content {
 	position: absolute;
@@ -1339,7 +1339,7 @@ footer {
 }
 .box:hover span {
 	background: rgba(0, 0, 0, 0.3); /* Darken background on hover */
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 
 /* Add multiple curves to the cornered lines */
@@ -1389,7 +1389,7 @@ footer {
 	transform: translateY(-10px); /* Reduce lift on hover */
 	box-shadow: 0 0 5px rgba(106, 17, 203, 0.3); /* Enhance shadow effect on hover */
 	transform: scale(1.1);
-	cursor: url('./costum_cursor.svg'), auto; /* Custom cursor */
+	cursor: url('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/backup/about%20code/costum_cursor.svg'), auto; /* Custom cursor */
 }
 
 /* Team section with improved horizontal scrolling */
