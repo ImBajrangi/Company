@@ -1,0 +1,224 @@
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:40] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:41] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:41] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:53] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:53] "GET /js/notify.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:54] "GET /js/fast_notify.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:55] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:23:56] "GET /public/foodyVrinda-logo.png HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:25:07] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:25:29] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:25:30] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:27:37] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:27:38] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:39] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:39] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:39] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:39] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:39] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:39] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:40] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:40] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:40] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:40] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:40] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:40] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:58] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:58] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:31:58] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:32:06] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:32:08] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:32:15] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:37] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:37] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:37] "GET /js/notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:38] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:38] "GET /public/foodyVrinda-logo.png HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:40] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:38:56] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:41:37] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:41:38] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:41:44] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:42:37] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:42:49] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:42:54] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:43:42] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:44:17] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:50:48] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:50:48] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 12:50:48] "GET /.well-known/assetlinks.json HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:50:48] "GET /.well-known/assetlinks.json HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:51:37] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:51:37] "GET /public/foodyVrinda-logo.png HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:51:44] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:51:45] "GET /js/notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:51:45] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:53:26] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:54:04] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:54:58] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:54:59] "GET /js/notify.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:54:59] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:54:59] "GET /js/fast_notify.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:55:08] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:55:19] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:57:06] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:57:07] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:57:44] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:58:42] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:58:50] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 12:59:08] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:02:42] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:02:43] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:02:51] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:03:08] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:04:44] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:04:49] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:04:50] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:05:02] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:05:04] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:05:15] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:05:15] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:10:56] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:10:56] "GET /js/notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:10:57] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:10:57] "GET /public/foodyVrinda-logo.png HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:12:41] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:13:45] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:14:20] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:14:49] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:15:30] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:15:58] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:18:21] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:18:21] "GET /js/fast_notify.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:18:22] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:18:23] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:18:24] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:19:55] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:19:57] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:23:15] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:23:25] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:02] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:02] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:02] "GET /imbajrangi.github.io/Company/Visual%20Studio%20Code/Projects/Cloud-Kitchen/js/notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:03] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:03] "GET /js/fast_notify.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:04] "GET /js/sw.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] "GET /js/kitchen.html HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] "GET /js/js/notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] "GET /js/js/fast_notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] "GET /js/js/sw.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 13:57:05] "GET /js/manifest.json HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:47] "GET /kitchen.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:48] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:48] "GET /imbajrangi.github.io/Company/Visual%20Studio%20Code/Projects/Cloud-Kitchen/js/notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:49] "GET /js/fast_notify.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:50] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /public/foodyVrinda-logo.png HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/sw.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/kitchen.html HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/js/notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/js/sw.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/js/fast_notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/manifest.json HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:15:53] "GET /js/public/foodyVrinda-logo.png HTTP/1.1" 404 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:127.0.0.1', 52749, 0, 0)
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:127.0.0.1', 52750, 0, 0)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 780, in send_head
+    f = open(path, 'rb')
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 780, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/mr.bajrangi/Visual Studio Code/Projects/Cloud-Kitchen/js/manifest.json'
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/mr.bajrangi/Visual Studio Code/Projects/Cloud-Kitchen/js/public/foodyVrinda-logo.png'
+
+During handling of the above exception, another exception occurred:
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 1400, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             directory=args.directory)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 1400, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             directory=args.directory)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 721, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 721, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 485, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 485, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 473, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 473, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 725, in do_GET
+    f = self.send_head()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 725, in do_GET
+    f = self.send_head()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 782, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 782, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 540, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/server.py", line 540, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.0/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+::ffff:127.0.0.1 - - [23/Dec/2025 14:18:59] "GET /kitchen.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:18:59] code 404, message File not found
+::ffff:127.0.0.1 - - [23/Dec/2025 14:18:59] "GET /imbajrangi.github.io/Company/Visual%20Studio%20Code/Projects/Cloud-Kitchen/js/notify.js HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [23/Dec/2025 14:19:00] "GET /js/fast_notify.js HTTP/1.1" 304 -

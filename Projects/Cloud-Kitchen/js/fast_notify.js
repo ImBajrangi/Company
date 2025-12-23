@@ -1,4 +1,4 @@
-import { collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { collection, query, where, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 /**
  * A dedicated, high-speed notification system.
@@ -36,25 +36,28 @@ export class FastOrderMonitor {
      * Starts monitoring based on the user's role.
      * @param {string} role - 'kitchen', 'owner', or 'delivery'
      */
-    startListening(role) {
+    async startListening(role) {
         if (this.unsubscribe) this.unsubscribe();
         if (!this.shopId) return;
 
         this.role = role;
 
-        // Determine the status to watch based on role
-        let statusToWatch;
-        if (role === 'delivery') {
-            statusToWatch = 'ready_for_pickup';
-        } else {
-            // Kitchen, Owner watch for brand new orders
-            statusToWatch = 'new';
+        // Fetch shop alarm settings
+        try {
+            const shopDoc = await getDoc(doc(this.db, "shops", this.shopId));
+            if (shopDoc.exists()) {
+                this.alarmSettings = shopDoc.data().alarmSettings || { kitchenNew: true, kitchenReady: false, deliveryReady: true };
+            } else {
+                this.alarmSettings = { kitchenNew: true, kitchenReady: false, deliveryReady: true };
+            }
+        } catch (e) {
+            console.warn("Failed to fetch alarm settings, using defaults.", e);
+            this.alarmSettings = { kitchenNew: true, kitchenReady: false, deliveryReady: true };
         }
 
-        console.log(`🔊 Fast Monitor started for Shop: ${this.shopId} | Role: ${role} | Watching: ${statusToWatch}`);
+        console.log(`🔊 Fast Monitor for Shop: ${this.shopId} | Role: ${role} | Settings:`, this.alarmSettings);
 
-        // FIX: The query must only contain the shopId where clause to avoid the composite index error,
-        // as onSnapshot uses internal ordering that conflicts with multiple where clauses unless indexed.
+        // We listen for both 'new' and 'ready_for_pickup' orders to handle flexible alarms
         const q = query(
             collection(this.db, "orders"),
             where("shopId", "==", this.shopId)
@@ -64,23 +67,34 @@ export class FastOrderMonitor {
             snapshot.docChanges().forEach((change) => {
                 const orderData = change.doc.data();
 
-                // 1. Filter locally for the watched status
-                if (orderData.status !== statusToWatch) {
-                    return; // Ignore orders not matching the required status
+                // Alarm logic based on role and settings
+                let shouldAlarm = false;
+                let alertTitle = "";
+
+                if (orderData.status === 'new') {
+                    // New order alarm
+                    if ((this.role === 'kitchen' || this.role === 'owner') && this.alarmSettings.kitchenNew) {
+                        shouldAlarm = true;
+                        alertTitle = "NEW ORDER!";
+                    }
+                } else if (orderData.status === 'ready_for_pickup') {
+                    // Order ready alarm
+                    if (this.role === 'delivery' && this.alarmSettings.deliveryReady) {
+                        shouldAlarm = true;
+                        alertTitle = "ORDER READY!";
+                    } else if ((this.role === 'kitchen' || this.role === 'owner') && this.alarmSettings.kitchenReady) {
+                        shouldAlarm = true;
+                        alertTitle = "ORDER READY!";
+                    }
                 }
 
+                if (!shouldAlarm) return;
+
                 // 2. Check if this is a newly added order in this status view
-                // 'added' event fires when a document is created OR when a document 
-                // changes status and enters the query result set (which only filters on shopId here).
-                // We rely on the 'added' type to catch the status transition.
                 if (change.type === "added") {
-                    
-                    // 3. Only alert if the order is recent (to avoid false alerts on page refresh/load)
+                    // 3. Only alert if the order is recent
                     if (this.isOrderRecent(orderData)) {
-                        console.log(`🔊 ALERT (${this.role}):`, change.doc.id);
-                        
-                        const alertTitle = this.role === 'delivery' ? "ORDER READY!" : "NEW ORDER!";
-                        
+                        console.log(`🔊 ALERT (${this.role}):`, change.doc.id, alertTitle);
                         this.triggerAlert(orderData, change.doc.id, alertTitle);
                     }
                 }
@@ -145,7 +159,7 @@ export class FastOrderMonitor {
         if (Notification.permission === "granted") {
             const options = {
                 body: `${order.customerName}\nTotal: ₹${order.totalAmount}`,
-                icon: './public/icon.svg',
+                icon: './public/foodyVrinda-logo.png',
                 requireInteraction: true,
                 tag: 'alert-' + Date.now()
             };
