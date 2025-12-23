@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.foodyvrinda.app",
+        "sha256_cert_fingerprints": ["DD:97:96:BF:11:99:4E:F1:BA:D5:B0:BE:63:40:1D:0D:53:75:D1:03:D9:A7:56:68:BD:32:6C:8B:5A:4D:58:2B"]
+      }
+    }]

@@ -1,8 +1,8 @@
 import { collection, query, where, orderBy, limit, onSnapshot, addDoc, updateDoc, doc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- CONFIGURATION ---
-const EMAILJS_PUBLIC_KEY = "FzQkYPBTjINGhutGv"; 
-const EMAILJS_SERVICE_ID = "service_j1825u9"; 
+const EMAILJS_PUBLIC_KEY = "FzQkYPBTjINGhutGv";
+const EMAILJS_SERVICE_ID = "service_j1825u9";
 const EMAILJS_TEMPLATE_ID = "template_umig5kp";
 
 export class NotificationManager {
@@ -11,12 +11,12 @@ export class NotificationManager {
         this.auth = auth;
         this.unsubscribe = null;
         this.audioContext = null;
-        
+
         // Initialize Audio
         this.alarmSound = new Audio("https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3");
         this.alarmSound.loop = true;
         this.notificationSound = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3");
-        
+
         // Initialize EmailJS
         if (window.emailjs) {
             emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -38,7 +38,7 @@ export class NotificationManager {
         // 1. Customer: Listen for their specific user ID
         if (userRole === 'customer') {
             q = query(collectionRef, where("userId", "==", userId), orderBy("createdAt", "desc"), limit(10));
-        } 
+        }
         // 2. Staff/Owner: Listen for notifications for their Shop AND Role
         else if (shopId) {
             // This ensures kitchen staff only get kitchen alerts, etc.
@@ -52,7 +52,7 @@ export class NotificationManager {
 
         this.unsubscribe = onSnapshot(q, (snapshot) => {
             const notifications = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            
+
             // Check for new unread urgent messages
             const unread = notifications.filter(n => !n.read);
             if (unread.length > 0) {
@@ -72,7 +72,7 @@ export class NotificationManager {
     handleNewNotification(notif, role) {
         // Prevent spamming sound on page load for old notifications (check timestamp < 30s ago)
         const isRecent = notif.createdAt ? (Date.now() - notif.createdAt.toMillis() < 30000) : true;
-        
+
         if (!isRecent) return;
 
         // 1. Play Alarm for Orders (Kitchen/Owner)
@@ -90,7 +90,7 @@ export class NotificationManager {
             navigator.serviceWorker.ready.then(reg => {
                 reg.showNotification('Cloud Kitchen', {
                     body: notif.message,
-                    icon: './public/icon.svg',
+                    icon: './public/foodyVrinda-logo.png',
                     tag: notif.id // Prevent duplicates
                 });
             });
@@ -153,7 +153,7 @@ export class NotificationManager {
         try {
             const q = query(collection(this.db, "users"), where("shopId", "==", shopId), where("role", "==", targetRole));
             const snapshot = await getDocs(q);
-            
+
             const batchPromises = snapshot.docs.map(doc => {
                 return addDoc(collection(this.db, "notifications"), {
                     userId: doc.id, // The specific staff member's UID
@@ -191,7 +191,7 @@ export class NotificationManager {
         if (!notifId) return;
         await updateDoc(doc(this.db, "notifications", notifId), { read: true });
     }
-    
+
     async clearAll(notifList) {
         const batchPromises = notifList.map(n => deleteDoc(doc(this.db, "notifications", n.id)));
         await Promise.all(batchPromises);
@@ -207,7 +207,7 @@ export class KitchenNotifier {
         this.alarmAudio = new Audio("https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3");
         this.alarmAudio.loop = true; // Loops until stopped
         this.alarmAudio.volume = 1.0;
-        
+
         this.isPlaying = false;
         this.hasInteracted = false;
 
@@ -252,7 +252,7 @@ export class KitchenNotifier {
 
     playAlarm() {
         if (this.isPlaying) return;
-        
+
         this.isPlaying = true;
         this.alarmAudio.currentTime = 0;
         this.alarmAudio.play().catch(error => {
@@ -281,12 +281,12 @@ export class KitchenNotifier {
         if (Notification.permission === "granted") {
             const notif = new Notification("🔔 NEW ORDER RECEIVED!", {
                 body: `Order for ${order.customerName} - ₹${order.totalAmount}\nClick to view details.`,
-                icon: './public/icon.svg',
+                icon: './public/foodyVrinda-logo.png',
                 requireInteraction: true, // Keeps notification on screen until clicked
                 tag: 'new-order-alert'
             });
 
-            notif.onclick = function() {
+            notif.onclick = function () {
                 window.focus();
                 notif.close();
             };

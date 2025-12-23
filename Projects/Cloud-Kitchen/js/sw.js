@@ -1,13 +1,11 @@
 const CACHE_NAME = 'cloud-kitchen-v3';
 const ASSETS_TO_CACHE = [
   './kitchen.html',
-  './kitchen(modified).html',
   './js/notify.js',
   './js/sw.js',
   './js/fast_notify.js',
   './manifest.json',
-  './public/icon.svg',
-  './public/app-icon.png'
+  './public/foodyVrinda-logo.png'
 ];
 
 // Install event: Cache core assets
@@ -36,32 +34,28 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event: Network first, then cache
 // Fetch event: Strategic Caching
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // STRATEGY 1: Cache First for Images (including cross-origin like placehold.co)
-  // This ensures images are downloaded once and served from cache forever
+  // STRATEGY 1: Cache First for Images
   if (event.request.destination === 'image' || url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/)) {
     event.respondWith(
       caches.open('cloud-kitchen-images-v1').then(async (cache) => {
         const cachedResponse = await cache.match(event.request);
         if (cachedResponse) {
-          return cachedResponse; // Return cached image immediately
+          return cachedResponse;
         }
 
         try {
           const networkResponse = await fetch(event.request);
-          // Cache the new image for next time
           if (networkResponse && networkResponse.status === 200) {
             cache.put(event.request, networkResponse.clone());
           }
           return networkResponse;
         } catch (error) {
           console.log('[Service Worker] Image fetch failed', error);
-          // Optional: Return a fallback placeholder if offline
-          return new Response('<svg>...</svg>', { headers: { 'Content-Type': 'image/svg+xml' } });
+          return new Response('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#eee"/></svg>', { headers: { 'Content-Type': 'image/svg+xml' } });
         }
       })
     );
@@ -69,7 +63,6 @@ self.addEventListener('fetch', (event) => {
   }
 
   // STRATEGY 2: Network First for App Shell (HTML, JS, CSS)
-  // Only for same-origin requests to avoid CORS issues with APIs
   if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(event.request)
@@ -93,21 +86,26 @@ self.addEventListener('fetch', (event) => {
 // Push event: Handle incoming push notifications
 self.addEventListener('push', (event) => {
   console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  let data = {};
+  try {
+    data = event.data.json();
+  } catch (e) {
+    data = { body: event.data.text() || 'Your order status has changed!' };
+  }
 
-  const title = 'Cloud Kitchen Update';
+  const title = data.title || 'Cloud Kitchen Update';
   const options = {
-    body: event.data.text() || 'Your order status has changed!',
-    icon: './public/icon.svg',
-    badge: './public/icon.svg',
+    body: data.body,
+    icon: './public/foodyVrinda-logo.png',
+    badge: './public/foodyVrinda-logo.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: '2'
+      url: data.url || './kitchen.html'
     },
     actions: [
-      { action: 'explore', title: 'View Order', icon: './public/icon.svg' },
-      { action: 'close', title: 'Close', icon: './public/icon.svg' },
+      { action: 'explore', title: 'View Order', icon: './public/foodyVrinda-logo.png' },
+      { action: 'close', title: 'Close', icon: './public/foodyVrinda-logo.png' },
     ]
   };
 
@@ -117,14 +115,26 @@ self.addEventListener('push', (event) => {
 // Notification click event
 self.addEventListener('notificationclick', (event) => {
   console.log('[Service Worker] Notification click Received.');
-
   event.notification.close();
 
   if (event.action === 'close') {
     return;
   }
 
+  const urlToOpen = event.notification.data.url || './kitchen.html';
+
   event.waitUntil(
-    clients.openWindow('./kitchen(modified).html')
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      // If a window is already open, focus it
+      for (let client of windowClients) {
+        if (client.url.includes(urlToOpen) && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Otherwise open a new window
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
   );
 });
