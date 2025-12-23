@@ -2,17 +2,19 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Cloud Kitchen Order System</title>
+    <title>Foody Vrinda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
-    <link rel="apple-touch-icon" href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/icon.svg">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/foodyVrinda-fav.png"
+        type="image/png">
+    <link rel="apple-touch-icon"
+        href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/public/foodyVrinda-fav.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         // Capture the install prompt early, before the main module loads
@@ -22,7 +24,7 @@
             e.preventDefault();
             // Stash the event so it can be triggered later.
             window.deferredPrompt = e;
-            console.log("✅ 'beforeinstallprompt' fired early and captured.");
+            console.log("'beforeinstallprompt' fired early and captured.");
 
             // Dispatch a custom event to notify the main script if it's already listening
             window.dispatchEvent(new CustomEvent('deferred-prompt-ready'));
@@ -438,10 +440,48 @@
             display: none;
             /* Hide scrollbar for Chrome, Safari, Edge */
         }
+
+        /* Blinking animation for urgent alarm modal */
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(229, 62, 62, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(229, 62, 62, 0);
+            }
+        }
+
+        .animate-pulse-red {
+            animation: pulse-red 2s infinite;
+        }
+
+        /* Shop Schedule Tags */
+        .tag-open {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .tag-closed {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .tag-schedule {
+            background-color: #e0e7ff;
+            color: #4338ca;
+        }
     </style>
 </head>
 
 <body class="text-gray-900">
+    <!-- Vrindopnishad Random Loader -->
+    <script
+        src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script>
 
     <div class="container mx-auto p-4 sm:p-6 lg:max-w-7xl relative">
         <!-- **** UPDATED HEADER SECTION **** -->
@@ -451,17 +491,29 @@
                 <div class="flex items-center gap-3 w-full sm:w-auto flex-grow sm:flex-grow-0">
                     <div
                         class="w-10 h-10 bg-black rounded-xl flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <img src="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/icon.svg" alt="Cloud Kitchen Logo" class="w-full h-full object-cover p-1">
+                        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/foodyVrinda-fav.png"
+                            alt="FoodyVrindaLogo" class="w-full h-full object-contain p-1">
                     </div>
                     <div>
-                        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">Cloud Kitchen</h1>
-                        <p class="text-xs sm:text-sm text-gray-500 truncate" id="header-subtitle">Find your favorite
-                            local kitchens</p>
+                        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">Foody Vrinda</h1>
+                        <p class="text-xs sm:text-sm text-gray-500 truncate" id="header-subtitle">Find your favorites
+                        </p>
                     </div>
                 </div>
 
                 <!-- Auth, Notifications & Profile (Takes full width on smallest, then auto) -->
                 <div class="flex items-center justify-end gap-2 w-full sm:w-auto order-first sm:order-none">
+
+                    <!-- Audio Unlock Button (New) -->
+                    <button id="enable-audio-btn"
+                        class="hidden bg-yellow-100 text-yellow-800 px-3 py-1.5 text-xs font-bold rounded-lg hover:bg-yellow-200 transition-all flex items-center gap-1 animate-pulse">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                            </path>
+                        </svg>
+                        Enable Sound
+                    </button>
 
                     <!-- **** NEW: Notification Bell **** -->
                     <div class="relative flex-shrink-0">
@@ -522,13 +574,12 @@
         </header>
         <!-- **** END OF UPDATED HEADER SECTION **** -->
 
-
         <main>
             <!-- All view containers -->
             <div id="customer-view" class="view-active">
                 <div id="shop-selector-view">
                     <div class="mb-6">
-                        <h2 class="text-3xl font-semibold text-gray-900 mb-2">Select a Kitchen</h2>
+                        <h2 class="text-3xl font-semibold text-gray-900 mb-2">Shop Now</h2>
                         <p class="text-gray-500">Choose where you'd like to order from.</p>
                     </div>
                     <div id="shop-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -585,6 +636,18 @@
                     <button id="create-order-btn"
                         class="btn-primary bg-green-600 hover:bg-green-700 w-full sm:w-auto">Create New Order</button>
                 </div>
+                <!-- GLOBAL STOP ALARM BUTTON (Normally Hidden) -->
+                <button id="global-stop-alarm-btn"
+                    class="hidden w-full mb-6 bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg animate-pulse-red text-xl flex items-center justify-center gap-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
+                    </svg>
+                    <span id="global-stop-alarm-text">STOP ALARM (NEW ORDER)</span>
+                </button>
                 <div id="kitchen-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
@@ -599,6 +662,18 @@
                         <p class="text-sm text-gray-500">Ready for delivery from your shop</p>
                     </div>
                 </div>
+                <!-- GLOBAL STOP ALARM BUTTON FOR DELIVERY (Normally Hidden) -->
+                <button id="global-stop-alarm-btn-delivery"
+                    class="hidden w-full mb-6 bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg animate-pulse-red text-xl flex items-center justify-center gap-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
+                    </svg>
+                    <span id="global-stop-alarm-text-delivery">STOP ALARM (ORDER READY)</span>
+                </button>
                 <div id="transport-orders-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
@@ -779,27 +854,170 @@
                             class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button></div>
                 </div>
 
+                <!-- Data Consistency Card -->
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center"><svg
+                                class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg></div>
+                        <div>
+                            <h2 class="text-2xl font-semibold">Data Consistency</h2>
+                            <p class="text-sm text-gray-500">Check and fix database inconsistencies</p>
+                        </div>
+                    </div>
+                    <div id="data-consistency-results"
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Orphan Shops</span>
+                                <span id="check-orphan-shops" class="test-badge test-pending">--</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Staff assigned to non-existent shops</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Delivery Migration</span>
+                                <span id="check-delivery-migration" class="test-badge test-pending">--</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Delivery staff needing shopIds array</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Shops Without Owner</span>
+                                <span id="check-shops-no-owner" class="test-badge test-pending">--</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Shops with no assigned owner</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Orphan Menu Items</span>
+                                <span id="check-orphan-menus" class="test-badge test-pending">--</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Menu items for non-existent shops</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Orphan Orders</span>
+                                <span id="check-orphan-orders" class="test-badge test-pending">--</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Orders for non-existent shops</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Duplicate Assignments</span>
+                                <span id="check-duplicates" class="test-badge test-pending">--</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Shops in both shopId and shopIds</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button id="run-data-check-btn" class="btn-primary bg-blue-600 hover:bg-blue-700">
+                            Check Data Consistency
+                        </button>
+                        <button id="fix-data-btn" class="btn-primary bg-green-600 hover:bg-green-700">
+                            Fix All Issues
+                        </button>
+                        <span id="data-fix-status" class="text-sm text-gray-500"></span>
+                    </div>
+                </div>
+
+
                 <div class="card p-6">
                     <h3 class="text-xl font-semibold mb-4">Shop Management</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h4 class="text-lg font-semibold mb-3">Create New Shop</h4>
-                            <form id="create-shop-form" class="space-y-4"><input type="text" id="shop-name"
-                                    placeholder="Shop Name (e.g., Vrinda Foods - Downtown)" class="w-full"
-                                    required><input type="text" id="shop-address" placeholder="Shop Address"
-                                    class="w-full"><input type="text" id="shop-image"
-                                    placeholder="Shop Image URL (Optional)" class="w-full"><button type="submit"
-                                    class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Shop</button>
+                            <form id="create-shop-form" class="space-y-4">
+                                <input type="text" id="shop-name"
+                                    placeholder="Shop Name (e.g., Vrinda Foods - Downtown)" class="w-full" required>
+                                <input type="text" id="shop-address" placeholder="Shop Address" class="w-full">
+                                <input type="text" id="shop-image" placeholder="Shop Image URL (Optional)"
+                                    class="w-full">
+
+                                <div class="border-t pt-4">
+                                    <h5 class="font-medium mb-2">Shop Schedule</h5>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <input type="time" id="shop-open-time" placeholder="Open Time" class="w-full">
+                                        <input type="time" id="shop-close-time" placeholder="Close Time" class="w-full">
+                                    </div>
+                                    <div class="mt-2">
+                                        <label class="text-sm text-gray-600">Operating Days:</label>
+                                        <div class="flex flex-wrap gap-2 mt-1">
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Mon" checked> Mon</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Tue" checked> Tue</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Wed" checked> Wed</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Thu" checked> Thu</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Fri" checked> Fri</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Sat" checked> Sat</label>
+                                            <label class="flex items-center gap-1"><input type="checkbox"
+                                                    name="shop-days" value="Sun" checked> Sun</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create
+                                    Shop</button>
                             </form>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold mb-3">Existing Shops</h4>
-                            <div id="dev-shop-list" class="space-y-3 max-h-60 overflow-y-auto">
+                            <div id="dev-shop-list" class="space-y-3 max-h-96 overflow-y-auto">
                                 <p class="text-gray-500">Loading shops...</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Shop Schedule Management</h3>
+                    <div class="space-y-4">
+                        <select id="schedule-shop-select" class="w-full">
+                            <option value="">-- Select Shop to Update Schedule --</option>
+                        </select>
+                        <div id="schedule-editor" class="hidden space-y-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Open Time</label>
+                                    <input type="time" id="edit-open-time" class="w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Close Time</label>
+                                    <input type="time" id="edit-close-time" class="w-full">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Operating Days:</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Mon"> Mon</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Tue"> Tue</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Wed"> Wed</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Thu"> Thu</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Fri"> Fri</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Sat"> Sat</label>
+                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
+                                            value="Sun"> Sun</label>
+                                </div>
+                            </div>
+                            <button id="update-schedule-btn"
+                                class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Update Schedule</button>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card p-6">
                     <h3 class="text-xl font-semibold mb-4">Menu Management</h3>
@@ -1039,6 +1257,110 @@
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        import { FastOrderMonitor } from './js/fast_notify.js';
+
+        // // --- Fast Notification Monitor Class (Inlined to prevent 404s) ---
+        // class FastOrderMonitor {
+        //     constructor(db, shopId) {
+        //         this.db = db;
+        //         this.shopId = shopId;
+        //         this.unsubscribe = null;
+        //         this.audioContext = null;
+        //         this.isPlaying = false;
+        //         this.role = null;
+        //     }
+
+        //     // Unlock audio context on user interaction
+        //     enableAudio() {
+        //         if (!this.audioContext) {
+        //             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        //         }
+        //         if (this.audioContext.state === 'suspended') {
+        //             this.audioContext.resume();
+        //         }
+        //     }
+
+        //     playAlarm() {
+        //         if (this.isPlaying || !this.audioContext) return;
+        //         this.isPlaying = true;
+
+        //         const oscillator = this.audioContext.createOscillator();
+        //         const gainNode = this.audioContext.createGain();
+
+        //         oscillator.type = 'square';
+        //         oscillator.frequency.setValueAtTime(440, this.audioContext.currentTime); // A4
+        //         oscillator.frequency.exponentialRampToValueAtTime(880, this.audioContext.currentTime + 0.5); // Ramp up
+
+        //         gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+        //         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
+
+        //         oscillator.connect(gainNode);
+        //         gainNode.connect(this.audioContext.destination);
+
+        //         oscillator.start();
+        //         oscillator.stop(this.audioContext.currentTime + 0.5);
+
+        //         // Loop alarm
+        //         this.alarmInterval = setInterval(() => {
+        //             if (!this.isPlaying) return;
+        //             const osc = this.audioContext.createOscillator();
+        //             const gn = this.audioContext.createGain();
+        //             osc.type = 'square';
+        //             osc.frequency.setValueAtTime(440, this.audioContext.currentTime);
+        //             osc.frequency.exponentialRampToValueAtTime(880, this.audioContext.currentTime + 0.5);
+        //             gn.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+        //             gn.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
+        //             osc.connect(gn);
+        //             gn.connect(this.audioContext.destination);
+        //             osc.start();
+        //             osc.stop(this.audioContext.currentTime + 0.5);
+        //         }, 1000);
+        //     }
+
+        //     stopAlarm() {
+        //         this.isPlaying = false;
+        //         if (this.alarmInterval) clearInterval(this.alarmInterval);
+        //     }
+
+        //     startListening(role) {
+        //         this.role = role;
+        //         // Only listen for status 'new' for kitchen/owner, and 'ready_for_pickup' for delivery
+        //         let q;
+        //         if (role === 'delivery') {
+        //             q = query(collection(this.db, "orders"),
+        //                 where("shopId", "==", this.shopId),
+        //                 where("status", "==", "ready_for_pickup"));
+        //         } else {
+        //             q = query(collection(this.db, "orders"),
+        //                 where("shopId", "==", this.shopId),
+        //                 where("status", "==", "new"));
+        //         }
+
+        //         this.unsubscribe = onSnapshot(q, (snapshot) => {
+        //             snapshot.docChanges().forEach((change) => {
+        //                 if (change.type === "added") {
+        //                     // Play sound and trigger visual alert
+        //                     this.playAlarm();
+        //                     window.dispatchEvent(new CustomEvent('fast-order-alert', {
+        //                         detail: {
+        //                             order: change.doc.data(),
+        //                             title: role === 'delivery' ? 'ORDER READY' : 'NEW ORDER'
+        //                         }
+        //                     }));
+        //                 }
+        //             });
+        //         });
+        //     }
+
+        //     stopListening() {
+        //         if (this.unsubscribe) {
+        //             this.unsubscribe();
+        //             this.unsubscribe = null;
+        //         }
+        //         this.stopAlarm();
+        //     }
+        // }
+
         const DEVELOPER_EMAIL = "dev@example.com";
         const DEVELOPER_PASSWORD = "vrinda123456";
 
@@ -1081,7 +1403,9 @@
         let userId = null;
         let userEmail = 'Guest';
         let currentUserShopId = null;
+        let currentUserShopIds = []; // For delivery staff multi-shop support
         let currentShopName = null;
+        let fastMonitor = null; // FastOrderMonitor instance
 
         let cart = [];
         let staffCart = [];
@@ -1107,6 +1431,8 @@
         let allShops = [];
         let currentMenu = [];
         let selectedShopId = null;
+        let isShopCurrentlyClosed = false; // Track if selected shop is closed
+        const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         // --- Notification variables ---
         let allNotifications = [];
@@ -1200,7 +1526,7 @@
                         </div>
                     </form>
                     <div class="relative my-6"><div class="absolute inset-0 flex items-center"><span class="w-full border-t"></span></div><div class="relative flex justify-center text-sm"><span class="bg-white px-2 text-gray-500">OR</span></div></div>
-                    <button id="google-login-btn" class="btn-primary w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2">
+                    <button type="button" id="google-login-btn" class="btn-primary w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.012 36.49 44 30.65 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
                         Continue with Google
                     </button>
@@ -1250,6 +1576,7 @@
                 if (userRole === 'developer') {
                     populateShopDropdowns();
                     renderDevShopList();
+                    populateScheduleSelect();
                 }
                 updateDevSummary();
             } catch (error) {
@@ -1283,11 +1610,24 @@
                         const userData = userDocSnap.data();
                         userRole = userData.role || 'customer';
                         currentUserShopId = userData.shopId || null;
+
+                        // Handle delivery staff with multiple shops
+                        if (userRole === 'delivery' && userData.shopIds && userData.shopIds.length > 0) {
+                            currentUserShopIds = userData.shopIds;
+                            currentUserShopId = userData.shopIds[0]; // Use first shop as primary
+                        } else {
+                            currentUserShopIds = currentUserShopId ? [currentUserShopId] : [];
+                        }
+
                         if (currentUserShopId) {
                             if (allShops.length === 0) await loadAllShops();
                             const shop = allShops.find(s => s.id === currentUserShopId);
                             if (shop) {
                                 currentShopName = shop.name;
+                                // For delivery with multiple shops, show count
+                                if (userRole === 'delivery' && currentUserShopIds.length > 1) {
+                                    currentShopName = `${currentUserShopIds.length} Shops`;
+                                }
                             } else {
                                 const shopDoc = await getDoc(doc(db, "shops", currentUserShopId));
                                 if (shopDoc.exists()) currentShopName = shopDoc.data().name;
@@ -1329,6 +1669,11 @@
                     document.getElementById('transport-view-title').textContent = currentShopName || 'Delivery';
                     document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
 
+                    // --- Initialize Fast Monitor for Kitchen/Owner/Delivery ---
+                    if (['kitchen', 'owner', 'delivery'].includes(userRole)) {
+                        initFastNotification(currentUserShopId, userRole);
+                    }
+
                 } else if (userRole !== 'customer' && userRole !== 'developer') {
                     showAlert("You are not assigned to a shop. Please contact the developer.", true);
                 }
@@ -1357,6 +1702,81 @@
             });
         }
 
+        // --- FAST NOTIFICATION INIT ---
+        function initFastNotification(shopId, role) {
+            if (fastMonitor) fastMonitor.stopListening();
+
+            fastMonitor = new FastOrderMonitor(db, shopId);
+            fastMonitor.startListening(role); // Pass role to monitor
+
+            // Smart Audio Unlock: Unlock on ANY user interaction
+            const unlockAudio = () => {
+                if (fastMonitor) {
+                    fastMonitor.enableAudio();
+                    // Hide the button once audio is unlocked
+                    const audioBtn = document.getElementById('enable-audio-btn');
+                    if (audioBtn) audioBtn.classList.add('hidden');
+                }
+                // Remove listeners once unlocked to avoid redundant calls
+                document.removeEventListener('click', unlockAudio);
+                document.removeEventListener('touchstart', unlockAudio);
+                document.removeEventListener('keydown', unlockAudio);
+            };
+
+            // Add global listeners for any user interaction
+            document.addEventListener('click', unlockAudio, { once: true });
+            document.addEventListener('touchstart', unlockAudio, { once: true });
+            document.addEventListener('keydown', unlockAudio, { once: true });
+
+            // Show button as visual feedback (will auto-hide on first interaction)
+            const audioBtn = document.getElementById('enable-audio-btn');
+            if (audioBtn) {
+                audioBtn.classList.remove('hidden');
+                audioBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent double firing
+                    unlockAudio();
+                }, { once: true });
+            }
+
+            // Listen for the Alert Event
+            window.addEventListener('fast-order-alert', (e) => {
+                const { order, title } = e.detail;
+                // Show Global Stop Button
+
+                // Determine which stop button to show based on role
+                let stopBtn, stopText;
+
+                if (role === 'delivery') {
+                    stopBtn = document.getElementById('global-stop-alarm-btn-delivery');
+                    stopText = document.getElementById('global-stop-alarm-text-delivery');
+                } else {
+                    stopBtn = document.getElementById('global-stop-alarm-btn');
+                    stopText = document.getElementById('global-stop-alarm-text');
+                }
+
+                if (stopBtn && stopText) {
+                    stopText.textContent = `STOP ALARM (${title || 'NEW ALERT'})`;
+                    stopBtn.classList.remove('hidden');
+
+                    // When clicked, stop alarm and hide button
+                    stopBtn.onclick = () => {
+                        fastMonitor.stopAlarm();
+                        stopBtn.classList.add('hidden');
+
+                        // Switch to appropriate view based on role
+                        if (role === 'delivery') {
+                            const transportBtn = document.querySelector('[data-view="transport"]');
+                            if (transportBtn) transportBtn.click();
+                        } else {
+                            const kitchenBtn = document.querySelector('[data-view="kitchen"]');
+                            if (kitchenBtn) kitchenBtn.click();
+                        }
+                    };
+                }
+            });
+
+            console.log(`FastOrderMonitor initialized for shop: ${shopId}, role: ${role}`);
+        }
 
         function updateAuthStatusUI() {
             let statusText = 'Guest';
@@ -1410,30 +1830,79 @@
             showShopSelector();
         }
 
+        // --- SHOP SCHEDULE CHECKER ---
+        function isShopOpen(schedule) {
+            if (!schedule || !schedule.openTime || !schedule.closeTime || !schedule.daysOpen || schedule.daysOpen.length === 0) {
+                // Default: Always open if schedule isn't set
+                return true;
+            }
+
+            const now = new Date();
+            const currentDay = DAYS_OF_WEEK[now.getDay()]; // Sun (0) -> 'Sun'
+
+            // Check if shop is open today
+            if (!schedule.daysOpen.includes(currentDay)) {
+                return false;
+            }
+
+            // --- CRITICAL FIX: Use Local Time instead of UTC ---
+            // Previously used getUTCHours()/getUTCMinutes(), which caused time mismatches (e.g., IST vs UTC)
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+
+            // Convert schedule times (e.g., "09:00") to minutes from midnight
+            const [openHour, openMinute] = schedule.openTime.split(':').map(Number);
+            const [closeHour, closeMinute] = schedule.closeTime.split(':').map(Number);
+
+            const openTimeInMinutes = openHour * 60 + openMinute;
+            const closeTimeInMinutes = closeHour * 60 + closeMinute;
+
+            if (openTimeInMinutes < closeTimeInMinutes) {
+                // Simple case: 09:00 to 23:00 (within the same day)
+                return currentTimeInMinutes >= openTimeInMinutes && currentTimeInMinutes < closeTimeInMinutes;
+            } else {
+                // Complex case: overnight shift, e.g., 23:00 to 05:00
+                return currentTimeInMinutes >= openTimeInMinutes || currentTimeInMinutes < closeTimeInMinutes;
+            }
+        }
+
         function renderShopSelector() {
             const container = document.getElementById('shop-list-container');
             if (!container) return;
             if (allShops.length === 0) {
-                // --- MODIFICATION: Informative message if no shops load ---
                 container.innerHTML = '<p class="text-gray-500 col-span-full text-center">No kitchens are currently available. This might be because the database is empty or security rules are blocking access.</p>';
-                // --- END MODIFICATION ---
                 return;
             }
-            container.innerHTML = allShops.map(shop => `
-                <div class="shop-card card p-0 cursor-pointer" data-shop-id="${shop.id}" data-shop-name="${shop.name}">
-                    <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
-                        <img src="${shop.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EShop%3C/text%3E%3C/svg%3E'}" 
-                             alt="${shop.name}" 
-                             class="w-full h-full object-cover" 
-                             loading="lazy"
-                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+
+            container.innerHTML = allShops.map(shop => {
+                const isOpen = isShopOpen(shop.schedule);
+                const statusTag = isOpen
+                    ? `<span class="tag-open px-2 py-0.5 rounded-full text-xs font-semibold">OPEN</span>`
+                    : `<span class="tag-closed px-2 py-0.5 rounded-full text-xs font-semibold">CLOSED</span>`;
+
+                const schedule = shop.schedule || {};
+                const timeTag = (schedule.openTime && schedule.closeTime) ?
+                    `<span class="tag-schedule px-2 py-0.5 rounded-full text-xs font-medium">${schedule.openTime} - ${schedule.closeTime} (${schedule.daysOpen ? schedule.daysOpen.join('/') : 'Everyday'})</span>` :
+                    '';
+
+                return `
+                    <div class="shop-card card p-0 cursor-pointer ${isOpen ? '' : 'opacity-60'}" data-shop-id="${shop.id}" data-shop-name="${shop.name}">
+                        <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
+                            <img src="${shop.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EShop%3C/text%3E%3C/svg%3E'}" 
+                                alt="${shop.name}" 
+                                class="w-full h-full object-cover" 
+                                loading="lazy"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold">${shop.name}</h3>
+                            <p class="text-gray-600 text-sm mb-3">${shop.address || 'No address provided'}</p>
+                            <div class="flex flex-wrap gap-2">${statusTag} ${timeTag}</div>
+                        </div>
                     </div>
-                    <div class="p-5">
-                        <h3 class="text-lg font-semibold">${shop.name}</h3>
-                        <p class="text-gray-600 text-sm">${shop.address || 'No address provided'}</p>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         document.getElementById('shop-list-container').addEventListener('click', (e) => {
@@ -1466,6 +1935,17 @@
                 document.getElementById('header-subtitle').textContent = `Ordering from ${shopName}`;
             }
 
+            // Check closure status and set global flag
+            const shop = allShops.find(s => s.id === shopId);
+            isShopCurrentlyClosed = shop ? !isShopOpen(shop.schedule) : false;
+
+            if (isShopCurrentlyClosed) {
+                // If closed, clear cart and disable ordering elements
+                cart = [];
+                updateCart();
+                // Alert removed - UI will show disabled buttons instead
+            }
+
             await renderMenu(shopId);
         }
 
@@ -1475,7 +1955,6 @@
             container.innerHTML = '<p class="text-gray-500">Loading menu...</p>';
 
             try {
-                // Bug fix: Ensure query is correctly structured to find all items for a shop
                 const menuSnapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
                 currentMenu = menuSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
@@ -1488,7 +1967,10 @@
                 currentMenu.forEach(item => {
                     const cartItem = cart.find(ci => ci.id === item.id);
                     let buttonHTML;
-                    if (cartItem) {
+
+                    if (isShopCurrentlyClosed) {
+                        buttonHTML = `<button disabled class="mt-4 btn-danger w-full opacity-70">CLOSED</button>`;
+                    } else if (cartItem) {
                         buttonHTML = `
                             <div class="quantity-selector mt-4">
                                 <button class="quantity-btn quantity-minus" data-id="${item.id}">-</button>
@@ -1499,6 +1981,7 @@
                     } else {
                         buttonHTML = `<button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
                     }
+
                     container.innerHTML += `
                         <div class="menu-item card p-0">
                             <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
@@ -1519,6 +2002,9 @@
                 console.error("Error loading menu:", error);
                 container.innerHTML = '<p class="text-red-500">Could not load menu.</p>';
             }
+
+            // Re-render order form to disable it if necessary
+            renderOrderForm(null, isShopCurrentlyClosed);
         }
 
 
@@ -1542,18 +2028,23 @@
             summaryEl.innerHTML = `<div class="flex justify-between font-bold text-xl"><span>Total</span><span>₹${total}</span></div>`;
         }
 
-        function renderOrderForm(order = null) {
+        function renderOrderForm(order = null, isDisabled = false) {
             const container = document.getElementById('order-form-container');
             if (!container) return;
             const isUpdate = !!order;
-            // Bug Fix: Added proper form styling/validation attributes
+
+            let buttonText = isUpdate ? 'Update & Pay Difference' : 'Pay & Place Order';
+            if (isDisabled) {
+                buttonText = 'Shop is Closed';
+            }
+
             container.innerHTML = `
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
                 <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
-                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${order?.customerName || ''}" ${isUpdate ? 'disabled' : ''} required></div>
-                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${order?.customerAddress || ''}" ${isUpdate ? 'disabled' : ''} required></div>
-                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate ? 'disabled' : ''} required></div>
-                    <button type="submit" class="btn-primary w-full">${isUpdate ? 'Update & Pay Difference' : 'Pay & Place Order'}</button>
+                    <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${order?.customerName || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
+                    <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${order?.customerAddress || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
+                    <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
+                    <button type="submit" class="btn-primary w-full" ${isDisabled ? 'disabled' : ''}>${buttonText}</button>
                 </form>
             `;
         }
@@ -1561,6 +2052,11 @@
         async function placeOrder() {
             if (cart.length === 0) return showAlert('Your cart is empty.');
             if (!selectedShopId) return showAlert('No shop selected.', true);
+
+            // CRITICAL CHECK: Prevent ordering if shop is closed
+            if (isShopCurrentlyClosed) {
+                return showAlert("Cannot place order: The selected shop is closed.", true);
+            }
 
             // Critical Fix: Open login modal instead of showing alert on order attempt by guest
             if (auth.currentUser?.isAnonymous || userId.startsWith('offline')) {
@@ -1732,6 +2228,11 @@
         function startTrackingLatestOrder() {
             if (!userId || !isFirebaseReady || userId.startsWith('offline') || auth.currentUser?.isAnonymous) return;
             currentOrderListener?.();
+
+            // NOTE: This query requires a composite Firestore index on (userId, createdAt DESC).
+            // The query is semantically correct (fetches the latest order for a specific user).
+            // If you see a Firestore error, create the index using the link provided in the console.
+            console.warn("⚠️ Order tracking query requires Firestore index: (userId ASC, createdAt DESC)");
             const q = query(collection(db, "orders"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(1)); // Only track the very latest order
 
             currentOrderListener = onSnapshot(q, async (snapshot) => {
@@ -1846,8 +2347,17 @@
             const kitchenQuery = query(collection(db, "orders"), where("status", "in", ["new", "preparing"]), where("shopId", "==", currentUserShopId));
             onSnapshot(kitchenQuery, s => renderOrders(kitchenList, s.docs, 'kitchen'));
 
-            // Bug Fix: Only show "ready_for_pickup" and "out_for_delivery" in the transport view
-            const transportQuery = query(collection(db, "orders"), where("status", "in", ["ready_for_pickup", "out_for_delivery"]), where("shopId", "==", currentUserShopId));
+            // For delivery staff with multiple shops, show orders from all assigned shops
+            // Firestore 'in' query supports up to 10 values
+            const shopIdsForTransport = (userRole === 'delivery' && currentUserShopIds.length > 0)
+                ? currentUserShopIds.slice(0, 10) // Firestore limit
+                : [currentUserShopId];
+
+            const transportQuery = query(
+                collection(db, "orders"),
+                where("status", "in", ["ready_for_pickup", "out_for_delivery"]),
+                where("shopId", "in", shopIdsForTransport)
+            );
             onSnapshot(transportQuery, s => renderOrders(transportList, s.docs, 'transport'));
         }
 
@@ -1882,6 +2392,12 @@
                     // Bug Fix: Checkbox event listener should be on the change event
                     const itemsList = order.items.map(item => `<div class="flex justify-between items-center text-sm py-1"><span>${item.name} x ${item.quantity}</span>${order.status === 'preparing' ? `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" onchange="toggleItemReady('${doc.id}', '${item.id}')" ${item.ready ? 'checked' : ''}><span class="text-xs font-medium ${item.ready ? 'text-green-600' : ''}">Ready</span></label>` : ''}</div>`).join('');
 
+                    // Show shop name badge for delivery staff with multiple shops
+                    const shopName = allShops.find(s => s.id === order.shopId)?.name || 'Unknown';
+                    const shopBadge = (userRole === 'delivery' && currentUserShopIds.length > 1)
+                        ? `<span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">${shopName}</span>`
+                        : '';
+
                     const customerInfoHTML = `
                         <div class="text-sm text-gray-700 mt-3 space-y-1">
                             <p><span class="font-medium">Phone:</span> ${order.customerPhone || 'N/A'}</p>
@@ -1889,7 +2405,7 @@
                         </div>
                     `;
 
-                    return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2"><strong class="text-gray-800">${order.customerName}</strong>${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div>${customerInfoHTML}<div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
+                    return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2 gap-2"><strong class="text-gray-800">${order.customerName}</strong><div class="flex gap-1 flex-wrap">${shopBadge}${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div></div>${customerInfoHTML}<div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
                 }).join('');
         }
 
@@ -1914,17 +2430,31 @@
         }
 
         async function handleGoogleLogin() {
+            const provider = new GoogleAuthProvider();
             try {
-                // Use Redirect for Mobile/PWA to avoid popup blocking issues
-                if (window.matchMedia('(display-mode: standalone)').matches || /iphone|ipad|ipod|android/.test(window.navigator.userAgent.toLowerCase())) {
-                    await signInWithRedirect(auth, new GoogleAuthProvider());
-                    // The page will redirect, so no further code execution happens here
+                // Modified: Prefer signInWithPopup for most environments as it's less prone to redirect loops/context loss.
+                // Only use Redirect for Standalone (Installed) PWA mode where popups are weird.
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    await signInWithRedirect(auth, provider);
                 } else {
-                    await signInWithPopup(auth, new GoogleAuthProvider());
+                    await signInWithPopup(auth, provider);
                     document.getElementById('profile-modal')?.classList.add('hidden');
                     showAlert('Logged in with Google successfully!');
                 }
-            } catch (error) { showAlert(error.message, true); }
+            } catch (error) {
+                console.warn("Popup sign-in failed, trying redirect fallback...", error);
+
+                // Fallback: If popup is strictly blocked (common in some embedded webviews), try redirect
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+                    try {
+                        await signInWithRedirect(auth, provider);
+                    } catch (redirectError) {
+                        showAlert("Login failed: " + redirectError.message, true);
+                    }
+                } else {
+                    showAlert(error.message, true);
+                }
+            }
         }
 
         // Check for Redirect Result (for Mobile Auth return)
@@ -2162,13 +2692,16 @@
 
             let q;
             if (userRole === 'customer') {
+                // Customer query: Only one where clause, so orderBy is safe
                 q = query(collection(db, "notifications"), where("userId", "==", userId), orderBy("createdAt", "desc"), limit(20));
             } else if (currentUserShopId && ['kitchen', 'delivery', 'owner'].includes(userRole)) {
-                // Staff/Owners get notifications for their shop and role
-                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), orderBy("createdAt", "desc"), limit(20));
+                // FIX: Removed orderBy to prevent composite index error on (shopId + role + createdAt)
+                // We will sort locally after fetching (max 20 docs, so performance impact is negligible)
+                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), where("role", "==", userRole), limit(20));
             } else if (userRole === 'developer' && currentUserShopId) {
-                // Developer gets all notifications for their *selected* shop
-                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), orderBy("createdAt", "desc"), limit(50));
+                // FIX: Removed orderBy to prevent composite index error on (shopId + createdAt)
+                // We will sort locally after fetching (max 50 docs, so performance impact is negligible)
+                q = query(collection(db, "notifications"), where("shopId", "==", currentUserShopId), limit(50));
             } else {
                 // Developer without a selected shop or staff without assigned shop
                 updateNotificationUI([]);
@@ -2176,7 +2709,15 @@
             }
 
             notificationListener = onSnapshot(q, (snapshot) => {
-                allNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                // Fetch data
+                let notifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                // FIX: Sort locally if we removed orderBy above (i.e., for non-customer roles)
+                if (userRole !== 'customer') {
+                    notifications.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+                }
+
+                allNotifications = notifications;
                 updateNotificationUI(allNotifications);
             }, (error) => {
                 console.error("Error listening for notifications:", error);
@@ -2212,9 +2753,9 @@
                 if (now - notifTime < 10000 && !latest.read) {
                     if (Notification.permission === 'granted') {
                         navigator.serviceWorker.ready.then(registration => {
-                            registration.showNotification('Cloud Kitchen', {
+                            registration.showNotification('Foody Vrinda', {
                                 body: latest.message,
-                                icon: 'icon.svg',
+                                icon: './public/icon.svg',
                                 vibrate: [200, 100, 200],
                                 tag: latest.id // Prevent duplicate notifications
                             });
@@ -2310,14 +2851,14 @@
         }
 
         // --- END Notification Functions ---
-        
+
         /**
          * Shows a temporary toast notification.
          * @param {string} message - The message to display.
          * @param {string} type - 'success', 'error', or 'info'
          */
-        
-         function showToast(message, type = 'info') {
+
+        function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             if (!container) return;
 
@@ -2407,22 +2948,81 @@
             document.getElementById('dev-dashboard-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
         }
 
-        function renderDevShopList() {
+        async function renderDevShopList() {
             const container = document.getElementById('dev-shop-list');
             if (!container) return;
             if (allShops.length === 0) {
                 container.innerHTML = '<p class="text-gray-500">No shops created yet.</p>';
                 return;
             }
-            container.innerHTML = allShops.map(shop => `
-                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                    <div>
-                        <p class="font-medium">${shop.name}</p>
-                        <p class="text-sm text-gray-500">${shop.address || 'No address'}</p>
-                    </div>
-                    <button data-id="${shop.id}" class="dev-remove-shop-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button>
-                </div>
-            `).join('');
+
+            // Fetch staff counts for all shops
+            try {
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const staffByShop = {};
+
+                // Initialize counts for each shop
+                allShops.forEach(shop => {
+                    staffByShop[shop.id] = { kitchen: 0, delivery: 0, owner: 0 };
+                });
+
+                // Count staff per shop (handle both shopId and shopIds)
+                usersSnapshot.docs.forEach(docSnap => {
+                    const userData = docSnap.data();
+                    if (!userData.role || userData.role === 'customer' || userData.role === 'developer') return;
+
+                    // Handle delivery staff with multiple shops (shopIds array)
+                    if (userData.role === 'delivery' && userData.shopIds && Array.isArray(userData.shopIds)) {
+                        userData.shopIds.forEach(shopId => {
+                            if (staffByShop[shopId]) {
+                                staffByShop[shopId].delivery++;
+                            }
+                        });
+                    }
+                    // Handle single shopId (kitchen, owner, or legacy delivery)
+                    else if (userData.shopId && staffByShop[userData.shopId]) {
+                        if (userData.role === 'kitchen') staffByShop[userData.shopId].kitchen++;
+                        else if (userData.role === 'owner') staffByShop[userData.shopId].owner++;
+                        else if (userData.role === 'delivery') staffByShop[userData.shopId].delivery++;
+                    }
+                });
+
+                container.innerHTML = allShops.map(shop => {
+                    const counts = staffByShop[shop.id] || { kitchen: 0, delivery: 0, owner: 0 };
+                    const totalStaff = counts.kitchen + counts.delivery + counts.owner;
+
+                    return `
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <p class="font-semibold text-gray-900">${shop.name}</p>
+                                <p class="text-sm text-gray-500">${shop.address || 'No address'}</p>
+                            </div>
+                            <button data-id="${shop.id}" class="dev-remove-shop-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${counts.owner > 0 ? 'bg-purple-100 text-purple-700' : 'bg-gray-200 text-gray-500'}">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                ${counts.owner} Owner${counts.owner !== 1 ? 's' : ''}
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${counts.kitchen > 0 ? 'bg-orange-100 text-orange-700' : 'bg-gray-200 text-gray-500'}">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                ${counts.kitchen} Kitchen
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${counts.delivery > 0 ? 'bg-blue-100 text-blue-700' : 'bg-gray-200 text-gray-500'}">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                ${counts.delivery} Delivery
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                Total: ${totalStaff}
+                            </span>
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (error) {
+                console.error("Error loading staff counts:", error);
+                container.innerHTML = '<p class="text-red-500">Error loading shop data.</p>';
+            }
         }
 
         async function createShop(e) {
@@ -2430,8 +3030,29 @@
             const name = document.getElementById('shop-name').value;
             const address = document.getElementById('shop-address').value;
             const image = document.getElementById('shop-image').value;
+
+            // Get schedule data
+            const openTime = document.getElementById('shop-open-time').value;
+            const closeTime = document.getElementById('shop-close-time').value;
+            const daysOpen = Array.from(document.querySelectorAll('input[name="shop-days"]:checked')).map(cb => cb.value);
+
+            const shopData = {
+                name,
+                address,
+                image: image || null
+            };
+
+            // Add schedule if provided
+            if (openTime && closeTime) {
+                shopData.schedule = {
+                    openTime,
+                    closeTime,
+                    daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                };
+            }
+
             try {
-                await addDoc(collection(db, "shops"), { name, address, image: image || null });
+                await addDoc(collection(db, "shops"), shopData);
                 showAlert('Shop created successfully!');
                 document.getElementById('create-shop-form').reset();
                 await loadAllShops();
@@ -2440,6 +3061,64 @@
                 showAlert("Failed to create shop.", true);
             }
         }
+
+        // --- SCHEDULE MANAGEMENT ---
+        function populateScheduleSelect() {
+            const select = document.getElementById('schedule-shop-select');
+            select.innerHTML = '<option value="">-- Select Shop to Update Schedule --</option>' +
+                allShops.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        }
+
+        document.getElementById('schedule-shop-select').addEventListener('change', async (e) => {
+            const shopId = e.target.value;
+            const editor = document.getElementById('schedule-editor');
+
+            if (!shopId) {
+                editor.classList.add('hidden');
+                return;
+            }
+
+            const shop = allShops.find(s => s.id === shopId);
+            if (shop) {
+                editor.classList.remove('hidden');
+
+                // Populate current schedule
+                const schedule = shop.schedule || {};
+                document.getElementById('edit-open-time').value = schedule.openTime || '';
+                document.getElementById('edit-close-time').value = schedule.closeTime || '';
+
+                // Set checkboxes
+                document.querySelectorAll('input[name="edit-days"]').forEach(cb => {
+                    cb.checked = schedule.daysOpen ? schedule.daysOpen.includes(cb.value) : true;
+                });
+            }
+        });
+
+        document.getElementById('update-schedule-btn').addEventListener('click', async () => {
+            const shopId = document.getElementById('schedule-shop-select').value;
+            if (!shopId) return;
+
+            const openTime = document.getElementById('edit-open-time').value;
+            const closeTime = document.getElementById('edit-close-time').value;
+            const daysOpen = Array.from(document.querySelectorAll('input[name="edit-days"]:checked')).map(cb => cb.value);
+
+            try {
+                await updateDoc(doc(db, "shops", shopId), {
+                    schedule: {
+                        openTime,
+                        closeTime,
+                        daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    }
+                });
+                showAlert('Schedule updated successfully!');
+                await loadAllShops();
+                document.getElementById('schedule-editor').classList.add('hidden');
+                document.getElementById('schedule-shop-select').value = '';
+            } catch (error) {
+                console.error("Error updating schedule: ", error);
+                showAlert("Failed to update schedule.", true);
+            }
+        });
 
         async function createMenuItem(e) {
             e.preventDefault();
@@ -2509,6 +3188,214 @@
             setStatus(tests.auth, !!auth.currentUser && !auth.currentUser.isAnonymous); // Check if authenticated and not anonymous
         }
 
+        // --- Data Consistency Check & Fix Functions ---
+
+        let dataConsistencyResults = {
+            orphanShops: [],
+            deliveryMigration: [],
+            shopsNoOwner: [],
+            orphanMenus: [],
+            orphanOrders: [],
+            duplicates: []
+        };
+
+        async function runDataConsistencyCheck() {
+            if (userRole !== 'developer') return;
+
+            const setStatus = (id, count, isError = null) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = count;
+                if (isError === null) {
+                    el.className = count === 0 ? 'test-badge test-pass' : 'test-badge test-fail';
+                } else {
+                    el.className = isError ? 'test-badge test-fail' : 'test-badge test-pass';
+                }
+            };
+
+            try {
+                // Reset results
+                dataConsistencyResults = {
+                    orphanShops: [],
+                    deliveryMigration: [],
+                    shopsNoOwner: [],
+                    orphanMenus: [],
+                    orphanOrders: [],
+                    duplicates: []
+                };
+
+                // Fetch all data
+                const [usersSnapshot, menusSnapshot, ordersSnapshot] = await Promise.all([
+                    getDocs(collection(db, "users")),
+                    getDocs(collection(db, "menus")),
+                    getDocs(collection(db, "orders"))
+                ]);
+
+                const shopIds = new Set(allShops.map(s => s.id));
+                const users = usersSnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                // 1. Check for staff assigned to non-existent shops
+                users.forEach(user => {
+                    if (['kitchen', 'owner', 'delivery'].includes(user.role)) {
+                        if (user.shopId && !shopIds.has(user.shopId)) {
+                            dataConsistencyResults.orphanShops.push({ userId: user.id, email: user.email, invalidShopId: user.shopId });
+                        }
+                        if (user.shopIds && Array.isArray(user.shopIds)) {
+                            user.shopIds.forEach(sid => {
+                                if (!shopIds.has(sid)) {
+                                    dataConsistencyResults.orphanShops.push({ userId: user.id, email: user.email, invalidShopId: sid });
+                                }
+                            });
+                        }
+                    }
+                });
+                setStatus('check-orphan-shops', dataConsistencyResults.orphanShops.length);
+
+                // 2. Check delivery staff needing migration to shopIds array
+                users.forEach(user => {
+                    if (user.role === 'delivery' && user.shopId && (!user.shopIds || !Array.isArray(user.shopIds))) {
+                        dataConsistencyResults.deliveryMigration.push({ userId: user.id, email: user.email, shopId: user.shopId });
+                    }
+                });
+                setStatus('check-delivery-migration', dataConsistencyResults.deliveryMigration.length);
+
+                // 3. Check shops without an owner
+                const ownersPerShop = {};
+                users.forEach(user => {
+                    if (user.role === 'owner' && user.shopId) {
+                        ownersPerShop[user.shopId] = (ownersPerShop[user.shopId] || 0) + 1;
+                    }
+                });
+                allShops.forEach(shop => {
+                    if (!ownersPerShop[shop.id]) {
+                        dataConsistencyResults.shopsNoOwner.push({ shopId: shop.id, shopName: shop.name });
+                    }
+                });
+                setStatus('check-shops-no-owner', dataConsistencyResults.shopsNoOwner.length);
+
+                // 4. Check orphan menu items
+                menusSnapshot.docs.forEach(d => {
+                    const menu = d.data();
+                    if (menu.shopId && !shopIds.has(menu.shopId)) {
+                        dataConsistencyResults.orphanMenus.push({ menuId: d.id, name: menu.name, invalidShopId: menu.shopId });
+                    }
+                });
+                setStatus('check-orphan-menus', dataConsistencyResults.orphanMenus.length);
+
+                // 5. Check orphan orders
+                ordersSnapshot.docs.forEach(d => {
+                    const order = d.data();
+                    if (order.shopId && !shopIds.has(order.shopId)) {
+                        dataConsistencyResults.orphanOrders.push({ orderId: d.id, customer: order.customerName, invalidShopId: order.shopId });
+                    }
+                });
+                setStatus('check-orphan-orders', dataConsistencyResults.orphanOrders.length);
+
+                // 6. Check duplicate shop assignments (shopId appears in shopIds too)
+                users.forEach(user => {
+                    if (user.role === 'delivery' && user.shopIds && Array.isArray(user.shopIds)) {
+                        const uniqueShops = new Set(user.shopIds);
+                        if (uniqueShops.size !== user.shopIds.length) {
+                            dataConsistencyResults.duplicates.push({ userId: user.id, email: user.email, issue: 'duplicate shops in shopIds' });
+                        }
+                    }
+                });
+                setStatus('check-duplicates', dataConsistencyResults.duplicates.length);
+
+                const totalIssues = Object.values(dataConsistencyResults).reduce((sum, arr) => sum + arr.length, 0);
+                document.getElementById('data-fix-status').textContent = totalIssues === 0
+                    ? '✅ All checks passed!'
+                    : `⚠️ Found ${totalIssues} issue(s)`;
+
+            } catch (error) {
+                console.error("Data consistency check error:", error);
+                document.getElementById('data-fix-status').textContent = '❌ Check failed: ' + error.message;
+            }
+        }
+
+        async function fixDataInconsistencies() {
+            if (userRole !== 'developer') return;
+
+            showAlert('Are you sure you want to fix all data inconsistencies? This will modify your database.', false, async () => {
+                const statusEl = document.getElementById('data-fix-status');
+                statusEl.textContent = '🔄 Fixing issues...';
+                let fixedCount = 0;
+
+                try {
+                    // 1. Fix orphan shop assignments - clear invalid shopId
+                    for (const item of dataConsistencyResults.orphanShops) {
+                        const userRef = doc(db, "users", item.userId);
+                        const userSnap = await getDoc(userRef);
+                        if (userSnap.exists()) {
+                            const userData = userSnap.data();
+                            const update = {};
+
+                            if (userData.shopId === item.invalidShopId) {
+                                update.shopId = null;
+                            }
+                            if (userData.shopIds && Array.isArray(userData.shopIds)) {
+                                update.shopIds = userData.shopIds.filter(sid => sid !== item.invalidShopId);
+                                if (update.shopIds.length === 0) update.shopIds = null;
+                            }
+
+                            if (Object.keys(update).length > 0) {
+                                await setDoc(userRef, update, { merge: true });
+                                fixedCount++;
+                            }
+                        }
+                    }
+
+                    // 2. Migrate delivery staff to use shopIds array
+                    for (const item of dataConsistencyResults.deliveryMigration) {
+                        await setDoc(doc(db, "users", item.userId), {
+                            shopIds: [item.shopId]
+                        }, { merge: true });
+                        fixedCount++;
+                    }
+
+                    // 3. Fix duplicate shop assignments
+                    for (const item of dataConsistencyResults.duplicates) {
+                        const userRef = doc(db, "users", item.userId);
+                        const userSnap = await getDoc(userRef);
+                        if (userSnap.exists()) {
+                            const userData = userSnap.data();
+                            if (userData.shopIds && Array.isArray(userData.shopIds)) {
+                                const uniqueShops = [...new Set(userData.shopIds)];
+                                await setDoc(userRef, { shopIds: uniqueShops }, { merge: true });
+                                fixedCount++;
+                            }
+                        }
+                    }
+
+                    // 4. Delete orphan menu items
+                    for (const item of dataConsistencyResults.orphanMenus) {
+                        await deleteDoc(doc(db, "menus", item.menuId));
+                        fixedCount++;
+                    }
+
+                    // Note: We don't auto-delete orphan orders as they contain important customer data
+                    // Just log a warning
+
+                    statusEl.textContent = `✅ Fixed ${fixedCount} issue(s)! Run check again to verify.`;
+                    showAlert(`Fixed ${fixedCount} data inconsistency issue(s). Please run the check again to verify.`);
+
+                    // Refresh UI
+                    await loadAllShops();
+                    await loadAdminPanel();
+                    await runDataConsistencyCheck();
+
+                } catch (error) {
+                    console.error("Data fix error:", error);
+                    statusEl.textContent = '❌ Fix failed: ' + error.message;
+                    showAlert("Failed to fix some issues: " + error.message, true);
+                }
+            });
+        }
+
+        // Event listeners for data consistency buttons
+        document.getElementById('run-data-check-btn')?.addEventListener('click', runDataConsistencyCheck);
+        document.getElementById('fix-data-btn')?.addEventListener('click', fixDataInconsistencies);
+
 
         async function createTestOrder(e) {
             e.preventDefault();
@@ -2527,7 +3414,10 @@
                 totalAmount: items.reduce((s, i) => s + i.price, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
-                userId: 'test-developer',
+                // FIX: Use actual user ID to pass security rules
+                userId: auth.currentUser ? auth.currentUser.uid : 'test-developer',
+                paymentId: 'dev-test-skip', // Dummy payment ID for test orders
+                paymentIds: ['dev-test-skip'],
                 isTestOrder: true,
             };
             try {
@@ -2753,8 +3643,19 @@
                 const roleOptions = roles.map(r => `<option value="${r}" ${userData.role === r ? 'selected' : ''}>${r.charAt(0).toUpperCase() + r.slice(1)}</option>`).join('');
 
                 let shopSelectHTML = '<span class="text-gray-400">N/A</span>';
-                if (['kitchen', 'delivery', 'owner'].includes(userData.role)) {
+                if (['kitchen', 'owner'].includes(userData.role)) {
+                    // Single shop select for kitchen/owner
                     shopSelectHTML = `<select data-uid="${doc.id}" class="shop-selector border rounded px-2 py-1 text-sm"><option value="">-- None --</option>${allShops.map(s => `<option value="${s.id}" ${userData.shopId === s.id ? 'selected' : ''}>${s.name}</option>`).join('')}</select>`;
+                } else if (userData.role === 'delivery') {
+                    // Multi-shop checkboxes for delivery staff
+                    const userShopIds = userData.shopIds || (userData.shopId ? [userData.shopId] : []);
+                    shopSelectHTML = `<div class="flex flex-wrap gap-1 max-w-xs">${allShops.map(s =>
+                        `<label class="inline-flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs cursor-pointer hover:bg-gray-200">
+                            <input type="checkbox" data-uid="${doc.id}" data-shop-id="${s.id}" class="delivery-shop-checkbox" ${userShopIds.includes(s.id) ? 'checked' : ''}>
+                            ${s.name}
+                        </label>`
+                    ).join('')}</div>`;
+                    if (allShops.length === 0) shopSelectHTML = '<span class="text-gray-400">No shops</span>';
                 }
 
                 const deleteButtonHTML = `<button data-id="${doc.id}" data-email="${userData.email || 'this user'}" class="dev-delete-user-btn btn-danger text-xs px-2 py-1">Delete</button>`;
@@ -2828,7 +3729,11 @@
                 totalAmount: staffCart.reduce((s, i) => s + i.price * i.quantity, 0),
                 status: 'new',
                 createdAt: serverTimestamp(),
-                userId: 'staff-created',
+                // FIX: Use actual user ID to pass security rules
+                userId: auth.currentUser ? auth.currentUser.uid : 'staff-created',
+                paymentId: 'manual-cash-entry', // Dummy payment ID for staff orders
+                paymentIds: ['manual-cash-entry'],
+                isPaid: true,
                 isTestOrder: false,
                 createdBy: userEmail
             };
@@ -3019,6 +3924,11 @@
                     await updateDoc(orderRef, { status: newStatus });
                     showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
 
+                    // Stop alarm if it was ringing for this order
+                    if (fastMonitor) fastMonitor.stopAlarm();
+                    document.getElementById('global-stop-alarm-btn').classList.add('hidden');
+                    document.getElementById('global-stop-alarm-btn-delivery').classList.add('hidden');
+
                     // --- Notification Logic ---
                     // 1. Notify Customer
                     let customerMessage = '';
@@ -3078,8 +3988,23 @@
             if (target.matches('.dev-remove-shop-btn')) {
                 showAlert(`Are you sure you want to delete this shop? This will also unassign all staff. This cannot be undone.`, false, async () => {
                     try {
+                        // Handle staff with single shopId
                         const usersSnapshot = await getDocs(query(collection(db, "users"), where("shopId", "==", targetId)));
                         await Promise.all(usersSnapshot.docs.map(userDoc => setDoc(userDoc.ref, { shopId: null }, { merge: true })));
+
+                        // Handle delivery staff with shopIds array
+                        const allUsersSnapshot = await getDocs(collection(db, "users"));
+                        for (const userDoc of allUsersSnapshot.docs) {
+                            const userData = userDoc.data();
+                            if (userData.shopIds && Array.isArray(userData.shopIds) && userData.shopIds.includes(targetId)) {
+                                const newShopIds = userData.shopIds.filter(sid => sid !== targetId);
+                                await setDoc(userDoc.ref, {
+                                    shopIds: newShopIds.length > 0 ? newShopIds : null,
+                                    // Update primary shopId if it was the deleted one
+                                    shopId: userData.shopId === targetId ? (newShopIds[0] || null) : userData.shopId
+                                }, { merge: true });
+                            }
+                        }
 
                         await deleteDoc(doc(db, "shops", targetId));
                         showAlert('Shop removed and staff unassigned.');
@@ -3149,7 +4074,7 @@
                             navigator.serviceWorker.ready.then(registration => {
                                 registration.showNotification('Test Notification', {
                                     body: 'This is a test notification from the System!',
-                                    icon: 'icon.svg',
+                                    icon: './public/icon.svg',
                                     vibrate: [200, 100, 200]
                                 });
                             });
@@ -3208,8 +4133,15 @@
                 const newRole = e.target.value;
                 const updateData = { role: newRole };
 
+                // Clear shop assignments for non-staff roles
                 if (newRole === 'customer' || newRole === 'developer') {
                     updateData.shopId = null;
+                    updateData.shopIds = null;
+                }
+
+                // Clear shopIds if changing FROM delivery to non-delivery (kitchen/owner use single shopId)
+                if (newRole !== 'delivery') {
+                    updateData.shopIds = null;
                 }
 
                 await setDoc(doc(db, "users", uid), updateData, { merge: true });
@@ -3225,7 +4157,7 @@
             }
             if (e.target.classList.contains('shop-selector')) {
                 const newShopId = e.target.value;
-                await setDoc(doc(db, "users", uid), { shopId: newShopId || null }, { merge: true });
+                await setDoc(doc(db, "users", uid), { shopId: newShopId || null, shopIds: null }, { merge: true });
 
                 const userIndex = allUsersCache.findIndex(doc => doc.id === uid);
                 if (userIndex > -1) {
@@ -3233,6 +4165,34 @@
                     renderAdminUserList();
                 }
                 showAlert('User shop updated.');
+            }
+            // Handle delivery staff multi-shop checkbox
+            if (e.target.classList.contains('delivery-shop-checkbox')) {
+                const shopId = e.target.dataset.shopId;
+                const userDocRef = doc(db, "users", uid);
+                const userSnap = await getDoc(userDocRef);
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    let shopIds = userData.shopIds || (userData.shopId ? [userData.shopId] : []);
+
+                    if (e.target.checked) {
+                        if (!shopIds.includes(shopId)) shopIds.push(shopId);
+                    } else {
+                        shopIds = shopIds.filter(id => id !== shopId);
+                    }
+
+                    // Update with shopIds array, set shopId to first shop or null
+                    await setDoc(userDocRef, {
+                        shopIds: shopIds.length > 0 ? shopIds : null,
+                        shopId: shopIds.length > 0 ? shopIds[0] : null
+                    }, { merge: true });
+
+                    const userIndex = allUsersCache.findIndex(doc => doc.id === uid);
+                    if (userIndex > -1) {
+                        allUsersCache[userIndex] = await getDoc(userDocRef);
+                    }
+                    showAlert(`Delivery staff now assigned to ${shopIds.length} shop(s).`);
+                }
             }
         });
 
@@ -3247,7 +4207,7 @@
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                navigator.serviceWorker.register('./js/sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
@@ -3284,7 +4244,7 @@
                             navigator.serviceWorker.ready.then(registration => {
                                 registration.showNotification('Notifications Enabled', {
                                     body: 'You will now receive updates!',
-                                    icon: './icon.svg'
+                                    icon: './public/icon.svg'
                                 });
                             });
                         }
@@ -3313,7 +4273,7 @@
                             // For this demo, we just confirm it works
                             registration.showNotification('Notifications Enabled', {
                                 body: 'You will now receive updates!',
-                                icon: 'icon.svg'
+                                icon: './public/icon.svg'
                             });
                         });
                     }
@@ -3415,6 +4375,7 @@
             installBtn.classList.add('hidden');
         });
     </script>
-    <script src="./notify.js"></script>
+    <script src="./js/notify.js"></script>
 </body>
+
 </html>

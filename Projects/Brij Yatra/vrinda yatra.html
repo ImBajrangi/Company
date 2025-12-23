@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brij 84 Kos Yatra - Interactive Map</title>
@@ -9,7 +11,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap');
-        
+
         :root {
             --brand-orange: #FF7733;
             --brand-blue: #0A3D62;
@@ -17,7 +19,8 @@
             --brand-dark: #333333;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -25,44 +28,66 @@
             overflow: hidden;
             background-color: var(--brand-light);
         }
+
         #map {
             height: 100%;
             width: 100%;
         }
-        
+
         .gm-style-iw-c {
             border-radius: 12px !important;
             padding: 0 !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-        .gm-style-iw-d { overflow: hidden !important; }
-        .gm-style-iw-t::after { display: none; }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--brand-orange); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background-color: #e2e8f0; }
+        .gm-style-iw-d {
+            overflow: hidden !important;
+        }
 
-        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .gm-style-iw-t::after {
+            display: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: var(--brand-orange);
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #e2e8f0;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
 
         .side-panel {
             background-color: #fff;
             color: var(--brand-dark);
-            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
             /* Z-index updated to a high value to ensure it overlaps all map controls */
-            z-index: 2000; 
+            z-index: 2000;
         }
-        
+
         .filter-btn {
             transition: all 0.3s ease;
             border: 1px solid #cbd5e1;
             color: #475569;
         }
+
         .filter-btn.active {
             background-color: var(--brand-blue);
             color: white;
             border-color: var(--brand-blue);
         }
-        
+
         .premium-btn {
             background-color: white;
             color: var(--brand-blue);
@@ -70,22 +95,24 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
+
         .premium-btn:hover {
             background-color: var(--brand-blue);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .ai-btn {
             background: linear-gradient(135deg, var(--brand-orange), #d35400);
             color: white;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(255,119,51,0.3);
+            box-shadow: 0 4px 15px rgba(255, 119, 51, 0.3);
         }
+
         .ai-btn:hover {
-             transform: translateY(-2px);
-             box-shadow: 0 7px 20px rgba(255,119,51,0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 119, 51, 0.4);
         }
 
         #style-dropdown-btn {
@@ -95,12 +122,13 @@
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
         }
+
         #style-dropdown-list {
             position: absolute;
             top: 100%;
@@ -108,33 +136,36 @@
             margin-top: 0.5rem;
             background-color: white;
             border-radius: 0.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             width: 150px;
             transition: all 0.3s ease;
             transform-origin: top;
             /* FIX: Ensure dropdown list has a higher z-index than the search bar container */
-            z-index: 10; 
+            z-index: 10;
         }
+
         #style-dropdown-list button:hover {
             background-color: #f1f5f9;
         }
+
         #style-dropdown-list button.active {
             font-weight: 700;
             color: var(--brand-blue);
         }
 
-        .modal-overlay { 
-            transition: opacity 0.3s ease-in-out; 
+        .modal-overlay {
+            transition: opacity 0.3s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: center;
             /* FIX: Set highest Z-index for modals */
             z-index: 3000;
         }
-        .modal { 
-            transition: all 0.3s ease-in-out; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25); 
+
+        .modal {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
         }
 
         .yatra-mode-toggle {
@@ -144,6 +175,7 @@
             padding: 4px;
             position: relative;
         }
+
         .yatra-mode-toggle button {
             flex: 1;
             padding: 6px 12px;
@@ -154,9 +186,11 @@
             color: #475569;
             transition: color 0.3s ease;
         }
+
         .yatra-mode-toggle .active {
             color: white;
         }
+
         #yatra-mode-slider {
             position: absolute;
             top: 4px;
@@ -176,29 +210,38 @@
             margin-top: 1.5rem;
             margin-bottom: 1rem;
         }
+
         .ai-content h4 {
-             font-family: 'Playfair Display', serif;
-             color: var(--brand-dark);
-             margin-top: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--brand-dark);
+            margin-top: 1.5rem;
         }
-         .ai-content strong {
+
+        .ai-content strong {
             color: var(--brand-blue);
         }
+
         .ai-content ul {
             list-style-type: disc;
             padding-left: 1.5rem;
         }
+
         .ai-content li {
             margin-bottom: 0.5rem;
         }
     </style>
 </head>
+
 <body class="relative">
+    <!-- Vrindopnishad Random Loader -->
+    <script
+        src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script>
 
     <div id="map"></div>
-    
+
     <!-- Top Controls Container (Z-index updated to z-[1000] for highest priority on map view) -->
-    <div class="absolute top-4 left-4 right-4 sm:right-auto sm:left-6 flex flex-col sm:flex-row sm:items-start gap-2 sm:space-x-4 z-[1000]">
+    <div
+        class="absolute top-4 left-4 right-4 sm:right-auto sm:left-6 flex flex-col sm:flex-row sm:items-start gap-2 sm:space-x-4 z-[1000]">
         <!-- Map Style Dropdown -->
         <div id="map-style-selector" class="relative">
             <button id="style-dropdown-btn">
@@ -213,33 +256,43 @@
                 <button data-style="mystic_style" class="w-full text-left p-3 text-sm">Mystic</button>
             </div>
         </div>
-        
+
         <!-- Search and Nearby Controls -->
         <div id="search-nearby-container" class="flex flex-col space-y-2 w-full sm:max-w-xs">
             <div class="relative">
                 <div class="relative flex items-center bg-white rounded-lg shadow-lg">
                     <i data-lucide="search" class="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none"></i>
-                    <input type="text" id="search-input" placeholder="Search sacred sites..." class="w-full pl-10 pr-4 py-2.5 border-none rounded-lg focus:ring-2 focus:ring-brand-blue focus:outline-none text-base">
+                    <input type="text" id="search-input" placeholder="Search sacred sites..."
+                        class="w-full pl-10 pr-4 py-2.5 border-none rounded-lg focus:ring-2 focus:ring-brand-blue focus:outline-none text-base">
                 </div>
                 <!-- z-10 on search suggestions is correct, ensuring it stays above map but under the main control bar -->
-                <div id="search-suggestions" class="absolute top-full mt-1 w-full bg-white rounded-lg shadow-lg overflow-hidden z-10 hidden"></div>
+                <div id="search-suggestions"
+                    class="absolute top-full mt-1 w-full bg-white rounded-lg shadow-lg overflow-hidden z-10 hidden">
+                </div>
             </div>
             <div class="flex items-center justify-around bg-white rounded-lg shadow-lg p-1 space-x-1">
-                 <span class="px-2 text-xs font-semibold text-gray-500">Partners:</span>
-                 <button data-type="Restaurant" class="nearby-btn flex-1 flex items-center justify-center text-sm py-1.5 px-2 rounded-md hover:bg-gray-100 transition-colors"><i data-lucide="utensils" class="w-4 h-4 mr-1.5"></i>Restaurants</button>
-                 <button data-type="Hotel" class="nearby-btn flex-1 flex items-center justify-center text-sm py-1.5 px-2 rounded-md hover:bg-gray-100 transition-colors"><i data-lucide="bed-double" class="w-4 h-4 mr-1.5"></i>Hotels</button>
-                 <button id="clear-nearby-btn" class="hidden p-2 rounded-md text-red-500 hover:bg-red-100" title="Clear nearby results"><i data-lucide="x-circle" class="w-4 h-4"></i></button>
+                <span class="px-2 text-xs font-semibold text-gray-500">Partners:</span>
+                <button data-type="Restaurant"
+                    class="nearby-btn flex-1 flex items-center justify-center text-sm py-1.5 px-2 rounded-md hover:bg-gray-100 transition-colors"><i
+                        data-lucide="utensils" class="w-4 h-4 mr-1.5"></i>Restaurants</button>
+                <button data-type="Hotel"
+                    class="nearby-btn flex-1 flex items-center justify-center text-sm py-1.5 px-2 rounded-md hover:bg-gray-100 transition-colors"><i
+                        data-lucide="bed-double" class="w-4 h-4 mr-1.5"></i>Hotels</button>
+                <button id="clear-nearby-btn" class="hidden p-2 rounded-md text-red-500 hover:bg-red-100"
+                    title="Clear nearby results"><i data-lucide="x-circle" class="w-4 h-4"></i></button>
             </div>
         </div>
     </div>
 
-    <div id="side-panel" class="side-panel absolute top-0 right-0 bottom-0 w-full max-w-sm flex flex-col p-4 sm:p-6 transition-transform duration-500 ease-in-out translate-x-full">
+    <div id="side-panel"
+        class="side-panel absolute top-0 right-0 bottom-0 w-full max-w-sm flex flex-col p-4 sm:p-6 transition-transform duration-500 ease-in-out translate-x-full">
         <div class="flex-shrink-0 pb-4 border-b border-gray-200 flex justify-between items-center">
-             <div>
+            <div>
                 <h1 class="text-2xl sm:text-3xl font-bold">Brij 84 Kos Yatra</h1>
                 <p class="text-sm text-gray-500">A Sacred Digital Pilgrimage</p>
             </div>
-            <button id="panel-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-colors"><i data-lucide="x"></i></button>
+            <button id="panel-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-colors"><i
+                    data-lucide="x"></i></button>
         </div>
 
         <div class="flex-grow overflow-y-auto custom-scrollbar -mr-4 sm:-mr-6 pr-4 sm:pr-6 mt-4">
@@ -253,81 +306,141 @@
                 <div id="filters-container">
                     <h2 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">Filter by Category</h2>
                     <div id="filters" class="flex flex-wrap gap-2">
-                        <button data-filter="all" class="filter-btn active px-4 py-1.5 text-sm rounded-full">All</button>
-                        <button data-filter="Temple" class="filter-btn px-4 py-1.5 text-sm rounded-full">Temples</button>
-                        <button data-filter="Holy Site" class="filter-btn px-4 py-1.5 text-sm rounded-full">Holy Sites</button>
+                        <button data-filter="all"
+                            class="filter-btn active px-4 py-1.5 text-sm rounded-full">All</button>
+                        <button data-filter="Temple"
+                            class="filter-btn px-4 py-1.5 text-sm rounded-full">Temples</button>
+                        <button data-filter="Holy Site" class="filter-btn px-4 py-1.5 text-sm rounded-full">Holy
+                            Sites</button>
                         <button data-filter="Town" class="filter-btn px-4 py-1.5 text-sm rounded-full">Towns</button>
                     </div>
                 </div>
-                 <div id="pilgrimage-controls-container">
+                <div id="pilgrimage-controls-container">
                     <h2 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">Parikrama Route</h2>
-                     <button id="toggle-route-btn" class="premium-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center">Show Full Route</button>
+                    <button id="toggle-route-btn"
+                        class="premium-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center">Show Full
+                        Route</button>
                 </div>
 
                 <div>
                     <h2 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">AI Assistant</h2>
                     <div class="space-y-3">
-                        <button id="live-intel-btn" class="ai-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center"><i data-lucide="zap" class="w-4 h-4 mr-2"></i> ✨ Live Yatra Intel</button>
-                        <button id="generate-plan-btn" class="premium-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center"><i data-lucide="file-text" class="w-4 h-4 mr-2"></i> ✨ Generate Yatra Plan</button>
-                        <button id="open-chat-btn" class="premium-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center"><i data-lucide="message-circle" class="w-4 h-4 mr-2"></i> ✨ Chat with AI Guide</button>
+                        <button id="live-intel-btn"
+                            class="ai-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center"><i
+                                data-lucide="zap" class="w-4 h-4 mr-2"></i> ✨ Live Yatra Intel</button>
+                        <button id="generate-plan-btn"
+                            class="premium-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center"><i
+                                data-lucide="file-text" class="w-4 h-4 mr-2"></i> ✨ Generate Yatra Plan</button>
+                        <button id="open-chat-btn"
+                            class="premium-btn w-full py-2.5 px-4 rounded-lg flex items-center justify-center"><i
+                                data-lucide="message-circle" class="w-4 h-4 mr-2"></i> ✨ Chat with AI Guide</button>
                     </div>
                 </div>
             </div>
-            
+
             <div id="route-info" class="hidden mt-6 p-4 bg-gray-100 rounded-lg">
-                 <h3 class="font-bold text-center mb-2 font-serif">Route Details</h3>
-                 <div class="flex justify-around text-center">
-                     <div><p class="text-xs text-gray-500">Distance</p><p id="total-distance" class="font-bold text-lg"></p></div>
-                     <div><p class="text-xs text-gray-500">Driving Time</p><p id="total-duration" class="font-bold text-lg"></p></div>
-                 </div>
+                <h3 class="font-bold text-center mb-2 font-serif">Route Details</h3>
+                <div class="flex justify-around text-center">
+                    <div>
+                        <p class="text-xs text-gray-500">Distance</p>
+                        <p id="total-distance" class="font-bold text-lg"></p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">Driving Time</p>
+                        <p id="total-duration" class="font-bold text-lg"></p>
+                    </div>
+                </div>
             </div>
             <hr class="my-6 border-gray-200">
             <div id="locations-panel-list" class="space-y-2"></div>
         </div>
     </div>
-    
+
     <!-- Panel Open Button (Z-index remains high at z-[1000]) -->
-    <button id="panel-open-btn" class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white p-3 rounded-full z-[1000] shadow-lg hover:scale-110 transition-transform"><i data-lucide="menu"></i></button>
-    
-    <button id="sound-toggle" class="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-white p-3 rounded-full z-30 shadow-lg hover:scale-110 transition-transform"><i data-lucide="volume-2"></i></button>
-    <audio id="ambient-sound" src="https://storage.googleapis.com/gemini-prod-us-east1-assets/codelabs/ambient-music.mp3" loop></audio>
-    
+    <button id="panel-open-btn"
+        class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white p-3 rounded-full z-[1000] shadow-lg hover:scale-110 transition-transform"><i
+            data-lucide="menu"></i></button>
+
+    <button id="sound-toggle"
+        class="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-white p-3 rounded-full z-30 shadow-lg hover:scale-110 transition-transform"><i
+            data-lucide="volume-2"></i></button>
+    <audio id="ambient-sound"
+        src="https://storage.googleapis.com/gemini-prod-us-east1-assets/codelabs/ambient-music.mp3" loop></audio>
+
     <!-- Modals -->
-    <div id="spotlight-modal-overlay" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
-        <div id="spotlight-modal" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm md:max-w-4xl flex flex-col md:flex-row h-auto max-h-[90vh] transform scale-95 opacity-0 modal">
-            <div id="spotlight-image" class="w-full h-48 sm:h-64 md:w-1/2 md:h-full bg-cover bg-center rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none flex-shrink-0"></div>
+    <div id="spotlight-modal-overlay"
+        class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
+        <div id="spotlight-modal"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-sm md:max-w-4xl flex flex-col md:flex-row h-auto max-h-[90vh] transform scale-95 opacity-0 modal">
+            <div id="spotlight-image"
+                class="w-full h-48 sm:h-64 md:w-1/2 md:h-full bg-cover bg-center rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none flex-shrink-0">
+            </div>
             <div class="w-full md:w-1/2 flex flex-col min-h-0">
                 <header class="flex items-center justify-between p-4 sm:p-5 border-b flex-shrink-0">
                     <h3 id="spotlight-title" class="text-xl sm:text-2xl font-bold text-gray-800 font-serif"></h3>
-                    <button class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="spotlight"><i data-lucide="x" class="w-6 h-6"></i></button>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="spotlight"><i
+                            data-lucide="x" class="w-6 h-6"></i></button>
                 </header>
-                <div id="spotlight-content" class="flex-grow p-4 sm:p-6 overflow-y-auto custom-scrollbar ai-content"></div>
+                <div id="spotlight-content" class="flex-grow p-4 sm:p-6 overflow-y-auto custom-scrollbar ai-content">
+                </div>
                 <footer class="p-4 border-t bg-gray-50 rounded-b-2xl md:rounded-bl-none flex-shrink-0 space-y-2">
-                     <button id="spotlight-history-btn" class="w-full premium-btn py-2 px-4 rounded-lg flex items-center justify-center text-sm"><i data-lucide="scroll-text" class="w-4 h-4 mr-2"></i> ✨ Historical Significance</button>
-                     <button id="spotlight-tips-btn" class="w-full premium-btn py-2 px-4 rounded-lg flex items-center justify-center text-sm"><i data-lucide="lightbulb" class="w-4 h-4 mr-2"></i> ✨ Local Tips</button>
+                    <button id="spotlight-history-btn"
+                        class="w-full premium-btn py-2 px-4 rounded-lg flex items-center justify-center text-sm"><i
+                            data-lucide="scroll-text" class="w-4 h-4 mr-2"></i> ✨ Historical Significance</button>
+                    <button id="spotlight-tips-btn"
+                        class="w-full premium-btn py-2 px-4 rounded-lg flex items-center justify-center text-sm"><i
+                            data-lucide="lightbulb" class="w-4 h-4 mr-2"></i> ✨ Local Tips</button>
                 </footer>
             </div>
         </div>
     </div>
-    
-    <div id="itinerary-modal-overlay" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
-        <div id="itinerary-modal" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col h-auto max-h-[90vh] transform scale-95 opacity-0 modal">
-            <header class="flex items-center justify-between p-5 border-b"><h3 class="text-xl font-bold font-serif flex items-center"><i data-lucide="sparkles" class="w-6 h-6 mr-3 text-yellow-500"></i>Your Yatra Plan</h3><button class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="itinerary"><i data-lucide="x" class="w-6 h-6"></i></button></header>
+
+    <div id="itinerary-modal-overlay"
+        class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
+        <div id="itinerary-modal"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col h-auto max-h-[90vh] transform scale-95 opacity-0 modal">
+            <header class="flex items-center justify-between p-5 border-b">
+                <h3 class="text-xl font-bold font-serif flex items-center"><i data-lucide="sparkles"
+                        class="w-6 h-6 mr-3 text-yellow-500"></i>Your Yatra Plan</h3><button
+                    class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="itinerary"><i data-lucide="x"
+                        class="w-6 h-6"></i></button>
+            </header>
             <div id="itinerary-modal-content" class="flex-grow p-6 overflow-y-auto custom-scrollbar ai-content"></div>
         </div>
     </div>
 
-    <div id="chat-modal-overlay" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
-        <div id="chat-modal" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col h-[85vh] sm:h-[80vh] transform scale-95 opacity-0 modal">
-             <header class="flex items-center justify-between p-5 border-b"><h3 class="text-xl font-bold font-serif flex items-center"><i data-lucide="bot" class="w-6 h-6 mr-3 text-blue-500"></i>AI Tour Guide</h3><button class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="chat"><i data-lucide="x" class="w-6 h-6"></i></button></header>
+    <div id="chat-modal-overlay"
+        class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
+        <div id="chat-modal"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col h-[85vh] sm:h-[80vh] transform scale-95 opacity-0 modal">
+            <header class="flex items-center justify-between p-5 border-b">
+                <h3 class="text-xl font-bold font-serif flex items-center"><i data-lucide="bot"
+                        class="w-6 h-6 mr-3 text-blue-500"></i>AI Tour Guide</h3><button
+                    class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="chat"><i data-lucide="x"
+                        class="w-6 h-6"></i></button>
+            </header>
             <div id="chat-history" class="flex-grow p-4 space-y-4 overflow-y-auto bg-slate-100 custom-scrollbar"></div>
-            <footer class="p-4 border-t bg-white"><div class="flex items-center space-x-2"><input type="text" id="chat-input" placeholder="Ask about the Yatra..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-base"><button id="chat-send-btn" class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex-shrink-0"><i data-lucide="send" class="w-5 h-5"></i></button></div></footer>
+            <footer class="p-4 border-t bg-white">
+                <div class="flex items-center space-x-2"><input type="text" id="chat-input"
+                        placeholder="Ask about the Yatra..."
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-base"><button
+                        id="chat-send-btn"
+                        class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex-shrink-0"><i
+                            data-lucide="send" class="w-5 h-5"></i></button></div>
+            </footer>
         </div>
     </div>
-    
-    <div id="liveintel-modal-overlay" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
-        <div id="liveintel-modal" class="bg-white rounded-2xl shadow-2xl w-full max-w-xl flex flex-col h-auto max-h-[90vh] transform scale-95 opacity-0 modal">
-            <header class="flex items-center justify-between p-5 border-b"><h3 class="text-xl font-bold font-serif flex items-center"><i data-lucide="zap" class="w-6 h-6 mr-3 text-green-500"></i>Yatra Daily Briefing</h3><button class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="liveintel"><i data-lucide="x" class="w-6 h-6"></i></button></header>
+
+    <div id="liveintel-modal-overlay"
+        class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 opacity-0 modal-overlay">
+        <div id="liveintel-modal"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-xl flex flex-col h-auto max-h-[90vh] transform scale-95 opacity-0 modal">
+            <header class="flex items-center justify-between p-5 border-b">
+                <h3 class="text-xl font-bold font-serif flex items-center"><i data-lucide="zap"
+                        class="w-6 h-6 mr-3 text-green-500"></i>Yatra Daily Briefing</h3><button
+                    class="close-modal-btn text-gray-400 hover:text-gray-700" data-modal="liveintel"><i data-lucide="x"
+                        class="w-6 h-6"></i></button>
+            </header>
             <div id="liveintel-modal-content" class="flex-grow p-6 overflow-y-auto custom-scrollbar ai-content"></div>
         </div>
     </div>
@@ -344,7 +457,7 @@
         let chatHistory = [];
         let isYatraMode = false;
         let aiCache = {};
-        
+
         const locations = [
             { name: "Krishna Janmabhoomi, Mathura", lat: 27.4924, lng: 77.6776, image: "https://placehold.co/800x800/F4A261/333333?text=Mathura", description: "The sacred birthplace of Lord Krishna, the heart of Brij.", category: "Temple" },
             { name: "Gokul", lat: 27.4475, lng: 77.7248, image: "https://placehold.co/800x800/A78BFA/333333?text=Gokul", description: "The town where infant Krishna was raised in secrecy by Yashoda and Nanda.", category: "Town" },
@@ -368,17 +481,17 @@
             { name: "Govardhan Restaurant", lat: 27.4950, lng: 77.4622, type: "Restaurant", description: "Serving pilgrims at the heart of Govardhan." }
         ];
 
-        const classicMapStyle = [ {"elementType":"geometry","stylers":[{"color":"#f0e9e1"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#665949"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f0e9e1"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#c9c1b6"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#ae9e90"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#e3dbd0"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#d5d0c7"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#92887c"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccd6a8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#f5f1e6"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#f8c967"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#e9bc62"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry","stylers":[{"color":"#e98d58"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"color":"#db8555"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#806b63"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#dcd2be"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#d5d0c7"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#a1c4c8"}]} ];
-        const sereneMapStyle = [ {"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]} ];
-        const mysticMapStyle = [ {"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"color":"#000000"},{"lightness":13}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"transit","elementType":"all","stylers":[{"color":"#146474"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#021019"}]} ];
+        const classicMapStyle = [{ "elementType": "geometry", "stylers": [{ "color": "#f0e9e1" }] }, { "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }, { "elementType": "labels.text.fill", "stylers": [{ "color": "#665949" }] }, { "elementType": "labels.text.stroke", "stylers": [{ "color": "#f0e9e1" }] }, { "featureType": "administrative", "elementType": "geometry.stroke", "stylers": [{ "color": "#c9c1b6" }] }, { "featureType": "administrative.land_parcel", "elementType": "labels.text.fill", "stylers": [{ "color": "#ae9e90" }] }, { "featureType": "landscape.natural", "elementType": "geometry", "stylers": [{ "color": "#e3dbd0" }] }, { "featureType": "poi", "elementType": "geometry", "stylers": [{ "color": "#d5d0c7" }] }, { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [{ "color": "#92887c" }] }, { "featureType": "poi.park", "elementType": "geometry.fill", "stylers": [{ "color": "#ccd6a8" }] }, { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#f5f1e6" }] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "color": "#f8c967" }] }, { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#e9bc62" }] }, { "featureType": "road.highway.controlled_access", "elementType": "geometry", "stylers": [{ "color": "#e98d58" }] }, { "featureType": "road.highway.controlled_access", "elementType": "geometry.stroke", "stylers": [{ "color": "#db8555" }] }, { "featureType": "road.local", "elementType": "labels.text.fill", "stylers": [{ "color": "#806b63" }] }, { "featureType": "transit.line", "elementType": "geometry", "stylers": [{ "color": "#dcd2be" }] }, { "featureType": "transit.station", "elementType": "geometry", "stylers": [{ "color": "#d5d0c7" }] }, { "featureType": "water", "elementType": "geometry.fill", "stylers": [{ "color": "#a1c4c8" }] }];
+        const sereneMapStyle = [{ "featureType": "all", "elementType": "labels.text.fill", "stylers": [{ "saturation": 36 }, { "color": "#333333" }, { "lightness": 40 }] }, { "featureType": "all", "elementType": "labels.text.stroke", "stylers": [{ "visibility": "on" }, { "color": "#ffffff" }, { "lightness": 16 }] }, { "featureType": "all", "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }, { "featureType": "administrative", "elementType": "geometry.fill", "stylers": [{ "color": "#fefefe" }, { "lightness": 20 }] }, { "featureType": "administrative", "elementType": "geometry.stroke", "stylers": [{ "color": "#fefefe" }, { "lightness": 17 }, { "weight": 1.2 }] }, { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#f5f5f5" }, { "lightness": 20 }] }, { "featureType": "poi", "elementType": "geometry", "stylers": [{ "color": "#f5f5f5" }, { "lightness": 21 }] }, { "featureType": "poi.park", "elementType": "geometry", "stylers": [{ "color": "#dedede" }, { "lightness": 21 }] }, { "featureType": "road.highway", "elementType": "geometry.fill", "stylers": [{ "color": "#ffffff" }, { "lightness": 17 }] }, { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#ffffff" }, { "lightness": 29 }, { "weight": 0.2 }] }, { "featureType": "road.arterial", "elementType": "geometry", "stylers": [{ "color": "#ffffff" }, { "lightness": 18 }] }, { "featureType": "road.local", "elementType": "geometry", "stylers": [{ "color": "#ffffff" }, { "lightness": 16 }] }, { "featureType": "transit", "elementType": "geometry", "stylers": [{ "color": "#f2f2f2" }, { "lightness": 19 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#e9e9e9" }, { "lightness": 17 }] }];
+        const mysticMapStyle = [{ "featureType": "all", "elementType": "labels.text.fill", "stylers": [{ "color": "#ffffff" }] }, { "featureType": "all", "elementType": "labels.text.stroke", "stylers": [{ "color": "#000000" }, { "lightness": 13 }] }, { "featureType": "administrative", "elementType": "geometry.fill", "stylers": [{ "color": "#000000" }] }, { "featureType": "administrative", "elementType": "geometry.stroke", "stylers": [{ "color": "#144b53" }, { "lightness": 14 }, { "weight": 1.4 }] }, { "featureType": "landscape", "elementType": "all", "stylers": [{ "color": "#08304b" }] }, { "featureType": "poi", "elementType": "geometry", "stylers": [{ "color": "#0c4152" }, { "lightness": 5 }] }, { "featureType": "road.highway", "elementType": "geometry.fill", "stylers": [{ "color": "#000000" }] }, { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "color": "#0b434f" }, { "lightness": 25 }] }, { "featureType": "road.arterial", "elementType": "geometry", "stylers": [{ "color": "#000000" }] }, { "featureType": "road.arterial", "elementType": "geometry.stroke", "stylers": [{ "color": "#0b3d51" }, { "lightness": 16 }] }, { "featureType": "road.local", "elementType": "geometry", "stylers": [{ "color": "#000000" }] }, { "featureType": "transit", "elementType": "all", "stylers": [{ "color": "#146474" }] }, { "featureType": "water", "elementType": "all", "stylers": [{ "color": "#021019" }] }];
 
         function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), { 
-                center: { lat: 27.57, lng: 77.58 }, 
-                zoom: 10, 
-                disableDefaultUI: true, 
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 27.57, lng: 77.58 },
+                zoom: 10,
+                disableDefaultUI: true,
                 mapTypeControl: false,
-                gestureHandling: 'greedy' 
+                gestureHandling: 'greedy'
             });
 
             map.mapTypes.set('classic_style', new google.maps.StyledMapType(classicMapStyle, { name: 'Classic' }));
@@ -389,7 +502,7 @@
             directionsService = new google.maps.DirectionsService();
             directionsRenderer = new google.maps.DirectionsRenderer({ suppressMarkers: true, polylineOptions: { strokeColor: '#d35400', strokeOpacity: 0.8, strokeWeight: 6 } });
             directionsRenderer.setMap(map);
-            
+
             createMarkers();
             populateSidePanel();
         }
@@ -406,11 +519,11 @@
                 anchor: new google.maps.Point(scale / 2, scale),
             };
         }
-        
+
         function createVenueMarkerIcon(type) {
-             const color = type === 'Restaurant' ? 'var(--brand-orange)' : 'var(--brand-blue)';
-             const scale = 28;
-             const svg = `
+            const color = type === 'Restaurant' ? 'var(--brand-orange)' : 'var(--brand-blue)';
+            const scale = 28;
+            const svg = `
                  <svg width="${scale}" height="${scale}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 0C9.37 0 4 5.37 4 12C4 21 16 32 16 32C16 32 28 21 28 12C28 5.37 22.63 0 16 0Z" fill="${color}" style="filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2));"></path>
                 </svg>`;
@@ -442,7 +555,7 @@
 
                     openSpotlight(location);
                     map.panTo(marker.getPosition());
-                    
+
                     if (activeMarker && activeMarker !== marker) {
                         activeMarker.setIcon(createMarkerIcon(activeMarker.get('color'), 42));
                         activeMarker.setZIndex(10);
@@ -455,7 +568,7 @@
                 markers.push(marker);
             });
         }
-        
+
         /**
          * Shows all partner venues of a given type, hides sacred sites, and fits the map to the partners.
          */
@@ -463,22 +576,22 @@
             // Check if map object exists and is initialized
             if (!map) {
                 console.warn("Map not initialized yet. Skipping partner search.");
-                return; 
+                return;
             }
-            
+
             // 1. Hide all sacred site markers (The 'Tourist Places')
             markers.forEach(marker => marker.setVisible(false));
-            
+
             // Clear any previously shown partner markers
             clearVenueMarkers(false); // Do not restore sacred sites yet
-            
+
             // 2. Filter all partner venues by the requested type (Restaurant/Hotel)
             const matchedVenues = partnerVenues.filter(venue => venue.type === type);
-            
+
             if (matchedVenues.length === 0) {
                 // If no partners are found, we should still clear venue markers and restore sacred sites.
                 clearVenueMarkers(true);
-                return; 
+                return;
             }
 
             // Prepare LatLngBounds to contain all markers on the map view
@@ -487,7 +600,7 @@
             // 3. Create a marker for every matched partner venue
             matchedVenues.forEach(venue => {
                 const venuePosition = new google.maps.LatLng(venue.lat, venue.lng);
-                
+
                 const venueMarker = new google.maps.Marker({
                     position: venuePosition,
                     map: map,
@@ -495,7 +608,7 @@
                     icon: createVenueMarkerIcon(type),
                     zIndex: 5,
                 });
-                
+
                 const infoWindowContent = `<div class="p-3"><h4 class="font-bold text-md font-serif">${venue.name}</h4><p class="text-sm text-gray-600">${venue.description}</p></div>`;
                 const infoWindow = new google.maps.InfoWindow({ content: infoWindowContent });
 
@@ -504,7 +617,7 @@
                     infoWindow.open(map, venueMarker);
                     activeInfoWindow = infoWindow;
                 });
-                
+
                 venueMarkers.push(venueMarker);
                 bounds.extend(venuePosition); // Include the marker's position in the bounds calculation
             });
@@ -551,14 +664,14 @@
             });
         }
         function clearRoute() {
-            directionsRenderer.setDirections({routes: []});
+            directionsRenderer.setDirections({ routes: [] });
             document.getElementById('route-info').classList.add('hidden');
         }
 
         function populateSidePanel() {
             const panelList = document.getElementById('locations-panel-list');
-            panelList.innerHTML = ''; 
-            
+            panelList.innerHTML = '';
+
             // Determine which locations to display based on the active filter
             const activeFilterElement = document.querySelector('#filters .filter-btn.active');
             const activeFilter = activeFilterElement ? activeFilterElement.dataset.filter : 'all';
@@ -572,11 +685,11 @@
                 item.className = 'p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors duration-200 border border-transparent hover:border-gray-200 flex items-center';
                 item.innerHTML = `<span class="font-serif font-bold mr-4 text-lg text-gray-400">${isYatraMode ? (index + 1).toString().padStart(2, '0') : '•'}</span><div><p class="font-bold font-serif">${location.name}</p><p class="text-xs text-gray-500">${location.category}</p></div>`;
                 item.addEventListener('click', () => {
-                     const originalLocIndex = locations.indexOf(location);
-                     const markerToTrigger = markers.find(m => m.originalIndex === originalLocIndex);
-                     if (markerToTrigger) {
+                    const originalLocIndex = locations.indexOf(location);
+                    const markerToTrigger = markers.find(m => m.originalIndex === originalLocIndex);
+                    if (markerToTrigger) {
                         google.maps.event.trigger(markerToTrigger, 'click');
-                     }
+                    }
                 });
                 panelList.appendChild(item);
             });
@@ -591,7 +704,7 @@
                 marker.setVisible(category === 'all' || marker.category === category);
             });
         }
-        
+
         // --- Gemini API Streaming Functions (Omitted for brevity, assumed unchanged) ---
         async function streamGemini(prompt, systemInstruction, useGrounding, onChunk, onComplete) {
             const apiKey = typeof __GEMINI_API_KEY__ !== 'undefined' ? __GEMINI_API_KEY__ : GEMINI_API_KEY;
@@ -602,14 +715,14 @@
             try {
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                
+
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
-                    
+
                     const chunk = decoder.decode(value);
                     const lines = chunk.split('\n');
 
@@ -627,18 +740,18 @@
             } catch (error) {
                 onChunk("An error occurred. Please try again.");
             } finally {
-                if(onComplete) onComplete();
+                if (onComplete) onComplete();
             }
         }
-        
+
         function createSkeletonLoader(title) {
-             return `<div class="animate-pulse p-4"><div class="h-8 bg-gray-200 rounded-md w-3/4 mb-4"></div><div class="space-y-3"><div class="h-4 bg-gray-200 rounded-md"></div><div class="h-4 bg-gray-200 rounded-md w-5/6"></div><div class="h-4 bg-gray-200 rounded-md w-3/4"></div></div><div class="text-center mt-8 text-gray-500 font-serif">${title}</div></div>`;
+            return `<div class="animate-pulse p-4"><div class="h-8 bg-gray-200 rounded-md w-3/4 mb-4"></div><div class="space-y-3"><div class="h-4 bg-gray-200 rounded-md"></div><div class="h-4 bg-gray-200 rounded-md w-5/6"></div><div class="h-4 bg-gray-200 rounded-md w-3/4"></div></div><div class="text-center mt-8 text-gray-500 font-serif">${title}</div></div>`;
         }
 
         async function getSpotlightInfo(locationName, infoType, btn) {
             const originalBtnHTML = btn.innerHTML;
             const cacheKey = `${locationName}-${infoType}`;
-            
+
             if (aiCache[cacheKey]) {
                 document.getElementById('spotlight-content').innerHTML = aiCache[cacheKey];
                 return;
@@ -652,11 +765,11 @@
             modalContent.innerHTML = createSkeletonLoader(`Researching ${infoType}...`);
             const prompt = `Provide the "${infoType}" for "${locationName}" in Brij. Format as clean, readable HTML using only p, strong, ul, and li tags. Use headings like "<h4>📜 Historical Significance</h4>" or "<h4>💡 Local Tips</h4>".`;
             const systemInstruction = infoType === 'Historical Significance' ? "You are a historian specializing in the Brij region." : "You are a local guide for the Brij region, providing practical tips.";
-            
+
             let fullText = "";
             let firstChunk = true;
             await streamGemini(prompt, systemInstruction, false, (chunk) => {
-                if(firstChunk) {
+                if (firstChunk) {
                     modalContent.innerHTML = '';
                     firstChunk = false;
                 }
@@ -669,7 +782,7 @@
                 btn.disabled = false;
             });
         }
-        
+
         function openSpotlight(location) {
             document.getElementById('spotlight-title').textContent = location.name;
             document.getElementById('spotlight-image').style.backgroundImage = `url(${location.image})`;
@@ -690,7 +803,7 @@
                 modalContent.innerHTML = aiCache[cacheKey];
                 return;
             }
-            
+
             btn.innerHTML = '<i class="animate-spin" data-lucide="loader-2"></i> Generating...';
             lucide.createIcons(); btn.disabled = true;
             modalContent.innerHTML = createSkeletonLoader("Crafting your itinerary...");
@@ -698,11 +811,11 @@
             const locationNames = locations.map(l => l.name).join(', ');
             const prompt = `Create a 3-day itinerary for the Brij 84 Kos Yatra, visiting these locations: ${locationNames}. Format as clean, readable HTML using only h3, h4, p, strong, ul, and li tags. Use headings like "<h3>Day 1: ...</h3>". Inside each day, use headings like "<h4>✨ Spiritual Significance</h4>" and "<h4>💡 Practical Tip</h4>".`;
             const systemInstruction = "You are an expert spiritual tour guide for the Brij 84 Kos Yatra in India.";
-            
+
             let fullText = "";
             let firstChunk = true;
             await streamGemini(prompt, systemInstruction, false, (chunk) => {
-                if(firstChunk) {
+                if (firstChunk) {
                     modalContent.innerHTML = '';
                     firstChunk = false;
                 }
@@ -710,8 +823,8 @@
                 modalContent.innerHTML = fullText;
             }, () => {
                 aiCache[cacheKey] = fullText;
-                btn.innerHTML = originalBtnHTML; 
-                lucide.createIcons(); 
+                btn.innerHTML = originalBtnHTML;
+                lucide.createIcons();
                 btn.disabled = false;
             });
         }
@@ -734,11 +847,11 @@
 
             const prompt = `Provide a "Daily Briefing" for a pilgrim visiting the Brij region (Mathura, India) today. Include three sections: 1. Current weather in Mathura. 2. Any notable local events or festivals in the Brij region happening today. 3. A "Pro Tip for Pilgrims" relevant to the current season. Format as clean, readable HTML using only h3, h4, p, and strong. Use headings like "<h3>☀️ Current Weather</h3>" and "<h3>💡 Pro Tip for Pilgrims</h3>".`;
             const systemInstruction = "You are a helpful travel assistant providing real-time information.";
-            
+
             let fullText = "";
             let firstChunk = true;
             await streamGemini(prompt, systemInstruction, true, (chunk) => {
-                 if(firstChunk) {
+                if (firstChunk) {
                     modalContent.innerHTML = '';
                     firstChunk = false;
                 }
@@ -746,8 +859,8 @@
                 modalContent.innerHTML = fullText;
             }, () => {
                 aiCache[cacheKey] = { content: fullText, timestamp: Date.now() };
-                btn.innerHTML = originalBtnHTML; 
-                lucide.createIcons(); 
+                btn.innerHTML = originalBtnHTML;
+                lucide.createIcons();
                 btn.disabled = false;
             });
         }
@@ -758,25 +871,25 @@
             if (!userQuery) return;
             appendChatMessage(userQuery, 'user');
             input.value = ''; sendBtn.disabled = true;
-            
+
             const botMessageDiv = appendChatMessage("", 'bot');
             const locationContext = locations.map(l => `${l.name} (${l.category})`).join('; ');
             const systemInstruction = `You are a friendly and knowledgeable tour guide for the Brij 84 Kos Yatra. Your knowledge base includes these locations: ${locationContext}. Answer user questions concisely and helpfully about the pilgrimage. Format responses using only simple HTML tags like <p>, <strong>, <ul> and <li>.`;
 
             let firstChunk = true;
             await streamGemini(userQuery, systemInstruction, false, (chunk) => {
-                 if(firstChunk) { botMessageDiv.innerHTML = ''; firstChunk = false; }
-                 botMessageDiv.innerHTML += chunk.replace(/\n/g, '<br>');
-                 document.getElementById('chat-history').scrollTop = document.getElementById('chat-history').scrollHeight;
+                if (firstChunk) { botMessageDiv.innerHTML = ''; firstChunk = false; }
+                botMessageDiv.innerHTML += chunk.replace(/\n/g, '<br>');
+                document.getElementById('chat-history').scrollTop = document.getElementById('chat-history').scrollHeight;
             }, () => {
-                 sendBtn.disabled = false;
+                sendBtn.disabled = false;
             });
         }
         function appendChatMessage(text, role) {
             const historyDiv = document.getElementById('chat-history');
             const messageDiv = document.createElement('div');
             messageDiv.className = `max-w-[80%] p-3 rounded-xl text-base ${role === 'user' ? 'bg-blue-600 text-white self-end' : 'bg-gray-200 text-gray-800 self-start'}`;
-            messageDiv.innerHTML = text; 
+            messageDiv.innerHTML = text;
             historyDiv.appendChild(messageDiv);
             historyDiv.scrollTop = historyDiv.scrollHeight;
             return messageDiv;
@@ -785,46 +898,46 @@
         function showModal(modalType) {
             const overlay = document.getElementById(`${modalType}-modal-overlay`);
             overlay.classList.remove('hidden');
-            setTimeout(() => { 
+            setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 overlay.querySelector('.modal').classList.remove('scale-95', 'opacity-0');
             }, 10);
         }
         function hideModal(modalType) {
-             const overlay = document.getElementById(`${modalType}-modal-overlay`);
-             overlay.classList.add('opacity-0');
-             overlay.querySelector('.modal').classList.add('scale-95', 'opacity-0');
-             setTimeout(() => overlay.classList.add('hidden'), 300);
+            const overlay = document.getElementById(`${modalType}-modal-overlay`);
+            overlay.classList.add('opacity-0');
+            overlay.querySelector('.modal').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
         }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             const sidePanel = document.getElementById('side-panel');
             const panelToggle = document.getElementById('panel-toggle');
             const panelOpenBtn = document.getElementById('panel-open-btn');
-            
-            panelToggle.addEventListener('click', () => { 
+
+            panelToggle.addEventListener('click', () => {
                 sidePanel.classList.add('translate-x-full');
                 panelOpenBtn.classList.remove('hidden');
             });
-            panelOpenBtn.addEventListener('click', () => { 
+            panelOpenBtn.addEventListener('click', () => {
                 sidePanel.classList.remove('translate-x-full');
                 panelOpenBtn.classList.add('hidden');
             });
-            
+
             // Logic for sacred site category filters (Tourist Places)
             document.getElementById('filters').addEventListener('click', (e) => {
                 // Use closest() to reliably find the button regardless of inner click target (text/icon)
                 const clickedFilterBtn = e.target.closest('.filter-btn');
-                
+
                 if (clickedFilterBtn) {
                     const filter = clickedFilterBtn.dataset.filter;
-                    
+
                     // 1. Clear partner markers (pass false to prevent markers from being restored here)
-                    clearVenueMarkers(false); 
-                    
+                    clearVenueMarkers(false);
+
                     // 2. Filter and show main markers
                     filterMarkers(filter);
-                    
+
                     // 3. Update button state
                     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                     clickedFilterBtn.classList.add('active');
@@ -859,11 +972,11 @@
                 exploreBtn.classList.remove('active');
                 filtersContainer.style.display = 'none';
                 pilgrimageControls.style.display = 'block';
-                if(document.getElementById('toggle-route-btn').classList.contains('bg-gray-200')) calculateAndDisplayRoute();
+                if (document.getElementById('toggle-route-btn').classList.contains('bg-gray-200')) calculateAndDisplayRoute();
                 populateSidePanel();
                 markers.forEach(m => m.setVisible(true));
             });
-            
+
             pilgrimageControls.style.display = 'none';
             document.getElementById('toggle-route-btn').addEventListener('click', (e) => {
                 const btn = e.currentTarget;
@@ -880,7 +993,7 @@
                     btn.classList.add('premium-btn', 'text-white');
                 }
             });
-            
+
             const styleDropdownBtn = document.getElementById('style-dropdown-btn');
             const styleDropdownList = document.getElementById('style-dropdown-list');
 
@@ -905,7 +1018,7 @@
                     e.target.classList.add('active');
                 }
             });
-            
+
             const searchInput = document.getElementById('search-input');
             const searchSuggestions = document.getElementById('search-suggestions');
 
@@ -952,7 +1065,7 @@
             document.getElementById('chat-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
             document.querySelectorAll('.close-modal-btn').forEach(btn => btn.addEventListener('click', () => hideModal(btn.dataset.modal)));
             document.querySelectorAll('.modal-overlay').forEach(overlay => overlay.addEventListener('click', (e) => { if (e.target === overlay) hideModal(overlay.id.split('-')[0]); }));
-            
+
             const soundToggle = document.getElementById('sound-toggle');
             const ambientSound = document.getElementById('ambient-sound');
             let isSoundPlaying = false;
@@ -962,7 +1075,7 @@
                     soundToggle.innerHTML = '<i data-lucide="volume-x"></i>';
                 } else {
                     // Start playback only if the audio hasn't loaded yet, otherwise it might fail on first click
-                    if(ambientSound.readyState > 0) {
+                    if (ambientSound.readyState > 0) {
                         ambientSound.play().catch(e => { console.error("Audio playback failed:", e); });
                     }
                     soundToggle.innerHTML = '<i data-lucide="volume-2"></i>';
@@ -973,31 +1086,32 @@
 
             // Preload audio metadata to enable playback on first click
             ambientSound.load();
-            
+
             window.addEventListener('click', (e) => {
                 if (!searchInput.contains(e.target)) {
                     searchSuggestions.classList.add('hidden');
                 }
-                 if (!document.getElementById('map-style-selector').contains(e.target)) {
-                     if (!styleDropdownList.classList.contains('hidden')) {
+                if (!document.getElementById('map-style-selector').contains(e.target)) {
+                    if (!styleDropdownList.classList.contains('hidden')) {
                         styleDropdownList.classList.add('opacity-0', 'scale-95');
                         setTimeout(() => styleDropdownList.classList.add('hidden'), 300);
                     }
                 }
             });
         });
-        
+
         function loadMapsScript() {
             const script = document.createElement('script');
             script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&callback=initMap&libraries=routes,geometry&v=weekly`;
             script.defer = true;
             document.head.appendChild(script);
         }
-        
+
         window.onload = loadMapsScript;
 
     </script>
 </body>
+
 </html>
 
 <!-- 

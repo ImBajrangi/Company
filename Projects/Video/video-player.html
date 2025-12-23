@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vintage Cinema Player</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -42,11 +44,11 @@
             background: linear-gradient(45deg, var(--dark-wood), #1a0f08, var(--dark-wood));
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 
+            box-shadow:
                 0 0 0 8px var(--antique-bronze),
                 0 0 0 12px var(--antique-gold),
-                0 20px 60px rgba(0,0,0,0.8),
-                inset 0 0 20px rgba(212,175,55,0.1);
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(212, 175, 55, 0.1);
             border: 3px solid var(--antique-copper);
         }
 
@@ -168,9 +170,9 @@
             background: #000;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 
-                inset 0 0 30px rgba(0,0,0,0.8),
-                0 10px 30px rgba(0,0,0,0.5);
+            box-shadow:
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 10px 30px rgba(0, 0, 0, 0.5);
             border: 2px solid var(--antique-bronze);
             width: 100%;
             height: 100%;
@@ -201,25 +203,56 @@
             width: 100%;
             height: 100%;
             opacity: 0.03;
-            background-image: 
-                radial-gradient(circle at 25% 25%, transparent 20%, rgba(255,255,255,0.1) 21%, rgba(255,255,255,0.1) 34%, transparent 35%),
-                linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.05) 50%, transparent 51%);
+            background-image:
+                radial-gradient(circle at 25% 25%, transparent 20%, rgba(255, 255, 255, 0.1) 21%, rgba(255, 255, 255, 0.1) 34%, transparent 35%),
+                linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.05) 50%, transparent 51%);
             background-size: 4px 4px, 8px 8px;
             pointer-events: none;
             animation: grain 8s infinite linear;
         }
 
         @keyframes grain {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            10% { transform: translate(-1px, 1px) rotate(1deg); }
-            20% { transform: translate(1px, -1px) rotate(-1deg); }
-            30% { transform: translate(-1px, -1px) rotate(0deg); }
-            40% { transform: translate(1px, 1px) rotate(1deg); }
-            50% { transform: translate(-1px, 1px) rotate(-1deg); }
-            60% { transform: translate(1px, -1px) rotate(0deg); }
-            70% { transform: translate(-1px, -1px) rotate(-1deg); }
-            80% { transform: translate(1px, 1px) rotate(1deg); }
-            90% { transform: translate(-1px, 1px) rotate(0deg); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, 1px) rotate(1deg);
+            }
+
+            20% {
+                transform: translate(1px, -1px) rotate(-1deg);
+            }
+
+            30% {
+                transform: translate(-1px, -1px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, 1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 1px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(1px, -1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(-1px, -1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(1px, 1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(-1px, 1px) rotate(0deg);
+            }
         }
 
         .vintage-controls {
@@ -227,7 +260,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(44,24,16,0.95) 40%, rgba(44,24,16,0.98) 100%);
+            background: linear-gradient(180deg, transparent 0%, rgba(44, 24, 16, 0.95) 40%, rgba(44, 24, 16, 0.98) 100%);
             padding: 30px 25px 20px;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -249,18 +282,18 @@
 
         .progress-track {
             height: 8px;
-            background: linear-gradient(90deg, rgba(139,115,85,0.3), rgba(205,127,50,0.3));
+            background: linear-gradient(90deg, rgba(139, 115, 85, 0.3), rgba(205, 127, 50, 0.3));
             border-radius: 4px;
             position: relative;
             overflow: hidden;
             border: 1px solid var(--antique-bronze);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .progress-buffer {
             position: absolute;
             height: 100%;
-            background: linear-gradient(90deg, rgba(139,115,85,0.5), rgba(205,127,50,0.5));
+            background: linear-gradient(90deg, rgba(139, 115, 85, 0.5), rgba(205, 127, 50, 0.5));
             border-radius: 4px;
             width: 0%;
             transition: width 0.3s ease;
@@ -286,7 +319,7 @@
             top: 50%;
             transform: translate(-50%, -50%);
             right: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 0 0 3px rgba(212,175,55,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(212, 175, 55, 0.2);
             opacity: 0;
             transition: all 0.3s ease;
         }
@@ -317,7 +350,7 @@
             padding: 10px;
             transition: all 0.3s ease;
             position: relative;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
             font-weight: 600;
             min-width: 44px;
             height: 44px;
@@ -329,12 +362,12 @@
         .vintage-button:hover {
             background: linear-gradient(145deg, #e6c547, #d89442);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
 
         .vintage-button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .play-button {
@@ -348,7 +381,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 16px;
             color: var(--aged-paper);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             min-width: 120px;
             text-align: center;
             font-weight: 600;
@@ -364,7 +397,7 @@
         .volume-slider {
             width: 90px;
             height: 6px;
-            background: linear-gradient(90deg, rgba(139,115,85,0.4), rgba(205,127,50,0.4));
+            background: linear-gradient(90deg, rgba(139, 115, 85, 0.4), rgba(205, 127, 50, 0.4));
             border-radius: 3px;
             outline: none;
             cursor: pointer;
@@ -381,7 +414,7 @@
             border: 2px solid var(--aged-paper);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
         .speed-indicator {
@@ -413,7 +446,7 @@
             font-weight: 700;
             font-size: 14px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -421,7 +454,7 @@
         .file-label:hover {
             background: linear-gradient(145deg, #e6c547, #d89442);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
         }
 
         .cinema-overlay {
@@ -431,7 +464,7 @@
             transform: translate(-50%, -50%);
             width: 120px;
             height: 120px;
-            background: radial-gradient(circle, rgba(212,175,55,0.95), rgba(205,127,50,0.95));
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.95), rgba(205, 127, 50, 0.95));
             border: 4px solid var(--aged-paper);
             border-radius: 50%;
             display: flex;
@@ -441,7 +474,7 @@
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 2px 8px rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 2px 8px rgba(255, 255, 255, 0.2);
         }
 
         .cinema-overlay.show {
@@ -451,7 +484,7 @@
 
         .cinema-overlay:hover {
             transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 12px 48px rgba(0,0,0,0.8), inset 0 2px 8px rgba(255,255,255,0.3);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8), inset 0 2px 8px rgba(255, 255, 255, 0.3);
         }
 
         .loading-spinner {
@@ -461,7 +494,7 @@
             transform: translate(-50%, -50%);
             width: 60px;
             height: 60px;
-            border: 4px solid rgba(212,175,55,0.3);
+            border: 4px solid rgba(212, 175, 55, 0.3);
             border-top: 4px solid var(--antique-gold);
             border-radius: 50%;
             animation: antiqueSpin 2s linear infinite;
@@ -474,8 +507,13 @@
         }
 
         @keyframes antiqueSpin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
 
         .title-plate {
@@ -493,14 +531,14 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             border: 2px solid var(--antique-copper);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
         .vintage-icon {
             width: 20px;
             height: 20px;
             fill: currentColor;
-            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
         }
 
         .play-icon {
@@ -513,34 +551,34 @@
                 padding: 20px;
                 max-width: 98vw;
             }
-            
+
             .control-panel {
                 gap: 10px;
                 flex-wrap: wrap;
             }
-            
+
             .control-group {
                 gap: 8px;
             }
-            
+
             .volume-control {
                 order: 3;
                 flex-basis: 100%;
                 justify-content: center;
                 margin-top: 15px;
             }
-            
+
             .time-display {
                 font-size: 14px;
                 min-width: 100px;
             }
-            
+
             .vintage-button {
                 min-width: 40px;
                 height: 40px;
                 padding: 8px;
             }
-            
+
             .play-button {
                 min-width: 50px;
                 height: 50px;
@@ -551,13 +589,13 @@
             .cinema-frame {
                 padding: 15px;
             }
-            
+
             .title-plate {
                 font-size: 14px;
                 padding: 6px 20px;
                 top: -50px;
             }
-            
+
             .ornate-corners {
                 width: 40px;
                 height: 40px;
@@ -567,28 +605,33 @@
         .widescreen {
             aspect-ratio: 16/9;
         }
-        
+
         .standard {
             aspect-ratio: 4/3;
         }
-        
+
         .portrait {
             aspect-ratio: 9/16;
         }
-        
+
         .square {
             aspect-ratio: 1/1;
         }
-        
+
         .cinematic {
             aspect-ratio: 21/9;
         }
     </style>
 </head>
+
 <body>
+    <!-- Vrindopnishad Random Loader -->
+    <script
+        src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script>
+
     <div class="cinema-frame">
         <div class="title-plate">Vintage Cinema</div>
-        
+
         <div class="ornate-corners corner-tl"></div>
         <div class="ornate-corners corner-tr"></div>
         <div class="ornate-corners corner-bl"></div>
@@ -609,7 +652,7 @@
 
             <div class="cinema-overlay" id="playOverlay">
                 <svg class="vintage-icon play-icon" viewBox="0 0 24 24">
-                    <polygon points="8,5 19,12 8,19" fill="currentColor"/>
+                    <polygon points="8,5 19,12 8,19" fill="currentColor" />
                 </svg>
             </div>
 
@@ -629,11 +672,12 @@
                     <div class="control-group">
                         <button class="vintage-button play-button" id="playButton">
                             <svg id="playIcon" class="vintage-icon play-icon" viewBox="0 0 24 24">
-                                <polygon points="8,5 19,12 8,19" fill="currentColor"/>
+                                <polygon points="8,5 19,12 8,19" fill="currentColor" />
                             </svg>
-                            <svg id="pauseIcon" class="vintage-icon play-icon" viewBox="0 0 24 24" style="display: none;">
-                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
-                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                            <svg id="pauseIcon" class="vintage-icon play-icon" viewBox="0 0 24 24"
+                                style="display: none;">
+                                <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+                                <rect x="14" y="4" width="4" height="16" fill="currentColor" />
                             </svg>
                         </button>
 
@@ -642,19 +686,24 @@
 
                     <div class="control-group">
                         <button class="vintage-button speed-indicator" id="speedButton">1.0×</button>
-                        
+
                         <button class="vintage-button" id="volumeButton">
                             <svg id="volumeIcon" class="vintage-icon" viewBox="0 0 24 24">
-                                <path d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="currentColor"/>
+                                <path
+                                    d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
+                                    fill="currentColor" />
                             </svg>
                             <svg id="muteIcon" class="vintage-icon" viewBox="0 0 24 24" style="display: none;">
-                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="currentColor"/>
+                                <path
+                                    d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                                    fill="currentColor" />
                             </svg>
                         </button>
 
                         <button class="vintage-button" id="fullscreenButton">
                             <svg class="vintage-icon" viewBox="0 0 24 24">
-                                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/>
+                                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                                    fill="currentColor" />
                             </svg>
                         </button>
                     </div>
@@ -916,7 +965,7 @@
             handleKeyboard(e) {
                 if (!this.video.src) return;
 
-                switch(e.code) {
+                switch (e.code) {
                     case 'Space':
                         e.preventDefault();
                         this.togglePlay();
@@ -968,16 +1017,16 @@
                 if (!this.video.videoWidth || !this.video.videoHeight) return;
 
                 const aspectRatio = this.video.videoWidth / this.video.videoHeight;
-                
+
                 // Remove all aspect ratio classes
                 this.container.classList.remove('widescreen', 'standard', 'portrait', 'square', 'cinematic');
-                
+
                 // Determine and apply the appropriate aspect ratio class
-                if (Math.abs(aspectRatio - 16/9) < 0.1) {
+                if (Math.abs(aspectRatio - 16 / 9) < 0.1) {
                     this.container.classList.add('widescreen');
-                } else if (Math.abs(aspectRatio - 4/3) < 0.1) {
+                } else if (Math.abs(aspectRatio - 4 / 3) < 0.1) {
                     this.container.classList.add('standard');
-                } else if (Math.abs(aspectRatio - 9/16) < 0.1) {
+                } else if (Math.abs(aspectRatio - 9 / 16) < 0.1) {
                     this.container.classList.add('portrait');
                 } else if (Math.abs(aspectRatio - 1) < 0.1) {
                     this.container.classList.add('square');
@@ -996,9 +1045,9 @@
             adjustContainerSize(aspectRatio) {
                 const maxWidth = Math.min(window.innerWidth * 0.95, 1200);
                 const maxHeight = Math.min(window.innerHeight * 0.8, 700);
-                
+
                 let containerWidth, containerHeight;
-                
+
                 if (aspectRatio > maxWidth / maxHeight) {
                     // Video is wider than container ratio
                     containerWidth = maxWidth;
@@ -1008,18 +1057,18 @@
                     containerHeight = maxHeight;
                     containerWidth = maxHeight * aspectRatio;
                 }
-                
+
                 this.container.style.width = containerWidth + 'px';
                 this.container.style.height = containerHeight + 'px';
             }
 
             formatTime(seconds) {
                 if (isNaN(seconds) || seconds < 0) return '00:00';
-                
+
                 const hours = Math.floor(seconds / 3600);
                 const minutes = Math.floor((seconds % 3600) / 60);
                 const secs = Math.floor(seconds % 60);
-                
+
                 if (hours > 0) {
                     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
                 }
@@ -1041,4 +1090,5 @@
         });
     </script>
 </body>
+
 </html>

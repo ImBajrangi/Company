@@ -1,25 +1,25 @@
 {
   "name": "Foody Vrinda",
   "short_name": "Foody Vrinda",
-  "start_url": "./kitchen(modified).html",
+  "start_url": "./kitchen.html",
   "display": "standalone",
   "background_color": "#f5f5f7",
   "theme_color": "#0071e3",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "./public/app-icon.png",
+      "src": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/foodyVrinda-logo.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./public/app-icon.png",
+      "src": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/foodyVrinda-logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./public/app-icon.png",
+      "src": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/foodyVrinda-logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
