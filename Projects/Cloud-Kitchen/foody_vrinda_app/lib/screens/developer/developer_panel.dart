@@ -32,6 +32,10 @@ class _DeveloperPanelState extends State<DeveloperPanel>
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final Stream<List<ShopModel>> _shopsStream = _shopService.getShops();
 
+  // Eagerly cached shops for instant loading
+  List<ShopModel> _cachedShops = [];
+  bool _shopsLoaded = false;
+
   // System test results
   final Map<String, String> _testResults = {
     'firebase': 'pending',
@@ -83,11 +87,28 @@ class _DeveloperPanelState extends State<DeveloperPanel>
     // Defer heavy loads until after the initial build/transition is complete
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
+        _loadShops(); // Eagerly load shops for fast access
         _loadSummary();
         _runSystemTests();
         _loadAllUsers();
       }
     });
+  }
+
+  Future<void> _loadShops() async {
+    try {
+      final shops = await _shopService.getShops().first;
+      if (mounted) {
+        setState(() {
+          _cachedShops = shops;
+          _shopsLoaded = true;
+        });
+      }
+    } catch (e) {
+      print('DevPanel: Error loading shops: $e');
+      if (mounted)
+        setState(() => _shopsLoaded = true); // Mark loaded even on error
+    }
   }
 
   @override
@@ -1563,25 +1584,16 @@ class _DeveloperPanelState extends State<DeveloperPanel>
             ),
           ),
           const SizedBox(height: 16),
-          StreamBuilder<List<ShopModel>>(
-            stream: _shopsStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text(
-                  'Error: ${snapshot.error}',
-                  style: const TextStyle(color: AppTheme.error),
-                );
-              }
-              // If we have data, show it (even if empty list, handle it below)
-              if (snapshot.hasData) {
-                if (snapshot.data!.isEmpty) {
-                  return const Text('No shops available for testing.');
-                }
-              } else {
-                // No data yet, show loader
+          // Use cached shops for instant loading
+          Builder(
+            builder: (context) {
+              if (!_shopsLoaded) {
                 return const Center(child: AnimatedLoader(size: 60));
               }
-              final shops = snapshot.data!;
+              if (_cachedShops.isEmpty) {
+                return const Text('No shops available for testing.');
+              }
+              final shops = _cachedShops;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -2137,24 +2149,16 @@ class _DeveloperPanelState extends State<DeveloperPanel>
       subtitle: 'View detailed analytics for each shop',
       icon: Icons.dashboard,
       iconColor: AppTheme.ownerColor,
-      child: StreamBuilder<List<ShopModel>>(
-        stream: _shopsStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: const TextStyle(color: AppTheme.error),
-              ),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      // Use cached shops for instant loading
+      child: Builder(
+        builder: (context) {
+          if (!_shopsLoaded) {
             return const Center(child: AnimatedLoader(size: 80));
           }
-          if (!snapshot.hasData)
-            return const Center(child: AnimatedLoader(size: 80));
-          final shops = snapshot.data!;
-          if (shops.isEmpty) return const Text('No shops available.');
+          if (_cachedShops.isEmpty) {
+            return const Text('No shops available.');
+          }
+          final shops = _cachedShops;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
