@@ -4,6 +4,7 @@ import '../../config/theme.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/animations.dart';
 import '../../services/order_service.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/inputs.dart';
@@ -346,32 +347,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildEmptyCart() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.shopping_cart_outlined,
-            size: 80,
-            color: AppTheme.textTertiary,
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Your cart is empty',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Add some delicious items to get started!',
-            style: TextStyle(color: AppTheme.textSecondary),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Browse Menu'),
-          ),
-        ],
-      ),
+    return EmptyState(
+      title: 'Your cart is empty',
+      subtitle: 'Add some delicious items to get started!',
+      animationType: 'cart',
+      actionLabel: 'Browse Menu',
+      onAction: () => Navigator.pop(context),
     );
   }
 
@@ -381,20 +362,54 @@ class _CartScreenState extends State<CartScreen> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
+    if (cartProvider.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Your cart is empty'),
+          backgroundColor: AppTheme.warning,
+        ),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     try {
+      print('CartScreen: Placing order...');
+      print('CartScreen: Shop ID: ${widget.shop.id}');
+      print('CartScreen: User ID: ${authProvider.user?.uid}');
+      print('CartScreen: Cart items: ${cartProvider.items.length}');
+
       final orderId = await _orderService.createOrder(
         shopId: widget.shop.id,
         userId: authProvider.user?.uid,
-        customerName: _nameController.text,
-        customerPhone: _phoneController.text,
-        deliveryAddress: _addressController.text,
+        customerName: _nameController.text.trim(),
+        customerPhone: _phoneController.text.trim(),
+        deliveryAddress: _addressController.text.trim(),
         cartItems: cartProvider.items,
       );
 
+      print('CartScreen: Order placed successfully - $orderId');
+
       // Clear cart
       cartProvider.clear();
+
+      // Show success message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8),
+                Text('Order placed successfully!'),
+              ],
+            ),
+            backgroundColor: AppTheme.success,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
 
       // Navigate to order tracking
       if (mounted) {
@@ -406,11 +421,28 @@ class _CartScreenState extends State<CartScreen> {
         );
       }
     } catch (e) {
+      print('CartScreen: Error placing order - $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to place order: $e'),
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Failed to place order: ${e.toString().replaceAll('Exception: ', '')}',
+                  ),
+                ),
+              ],
+            ),
             backgroundColor: AppTheme.error,
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: 'Retry',
+              textColor: Colors.white,
+              onPressed: _placeOrder,
+            ),
           ),
         );
       }
