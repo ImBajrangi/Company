@@ -42,6 +42,7 @@ dependencies:
   google_fonts: ^6.3.3
   flutter_svg: ^2.2.3
   cached_network_image: ^3.4.1
+  lottie: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -53,8 +54,18 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
 
-# For information on the generic Dart part of this file, see the
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "foodyVrinda-logo.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "foodyVrinda-logo.png"
+    background_color: "#ffffff"
+    theme_color: "#0071E3"
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
