@@ -10,6 +10,7 @@ import '../../models/shop_model.dart';
 import '../../services/shop_service.dart';
 import '../../widgets/cards.dart';
 import '../menu/menu_screen.dart';
+import '../cart/cart_screen.dart';
 import '../auth/login_screen.dart';
 import '../kitchen/kitchen_view.dart';
 import '../delivery/delivery_view.dart';
@@ -127,7 +128,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          // Show cart
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CartScreen(),
+                            ),
+                          );
                         },
                         icon: const Icon(Icons.shopping_bag_outlined),
                       ),

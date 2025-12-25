@@ -6,14 +6,15 @@ import '../../providers/cart_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/animations.dart';
 import '../../services/order_service.dart';
+import '../../services/shop_service.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/inputs.dart';
 import '../order/order_tracking_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  final ShopModel shop;
+  final ShopModel? shop;
 
-  const CartScreen({super.key, required this.shop});
+  const CartScreen({super.key, this.shop});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -26,7 +27,36 @@ class _CartScreenState extends State<CartScreen> {
   final _addressController = TextEditingController();
 
   final OrderService _orderService = OrderService();
+  final ShopService _shopService = ShopService();
   bool _isLoading = false;
+  ShopModel? _shop;
+  bool _shopLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.shop != null) {
+      _shop = widget.shop;
+      _shopLoading = false;
+    } else {
+      _loadShop();
+    }
+  }
+
+  Future<void> _loadShop() async {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    if (cartProvider.shopId != null) {
+      final shop = await _shopService.getShop(cartProvider.shopId!);
+      if (mounted) {
+        setState(() {
+          _shop = shop;
+          _shopLoading = false;
+        });
+      }
+    } else {
+      if (mounted) setState(() => _shopLoading = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -52,7 +82,9 @@ class _CartScreenState extends State<CartScreen> {
         title: const Text('Your Cart'),
         backgroundColor: AppTheme.cardBackground,
       ),
-      body: cartProvider.isEmpty
+      body: _shopLoading
+          ? const Center(child: AnimatedLoader(size: 80))
+          : cartProvider.isEmpty
           ? _buildEmptyCart()
           : SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -60,52 +92,55 @@ class _CartScreenState extends State<CartScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Shop name
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppTheme.cardBackground,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryBlue.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.store,
-                            color: AppTheme.primaryBlue,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.shop.name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
+                  if (_shop != null)
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.cardBackground,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryBlue.withValues(
+                                alpha: 0.1,
                               ),
-                              if (widget.shop.address != null)
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.store,
+                              color: AppTheme.primaryBlue,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
-                                  widget.shop.address!,
+                                  _shop!.name,
                                   style: const TextStyle(
-                                    color: AppTheme.textSecondary,
-                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
                                   ),
                                 ),
-                            ],
+                                if (_shop!.address != null)
+                                  Text(
+                                    _shop!.address!,
+                                    style: const TextStyle(
+                                      color: AppTheme.textSecondary,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
 
                   const SizedBox(height: 20),
 
@@ -339,7 +374,7 @@ class _CartScreenState extends State<CartScreen> {
                   isFullWidth: true,
                   isLoading: _isLoading,
                   height: 52,
-                  onPressed: widget.shop.isOpen ? _placeOrder : null,
+                  onPressed: (_shop?.isOpen ?? false) ? _placeOrder : null,
                 ),
               ),
             ),
@@ -376,12 +411,12 @@ class _CartScreenState extends State<CartScreen> {
 
     try {
       print('CartScreen: Placing order...');
-      print('CartScreen: Shop ID: ${widget.shop.id}');
+      print('CartScreen: Shop ID: ${_shop?.id}');
       print('CartScreen: User ID: ${authProvider.user?.uid}');
       print('CartScreen: Cart items: ${cartProvider.items.length}');
 
       final orderId = await _orderService.createOrder(
-        shopId: widget.shop.id,
+        shopId: _shop!.id,
         userId: authProvider.user?.uid,
         customerName: _nameController.text.trim(),
         customerPhone: _phoneController.text.trim(),

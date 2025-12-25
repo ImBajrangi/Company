@@ -8,6 +8,7 @@ import '../../models/shop_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../services/order_service.dart';
 import '../../services/shop_service.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/order_widgets.dart';
 import '../../widgets/animations.dart';
 
@@ -24,12 +25,47 @@ class DeliveryView extends StatefulWidget {
 class _DeliveryViewState extends State<DeliveryView> {
   final OrderService _orderService = OrderService();
   final ShopService _shopService = ShopService();
+  final NotificationService _notificationService = NotificationService();
   String? _selectedShopId;
+  bool _showAllShops = true; // Default to showing all shops
+  Set<String> _previousOrderIds = {};
+  bool _isFirstLoad = true;
 
   @override
   void initState() {
     super.initState();
     _selectedShopId = widget.shopId;
+    _initNotifications();
+  }
+
+  Future<void> _initNotifications() async {
+    await _notificationService.initialize();
+    await _notificationService.requestPermissions();
+  }
+
+  /// Check for new orders and show notifications
+  void _checkForNewOrders(List<OrderModel> orders) {
+    if (_isFirstLoad) {
+      // On first load, just record existing order IDs
+      _previousOrderIds = orders.map((o) => o.id).toSet();
+      _isFirstLoad = false;
+      return;
+    }
+
+    final currentOrderIds = orders.map((o) => o.id).toSet();
+    final newOrderIds = currentOrderIds.difference(_previousOrderIds);
+
+    // Show notification for each new order
+    for (final orderId in newOrderIds) {
+      final order = orders.firstWhere((o) => o.id == orderId);
+      _notificationService.showReadyForDeliveryNotification(
+        orderId: order.id,
+        customerName: order.customerName,
+        address: order.deliveryAddress,
+      );
+    }
+
+    _previousOrderIds = currentOrderIds;
   }
 
   @override
@@ -41,17 +77,21 @@ class _DeliveryViewState extends State<DeliveryView> {
     String? shopId = widget.shopId ?? userData?.shopId;
     List<String>? shopIds = widget.shopIds ?? userData?.shopIds;
     final isDeveloper = userData?.role == UserRole.developer;
+    final isDelivery = userData?.role == UserRole.delivery;
 
     // Use selected shop or fall back to user's assigned shop
     final activeShopId = _selectedShopId ?? shopId;
 
-    // If delivery staff has multiple shops, use shopIds
-    if (shopIds != null && shopIds.isNotEmpty && !isDeveloper) {
+    // Delivery staff can now see ALL shops' orders
+    if (isDelivery && _showAllShops) {
+      return _buildAllShopsDelivery();
+    } else if (shopIds != null && shopIds.isNotEmpty && !isDeveloper) {
       return _buildMultiShopDelivery(shopIds);
     } else if (activeShopId != null) {
       return _buildSingleShopDelivery(activeShopId);
-    } else if (isDeveloper) {
-      return _buildSingleShopDelivery(null);
+    } else if (isDeveloper || isDelivery) {
+      // Developers and delivery staff can see all shops
+      return _buildAllShopsDelivery();
     } else {
       return const Center(
         child: EmptyState(
@@ -61,6 +101,20 @@ class _DeliveryViewState extends State<DeliveryView> {
         ),
       );
     }
+  }
+
+  Widget _buildAllShopsDelivery() {
+    return Column(
+      children: [
+        _buildHeader(),
+        Expanded(
+          child: StreamBuilder<List<OrderModel>>(
+            stream: _orderService.getDeliveryOrders(null), // null = all shops
+            builder: (context, snapshot) => _buildOrdersList(snapshot),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildSingleShopDelivery(String? shopId) {
@@ -209,6 +263,9 @@ class _DeliveryViewState extends State<DeliveryView> {
     }
 
     final orders = snapshot.data ?? [];
+
+    // Check for new orders and trigger notifications
+    _checkForNewOrders(orders);
 
     if (orders.isEmpty) {
       return const EmptyState(
