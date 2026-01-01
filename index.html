@@ -4492,12 +4492,22 @@
 
                 const loader = new THREE.TextureLoader();
                 loader.crossOrigin = 'anonymous';
-                const texture = loader.load(this.img.src, (tex) => {
-                    this.img.classList.add('loaded');
-                    if (this.material) {
-                        this.material.uniforms.uImageResolution.value.set(tex.image.width, tex.image.height);
+                const texture = loader.load(
+                    this.img.src,
+                    (tex) => {
+                        this.img.classList.add('loaded');
+                        if (this.material) {
+                            this.material.uniforms.uImageResolution.value.set(tex.image.width, tex.image.height);
+                        }
+                    },
+                    undefined, // onProgress (not used)
+                    (error) => {
+                        // Fallback: show the original image if WebGL texture fails
+                        console.warn('ShaderEffect: Texture load failed, showing fallback image', error);
+                        this.img.style.opacity = '1';
+                        this.canvas.style.display = 'none';
                     }
-                });
+                );
 
                 this.material = new THREE.ShaderMaterial({
                     uniforms: {
