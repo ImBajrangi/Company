@@ -7,7 +7,8 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Foody Vrinda</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
@@ -99,37 +100,86 @@
 
         .card {
             background: white;
-            border-radius: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             overflow: hidden;
+        }
+
+        .dev-section {
+            padding: 24px;
+            border-bottom: 1px solid #edf2f7;
+            background: #fff;
+        }
+
+        .dev-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(0, 113, 227, 0.1);
+            color: #0071e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
         }
 
         button,
         .card,
         input,
+        select,
         .menu-item {
-            transition: all 0.3s ease;
-        }
-
-        .menu-item:hover,
-        .shop-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-primary {
             background: #0071e3;
             color: white;
-            font-weight: 500;
-            padding: 12px 24px;
+            font-weight: 600;
+            padding: 14px 24px;
             border-radius: 12px;
             border: none;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary:hover:not(:disabled) {
-            background: #0077ed;
-            transform: scale(1.02);
+            background: #0063c6;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
         }
 
         .btn-primary:disabled {
@@ -475,7 +525,17 @@
             background-color: #e0e7ff;
             color: #4338ca;
         }
+
+        #map-picker-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
     </style>
+    <!-- Google Maps JS SDK -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbFR_K70QZEhfKNfKfsddE0ad-vXo0Eto&libraries=places"></script>
 </head>
 
 <body class="text-gray-900">
@@ -748,28 +808,80 @@
                         <p class="text-gray-500">No past orders found.</p>
                     </div>
                 </div>
-                <div class="card p-6 sm:p-8">
-                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Staff Management</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Add New Staff Member</h3>
-                            <form id="add-staff-form" class="space-y-4">
-                                <div><label class="block text-sm font-medium text-gray-700 mb-2">Staff
-                                        Email</label><input type="email" id="staff-email"
-                                        placeholder="staff@example.com" class="w-full" required></div>
-                                <div><label class="block text-sm font-medium text-gray-700 mb-2">Assign
-                                        Role</label><select id="staff-role" class="w-full" required>
-                                        <option value="kitchen">Kitchen Staff</option>
-                                        <option value="delivery">Delivery Staff</option>
-                                    </select></div><button type="submit"
-                                    class="w-full bg-green-600 text-white font-medium py-3 rounded-xl hover:bg-green-700 transition-all">Add
-                                    Staff</button>
-                            </form>
+                <div class="card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                </path>
+                            </svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-4">Current Staff</h3>
-                            <div id="staff-list" class="space-y-3 max-h-96 overflow-y-auto">
-                                <p class="text-gray-500">No staff members found.</p>
+                            <h2 class="text-2xl font-bold text-gray-900">Staff Management</h2>
+                            <p class="text-sm text-gray-500">Manage your team members</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <!-- Add Staff Form -->
+                        <div
+                            class="lg:col-span-5 bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-100">
+                            <h3 class="text-lg font-bold text-purple-900 mb-5 uppercase tracking-wide">Add New Staff
+                                Member</h3>
+                            <form id="add-staff-form" class="space-y-5">
+                                <div class="input-group">
+                                    <label class="form-label text-purple-700">Full Name</label>
+                                    <input type="text" id="staff-name" placeholder="John Doe" class="w-full" required>
+                                </div>
+                                <div class="input-group">
+                                    <label class="form-label text-purple-700">Email Address</label>
+                                    <input type="email" id="staff-email" placeholder="staff@example.com" class="w-full"
+                                        required>
+                                </div>
+                                <div class="input-group">
+                                    <label class="form-label text-purple-700">Phone Number</label>
+                                    <input type="tel" id="staff-phone" placeholder="9876543210" class="w-full" required>
+                                </div>
+                                <div class="input-group">
+                                    <label class="form-label text-purple-700">Role</label>
+                                    <select id="staff-role" class="w-full" required>
+                                        <option value="kitchen">Kitchen Staff</option>
+                                        <option value="delivery">Delivery Staff</option>
+                                    </select>
+                                </div>
+                                <button type="submit"
+                                    class="btn-primary w-full bg-purple-600 hover:bg-purple-700 py-3 text-base font-bold">
+                                    Add Staff Member
+                                </button>
+                                <div class="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                                    <p class="text-[10px] text-purple-700 italic leading-snug">
+                                        <strong>Note:</strong> This pre-assigns the role. The staff member must
+                                        sign up later using the same email to be automatically linked.
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Current Staff List -->
+                        <div class="lg:col-span-7">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-bold text-gray-900 uppercase tracking-wide">Your Team</h3>
+                                <div class="text-sm text-gray-500">
+                                    <span id="staff-count" class="font-bold text-purple-600">0</span> members
+                                </div>
+                            </div>
+                            <div id="staff-list" class="space-y-3 overflow-y-auto pr-2 max-h-[500px] custom-scrollbar">
+                                <div class="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed">
+                                    <svg class="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                        </path>
+                                    </svg>
+                                    <p class="text-gray-500 font-medium">No staff members yet</p>
+                                    <p class="text-gray-400 text-sm mt-1">Add your first team member to get started</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -777,608 +889,809 @@
             </div>
 
             <div id="developer-view" class="view-hidden space-y-6">
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center"><svg
-                                class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 17v-2m3 2v-4m3 4v-6m2 10V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2z">
-                                </path>
-                            </svg></div>
-                        <div>
-                            <h2 class="text-2xl font-semibold">System Overview</h2>
-                            <p class="text-sm text-gray-500">Quick summary of the platform status</p>
-                        </div>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Developer Control Panel</h2>
+                        <p class="text-gray-500">Manage shops, staff, and system functionality.</p>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div>
-                            <p class="text-sm text-gray-500">Total Shops</p>
-                            <p id="dev-summary-shops" class="text-2xl font-semibold">0</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Total Users</p>
-                            <p id="dev-summary-users" class="text-2xl font-semibold">0</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Orders Today</p>
-                            <p id="dev-summary-orders-today" class="text-2xl font-semibold">0</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Total Orders</p>
-                            <p id="dev-summary-orders-all" class="text-2xl font-semibold">0</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 border-t pt-4"><button id="run-system-test-summary"
-                            class="btn-secondary text-sm">Run System Test</button></div>
-                </div>
-
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center"><svg
-                                class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                            </svg></div>
-                        <div>
-                            <h2 class="text-2xl font-semibold">Developer Control Panel</h2>
-                            <p class="text-sm text-gray-500">System testing & debugging</p>
-                        </div>
-                    </div>
-                    <div id="system-tests" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2"><span class="font-medium">Firebase
-                                    Connection</span><span id="test-firebase"
-                                    class="test-badge test-pending">Testing...</span></div>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2"><span class="font-medium">Database
-                                    Access</span><span id="test-database"
-                                    class="test-badge test-pending">Testing...</span></div>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2"><span class="font-medium">Auth
-                                    System</span><span id="test-auth" class="test-badge test-pending">Testing...</span>
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2"><span class="font-medium">Push
-                                    Notif.</span>
-                                <button id="test-push-btn"
-                                    class="text-xs bg-blue-600 text-white px-2 py-1 rounded">Test</button>
-                            </div>
-                            <p class="text-xs text-gray-500">Click to simulate system notification (5s delay)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4"><button id="run-system-test" class="btn-primary">Run Full
-                            System Test</button><button id="reset-customer-orders-btn"
-                            class="btn-primary bg-red-600 hover:bg-red-700">Reset Customer Orders</button></div>
-                </div>
-
-                <!-- Data Consistency Card -->
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center"><svg
-                                class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg></div>
-                        <div>
-                            <h2 class="text-2xl font-semibold">Data Consistency</h2>
-                            <p class="text-sm text-gray-500">Check and fix database inconsistencies</p>
-                        </div>
-                    </div>
-                    <div id="data-consistency-results"
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Orphan Shops</span>
-                                <span id="check-orphan-shops" class="test-badge test-pending">--</span>
-                            </div>
-                            <p class="text-xs text-gray-500">Staff assigned to non-existent shops</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Delivery Migration</span>
-                                <span id="check-delivery-migration" class="test-badge test-pending">--</span>
-                            </div>
-                            <p class="text-xs text-gray-500">Delivery staff needing shopIds array</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Shops Without Owner</span>
-                                <span id="check-shops-no-owner" class="test-badge test-pending">--</span>
-                            </div>
-                            <p class="text-xs text-gray-500">Shops with no assigned owner</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Orphan Menu Items</span>
-                                <span id="check-orphan-menus" class="test-badge test-pending">--</span>
-                            </div>
-                            <p class="text-xs text-gray-500">Menu items for non-existent shops</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Orphan Orders</span>
-                                <span id="check-orphan-orders" class="test-badge test-pending">--</span>
-                            </div>
-                            <p class="text-xs text-gray-500">Orders for non-existent shops</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Duplicate Assignments</span>
-                                <span id="check-duplicates" class="test-badge test-pending">--</span>
-                            </div>
-                            <p class="text-xs text-gray-500">Shops in both shopId and shopIds</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <button id="run-data-check-btn" class="btn-primary bg-blue-600 hover:bg-blue-700">
-                            Check Data Consistency
-                        </button>
-                        <button id="fix-data-btn" class="btn-primary bg-green-600 hover:bg-green-700">
-                            Fix All Issues
-                        </button>
-                        <span id="data-fix-status" class="text-sm text-gray-500"></span>
+                    <div class="flex gap-2">
+                        <div id="dev-status-badge"
+                            class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wider">
+                            System Online</div>
                     </div>
                 </div>
 
+                <!-- NEW: System Summary Widget -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="card p-4 bg-gradient-to-br from-blue-50 to-white border-blue-100">
+                        <p class="text-xs font-bold text-blue-600 uppercase mb-1">Total Shops</p>
+                        <h4 id="summary-shops-count" class="text-2xl font-bold">--</h4>
+                    </div>
+                    <div class="card p-4 bg-gradient-to-br from-purple-50 to-white border-purple-100">
+                        <p class="text-xs font-bold text-purple-600 uppercase mb-1">Total Users</p>
+                        <h4 id="summary-users-count" class="text-2xl font-bold">--</h4>
+                    </div>
+                    <div class="card p-4 bg-gradient-to-br from-green-50 to-white border-green-100">
+                        <p class="text-xs font-bold text-green-600 uppercase mb-1">Active Orders</p>
+                        <h4 id="summary-orders-count" class="text-2xl font-bold">--</h4>
+                    </div>
+                    <div class="card p-4 bg-gradient-to-br from-orange-50 to-white border-orange-100">
+                        <p class="text-xs font-bold text-orange-600 uppercase mb-1">Firebase</p>
+                        <h4 id="summary-firebase-status" class="text-sm font-bold text-green-600">CONNECTED</h4>
+                    </div>
+                </div>
 
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">Shop Management</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <h4 class="text-lg font-semibold mb-3">Create New Shop</h4>
-                            <form id="create-shop-form" class="space-y-4">
-                                <input type="text" id="shop-name"
-                                    placeholder="Shop Name (e.g., Vrinda Foods - Downtown)" class="w-full" required>
-                                <input type="text" id="shop-address" placeholder="Shop Address" class="w-full">
-                                <input type="text" id="shop-image" placeholder="Shop Image URL (Optional)"
-                                    class="w-full">
+                <div class="card">
+                    <!-- SECTION: SHOP MANAGEMENT -->
+                    <div class="dev-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-7h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="section-title">Shop Management</h3>
+                        </div>
 
-                                <div class="border-t pt-4">
-                                    <h5 class="font-medium mb-2">Shop Schedule</h5>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <input type="time" id="shop-open-time" placeholder="Open Time" class="w-full">
-                                        <input type="time" id="shop-close-time" placeholder="Close Time" class="w-full">
-                                    </div>
-                                    <div class="mt-2">
-                                        <label class="text-sm text-gray-600">Operating Days:</label>
-                                        <div class="flex flex-wrap gap-2 mt-1">
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Mon" checked> Mon</label>
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Tue" checked> Tue</label>
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Wed" checked> Wed</label>
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Thu" checked> Thu</label>
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Fri" checked> Fri</label>
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Sat" checked> Sat</label>
-                                            <label class="flex items-center gap-1"><input type="checkbox"
-                                                    name="shop-days" value="Sun" checked> Sun</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-700 mb-4 uppercase">Create New Shop</h4>
+                                <form id="create-shop-form" class="space-y-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div class="input-group">
+                                            <label class="form-label">Shop Name</label>
+                                            <input type="text" id="shop-name" placeholder="Vrinda Kitchen"
+                                                class="w-full" required>
+                                        </div>
+                                        <div class="input-group">
+                                            <label class="form-label">Phone Number</label>
+                                            <input type="tel" id="shop-phone" placeholder="9876543210" class="w-full">
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" id="shop-address" placeholder="123 Food Street, City"
+                                            class="w-full" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Shop Image URL</label>
+                                        <input type="url" id="shop-image" placeholder="https://example.com/image.jpg"
+                                            class="w-full">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border">
+                                        <div class="input-group mb-0">
+                                            <label class="form-label">Latitude</label>
+                                            <input type="number" id="shop-lat" step="any" readonly
+                                                class="w-full bg-white text-sm" placeholder="Click Map ->">
+                                        </div>
+                                        <div class="input-group mb-0">
+                                            <label class="form-label">Longitude</label>
+                                            <input type="number" id="shop-lng" step="any" readonly
+                                                class="w-full bg-white text-sm" placeholder="Click Map ->">
+                                        </div>
+                                        <button type="button" id="open-map-btn"
+                                            onclick="openMapPicker('shop-lat', 'shop-lng')"
+                                            class="col-span-2 text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center justify-center gap-1 py-1 cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                                </path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            Set Location on Map
+                                        </button>
+                                    </div>
 
-                                <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Create
-                                    Shop</button>
-                            </form>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-semibold mb-3">Existing Shops</h4>
-                            <div id="dev-shop-list" class="space-y-3 max-h-96 overflow-y-auto">
-                                <p class="text-gray-500">Loading shops...</p>
+                                    <div class="bg-gray-50 p-4 rounded-xl border space-y-3">
+                                        <h5 class="text-xs font-bold text-gray-500 uppercase">Operational Settings
+                                        </h5>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="input-group mb-0">
+                                                <label class="form-label">Avg Prep (Min)</label>
+                                                <input type="number" id="shop-wait-time" value="15" class="w-full">
+                                            </div>
+                                            <div class="flex flex-col gap-2 justify-center">
+                                                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                                                    <input type="checkbox" id="shop-show-wait" checked
+                                                        class="w-4 h-4 rounded">
+                                                    Show Wait Time
+                                                </label>
+                                                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                                                    <input type="checkbox" id="shop-show-queue" class="w-4 h-4 rounded">
+                                                    Show Queue
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-2 gap-3 pt-2">
+                                            <div>
+                                                <label class="form-label text-[10px]">Open Time</label>
+                                                <input type="time" id="shop-open-time" value="09:00"
+                                                    class="w-full text-xs min-h-[40px]">
+                                            </div>
+                                            <div>
+                                                <label class="form-label text-[10px]">Close Time</label>
+                                                <input type="time" id="shop-close-time" value="21:00"
+                                                    class="w-full text-xs min-h-[40px]">
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label class="form-label text-[10px]">Operating Days</label>
+                                            <div class="flex flex-wrap gap-2 mt-1">
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Mon" checked> Mon
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Tue" checked> Tue
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Wed" checked> Wed
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Thu" checked> Thu
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Fri" checked> Fri
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Sat" checked> Sat
+                                                </label>
+                                                <label
+                                                    class="flex items-center gap-1 text-[11px] bg-white px-2 py-1 rounded border cursor-pointer hover:bg-blue-50">
+                                                    <input type="checkbox" name="shop-days" value="Sun" checked> Sun
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                        Create Shop
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <h4 class="text-sm font-bold text-gray-700 mb-4 uppercase">Existing Shops</h4>
+                                <div id="dev-shop-list"
+                                    class="space-y-4 flex-grow overflow-y-auto pr-2 max-h-[600px] custom-scrollbar">
+                                    <p class="text-gray-500 text-center py-10 italic">Loading shops...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">Shop Schedule Management</h3>
-                    <div class="space-y-4">
-                        <select id="schedule-shop-select" class="w-full">
-                            <option value="">-- Select Shop to Update Schedule --</option>
-                        </select>
-                        <div id="schedule-editor" class="hidden space-y-4">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Open Time</label>
-                                    <input type="time" id="edit-open-time" class="w-full">
+                    <!-- SECTION: STAFF & ROLE MANAGEMENT -->
+                    <div class="dev-section bg-gray-50/50">
+                        <div class="section-header">
+                            <div class="section-icon bg-purple-100 text-purple-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="section-title">Staff & Role Management</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                            <!-- Pre-creation form -->
+                            <div class="lg:col-span-4 bg-white p-6 rounded-2xl border shadow-sm">
+                                <h4 class="text-sm font-bold text-gray-700 mb-4 uppercase">Add Staff (Pre-creation)
+                                </h4>
+                                <form id="dev-register-staff-form" class="space-y-4">
+                                    <div class="input-group">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" id="dev-staff-name" placeholder="John Doe" class="w-full"
+                                            required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" id="dev-staff-email" placeholder="john@example.com"
+                                            class="w-full" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="tel" id="dev-staff-phone" placeholder="9876543210" class="w-full"
+                                            required>
+                                    </div>
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="input-group">
+                                            <label class="form-label">Role</label>
+                                            <select id="dev-staff-role" class="w-full" required>
+                                                <option value="kitchen">Kitchen Staff</option>
+                                                <option value="delivery">Delivery Boy</option>
+                                                <option value="owner">Shop Owner</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-group">
+                                            <label class="form-label">Assign to Shop</label>
+                                            <select id="dev-staff-shop" class="w-full" required>
+                                                <option value="">-- Select Shop --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn-primary w-full bg-purple-600 hover:bg-purple-700">
+                                        Create Record
+                                    </button>
+                                    <div class="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                                        <p class="text-[10px] text-purple-700 italic leading-snug">
+                                            <strong>Note:</strong> This pre-assigns the role. The staff member must
+                                            sign up later using this same email to be automatically linked.
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- User Management Table -->
+                            <div class="lg:col-span-8">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="text-sm font-bold text-gray-700 uppercase">User Role Management</h4>
+                                    <div class="relative w-full max-w-xs">
+                                        <input type="text" id="user-search-input" placeholder="Filter users..."
+                                            class="w-full py-2 px-4 text-sm min-h-[40px]">
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Close Time</label>
-                                    <input type="time" id="edit-close-time" class="w-full">
+                                <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm bg-white">
+                                    <div class="overflow-x-auto max-h-[500px] custom-scrollbar">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    <th class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider sortable-header cursor-pointer"
+                                                        data-sort="email">User Email <span class="sort-arrow"></span>
+                                                    </th>
+                                                    <th class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider sortable-header cursor-pointer"
+                                                        data-sort="role">Role <span class="sort-arrow"></span></th>
+                                                    <th
+                                                        class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                                        Update Role</th>
+                                                    <th class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider"
+                                                        data-sort="shop">Shop Assignment</th>
+                                                    <th
+                                                        class="px-4 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="admin-user-list" class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td colspan="5" class="px-6 py-10 text-center text-gray-500 italic">
+                                                        No users
+                                                        found.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: MENU MANAGEMENT -->
+                    <div class="dev-section">
+                        <div class="section-header">
+                            <div class="section-icon bg-green-100 text-green-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="section-title">Menu Management</h3>
+                        </div>
+
+                        <div class="max-w-md mb-6">
+                            <label class="form-label">Select Shop to Manage</label>
+                            <select id="dev-menu-shop-select" class="w-full">
+                                <option value="">-- Select a Shop --</option>
+                            </select>
+                        </div>
+
+                        <div id="dev-menu-manager-content"
+                            class="hidden grid grid-cols-1 md:grid-cols-2 gap-10 bg-gray-50 p-6 rounded-2xl border">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-700 mb-4 uppercase">Add New Menu Item</h4>
+                                <form id="create-menu-item-form" class="space-y-4">
+                                    <div class="input-group">
+                                        <label class="form-label">Item Name</label>
+                                        <input type="text" id="menu-item-name" placeholder="Masala Dosa" class="w-full"
+                                            required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Price (₹)</label>
+                                        <input type="number" id="menu-item-price" placeholder="120" class="w-full"
+                                            required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Image URL (Optional)</label>
+                                        <input type="url" id="menu-item-image"
+                                            placeholder="https://example.com/dosa.jpg" class="w-full">
+                                    </div>
+                                    <button type="submit" class="btn-primary w-full bg-green-600 hover:bg-green-700">Add
+                                        to
+                                        Menu</button>
+                                </form>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium mb-2">Operating Days:</label>
-                                <div class="flex flex-wrap gap-2">
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Mon"> Mon</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Tue"> Tue</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Wed"> Wed</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Thu"> Thu</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Fri"> Fri</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Sat"> Sat</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" name="edit-days"
-                                            value="Sun"> Sun</label>
+                                <h4 class="text-sm font-bold text-gray-700 mb-4 uppercase">Current Menu Items</h4>
+                                <div id="dev-menu-item-list"
+                                    class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                                    <p class="text-gray-500 italic text-center py-10">Select a shop to see its menu.
+                                    </p>
                                 </div>
                             </div>
-                            <button id="update-schedule-btn"
-                                class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Update Schedule</button>
                         </div>
                     </div>
-                </div>
 
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">Menu Management</h3>
-                    <div class="mb-4"><label class="block text-sm font-medium text-gray-700 mb-2">Select Shop to
-                            Manage</label><select id="dev-menu-shop-select" class="w-full max-w-md">
-                            <option value="">-- Select a Shop --</option>
-                        </select></div>
-                    <div id="dev-menu-manager-content" class="hidden grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <h4 class="text-lg font-semibold mb-3">Add New Menu Item</h4>
-                            <form id="create-menu-item-form" class="space-y-4"><input type="text" id="menu-item-name"
-                                    placeholder="Item Name (e.g., Pizza)" class="w-full" required><input type="number"
-                                    id="menu-item-price" placeholder="Item Price (e.g., 200)" class="w-full"
-                                    required><input type="text" id="menu-item-image"
-                                    placeholder="Item Image URL (Optional)" class="w-full"><button type="submit"
-                                    class="btn-primary w-full bg-green-600 hover:bg-green-700">Add Item</button></form>
+                    <!-- SECTION: ALL ORDERS MONITOR -->
+                    <div class="dev-section bg-gray-50/30">
+                        <div class="section-header">
+                            <div class="section-icon bg-orange-100 text-orange-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="section-title">All Orders Monitor</h3>
                         </div>
-                        <div>
-                            <h4 class="text-lg font-semibold mb-3">Current Menu Items</h4>
-                            <div id="dev-menu-item-list" class="space-y-3 max-h-60 overflow-y-auto">
-                                <p class="text-gray-500">Select a shop to see its menu.</p>
+
+                        <div class="bg-white p-6 rounded-2xl border shadow-sm">
+                            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="text-xs font-bold text-gray-400 uppercase mr-2">Filter:</span>
+                                    <button data-filter="today"
+                                        class="order-filter-btn px-4 py-1.5 rounded-full text-xs font-bold transition-all border hover:bg-gray-50">Today</button>
+                                    <button data-filter="week"
+                                        class="order-filter-btn px-4 py-1.5 rounded-full text-xs font-bold transition-all border hover:bg-gray-50">Week</button>
+                                    <button data-filter="month"
+                                        class="order-filter-btn px-4 py-1.5 rounded-full text-xs font-bold transition-all border hover:bg-gray-50">Month</button>
+                                    <button data-filter="all"
+                                        class="order-filter-btn px-4 py-1.5 rounded-full text-xs font-bold transition-all border border-blue-200 bg-blue-50 text-blue-600 active">All
+                                        Time</button>
+                                </div>
+                                <div class="relative w-full md:w-64">
+                                    <input type="text" id="order-search-input-dev" placeholder="Search order by ID..."
+                                        class="w-full py-2 px-4 text-sm min-h-[40px]">
+                                </div>
+                            </div>
+
+                            <div id="all-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 min-h-[100px]">
+                                <p class="col-span-full text-gray-500 text-center py-10 italic">Loading orders...
+                                </p>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-6 border-t">
+                                <button id="prev-orders-btn"
+                                    class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">←
+                                    Previous</button>
+                                <span id="order-page-info" class="text-xs font-bold text-gray-400 uppercase">Page
+                                    1</span>
+                                <button id="next-orders-btn"
+                                    class="px-4 py-2 text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">Next
+                                    →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: SYSTEM TOOLS -->
+                    <div class="dev-section">
+                        <div class="section-header">
+                            <div class="section-icon bg-red-100 text-red-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="section-title">System Tools</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-red-50 p-6 rounded-2xl border border-red-100">
+                                <h4 class="text-sm font-bold text-red-700 mb-4 uppercase">Test Order Flow</h4>
+                                <form id="test-order-form" class="space-y-4">
+                                    <div class="input-group">
+                                        <label class="form-label text-red-600">Select Shop</label>
+                                        <select id="test-order-shop-select" class="w-full border-red-200" required>
+                                            <option value="">-- Select a Shop --</option>
+                                        </select>
+                                    </div>
+                                    <div id="test-order-details" class="hidden space-y-4">
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div class="input-group">
+                                                <label class="form-label text-red-600">Customer Name</label>
+                                                <input type="text" id="test-name" value="Test Customer"
+                                                    class="w-full text-sm" required>
+                                            </div>
+                                            <div class="input-group">
+                                                <label class="form-label text-red-600">Phone</label>
+                                                <input type="tel" id="test-phone" value="9876543210"
+                                                    class="w-full text-sm" required>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <label class="form-label text-red-600">Delivery Address</label>
+                                            <input type="text" id="test-address" value="123 Test Street, Test City"
+                                                class="w-full text-sm" required>
+                                        </div>
+                                        <div class="input-group">
+                                            <label class="form-label text-red-600">Select Items</label>
+                                            <div id="test-menu-items"
+                                                class="max-h-48 overflow-y-auto space-y-2 p-3 bg-white rounded-lg border border-red-200">
+                                                <p class="text-gray-500 text-xs">Loading items...</p>
+                                            </div>
+                                        </div>
+                                        <button type="submit"
+                                            class="btn-primary w-full bg-red-600 hover:bg-red-700">Create
+                                            Test Order</button>
+                                    </div>
+                                    <p class="text-[10px] text-red-700 italic">Bypasses payment. Use for development
+                                        only.</p>
+                                </form>
+                            </div>
+                            <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                                <h4 class="text-sm font-bold text-blue-700 mb-4 uppercase">Shop Dashboard View</h4>
+                                <div class="space-y-4">
+                                    <div class="input-group">
+                                        <label class="form-label text-blue-600">Impersonate Shop</label>
+                                        <select id="dev-dashboard-shop-select" class="w-full border-blue-200">
+                                            <option value="">-- Select a Shop --</option>
+                                        </select>
+                                    </div>
+                                    <button id="dev-view-dashboard-btn"
+                                        class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Switch
+                                        View</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">Test Order Flow (No Payment Required)</h3>
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                        <p class="text-sm text-blue-800"><strong>Note:</strong> Test orders bypass payment and are for
-                            testing the complete workflow only.</p>
-                    </div>
-                    <form id="test-order-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-medium mb-2">Select Shop</label><select
-                                id="test-order-shop-select" class="w-full" required>
-                                <option value="">-- Select a Shop --</option>
-                            </select></div>
-                        <div><label class="block text-sm font-medium mb-2">Customer Name</label><input type="text"
-                                id="test-name" value="Test Customer" class="w-full" required></div>
-                        <div><label class="block text-sm font-medium mb-2">Customer Phone</label><input type="tel"
-                                id="test-phone" value="9876543210" class="w-full" required></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-medium mb-2">Delivery
-                                Address</label><input type="text" id="test-address" value="123 Test Street, Test City"
-                                class="w-full" required></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-medium mb-2">Select Items</label>
-                            <div id="test-menu-items" class="grid grid-cols-2 gap-3">
-                                <p class="text-gray-500 text-sm">Select a shop to see items.</p>
-                            </div>
-                        </div>
-                        <div class="md:col-span-2"><button type="submit"
-                                class="btn-primary w-full bg-green-600 hover:bg-green-700">Create Test Order</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="card p-6">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
-                        <h3 class="text-xl font-semibold">All Orders Monitor</h3>
-                        <div class="flex items-center gap-2 w-full sm:w-auto">
-                            <input type="text" id="order-search-input" placeholder="Search by customer name..."
-                                class="w-full sm:w-auto">
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-2 mb-4 border-b pb-4">
-                        <span class="text-sm font-medium mr-2">Filter by Date:</span>
-                        <button data-filter="today"
-                            class="order-filter-btn btn-filter text-xs px-3 py-1 rounded-md">Today</button>
-                        <button data-filter="week" class="order-filter-btn btn-filter text-xs px-3 py-1 rounded-md">This
-                            Week</button>
-                        <button data-filter="month"
-                            class="order-filter-btn btn-filter text-xs px-3 py-1 rounded-md">This Month</button>
-                        <button data-filter="all"
-                            class="order-filter-btn btn-filter text-xs px-3 py-1 rounded-md active">All Time</button>
-                    </div>
-                    <div id="all-orders-list" class="space-y-4 mb-4"></div>
-                    <div class="flex justify-between items-center pt-4 border-t">
-                        <button id="prev-orders-btn" class="btn-secondary text-sm" disabled>Previous</button>
-                        <span id="order-page-info" class="text-sm text-gray-500">Page 1</span>
-                        <button id="next-orders-btn" class="btn-secondary text-sm" disabled>Next</button>
-                    </div>
-                </div>
-
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">User Role Management</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase sortable-header"
-                                        data-sort="email">User Email <span class="sort-arrow"></span></th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase sortable-header"
-                                        data-sort="role">Current Role <span class="sort-arrow"></span></th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assign
-                                        Role</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase sortable-header"
-                                        data-sort="shop">Assign Shop <span class="sort-arrow"></span></th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-user-list" class="divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card p-6">
-                    <h3 class="text-xl font-semibold mb-4">View Shop Dashboard</h3>
-                    <p class="text-sm text-gray-500 mb-4">As a developer, you can view the dashboard for any shop.</p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <select id="dev-dashboard-shop-select" class="w-full">
-                            <option value="">-- Select a Shop --</option>
-                        </select>
-                        <button id="dev-view-dashboard-btn" class="btn-primary flex-shrink-0 w-full sm:w-auto">View
-                            Dashboard</button>
-                    </div>
-                </div>
             </div>
-        </main>
+    </div>
+    </main>
 
-        <!-- **** NEW: Notification Panel **** -->
-        <!-- This is positioned relative to the main container, but uses z-index to appear on top -->
-        <div id="notification-panel"
-            class="hidden fixed inset-0 z-50 bg-black bg-opacity-40 sm:absolute sm:inset-auto sm:top-20 sm:right-6 sm:bg-transparent sm:w-96 sm:h-auto">
-            <div id="notification-content-wrapper"
-                class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto sm:max-h-[32rem] border border-gray-200 m-4 sm:m-0">
-                <div class="p-4 border-b flex justify-between items-center">
-                    <h3 class="font-semibold text-gray-900">Notifications</h3>
-                    <div class="flex items-center gap-2">
-                        <button id="enable-push-btn"
-                            class="hidden text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 transition-colors">Enable
-                            Push</button>
-                        <!-- Close button visible only on mobile/forced modal view -->
-                        <button id="notification-panel-close-btn"
-                            class="sm:hidden text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div id="notification-list" class="max-h-96 overflow-y-auto divide-y">
-                    <p class="p-4 text-gray-500 text-center">No new notifications.</p>
-                </div>
-                <div class="p-3 bg-gray-50 border-t flex justify-between items-center gap-2">
-                    <button id="mark-all-read-btn" onclick="markNotificationsAsRead()"
-                        class="text-xs text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
-                            </path>
-                        </svg>
-                        Mark All Read
-                    </button>
-                    <button id="clear-all-notifications" onclick="clearAllNotifications()"
-                        class="text-xs text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                            </path>
-                        </svg>
-                        Clear Read
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- **** END NEW **** -->
-
-        <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4"
-            style="z-index: 51;">
-            <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center">
-                <div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div>
-                <p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p>
-                <div id="alert-buttons" class="flex gap-4">
-                    <button id="alert-close" class="btn-primary w-full">OK</button>
-                    <button id="alert-confirm" class="hidden btn-danger w-full">Confirm</button>
-                    <button id="alert-cancel" class="hidden btn-secondary w-full">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="profile-modal"
-            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 id="profile-modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button
-                        id="profile-close"
-                        class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg
-                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg></button>
-                </div>
-                <div id="profile-content"></div>
-            </div>
-        </div>
-        <div id="create-order-modal"
-            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">Create New Order</h2><button
-                        id="create-order-close-btn"
-                        class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg
-                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg></button>
-                </div>
-                <div id="create-order-content"></div>
-            </div>
-        </div>
-
-        <!-- **** NEW: Dedicated Install Instructions Modal **** -->
-        <div id="install-modal"
-            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[60] p-4">
-            <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center relative">
-                <button id="install-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </button>
-                <div
-                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Install App</h3>
-                <p class="text-gray-600 mb-6 text-sm">Get the best experience by installing the app on your device.</p>
-
-                <div id="install-instructions-android" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
-                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
-                        <li>Tap the <strong>three dots</strong> <span
-                                class="inline-block bg-gray-200 rounded px-1">⋮</span> in the browser menu.</li>
-                        <li>Select <strong>Install App</strong> or <strong>Add to Home Screen</strong>.</li>
-                        <li>Tap <strong>Install</strong> to confirm.</li>
-                    </ol>
-                </div>
-
-                <div id="install-instructions-ios" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
-                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
-                        <li>Tap the <strong>Share</strong> button <span
-                                class="inline-block bg-gray-200 rounded px-1">⎋</span>.</li>
-                        <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
-                        <li>Tap <strong>Add</strong> in the top right.</li>
-                    </ol>
-                </div>
-
-                <button id="install-modal-ok" class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Got it</button>
-            </div>
-        </div>
-
-        <!-- **** Edit Shop Modal **** -->
-        <div id="edit-shop-modal"
-            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">Edit Shop</h2>
-                    <button id="edit-shop-close"
-                        class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
+    <!-- **** NEW: Notification Panel **** -->
+    <!-- This is positioned relative to the main container, but uses z-index to appear on top -->
+    <div id="notification-panel"
+        class="hidden fixed inset-0 z-50 bg-black bg-opacity-40 sm:absolute sm:inset-auto sm:top-20 sm:right-6 sm:bg-transparent sm:w-96 sm:h-auto">
+        <div id="notification-content-wrapper"
+            class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto sm:max-h-[32rem] border border-gray-200 m-4 sm:m-0">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 class="font-semibold text-gray-900">Notifications</h3>
+                <div class="flex items-center gap-2">
+                    <button id="enable-push-btn"
+                        class="hidden text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 transition-colors">Enable
+                        Push</button>
+                    <!-- Close button visible only on mobile/forced modal view -->
+                    <button id="notification-panel-close-btn"
+                        class="sm:hidden text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
-                <form id="edit-shop-form" class="space-y-4">
-                    <input type="hidden" id="edit-shop-id">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Shop Name</label>
-                        <input type="text" id="edit-shop-name" placeholder="Shop Name" class="w-full" required>
+            </div>
+            <div id="notification-list" class="max-h-96 overflow-y-auto divide-y">
+                <p class="p-4 text-gray-500 text-center">No new notifications.</p>
+            </div>
+            <div class="p-3 bg-gray-50 border-t flex justify-between items-center gap-2">
+                <button id="mark-all-read-btn" onclick="markNotificationsAsRead()"
+                    class="text-xs text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                        </path>
+                    </svg>
+                    Mark All Read
+                </button>
+                <button id="clear-all-notifications" onclick="clearAllNotifications()"
+                    class="text-xs text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                        </path>
+                    </svg>
+                    Clear Read
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- **** END NEW **** -->
+
+    <div id="alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4"
+        style="z-index: 51;">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center">
+            <div id="alert-icon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div>
+            <p id="alert-message" class="text-lg font-medium mb-6 text-gray-900"></p>
+            <div id="alert-buttons" class="flex gap-4">
+                <button id="alert-close" class="btn-primary w-full">OK</button>
+                <button id="alert-confirm" class="hidden btn-danger w-full">Confirm</button>
+                <button id="alert-cancel" class="hidden btn-secondary w-full">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="profile-modal-title" class="text-2xl font-semibold text-gray-900">Profile</h2><button
+                    id="profile-close"
+                    class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg
+                        class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg></button>
+            </div>
+            <div id="profile-content"></div>
+        </div>
+    </div>
+    <div id="create-order-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-gray-900">Create New Order</h2><button
+                    id="create-order-close-btn"
+                    class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all"><svg
+                        class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg></button>
+            </div>
+            <div id="create-order-content"></div>
+        </div>
+    </div>
+
+    <!-- **** NEW: Dedicated Install Instructions Modal **** -->
+    <div id="install-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[60] p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center relative">
+            <button id="install-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Install App</h3>
+            <p class="text-gray-600 mb-6 text-sm">Get the best experience by installing the app on your device.</p>
+
+            <div id="install-instructions-android" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                    <li>Tap the <strong>three dots</strong> <span class="inline-block bg-gray-200 rounded px-1">⋮</span>
+                        in the browser menu.</li>
+                    <li>Select <strong>Install App</strong> or <strong>Add to Home Screen</strong>.</li>
+                    <li>Tap <strong>Install</strong> to confirm.</li>
+                </ol>
+            </div>
+
+            <div id="install-instructions-ios" class="hidden text-left bg-gray-50 p-4 rounded-lg mb-6">
+                <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                    <li>Tap the <strong>Share</strong> button <span
+                            class="inline-block bg-gray-200 rounded px-1">⎋</span>.</li>
+                    <li>Scroll down and select <strong>Add to Home Screen</strong>.</li>
+                    <li>Tap <strong>Add</strong> in the top right.</li>
+                </ol>
+            </div>
+
+            <button id="install-modal-ok" class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Got it</button>
+        </div>
+    </div>
+
+    <!-- **** Edit Shop Modal **** -->
+    <div id="edit-shop-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-gray-900">Edit Shop</h2>
+                <button id="edit-shop-close"
+                    class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="edit-shop-form" class="space-y-4">
+                <input type="hidden" id="edit-shop-id">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Shop Name</label>
+                    <input type="text" id="edit-shop-name" placeholder="Shop Name" class="w-full" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Address</label>
+                    <input type="text" id="edit-shop-address" placeholder="Shop Address" class="w-full">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Image URL</label>
+                    <input type="text" id="edit-shop-image" placeholder="Shop Image URL (Optional)" class="w-full">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Phone Number</label>
+                    <input type="tel" id="edit-shop-phone" placeholder="Shop Phone Number" class="w-full">
+                </div>
+                <div class="flex gap-2">
+                    <div class="flex-1 space-y-2">
+                        <label class="block text-sm font-medium mb-1">Location Coordinates</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="number" step="any" id="edit-shop-lat" placeholder="Latitude"
+                                class="w-full text-sm">
+                            <input type="number" step="any" id="edit-shop-lng" placeholder="Longitude"
+                                class="w-full text-sm">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Address</label>
-                        <input type="text" id="edit-shop-address" placeholder="Shop Address" class="w-full">
+                    <button type="button" id="open-edit-map-picker-btn"
+                        class="mt-7 flex flex-col items-center justify-center p-3 border rounded-xl hover:bg-gray-50 bg-white">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="edit-shop-image-preview" class="hidden">
+                    <label class="block text-sm font-medium mb-1">Current Image</label>
+                    <img id="edit-shop-image-img" src="" alt="Shop preview"
+                        class="w-full h-32 object-cover rounded-lg border">
+                </div>
+                <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-4">
+                    <h5 class="font-medium text-gray-700">Display & Wait Time</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Estimated Prep
+                                Time (Min)</label>
+                            <input type="number" id="edit-shop-wait-time" min="0" class="w-full text-sm">
+                        </div>
+                        <div class="flex flex-col justify-center gap-2">
+                            <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                <input type="checkbox" id="edit-shop-show-wait">
+                                <span>Show Waiting Time</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                <input type="checkbox" id="edit-shop-show-queue">
+                                <span>Show Order Queue</span>
+                            </label>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Image URL</label>
-                        <input type="text" id="edit-shop-image" placeholder="Shop Image URL (Optional)" class="w-full">
+                </div>
+
+                <div class="border-t pt-4">
+                    <h5 class="font-medium mb-2">Shop Schedule & Periods</h5>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1 font-semibold uppercase">Open
+                                Time</label>
+                            <input type="time" id="edit-shop-open-time" class="w-full text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1 font-semibold uppercase">Close
+                                Time</label>
+                            <input type="time" id="edit-shop-close-time" class="w-full text-sm">
+                        </div>
                     </div>
-                    <div id="edit-shop-image-preview" class="hidden">
-                        <label class="block text-sm font-medium mb-1">Current Image</label>
-                        <img id="edit-shop-image-img" src="" alt="Shop preview"
-                            class="w-full h-32 object-cover rounded-lg border">
+                    <div class="mt-3">
+                        <label class="text-xs font-semibold text-gray-500 uppercase">Operating Days:</label>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Mon"> Mon</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Tue"> Tue</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Wed"> Wed</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Thu"> Thu</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Fri"> Fri</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Sat"> Sat</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox" name="edit-shop-days"
+                                    value="Sun"> Sun</label>
+                        </div>
                     </div>
-                    <div class="border-t pt-4">
-                        <h5 class="font-medium mb-2">Shop Schedule</h5>
-                        <div class="grid grid-cols-2 gap-3">
+                    <div class="mt-3">
+                        <label class="text-xs font-semibold text-gray-500 uppercase">Operating Periods:</label>
+                        <div class="flex flex-wrap gap-3 mt-1">
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox"
+                                    name="edit-shop-periods" value="morning"> Morning</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox"
+                                    name="edit-shop-periods" value="forenoon"> Forenoon</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox"
+                                    name="edit-shop-periods" value="afternoon"> Afternoon</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox"
+                                    name="edit-shop-periods" value="evening"> Evening</label>
+                            <label class="flex items-center gap-1 text-sm"><input type="checkbox"
+                                    name="edit-shop-periods" value="night"> Night</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Alarm Settings -->
+                <div class="border-t pt-4 mt-4">
+                    <h5 class="font-medium mb-3">Alarm Notifications</h5>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                             <div>
-                                <label class="block text-sm text-gray-600 mb-1">Open Time</label>
-                                <input type="time" id="edit-shop-open-time" class="w-full">
+                                <p class="text-sm font-medium">Kitchen Alarm (New Order)</p>
+                                <p class="text-xs text-gray-500">Trigger alarm when a new order arrives.</p>
                             </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="edit-alarm-kitchen-new" class="sr-only peer" checked>
+                                <div
+                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                </div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                             <div>
-                                <label class="block text-sm text-gray-600 mb-1">Close Time</label>
-                                <input type="time" id="edit-shop-close-time" class="w-full">
+                                <p class="text-sm font-medium">Kitchen Alarm (Order Ready)</p>
+                                <p class="text-xs text-gray-500">Trigger alarm when an order becomes ready.</p>
                             </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="edit-alarm-kitchen-ready" class="sr-only peer">
+                                <div
+                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                </div>
+                            </label>
                         </div>
-                        <div class="mt-3">
-                            <label class="text-sm text-gray-600">Operating Days:</label>
-                            <div class="flex flex-wrap gap-2 mt-1">
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Mon"> Mon</label>
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Tue"> Tue</label>
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Wed"> Wed</label>
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Thu"> Thu</label>
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Fri"> Fri</label>
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Sat"> Sat</label>
-                                <label class="flex items-center gap-1"><input type="checkbox" name="edit-shop-days"
-                                        value="Sun"> Sun</label>
+                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="text-sm font-medium">Delivery Alarm (Order Ready)</p>
+                                <p class="text-xs text-gray-500">Trigger alarm for delivery staff when ready.</p>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Alarm Settings -->
-                    <div class="border-t pt-4 mt-4">
-                        <h5 class="font-medium mb-3">Alarm Notifications</h5>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
-                                <div>
-                                    <p class="text-sm font-medium">Kitchen Alarm (New Order)</p>
-                                    <p class="text-xs text-gray-500">Trigger alarm when a new order arrives.</p>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="edit-alarm-delivery-ready" class="sr-only peer" checked>
+                                <div
+                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
                                 </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="edit-alarm-kitchen-new" class="sr-only peer" checked>
-                                    <div
-                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
-                                <div>
-                                    <p class="text-sm font-medium">Kitchen Alarm (Order Ready)</p>
-                                    <p class="text-xs text-gray-500">Trigger alarm when an order becomes ready.</p>
-                                </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="edit-alarm-kitchen-ready" class="sr-only peer">
-                                    <div
-                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
-                                <div>
-                                    <p class="text-sm font-medium">Delivery Alarm (Order Ready)</p>
-                                    <p class="text-xs text-gray-500">Trigger alarm for delivery staff when ready.</p>
-                                </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="edit-alarm-delivery-ready" class="sr-only peer" checked>
-                                    <div
-                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
-                                    </div>
-                                </label>
-                            </div>
+                            </label>
                         </div>
                     </div>
-                    <div class="flex gap-3 pt-2">
-                        <button type="button" id="edit-shop-cancel" class="btn-secondary flex-1">Cancel</button>
-                        <button type="submit" class="btn-primary flex-1 bg-blue-600 hover:bg-blue-700">Save
-                            Changes</button>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="edit-shop-cancel" class="btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="btn-primary flex-1 bg-blue-600 hover:bg-blue-700">Save
+                        Changes</button>
+                </div>
+            </form>
+        </div>
+        <!-- **** Map Picker Modal **** -->
+        <div id="map-picker-modal"
+            class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[70] p-4">
+            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-2xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Pick Location</h2>
+                    <button id="map-picker-close" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mb-4">Click on the map to set the shop's location.</p>
+                <div id="map-picker-container"></div>
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg border mb-4">
+                    <div class="text-xs font-mono text-gray-600">
+                        Lat: <span id="picked-lat">--</span>, Lng: <span id="picked-lng">--</span>
                     </div>
-                </form>
+                    <button id="confirm-location-btn"
+                        class="btn-primary bg-blue-600 hover:bg-blue-700 py-2 px-6">Confirm Location</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1389,6 +1702,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         import { FastOrderMonitor } from './js/fast_notify.js';
+        import { NotificationManager, KitchenNotifier } from './js/notify.js';
 
         // // --- Fast Notification Monitor Class (Inlined to prevent 404s) ---
         // class FastOrderMonitor {
@@ -1508,6 +1822,8 @@
         let app, db, auth;
         let isFirebaseReady = false;
         let authInitialized = false;
+        let notificationMgr = null;
+        let kitchenNotifier = null;
 
         try {
             app = initializeApp(firebaseConfig);
@@ -1524,6 +1840,11 @@
 
             auth = getAuth(app);
             isFirebaseReady = true;
+
+            // Initialize Notification Managers
+            notificationMgr = new NotificationManager(db, auth);
+            kitchenNotifier = new KitchenNotifier();
+
             console.log("✅ Firebase initialized successfully");
         } catch (error) {
             console.error("❌ CRITICAL: Firebase Initialization failed.", error);
@@ -1778,8 +2099,38 @@
                             }
                         }
                     } else {
-                        userRole = 'customer';
-                        await setDoc(doc(db, "users", userId), { email: user.email, role: 'customer' });
+                        // NEW: Automatic Linking for Pre-created records
+                        // Search by email to see if a pre-created record exists
+                        const q = query(collection(db, "users"), where("email", "==", user.email), where("isPreCreated", "==", true));
+                        const preCreatedSnap = await getDocs(q);
+
+                        if (!preCreatedSnap.empty) {
+                            const preCreatedDoc = preCreatedSnap.docs[0];
+                            const preCreatedData = preCreatedDoc.data();
+
+                            // Create new authoritative doc at user.uid
+                            await setDoc(doc(db, "users", userId), {
+                                ...preCreatedData,
+                                uid: userId,
+                                isPreCreated: false, // Now it's a real user
+                                linkedAt: serverTimestamp()
+                            });
+
+                            // Delete the temporary pre-created doc
+                            await deleteDoc(preCreatedDoc.ref);
+
+                            userRole = preCreatedData.role || 'customer';
+                            currentUserShopId = preCreatedData.shopId || null;
+                            showAlert(`Welcome! Your staff account has been linked successfully.`, false);
+                        } else {
+                            userRole = 'customer';
+                            await setDoc(doc(db, "users", userId), {
+                                email: user.email,
+                                displayName: user.displayName || user.email.split('@')[0],
+                                role: 'customer',
+                                createdAt: serverTimestamp()
+                            });
+                        }
                     }
                 }
             } else {
@@ -3134,51 +3485,67 @@
         async function loadDeveloperPanel() {
             await loadAllShops();
             await loadAdminPanel();
-            document.getElementById('order-search-input').addEventListener('input', () => {
-                orderCurrentPage = 1;
-                orderFirstVisibleDoc = null;
-                orderLastVisibleDoc = null;
-                loadAllOrders('start');
-            });
-            document.getElementById('dev-menu-shop-select').addEventListener('change', (e) => {
-                const shopId = e.target.value;
-                if (shopId) {
-                    document.getElementById('dev-menu-manager-content').style.display = 'grid';
-                    renderDevMenuItemList(shopId);
-                } else {
-                    document.getElementById('dev-menu-manager-content').style.display = 'none';
-                    document.getElementById('dev-menu-item-list').innerHTML = '<p class="text-gray-500">Select a shop to see its menu.</p>';
-                }
-            });
-            document.getElementById('test-order-shop-select').addEventListener('change', (e) => {
-                renderTestMenuItems(e.target.value);
-            });
+            const orderSearchInput = document.getElementById('order-search-input-dev');
+            if (orderSearchInput) {
+                orderSearchInput.addEventListener('input', () => {
+                    orderCurrentPage = 1;
+                    orderFirstVisibleDoc = null;
+                    orderLastVisibleDoc = null;
+                    loadAllOrders('start');
+                });
+            }
+            const menuShopSelect = document.getElementById('dev-menu-shop-select');
+            if (menuShopSelect) {
+                menuShopSelect.addEventListener('change', (e) => {
+                    const shopId = e.target.value;
+                    const managerContent = document.getElementById('dev-menu-manager-content');
+                    if (shopId) {
+                        if (managerContent) managerContent.classList.remove('hidden');
+                        renderDevMenuItemList(shopId);
+                    } else {
+                        if (managerContent) managerContent.classList.add('hidden');
+                        const menuList = document.getElementById('dev-menu-item-list');
+                        if (menuList) menuList.innerHTML = '<p class="text-gray-500">Select a shop to see its menu.</p>';
+                    }
+                });
+            }
+            const testOrderShopSelect = document.getElementById('test-order-shop-select');
+            if (testOrderShopSelect) {
+                testOrderShopSelect.addEventListener('change', (e) => {
+                    renderTestMenuItems(e.target.value);
+                });
+            }
 
             document.querySelectorAll('#developer-view .sortable-header').forEach(header => {
                 header.addEventListener('click', handleUserSort);
             });
             updateDevSummary();
+            loadAllOrders('start');
         }
 
         async function updateDevSummary() {
             if (userRole !== 'developer') return;
             try {
-                document.getElementById('dev-summary-shops').textContent = allShops.length;
+                if (document.getElementById('summary-shops-count')) document.getElementById('summary-shops-count').textContent = allShops.length;
 
-                // Bug Fix: Filter out anonymous guests for better user count accuracy
-                const usersSnapshot = await getDocs(query(collection(db, "users"), where("email", "!=", DEVELOPER_EMAIL)));
-                document.getElementById('dev-summary-users').textContent = usersSnapshot.docs.filter(doc => doc.data().email).length; // Count users with emails
-
-                const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
-                const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
-                const ordersTodaySnapshot = await getDocs(query(collection(db, "orders"), where("createdAt", ">=", Timestamp.fromDate(todayStart)), where("createdAt", "<=", Timestamp.fromDate(todayEnd))));
-                document.getElementById('dev-summary-orders-today').textContent = ordersTodaySnapshot.size;
+                // Filter out anonymous guests for better user count accuracy
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const realUsers = usersSnapshot.docs.filter(doc => doc.data().email && doc.data().email !== DEVELOPER_EMAIL);
+                if (document.getElementById('summary-users-count')) document.getElementById('summary-users-count').textContent = realUsers.length;
 
                 const allOrdersSnapshot = await getDocs(collection(db, "orders"));
-                document.getElementById('dev-summary-orders-all').textContent = allOrdersSnapshot.size;
+                if (document.getElementById('summary-orders-count')) document.getElementById('summary-orders-count').textContent = allOrdersSnapshot.size;
 
+                if (document.getElementById('summary-firebase-status')) {
+                    document.getElementById('summary-firebase-status').textContent = 'CONNECTED';
+                    document.getElementById('summary-firebase-status').className = 'text-sm font-bold text-green-600';
+                }
             } catch (error) {
                 console.error("Error updating dev summary:", error);
+                if (document.getElementById('summary-firebase-status')) {
+                    document.getElementById('summary-firebase-status').textContent = 'ERROR';
+                    document.getElementById('summary-firebase-status').className = 'text-sm font-bold text-red-600';
+                }
             }
         }
 
@@ -3188,6 +3555,7 @@
             document.getElementById('dev-menu-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
             document.getElementById('test-order-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
             document.getElementById('dev-dashboard-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
+            document.getElementById('dev-staff-shop').innerHTML = `<option value="">-- Assign Shop --</option>${shopOptions}`;
         }
 
         async function renderDevShopList() {
@@ -3279,16 +3647,34 @@
             const name = document.getElementById('shop-name').value;
             const address = document.getElementById('shop-address').value;
             const image = document.getElementById('shop-image').value;
+            const phone = document.getElementById('shop-phone').value;
+            const lat = parseFloat(document.getElementById('shop-lat').value);
+            const lng = parseFloat(document.getElementById('shop-lng').value);
+
+            // Get Wait Time and Display Settings
+            const estimatedWaitTime = parseInt(document.getElementById('shop-wait-time').value) || 15;
+            const showWaitTime = document.getElementById('shop-show-wait').checked;
+            const showOrderQueue = document.getElementById('shop-show-queue').checked;
 
             // Get schedule data
             const openTime = document.getElementById('shop-open-time').value;
             const closeTime = document.getElementById('shop-close-time').value;
             const daysOpen = Array.from(document.querySelectorAll('input[name="shop-days"]:checked')).map(cb => cb.value);
+            const timePeriods = Array.from(document.querySelectorAll('input[name="shop-periods"]:checked')).map(cb => cb.value);
 
             const shopData = {
                 name,
                 address,
                 image: image || null,
+                phoneNumber: phone || null,
+                latitude: isNaN(lat) ? null : lat,
+                longitude: isNaN(lng) ? null : lng,
+                rating: 0.0,
+                ratingCount: 0,
+                estimatedWaitTime,
+                showWaitTime,
+                showOrderQueue,
+                createdAt: serverTimestamp(),
                 alarmSettings: {
                     kitchenNew: true,
                     kitchenReady: false,
@@ -3297,11 +3683,12 @@
             };
 
             // Add schedule if provided
-            if (openTime && closeTime) {
+            if (openTime || closeTime || daysOpen.length > 0 || timePeriods.length > 0) {
                 shopData.schedule = {
-                    openTime,
-                    closeTime,
-                    daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    openTime: openTime || "09:00",
+                    closeTime: closeTime || "21:00",
+                    daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    timePeriods: timePeriods
                 };
             }
 
@@ -3331,6 +3718,27 @@
             document.getElementById('edit-shop-name').value = shop.name || '';
             document.getElementById('edit-shop-address').value = shop.address || '';
             document.getElementById('edit-shop-image').value = shop.image || '';
+            document.getElementById('edit-shop-phone').value = shop.phoneNumber || '';
+            document.getElementById('edit-shop-lat').value = shop.latitude || '';
+            document.getElementById('edit-shop-lng').value = shop.longitude || '';
+            document.getElementById('edit-shop-wait-time').value = shop.estimatedWaitTime || 15;
+            document.getElementById('edit-shop-show-wait').checked = shop.showWaitTime !== false;
+            document.getElementById('edit-shop-show-queue').checked = shop.showOrderQueue === true;
+
+            // Set schedule values
+            const sched = shop.schedule || {};
+            document.getElementById('edit-shop-open-time').value = sched.openTime || '09:00';
+            document.getElementById('edit-shop-close-time').value = sched.closeTime || '21:00';
+
+            const days = sched.daysOpen || [];
+            document.querySelectorAll('input[name="edit-shop-days"]').forEach(cb => {
+                cb.checked = days.includes(cb.value);
+            });
+
+            const periods = sched.timePeriods || [];
+            document.querySelectorAll('input[name="edit-shop-periods"]').forEach(cb => {
+                cb.checked = periods.includes(cb.value);
+            });
 
             // Handle image preview
             const previewContainer = document.getElementById('edit-shop-image-preview');
@@ -3341,18 +3749,6 @@
             } else {
                 previewContainer.classList.add('hidden');
             }
-
-            // Populate schedule data
-            const schedule = shop.schedule || {};
-            document.getElementById('edit-shop-open-time').value = schedule.openTime || '';
-            document.getElementById('edit-shop-close-time').value = schedule.closeTime || '';
-
-            // Set checkboxes for operating days
-            const defaultDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            const daysOpen = schedule.daysOpen || defaultDays;
-            document.querySelectorAll('input[name="edit-shop-days"]').forEach(cb => {
-                cb.checked = daysOpen.includes(cb.value);
-            });
 
             // Populate alarm data
             const alarms = shop.alarmSettings || { kitchenNew: true, kitchenReady: false, deliveryReady: true };
@@ -3375,10 +3771,18 @@
 
             const name = document.getElementById('edit-shop-name').value.trim();
             const address = document.getElementById('edit-shop-address').value.trim();
-            const image = document.getElementById('edit-shop-image').value.trim();
+            const image = document.getElementById('edit-shop-image').value;
+            const phone = document.getElementById('edit-shop-phone').value;
+            const lat = parseFloat(document.getElementById('edit-shop-lat').value);
+            const lng = parseFloat(document.getElementById('edit-shop-lng').value);
+            const waitTime = parseInt(document.getElementById('edit-shop-wait-time').value) || 15;
+            const showWait = document.getElementById('edit-shop-show-wait').checked;
+            const showQueue = document.getElementById('edit-shop-show-queue').checked;
+
             const openTime = document.getElementById('edit-shop-open-time').value;
             const closeTime = document.getElementById('edit-shop-close-time').value;
             const daysOpen = Array.from(document.querySelectorAll('input[name="edit-shop-days"]:checked')).map(cb => cb.value);
+            const periods = Array.from(document.querySelectorAll('input[name="edit-shop-periods"]:checked')).map(cb => cb.value);
 
             if (!name) {
                 showAlert('Shop name is required.', true);
@@ -3391,27 +3795,34 @@
                 deliveryReady: document.getElementById('edit-alarm-delivery-ready').checked
             };
 
-            const shopData = {
+            const updates = {
                 name,
                 address: address || null,
                 image: image || null,
+                phoneNumber: phone || null,
+                latitude: isNaN(lat) ? null : lat,
+                longitude: isNaN(lng) ? null : lng,
+                estimatedWaitTime: waitTime,
+                showWaitTime: showWait,
+                showOrderQueue: showQueue,
                 alarmSettings
             };
 
             // Add schedule if provided
             if (openTime && closeTime) {
-                shopData.schedule = {
+                updates.schedule = {
                     openTime,
                     closeTime,
-                    daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    timePeriods: periods
                 };
             } else if (!openTime && !closeTime) {
                 // Clear schedule if both times are empty
-                shopData.schedule = null;
+                updates.schedule = null;
             }
 
             try {
-                await updateDoc(doc(db, "shops", shopId), shopData);
+                await updateDoc(doc(db, "shops", shopId), updates);
                 showAlert('Shop updated successfully!');
                 document.getElementById('edit-shop-modal').classList.add('hidden');
 
@@ -3455,60 +3866,72 @@
         // --- SCHEDULE MANAGEMENT ---
         function populateScheduleSelect() {
             const select = document.getElementById('schedule-shop-select');
+            if (!select) return; // Element doesn't exist
             select.innerHTML = '<option value="">-- Select Shop to Update Schedule --</option>' +
                 allShops.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
         }
 
-        document.getElementById('schedule-shop-select').addEventListener('change', async (e) => {
-            const shopId = e.target.value;
-            const editor = document.getElementById('schedule-editor');
+        const scheduleShopSelect = document.getElementById('schedule-shop-select');
+        if (scheduleShopSelect) {
+            scheduleShopSelect.addEventListener('change', async (e) => {
+                const shopId = e.target.value;
+                const editor = document.getElementById('schedule-editor');
 
-            if (!shopId) {
-                editor.classList.add('hidden');
-                return;
-            }
+                if (!shopId) {
+                    if (editor) editor.classList.add('hidden');
+                    return;
+                }
 
-            const shop = allShops.find(s => s.id === shopId);
-            if (shop) {
-                editor.classList.remove('hidden');
+                const shop = allShops.find(s => s.id === shopId);
+                if (shop && editor) {
+                    editor.classList.remove('hidden');
 
-                // Populate current schedule
-                const schedule = shop.schedule || {};
-                document.getElementById('edit-open-time').value = schedule.openTime || '';
-                document.getElementById('edit-close-time').value = schedule.closeTime || '';
+                    // Populate current schedule
+                    const schedule = shop.schedule || {};
+                    const editOpenTime = document.getElementById('edit-open-time');
+                    const editCloseTime = document.getElementById('edit-close-time');
+                    if (editOpenTime) editOpenTime.value = schedule.openTime || '';
+                    if (editCloseTime) editCloseTime.value = schedule.closeTime || '';
 
-                // Set checkboxes
-                document.querySelectorAll('input[name="edit-days"]').forEach(cb => {
-                    cb.checked = schedule.daysOpen ? schedule.daysOpen.includes(cb.value) : true;
-                });
-            }
-        });
+                    // Set checkboxes
+                    document.querySelectorAll('input[name="edit-days"]').forEach(cb => {
+                        cb.checked = schedule.daysOpen ? schedule.daysOpen.includes(cb.value) : true;
+                    });
+                }
+            });
+        }
 
-        document.getElementById('update-schedule-btn').addEventListener('click', async () => {
-            const shopId = document.getElementById('schedule-shop-select').value;
-            if (!shopId) return;
+        const updateScheduleBtn = document.getElementById('update-schedule-btn');
+        if (updateScheduleBtn) {
+            updateScheduleBtn.addEventListener('click', async () => {
+                const shopId = document.getElementById('schedule-shop-select')?.value;
+                if (!shopId) return;
 
-            const openTime = document.getElementById('edit-open-time').value;
-            const closeTime = document.getElementById('edit-close-time').value;
-            const daysOpen = Array.from(document.querySelectorAll('input[name="edit-days"]:checked')).map(cb => cb.value);
+                const openTime = document.getElementById('edit-open-time')?.value || '';
+                const closeTime = document.getElementById('edit-close-time')?.value || '';
+                const daysOpen = Array.from(document.querySelectorAll('input[name="edit-days"]:checked')).map(cb => cb.value);
 
-            try {
-                await updateDoc(doc(db, "shops", shopId), {
-                    schedule: {
-                        openTime,
-                        closeTime,
-                        daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                    }
-                });
-                showAlert('Schedule updated successfully!');
-                await loadAllShops();
-                document.getElementById('schedule-editor').classList.add('hidden');
-                document.getElementById('schedule-shop-select').value = '';
-            } catch (error) {
-                console.error("Error updating schedule: ", error);
-                showAlert("Failed to update schedule.", true);
-            }
-        });
+                try {
+                    await updateDoc(doc(db, "shops", shopId), {
+                        schedule: {
+                            openTime,
+                            closeTime,
+                            daysOpen: daysOpen.length > 0 ? daysOpen : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                        }
+                    });
+                    showAlert('Schedule updated successfully!');
+                    await loadAllShops();
+                    const scheduleEditor = document.getElementById('schedule-editor');
+                    const scheduleShopSelect = document.getElementById('schedule-shop-select');
+                    if (scheduleEditor) scheduleEditor.classList.add('hidden');
+                    if (scheduleShopSelect) scheduleShopSelect.value = '';
+                } catch (error) {
+                    console.error("Error updating schedule: ", error);
+                    showAlert("Failed to update schedule.", true);
+                }
+            });
+        }
+
 
         async function createMenuItem(e) {
             e.preventDefault();
@@ -3555,19 +3978,26 @@
 
         async function renderTestMenuItems(shopId) {
             const container = document.getElementById('test-menu-items');
+            const detailsSection = document.getElementById('test-order-details');
+
             if (!shopId) {
-                container.innerHTML = '<p class="text-gray-500 text-sm">Select a shop to see items.</p>';
+                if (detailsSection) detailsSection.classList.add('hidden');
+                if (container) container.innerHTML = '<p class="text-gray-500 text-xs">Select a shop to see items.</p>';
                 return;
             }
-            container.innerHTML = '<p class="text-gray-500 text-sm">Loading items...</p>';
+
+            // Show the details section
+            if (detailsSection) detailsSection.classList.remove('hidden');
+
+            if (container) container.innerHTML = '<p class="text-gray-500 text-xs">Loading items...</p>';
             const snapshot = await getDocs(query(collection(db, "menus"), where("shopId", "==", shopId)));
             const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             if (items.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-sm">No items for this shop.</p>';
+                if (container) container.innerHTML = '<p class="text-gray-500 text-xs">No items for this shop.</p>';
                 return;
             }
-            container.innerHTML = items.map(item => `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100"><input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}"><span class="text-sm">${item.name} (₹${item.price})</span></label>`).join('');
+            if (container) container.innerHTML = items.map(item => `<label class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100"><input type="checkbox" class="test-menu-checkbox" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}"><span class="text-sm">${item.name} (₹${item.price})</span></label>`).join('');
         }
 
         async function runSystemTests() {
@@ -3913,9 +4343,9 @@
                     // Logic remains mostly the same for button disabling
                     if (direction === 'prev' && orderCurrentPage > 1) {
                         // If no docs came back when going prev, we stay on the current page, so only prev is disabled
-                        prevOrdersBtn.disabled = true;
+                        if (prevOrdersBtn) prevOrdersBtn.disabled = true;
                     } else if (direction === 'next' && orderCurrentPage >= 1) {
-                        nextOrdersBtn.disabled = true;
+                        if (nextOrdersBtn) nextOrdersBtn.disabled = true;
                     } else {
                         orderFirstVisibleDoc = null; orderLastVisibleDoc = null;
                     }
@@ -3923,24 +4353,27 @@
 
                 renderAllOrdersList(docs);
 
-                prevOrdersBtn.disabled = orderCurrentPage <= 1;
+                if (prevOrdersBtn) prevOrdersBtn.disabled = orderCurrentPage <= 1;
                 // Note: The determination of the last page when moving forward is tricky with the startAfter/endBefore method 
                 // in real time listeners. We'll rely on the snapshot size being less than the limit for now.
-                nextOrdersBtn.disabled = docs.length < orderQueryLimit;
+                if (nextOrdersBtn) nextOrdersBtn.disabled = docs.length < orderQueryLimit;
 
-                orderPageInfoEl.textContent = `Page ${orderCurrentPage}`;
+                if (orderPageInfoEl) orderPageInfoEl.textContent = `Page ${orderCurrentPage}`;
 
             }, (error) => {
                 console.error("Error loading all orders:", error);
-                container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`;
-                prevOrdersBtn.disabled = true; nextOrdersBtn.disabled = true;
+                if (container) container.innerHTML = `<p class="text-red-500 text-center py-4">Error loading orders.</p>`;
+                if (prevOrdersBtn) prevOrdersBtn.disabled = true;
+                if (nextOrdersBtn) nextOrdersBtn.disabled = true;
             });
         }
 
         function renderAllOrdersList(docs) {
             const container = document.getElementById('all-orders-list');
-            const searchTerm = document.getElementById('order-search-input').value.trim().toLowerCase();
-            let filteredDocs = docs.filter(doc => !searchTerm || doc.data().customerName.toLowerCase().includes(searchTerm));
+            if (!container) return;
+            const searchInput = document.getElementById('order-search-input-dev');
+            const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            let filteredDocs = docs.filter(doc => !searchTerm || (doc.data().customerName || '').toLowerCase().includes(searchTerm));
 
             container.innerHTML = filteredDocs.length === 0
                 ? '<p class="text-gray-500 text-center py-4">No orders found for this filter/page.</p>'
@@ -4718,6 +5151,152 @@
             });
         });
 
+        // --- MAP PICKER LOGIC ---
+        let pickerMap, pickerMarker;
+        let targetLatInput, targetLngInput;
+
+        function initMapPicker() {
+            if (typeof google === 'undefined') {
+                showAlert('Google Maps SDK not loaded. Check your internet connection.', true);
+                return;
+            }
+            const delhi = { lat: 28.6139, lng: 77.2090 };
+            pickerMap = new google.maps.Map(document.getElementById("map-picker-container"), {
+                zoom: 13,
+                center: delhi,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: false
+            });
+
+            pickerMarker = new google.maps.Marker({
+                map: pickerMap,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+            });
+
+            pickerMap.addListener("click", (e) => {
+                updatePickerMarker(e.latLng);
+            });
+
+            pickerMarker.addListener("dragend", (e) => {
+                updatePickerCoordinates(e.latLng);
+            });
+        }
+
+        function updatePickerMarker(latLng) {
+            pickerMarker.setPosition(latLng);
+            updatePickerCoordinates(latLng);
+        }
+
+        function updatePickerCoordinates(latLng) {
+            document.getElementById('picked-lat').textContent = latLng.lat().toFixed(6);
+            document.getElementById('picked-lng').textContent = latLng.lng().toFixed(6);
+        }
+
+        // Expose to global scope for inline onclick handlers
+        window.openMapPicker = function openMapPicker(latId, lngId) {
+            targetLatInput = document.getElementById(latId);
+            targetLngInput = document.getElementById(lngId);
+
+            document.getElementById('map-picker-modal').classList.remove('hidden');
+
+            if (!pickerMap) {
+                initMapPicker();
+            }
+
+            if (!pickerMap) return; // SDK fail
+
+            const currentLat = parseFloat(targetLatInput.value);
+            const currentLng = parseFloat(targetLngInput.value);
+
+            if (!isNaN(currentLat) && !isNaN(currentLng)) {
+                const pos = { lat: currentLat, lng: currentLng };
+                pickerMap.setCenter(pos);
+                updatePickerMarker(new google.maps.LatLng(currentLat, currentLng));
+            } else if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const p = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    pickerMap.setCenter(p);
+                    updatePickerMarker(new google.maps.LatLng(p.lat, p.lng));
+                }, () => {
+                    // Fallback to default center if geolocation fails
+                    const p = pickerMap.getCenter();
+                    updatePickerMarker(p);
+                });
+            } else {
+                const p = pickerMap.getCenter();
+                updatePickerMarker(p);
+            }
+        }
+
+        if (document.getElementById('open-map-btn')) {
+            document.getElementById('open-map-btn').addEventListener('click', () => openMapPicker('shop-lat', 'shop-lng'));
+        }
+        if (document.getElementById('open-edit-map-picker-btn')) {
+            document.getElementById('open-edit-map-picker-btn').addEventListener('click', () => openMapPicker('edit-shop-lat', 'edit-shop-lng'));
+        }
+        document.getElementById('map-picker-close').addEventListener('click', () => document.getElementById('map-picker-modal').classList.add('hidden'));
+        document.getElementById('confirm-location-btn').addEventListener('click', () => {
+            const lat = document.getElementById('picked-lat').textContent;
+            const lng = document.getElementById('picked-lng').textContent;
+            if (lat !== '--' && targetLatInput && targetLngInput) {
+                targetLatInput.value = lat;
+                targetLngInput.value = lng;
+                document.getElementById('map-picker-modal').classList.add('hidden');
+            }
+        });
+
+        // --- STAFF RECORD PRE-CREATION ---
+        async function registerStaffRecord(e) {
+            e.preventDefault();
+            const name = document.getElementById('dev-staff-name').value.trim();
+            const email = document.getElementById('dev-staff-email').value.trim().toLowerCase();
+            const phone = document.getElementById('dev-staff-phone').value.trim();
+            const role = document.getElementById('dev-staff-role').value;
+            const shopId = document.getElementById('dev-staff-shop').value;
+
+            if (!shopId) return showAlert("Please assign a shop to the staff member.", true);
+
+            try {
+                // Check if a record already exists
+                // Optimization: We use getDocs for email check. Ensure users collection index is present for email.
+                const qResult = await getDocs(query(collection(db, "users"), where("email", "==", email)));
+                if (!qResult.empty) {
+                    return showAlert("A user with this email already exists. Use the Role Management table instead.", true);
+                }
+
+                const newStaffData = {
+                    displayName: name,
+                    email: email,
+                    phoneNumber: phone,
+                    role: role,
+                    shopId: shopId,
+                    shopIds: [shopId],
+                    isPreCreated: true, // Marker for setupUser to link
+                    isOnline: false,
+                    createdAt: serverTimestamp()
+                };
+
+                await addDoc(collection(db, "users"), newStaffData);
+
+                showAlert(`Staff record created for ${name}.`);
+                document.getElementById('dev-register-staff-form').reset();
+
+                // Refresh user list if visible
+                if (allUsersCache) {
+                    await loadAdminPanel();
+                }
+            } catch (error) {
+                console.error("Critical error creating staff record:", error);
+                let errMsg = "Failed to create staff record.";
+                if (error.code === 'permission-denied') errMsg = "Permission Denied: Ensure you have Developer access.";
+                showAlert(errMsg, true);
+            }
+        }
+
+        document.getElementById('dev-register-staff-form').addEventListener('submit', registerStaffRecord);
+
         // --- PWA Install Logic ---
         const installBtn = document.getElementById('install-app-btn');
 
@@ -4810,10 +5389,6 @@
             installBtn.classList.add('hidden');
         });
     </script>
-    <!-- <script src="./js/notify.js"></script> -->
-    <script src="imbajrangi.github.io/Company/Visual%20Studio%20Code/Projects/Cloud-Kitchen/js/notify.js"></script>
 </body>
-
-</html>
 
 </html>
