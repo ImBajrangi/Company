@@ -900,6 +900,8 @@ body:not(.dark-mode) .scroll-btn.right {
     justify-content: center;
     font-size: 18px;
     transition: all 0.3s ease;
+    z-index: 100;
+    /* Increased to ensure visibility over hero image */
 }
 
 .popup-close:hover {

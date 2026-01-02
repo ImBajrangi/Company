@@ -571,18 +571,22 @@ function initPopup() {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Initializing collection page...');
-    const dataLoaded = await loadCollectionsData();
 
+    // Initialize UI components immediately so they work without waiting for data
     initializeSearch();
     initializeTheme();
     initializeHeaderScroll();
     initializeHeaderBackground();
-    initializeSliders();
-    initPopup();
-    initializeHeroButtons();
+    initializeHeroButtons(); // Fix: Initialize hero buttons immediately
+    initPopup(); // Fix: Initialize popup events immediately
 
+    // Load data
+    const dataLoaded = await loadCollectionsData();
+
+    // Initialize data-dependent components
     if (dataLoaded && Object.keys(collectionsData).length > 0) {
         initializeCollections();
+        initializeSliders(); // Sliders depend on content being generated
         console.log('Collections loaded successfully');
     } else {
         const mainContent = document.querySelector('.main-content');
