@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
-        type="image/png">
+    <link rel="icon" href="/Vrindopnishad Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection Details - Vrindopnishad</title>
@@ -16,7 +15,7 @@
     <!-- FileSaver.js for saving files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <!-- Link Pop-up Checker Script -->
-    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/js/popup-checker.js"></script>
+    <script src="/Vrindopnishad Web/js/popup-checker.js"></script>
     <!-- <script src="/Vrindopnishad Web/js/popup-checker.js"></script> -->
 
     <style>
@@ -605,9 +604,9 @@
             font-weight: 600;
         }
 
-        /* Shopping Bag & Favorites Modal */
         .bag-modal,
-        .favorites-modal {
+        .favorites-modal,
+        .purchased-modal {
             position: fixed;
             top: 0;
             right: -100%;
@@ -624,7 +623,8 @@
         }
 
         .bag-modal.active,
-        .favorites-modal.active {
+        .favorites-modal.active,
+        .purchased-modal.active {
             right: 0;
         }
 
@@ -1022,13 +1022,14 @@
 <body>
 
     <!-- Pop-up Warning Banner -->
-    <div class="popup-warning" id="popup-warning">
+    <div class="popup-warning" id="popup-warning" onclick="event.stopPropagation()">
         <span>
             <i class="fas fa-exclamation-triangle"></i>
             <strong>Pop-up Blocked:</strong> To download your images, please <strong>allow pop-ups</strong> for this
             site in your browser settings.
         </span>
-        <button class="popup-warning-close" id="popup-warning-close" title="Dismiss">
+        <button class="popup-warning-close" id="popup-warning-close" title="Dismiss"
+            onclick="event.stopPropagation(); document.getElementById('popup-warning').style.display='none'; sessionStorage.setItem('popupWarningDismissed', 'true');">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -1043,6 +1044,9 @@
                 <a href="/Vrindopnishad Web/about code/main/about.html">About</a>
             </nav>
             <div class="header-actions">
+                <button class="action-btn" id="purchased-toggle" title="Purchased Items">
+                    <i class="fas fa-file-invoice"></i>
+                </button>
                 <button class="action-btn" id="search-toggle"><i class="fas fa-search"></i></button>
                 <button class="action-btn" id="like-toggle">
                     <i class="far fa-heart"></i>
@@ -1192,6 +1196,19 @@
         </div>
     </div>
 
+    <!-- Purchased Items Modal -->
+    <div class="purchased-modal" id="purchased-modal">
+        <div class="bag-header">
+            <h2 class="bag-title">Purchased Items</h2>
+            <button class="bag-close" id="purchased-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="bag-content" id="purchased-content">
+            <!-- Purchased items render here -->
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i> Added to bag
@@ -1261,7 +1278,15 @@
         // Shopping bag and favorites state
         let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        let purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || [];
+        // Purchased items state - standardizing as an object mapping id -> purchaseData
+        let purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
+        // If it was an array (from previous version), convert it to object
+        if (Array.isArray(purchasedItems)) {
+            const tempObj = {};
+            purchasedItems.forEach(id => { tempObj[id] = { date: new Date().toISOString(), paymentId: 'legacy' }; });
+            purchasedItems = tempObj;
+            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+        }
 
         // --- *** REMOVED hardcoded collectionsData. It will now be loaded from sessionStorage. *** ---
 
@@ -1341,7 +1366,7 @@
             console.log('Collection images:', collectionImages.length);
 
             // Check purchase status *before* rendering thumbnails
-            const isPurchased = purchasedItems.includes(item.id);
+            const isPurchased = purchasedItems && purchasedItems[item.id];
 
             // Set main image with loading state
             const mainImg = document.getElementById('main-image');
@@ -1599,44 +1624,20 @@
                 // Use FileSaver.js to trigger the download
                 // Sanitize filename: remove special characters, replace spaces with underscores
                 const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                saveAs(content, `Vrindopnishad_${safeTitle}.zip`);
-                showToast('Download started!');
-
+                saveAs(content, `${safeTitle}_collection.zip`);
+                showToast('Download started! 📁');
             } catch (error) {
-                console.error('Error creating zip file:', error);
-                showToast('An error occurred while creating the zip file.', 'error');
+                console.error('Error during download:', error);
 
-                // Fallback attempt: Try opening images in new tabs if zipping failed.
-                showToast('Zip failed. Attempting to open images in new tabs...', 'error');
-                let openedCount = 0;
-                item.images.forEach((img, index) => {
-                    // Stagger opening slightly
-                    setTimeout(() => {
-                        // Use the popup checker function if available
-                        if (typeof openWindowAndCheck === 'function' && openWindowAndCheck(img)) {
-                            openedCount++;
-                        } else {
-                            // Basic fallback if checker function is missing or fails
-                            const newWindow = window.open(img, '_blank');
-                            if (newWindow) openedCount++;
-                        }
-                        // Show final message after trying all images
-                        if (index === item.images.length - 1) {
-                            if (openedCount > 0) {
-                                showToast(`Opened ${openedCount} image(s). Please save them manually.`, 'info');
-                            } else {
-                                showToast('Could not open image tabs. Please check pop-up blocker.', 'error');
-                            }
-                        }
-                    }, index * 300);
-                });
-            } finally {
-                // Re-enable the download button regardless of success/failure
-                if (downloadBtn) {
-                    downloadBtn.disabled = false;
-                    // Optional: Reset button text if needed, e.g., back to "Download Collection"
-                    // downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download Collection'; 
+                // Show pop-up warning if likely blocked or other error
+                const warningBanner = document.getElementById('popup-warning');
+                if (warningBanner && sessionStorage.getItem('popupWarningDismissed') !== 'true') {
+                    warningBanner.style.display = 'flex';
                 }
+
+                showToast('Failed to prepare download. Please check your connection.', 'error');
+            } finally {
+                if (downloadBtn) downloadBtn.disabled = false;
             }
         }
 
@@ -1944,10 +1945,29 @@
             document.getElementById('bag-overlay').classList.toggle('active');
         }
 
+        function togglePurchased() {
+            const purchasedModal = document.getElementById('purchased-modal');
+            const overlay = document.getElementById('bag-overlay');
+            if (!purchasedModal || !overlay) return;
+
+            // Close other modals
+            document.getElementById('bag-modal').classList.remove('active');
+            document.getElementById('favorites-modal').classList.remove('active');
+
+            const isActive = purchasedModal.classList.toggle('active');
+            if (isActive) {
+                overlay.classList.add('active');
+                renderPurchased();
+            } else {
+                overlay.classList.remove('active');
+            }
+        }
+
         function toggleSearch() {
             const searchModal = document.getElementById('search-modal');
             const searchInput = document.getElementById('search-input');
-            if (!searchModal || !searchInput) return; // Add null checks
+            if (!searchModal || !searchInput) return;
+
             searchModal.classList.toggle('active');
 
             if (searchModal.classList.contains('active')) {
@@ -1955,32 +1975,30 @@
             } else {
                 searchInput.value = '';
                 const resultsEl = document.getElementById('search-results');
-                if (resultsEl) resultsEl.innerHTML = ''; // Add null check
+                if (resultsEl) resultsEl.innerHTML = '';
             }
         }
 
         function handleSearch(e) {
             const query = e.target.value.toLowerCase().trim();
             const resultsContainer = document.getElementById('search-results');
-            if (!resultsContainer) return; // Add null check
+            if (!resultsContainer) return;
 
             if (query.length < 2) {
                 resultsContainer.innerHTML = '';
                 return;
             }
 
-            // *** FIXED: Search from the 'allCollectionsData' in session storage
             const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
             if (!allCollectionsJson) {
                 console.warn('Cannot search: allCollectionsData not in sessionStorage.');
-                resultsContainer.innerHTML = '<p>Error loading search data.</p>'; // Inform user
+                resultsContainer.innerHTML = '<p>Error loading search data.</p>';
                 return;
             }
 
-            let allCollections;
             let allItems;
             try {
-                allCollections = JSON.parse(allCollectionsJson);
+                const allCollections = JSON.parse(allCollectionsJson);
                 allItems = Object.values(allCollections).flatMap(category => category.items || []);
             } catch (e) {
                 console.error("Failed to parse allCollectionsData for search", e);
@@ -1988,10 +2006,9 @@
                 return;
             }
 
-
             const results = allItems.filter(item =>
-                (item.title && item.title.toLowerCase().includes(query)) || // Check if title exists
-                (item.description && item.description.toLowerCase().includes(query)) || // Check if description exists
+                (item.title && item.title.toLowerCase().includes(query)) ||
+                (item.description && item.description.toLowerCase().includes(query)) ||
                 (item.tags && item.tags.some(tag => tag.toLowerCase().includes(query)))
             );
 
@@ -2014,13 +2031,9 @@
             }
         }
 
-        // UPDATED to handle event and set session storage
         function navigateToCollection(event, id) {
-            if (event) {
-                event.preventDefault(); // Stop default link behavior if event is passed
-            }
+            if (event) event.preventDefault();
 
-            // *** FIXED: Find item from the 'allCollectionsData' in session storage
             const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
             if (!allCollectionsJson) {
                 console.error('Cannot navigate: allCollectionsData not in sessionStorage.');
@@ -2028,10 +2041,9 @@
                 return;
             }
 
-            let allCollections;
             let allItems;
             try {
-                allCollections = JSON.parse(allCollectionsJson);
+                const allCollections = JSON.parse(allCollectionsJson);
                 allItems = Object.values(allCollections).flatMap(category => category.items || []);
             } catch (e) {
                 console.error("Failed to parse allCollectionsData for navigation", e);
@@ -2041,7 +2053,6 @@
 
             const itemToNav = allItems.find(item => item.id === id);
 
-            // IMPORTANT: Store it in session storage *before* navigating
             if (itemToNav) {
                 sessionStorage.setItem('collectionData', JSON.stringify(itemToNav));
             } else {
@@ -2050,16 +2061,13 @@
                 return;
             }
 
-            // Now navigate (forcing reload)
             window.location.href = `?id=${id}`;
-            // Consider using location.assign(`?id=${id}`) or location.reload() after setting href 
-            // if state isn't updating correctly on back/forward navigation.
         }
 
         function subscribeNewsletter(e) {
             e.preventDefault();
             const emailInput = e.target.querySelector('input');
-            if (emailInput) { // Add null check
+            if (emailInput) {
                 const email = emailInput.value;
                 showToast('Thanks for subscribing! 📧');
                 e.target.reset();
@@ -2069,11 +2077,11 @@
 
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
-            if (!toast) return; // Add null check
+            if (!toast) return;
 
             toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> ${message}`;
 
-            toast.classList.remove('error', 'info'); // Reset classes first
+            toast.classList.remove('error', 'info');
             if (type === 'error') {
                 toast.classList.add('error');
             } else if (type === 'info') {
@@ -2081,9 +2089,62 @@
             }
 
             toast.classList.add('show');
-            // Automatically hide after 3 seconds, or maybe longer for info/error
             const duration = type === 'success' ? 3000 : 5000;
             setTimeout(() => toast.classList.remove('show'), duration);
+        }
+
+        function renderPurchased() {
+            const purchasedContent = document.getElementById('purchased-content');
+            if (!purchasedContent) return;
+
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                purchasedContent.innerHTML = '<div class="empty-state"><p>Data not loaded. Please return to gallery.</p></div>';
+                return;
+            }
+
+            let allItems = [];
+            try {
+                const allCollections = JSON.parse(allCollectionsJson);
+                allItems = Object.values(allCollections).flatMap(category => category.items || []);
+            } catch (e) {
+                console.error("Error parsing allCollectionsData", e);
+            }
+
+            const purchasedIds = Object.keys(purchasedItems);
+
+            if (purchasedIds.length === 0) {
+                purchasedContent.innerHTML = `
+                    <div class="empty-state" style="text-align: center; padding: 40px 20px;">
+                        <i class="fas fa-file-invoice" style="font-size: 40px; color: var(--border-color); margin-bottom: 16px;"></i>
+                        <p>No purchased items yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            purchasedIds.forEach(id => {
+                const item = allItems.find(i => i.id === id);
+                if (item) {
+                    const purchaseData = purchasedItems[id];
+                    html += `
+                        <div class="bag-item">
+                            <img src="${item.image}" alt="${item.title}" class="bag-item-img">
+                            <div class="bag-item-info">
+                                <div class="bag-item-title">${item.title}</div>
+                                <div class="bag-item-price">${purchaseData.date ? new Date(purchaseData.date).toLocaleDateString() : 'Previous purchase'}</div>
+                                <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px; margin-top: 8px;"
+                                    onclick="downloadCollection(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${purchaseData.paymentId}')">
+                                    <i class="fas fa-download"></i> Download Again
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            purchasedContent.innerHTML = html;
         }
 
         // --- Checkout Function ---
@@ -2096,65 +2157,60 @@
             const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
             const tax = subtotal * 0.18;
             const total = subtotal + tax;
-            const totalInPaise = Math.round(total * 100); // Razorpay needs amount in paise
+            const totalInPaise = Math.round(total * 100);
 
             const options = {
-                "key": "rzp_test_RU9lPJQl5wqQFM", // User provided key - Use environment variables in production!
+                "key": "rzp_test_RU9lPJQl5wqQFM",
                 "amount": totalInPaise,
                 "currency": "INR",
                 "name": "Vrindopnishad",
                 "description": `Purchase of ${shoppingBag.length} Collection(s)`,
-                "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png", // Use a site logo perhaps
+                "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
                 "handler": function (response) {
                     console.log("Razorpay Response:", response);
                     showToast('Payment Successful! ✅ Preparing your download(s)...', 'info');
 
-                    // --- Download items and add to purchased list ---
                     const purchasedIds = shoppingBag.map(item => item.id);
 
-                    // Update purchasedItems (using ES5 compatible method to avoid spread syntax error)
-                    let combinedPurchases = purchasedItems.concat(purchasedIds);
-                    purchasedItems = combinedPurchases.filter((item, index) => combinedPurchases.indexOf(item) === index);
+                    purchasedIds.forEach(id => {
+                        purchasedItems[id] = {
+                            date: new Date().toISOString(),
+                            paymentId: response.razorpay_payment_id
+                        };
+                    });
 
                     localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
 
-                    // Download items one by one using the async function
                     shoppingBag.forEach((item, index) => {
-                        // Add a slight delay between starting downloads
                         setTimeout(async () => {
                             try {
                                 await downloadCollection(item, response.razorpay_payment_id);
                             } catch (downloadError) {
-                                console.error(`Error downloading ${item.title}:`, downloadError);
+                                console.error(`Error downloading ${item.title}: `, downloadError);
                                 showToast(`Error preparing download for ${item.title}.`, 'error');
                             }
-                        }, index * 1500); // Stagger downloads a bit more
+                        }, index * 1500);
                     });
 
-                    // Clear bag
                     shoppingBag = [];
                     updateBagCount();
                     renderBag();
 
-                    // Update button on current page if the current item was purchased
                     const currentId = getCollectionIdFromURL();
-                    if (purchasedIds.includes(currentId)) {
+                    if (purchasedIds.indexOf(currentId) !== -1) {
                         const currentItem = findCollection(currentId);
-                        if (currentItem) renderProduct(currentItem); // Re-render product to show "Purchased" / Download button
+                        if (currentItem) renderProduct(currentItem);
                     }
 
-                    // Close bag after a short delay to allow user to see success message
                     setTimeout(toggleBag, 1000);
                 },
                 "prefill": {
-                    // Ideally, get user details if they are logged in
                     "name": "Art Lover",
                     "email": "customer@example.com",
                     "contact": "9999999999"
                 },
                 "notes": {
-                    "item_ids": shoppingBag.map(item => item.id).join(','), // Pass item IDs
-                    "address": "Customer Address" // Example note
+                    "item_ids": shoppingBag.map(item => item.id).join(',')
                 },
                 "theme": {
                     "color": "#0071e3"
@@ -2165,7 +2221,6 @@
                 const rzp1 = new Razorpay(options);
                 rzp1.on('payment.failed', function (response) {
                     console.error("Razorpay Payment Failed:", response);
-                    // Provide more specific error feedback if possible
                     let message = 'Payment failed. Please try again.';
                     if (response.error && response.error.description) {
                         message = `Payment failed: ${response.error.description}`;
@@ -2180,10 +2235,9 @@
         }
 
         // --- Event listeners ---
-        // Use event delegation for dynamically added buttons like download
         document.querySelector('.action-buttons').addEventListener('click', (e) => {
-            const target = e.target.closest('button'); // Get the button element
-            if (!target) return; // Exit if click wasn't on a button
+            const target = e.target.closest('button');
+            if (!target) return;
 
             const id = getCollectionIdFromURL();
             const item = findCollection(id);
@@ -2194,15 +2248,12 @@
                 if (item) addToFavorites(item);
             } else if (target.id === 'download-collection') {
                 if (item) {
-                    // Get payment ID if stored (might need a better way to store/retrieve this post-purchase)
                     const paymentId = purchasedItems[item.id]?.paymentId || 'N/A (Previously Owned)';
                     downloadCollection(item, paymentId);
                 }
             }
         });
 
-
-        // Bag modal listeners (ensure elements exist before adding listeners)
         const bagToggle = document.getElementById('bag-toggle');
         const bagClose = document.getElementById('bag-close');
         const bagOverlay = document.getElementById('bag-overlay');
@@ -2212,15 +2263,12 @@
         if (bagClose) bagClose.addEventListener('click', toggleBag);
         if (bagOverlay) {
             bagOverlay.addEventListener('click', () => {
-                if (document.getElementById('bag-modal')?.classList.contains('active')) {
-                    toggleBag();
-                }
-                if (document.getElementById('favorites-modal')?.classList.contains('active')) {
-                    toggleFavorites();
-                }
+                if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
+                if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
+                if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
             });
         }
-        // Use event delegation for checkout button inside the dynamic footer
+
         if (bagFooter) {
             bagFooter.addEventListener('click', (e) => {
                 if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
@@ -2229,15 +2277,16 @@
             });
         }
 
-        // Favorites modal listeners (ensure elements exist)
         const likeToggle = document.getElementById('like-toggle');
         const favClose = document.getElementById('favorites-close');
-
         if (likeToggle) likeToggle.addEventListener('click', toggleFavorites);
         if (favClose) favClose.addEventListener('click', toggleFavorites);
 
+        const purchasedToggle = document.getElementById('purchased-toggle');
+        const purchasedClose = document.getElementById('purchased-close');
+        if (purchasedToggle) purchasedToggle.addEventListener('click', togglePurchased);
+        if (purchasedClose) purchasedClose.addEventListener('click', togglePurchased);
 
-        // Search modal listeners (ensure elements exist)
         const searchToggle = document.getElementById('search-toggle');
         const searchClose = document.getElementById('search-close');
         const searchModal = document.getElementById('search-modal');
@@ -2252,40 +2301,30 @@
         }
         if (searchInput) searchInput.addEventListener('input', handleSearch);
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                if (document.getElementById('search-modal')?.classList.contains('active')) {
-                    toggleSearch();
-                }
-                if (document.getElementById('bag-modal')?.classList.contains('active')) {
-                    toggleBag();
-                }
-                if (document.getElementById('favorites-modal')?.classList.contains('active')) {
-                    toggleFavorites();
-                }
+                if (document.getElementById('search-modal')?.classList.contains('active')) toggleSearch();
+                if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
+                if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
+                if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
             }
-            // MetaKey for Mac Cmd, CtrlKey for Win/Linux Ctrl
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
                 toggleSearch();
             }
         });
 
-        // Make functions globally accessible (needed for inline onclick handlers like removeFromBag)
         window.removeFromBag = removeFromBag;
         window.removeFromFavorites = removeFromFavorites;
         window.viewCollection = viewCollection;
         window.navigateToCollection = navigateToCollection;
         window.subscribeNewsletter = subscribeNewsletter;
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             console.log('=== Collection Details Page Initializing ===');
-            // Load state from localStorage first
             favorites = JSON.parse(localStorage.getItem('favorites')) || [];
             shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
-            purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || []; // Load purchased items
+            purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
 
             const id = getCollectionIdFromURL();
             if (!id) {
@@ -2299,84 +2338,62 @@
                         </a>
                     </div>
                 `;
-                // *** HIDE COUNT BADGES ON ERROR ***
-                const bagCountEl = document.getElementById('bag-count');
-                const likeCountEl = document.getElementById('like-count');
-                if (bagCountEl) bagCountEl.style.display = 'none';
-                if (likeCountEl) likeCountEl.style.display = 'none';
-                // *** END HIDE COUNT BADGES ***
-                return; // Stop execution
+                if (document.getElementById('bag-count')) document.getElementById('bag-count').style.display = 'none';
+                if (document.getElementById('like-count')) document.getElementById('like-count').style.display = 'none';
+                return;
             }
 
             console.log('Collection ID from URL:', id);
-
-            const item = findCollection(id); // Find item details from sessionStorage
+            const item = findCollection(id);
 
             if (item) {
                 renderProduct(item);
-                renderRelated(item); // Pass the full item object
+                renderRelated(item);
             } else {
                 console.error('Failed to load collection data from sessionStorage');
                 document.getElementById('product-container').innerHTML = `
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>Collection Not Found</h2>
                         <p>Sorry, we couldn't find the details for this collection. Please return to the gallery.</p>
-                        <a href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                        <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                     </div>
                 `;
-                // Clear potentially invalid related grid if item not found
                 const relatedGrid = document.getElementById('related-grid');
                 if (relatedGrid) relatedGrid.innerHTML = '';
             }
 
-            // Initial UI updates based on loaded state
             updateBagCount();
             updateLikeCount();
-            renderBag(); // Render bag contents
-            renderFavorites(); // Render favorites 
+            renderBag();
+            renderFavorites();
 
-            // Add event delegation for individual thumbnail downloads
             const thumbnailGrid = document.getElementById('thumbnail-grid');
             if (thumbnailGrid) {
                 thumbnailGrid.addEventListener('click', (e) => {
                     const downloadBtn = e.target.closest('.thumbnail-download-btn');
                     if (downloadBtn) {
-                        e.stopPropagation(); // Prevents the thumbnail-click (to change main image)
+                        e.stopPropagation();
                         const imgSrc = downloadBtn.dataset.imgSrc;
-
-                        // Use the checker function for single image download attempt
-                        if (openWindowAndCheck(imgSrc)) {
+                        if (typeof openWindowAndCheck === 'function' && openWindowAndCheck(imgSrc)) {
                             showToast('Opening image... Please right-click and save.');
                         } else {
-                            // If popup check fails, maybe offer direct download link?
-                            // Or rely on the main "Download Collection" button.
-                            showToast('Could not open image. Please check pop-up blocker or use "Download Collection" button.', 'error');
+                            showToast('Could not open image. Please check pop-up blocker.', 'error');
                         }
                     }
                 });
             }
 
-            // Pop-up warning logic
             const warningBanner = document.getElementById('popup-warning');
             const closeWarningBtn = document.getElementById('popup-warning-close');
             if (warningBanner && closeWarningBtn) {
-                // Check if popups are likely blocked (can be inaccurate)
-                setTimeout(() => { // Check after a delay
-                    if (localStorage.getItem('popupWarningDismissed') !== 'true') {
-                        const testPopup = window.open('about:blank', '_blank', 'width=1,height=1,left=0,top=0');
-                        if (!testPopup || testPopup.closed || typeof testPopup.closed == 'undefined') {
-                            warningBanner.style.display = 'flex'; // Show warning
-                        } else {
-                            testPopup.close(); // Close the test popup
-                        }
-                    }
-                }, 1000);
-
-                closeWarningBtn.addEventListener('click', () => {
+                closeWarningBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     warningBanner.style.display = 'none';
-                    localStorage.setItem('popupWarningDismissed', 'true'); // Remember dismissal for session
+                    sessionStorage.setItem('popupWarningDismissed', 'true');
+                    console.log('Popup warning dismissed by user.');
                 });
             }
 

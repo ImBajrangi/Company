@@ -5,7 +5,7 @@
  */
 function openWindowAndCheck(url) {
     const newWindow = window.open(url, '_blank');
-    
+
     // Check if the window failed to open
     if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
         // Pop-up was blocked
@@ -13,7 +13,7 @@ function openWindowAndCheck(url) {
         showPopupWarning();
         return false; // Indicate failure
     }
-    
+
     // Pop-up was successful
     if (newWindow) {
         newWindow.opener = null; // Security best practice
@@ -45,8 +45,11 @@ function hidePopupWarning() {
 // Add a listener to the close button *if* it exists
 // We'll wait for the DOM to load to be safe
 document.addEventListener('DOMContentLoaded', () => {
-     const closeBtn = document.getElementById('popup-warning-close');
-     if (closeBtn) {
-         closeBtn.addEventListener('click', hidePopupWarning);
-     }
+    const closeBtn = document.getElementById('popup-warning-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hidePopupWarning();
+        });
+    }
 });
