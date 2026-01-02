@@ -242,8 +242,13 @@ function generateCollectionItems(containerId, items) {
 
         container.appendChild(itemElement);
 
+        // Set background image immediately for faster perceived loading
+        itemElement.style.backgroundImage = `url('${item.image}')`;
+
         const img = new Image();
         img.src = item.image;
+        if (index < 5) img.fetchPriority = 'high'; // Prioritize visible items
+
         img.onload = () => itemElement.classList.remove('loading');
         img.onerror = () => {
             itemElement.classList.remove('loading');
@@ -618,13 +623,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (mainContent) {
             mainContent.innerHTML = `
                 <div style="text-align: center; padding: 2rem;">
-                    <h2>Error Loading Collections</h2>
-                    <p>Sorry, we couldn't load the collections data. Please try refreshing the page.</p>
-                    <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer;">
-                        Refresh Page
-                    </button>
+                    <h2>Unable to load collections</h2>
+                    <p>Please check your internet connection and try again.</p>
                 </div>
             `;
         }
+    }
+
+    // Hide loader when everything is ready (data + resources)
+    const hideLoader = () => {
+        if (window.VrindaLoader) {
+            setTimeout(() => {
+                window.VrindaLoader.hide();
+            }, 500);
+        }
+    };
+
+    if (document.readyState === 'complete') {
+        hideLoader();
+    } else {
+        window.addEventListener('load', hideLoader);
+        // Fallback safety timeout (max 10s)
+        setTimeout(hideLoader, 10000);
     }
 });

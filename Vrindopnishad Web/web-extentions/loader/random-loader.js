@@ -89,8 +89,11 @@
 
         // Hide when page is fully loaded (including images)
         window.addEventListener('load', () => {
-            // Small delay to ensure smooth animation
-            setTimeout(hideLoader, 300);
+            // Only auto-hide if manual mode is NOT enabled
+            if (!window.vrindaLoaderManualHide) {
+                // Small delay to ensure smooth animation
+                setTimeout(hideLoader, 300);
+            }
         });
     };
 
