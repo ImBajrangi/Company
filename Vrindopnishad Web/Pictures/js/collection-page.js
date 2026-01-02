@@ -1,6 +1,6 @@
 // Collection data - will be populated from JSON
 let collectionsData = {};
-const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
+const dataUrl = "/Vrindopnishad Web/class/json/collections_data.json";
 
 // Search functionality
 function initializeSearch() {
@@ -8,12 +8,12 @@ function initializeSearch() {
     const searchOverlay = document.querySelector('.search-overlay');
     const searchInput = document.querySelector('.search-input');
     const searchResults = document.querySelector('.search-results');
-    
+
     if (!searchToggle || !searchOverlay || !searchInput || !searchResults) {
         console.error('Search elements not found');
         return;
     }
-    
+
     let searchTimeout = null;
 
     function toggleSearch() {
@@ -26,7 +26,7 @@ function initializeSearch() {
     function handleSearch(e) {
         clearTimeout(searchTimeout);
         const query = e.target.value.toLowerCase();
-        
+
         searchTimeout = setTimeout(() => {
             if (query.length < 2) {
                 searchResults.innerHTML = '';
@@ -34,15 +34,15 @@ function initializeSearch() {
             }
 
             const results = Object.entries(collectionsData)
-                .flatMap(([category, items]) => 
-                    items.map(item => ({...item, category}))
+                .flatMap(([category, items]) =>
+                    items.map(item => ({ ...item, category }))
                 )
-                .filter(item => 
+                .filter(item =>
                     item.title.toLowerCase().includes(query) ||
                     item.description.toLowerCase().includes(query)
                 );
 
-            searchResults.innerHTML = results.length > 0 
+            searchResults.innerHTML = results.length > 0
                 ? results.map(item => `
                     <div class="search-result-item" data-category="${item.category}">
                         <h3>${item.title}</h3>
@@ -75,14 +75,14 @@ function initializeTheme() {
         console.error('Theme toggle not found');
         return;
     }
-    
+
     const icon = themeToggle.querySelector('i');
     const root = document.documentElement;
 
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-    
+
     document.body.classList.toggle('dark-mode', isDark);
     if (icon) {
         icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
@@ -120,7 +120,7 @@ function initializeHeaderBackground() {
     if (headerBgs.length === 0) {
         return;
     }
-    
+
     let currentBg = 0;
     setInterval(() => {
         if (headerBgs[currentBg]) {
@@ -139,12 +139,12 @@ function generateCollectionItems(containerId, items) {
         console.error(`Container ${containerId} not found`);
         return;
     }
-    
+
     if (!items || !Array.isArray(items) || items.length === 0) {
         container.innerHTML = '<p style="padding: 2rem; text-align: center;">No items available</p>';
         return;
     }
-    
+
     container.innerHTML = '';
 
     items.forEach((item, index) => {
@@ -153,7 +153,7 @@ function generateCollectionItems(containerId, items) {
         itemElement.setAttribute('data-category', item.category || '');
         itemElement.setAttribute('data-id', item.id || index);
         itemElement.style.backgroundImage = `url(${item.image})`;
-        
+
         itemElement.innerHTML = `
             <div class="item-content">
                 <h3 class="item-title">${item.title || 'Untitled'}</h3>
@@ -192,7 +192,7 @@ function generateCollectionItems(containerId, items) {
 function initializeHeaderScroll() {
     const header = document.getElementById('header');
     if (!header) return;
-    
+
     let lastScrollPosition = 0;
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
@@ -207,22 +207,22 @@ function initializeSliders() {
         const slider = container.querySelector('.items-slider');
         const leftBtn = container.querySelector('.scroll-btn.left');
         const rightBtn = container.querySelector('.scroll-btn.right');
-        
+
         if (!slider || !leftBtn || !rightBtn) return;
-        
+
         let isScrolling = false;
         const scrollAmount = slider.offsetWidth * 0.8;
-        
+
         const scroll = (direction) => {
             if (isScrolling) return;
             isScrolling = true;
             slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
             setTimeout(() => { isScrolling = false; }, 300);
         };
-        
+
         leftBtn.addEventListener('click', () => scroll(-1));
         rightBtn.addEventListener('click', () => scroll(1));
-        
+
         function updateButtonStates() {
             const isAtStart = slider.scrollLeft <= 0;
             const isAtEnd = slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth);
@@ -231,7 +231,7 @@ function initializeSliders() {
             leftBtn.disabled = isAtStart;
             rightBtn.disabled = isAtEnd;
         }
-        
+
         updateButtonStates();
         slider.addEventListener('scroll', updateButtonStates);
         window.addEventListener('resize', updateButtonStates);
@@ -245,11 +245,11 @@ async function loadCollectionsData() {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         collectionsData = data.collections || data;
-        
+
         if (data.heroSection) updateHeroSection(data.heroSection);
         if (data.siteConfig) updateSiteConfig(data.siteConfig);
         if (data.navigation) updateNavigation(data.navigation);
-        
+
         return true;
     } catch (error) {
         console.error('Error loading collections data:', error);
@@ -262,7 +262,7 @@ function updateHeroSection(heroData) {
     const heroSection = document.querySelector('.hero-section');
     const heroTitle = document.querySelector('.hero-title');
     const heroDescription = document.querySelector('.hero-description');
-    
+
     if (heroData.backgroundImage && heroSection) {
         heroSection.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%), url('${heroData.backgroundImage}')`;
     }
@@ -273,7 +273,7 @@ function updateHeroSection(heroData) {
 function updateSiteConfig(config) {
     const siteName = document.querySelector('.logo h1');
     const siteIcon = document.querySelector('.logo i');
-    
+
     if (siteName) siteName.textContent = config.siteName;
     if (siteIcon) siteIcon.className = config.siteIcon;
     if (config.siteName) document.title = config.siteName + ' - Collection';
@@ -289,7 +289,7 @@ function updateNavigation(navItems) {
 function openPopup(item) {
     const modal = document.getElementById('popup-modal');
     const hero = document.getElementById('popup-hero');
-    
+
     // ... inside the openPopup function
     // const viewCollectionBtn = modal.querySelector('.popup-btn-primary');
     if (viewCollectionBtn) {
@@ -309,9 +309,9 @@ function openPopup(item) {
         console.error('Popup elements not found');
         return;
     }
-    
+
     hero.style.backgroundImage = `url(${item.image})`;
-    
+
     const
         popupTitle = document.querySelector('.popup-title'),
         popupRating = document.querySelector('.popup-rating span'),
@@ -328,13 +328,13 @@ function openPopup(item) {
     if (popupCount) popupCount.textContent = `${item.count || item.itemCount || 0} items`;
     if (popupCategory) popupCategory.textContent = item.category || 'Collection';
     if (popupDescription) popupDescription.textContent = item.description || 'No description available';
-    
+
     if (statNumbers.length >= 3) {
         statNumbers[0].textContent = item.count || item.itemCount || 0;
         statNumbers[1].textContent = item.views ? formatNumber(item.views) : '0';
         statNumbers[2].textContent = Math.floor(Math.random() * 1000);
     }
-    
+
     // Logic for the "View Collection" button
     if (viewCollectionBtn) {
         const newBtn = viewCollectionBtn.cloneNode(true);
@@ -348,7 +348,7 @@ function openPopup(item) {
             }
         });
     }
-    
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -370,7 +370,7 @@ function formatNumber(num) {
 function initPopup() {
     const closeBtn = document.getElementById('popup-close');
     const modal = document.getElementById('popup-modal');
-    
+
     if (closeBtn) closeBtn.addEventListener('click', closePopup);
     if (modal) modal.addEventListener('click', (e) => e.target === modal && closePopup());
     document.addEventListener('keydown', (e) => e.key === 'Escape' && closePopup());
@@ -379,14 +379,14 @@ function initPopup() {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     const dataLoaded = await loadCollectionsData();
-    
+
     initializeSearch();
     initializeTheme();
     initializeHeaderScroll();
     initializeHeaderBackground();
     initializeSliders();
     initPopup();
-    
+
     if (dataLoaded && Object.keys(collectionsData).length > 0) {
         initializeCollections();
     } else {

@@ -1,4 +1,5 @@
-const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/images.json";
+// Using relative path to avoid CORS issues when accessed from custom domain (vrindopnishad.in)
+const dataUrl = "/Vrindopnishad Web/class/json/images.json";
 
 // Initialize touch interactions for mobile/tablet
 function initializeTouchInteractions() {
