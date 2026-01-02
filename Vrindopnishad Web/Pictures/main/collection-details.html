@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection Details - Vrindopnishad</title>
@@ -1035,12 +1036,11 @@
     <!-- Header -->
     <header class="main-header">
         <div class="header-content">
-            <a href="https://imbajrangi.github.io/Company/" class="logo">Vrindopnishad</a>
+            <a href="/" class="logo">Vrindopnishad</a>
             <nav class="main-nav">
-                <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
-                <a
-                    href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Collections</a>
-                <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a>
+                <a href="/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
+                <a href="/Vrindopnishad Web/Pictures/main/pictures.html">Collections</a>
+                <a href="/Vrindopnishad Web/about code/main/about.html">About</a>
             </nav>
             <div class="header-actions">
                 <button class="action-btn" id="search-toggle"><i class="fas fa-search"></i></button>
@@ -1368,7 +1368,7 @@
 
                 return `
                     <div class="thumbnail ${index === 0 ? 'active' : ''} loading" data-image="${img}" data-index="${index}">
-                        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${img}" alt="View ${index + 1}">
+                        <img src="${img}" alt="View ${index + 1}">
                         ${downloadBtnHTML} 
                     </div>
                 `;
@@ -1705,7 +1705,7 @@
 
             grid.innerHTML = related.map(item => `
                 <a href="?id=${item.id}" class="related-card" onclick="navigateToCollection(event, '${item.id}')">
-                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${item.image}" alt="${item.title}">
+                    <img src="${item.image}" alt="${item.title}">
                     <div class="related-info">
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
@@ -1790,7 +1790,7 @@
                 <div>
                     ${shoppingBag.map((item, index) => `
                         <div class="bag-item">
-                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${item.image}" alt="${item.title}" class="bag-item-image">
+                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
                             <div class="bag-item-info">
                                 <div class="bag-item-title">${item.title}</div>
                                 <div class="bag-item-desc">${item.description.substring(0, 50)}...</div>
@@ -1910,7 +1910,7 @@
                 <div>
                     ${favorites.map((item, index) => `
                         <div class="bag-item">
-                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/${item.image}" alt="${item.title}" class="bag-item-image">
+                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
                             <div class="bag-item-info">
                                 <div class="bag-item-title">${item.title}</div>
                                 <div class="bag-item-desc">${item.description.substring(0, 50)}...</div>
@@ -2104,7 +2104,7 @@
                 "currency": "INR",
                 "name": "Vrindopnishad",
                 "description": `Purchase of ${shoppingBag.length} Collection(s)`,
-                "image": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png", // Use a site logo perhaps
+                "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png", // Use a site logo perhaps
                 "handler": function (response) {
                     console.log("Razorpay Response:", response);
                     showToast('Payment Successful! ✅ Preparing your download(s)...', 'info');
@@ -2294,7 +2294,7 @@
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>No Collection Specified</h2>
                         <p>Please return to the gallery and select a collection.</p>
-                        <a href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                        <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                     </div>

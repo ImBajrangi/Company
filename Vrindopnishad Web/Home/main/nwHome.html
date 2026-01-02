@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-load-bundle="home">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#8E7F7F">
     <title>Vrindopnishad</title>
-    
+
     <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
@@ -23,772 +25,779 @@
     <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
-    
+
     <!-- Resource Management System -->
     <!-- <script src="/web-extentions/links/universal-linker.js"></script> -->
     <!-- <script src="/Vrindopnishad Web/js/universal resourse linker.js"></script> -->
     <!-- <script src="/web-extentions/links/project-config.js"></script> -->
-    
+
     <!-- Menu Styles -->
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/hamburger.css">
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/menu.css">
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/cloude.css">
-    
+
 </head>
+
 <body>
-    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload lazyload></script>
+    <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/linkme.js" preload
+        lazyload></script>
     <script>
         loadPageAssets('index')
     </script>
 </body>
 <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    :root {
+        --bg-color: #ffffff;
+        --bg-color-rgb: 255, 255, 255;
+        --text-color: #111111;
+        --text-color-rgb: 17, 17, 17;
+        --accent-color: #56544aed;
+        --accent-color-rgb: 86, 84, 74;
+        --secondary-color: #025b5e;
+        --menu-bg: rgba(255, 255, 255, 0.98);
+        --transition-smooth: cubic-bezier(0.77, 0, 0.175, 1);
+        --transition-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        --spacing-md: 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
         :root {
-            --bg-color: #ffffff;
-            --bg-color-rgb: 255, 255, 255;
-            --text-color: #111111;
-            --text-color-rgb: 17, 17, 17;
-            --accent-color: #56544aed;
-            --accent-color-rgb: 86, 84, 74;
-            --secondary-color: #025b5e;
-            --menu-bg: rgba(255, 255, 255, 0.98);
-            --transition-smooth: cubic-bezier(0.77, 0, 0.175, 1);
-            --transition-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
-            --spacing-md: 1rem;
+            --bg-color: #111111;
+            --bg-color-rgb: 17, 17, 17;
+            --text-color: #f5f5f5;
+            --text-color-rgb: 245, 245, 245;
+            --accent-color: #f5f5f5;
+            --accent-color-rgb: 245, 245, 245;
+            --secondary-color: #bfbfac;
+            --menu-bg: rgba(17, 17, 17, 0.98);
         }
+    }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #111111;
-                --bg-color-rgb: 17, 17, 17;
-                --text-color: #f5f5f5;
-                --text-color-rgb: 245, 245, 245;
-                --accent-color: #f5f5f5;
-                --accent-color-rgb: 245, 245, 245;
-                --secondary-color: #bfbfac;
-                --menu-bg: rgba(17, 17, 17, 0.98);
-            }
-        }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        min-height: 200vh;
+        padding-top: 80px;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            min-height: 200vh;
-            padding-top: 80px;
-        }
-
-        /* ========================================
+    /* ========================================
            HEADER - Z-INDEX: 100
            ======================================== */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--spacing-md) 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            transition: all 0.3s var(--transition-smooth);
-            background-color: rgba(var(--bg-color-rgb), 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
-        }
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md) 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        transition: all 0.3s var(--transition-smooth);
+        background-color: rgba(var(--bg-color-rgb), 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
+    }
 
-        header.scrolled {
-            padding: 0.8rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
+    header.scrolled {
+        padding: 0.8rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-color);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-            z-index: 1;
-        }
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+        z-index: 1;
+    }
 
-        /* ========================================
+    /* ========================================
            HEADER RIGHT CONTAINER - Z-INDEX: 101
            ======================================== */
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            z-index: 101;
-        }
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 101;
+    }
 
-        /* ========================================
+    /* ========================================
            TOOLS ICON - Z-INDEX: inherit from parent
            ======================================== */
-        .tools-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background-color: rgba(var(--text-color-rgb), 0.12);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(var(--text-color-rgb), 0.08);
-        }
+    .tools-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background-color: rgba(var(--text-color-rgb), 0.12);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(var(--text-color-rgb), 0.08);
+    }
 
-        .tools-icon:hover {
-            background-color: rgba(var(--text-color-rgb), 0.18);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
+    .tools-icon:hover {
+        background-color: rgba(var(--text-color-rgb), 0.18);
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-        .tools-icon svg {
-            width: 22px;
-            height: 22px;
-            color: var(--text-color);
-            transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6), color 0.3s ease;
-        }
+    .tools-icon svg {
+        width: 22px;
+        height: 22px;
+        color: var(--text-color);
+        transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6), color 0.3s ease;
+    }
 
-        .tools-icon:hover svg {
-            transform: rotate(90deg);
-            color: var(--accent-color);
-        }
+    .tools-icon:hover svg {
+        transform: rotate(90deg);
+        color: var(--accent-color);
+    }
 
-        /* ========================================
+    /* ========================================
            HAMBURGER MENU BUTTON - Z-INDEX: inherit from parent
            ======================================== */
-        .menu {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            margin: 0;
-            outline: none;
-            position: relative;
-            border: none;
-            background: rgba(var(--text-color-rgb), 0.12);
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-            -webkit-tap-highlight-color: transparent;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
+    .menu {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        position: relative;
+        border: none;
+        background: rgba(var(--text-color-rgb), 0.12);
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
 
-        .menu:hover {
-            background: rgba(var(--text-color-rgb), 0.18);
-            transform: scale(1.05);
-        }
+    .menu:hover {
+        background: rgba(var(--text-color-rgb), 0.18);
+        transform: scale(1.05);
+    }
 
-        .menu svg {
-            width: 52px;
-            height: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            stroke: var(--text-color);
-            stroke-width: 4px;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
-            display: block;
-            pointer-events: none;
-        }
+    .menu svg {
+        width: 52px;
+        height: 40px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        stroke: var(--text-color);
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        display: block;
+        pointer-events: none;
+    }
 
-        .menu svg path {
-            transition: stroke-dasharray var(--duration, .85s) var(--easing, ease) var(--delay, 0s),
-                        stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
-            stroke-dasharray: var(--array-1, 26px) var(--array-2, 100px);
-            stroke-dashoffset: var(--offset, 126px);
-            transform: translateZ(0);
-        }
+    .menu svg path {
+        transition: stroke-dasharray var(--duration, .85s) var(--easing, ease) var(--delay, 0s),
+            stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
+        stroke-dasharray: var(--array-1, 26px) var(--array-2, 100px);
+        stroke-dashoffset: var(--offset, 126px);
+        transform: translateZ(0);
+    }
 
-        .menu svg path:nth-child(2) {
-            --duration: .7s;
-            --easing: ease-in;
-            --offset: 100px;
-            --array-2: 74px;
-        }
+    .menu svg path:nth-child(2) {
+        --duration: .7s;
+        --easing: ease-in;
+        --offset: 100px;
+        --array-2: 74px;
+    }
 
-        .menu svg path:nth-child(3) {
-            --offset: 133px;
-            --array-2: 107px;
-        }
+    .menu svg path:nth-child(3) {
+        --offset: 133px;
+        --array-2: 107px;
+    }
 
-        .menu.active svg path {
-            --offset: 57px;
-        }
+    .menu.active svg path {
+        --offset: 57px;
+    }
 
-        .menu.active svg path:nth-child(1),
-        .menu.active svg path:nth-child(3) {
-            --delay: .15s;
-            --easing: cubic-bezier(.2, .4, .2, 1.1);
-        }
+    .menu.active svg path:nth-child(1),
+    .menu.active svg path:nth-child(3) {
+        --delay: .15s;
+        --easing: cubic-bezier(.2, .4, .2, 1.1);
+    }
 
-        .menu.active svg path:nth-child(2) {
-            --duration: .4s;
-            --offset: 2px;
-            --array-1: 1px;
-        }
+    .menu.active svg path:nth-child(2) {
+        --duration: .4s;
+        --offset: 2px;
+        --array-1: 1px;
+    }
 
-        .menu.active svg path:nth-child(3) {
-            --offset: 58px;
-        }
+    .menu.active svg path:nth-child(3) {
+        --offset: 58px;
+    }
 
-        /* ========================================
+    /* ========================================
            MENU OVERLAY - Z-INDEX: 90
            ======================================== */
-        .menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 90;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: all 0.4s ease;
-        }
+    .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 90;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0.4s ease;
+    }
 
-        .menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
+    .menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
 
-        /* ========================================
+    /* ========================================
            MOBILE NAVIGATION - Z-INDEX: 95
            ======================================== */
-        nav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            max-width: 420px;
-            height: 100vh;
-            background: var(--menu-bg);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            padding: 6rem 2.5rem 2rem;
-            z-index: 95;
-            transition: right 0.5s var(--transition-smooth);
-            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
-            overflow-y: auto;
-            overscroll-behavior: contain;
-        }
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        max-width: 420px;
+        height: 100vh;
+        background: var(--menu-bg);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        padding: 6rem 2.5rem 2rem;
+        z-index: 95;
+        transition: right 0.5s var(--transition-smooth);
+        box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
 
-        nav.active {
-            right: 0;
-        }
+    nav.active {
+        right: 0;
+    }
 
-        /* Gradient decoration - only visible on mobile when menu is active */
-        nav::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(180deg, 
-                rgba(var(--accent-color-rgb), 0.05) 0%, 
+    /* Gradient decoration - only visible on mobile when menu is active */
+    nav::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(180deg,
+                rgba(var(--accent-color-rgb), 0.05) 0%,
                 transparent 100%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
 
-        nav.active::before {
+    nav.active::before {
+        opacity: 1;
+    }
+
+    /* Nav Header */
+    .nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid rgba(var(--text-color-rgb), 0.08);
+        position: relative;
+    }
+
+    .nav-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-color);
+        letter-spacing: -0.5px;
+        position: relative;
+    }
+
+    .nav-logo::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-color), transparent);
+        border-radius: 2px;
+    }
+
+    /* Close Button */
+    .nav-close {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        position: relative;
+        border: none;
+        background: rgba(var(--text-color-rgb), 0.08);
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .nav-close:hover {
+        background: rgba(var(--text-color-rgb), 0.15);
+        transform: scale(1.05);
+    }
+
+    .nav-close svg {
+        width: 64px;
+        height: 48px;
+        top: -6px;
+        left: -14px;
+        stroke: var(--text-color);
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        display: block;
+        position: absolute;
+        pointer-events: none;
+        transform: rotate(180deg);
+    }
+
+    /* Nav Links */
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    nav li {
+        margin-bottom: 1rem;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    nav.active li:nth-child(1) {
+        animation: slideIn 0.3s ease forwards 0.1s;
+    }
+
+    nav.active li:nth-child(2) {
+        animation: slideIn 0.3s ease forwards 0.15s;
+    }
+
+    nav.active li:nth-child(3) {
+        animation: slideIn 0.3s ease forwards 0.2s;
+    }
+
+    nav.active li:nth-child(4) {
+        animation: slideIn 0.3s ease forwards 0.25s;
+    }
+
+    nav.active li:nth-child(5) {
+        animation: slideIn 0.3s ease forwards 0.3s;
+    }
+
+    @keyframes slideIn {
+        to {
             opacity: 1;
+            transform: translateX(0);
         }
+    }
 
-        /* Nav Header */
-        .nav-header {
+    nav a {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-weight: 500;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    nav a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(180deg, var(--accent-color), var(--secondary-color));
+        transform: scaleY(0);
+        transition: transform 0.3s var(--transition-bounce);
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg,
+                rgba(var(--accent-color-rgb), 0.1) 0%,
+                transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+        color: var(--accent-color);
+        transform: translateX(8px);
+        background: rgba(var(--accent-color-rgb), 0.05);
+    }
+
+    nav a:hover::before,
+    nav a.active::before {
+        transform: scaleY(1);
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+        opacity: 1;
+    }
+
+    /* ========================================
+           DESKTOP NAVIGATION
+           ======================================== */
+    .main-nav {
+        display: none;
+    }
+
+    /* ========================================
+           TOOLS MENU - Z-INDEX: 999
+           ======================================== */
+    .tools-menu {
+        position: fixed;
+        inset: 0;
+        background: var(--bg-color);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        overflow-y: auto;
+        transition: all 0.4s ease;
+    }
+
+    .tools-menu.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .tools-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem;
+        border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
+        position: sticky;
+        top: 0;
+        background: var(--bg-color);
+        z-index: 10;
+    }
+
+    .tools-menu-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+
+    .tools-menu-close {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(var(--text-color-rgb), 0.1);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .tools-menu-close:hover {
+        background: rgba(var(--text-color-rgb), 0.2);
+        transform: scale(1.05);
+    }
+
+    .tools-menu-close svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--text-color);
+    }
+
+    .tools-menu-content {
+        padding: 2rem;
+    }
+
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .tool-item {
+        position: relative;
+        padding: 2rem;
+        border-radius: 16px;
+        background: rgba(var(--text-color-rgb), 0.05);
+        border: 1px solid rgba(var(--text-color-rgb), 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .tool-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .tool-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1rem;
+    }
+
+    .tool-icon svg {
+        width: 100%;
+        height: 100%;
+        stroke: var(--text-color);
+        transition: all 0.3s ease;
+    }
+
+    .tool-info h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .tool-info p {
+        font-size: 0.9rem;
+        opacity: 0.7;
+        color: var(--text-color);
+    }
+
+    .tool-link {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    /* Prevent body scroll when menu is open */
+    body.menu-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
+    body.tools-menu-open {
+        overflow: hidden;
+    }
+
+    /* ========================================
+           DESKTOP STYLES - CRITICAL FIX
+           ======================================== */
+    @media (min-width: 769px) {
+        .main-nav {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid rgba(var(--text-color-rgb), 0.08);
-            position: relative;
         }
 
-        .nav-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .main-nav a {
             color: var(--text-color);
-            letter-spacing: -0.5px;
+            text-decoration: none;
+            font-weight: 500;
             position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
         }
 
-        .nav-logo::after {
+        .main-nav a::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: 0;
             left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            width: 100%;
+        }
+
+        /* HIDE mobile menu elements on desktop */
+        .menu {
+            display: none !important;
+        }
+
+        .menu-overlay {
+            display: none !important;
+        }
+
+        /* Force hide mobile nav on desktop */
+        nav {
+            display: none !important;
+        }
+
+        /* Remove gradient completely on desktop */
+        nav::before {
+            display: none !important;
+        }
+    }
+
+    /* ========================================
+           MOBILE SPECIFIC STYLES
+           ======================================== */
+    @media (max-width: 768px) {
+        header {
+            padding: 1rem;
+        }
+
+        .menu,
+        .tools-icon {
             width: 40px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-color), transparent);
-            border-radius: 2px;
+            height: 40px;
         }
 
-        /* Close Button */
-        .nav-close {
-            width: 36px;
-            height: 36px;
-            padding: 0;
-            margin: 0;
-            outline: none;
-            position: relative;
-            border: none;
-            background: rgba(var(--text-color-rgb), 0.08);
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-            -webkit-tap-highlight-color: transparent;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        nav {
+            max-width: 90%;
         }
 
-        .nav-close:hover {
-            background: rgba(var(--text-color-rgb), 0.15);
-            transform: scale(1.05);
+        .main-nav {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+
+        .menu,
+        .tools-icon {
+            width: 38px;
+            height: 38px;
         }
 
-        .nav-close svg {
-            width: 64px;
-            height: 48px;
-            top: -6px;
-            left: -14px;
-            stroke: var(--text-color);
-            stroke-width: 4px;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
-            display: block;
-            position: absolute;
-            pointer-events: none;
-            transform: rotate(180deg);
-        }
-
-        /* Nav Links */
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        nav li {
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        nav.active li:nth-child(1) { 
-            animation: slideIn 0.3s ease forwards 0.1s;
-        }
-        nav.active li:nth-child(2) { 
-            animation: slideIn 0.3s ease forwards 0.15s;
-        }
-        nav.active li:nth-child(3) { 
-            animation: slideIn 0.3s ease forwards 0.2s;
-        }
-        nav.active li:nth-child(4) { 
-            animation: slideIn 0.3s ease forwards 0.25s;
-        }
-        nav.active li:nth-child(5) { 
-            animation: slideIn 0.3s ease forwards 0.3s;
-        }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        nav {
+            max-width: 95%;
         }
 
         nav a {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 500;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        nav a::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(180deg, var(--accent-color), var(--secondary-color));
-            transform: scaleY(0);
-            transition: transform 0.3s var(--transition-bounce);
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, 
-                rgba(var(--accent-color-rgb), 0.1) 0%, 
-                transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: var(--accent-color);
-            transform: translateX(8px);
-            background: rgba(var(--accent-color-rgb), 0.05);
-        }
-
-        nav a:hover::before,
-        nav a.active::before {
-            transform: scaleY(1);
-        }
-
-        nav a:hover::after,
-        nav a.active::after {
-            opacity: 1;
-        }
-
-        /* ========================================
-           DESKTOP NAVIGATION
-           ======================================== */
-        .main-nav {
-            display: none;
-        }
-
-        /* ========================================
-           TOOLS MENU - Z-INDEX: 999
-           ======================================== */
-        .tools-menu {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-color);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            overflow-y: auto;
-            transition: all 0.4s ease;
-        }
-
-        .tools-menu.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        .tools-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem;
-            border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
-            position: sticky;
-            top: 0;
-            background: var(--bg-color);
-            z-index: 10;
-        }
-
-        .tools-menu-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-color);
-        }
-
-        .tools-menu-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(var(--text-color-rgb), 0.1);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .tools-menu-close:hover {
-            background: rgba(var(--text-color-rgb), 0.2);
-            transform: scale(1.05);
-        }
-
-        .tools-menu-close svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--text-color);
-        }
-
-        .tools-menu-content {
-            padding: 2rem;
+            font-size: 1.1rem;
+            padding: 0.9rem 1.2rem;
         }
 
         .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: 1fr;
         }
+    }
 
-        .tool-item {
-            position: relative;
-            padding: 2rem;
-            border-radius: 16px;
-            background: rgba(var(--text-color-rgb), 0.05);
-            border: 1px solid rgba(var(--text-color-rgb), 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .tool-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .tool-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1rem;
-        }
-
-        .tool-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--text-color);
-            transition: all 0.3s ease;
-        }
-
-        .tool-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-color);
-        }
-
-        .tool-info p {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            color: var(--text-color);
-        }
-
-        .tool-link {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
-
-        /* Prevent body scroll when menu is open */
-        body.menu-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-        }
-
-        body.tools-menu-open {
-            overflow: hidden;
-        }
-
-        /* ========================================
-           DESKTOP STYLES - CRITICAL FIX
-           ======================================== */
-        @media (min-width: 769px) {
-            .main-nav {
-                display: flex;
-                align-items: center;
-            }
-            
-            .main-nav ul {
-                display: flex;
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                gap: 2rem;
-            }
-            
-            .main-nav a {
-                color: var(--text-color);
-                text-decoration: none;
-                font-weight: 500;
-                position: relative;
-                padding: 0.5rem 0;
-                transition: color 0.3s ease;
-            }
-            
-            .main-nav a::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 0;
-                height: 2px;
-                background-color: var(--accent-color);
-                transition: width 0.3s ease;
-            }
-            
-            .main-nav a:hover::after,
-            .main-nav a.active::after {
-                width: 100%;
-            }
-            
-            /* HIDE mobile menu elements on desktop */
-            .menu {
-                display: none !important;
-            }
-            
-            .menu-overlay {
-                display: none !important;
-            }
-            
-            /* Force hide mobile nav on desktop */
-            nav {
-                display: none !important;
-            }
-
-            /* Remove gradient completely on desktop */
-            nav::before {
-                display: none !important;
-            }
-        }
-
-        /* ========================================
-           MOBILE SPECIFIC STYLES
-           ======================================== */
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem;
-            }
-
-            .menu,
-            .tools-icon {
-                width: 40px;
-                height: 40px;
-            }
-
-            nav {
-                max-width: 90%;
-            }
-
-            .main-nav {
-                display: none !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .menu,
-            .tools-icon {
-                width: 38px;
-                height: 38px;
-            }
-
-            nav {
-                max-width: 95%;
-            }
-
-            nav a {
-                font-size: 1.1rem;
-                padding: 0.9rem 1.2rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ========================================
+    /* ========================================
            ACCESSIBILITY
            ======================================== */
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
 
-        /* Focus styles */
-        .menu:focus,
-        .tools-icon:focus,
-        nav a:focus,
-        .tools-menu-close:focus {
-            outline: 2px solid var(--accent-color);
-            outline-offset: 2px;
-        }
+    /* Focus styles */
+    .menu:focus,
+    .tools-icon:focus,
+    nav a:focus,
+    .tools-menu-close:focus {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+    }
 
-        /* ========================================
+    /* ========================================
            DEMO CONTENT
            ======================================== */
-        main {
-            padding: 2rem;
-        }
+    main {
+        padding: 2rem;
+    }
 
-        section {
-            margin-bottom: 4rem;
-        }
+    section {
+        margin-bottom: 4rem;
+    }
 
-        .hero {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+    .hero {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-        .hero h1 {
-            font-size: clamp(2rem, 8vw, 5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
+    .hero h1 {
+        font-size: clamp(2rem, 8vw, 5rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+    }
 
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0.7;
-        }
-    </style>
+    .hero p {
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.7;
+    }
+</style>
 </head>
 
 <body>
@@ -814,7 +823,7 @@
     <!-- Custom cursor -->
     <!-- <div class="cursor"></div>
     <div class="cursor-follower"></div> -->
-    
+
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
 
@@ -837,13 +846,15 @@
 
     <!-- Image hover -->
     <div class="image-hover">
-        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/image/Home%20Pics/img_vas.jpg" alt="Decorative image" class="distort-on-hover" loading="lazy">
+        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/image/Home%20Pics/img_vas.jpg"
+            alt="Decorative image" class="distort-on-hover" loading="lazy">
     </div>
 
     <!-- Header -->
     <header>
-        <a href="https://imbajrangi.github.io/Company/" class="logo magnetic" data-magnetic-strength="0.7"><span>Vrindopnishad</span></a>
-        
+        <a href="https://imbajrangi.github.io/Company/" class="logo magnetic"
+            data-magnetic-strength="0.7"><span>Vrindopnishad</span></a>
+
         <!-- Main navigation (visible) -->
         <div class="main-nav">
             <ul>
@@ -851,24 +862,29 @@
                 <li><a data-link="about" class="text-hover">About</a></li>
                 <li><a data-link="gallery" class="text-hover">Gallery</a></li> -->
                 <li><a href="https://imbajrangi.github.io/Company/" class="active">Home</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html" class="text-hover">About</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html" class="text-hover">Gallery</a></li>
+                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html"
+                        class="text-hover">About</a></li>
+                <li><a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="text-hover">Gallery</a></li>
             </ul>
         </div>
-        
+
         <!-- Right side icons container -->
         <div class="header-right">
             <!-- Tools shortcut icon -->
-            <div class="tools-icon magnetic" data-magnetic-strength="0.5" aria-label="Open tools menu" role="button" tabindex="0">
+            <div class="tools-icon magnetic" data-magnetic-strength="0.5" aria-label="Open tools menu" role="button"
+                tabindex="0">
                 <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
                     </svg>
                     <span class="visually-hidden"></span>
                 </span>
             </div>
-            
+
             <!-- Mobile menu button -->
             <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
                 <svg viewBox="0 0 64 48">
@@ -879,25 +895,27 @@
             </button>
         </div>
     </header>
-    
+
     <!-- Fullscreen Tools Menu -->
     <div class="tools-menu">
         <div class="tools-menu-header">
             <div class="tools-menu-logo">Vrindopnishad Tools</div>
             <div class="tools-menu-close" aria-label="Close tools menu" role="button" tabindex="0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </div>
         </div>
-        
+
         <div class="tools-menu-content">
             <div class="tools-grid">
                 <!-- Collection Tool -->
                 <div class="tool-item" data-bg-color="#8E7F7F" data-text-color="#FFFFFF">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="9" y1="3" x2="9" y2="21"></line>
                         </svg>
@@ -906,13 +924,14 @@
                         <h3>Collection</h3>
                         <p>Browse our curated collections</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html" data-link="stack" class="tool-link"></a>
+                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" data-link="stack" class="tool-link"></a>
                 </div>
-                
+
                 <!-- Photos Tool -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <circle cx="8.5" cy="8.5" r="1.5"></circle>
                             <polyline points="21 15 16 10 5 21"></polyline>
@@ -922,13 +941,14 @@
                         <h3>Photos</h3>
                         <p>Explore our photo gallery</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html" data-link="gallery" class="tool-link"></a>
+                    <a href="/Vrindopnishad Web/Pictures/main/pictures.html" data-link="gallery" class="tool-link"></a>
                 </div>
-                
+
                 <!-- Login Tool -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <circle cx="8.5" cy="8.5" r="1.5"></circle>
                             <polyline points="21 15 16 10 5 21"></polyline>
@@ -938,13 +958,15 @@
                         <h3>Login Page</h3>
                         <p>Explore our Login Page</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/LoginPage/loginew.html" data-link="gallery" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/LoginPage/loginew.html" data-link="gallery"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -953,13 +975,15 @@
                         <h3>Cloud Kitchen</h3>
                         <p>Explore our exclusive Cloud Kitchen services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Vrinda Foods Side -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -968,13 +992,15 @@
                         <h3>Vrinda Foods</h3>
                         <p>Explore our exclusive Vrinda Foods Owner Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(developer).html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(developer).html"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen payment Side -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -983,13 +1009,15 @@
                         <h3>Cloud Kitchen Picture Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Payment Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(withPicture).html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(withPicture).html"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen Staff Sided -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -998,13 +1026,15 @@
                         <h3>Cloud Kitchen Staff Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Staff Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(staff-no-error).html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(staff-no-error).html"
+                        class="tool-link"></a>
                 </div>
-                
+
                 <!-- Cloud Kitchen old Sided -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1013,13 +1043,15 @@
                         <h3>Cloud Kitchen Update Order Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen.html"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen Modern Sided -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1028,13 +1060,15 @@
                         <h3>Cloud Kitchen Modern Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Modern Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen.html" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen.html"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- PDF Library Tool -->
                 <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#121212">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -1046,9 +1080,10 @@
                         <h3>PDF Library</h3>
                         <p>Access our digital document collection</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html" data-link="pdf-viewer" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+                        data-link="pdf-viewer" class="tool-link"></a>
                 </div>
-                
+
                 <!-- Language Tool --
                 <div class="tool-item" data-bg-color="#121212" data-text-color="#FFFFFF">
                     <div class="tool-icon">
@@ -1067,11 +1102,12 @@
                         </div>
                     </div>
                 </div> -->
-                
+
                 <!-- Spiritual Texts Tool -->
                 <div class="tool-item" data-bg-color="#000" data-text-color="#FFFFFF">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1080,13 +1116,15 @@
                         <h3>Spiritual Texts</h3>
                         <p>Explore ancient wisdom and teachings</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html" data-link="book" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
+                        data-link="book" class="tool-link"></a>
                 </div>
 
                 <!-- Dark Reader Tool -->
                 <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1095,13 +1133,15 @@
                         <h3>Dark Reader</h3>
                         <p>Enable dark mode for better readability</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/श्री_हरिवंश.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/श्री_हरिवंश.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Tourism Map Tool -->
                 <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1112,11 +1152,12 @@
                     </div>
                     <a href="https://imbajrangi.github.io/Company/Projects/Brij Yatra/map.html" class="tool-link"></a>
                 </div>
-                
+
                 <!-- Chat Tool -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1125,13 +1166,15 @@
                         <h3>ChatBot Animated</h3>
                         <p>Interact with our AI-powered chatbot</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/chat/animated-chatbot.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/chat/animated-chatbot.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Chat Tool -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1140,13 +1183,15 @@
                         <h3>ChatBot Embedded</h3>
                         <p>Interact with our AI-powered chatbot</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/chat/chatbot-embedded.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/chat/chatbot-embedded.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
-                
+
                 <!-- Trials -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1155,13 +1200,15 @@
                         <h3>Trials Brij Tours</h3>
                         <p>Explore our exclusive trials for Brij Tours (Rejected)</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/rejected/brij-pilgrimage-web/index.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/rejected/brij-pilgrimage-web/index.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Trials -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1170,13 +1217,15 @@
                         <h3>Trials Brij Tours</h3>
                         <p>Explore our exclusive trials for Brij Tours (rejected)</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/rejected/brij-tourism-site/index.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/rejected/brij-tourism-site/index.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Trials -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1185,13 +1234,15 @@
                         <h3>Trials Hotel Booking</h3>
                         <p>Explore our exclusive trials for Hotel Booking</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/Hotels Booking/index.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/Hotels Booking/index.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Trials -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1200,13 +1251,15 @@
                         <h3>Tours</h3>
                         <p>Explore our exclusive trials for Tours & Travels</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/tours.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/tours.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Video Player -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1215,13 +1268,15 @@
                         <h3>Video Player</h3>
                         <p>Explore our exclusive trials for Video Player</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Video/video-player.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Video/video-player.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Video Player -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1230,13 +1285,15 @@
                         <h3>Zen Mode Search</h3>
                         <p>Explore our exclusive trials for Zen Mode Search</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Video/zen-mode.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Video/zen-mode.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Vrinda Chat Section -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1245,13 +1302,15 @@
                         <h3>Service Chat Section</h3>
                         <p>Explore our exclusive trials for Service Chat Section</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Vrinda Chat/vrinda chat.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Vrinda Chat/vrinda chat.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Web Dev Section -->
                 <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#121212">
                     <div class="tool-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1260,13 +1319,15 @@
                         <h3>Web dev Services</h3>
                         <p>Explore our exclusive trials for Web dev Services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html" data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html"
+                        data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Articles Tool -->
                 <div class="tool-item" data-bg-color="#e9d0a4" data-text-color="#121212">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -1283,12 +1344,12 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Mobile Navigation Menu -->
     <nav aria-hidden="true">
         <!-- <div class="nav-header"> -->
-            <!-- <div class="nav-logo">Vrindopnishad</div> -->
-            <!-- <button class="nav-close" aria-label="Close menu">
+        <!-- <div class="nav-logo">Vrindopnishad</div> -->
+        <!-- <button class="nav-close" aria-label="Close menu">
                 <svg viewBox="0 0 64 48">
                     <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
                     <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
@@ -1328,7 +1389,7 @@
     <main>
         <!-- Hero section -->
         <section id="home" class="hero">
-        <!-- <section id="home"> -->
+            <!-- <section id="home"> -->
             <div class="text-container">
                 <h1 class="hero-title">
                     <div class="row text-mask">
@@ -1343,7 +1404,8 @@
                 </h1>
                 <div class="hero-subtitle">
                     <span class="fade-up">
-                        A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for spiritual and creative exploration
+                        A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
+                        spiritual and creative exploration
                     </span>
                 </div>
                 <a href="#projects" class="btn magnetic">
@@ -1430,7 +1492,8 @@
                     </h2>
                     <div class="horizontal-text">
                         <p class="fade-up">
-                            A space where creativity and spirituality converge in harmony, fostering deeper connections with art and wisdom
+                            A space where creativity and spirituality converge in harmony, fostering deeper connections
+                            with art and wisdom
                         </p>
                     </div>
                 </div>
@@ -1438,7 +1501,8 @@
                     <h2 class="horizontal-title text-gradient reveal-element">Artistic Excellence</h2>
                     <div class="horizontal-text">
                         <p class="fade-up">
-                            Curated collections of stunning artworks that blend traditional techniques with modern digital innovations
+                            Curated collections of stunning artworks that blend traditional techniques with modern
+                            digital innovations
                         </p>
                     </div>
                 </div>
@@ -1446,7 +1510,8 @@
                     <h2 class="horizontal-title text-gradient reveal-element">Visual Stories</h2>
                     <div class="horizontal-text">
                         <p class="fade-up">
-                            Captivating photography that captures moments of beauty, devotion, and wonder across time and space
+                            Captivating photography that captures moments of beauty, devotion, and wonder across time
+                            and space
                         </p>
                     </div>
                 </div>
@@ -1454,7 +1519,8 @@
                     <h2 class="horizontal-title text-gradient reveal-element">Knowledge Hub</h2>
                     <div class="horizontal-text">
                         <p class="fade-up">
-                            Access to spiritual texts, articles, and resources for deeper understanding and enlightenment
+                            Access to spiritual texts, articles, and resources for deeper understanding and
+                            enlightenment
                         </p>
                     </div>
                 </div>
@@ -1468,10 +1534,12 @@
                     <h2 class="text-gradient reveal-element">Our Digital Universe</h2>
                     <div class="text-bg">
                         <p class="fade-up">
-                            Vrindopnishad is more than a website—it's a digital sanctuary where ancient wisdom meets modern creativity
+                            Vrindopnishad is more than a website—it's a digital sanctuary where ancient wisdom meets
+                            modern creativity
                         </p>
                         <p class="fade-up" style="animation-delay: 0.1s;">
-                            Our platform bridges traditional artistic expressions with contemporary digital innovations, offering a unique space for spiritual and creative exploration
+                            Our platform bridges traditional artistic expressions with contemporary digital innovations,
+                            offering a unique space for spiritual and creative exploration
                         </p>
                     </div>
                     <a data-link="about" class="btn magnetic"><span>Learn More</span></a>
@@ -1489,7 +1557,8 @@
                 <div>
                     <div class="footer-logo text-gradient">Vrindopnishad</div>
                     <div class="footer-text">
-                        <p class="fade-up">A digital sanctuary where art, technology, and spirituality converge in harmonic resonance.</p>
+                        <p class="fade-up">A digital sanctuary where art, technology, and spirituality converge in
+                            harmonic resonance.</p>
                     </div>
                 </div>
                 <div class="footer-links">
@@ -1533,16 +1602,20 @@
                     <h3>Connect</h3>
                     <ul class="staggered-list">
                         <li class="staggered-item">
-                            <a data-link="instagram" class="text-hover" target="_blank" rel="noopener noreferrer">Instagram</a>
+                            <a data-link="instagram" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Instagram</a>
                         </li>
                         <li class="staggered-item">
-                            <a data-link="facebook" class="text-hover" target="_blank" rel="noopener noreferrer">Facebook</a>
+                            <a data-link="facebook" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Facebook</a>
                         </li>
                         <li class="staggered-item">
-                            <a data-link="youtube" class="text-hover" target="_blank" rel="noopener noreferrer">YouTube</a>
+                            <a data-link="youtube" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">YouTube</a>
                         </li>
                         <li class="staggered-item">
-                            <a data-link="whatsapp_channel" class="text-hover" target="_blank" rel="noopener noreferrer">Whatsapp</a>
+                            <a data-link="whatsapp_channel" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Whatsapp</a>
                         </li>
                     </ul>
                 </div>
@@ -1558,7 +1631,7 @@
         const loader = document.querySelector('.loader');
         const counter = document.querySelector('.counter');
         let count = 10;
-        
+
         const updateCounter = () => {
             if (count < 100) {
                 count++;
@@ -1571,7 +1644,7 @@
                 }, 50);
             }
         };
-        
+
         updateCounter();
     </script>
     <script>
@@ -1581,57 +1654,57 @@
             const nav = document.querySelector('nav');
             const menuOverlay = document.querySelector('.menu-overlay');
             const toolsIcon = document.querySelector('.tools-icon');
-            
+
             // Check if elements exist
             if (!mobileMenuBtn || !nav) return;
-            
+
             function openMenu() {
                 mobileMenuBtn.classList.add('active');
                 nav.classList.add('active');
                 menuOverlay.classList.add('active');
                 document.body.classList.add('menu-open');
-                
+
                 mobileMenuBtn.setAttribute('aria-expanded', 'true');
                 nav.setAttribute('aria-hidden', 'false');
-                
+
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '1001';
                 }
             }
-            
+
             function closeMenu() {
                 mobileMenuBtn.classList.remove('active');
                 nav.classList.remove('active');
                 menuOverlay.classList.remove('active');
                 document.body.classList.remove('menu-open');
-                
+
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
                 nav.setAttribute('aria-hidden', 'true');
-                
+
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '';
                 }
             }
-            
+
             // Set initial aria attributes
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
             nav.setAttribute('aria-hidden', 'true');
-            
+
             // Toggle menu on hamburger click
             mobileMenuBtn.addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                
+
                 if (nav.classList.contains('active')) {
                     closeMenu();
                 } else {
                     openMenu();
                 }
             });
-            
+
             // Close menu when clicking on overlay
             menuOverlay.addEventListener('click', closeMenu);
-            
+
             // Close menu when clicking outside or on the close button
             document.addEventListener('click', (event) => {
                 if ((nav.classList.contains('active') &&
@@ -1641,50 +1714,50 @@
                     closeMenu();
                 }
             });
-            
+
             // Add close button functionality
             const closeBtn = document.querySelector('.nav-close');
             if (closeBtn) {
                 closeBtn.addEventListener('click', closeMenu);
             }
-            
+
             // Close menu when clicking on links
             const navLinks = document.querySelectorAll('nav a');
             navLinks.forEach(link => {
                 link.addEventListener('click', closeMenu);
             });
-            
+
             // Add touch events for mobile with better performance
             let touchStartX = 0;
             let touchStartTime = 0;
-            
+
             nav.addEventListener('touchstart', (event) => {
                 touchStartX = event.touches[0].clientX;
                 touchStartTime = Date.now();
             }, { passive: true });
-            
+
             nav.addEventListener('touchend', (event) => {
                 if (!nav.classList.contains('active')) return;
-                
+
                 const touchEndX = event.changedTouches[0].clientX;
                 const touchEndTime = Date.now();
-                
+
                 const diff = touchStartX - touchEndX;
                 const timeDiff = touchEndTime - touchStartTime;
-                
+
                 // If swipe is fast enough and distance is enough
                 if (diff > 50 && timeDiff < 300) {
                     closeMenu();
                 }
             }, { passive: true });
-            
+
             // Handle keyboard navigation
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && nav.classList.contains('active')) {
                     closeMenu();
                 }
             });
-            
+
             // Prevent menu from staying open on resize
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 768 && nav.classList.contains('active')) {
@@ -1698,7 +1771,7 @@
         // Header scroll effect
         document.addEventListener('DOMContentLoaded', () => {
             const header = document.querySelector('header');
-            
+
             if (header) {
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 50) {
@@ -1724,11 +1797,11 @@
                     }
                 });
             }, { threshold: 0.1 });
-            
+
             fadeElements.forEach(element => {
                 fadeObserver.observe(element);
             });
-            
+
             // Handle staggered animations
             const staggeredLists = document.querySelectorAll('.staggered-list');
             staggeredLists.forEach(list => {
@@ -1745,12 +1818,12 @@
                         }
                     });
                 }, { threshold: 0.1 });
-                
+
                 items.forEach(item => {
                     staggerObserver.observe(item);
                 });
             });
-            
+
             // Handle reveal elements
             const revealElements = document.querySelectorAll('.reveal-element');
             const revealObserver = new IntersectionObserver((entries) => {
@@ -1761,7 +1834,7 @@
                     }
                 });
             }, { threshold: 0.1 });
-            
+
             revealElements.forEach(element => {
                 revealObserver.observe(element);
             });
@@ -1774,10 +1847,10 @@
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
-        
+
         // Set the value on initial load
         setVH();
-        
+
         // Reset on resize and orientation change
         window.addEventListener('resize', setVH);
         window.addEventListener('orientationchange', setVH);
@@ -1788,13 +1861,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             const englishBtn = document.querySelector('.language-btn-nav[href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/Home/home.html"]');
             const hindiBtn = document.querySelector('.language-btn-nav[href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/Home/home_hindi.html"]');
-            
+
             if (englishBtn) {
                 englishBtn.addEventListener('click', () => {
                     localStorage.setItem('preferredLanguage', 'english');
                 });
             }
-            
+
             if (hindiBtn) {
                 hindiBtn.addEventListener('click', () => {
                     localStorage.setItem('preferredLanguage', 'hindi');
@@ -1806,10 +1879,10 @@
     <!-- Backend Connection Script -->
     <script>
         // API Configuration
-        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'http://localhost:5000/api' 
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
             : 'https://api.vrindopnishad.com/api';
-        
+
         // Check if user is logged in
         function checkAuthStatus() {
             const token = localStorage.getItem('vrindopnishad_token');
@@ -1827,7 +1900,7 @@
                 }
             }
         }
-        
+
         // Fetch content from API
         async function fetchContent() {
             try {
@@ -1843,36 +1916,36 @@
                 console.error('Error fetching content:', error);
             }
         }
-        
+
         // Update featured content on the page
         function updateFeaturedContent(items) {
             const projectList = document.querySelector('.project-list');
             if (!projectList || !items.length) return;
-            
+
             // Keep only the first 6 items or less
             const displayItems = items.slice(0, 6);
-            
+
             // Clear existing items
             projectList.innerHTML = '';
-            
+
             // Add new items
             displayItems.forEach(item => {
                 const projectItem = document.createElement('div');
                 projectItem.className = 'project-item staggered-item';
                 projectItem.setAttribute('data-image', item.imageUrl || './image/Home Pics/img2.jpg');
-                
+
                 projectItem.innerHTML = `
                     <div class="project-title">${item.title}</div>
                     <div class="project-category">${item.category}</div>
                 `;
-                
+
                 projectList.appendChild(projectItem);
             });
-            
+
             // Re-initialize staggered animations
             initStaggeredAnimations();
         }
-        
+
         // Initialize staggered animations
         function initStaggeredAnimations() {
             const staggeredItems = document.querySelectorAll('.staggered-item');
@@ -1888,12 +1961,12 @@
                     }
                 });
             }, { threshold: 0.1 });
-            
+
             staggeredItems.forEach(item => {
                 staggerObserver.observe(item);
             });
         }
-        
+
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             checkAuthStatus();
@@ -1906,10 +1979,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             const imageHover = document.querySelector('.image-hover');
             const projectItems = document.querySelectorAll('.project-item');
-            
+
             projectItems.forEach(item => {
                 const imageUrl = item.getAttribute('data-image');
-                
+
                 item.addEventListener('mouseenter', () => {
                     if (imageUrl) {
                         const img = imageHover.querySelector('img');
@@ -1918,17 +1991,17 @@
                         imageHover.style.visibility = 'visible';
                     }
                 });
-                
+
                 item.addEventListener('mouseleave', () => {
                     imageHover.style.opacity = '0';
                     imageHover.style.visibility = 'hidden';
                 });
-                
+
                 item.addEventListener('mousemove', (e) => {
                     const rect = imageHover.getBoundingClientRect();
                     const x = e.clientX - (rect.width / 2);
                     const y = e.clientY - (rect.height / 2);
-                    
+
                     imageHover.style.transform = `translate(${x}px, ${y}px)`;
                 });
             });
@@ -1946,35 +2019,35 @@
             // Initialize developer guide in hidden state
             const devGuide = document.querySelector('.developer-guide');
             const devToggleBtn = document.querySelector('.dev-toggle-btn');
-            
+
             if (devGuide && devToggleBtn) {
                 // Check if developer mode was previously enabled
                 const devModeEnabled = localStorage.getItem('devModeEnabled') === 'true';
-                
+
                 // Set initial state
                 if (!devModeEnabled) {
                     devGuide.classList.add('hidden');
                 }
-                
+
                 // Toggle developer guide visibility
                 devToggleBtn.addEventListener('click', () => {
                     devGuide.classList.toggle('hidden');
-                    
+
                     // Store preference
                     const isHidden = devGuide.classList.contains('hidden');
                     localStorage.setItem('devModeEnabled', !isHidden);
-                    
+
                     // Update button text
-                    devToggleBtn.querySelector('span').textContent = isHidden 
-                        ? 'Show Developer Details' 
+                    devToggleBtn.querySelector('span').textContent = isHidden
+                        ? 'Show Developer Details'
                         : 'Hide Developer Details';
                 });
-                
+
                 // Set initial button text
                 devToggleBtn.querySelector('span').textContent = devGuide.classList.contains('hidden')
                     ? 'Show Developer Details'
                     : 'Hide Developer Details';
-                
+
                 // Add keyboard shortcut (Ctrl+Shift+D) to toggle developer mode
                 document.addEventListener('keydown', (event) => {
                     if (event.ctrlKey && event.shiftKey && event.key === 'D') {
@@ -1982,7 +2055,7 @@
                         devToggleBtn.click();
                     }
                 });
-                
+
                 // Add interactive features to the developer blocks
                 const treeNodes = document.querySelectorAll('.tree-node');
                 treeNodes.forEach(node => {
@@ -1990,8 +2063,8 @@
                         // Highlight corresponding section in the page if it exists
                         const nodeName = node.textContent.trim();
                         let targetElement;
-                        
-                        switch(nodeName) {
+
+                        switch (nodeName) {
                             case 'hero section':
                                 targetElement = document.querySelector('.hero');
                                 break;
@@ -2014,19 +2087,19 @@
                                 // Try to find by class name
                                 targetElement = document.querySelector(`.${nodeName}`);
                         }
-                        
+
                         if (targetElement) {
                             // Remove previous highlights
                             document.querySelectorAll('.dev-highlight').forEach(el => {
                                 el.classList.remove('dev-highlight');
                             });
-                            
+
                             // Add highlight
                             targetElement.classList.add('dev-highlight');
-                            
+
                             // Scroll to element
                             targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            
+
                             // Remove highlight after 2 seconds
                             setTimeout(() => {
                                 targetElement.classList.remove('dev-highlight');
@@ -2034,7 +2107,7 @@
                         }
                     });
                 });
-                
+
                 // Add copy functionality to code snippets
                 document.querySelectorAll('.api-endpoint code').forEach(codeBlock => {
                     codeBlock.addEventListener('click', () => {
@@ -2045,7 +2118,7 @@
                             notification.className = 'copy-notification';
                             notification.textContent = 'Code copied!';
                             document.body.appendChild(notification);
-                            
+
                             // Remove notification after 2 seconds
                             setTimeout(() => {
                                 notification.classList.add('fade-out');
@@ -2069,51 +2142,51 @@
             const toolsMenuClose = document.querySelector('.tools-menu-close');
             const toolItems = document.querySelectorAll('.tool-item');
             const hamburgerMenu = document.querySelector('.menu');
-            
+
             // Track menu state
             let isToolsMenuOpen = false;
-            
+
             // Update hamburger menu z-index when tools menu opens/closes
             function updateHamburgerZIndex(isOpen) {
                 if (hamburgerMenu) {
                     hamburgerMenu.style.zIndex = isOpen ? '100000' : '9999';
                 }
             }
-            
+
             // Function to open tools menu
             function openToolsMenu() {
                 if (isToolsMenuOpen) return;
-                
+
                 isToolsMenuOpen = true;
-                
+
                 // Add animation before opening the menu
                 const iconSvg = toolsIcon?.querySelector('svg');
                 if (iconSvg) {
                     iconSvg.style.transform = 'translate(-50%, -50%) rotate(90deg)';
                     iconSvg.style.color = 'var(--accent-color)';
-                    
+
                     // Add pulse effect to the icon
                     toolsIcon.classList.add('pulse-animation');
                 }
-                
+
                 // Update hamburger menu z-index
                 updateHamburgerZIndex(true);
-                
+
                 // Delay opening the menu slightly for better UX
                 setTimeout(() => {
                     toolsMenu.classList.add('active');
                     document.body.classList.add('tools-menu-open'); // Use class-based approach
                 }, 200);
             }
-            
+
             // Function to close tools menu
             function closeToolsMenu() {
                 if (!isToolsMenuOpen) return;
-                
+
                 isToolsMenuOpen = false;
                 toolsMenu.classList.remove('active');
                 document.body.classList.remove('tools-menu-open'); // Use class-based approach
-                
+
                 // Reset icon state
                 const iconSvg = toolsIcon?.querySelector('svg');
                 if (iconSvg) {
@@ -2124,99 +2197,99 @@
                     }, 300);
                 }
             }
-            
+
             // Open tools menu with animation
             if (toolsIcon) {
                 toolsIcon.addEventListener('click', openToolsMenu);
             }
-            
+
             // Close tools menu
             if (toolsMenuClose) {
                 toolsMenuClose.addEventListener('click', closeToolsMenu);
             }
-            
+
             // Add click event to all tool links to close the menu when clicked
             document.querySelectorAll('.tool-item .tool-link').forEach(link => {
                 link.addEventListener('click', closeToolsMenu);
             });
-            
+
             // Close on escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && isToolsMenuOpen) {
                     closeToolsMenu();
                 }
             });
-            
+
             // Handle tool item hover effects
             toolItems.forEach(item => {
                 item.addEventListener('mouseenter', () => {
                     const bgColor = item.getAttribute('data-bg-color');
                     const textColor = item.getAttribute('data-text-color');
-                    
+
                     if (bgColor && textColor) {
                         item.style.backgroundColor = bgColor;
                         item.style.color = textColor;
-                        
+
                         // Change icon color
                         const icon = item.querySelector('.tool-icon svg');
                         if (icon) {
                             icon.style.color = textColor;
                         }
-                        
+
                         // Apply styles to child elements
                         const h3 = item.querySelector('h3');
                         const p = item.querySelector('p');
-                        
+
                         if (h3) h3.style.color = textColor;
                         if (p) p.style.color = textColor;
                     }
                 });
-                
+
                 item.addEventListener('mouseleave', () => {
                     item.style.backgroundColor = '';
                     item.style.color = '';
-                    
+
                     // Reset icon color
                     const icon = item.querySelector('.tool-icon svg');
                     if (icon) {
                         icon.style.color = '';
                     }
-                    
+
                     // Reset styles for child elements
                     const h3 = item.querySelector('h3');
                     const p = item.querySelector('p');
-                    
+
                     if (h3) h3.style.color = '';
                     if (p) p.style.color = '';
                 });
             });
-            
+
             // Add subtle parallax effect to tool items
             let mouseX = 0;
             let mouseY = 0;
-            
+
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
-                
+
                 if (isToolsMenuOpen) {
                     toolItems.forEach(item => {
                         const rect = item.getBoundingClientRect();
                         const itemX = rect.left + rect.width / 2;
                         const itemY = rect.top + rect.height / 2;
-                        
+
                         const diffX = mouseX - itemX;
                         const diffY = mouseY - itemY;
-                        
+
                         // Calculate distance from mouse to item center
                         const distance = Math.sqrt(diffX * diffX + diffY * diffY);
                         const maxDistance = Math.max(window.innerWidth, window.innerHeight) / 2;
-                        
+
                         // Calculate movement factor based on distance (closer = more movement)
                         const factor = 1 - Math.min(distance / maxDistance, 1);
                         const moveX = diffX * factor * 0.03;
                         const moveY = diffY * factor * 0.03;
-                        
+
                         // Apply subtle transform
                         item.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
                     });
@@ -2227,18 +2300,18 @@
             window.addEventListener('beforeunload', () => {
                 document.body.classList.remove('tools-menu-open');
             });
-            
+
             // Close tools menu when clicking anywhere outside the menu
             document.addEventListener('click', (e) => {
-                if (isToolsMenuOpen && 
-                    !toolsMenu.contains(e.target) && 
+                if (isToolsMenuOpen &&
+                    !toolsMenu.contains(e.target) &&
                     !toolsIcon.contains(e.target)) {
                     closeToolsMenu();
                     // Update hamburger menu z-index
                     updateHamburgerZIndex(false);
                 }
             });
-            
+
             // Handle popstate event (back/forward navigation)
             window.addEventListener('popstate', () => {
                 if (isToolsMenuOpen) {
@@ -2267,7 +2340,7 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', async () => {
             const books = await loadBooksData();
-            
+
             // Update featured content if available
             if (books.length > 0) {
                 updateFeaturedContent(books);
@@ -2296,7 +2369,7 @@
                 // Get current hour for greeting
                 const hour = new Date().getHours();
                 let greeting;
-                
+
                 if (hour >= 5 && hour < 12) {
                     greeting = "Good Morning";
                 } else if (hour >= 12 && hour < 17) {
@@ -2324,33 +2397,33 @@
             // Check every 1 second if scrolling is improperly locked
             setInterval(() => {
                 // Only run if there's no active menu
-                if (!document.querySelector('.tools-menu.active') && 
+                if (!document.querySelector('.tools-menu.active') &&
                     !document.querySelector('nav.active')) {
-                    
+
                     // Remove any overflow: hidden that might be stuck
                     document.documentElement.style.removeProperty('overflow');
                     document.body.style.removeProperty('overflow');
-                    
+
                     // Remove any height constraints
                     document.documentElement.style.removeProperty('height');
                     document.body.style.removeProperty('height');
-                    
+
                     // Force scroll to be available
                     document.documentElement.style.overflowY = 'auto';
                     document.body.style.overflowY = 'auto';
-                    
+
                     // Remove any stuck classes
                     document.body.classList.remove('tools-menu-open');
                 }
             }, 1000);
-            
+
             // When user clicks anywhere that's not a menu
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('.tools-menu') && 
+                if (!e.target.closest('.tools-menu') &&
                     !e.target.closest('.tools-icon') &&
-                    !e.target.closest('nav') && 
+                    !e.target.closest('nav') &&
                     !e.target.closest('.mobile-menu-btn')) {
-                    
+
                     // Force enable scrolling
                     document.documentElement.style.overflowY = 'auto';
                     document.body.style.overflowY = 'auto';
@@ -2359,7 +2432,7 @@
             });
         });
     </script>
-    
+
     <!-- Fix for magnetic effect -->
     <script>
         // Manually initialize magnetic effect
@@ -2367,12 +2440,12 @@
             console.log('Manually initializing magnetic effect...');
             const magneticElements = document.querySelectorAll('.magnetic');
             console.log(`Found ${magneticElements.length} magnetic elements.`);
-            
+
             if (magneticElements.length === 0) {
                 console.warn('No magnetic elements found!');
                 return;
             }
-            
+
             // Initialize magnetic effect for each element
             magneticElements.forEach(element => {
                 // Create state object for each element
@@ -2386,10 +2459,10 @@
                     active: false,    // Is currently being clicked
                     hovering: false   // Is being hovered
                 };
-                
+
                 // Get strength from data attribute or use default
                 const strength = parseFloat(element.getAttribute('data-magnetic-strength')) || 0.5;
-                
+
                 // Ensure element has inner span
                 let innerElement = element.querySelector('span');
                 if (!innerElement) {
@@ -2398,12 +2471,12 @@
                     element.innerHTML = `<span>${content}</span>`;
                     innerElement = element.querySelector('span');
                 }
-                
+
                 // Add event listeners for hover
                 element.addEventListener('mouseenter', () => {
                     state.hovering = true;
                     element.classList.add('magnetic-hover');
-                    
+
                     // Add cursor effect if exists
                     const cursor = document.querySelector('.cursor');
                     const cursorFollower = document.querySelector('.cursor-follower');
@@ -2412,58 +2485,58 @@
                         cursorFollower.classList.add('magnetic-hover');
                     }
                 });
-                
+
                 // Track mouse movement for magnetic effect
                 element.addEventListener('mousemove', (e) => {
                     if (!state.hovering) return;
-                    
+
                     // Get element dimensions
                     const rect = element.getBoundingClientRect();
-                    
+
                     // Calculate mouse position relative to center
                     const centerX = rect.left + rect.width / 2;
                     const centerY = rect.top + rect.height / 2;
-                    
+
                     // Distance from center
                     const distX = e.clientX - centerX;
                     const distY = e.clientY - centerY;
-                    
+
                     // Set target positions with strength factor
                     state.targetX = distX * strength;
                     state.targetY = distY * strength;
-                    
+
                     // Apply transform with easing
                     const ease = state.active ? 0.1 : 0.2;
                     state.x += (state.targetX - state.x) * ease;
                     state.y += (state.targetY - state.y) * ease;
-                    
+
                     // Apply to element
                     element.style.transform = `translate3d(${state.x}px, ${state.y}px, 0)`;
-                    
+
                     // Move inner element in opposite direction
                     if (innerElement) {
                         innerElement.style.transform = `translate3d(${state.x * -0.2}px, ${state.y * -0.2}px, 0)`;
                     }
                 });
-                
+
                 // Reset on mouse leave
                 element.addEventListener('mouseleave', () => {
                     state.hovering = false;
                     element.classList.remove('magnetic-hover');
-                    
+
                     // Reset positions
                     state.targetX = 0;
                     state.targetY = 0;
-                    
+
                     // Animate back to original position
                     element.style.transform = 'translate3d(0px, 0px, 0)';
                     element.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-                    
+
                     if (innerElement) {
                         innerElement.style.transform = 'translate3d(0px, 0px, 0)';
                         innerElement.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
                     }
-                    
+
                     // Remove cursor effect
                     // const cursor = document.querySelector('.cursor');
                     // const cursorFollower = document.querySelector('.cursor-follower');
@@ -2471,19 +2544,19 @@
                     //     cursor.classList.remove('magnetic-hover');
                     //     cursorFollower.classList.remove('magnetic-hover');
                     // }
-                    
+
                     // Clear transition after animation completes
                     setTimeout(() => {
                         element.style.transition = '';
                         if (innerElement) innerElement.style.transition = '';
                     }, 400);
                 });
-                
+
                 // Handle click effect
                 element.addEventListener('mousedown', () => {
                     state.active = true;
                     element.classList.add('active');
-                    
+
                     // Add cursor effect
                     // const cursor = document.querySelector('.cursor');
                     // const cursorFollower = document.querySelector('.cursor-follower');
@@ -2491,22 +2564,22 @@
                     //     cursor.classList.add('magnetic-click');
                     //     cursorFollower.classList.add('magnetic-click');
                     // }
-                    
+
                     // Scale inner element
                     if (innerElement) {
                         innerElement.style.transform = `translate3d(${state.x * -0.1}px, ${state.y * -0.1}px, 0) scale(0.95)`;
                     }
                 });
-                
+
                 // Handle release
                 element.addEventListener('mouseup', () => {
                     state.active = false;
-                    
+
                     // Delayed removal of active class for better effect
                     setTimeout(() => {
                         element.classList.remove('active');
                     }, 300);
-                    
+
                     // Remove cursor effect
                     // const cursor = document.querySelector('.cursor');
                     // const cursorFollower = document.querySelector('.cursor-follower');
@@ -2514,7 +2587,7 @@
                     //     cursor.classList.remove('magnetic-click');
                     //     cursorFollower.classList.remove('magnetic-click');
                     // }
-                    
+
                     // Reset inner element
                     if (innerElement) {
                         innerElement.style.transform = `translate3d(${state.x * -0.2}px, ${state.y * -0.2}px, 0) scale(1)`;
@@ -2525,4 +2598,5 @@
         });
     </script>
 </body>
+
 </html>

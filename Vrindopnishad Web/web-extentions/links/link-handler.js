@@ -4,16 +4,16 @@
 
 const PROJECT_PATHS = {
   // --- Internal Page Links ---
-  'home': 'https://imbajrangi.github.io/Company/',
-  'about': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html',
-  'gallery': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html',
-  'pictures': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html',
-  'pdf-viewer': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html',
+  'home': '/',
+  'about': '/Vrindopnishad Web/about code/main/about.html',
+  'gallery': '/Vrindopnishad Web/Pictures/main/Gallery.html',
+  'pictures': '/Vrindopnishad Web/Pictures/main/pictures.html',
+  'pdf': '/Vrindopnishad Web/pdf/main/pdf-viewer.html',
   'book': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html',
   'articles': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/nw-read-me.html', // (aka web-content-manager)
+  'stack': '/Vrindopnishad Web/Pictures/main/Gallery.html', // (aka web-content-manager)
 
   // --- Tool Links ---
-  'stack': 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html',
   'login-page': 'https://imbajrangi.github.io/Company/Projects/LoginPage/loginew.html',
   'cloud-kitchen': 'https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html',
   'vrinda-foods': 'https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(developer).html',
@@ -55,22 +55,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (destinationUrl) {
       if (element.tagName === 'A') {
         element.href = destinationUrl;
-        
+
         // Handle target="_blank" for external links outside the GitHub domain
         if (destinationUrl.startsWith('http://') || destinationUrl.startsWith('https://')) {
           if (!destinationUrl.includes('imbajrangi.github.io/Company/')) {
-             element.target = '_blank';
-             element.rel = 'noopener noreferrer';
+            element.target = '_blank';
+            element.rel = 'noopener noreferrer';
           }
         }
       } else {
         // Handle navigation for non-anchor tags (like buttons or divs)
         element.addEventListener('click', () => {
           if (destinationUrl.startsWith('http://') || destinationUrl.startsWith('https://')) {
-             if (!destinationUrl.includes('imbajrangi.github.io/Company/')) {
-                window.open(destinationUrl, '_blank');
-                return;
-             }
+            if (!destinationUrl.includes('imbajrangi.github.io/Company/')) {
+              window.open(destinationUrl, '_blank');
+              return;
+            }
           }
           window.location.href = destinationUrl;
         });
