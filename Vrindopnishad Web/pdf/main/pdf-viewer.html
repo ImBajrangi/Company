@@ -159,7 +159,7 @@
         // Load books data from JSON
         async function loadBooksData() {
             try {
-                const response = await fetch('https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/books-data.json');
+                const response = await fetch('/Vrindopnishad Web/class/json/books-data.json');
                 if (!response.ok) {
                     throw new Error('Failed to load books data');
                 }

@@ -1,6 +1,6 @@
 // Collection data will be loaded from JSON
 let collectionsData = {};
-const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/json/collections_data.json";
+const dataUrl = "/Vrindopnishad%20Web/class/json/collections_data.json";
 
 // Popup Modal functionality
 function initializePopup() {
@@ -31,9 +31,9 @@ function initializePopup() {
     });
 
     // Show modal with collection data
-    window.showCollectionPopup = function(collection) {
+    window.showCollectionPopup = function (collection) {
         popupHero.style.backgroundImage = `url(${collection.image})`;
-        
+
         // Generate popup content with Netflix-like styling
         popupInfo.innerHTML = `
             <div class="popup-header">
@@ -136,7 +136,7 @@ function generateRelatedItems(category) {
 function generateCollectionItems(containerId, items) {
     const container = document.getElementById(containerId);
     if (!container || !items?.length) return;
-    
+
     container.innerHTML = '';
 
     items.forEach((item, index) => {
@@ -145,7 +145,7 @@ function generateCollectionItems(containerId, items) {
         itemElement.setAttribute('data-category', item.category || '');
         itemElement.setAttribute('data-id', item.id || '');
         itemElement.style.backgroundImage = `url(${item.image})`;
-        
+
         itemElement.innerHTML = `
             <div class="item-content">
                 <h3 class="item-title">${item.title}</h3>
@@ -171,7 +171,7 @@ function generateCollectionItems(containerId, items) {
                 ${containerId === 'featured-slider' && item.category ? `<span class="category-tag">${item.category}</span>` : ''}
             </div>
         `;
-        
+
         // Add Netflix-style hover effect and popup trigger
         itemElement.addEventListener('mouseenter', () => {
             setTimeout(() => {

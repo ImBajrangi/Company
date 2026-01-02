@@ -1,17 +1,17 @@
 // Collection data - will be populated from JSON
 let collectionsData = {};
-const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
+const dataUrl = "/Vrindopnishad Web/class/json/collections_data.json";
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     const dataLoaded = await loadCollectionsData();
-    
+
     initializeSearch();
     initializeTheme();
     initializeHeaderScroll();
     initializeSliders();
     initPopup(); // Make sure popup is initialized
-    
+
     if (dataLoaded) {
         initializeCollections();
     } else {
@@ -32,9 +32,9 @@ function initializeSearch() {
     const searchOverlay = document.querySelector('.search-overlay');
     const searchInput = document.querySelector('.search-input');
     const searchResults = document.querySelector('.search-results');
-    
+
     if (!searchToggle || !searchOverlay || !searchInput || !searchResults) return;
-    
+
     let searchTimeout = null;
 
     function toggleSearch() {
@@ -45,18 +45,18 @@ function initializeSearch() {
     function handleSearch(e) {
         clearTimeout(searchTimeout);
         const query = e.target.value.toLowerCase();
-        
+
         searchTimeout = setTimeout(() => {
             if (query.length < 2) {
                 searchResults.innerHTML = '';
                 return;
             }
             const allItems = Object.values(collectionsData).flatMap(collection => collection.items || []);
-            const results = allItems.filter(item => 
+            const results = allItems.filter(item =>
                 item.title.toLowerCase().includes(query) ||
                 item.description.toLowerCase().includes(query)
             );
-            searchResults.innerHTML = results.length > 0 
+            searchResults.innerHTML = results.length > 0
                 ? results.map(item => `<div class="search-result-item" onclick="navigateToCollection('${item.category}', '${item.title}')"><h3>${item.title}</h3><p>${item.description}</p><span class="category-tag">${item.category}</span></div>`).join('')
                 : '<p>No results found</p>';
         }, 300);
@@ -72,12 +72,12 @@ function initializeSearch() {
 function initializeTheme() {
     const themeToggle = document.getElementById('theme-toggle');
     if (!themeToggle) return;
-    
+
     const icon = themeToggle.querySelector('i');
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-    
+
     document.body.classList.toggle('dark-mode', isDark);
     if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
 
@@ -102,10 +102,10 @@ function initializeCollections() {
 function generateCollectionItems(containerId, items, collectionCategory) {
     const container = document.getElementById(containerId);
     if (!container || !items) {
-         if(container) container.innerHTML = "<p style='padding: 2rem; color: var(--text-secondary);'>No items in this collection.</p>";
+        if (container) container.innerHTML = "<p style='padding: 2rem; color: var(--text-secondary);'>No items in this collection.</p>";
         return;
     }
-    
+
     container.innerHTML = items.map((item, index) => `
         <div class="collection-item" role="button" tabindex="0" data-id="${item.id || index}" style="background-image: url(${item.image})">
             <div class="item-content">
@@ -126,8 +126,8 @@ function generateCollectionItems(containerId, items, collectionCategory) {
 }
 
 function navigateToCollection(category, title) {
-     const url = `pictures.html?category=${category}&title=${encodeURIComponent(title)}`;
-     window.location.href = url;
+    const url = `pictures.html?category=${category}&title=${encodeURIComponent(title)}`;
+    window.location.href = url;
 }
 
 // Header scroll effect
@@ -149,12 +149,12 @@ function initializeSliders() {
         const leftBtn = container.querySelector('.scroll-btn.left');
         const rightBtn = container.querySelector('.scroll-btn.right');
         if (!slider || !leftBtn || !rightBtn) return;
-        
+
         const scrollAmount = () => slider.offsetWidth * 0.8;
-        
+
         leftBtn.addEventListener('click', () => slider.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
         rightBtn.addEventListener('click', () => slider.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
-        
+
         const updateButtonStates = () => {
             const atStart = slider.scrollLeft < 10;
             const atEnd = slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth - 10);
@@ -163,7 +163,7 @@ function initializeSliders() {
             leftBtn.disabled = atStart;
             rightBtn.disabled = atEnd;
         };
-        
+
         slider.addEventListener('scroll', updateButtonStates);
         window.addEventListener('resize', updateButtonStates);
         setTimeout(updateButtonStates, 500);
@@ -196,7 +196,7 @@ function updateSiteConfig(config) {
 function initPopup() {
     const closeBtn = document.getElementById('popup-close');
     const modal = document.getElementById('popup-modal');
-    
+
     if (closeBtn) closeBtn.addEventListener('click', closePopup);
     if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closePopup(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
@@ -214,7 +214,7 @@ function openPopup(item, collectionCategory) {
     modal.querySelector('.popup-count').textContent = `${item.count || item.itemCount || 0} items`;
     modal.querySelector('.popup-category').textContent = collectionCategory || item.category || 'Collection';
     modal.querySelector('.popup-description').textContent = item.description || 'No description available.';
-    
+
     // Update stats
     const stats = modal.querySelectorAll('.stat-number');
     stats[0].textContent = item.count || item.itemCount || 0;
@@ -223,7 +223,7 @@ function openPopup(item, collectionCategory) {
 
     // Get the "View Collection" button
     const viewButton = modal.querySelector('.popup-btn-primary');
-    
+
     // To prevent multiple event listeners from stacking up, we replace the button with a clone
     const newViewButton = viewButton.cloneNode(true);
     viewButton.parentNode.replaceChild(newViewButton, viewButton);
