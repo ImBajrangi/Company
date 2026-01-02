@@ -19,24 +19,48 @@
     async function getSecureBlobUrl(ref) {
         if (!ref) return null;
 
-        let targetUrl = ref;
+        // Handle full URLs
+        if (ref.startsWith('http://') || ref.startsWith('https://')) {
+            if (blobCache.has(ref)) return blobCache.get(ref);
+            try {
+                const response = await fetch(ref);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                blobCache.set(ref, blobUrl);
+                return blobUrl;
+            } catch (e) {
+                console.warn('Fallback to direct URL:', e);
+                return ref;
+            }
+        }
+
+        // Handle local vault references
         if (ref.startsWith('vault:')) {
             const fileName = ref.replace('vault:', '');
-            const ext = KNOWN_AVIF.includes(fileName) ? '.avif' : DEFAULT_EXT;
-            targetUrl = VAULT_PATH + encodeURIComponent(fileName) + ext;
+            const extensions = KNOWN_AVIF.includes(fileName) ? ['.avif'] : ['.png', '.jpg'];
+
+            for (const ext of extensions) {
+                const targetUrl = VAULT_PATH + encodeURIComponent(fileName) + ext;
+                if (blobCache.has(targetUrl)) return blobCache.get(targetUrl);
+
+                try {
+                    const response = await fetch(targetUrl);
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const blobUrl = URL.createObjectURL(blob);
+                        blobCache.set(targetUrl, blobUrl);
+                        return blobUrl;
+                    }
+                } catch (e) {
+                    // Try next extension
+                }
+            }
+            console.warn(`Could not resolve vault image: ${fileName}`);
+            return null;
         }
 
-        if (blobCache.has(targetUrl)) return blobCache.get(targetUrl);
-
-        try {
-            const response = await fetch(targetUrl);
-            const blob = await response.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            blobCache.set(targetUrl, blobUrl);
-            return blobUrl;
-        } catch (e) {
-            return targetUrl; // Fallback
-        }
+        return ref;
     }
 
     /**
