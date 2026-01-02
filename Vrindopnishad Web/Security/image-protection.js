@@ -19,16 +19,49 @@ class ImageProtector {
     }
 
     init() {
+        // Exclude hero section and header from any protection
+        this.excludedSections = ['.hero-section', 'header', '.header', '.hero-buttons', '.popup-modal'];
+
         this.protectImages();
         this.addGlobalListeners();
         if (this.options.addWatermark) {
             this.addWatermarks();
+        }
+
+        // Ensure buttons are always clickable after protection is applied
+        this.ensureButtonsClickable();
+    }
+
+    ensureButtonsClickable() {
+        // Force all buttons to be clickable
+        const buttons = document.querySelectorAll('button, .btn, .ripple-btn, a');
+        buttons.forEach(btn => {
+            btn.style.pointerEvents = 'auto';
+            btn.style.cursor = 'pointer';
+        });
+
+        // Remove any protection layers that might be overlapping buttons
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+            const protectionLayers = heroSection.querySelectorAll('.image-protection-layer, .protected-image-wrapper');
+            protectionLayers.forEach(layer => layer.remove());
         }
     }
 
     protectImages() {
         const images = document.querySelectorAll('img');
         images.forEach(img => {
+            // Skip images in excluded sections (hero, header, etc.)
+            const isExcluded = this.excludedSections.some(selector => img.closest(selector));
+            if (isExcluded) {
+                return;
+            }
+
+            // Skip if already protected
+            if (img.closest('.protected-image-wrapper')) {
+                return;
+            }
+
             // Basic protection attributes
             img.style.cssText += `
                 user-select: none;
@@ -43,7 +76,7 @@ class ImageProtector {
 
             // Prevent dragging
             img.setAttribute('draggable', 'false');
-            
+
             // Add loading="lazy" if not present
             if (!img.getAttribute('loading')) {
                 img.setAttribute('loading', 'lazy');
@@ -62,7 +95,7 @@ class ImageProtector {
             img.parentNode.insertBefore(wrapper, img);
             wrapper.appendChild(img);
 
-            // Add protection layer
+            // Add protection layer - but make sure it doesn't block buttons
             const protectionLayer = document.createElement('div');
             protectionLayer.className = 'image-protection-layer';
             protectionLayer.style.cssText = `
@@ -72,7 +105,7 @@ class ImageProtector {
                 width: 100%;
                 height: 100%;
                 pointer-events: auto;
-                z-index: 10;
+                z-index: 1;
             `;
             wrapper.appendChild(protectionLayer);
         });

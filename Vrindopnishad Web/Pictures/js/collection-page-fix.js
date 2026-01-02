@@ -343,11 +343,22 @@ function updateHeroSection(heroData) {
 }
 
 function initializeHeroButtons() {
+    console.log('initializeHeroButtons called');
+
     const browseBtn = document.querySelector('.hero-buttons .ripple-btn.orange');
     const infoBtn = document.querySelector('.hero-buttons .ripple-btn.dark');
 
+    console.log('browseBtn found:', browseBtn);
+    console.log('infoBtn found:', infoBtn);
+
     if (browseBtn) {
-        browseBtn.addEventListener('click', () => {
+        // Remove any existing handlers first
+        browseBtn.onclick = null;
+
+        browseBtn.addEventListener('click', (e) => {
+            console.log('Browse button clicked!');
+            e.preventDefault();
+            e.stopPropagation();
             const featuredSection = document.querySelector('.featured-collections');
             if (featuredSection) {
                 window.scrollTo({
@@ -356,10 +367,20 @@ function initializeHeroButtons() {
                 });
             }
         });
+
+        // Ensure button is clickable
+        browseBtn.style.pointerEvents = 'auto';
+        browseBtn.style.cursor = 'pointer';
     }
 
     if (infoBtn) {
-        infoBtn.addEventListener('click', () => {
+        // Remove any existing handlers first
+        infoBtn.onclick = null;
+
+        infoBtn.addEventListener('click', (e) => {
+            console.log('Info button clicked!');
+            e.preventDefault();
+            e.stopPropagation();
             const footer = document.getElementById('contact');
             if (footer) {
                 window.scrollTo({
@@ -368,6 +389,10 @@ function initializeHeroButtons() {
                 });
             }
         });
+
+        // Ensure button is clickable
+        infoBtn.style.pointerEvents = 'auto';
+        infoBtn.style.cursor = 'pointer';
     }
 }
 

@@ -39,12 +39,13 @@
     <!-- Image Resource Helper -->
     <script src="../../../js/image-helper.js"></script>
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
-
 </head>
 
 <body>
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
     <!-- Vrindopnishad Random Loader -->
     <!-- <script
         src="/Vrindopnishad Web/web-extentions/loader/random-loader.js"></script>
@@ -66,10 +67,10 @@
                 <h1>Vrindopnishad</h1>
             </div>
             <nav class="nav-menu">
-                <a data-link="home" class="nav-item">Home</a>
-                <a data-link="gallery" class="nav-item active">Gallery</a>
-                <a data-link="stack" class="nav-item">Collection</a>
-                <a data-link="about" class="nav-item">About</a>
+                <a href="../../Home/main/home.html" class="nav-item">Home</a>
+                <a href="Gallery.html" class="nav-item active">Gallery</a>
+                <a href="../../Stack/main/stack.html" class="nav-item">Collection</a>
+                <a href="../../about code/main/about.html" class="nav-item">About</a>
             </nav>
             <div class="header-right">
                 <button class="search-toggle" id="search-toggle" aria-label="Search">
@@ -87,13 +88,15 @@
                 <p class="hero-description">Discover sacred images and divine artworks that inspire the soul. Explore
                     our carefully curated collection of spiritual photography and religious art.</p>
                 <div class="hero-buttons">
-                    <button class="ripple-btn orange">
+                    <button class="ripple-btn orange" id="browse-btn"
+                        onclick="document.querySelector('.featured-collections')?.scrollIntoView({behavior: 'smooth', block: 'center'})">
                         <span class="btn-text">
                             <i class="fas fa-play"></i>
                             Browse Collections
                         </span>
                     </button>
-                    <button class="ripple-btn dark">
+                    <button class="ripple-btn dark" id="info-btn"
+                        onclick="document.getElementById('contact')?.scrollIntoView({behavior: 'smooth'})">
                         <span class="btn-text">
                             <i class="fas fa-info-circle"></i>
                             Learn More
