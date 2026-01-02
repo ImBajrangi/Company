@@ -36,83 +36,8 @@ document.addEventListener('click', (e) => {
 });
 
 // Create image card element with proper action button structure and animations
-function createImageCard(image, index) {
-    const imageCard = document.createElement('div');
-    imageCard.className = 'image-card';
-    imageCard.setAttribute('data-category', image.category);
-    imageCard.setAttribute('data-index', index);
-    imageCard.setAttribute('data-image-id', image.id || index);
+// Image card creation is handled by the improved version later in the file
 
-    imageCard.innerHTML = `
-        <img data-vault="${image.src}" alt="${image.alt}" loading="lazy">
-        <div class="image-overlay">
-            <div class="image-actions">
-                <button class="action-btn like-btn magnetic" 
-                        data-magnetic-strength="0.6" 
-                        data-action="like"
-                        data-image-index="${index}"
-                        title="Like this image">
-                    <i class="far fa-heart"></i>
-                </button>
-                <button class="action-btn view-btn magnetic" 
-                        data-magnetic-strength="0.6"
-                        data-action="view"
-                        data-image-index="${index}"
-                        title="View full size">
-                    <i class="fas fa-expand"></i>
-                </button>
-                <button class="action-btn download-btn magnetic" 
-                        data-magnetic-strength="0.6"
-                        data-action="download"
-                        data-image-index="${index}"
-                        title="Download image">
-                    <i class="fas fa-download"></i>
-                </button>
-            </div>
-        </div>
-    `;
-
-    return imageCard;
-}
-
-// Add CSS to ensure proper action button animations matching pic-collection.js
-const actionButtonsStyle = document.createElement('style');
-actionButtonsStyle.textContent = `
-        .image-card .action-btn {
-            transform: translateY(20px) !important;
-            opacity: 0 !important;
-            transition: all 0.3s cubic-bezier(0.21, 0.61, 0.35, 1) !important;
-        }
-        
-        .image-card:hover .action-btn {
-            transform: translateY(0) !important;
-            opacity: 1 !important;
-        }
-        
-        .image-card:hover .action-btn:nth-child(1) {
-            transition-delay: 0.1s !important;
-        }
-        
-        .image-card:hover .action-btn:nth-child(2) {
-            transition-delay: 0.2s !important;
-        }
-        
-        .image-card:hover .action-btn:nth-child(3) {
-            transition-delay: 0.3s !important;
-        }
-        
-        .action-btn:hover {
-            background-color: var(--primary-color) !important;
-            transform: translateY(-5px) !important;
-        }
-    `;
-
-if (!document.getElementById('action-buttons-style')) {
-    actionButtonsStyle.id = 'action-buttons-style';
-    document.head.appendChild(actionButtonsStyle);
-    // }
-    return imageCard;
-}
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -224,6 +149,7 @@ function loadImage(img, src) {
 
 // Apply loaded image to element
 function applyImage(img, src) {
+    img.src = src;
     img.setAttribute('data-vault', src);
     img.classList.add('loaded');
     img.style.opacity = '1';
@@ -236,26 +162,16 @@ function setFallbackImage(img) {
     img.classList.add('error');
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM Content Loaded - Starting initialization");
+// Consolidated initialization handled at the end of the file to include URL parameter processing
 
-    // Load gallery from JSON first, then initialize everything else
-    loadGalleryFromJSON().then(() => {
-        initializeAllFeatures();
-
-        // Start observing all lazy images
-        document.querySelectorAll('img.lazy').forEach(img => {
-            imageObserver.observe(img);
-        });
-    });
-});
 
 // Initialize all features
 function initializeAllFeatures() {
 
     initializeFilters();
     initializeLightbox();
-    // initializeThemeToggle();
+    initializeThemeToggle();
+
     initializeSearch();
     initializeAllActionButtons();
     initializeToolsMenu();
@@ -319,7 +235,7 @@ function createImageCard(image, index) {
     imageCard.setAttribute('data-image-id', image.id || index);
 
     imageCard.innerHTML = `
-        <img data-vault="${image.src}" alt="${image.alt}" loading="lazy">
+        <img data-src="${image.src}" alt="${image.alt}" loading="lazy" class="lazy">
         <div class="image-overlay">
             <div class="image-actions">
                 <button class="action-btn like-btn magnetic" 
@@ -352,6 +268,31 @@ function createImageCard(image, index) {
 
 // Initialize comprehensive action button handling
 function initializeAllActionButtons() {
+    // Add CSS to ensure proper action button animations
+    if (!document.getElementById('action-buttons-style')) {
+        const style = document.createElement('style');
+        style.id = 'action-buttons-style';
+        style.textContent = `
+            .image-card .action-btn {
+                transform: translateY(20px) !important;
+                opacity: 0 !important;
+                transition: all 0.3s cubic-bezier(0.21, 0.61, 0.35, 1) !important;
+            }
+            .image-card:hover .action-btn {
+                transform: translateY(0) !important;
+                opacity: 1 !important;
+            }
+            .image-card:hover .action-btn:nth-child(1) { transition-delay: 0.1s !important; }
+            .image-card:hover .action-btn:nth-child(2) { transition-delay: 0.2s !important; }
+            .image-card:hover .action-btn:nth-child(3) { transition-delay: 0.3s !important; }
+            .action-btn:hover {
+                background-color: var(--primary-color) !important;
+                transform: translateY(-5px) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     console.log("Setting up action button handlers...");
 
     // Use event delegation for all action buttons
@@ -1637,132 +1578,10 @@ function loadLikeStates() {
     }
 }
 
-// Enhanced notification system
-function showNotification(message, type = 'info', duration = 3000) {
-    let notificationContainer = document.querySelector('.notification-container');
-
-    if (!notificationContainer) {
-        notificationContainer = document.createElement('div');
-        notificationContainer.className = 'notification-container';
-        document.body.appendChild(notificationContainer);
-    }
-
-    // Define notification properties
-    const notificationTypes = {
-        info: { title: 'Information', icon: 'fa-info-circle', color: '#4a6fff' },
-        success: { title: 'Success', icon: 'fa-check-circle', color: '#3ec74f' },
-        error: { title: 'Error', icon: 'fa-exclamation-circle', color: '#ff5a6a' },
-        warning: { title: 'Warning', icon: 'fa-exclamation-triangle', color: '#ffb347' }
-    };
-
-    const notifType = notificationTypes[type] || notificationTypes.info;
-
-    // Create notification
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.style.setProperty('--notification-color', notifType.color);
-
-    notification.innerHTML = `
-        <div class="notification-icon">
-            <i class="fas ${notifType.icon}"></i>
-        </div>
-        <div class="notification-content">
-            <div class="notification-title">${notifType.title}</div>
-            <div class="notification-message">${message}</div>
-        </div>
-    `;
-
-    // Add cosmic effects
-    if (type === 'success' || type === 'error') {
-        notification.classList.add('glow');
-    }
-
-    // Add to container with animation
-    notificationContainer.appendChild(notification);
-
-    // Animate in
-    gsap.fromTo(notification, {
-        x: 100,
-        opacity: 0,
-        scale: 0.8
-    }, {
-        x: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-    });
-
-    // Add sound effect
-    playNotificationSound(type);
-
-    // Auto remove
-    setTimeout(() => {
-        gsap.to(notification, {
-            x: 100,
-            opacity: 0,
-            scale: 0.8,
-            duration: 0.3,
-            ease: "back.in(1.7)",
-            onComplete: () => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }
-        });
-    }, duration);
-}
-
-// Sound effects for notifications
-function playNotificationSound(type) {
-    try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-
-        const context = new AudioContext();
-        const oscillator = context.createOscillator();
-        const gainNode = context.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(context.destination);
-
-        // Configure sound based on type
-        switch (type) {
-            case 'success':
-                oscillator.frequency.setValueAtTime(880, context.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(660, context.currentTime + 0.2);
-                gainNode.gain.setValueAtTime(0.1, context.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.3);
-                break;
-            case 'error':
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.setValueAtTime(300, context.currentTime);
-                gainNode.gain.setValueAtTime(0.1, context.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
-                break;
-            case 'warning':
-                oscillator.type = 'triangle';
-                oscillator.frequency.setValueAtTime(440, context.currentTime);
-                gainNode.gain.setValueAtTime(0.1, context.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
-                break;
-            default:
-                oscillator.frequency.setValueAtTime(520, context.currentTime);
-                gainNode.gain.setValueAtTime(0.08, context.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
-        }
-
-        oscillator.start();
-        oscillator.stop(context.currentTime + 0.5);
-
-    } catch (error) {
-        // Silently fail if audio is not supported
-        console.log('Audio notification not available:', error);
-    }
-}
-
-// Add this to your pic-simple.js file
+// Consolidated initialization handled at the end of the file
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM Content Loaded - Starting initialization");
+
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const collectionId = urlParams.get('collection');
@@ -1770,43 +1589,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = urlParams.get('title');
     const count = urlParams.get('count');
 
-    // If coming from popup, apply the specific filter
-    if (category && category !== 'all') {
-        // Set the filter button as active
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        filterButtons.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-filter') === category) {
-                btn.classList.add('active');
-            }
-        });
-
-        // Apply the filter
-        currentFilter = category;
-        applyCurrentFilters();
-    }
-
-    // Update page title if specified
-    if (title) {
-        document.title = `${title} - Vrindopnishad Collection`;
-
-        // You could also add a header showing the specific collection
-        const header = document.querySelector('.filter-container');
-        if (header && collectionId) {
-            const collectionHeader = document.createElement('div');
-            collectionHeader.className = 'collection-header';
-            collectionHeader.innerHTML = `
-                <h2 style="margin-bottom: 1rem; color: var(--text-light);">
-                    ${title} <span style="opacity: 0.7;">(${count} images)</span>
-                </h2>
-            `;
-            header.insertBefore(collectionHeader, header.firstChild);
-        }
-    }
-
-    // Continue with your existing initialization
+    // Load gallery from JSON first, then initialize everything else
     loadGalleryFromJSON().then(() => {
         initializeAllFeatures();
-        // ... rest of your code
+
+        // If coming from popup, apply the specific filter
+        if (category && category !== 'all') {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-filter') === category) {
+                    btn.classList.add('active');
+                }
+            });
+
+            currentFilter = category;
+            applyCurrentFilters();
+        }
+
+        // Update page title if specified
+        if (title) {
+            document.title = `${title} - Vrindopnishad Collection`;
+            const header = document.querySelector('.filter-container');
+            if (header && (collectionId || category)) {
+                const collectionHeader = document.createElement('div');
+                collectionHeader.className = 'collection-header';
+                collectionHeader.innerHTML = `
+                    <h2 style="margin-bottom: 1rem; color: var(--text-light);">
+                        ${title} <span style="opacity: 0.7;">(${count || ''} images)</span>
+                    </h2>
+                `;
+                header.insertBefore(collectionHeader, header.firstChild);
+            }
+        }
+
+        // Start observing all lazy images
+        document.querySelectorAll('img.lazy').forEach(img => {
+            imageObserver.observe(img);
+        });
     });
 });
