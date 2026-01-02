@@ -487,6 +487,7 @@ function openPopup(item) {
     }
 
     hero.setAttribute('data-vault', item.image);
+    hero.style.backgroundImage = `url('${item.image}')`;
 
     const
         popupTitle = document.querySelector('.popup-title'),

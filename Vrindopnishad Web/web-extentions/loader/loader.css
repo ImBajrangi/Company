@@ -246,12 +246,12 @@ body.vrinda-loading {
     overflow: hidden;
 }
 
-body.vrinda-loading>*:not(.vrinda-loader-overlay) {
+body.vrinda-loading>*:not(.vrinda-loader-overlay):not(.cursor-dot):not(.cursor-circle) {
     opacity: 0;
     visibility: hidden;
 }
 
-body:not(.vrinda-loading)>*:not(.vrinda-loader-overlay) {
+body:not(.vrinda-loading)>*:not(.vrinda-loader-overlay):not(.cursor-dot):not(.cursor-circle) {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.8s ease, visibility 0.8s ease;
