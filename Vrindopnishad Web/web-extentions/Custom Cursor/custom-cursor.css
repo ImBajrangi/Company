@@ -13,7 +13,7 @@
     background: #fff;
     border-radius: 55%;
     pointer-events: none;
-    z-index: 10001;
+    z-index: 100001;
     transform: translate(-50%, -50%);
     transition: width 0.3s ease, height 0.3s ease, background 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
     mix-blend-mode: difference;
@@ -30,7 +30,7 @@
     border: 1px solid rgba(255, 255, 255, 0.505);
     border-radius: 48%;
     pointer-events: none;
-    z-index: 10000;
+    z-index: 100000;
     transform: translate(-50%, -50%);
     transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
     mix-blend-mode: difference;
@@ -113,14 +113,14 @@
 
 /* Mobile/Touch Device Styles */
 @media (hover: none) and (pointer: coarse) {
+
     .cursor-dot,
     .cursor-circle,
     [id^="svg-cursor-"] {
         display: none;
     }
-    
+
     * {
         cursor: auto !important;
     }
 }
-

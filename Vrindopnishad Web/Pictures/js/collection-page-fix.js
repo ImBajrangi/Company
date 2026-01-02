@@ -127,6 +127,9 @@ function initializeTheme() {
 
 // Collection generation
 function initializeCollections() {
+    // Initialize My List first
+    refreshMyListUI();
+
     if (collectionsData.featured) generateCollectionItems('featured-slider', collectionsData.featured.items || collectionsData.featured);
     if (collectionsData.popular) generateCollectionItems('popular-slider', collectionsData.popular.items || collectionsData.popular);
     if (collectionsData.rapper) generateCollectionItems('rapper-slider', collectionsData.rapper.items || collectionsData.rapper);
@@ -134,6 +137,46 @@ function initializeCollections() {
     if (collectionsData.dark) generateCollectionItems('dark-slider', collectionsData.dark.items || collectionsData.dark);
     if (collectionsData.warrior) generateCollectionItems('warrior-slider', collectionsData.warrior.items || collectionsData.warrior);
     if (collectionsData.chhibi) generateCollectionItems('chhibi-slider', collectionsData.chhibi.items || collectionsData.chhibi);
+}
+
+// My List Functionality
+function getMyList() {
+    return JSON.parse(localStorage.getItem('myCollectionList') || '[]');
+}
+
+function toggleMyList(item) {
+    let myList = getMyList();
+    const index = myList.findIndex(i => i.id === item.id);
+
+    if (index === -1) {
+        myList.push(item);
+        if (window.showNotification) showNotification(`Added ${item.title} to My List`, 'success');
+    } else {
+        myList.splice(index, 1);
+        if (window.showNotification) showNotification(`Removed ${item.title} from My List`, 'info');
+    }
+
+    localStorage.setItem('myCollectionList', JSON.stringify(myList));
+    refreshMyListUI();
+    return index === -1; // returns true if added
+}
+
+function refreshMyListUI() {
+    const myList = getMyList();
+    const myListSection = document.getElementById('my-list-section');
+    const myListSlider = document.getElementById('mylist-slider');
+
+    if (!myListSection || !myListSlider) return;
+
+    if (myList.length > 0) {
+        myListSection.classList.add('active');
+        generateCollectionItems('mylist-slider', myList);
+        // Re-initialize slider specifically for My List if it was previously empty
+        initializeSliders();
+    } else {
+        myListSection.classList.remove('active');
+        myListSlider.innerHTML = '';
+    }
 }
 
 // Fixed header background rotation
@@ -299,6 +342,35 @@ function updateHeroSection(heroData) {
     if (heroDescription) heroDescription.textContent = heroData.description;
 }
 
+function initializeHeroButtons() {
+    const browseBtn = document.querySelector('.hero-buttons .ripple-btn.orange');
+    const infoBtn = document.querySelector('.hero-buttons .ripple-btn.dark');
+
+    if (browseBtn) {
+        browseBtn.addEventListener('click', () => {
+            const featuredSection = document.querySelector('.featured-collections');
+            if (featuredSection) {
+                window.scrollTo({
+                    top: featuredSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    if (infoBtn) {
+        infoBtn.addEventListener('click', () => {
+            const footer = document.getElementById('contact');
+            if (footer) {
+                window.scrollTo({
+                    top: footer.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+}
+
 function updateSiteConfig(config) {
     const siteName = document.querySelector('.logo h1');
     const siteIcon = document.querySelector('.logo i');
@@ -311,7 +383,67 @@ function updateSiteConfig(config) {
 function updateNavigation(navItems) {
     const navMenu = document.querySelector('.nav-menu');
     if (!navMenu) return;
-    navMenu.innerHTML = navItems.map(item => `<a href="${item.href}" class="nav-item ${item.active ? 'active' : ''}">${item.name}</a>`).join('');
+
+    navMenu.innerHTML = '';
+
+    navItems.forEach(item => {
+        if (item.name === 'Browse by Category') {
+            const dropdown = document.createElement('div');
+            dropdown.className = 'nav-item nav-dropdown';
+            dropdown.innerHTML = `
+                <span>${item.name} <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i></span>
+                <div class="dropdown-menu">
+                    <a href="#featured-slider" class="dropdown-item">Featured</a>
+                    <a href="#popular-slider" class="dropdown-item">Popular</a>
+                    <a href="#rapper-slider" class="dropdown-item">Rapper Style</a>
+                    <a href="#anime-slider" class="dropdown-item">Anime & Art</a>
+                    <a href="#dark-slider" class="dropdown-item">Dark Aesthetic</a>
+                    <a href="#warrior-slider" class="dropdown-item">Warrior Styles</a>
+                    <a href="#chhibi-slider" class="dropdown-item">Chhibi Styles</a>
+                </div>
+            `;
+            navMenu.appendChild(dropdown);
+
+            // Add scroll behavior to dropdown items
+            dropdown.querySelectorAll('.dropdown-item').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId)?.closest('.content-row');
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        } else if (item.name === 'My List') {
+            const link = document.createElement('a');
+            link.className = `nav-item ${item.active ? 'active' : ''}`;
+            link.href = '#';
+            link.textContent = item.name;
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const myListSection = document.getElementById('my-list-section');
+                if (myListSection) {
+                    window.scrollTo({
+                        top: myListSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    if (window.showNotification) showNotification("Your list is empty", 'info');
+                }
+            });
+            navMenu.appendChild(link);
+        } else {
+            const link = document.createElement('a');
+            link.className = `nav-item ${item.active ? 'active' : ''}`;
+            link.href = item.href;
+            link.textContent = item.name;
+            navMenu.appendChild(link);
+        }
+    });
 }
 
 // Enhanced Popup with proper data passing
@@ -347,6 +479,27 @@ function openPopup(item) {
         statNumbers[0].textContent = item.count || item.itemCount || 0;
         statNumbers[1].textContent = item.views ? formatNumber(item.views) : '0';
         statNumbers[2].textContent = Math.floor(Math.random() * 1000);
+    }
+
+    // ENHANCED: Add to My List functionality
+    const myListBtn = modal.querySelector('.popup-btn-secondary');
+    if (myListBtn) {
+        const myList = getMyList();
+        const isInList = myList.some(i => i.id === item.id);
+
+        myListBtn.innerHTML = isInList ?
+            '<i class="fas fa-check"></i> In My List' :
+            '<i class="fas fa-plus"></i> Add to My List';
+
+        const newMyListBtn = myListBtn.cloneNode(true);
+        myListBtn.parentNode.replaceChild(newMyListBtn, myListBtn);
+
+        newMyListBtn.addEventListener('click', () => {
+            const added = toggleMyList(item);
+            newMyListBtn.innerHTML = added ?
+                '<i class="fas fa-check"></i> In My List' :
+                '<i class="fas fa-plus"></i> Add to My List';
+        });
     }
 
     // ENHANCED: Store complete collection data and navigate
@@ -426,6 +579,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeHeaderBackground();
     initializeSliders();
     initPopup();
+    initializeHeroButtons();
 
     if (dataLoaded && Object.keys(collectionsData).length > 0) {
         initializeCollections();

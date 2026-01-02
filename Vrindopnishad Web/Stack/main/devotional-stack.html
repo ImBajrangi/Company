@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad - Granthi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Devanagari:wght@400;700&display=swap"
+        rel="stylesheet">
     <!-- <link rel="stylesheet" href="/Custom/custom-cursor.css"> -->
     <!-- <script src="/Custom/custom-cursor.js"></script> -->
+    <link rel="stylesheet" href="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --primary: #ff6b35;
             --btn-hover: #86665a;
@@ -29,7 +34,7 @@
             --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --gradient-3: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
-        
+
         ::selection {
             background: var(--btn-hover);
             color: var(--secondary);
@@ -40,7 +45,7 @@
             color: var(--text-primary);
         }
 
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-dark);
@@ -58,14 +63,23 @@
             height: 100%;
             z-index: -1;
             background: radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 20%, rgba(139, 69, 19, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(139, 69, 19, 0.08) 0%, transparent 50%);
             animation: bgPulse 20s ease-in-out infinite;
         }
 
         @keyframes bgPulse {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
+
+            0%,
+            100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
         }
 
         /* Floating Particles */
@@ -94,14 +108,17 @@
                 opacity: 0;
                 transform: translateY(100vh) scale(0);
             }
+
             10% {
                 opacity: 1;
                 transform: translateY(80vh) scale(1);
             }
+
             90% {
                 opacity: 1;
                 transform: translateY(10vh) scale(1);
             }
+
             100% {
                 opacity: 0;
                 transform: translateY(0) scale(0);
@@ -204,6 +221,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -220,8 +238,15 @@
         }
 
         @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4); }
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4);
+            }
         }
 
         h1 {
@@ -237,8 +262,15 @@
         }
 
         @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .hero-subtitle {
@@ -538,8 +570,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .modal-content {
@@ -554,8 +591,15 @@
         }
 
         @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .modal-close {
@@ -626,25 +670,26 @@
             .nav-links {
                 display: none;
             }
-            
+
             h1 {
                 font-size: 3rem;
             }
-            
+
             .books-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Custom Cursor Elements -->
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
-    
+
     <!-- Animated Background -->
     <div class="animated-bg"></div>
-    
+
     <!-- Floating Particles -->
     <div class="particles" id="particles"></div>
 
@@ -669,7 +714,8 @@
         <div class="hero-content">
             <div class="sanskrit-blessing">ॐ सह नाववतु । सह नौ भुनक्तु ।</div>
             <h1>Granthi</h1>
-            <p class="hero-subtitle">Journey through timeless wisdom from ancient Vedic scriptures to modern spiritual classics</p>
+            <p class="hero-subtitle">Journey through timeless wisdom from ancient Vedic scriptures to modern spiritual
+                classics</p>
             <div class="cta-buttons">
                 <button class="btn btn-primary" onclick="scrollToSection('collection')">Explore Collection</button>
                 <button class="btn btn-secondary" onclick="openSearchModal()">Search Books</button>
@@ -704,17 +750,20 @@
         </div>
 
         <!-- Vedic Texts -->
-        <h3 style="color: var(--primary); margin-bottom: 2rem; font-family: 'Crimson Text', serif;">Vedic Scriptures</h3>
+        <h3 style="color: var(--primary); margin-bottom: 2rem; font-family: 'Crimson Text', serif;">Vedic Scriptures
+        </h3>
         <div class="books-grid" id="vedic">
             <div class="book-card" onclick="openBookDetails('bhagavad-gita')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1609358905581-e5381612486e?w=300&h=400&fit=crop" alt="Bhagavad Gita">
+                    <img src="https://images.unsplash.com/photo-1609358905581-e5381612486e?w=300&h=400&fit=crop"
+                        alt="Bhagavad Gita">
                     <span class="book-badge">Must Read</span>
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Bhagavad Gita</h3>
                     <p class="book-author">Ved Vyasa</p>
-                    <p class="book-description">The eternal dialogue between Arjuna and Krishna, revealing the essence of dharma, karma, and spiritual wisdom.</p>
+                    <p class="book-description">The eternal dialogue between Arjuna and Krishna, revealing the essence
+                        of dharma, karma, and spiritual wisdom.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -724,13 +773,15 @@
 
             <div class="book-card" onclick="openBookDetails('upanishads')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1628619876503-2db74e724757?w=300&h=400&fit=crop" alt="Upanishads">
+                    <img src="https://images.unsplash.com/photo-1628619876503-2db74e724757?w=300&h=400&fit=crop"
+                        alt="Upanishads">
                     <span class="book-badge">Essential</span>
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Principal Upanishads</h3>
                     <p class="book-author">Ancient Rishis</p>
-                    <p class="book-description">The philosophical essence of the Vedas, exploring the nature of reality, consciousness, and the ultimate truth.</p>
+                    <p class="book-description">The philosophical essence of the Vedas, exploring the nature of reality,
+                        consciousness, and the ultimate truth.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -740,12 +791,14 @@
 
             <div class="book-card" onclick="openBookDetails('rigveda')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=300&h=400&fit=crop" alt="Rig Veda">
+                    <img src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=300&h=400&fit=crop"
+                        alt="Rig Veda">
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Rig Veda</h3>
                     <p class="book-author">Ancient Rishis</p>
-                    <p class="book-description">The oldest known Vedic Sanskrit text, containing hymns dedicated to various deities and cosmic principles.</p>
+                    <p class="book-description">The oldest known Vedic Sanskrit text, containing hymns dedicated to
+                        various deities and cosmic principles.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -755,17 +808,20 @@
         </div>
 
         <!-- Puranas & Epics -->
-        <h3 style="color: var(--primary); margin: 3rem 0 2rem; font-family: 'Crimson Text', serif;">Puranas & Itihasas</h3>
+        <h3 style="color: var(--primary); margin: 3rem 0 2rem; font-family: 'Crimson Text', serif;">Puranas & Itihasas
+        </h3>
         <div class="books-grid">
             <div class="book-card" onclick="openBookDetails('ramayana')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=300&h=400&fit=crop" alt="Ramayana">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=300&h=400&fit=crop"
+                        alt="Ramayana">
                     <span class="book-badge">Epic</span>
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Ramayana</h3>
                     <p class="book-author">Valmiki</p>
-                    <p class="book-description">The epic journey of Lord Rama, exemplifying dharma, devotion, and the triumph of good over evil.</p>
+                    <p class="book-description">The epic journey of Lord Rama, exemplifying dharma, devotion, and the
+                        triumph of good over evil.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -775,13 +831,15 @@
 
             <div class="book-card" onclick="openBookDetails('mahabharata')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1583119912267-cc97c911e416?w=300&h=400&fit=crop" alt="Mahabharata">
+                    <img src="https://images.unsplash.com/photo-1583119912267-cc97c911e416?w=300&h=400&fit=crop"
+                        alt="Mahabharata">
                     <span class="book-badge">Epic</span>
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Mahabharata</h3>
                     <p class="book-author">Ved Vyasa</p>
-                    <p class="book-description">The great epic of the Bharata dynasty, containing profound teachings on dharma, karma, and human nature.</p>
+                    <p class="book-description">The great epic of the Bharata dynasty, containing profound teachings on
+                        dharma, karma, and human nature.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -791,12 +849,14 @@
 
             <div class="book-card" onclick="openBookDetails('bhagavata-purana')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=300&h=400&fit=crop" alt="Bhagavata Purana">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=300&h=400&fit=crop"
+                        alt="Bhagavata Purana">
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Srimad Bhagavatam</h3>
                     <p class="book-author">Ved Vyasa</p>
-                    <p class="book-description">The beautiful narration of Lord Krishna's pastimes and the path of devotional service.</p>
+                    <p class="book-description">The beautiful narration of Lord Krishna's pastimes and the path of
+                        devotional service.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -806,17 +866,20 @@
         </div>
 
         <!-- Modern Spiritual Texts -->
-        <h3 style="color: var(--primary); margin: 3rem 0 2rem; font-family: 'Crimson Text', serif;" id="modern">Modern Spiritual Classics</h3>
+        <h3 style="color: var(--primary); margin: 3rem 0 2rem; font-family: 'Crimson Text', serif;" id="modern">Modern
+            Spiritual Classics</h3>
         <div class="books-grid">
             <div class="book-card" onclick="openBookDetails('autobiography-yogi')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop" alt="Autobiography of a Yogi">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop"
+                        alt="Autobiography of a Yogi">
                     <span class="book-badge">Bestseller</span>
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Autobiography of a Yogi</h3>
                     <p class="book-author">Paramahansa Yogananda</p>
-                    <p class="book-description">A spiritual classic that introduces the Western world to the teachings of meditation and yoga.</p>
+                    <p class="book-description">A spiritual classic that introduces the Western world to the teachings
+                        of meditation and yoga.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -826,13 +889,15 @@
 
             <div class="book-card" onclick="openBookDetails('power-now')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=300&h=400&fit=crop" alt="The Power of Now">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=300&h=400&fit=crop"
+                        alt="The Power of Now">
                     <span class="book-badge">Popular</span>
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">The Power of Now</h3>
                     <p class="book-author">Eckhart Tolle</p>
-                    <p class="book-description">A guide to spiritual enlightenment and the importance of living in the present moment.</p>
+                    <p class="book-description">A guide to spiritual enlightenment and the importance of living in the
+                        present moment.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -842,12 +907,14 @@
 
             <div class="book-card" onclick="openBookDetails('be-here-now')">
                 <div class="book-cover">
-                    <img src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=300&h=400&fit=crop" alt="Be Here Now">
+                    <img src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=300&h=400&fit=crop"
+                        alt="Be Here Now">
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">Be Here Now</h3>
                     <p class="book-author">Ram Dass</p>
-                    <p class="book-description">A seminal work on consciousness, spirituality, and the journey of awakening to one's true nature.</p>
+                    <p class="book-description">A seminal work on consciousness, spirituality, and the journey of
+                        awakening to one's true nature.</p>
                     <div class="book-actions">
                         <button class="book-btn btn-read">Read Now</button>
                         <button class="book-btn btn-download">Download</button>
@@ -874,14 +941,15 @@
             <div class="footer-section">
                 <h3>Vrindopnishad</h3>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    A digital sanctuary preserving and sharing the timeless wisdom of ancient scriptures and modern spiritual teachings.
+                    A digital sanctuary preserving and sharing the timeless wisdom of ancient scriptures and modern
+                    spiritual teachings.
                 </p>
                 <div class="sanskrit-blessing" style="font-size: 1rem;">
                     सर्वे भवन्तु सुखिनः<br>
                     सर्वे सन्तु निरामयाः
                 </div>
             </div>
-            
+
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <div class="footer-links">
@@ -892,7 +960,7 @@
                     <a href="#about">About Us</a>
                 </div>
             </div>
-            
+
             <div class="footer-section">
                 <h3>Categories</h3>
                 <div class="footer-links">
@@ -903,7 +971,7 @@
                     <a href="#">Meditation Guides</a>
                 </div>
             </div>
-            
+
             <div class="footer-section">
                 <h3>Connect With Us</h3>
                 <p style="color: var(--text-secondary); margin-bottom: 1rem;">
@@ -914,7 +982,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
             <p>© 2024 Vrindopnishad. Made with devotion and love. | हरि ॐ</p>
         </div>
@@ -925,7 +993,7 @@
         function createParticles() {
             const container = document.getElementById('particles');
             const particleCount = 5;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -935,7 +1003,7 @@
                 container.appendChild(particle);
             }
         }
-        
+
         createParticles();
 
         // Navbar scroll effect
@@ -961,7 +1029,7 @@
             const tabs = document.querySelectorAll('.filter-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
-            
+
             // Add filtering logic here
             console.log('Filtering by:', category);
         }
@@ -970,12 +1038,12 @@
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
             const bookCards = document.querySelectorAll('.book-card');
-            
+
             bookCards.forEach(card => {
                 const title = card.querySelector('.book-title').textContent.toLowerCase();
                 const author = card.querySelector('.book-author').textContent.toLowerCase();
                 const description = card.querySelector('.book-description').textContent.toLowerCase();
-                
+
                 if (title.includes(searchTerm) || author.includes(searchTerm) || description.includes(searchTerm)) {
                     card.style.display = 'block';
                 } else {
@@ -1031,7 +1099,7 @@ Through personal experiences and encounters with spiritual figures of both East 
         function openBookDetails(bookId) {
             const modal = document.getElementById('bookModal');
             const details = bookDetails[bookId];
-            
+
             if (details) {
                 document.getElementById('modalTitle').textContent = details.title;
                 document.getElementById('modalContent').textContent = details.content;
@@ -1085,11 +1153,11 @@ Through personal experiences and encounters with spiritual figures of both East 
 
         // Add hover effect to buttons
         document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function(e) {
+            btn.addEventListener('mouseenter', function (e) {
                 const rect = this.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 const ripple = document.createElement('span');
                 ripple.style.position = 'absolute';
                 ripple.style.left = x + 'px';
@@ -1101,11 +1169,11 @@ Through personal experiences and encounters with spiritual figures of both East 
                 ripple.style.transform = 'translate(-50%, -50%)';
                 ripple.style.pointerEvents = 'none';
                 ripple.style.animation = 'ripple 0.6s ease-out';
-                
+
                 this.style.position = 'relative';
                 this.style.overflow = 'hidden';
                 this.appendChild(ripple);
-                
+
                 setTimeout(() => ripple.remove(), 600);
             });
         });
@@ -1132,5 +1200,7 @@ Through personal experiences and encounters with spiritual figures of both East 
             }
         });
     </script>
+    <script src="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
 </body>
+
 </html>

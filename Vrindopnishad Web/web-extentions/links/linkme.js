@@ -18,24 +18,26 @@ const pageAssets = {
         }
       },
       { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
-      { 
+      {
         href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
         attributes: { class: 'css' }
-      }
+      },
+      { href: '/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css' }
     ],
     js: [
-      { 
+      {
         src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
         attributes: { defer: true } // 'defer' is ok for a standalone script
-      }
+      },
+      { src: '/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js' }
     ]
   },
-  
+
   // 'gallery' assets for Gallery.html
   gallery: {
     css: [
       { href: 'https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap' },
-      { 
+      {
         href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/claude-collection.css',
         attributes: { class: 'style' }
       },
@@ -71,18 +73,22 @@ const pageAssets = {
   // 'home' assets for Home.html
   index: {
     css: [
-      { href: 'https://fonts.googleapis.com/css2?family=Anton&display=swap',
+      {
+        href: 'https://fonts.googleapis.com/css2?family=Anton&display=swap',
         attributes: { rel: 'stylesheet' }
-       },
+      },
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/styles.css' },
       { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/image-hover.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
+      {
+        href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
         attributes: { class: 'stylesheet' }
       },
-      { href: "https://fonts.googleapis.com/css2?family=Anton&display=swap",
+      {
+        href: "https://fonts.googleapis.com/css2?family=Anton&display=swap",
         attributes: { rel: 'stylesheet' }
       },
-      { href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+      {
+        href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
         attributes: { rel: 'stylesheet' }
       }
     ],
@@ -90,7 +96,7 @@ const pageAssets = {
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/animations.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js' },
       { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' },
-      { 
+      {
         src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
         attributes: { defer: true }
       }
@@ -136,12 +142,12 @@ function loadJs(asset) {
 
   const script = document.createElement('script');
   script.src = assetObj.src;
-  
+
   // *** FIX ***
   // REMOVED 'script.defer = true;'
   // This ensures scripts load and execute in the order they are added,
   // which is required for dependencies like GSAP -> ScrollTrigger
-  
+
   // Apply all custom attributes
   if (assetObj.attributes) {
     for (const [key, value] of Object.entries(assetObj.attributes)) {
@@ -154,7 +160,7 @@ function loadJs(asset) {
   }
 
   script.onload = () => {
-      console.log(`Loaded JS: ${assetObj.src}`);
+    console.log(`Loaded JS: ${assetObj.src}`);
   };
   script.onerror = () => console.error(`Failed to load JS: ${assetObj.src}`);
 
@@ -172,7 +178,7 @@ function loadJs(asset) {
  */
 function loadPageAssets(pageName) {
   console.log(`Loading assets for: ${pageName}`);
-  
+
   // Always load common assets
   const common = pageAssets.common;
   if (common) {

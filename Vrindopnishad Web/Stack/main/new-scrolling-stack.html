@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Literary Collection</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css">
     <style>
         * {
             margin: 0;
@@ -160,7 +163,7 @@
             justify-content: center;
             font-size: 5rem;
             margin-bottom: 30px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -286,7 +289,7 @@
             left: 0;
             right: 0;
             padding: 40px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
             color: white;
             opacity: 0;
             transform: translateY(20px);
@@ -355,19 +358,26 @@
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-20px);
+            }
         }
 
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 3.5rem;
             }
-            
+
             .section-title {
                 font-size: 3rem;
             }
-            
+
             .poems-grid {
                 grid-template-columns: 1fr;
                 gap: 50px;
@@ -392,6 +402,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Parallax Circles -->
     <div class="parallax-circle circle-1"></div>
@@ -420,49 +431,49 @@
                 <h3>Whispers of Dawn</h3>
                 <p class="author">— Emily Verse</p>
                 <p>In the quiet of morning light,<br>
-                Where shadows dance with golden bright,<br>
-                The world awakens, soft and new,<br>
-                With promises in morning dew.</p>
+                    Where shadows dance with golden bright,<br>
+                    The world awakens, soft and new,<br>
+                    With promises in morning dew.</p>
             </div>
             <div class="poem-card" data-speed="1.1">
                 <h3>Ocean's Memory</h3>
                 <p class="author">— Marcus Wave</p>
                 <p>The waves remember every shore,<br>
-                Every heart that came before,<br>
-                In rhythmic dance, they tell their tale,<br>
-                Of love and loss beyond the pale.</p>
+                    Every heart that came before,<br>
+                    In rhythmic dance, they tell their tale,<br>
+                    Of love and loss beyond the pale.</p>
             </div>
             <div class="poem-card" data-speed="0.85">
                 <h3>Midnight Dreams</h3>
                 <p class="author">— Luna Sky</p>
                 <p>When moonlight paints the sleeping earth,<br>
-                And stars give dreams their gentle birth,<br>
-                The night becomes a canvas wide,<br>
-                Where wishes and the world collide.</p>
+                    And stars give dreams their gentle birth,<br>
+                    The night becomes a canvas wide,<br>
+                    Where wishes and the world collide.</p>
             </div>
             <div class="poem-card" data-speed="1.05">
                 <h3>Autumn's Song</h3>
                 <p class="author">— Oliver Reed</p>
                 <p>Leaves like memories fall and fade,<br>
-                In golden light and amber shade,<br>
-                Each whisper tells of summer's end,<br>
-                And promises that autumn sends.</p>
+                    In golden light and amber shade,<br>
+                    Each whisper tells of summer's end,<br>
+                    And promises that autumn sends.</p>
             </div>
             <div class="poem-card" data-speed="0.95">
                 <h3>City Lights</h3>
                 <p class="author">— Sarah Urban</p>
                 <p>A million stories in the night,<br>
-                Each window holds a different light,<br>
-                The city breathes, alive and vast,<br>
-                A present built upon the past.</p>
+                    Each window holds a different light,<br>
+                    The city breathes, alive and vast,<br>
+                    A present built upon the past.</p>
             </div>
             <div class="poem-card" data-speed="1.08">
                 <h3>Mountain Silence</h3>
                 <p class="author">— James Peak</p>
                 <p>Where eagles soar and silence reigns,<br>
-                Above the world, beyond its pains,<br>
-                The mountains stand in ancient grace,<br>
-                Time's monument in endless space.</p>
+                    Above the world, beyond its pains,<br>
+                    The mountains stand in ancient grace,<br>
+                    Time's monument in endless space.</p>
             </div>
         </div>
     </section>
@@ -652,7 +663,7 @@
         // Poem cards with heavy, dramatic entrance
         gsap.utils.toArray('.poem-card').forEach((card, i) => {
             const direction = i % 2 === 0 ? -200 : 200;
-            
+
             gsap.fromTo(card, {
                 x: direction,
                 y: 150,
@@ -730,7 +741,7 @@
         // PDF items with heavy slide animation
         gsap.utils.toArray('.pdf-item').forEach((pdf, i) => {
             const direction = i % 2 === 0 ? -300 : 300;
-            
+
             gsap.fromTo(pdf, {
                 x: direction,
                 y: 100,
@@ -768,14 +779,14 @@
         // Expanding Media Gallery Animation
         gsap.utils.toArray('.expanding-media').forEach((media, index) => {
             const wrapper = media.querySelector('.media-wrapper');
-            
+
             // Initial state: small and faded
             gsap.set(wrapper, {
                 scale: 0.6,
                 borderRadius: '30px',
                 opacity: 0.5
             });
-            
+
             // Phase 1: Scale up animation as you scroll into view
             gsap.to(wrapper, {
                 scale: 1.05,
@@ -888,5 +899,7 @@
             }
         });
     </script>
+    <script src="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
 </body>
+
 </html>

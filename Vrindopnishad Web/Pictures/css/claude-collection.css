@@ -85,8 +85,6 @@ body {
     align-items: center;
     justify-content: space-between;
     transition: background-color 0.3s ease;
-    position: relative;
-    overflow: hidden;
 }
 
 /* Header gradients for dark mode */
@@ -183,6 +181,60 @@ body:not(.dark-mode) .header::before {
 .nav-item:hover,
 .nav-item.active {
     color: var(--text-gray);
+}
+
+/* Dropdown Support */
+.nav-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-secondary);
+    min-width: 200px;
+    box-shadow: 0 8px 16px var(--shadow-color);
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    z-index: 1000;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--primary-color);
+}
+
+/* My List Row Specifics */
+.my-list-row {
+    display: none;
+    /* Hidden by default, shown if items exist */
+    margin-bottom: 4rem;
+}
+
+.my-list-row.active {
+    display: block;
 }
 
 .header-right {
