@@ -589,6 +589,16 @@
                         Enable Sound
                     </button>
 
+                    <!-- **** NEW: My Orders Button **** -->
+                    <button id="my-orders-btn"
+                        class="hidden w-10 h-10 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-all">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                            </path>
+                        </svg>
+                    </button>
+
                     <!-- **** NEW: Notification Bell **** -->
                     <div class="relative flex-shrink-0">
                         <button id="notification-bell-btn"
@@ -689,6 +699,18 @@
                             <div id="order-form-container" class="card p-6"></div>
                             <div id="order-status-container" class="hidden card p-6"></div>
                         </div>
+                    </div>
+                </div>
+                <div id="order-history-view" class="hidden">
+                    <button id="back-to-shops-from-history"
+                        class="btn-primary bg-gray-600 hover:bg-gray-700 mb-6 text-sm py-2 px-4">&larr; Back to
+                        Shops</button>
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-semibold text-gray-900 mb-2">My Orders</h2>
+                        <p class="text-gray-500">View your order history and track orders.</p>
+                    </div>
+                    <div id="customer-order-list" class="space-y-4">
+                        <p class="text-gray-500 text-center py-12">Loading orders...</p>
                     </div>
                 </div>
             </div>
@@ -932,6 +954,97 @@
                     <div class="card p-4 bg-gradient-to-br from-orange-50 to-white border-orange-100">
                         <p class="text-xs font-bold text-orange-600 uppercase mb-1">Firebase</p>
                         <h4 id="summary-firebase-status" class="text-sm font-bold text-green-600">CONNECTED</h4>
+                    </div>
+                </div>
+
+                <!-- SECTION: PAYMENT SETTINGS -->
+                <div class="card mb-6">
+                    <div class="dev-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="section-title">Payment Method Controls</h3>
+                        </div>
+
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-bold text-yellow-800 mb-1">Global Payment Controls</p>
+                                    <p class="text-xs text-yellow-700">Disabling a payment method will prevent ALL
+                                        customers from using it. Orders with disabled methods will be rejected.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Online Payments Toggle -->
+                            <div class="bg-gradient-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-100">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Online Payments</h4>
+                                            <p class="text-xs text-gray-500">via Razorpay</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="toggle-online-payments" class="sr-only peer" checked>
+                                        <div
+                                            class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600">
+                                        </div>
+                                    </label>
+                                </div>
+                                <p id="online-payment-status" class="text-sm font-medium text-green-600">✓ Currently
+                                    Enabled</p>
+                            </div>
+
+                            <!-- COD Toggle -->
+                            <div
+                                class="bg-gradient-to-br from-yellow-50 to-white p-6 rounded-2xl border border-yellow-100">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 bg-yellow-600 rounded-lg flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Cash on Delivery</h4>
+                                            <p class="text-xs text-gray-500">Pay at delivery</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="toggle-cod" class="sr-only peer" checked>
+                                        <div
+                                            class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-yellow-600">
+                                        </div>
+                                    </label>
+                                </div>
+                                <p id="cod-status" class="text-sm font-medium text-green-600">✓ Currently Enabled</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1839,6 +1952,12 @@
         let notificationMgr = null;
         let kitchenNotifier = null;
 
+        // Payment settings
+        let paymentSettings = {
+            onlinePaymentsEnabled: true,
+            codEnabled: true
+        };
+
         try {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
@@ -2239,6 +2358,25 @@
             document.addEventListener('touchstart', unlockAudio, { once: true });
             document.addEventListener('keydown', unlockAudio, { once: true });
 
+            // Load payment settings (Real-time)
+            initPaymentSettingsListener();
+
+            // Wire up payment toggle event listeners
+            const onlineToggle = document.getElementById('toggle-online-payments');
+            const codToggle = document.getElementById('toggle-cod');
+
+            if (onlineToggle) {
+                onlineToggle.addEventListener('change', (e) => {
+                    updatePaymentSetting('online', e.target.checked);
+                });
+            }
+
+            if (codToggle) {
+                codToggle.addEventListener('change', (e) => {
+                    updatePaymentSetting('cod', e.target.checked);
+                });
+            }
+
             // Show button as visual feedback (will auto-hide on first interaction)
             const audioBtn = document.getElementById('enable-audio-btn');
             if (audioBtn) {
@@ -2333,6 +2471,13 @@
             // Bug Fix: Only hide the view switcher if the current user is ONLY a customer
             const isPureCustomer = userRole === 'customer' && !currentUserShopId && userEmail !== DEVELOPER_EMAIL;
             document.getElementById('view-switcher').classList.toggle('hidden', isPureCustomer);
+
+            // Show My Orders button for logged-in customers
+            const myOrdersBtn = document.getElementById('my-orders-btn');
+            if (myOrdersBtn) {
+                const isLoggedInCustomer = !auth.currentUser?.isAnonymous && userRole === 'customer';
+                myOrdersBtn.classList.toggle('hidden', !isLoggedInCustomer);
+            }
 
             const devAccess = userRole === 'developer';
             const canSeeKitchen = devAccess || (['kitchen', 'owner'].includes(userRole) && currentUserShopId);
@@ -2443,10 +2588,13 @@
         });
 
         document.getElementById('back-to-shops').addEventListener('click', showShopSelector);
+        document.getElementById('back-to-shops-from-history').addEventListener('click', showShopSelector);
+        document.getElementById('my-orders-btn').addEventListener('click', showCustomerOrderHistory);
 
         function showShopSelector() {
             document.getElementById('shop-selector-view').style.display = 'block';
             document.getElementById('menu-and-cart-view').style.display = 'none';
+            document.getElementById('order-history-view').style.display = 'none';
             selectedShopId = null;
             currentMenu = [];
             cart = [];
@@ -2477,6 +2625,88 @@
             }
 
             await renderMenu(shopId);
+        }
+
+        async function showCustomerOrderHistory() {
+            // Check if user is logged in
+            if (!userId || userId.startsWith('offline') || auth.currentUser?.isAnonymous) {
+                showAlert('Please log in to view your order history.', true);
+                openProfileModal(true);
+                return;
+            }
+
+            // Show order history view
+            document.getElementById('shop-selector-view').style.display = 'none';
+            document.getElementById('menu-and-cart-view').style.display = 'none';
+            document.getElementById('order-history-view').style.display = 'block';
+
+            const container = document.getElementById('customer-order-list');
+            container.innerHTML = '<p class="text-gray-500 text-center py-12">Loading your orders...</p>';
+
+            try {
+                // Subscribe to user orders in real-time
+                const ordersQuery = query(
+                    collection(db, "orders"),
+                    where("userId", "==", userId)
+                );
+
+                onSnapshot(ordersQuery, (snapshot) => {
+                    const orders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                        .sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+
+                    if (orders.length === 0) {
+                        container.innerHTML = `
+                            <div class="text-center py-12">
+                                <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                <h3 class="text-xl font-semibold text-gray-700 mb-2">No Orders Yet</h3>
+                                <p class="text-gray-500">Your order history will appear here once you place an order.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    container.innerHTML = orders.map(order => {
+                        const date = order.createdAt?.toDate();
+                        const formattedDate = date ? new Intl.DateTimeFormat('en-IN', {
+                            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                        }).format(date) : 'Date N/A';
+
+                        const shopName = allShops.find(s => s.id === order.shopId)?.name || 'Unknown Shop';
+                        const itemCount = order.items?.reduce((sum, item) => sum + (item.quantity || 1), 0) || 0;
+
+                        return `
+                            <div class="card p-4 cursor-pointer hover:shadow-lg transition-all" onclick="viewOrderTracking('${order.id}')">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">${shopName}</h4>
+                                        <p class="text-xs text-gray-500">${formattedDate}</p>
+                                    </div>
+                                    <span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">${itemCount} item${itemCount > 1 ? 's' : ''}</p>
+                                <div class="flex justify-between items-center pt-2 border-t">
+                                    <span class="text-lg font-bold text-gray-900">₹${order.totalAmount}</span>
+                                    ${order.paymentMethod === 'cash' ? '<span class="cash-badge">💵 CASH</span>' : '<span class="text-xs text-green-600">✓ Paid Online</span>'}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }, (error) => {
+                    console.error('Error loading orders:', error);
+                    container.innerHTML = '<p class="text-red-500 text-center py-12">Failed to load orders. Please try again.</p>';
+                });
+            } catch (error) {
+                console.error('Error in showCustomerOrderHistory:', error);
+                container.innerHTML = '<p class="text-red-500 text-center py-12">Failed to load orders. Please try again.</p>';
+            }
+        }
+
+        function viewOrderTracking(orderId) {
+            currentTrackingOrderId = orderId;
+            startTrackingLatestOrder();
         }
 
         async function renderMenu(shopId) {
@@ -2538,6 +2768,84 @@
         }
 
 
+        // ============ PAYMENT SETTINGS ============
+        let paymentSettingsListener = null;
+
+        function initPaymentSettingsListener() {
+            if (paymentSettingsListener) return; // Already listening
+
+            const settingsRef = doc(db, "settings", "paymentConfig");
+            paymentSettingsListener = onSnapshot(settingsRef, (settingsDoc) => {
+                if (settingsDoc.exists()) {
+                    const data = settingsDoc.data();
+                    paymentSettings.onlinePaymentsEnabled = data.onlinePaymentsEnabled !== false;
+                    paymentSettings.codEnabled = data.codEnabled !== false;
+                }
+
+                updatePaymentToggles();
+
+                // If shop menu is open, re-render order form to show/hide methods
+                if (selectedShopId && document.getElementById('order-form')) {
+                    renderOrderForm(null, isShopCurrentlyClosed);
+                }
+            }, (error) => {
+                console.error('Error listening to payment settings:', error);
+            });
+        }
+
+        async function updatePaymentSetting(type, enabled) {
+            try {
+                const settingsRef = doc(db, "settings", "paymentConfig");
+                const updateData = {
+                    [type === 'online' ? 'onlinePaymentsEnabled' : 'codEnabled']: enabled,
+                    updatedAt: serverTimestamp(),
+                    updatedBy: userId || 'system'
+                };
+
+                // Use setDoc with merge to create document if it doesn't exist
+                await setDoc(settingsRef, updateData, { merge: true });
+                paymentSettings[type === 'online' ? 'onlinePaymentsEnabled' : 'codEnabled'] = enabled;
+
+                updatePaymentToggles();
+                showAlert(`${type === 'online' ? 'Online payments' : 'Cash on Delivery'} ${enabled ? 'enabled' : 'disabled'} successfully.`);
+            } catch (error) {
+                console.error('Error updating payment setting:', error);
+                showAlert('Failed to update payment settings: ' + error.message, true);
+            }
+        }
+
+        function updatePaymentToggles() {
+            const onlineToggle = document.getElementById('toggle-online-payments');
+            const codToggle = document.getElementById('toggle-cod');
+            const onlineStatus = document.getElementById('online-payment-status');
+            const codStatus = document.getElementById('cod-status');
+
+            if (onlineToggle) {
+                onlineToggle.checked = paymentSettings.onlinePaymentsEnabled;
+                if (onlineStatus) {
+                    onlineStatus.textContent = paymentSettings.onlinePaymentsEnabled
+                        ? '✓ Currently Enabled'
+                        : '✗ Currently Disabled';
+                    onlineStatus.className = paymentSettings.onlinePaymentsEnabled
+                        ? 'text-sm font-medium text-green-600'
+                        : 'text-sm font-medium text-red-600';
+                }
+            }
+
+            if (codToggle) {
+                codToggle.checked = paymentSettings.codEnabled;
+                if (codStatus) {
+                    codStatus.textContent = paymentSettings.codEnabled
+                        ? '✓ Currently Enabled'
+                        : '✗ Currently Disabled';
+                    codStatus.className = paymentSettings.codEnabled
+                        ? 'text-sm font-medium text-green-600'
+                        : 'text-sm font-medium text-red-600';
+                }
+            }
+        }
+
+
         function updateCart() {
             const itemsEl = document.getElementById('cart-items');
             const summaryEl = document.getElementById('cart-summary');
@@ -2568,6 +2876,39 @@
                 buttonText = 'Shop is Closed';
             }
 
+            // Check payment settings - hide disabled methods
+            const bothDisabled = !paymentSettings.onlinePaymentsEnabled && !paymentSettings.codEnabled;
+            const onlyOnline = paymentSettings.onlinePaymentsEnabled && !paymentSettings.codEnabled;
+            const onlyCOD = !paymentSettings.onlinePaymentsEnabled && paymentSettings.codEnabled;
+
+            let paymentMethodsHTML = '';
+            if (bothDisabled) {
+                paymentMethodsHTML = '<p class="text-red-600 text-sm font-medium">⚠ All payment methods are currently disabled. Please contact support.</p>';
+            } else {
+                paymentMethodsHTML = `
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer px-4 py-3 border rounded-lg transition-all flex-1 ${!paymentSettings.onlinePaymentsEnabled || isDisabled ? 'opacity-50 cursor-not-allowed bg-gray-100' : 'hover:bg-blue-50'}">
+                            <input type="radio" name="payment-method" value="online" ${onlyOnline ? 'checked' : ''} 
+                                ${!paymentSettings.onlinePaymentsEnabled || isDisabled ? 'disabled' : ''} 
+                                class="w-4 h-4 text-blue-600">
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-900">Online Payment</span>
+                                ${!paymentSettings.onlinePaymentsEnabled ? '<span class="text-[10px] text-red-600 font-bold">TEMPORARILY DISABLED</span>' : '<span class="text-[10px] text-gray-500">Fast & Secure via Razorpay</span>'}
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer px-4 py-3 border rounded-lg transition-all flex-1 ${!paymentSettings.codEnabled || isDisabled ? 'opacity-50 cursor-not-allowed bg-gray-100' : 'hover:bg-yellow-50'}">
+                            <input type="radio" name="payment-method" value="cash" ${onlyCOD ? 'checked' : ''} 
+                                ${!paymentSettings.codEnabled || isDisabled ? 'disabled' : ''} 
+                                class="w-4 h-4 text-yellow-600">
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-900">Cash on Delivery</span>
+                                ${!paymentSettings.codEnabled ? '<span class="text-[10px] text-red-600 font-bold">TEMPORARILY DISABLED</span>' : '<span class="text-[10px] text-gray-500">Pay when food arrives</span>'}
+                            </div>
+                        </label>
+                    </div>
+                `;
+            }
+
             container.innerHTML = `
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">${isUpdate ? 'Update Your Order' : 'Delivery Details'}</h2>
                 <form id="order-form" class="space-y-4" data-mode="${isUpdate ? 'update' : 'create'}">
@@ -2576,18 +2917,9 @@
                     <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
                     <div class="bg-gray-50 p-4 rounded-xl border">
                         <label class="block text-sm font-bold text-gray-700 mb-3">Payment Method</label>
-                        <div class="flex gap-4">
-                            <label class="flex items-center gap-2 cursor-pointer px-4 py-3 border rounded-lg hover:bg-blue-50 transition-all flex-1 ${isDisabled ? 'opacity-50' : ''}">
-                                <input type="radio" name="payment-method" value="online" checked ${isDisabled ? 'disabled' : ''} class="w-4 h-4 text-blue-600">
-                                <span class="font-medium">Online Payment</span>
-                            </label>
-                            <label class="flex items-center gap-2 cursor-pointer px-4 py-3 border rounded-lg hover:bg-yellow-50 transition-all flex-1 ${isDisabled ? 'opacity-50' : ''}">
-                                <input type="radio" name="payment-method" value="cash" ${isDisabled ? 'disabled' : ''} class="w-4 h-4 text-yellow-600">
-                                <span class="font-medium">Cash on Delivery</span>
-                            </label>
-                        </div>
+                        ${paymentMethodsHTML}
                     </div>
-                    <button type="submit" id="place-order-btn" class="btn-primary w-full" ${isDisabled ? 'disabled' : ''}>${buttonText}</button>
+                    <button type="submit" id="place-order-btn" class="btn-primary w-full" ${isDisabled || bothDisabled ? 'disabled' : ''}>${bothDisabled ? 'No Payment Methods Available' : buttonText}</button>
                 </form>
             `;
 
@@ -2626,6 +2958,14 @@
             // Basic form validation before payment
             if (!customerName || !customerAddress || !customerPhone) {
                 return showAlert("Please fill out all delivery details.", true);
+            }
+
+            // CRITICAL: Validate payment method is enabled
+            if (paymentMethod === 'online' && !paymentSettings.onlinePaymentsEnabled) {
+                return showAlert('Online payments are currently unavailable. Please try cash on delivery.', true);
+            }
+            if (paymentMethod === 'cash' && !paymentSettings.codEnabled) {
+                return showAlert('Cash on delivery is currently unavailable. Please try online payment.', true);
             }
 
             // Handle Cash on Delivery directly
@@ -3000,6 +3340,26 @@
                         <div class="text-sm text-gray-700 mt-3 space-y-1">
                             <p><span class="font-medium">Phone:</span> ${order.customerPhone || 'N/A'}</p>
                             <p><span class="font-medium">Address:</span> ${order.customerAddress || 'N/A'}</p>
+                            ${viewType === 'transport' ? `
+                                <div class="flex gap-2 mt-2">
+                                    <button onclick="navigateToCustomer('${order.customerAddress || ''}', ${order.customerLatitude || 'null'}, ${order.customerLongitude || 'null'})" 
+                                        class="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-all text-xs font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        Navigate
+                                    </button>
+                                    <button onclick="window.location.href='tel:${order.customerPhone || ''}'" 
+                                        class="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg transition-all text-xs font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                        </svg>
+                                        Call
+                                    </button>
+                                </div>
+                            ` : ''}
                         </div>
                     `;
 
@@ -5287,13 +5647,31 @@
             targetLatInput = document.getElementById(latId);
             targetLngInput = document.getElementById(lngId);
 
-            document.getElementById('map-picker-modal').classList.remove('hidden');
+            const modal = document.getElementById('map-picker-modal');
+            modal.classList.remove('hidden');
 
+            // Initialize map if not already done
             if (!pickerMap) {
-                initMapPicker();
+                setTimeout(() => {
+                    initMapPicker();
+                    if (!pickerMap) {
+                        showAlert('Failed to initialize map. Please check your internet connection.', true);
+                        modal.classList.add('hidden');
+                        return;
+                    }
+                    positionMapOnOpen();
+                }, 100);
+            } else {
+                // Trigger resize to ensure map displays correctly
+                setTimeout(() => {
+                    google.maps.event.trigger(pickerMap, 'resize');
+                    positionMapOnOpen();
+                }, 100);
             }
+        }
 
-            if (!pickerMap) return; // SDK fail
+        function positionMapOnOpen() {
+            if (!pickerMap) return;
 
             const currentLat = parseFloat(targetLatInput.value);
             const currentLng = parseFloat(targetLngInput.value);
@@ -5426,6 +5804,23 @@
             } catch (error) {
                 console.error('Error opening WhatsApp:', error);
                 showAlert('Failed to open WhatsApp.', true);
+            }
+        }
+
+        // Navigate to customer location on Google Maps
+        window.navigateToCustomer = function navigateToCustomer(address, lat, lng) {
+            // If coordinates are available, use them for precise navigation
+            if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
+                const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                window.open(mapsUrl, '_blank');
+            }
+            // Fallback to address-based navigation
+            else if (address && address !== 'N/A') {
+                const encodedAddress = encodeURIComponent(address);
+                const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
+                window.open(mapsUrl, '_blank');
+            } else {
+                showAlert('No location information available for this order.', true);
             }
         }
 
