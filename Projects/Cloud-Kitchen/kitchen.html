@@ -526,6 +526,20 @@
             color: #4338ca;
         }
 
+        .status-tag-returned {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .cash-badge {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
         #map-picker-container {
             width: 100%;
             height: 400px;
@@ -2560,9 +2574,32 @@
                     <div><label class="block text-sm font-medium">Name</label><input type="text" id="customer-name" class="w-full" value="${order?.customerName || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
                     <div><label class="block text-sm font-medium">Address</label><input type="text" id="customer-address" class="w-full" value="${order?.customerAddress || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
                     <div><label class="block text-sm font-medium">Phone</label><input type="tel" id="customer-phone" class="w-full" value="${order?.customerPhone || ''}" ${isUpdate || isDisabled ? 'disabled' : ''} required></div>
-                    <button type="submit" class="btn-primary w-full" ${isDisabled ? 'disabled' : ''}>${buttonText}</button>
+                    <div class="bg-gray-50 p-4 rounded-xl border">
+                        <label class="block text-sm font-bold text-gray-700 mb-3">Payment Method</label>
+                        <div class="flex gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer px-4 py-3 border rounded-lg hover:bg-blue-50 transition-all flex-1 ${isDisabled ? 'opacity-50' : ''}">
+                                <input type="radio" name="payment-method" value="online" checked ${isDisabled ? 'disabled' : ''} class="w-4 h-4 text-blue-600">
+                                <span class="font-medium">Online Payment</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer px-4 py-3 border rounded-lg hover:bg-yellow-50 transition-all flex-1 ${isDisabled ? 'opacity-50' : ''}">
+                                <input type="radio" name="payment-method" value="cash" ${isDisabled ? 'disabled' : ''} class="w-4 h-4 text-yellow-600">
+                                <span class="font-medium">Cash on Delivery</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" id="place-order-btn" class="btn-primary w-full" ${isDisabled ? 'disabled' : ''}>${buttonText}</button>
                 </form>
             `;
+
+            // Update button text dynamically based on payment method
+            document.querySelectorAll('input[name="payment-method"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const btn = document.getElementById('place-order-btn');
+                    if (btn && !isDisabled && !isUpdate) {
+                        btn.textContent = e.target.value === 'cash' ? 'Confirm Order (COD)' : 'Pay & Place Order';
+                    }
+                });
+            });
         }
 
         async function placeOrder() {
@@ -2584,12 +2621,36 @@
             const customerAddress = document.getElementById('customer-address').value;
             const customerPhone = document.getElementById('customer-phone').value;
             const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value || 'online';
 
             // Basic form validation before payment
             if (!customerName || !customerAddress || !customerPhone) {
                 return showAlert("Please fill out all delivery details.", true);
             }
 
+            // Handle Cash on Delivery directly
+            if (paymentMethod === 'cash') {
+                const orderData = {
+                    shopId: selectedShopId,
+                    customerName,
+                    customerAddress,
+                    deliveryAddress: customerAddress,
+                    customerPhone,
+                    items: cart.map(item => ({ ...item, ready: false })),
+                    totalAmount,
+                    status: 'new',
+                    createdAt: serverTimestamp(),
+                    userId,
+                    isTestOrder: false,
+                    paymentMethod: 'cash',
+                    cashStatus: 'pending',
+                    paymentId: null
+                };
+                await saveOrderToFirestore(orderData);
+                return;
+            }
+
+            // Online Payment via Razorpay
             const options = {
                 key: "rzp_test_RU9lPJQl5wqQFM",
                 amount: totalAmount * 100,
@@ -2600,6 +2661,7 @@
                         shopId: selectedShopId,
                         customerName,
                         customerAddress,
+                        deliveryAddress: customerAddress,
                         customerPhone,
                         items: cart.map(item => ({ ...item, ready: false })),
                         totalAmount,
@@ -2607,6 +2669,8 @@
                         createdAt: serverTimestamp(),
                         userId,
                         isTestOrder: false,
+                        paymentMethod: 'online',
+                        cashStatus: 'none',
                         paymentId: response.razorpay_payment_id,
                         paymentIds: [response.razorpay_payment_id]
                     };
@@ -2902,7 +2966,20 @@
                         else if (order.status === 'preparing') actionButton = `<button data-id="${doc.id}" data-status="ready_for_pickup" class="update-status-btn btn-primary btn-ready w-full mt-4">Mark Ready</button>`;
                     } else if (viewType === 'transport') {
                         if (order.status === 'ready_for_pickup') actionButton = `<button data-id="${doc.id}" data-status="out_for_delivery" class="update-status-btn btn-primary btn-delivery w-full mt-4">Out for Delivery</button>`;
-                        else if (order.status === 'out_for_delivery') actionButton = `<button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary btn-completed w-full mt-4">Mark Delivered</button>`;
+                        else if (order.status === 'out_for_delivery') {
+                            // Different buttons for COD vs Online orders
+                            if (order.paymentMethod === 'cash') {
+                                actionButton = `
+                                    <button data-id="${doc.id}" data-status="completed" data-cash="true" class="update-status-btn btn-primary btn-completed w-full mt-4">💵 Collect Cash & Complete</button>
+                                    <button onclick="showReturnDialog('${doc.id}')" class="btn-secondary w-full mt-2 text-red-600">↩️ Return to Shop</button>
+                                `;
+                            } else {
+                                actionButton = `
+                                    <button data-id="${doc.id}" data-status="completed" class="update-status-btn btn-primary btn-completed w-full mt-4">Mark Delivered</button>
+                                    <button onclick="showReturnDialog('${doc.id}')" class="btn-secondary w-full mt-2 text-red-600">↩️ Return to Shop</button>
+                                `;
+                            }
+                        }
                     }
 
                     // Bug Fix: Checkbox event listener should be on the change event
@@ -2914,6 +2991,11 @@
                         ? `<span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">${shopName}</span>`
                         : '';
 
+                    // Cash badge for COD orders
+                    const cashBadge = order.paymentMethod === 'cash'
+                        ? `<span class="cash-badge">💵 CASH</span>`
+                        : '';
+
                     const customerInfoHTML = `
                         <div class="text-sm text-gray-700 mt-3 space-y-1">
                             <p><span class="font-medium">Phone:</span> ${order.customerPhone || 'N/A'}</p>
@@ -2921,7 +3003,7 @@
                         </div>
                     `;
 
-                    return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2 gap-2"><strong class="text-gray-800">${order.customerName}</strong><div class="flex gap-1 flex-wrap">${shopBadge}${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div></div>${customerInfoHTML}<div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
+                    return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2 gap-2"><strong class="text-gray-800">${order.customerName}</strong><div class="flex gap-1 flex-wrap">${cashBadge}${shopBadge}${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div></div>${customerInfoHTML}<div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
                 }).join('');
         }
 
@@ -4779,14 +4861,20 @@
             if (target.matches('.update-status-btn, .dev-update-status')) {
                 try {
                     const newStatus = target.dataset.status;
+                    const isCashCollection = target.dataset.cash === 'true';
                     const orderRef = doc(db, "orders", targetId);
 
                     const orderSnap = await getDoc(orderRef);
                     if (!orderSnap.exists()) return showAlert('Order not found.', true);
                     const orderData = orderSnap.data();
 
-                    // Update the doc
-                    await updateDoc(orderRef, { status: newStatus });
+                    // Update the doc - also update cashStatus if this is a COD completion
+                    const updateData = { status: newStatus };
+                    if (isCashCollection && orderData.paymentMethod === 'cash') {
+                        updateData.cashStatus = 'collected';
+                        updateData.cashCollectedAt = serverTimestamp();
+                    }
+                    await updateDoc(orderRef, updateData);
                     showAlert(`Order status updated to ${newStatus.replace(/_/g, ' ')}!`);
 
                     // Stop alarm if it was ringing for this order
@@ -5227,6 +5315,117 @@
             } else {
                 const p = pickerMap.getCenter();
                 updatePickerMarker(p);
+            }
+        }
+
+        // ============ RETURN ORDER FUNCTIONS ============
+        let returnDialogOrderId = null;
+
+        // Show return dialog modal
+        window.showReturnDialog = function showReturnDialog(orderId) {
+            returnDialogOrderId = orderId;
+
+            // Create modal if it doesn't exist
+            if (!document.getElementById('return-order-modal')) {
+                const modalHTML = `
+                    <div id="return-order-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Return Order to Shop</h3>
+                            <p class="text-sm text-gray-600 mb-4">Please provide a reason for returning this order.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="form-label">Return Reason</label>
+                                    <select id="return-reason-select" class="w-full">
+                                        <option value="Customer not available">Customer not available</option>
+                                        <option value="Wrong address">Wrong address</option>
+                                        <option value="Customer refused order">Customer refused order</option>
+                                        <option value="Customer unreachable">Customer unreachable</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div id="return-reason-other-container" class="hidden">
+                                    <label class="form-label">Other Reason</label>
+                                    <input type="text" id="return-reason-other" class="w-full" placeholder="Specify reason...">
+                                </div>
+                                <button onclick="openWhatsAppVideo()" class="btn-secondary w-full flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                                    Video Call Shop for Help
+                                </button>
+                            </div>
+                            <div class="flex gap-3 mt-6">
+                                <button onclick="closeReturnDialog()" class="btn-secondary flex-1">Cancel</button>
+                                <button onclick="confirmReturnOrder()" class="btn-danger flex-1">Confirm Return</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+                // Toggle other reason input
+                document.getElementById('return-reason-select').addEventListener('change', (e) => {
+                    const otherContainer = document.getElementById('return-reason-other-container');
+                    if (e.target.value === 'Other') {
+                        otherContainer.classList.remove('hidden');
+                    } else {
+                        otherContainer.classList.add('hidden');
+                    }
+                });
+            } else {
+                document.getElementById('return-order-modal').classList.remove('hidden');
+            }
+        }
+
+        window.closeReturnDialog = function closeReturnDialog() {
+            const modal = document.getElementById('return-order-modal');
+            if (modal) modal.classList.add('hidden');
+            returnDialogOrderId = null;
+        }
+
+        window.confirmReturnOrder = async function confirmReturnOrder() {
+            if (!returnDialogOrderId) return;
+
+            let reason = document.getElementById('return-reason-select').value;
+            if (reason === 'Other') {
+                reason = document.getElementById('return-reason-other').value || 'Other reason';
+            }
+
+            try {
+                const orderRef = doc(db, "orders", returnDialogOrderId);
+                await updateDoc(orderRef, {
+                    status: 'returned',
+                    returnReason: reason,
+                    returnedAt: serverTimestamp()
+                });
+                showAlert('Order marked as returned.');
+                closeReturnDialog();
+            } catch (error) {
+                console.error('Error returning order:', error);
+                showAlert('Failed to return order: ' + error.message, true);
+            }
+        }
+
+        window.openWhatsAppVideo = async function openWhatsAppVideo() {
+            try {
+                // Get the shop phone from the current order
+                const orderRef = doc(db, "orders", returnDialogOrderId);
+                const orderSnap = await getDoc(orderRef);
+                if (!orderSnap.exists()) return showAlert('Order not found.', true);
+
+                const shopId = orderSnap.data().shopId;
+                const shop = allShops.find(s => s.id === shopId);
+                if (!shop || !shop.phoneNumber) {
+                    return showAlert('Shop phone number not available.', true);
+                }
+
+                let phone = shop.phoneNumber.replace(/[\s\-\(\)]/g, '');
+                if (!phone.startsWith('+')) {
+                    phone = '+91' + phone; // Default to India
+                }
+
+                window.open(`https://wa.me/${phone}`, '_blank');
+            } catch (error) {
+                console.error('Error opening WhatsApp:', error);
+                showAlert('Failed to open WhatsApp.', true);
             }
         }
 
