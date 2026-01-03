@@ -922,6 +922,69 @@
                         </div>
                     </div>
                 </div>
+                <div id="owner-cash-management"
+                    class="card p-8 bg-gradient-to-br from-yellow-50 to-white border-yellow-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Cash Flow Audit</h2>
+                                <p class="text-sm text-gray-500">Settle COD collections from delivery staff</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-xl border border-yellow-200 shadow-sm">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Total Collected</p>
+                            <h4 id="owner-cash-total-collected" class="text-xl font-bold text-gray-900">₹0</h4>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-yellow-200 shadow-sm">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Total Settled</p>
+                            <h4 id="owner-cash-total-settled" class="text-xl font-bold text-gray-900">₹0</h4>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-orange-200 bg-orange-50/30 shadow-sm">
+                            <p class="text-[10px] font-bold text-orange-600 uppercase mb-1">Outstanding Balance</p>
+                            <h4 id="owner-cash-outstanding" class="text-xl font-bold text-orange-600">₹0</h4>
+                        </div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm bg-white">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Order Details</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Collected By</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Amount</th>
+                                        <th
+                                            class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="owner-unsettled-cash-list" class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-8 text-center text-gray-400 italic text-sm">No
+                                            unsettled cash orders.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="developer-view" class="view-hidden space-y-6">
@@ -1482,6 +1545,20 @@
                                 </div>
                                 <button id="dev-view-dashboard-btn"
                                     class="btn-primary w-full bg-blue-600 hover:bg-blue-700">Switch
+                                    View</button>
+                            </div>
+                        </div>
+                        <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100">
+                            <h4 class="text-sm font-bold text-purple-700 mb-4 uppercase">Delivery Dashboard View</h4>
+                            <div class="space-y-4">
+                                <div class="input-group">
+                                    <label class="form-label text-purple-600">Select Shop Delivery</label>
+                                    <select id="dev-delivery-shop-select" class="w-full border-purple-200">
+                                        <option value="">-- Select a Shop --</option>
+                                    </select>
+                                </div>
+                                <button id="dev-view-delivery-btn"
+                                    class="btn-primary w-full bg-purple-600 hover:bg-purple-700">Switch
                                     View</button>
                             </div>
                         </div>
@@ -3563,6 +3640,8 @@
                 updateDashboard(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
             });
             loadStaffList();
+            listenToCashTransactions();
+            listenToUnsettledCashOrders();
         }
 
 
@@ -3657,6 +3736,123 @@
 
             const snapshot = await getDocs(query(collection(db, "users"), where("role", "in", ["kitchen", "delivery"]), where("shopId", "==", currentUserShopId)));
             staffListEl.innerHTML = snapshot.empty ? '<p class="text-gray-500">No staff members found.</p>' : snapshot.docs.map(doc => { const s = doc.data(); return `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"><div><p class="font-medium">${s.email}</p><p class="text-sm text-gray-500 capitalize">${s.role}</p></div><button data-id="${doc.id}" class="remove-staff-btn bg-red-100 text-red-700 px-3 py-1 rounded-md text-sm hover:bg-red-200">Remove</button></div>` }).join('');
+        }
+
+        // --- CASH AUDIT MANAGEMENT ---
+        let cashTransactionsUnsubscribe = null;
+        let unsettledOrdersUnsubscribe = null;
+
+        function listenToCashTransactions() {
+            if (!currentUserShopId) return;
+            if (cashTransactionsUnsubscribe) cashTransactionsUnsubscribe();
+
+            const q = query(
+                collection(db, "cash_transactions"),
+                where("shopId", "==", currentUserShopId),
+                orderBy("timestamp", "desc"),
+                limit(100)
+            );
+
+            cashTransactionsUnsubscribe = onSnapshot(q, (snapshot) => {
+                let collected = 0;
+                let settled = 0;
+                snapshot.docs.forEach(doc => {
+                    const tx = doc.data();
+                    if (tx.type === 'collection') collected += (tx.amount || 0);
+                    else if (tx.type === 'settlement') settled += (tx.amount || 0);
+                });
+
+                document.getElementById('owner-cash-total-collected').textContent = `₹${collected.toFixed(0)}`;
+                document.getElementById('owner-cash-total-settled').textContent = `₹${settled.toFixed(0)}`;
+                document.getElementById('owner-cash-outstanding').textContent = `₹${(collected - settled).toFixed(0)}`;
+            });
+        }
+
+        function listenToUnsettledCashOrders() {
+            if (!currentUserShopId) return;
+            if (unsettledOrdersUnsubscribe) unsettledOrdersUnsubscribe();
+
+            const q = query(
+                collection(db, "orders"),
+                where("shopId", "==", currentUserShopId),
+                where("paymentMethod", "==", "cash"),
+                where("cashStatus", "==", "collected")
+            );
+
+            unsettledOrdersUnsubscribe = onSnapshot(q, async (snapshot) => {
+                const listEl = document.getElementById('owner-unsettled-cash-list');
+                if (snapshot.empty) {
+                    listEl.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400 italic text-sm">No unsettled cash orders.</td></tr>';
+                    return;
+                }
+
+                // Fetch delivery users to show names
+                const deliveryStaffDocs = await getDocs(query(collection(db, "users"), where("shopId", "==", currentUserShopId), where("role", "==", "delivery")));
+                const staffMap = {};
+                deliveryStaffDocs.forEach(d => staffMap[d.id] = d.data().displayName || d.data().email);
+
+                listEl.innerHTML = snapshot.docs.map(doc => {
+                    const o = doc.data();
+                    const deliveryStaff = staffMap[o.deliveryStaffId] || 'Unknown Staff';
+                    const date = o.createdAt?.toDate() ? o.createdAt.toDate().toLocaleDateString('en-GB') : 'N/A';
+
+                    return `
+                        <tr>
+                            <td class="px-6 py-4">
+                                <p class="text-sm font-bold text-gray-900">#${doc.id.substring(0, 6)}</p>
+                                <p class="text-xs text-gray-500">${o.customerName} • ${date}</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-[10px] text-purple-600 font-bold">
+                                        ${deliveryStaff.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span class="text-sm text-gray-700">${deliveryStaff}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-sm font-bold text-gray-900">₹${o.totalAmount}</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="settleCashOrder('${doc.id}', ${o.totalAmount}, '${o.deliveryStaffId}')" 
+                                    class="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-green-700 transition-colors shadow-sm">
+                                    SETTLE
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            });
+        }
+
+        window.settleCashOrder = async function (orderId, amount, deliveryStaffId) {
+            if (!confirm(`Confirm settlement of ₹${amount} for order #${orderId.substring(0, 6)}?`)) return;
+
+            try {
+                const batch = writeBatch(db);
+
+                // 1. Update order status
+                const orderRef = doc(db, "orders", orderId);
+                batch.update(orderRef, { cashStatus: 'settled' });
+
+                // 2. Create settlement transaction
+                const txRef = doc(collection(db, "cash_transactions"));
+                batch.set(txRef, {
+                    shopId: currentUserShopId,
+                    orderId: orderId,
+                    userId: deliveryStaffId,
+                    amount: amount,
+                    type: 'settlement',
+                    timestamp: serverTimestamp(),
+                    settledBy: userId
+                });
+
+                await batch.commit();
+                showAlert(`Order #${orderId.substring(0, 6)} settled successfully.`);
+            } catch (error) {
+                console.error("Error settling cash order:", error);
+                showAlert("Failed to settle order: " + error.message, true);
+            }
         }
 
         async function addStaff() {
@@ -4045,6 +4241,7 @@
             document.getElementById('test-order-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
             document.getElementById('dev-dashboard-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
             document.getElementById('dev-staff-shop').innerHTML = `<option value="">-- Assign Shop --</option>${shopOptions}`;
+            document.getElementById('dev-delivery-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
         }
 
         async function renderDevShopList() {
@@ -5429,6 +5626,28 @@
                 views['owner'].classList.remove('view-hidden');
                 views['owner'].classList.add('view-active');
                 Array.from(viewSwitcher.querySelectorAll('button')).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === 'owner'));
+            }
+            if (target.matches('#dev-view-delivery-btn')) {
+                const shopId = document.getElementById('dev-delivery-shop-select').value;
+                if (!shopId) return showAlert('Please select a shop to view.', true);
+                const shop = allShops.find(s => s.id === shopId);
+                if (!shop) return showAlert('Shop not found.', true);
+
+                currentUserShopId = shop.id;
+                currentUserShopIds = [shop.id]; // Important for delivery logic
+                currentShopName = shop.name;
+
+                document.getElementById('transport-view-title').textContent = `${currentShopName} - Delivery`;
+                updateAuthStatusUI();
+                listenForNotifications();
+
+                // Listen to orders for this shop (populate transport-orders-list)
+                listenToStaffOrders();
+
+                Object.values(views).forEach(v => v.classList.add('view-hidden'));
+                views['transport'].classList.remove('view-hidden');
+                views['transport'].classList.add('view-active');
+                Array.from(viewSwitcher.querySelectorAll('button')).forEach(btn => btn.classList.toggle('btn-active', btn.dataset.view === 'transport'));
             }
             if (target.matches('#run-system-test') || target.matches('#run-system-test-summary')) {
                 runSystemTests();
