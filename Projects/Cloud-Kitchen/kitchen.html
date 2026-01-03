@@ -2290,6 +2290,9 @@
             renderCustomerUI();
             listenForNotifications(); // Start listening for notifications
 
+            // Start the real-time listener for payment settings (Global)
+            initPaymentSettingsListener();
+
             if (user) {
                 if (currentUserShopId) {
                     if (['owner', 'developer'].includes(userRole)) { loadOwnerDashboard(); listenToOrderHistory(); }
@@ -2300,7 +2303,7 @@
                     document.getElementById('owner-view-title').textContent = currentShopName ? `${currentShopName} - Dashboard` : 'Owner Dashboard';
 
                     // --- Initialize Fast Monitor for Kitchen/Owner/Delivery ---
-                    if (['kitchen', 'owner', 'delivery'].includes(userRole)) {
+                    if (['kitchen', 'owner', 'delivery', 'developer'].includes(userRole)) {
                         initFastNotification(currentUserShopId, userRole);
                     }
 
@@ -2330,6 +2333,22 @@
                     if (authInitialized) await setupUser(user);
                 });
             });
+
+            // Wire up payment toggle event listeners globally
+            const onlineToggle = document.getElementById('toggle-online-payments');
+            const codToggle = document.getElementById('toggle-cod');
+
+            if (onlineToggle) {
+                onlineToggle.addEventListener('change', (e) => {
+                    updatePaymentSetting('online', e.target.checked);
+                });
+            }
+
+            if (codToggle) {
+                codToggle.addEventListener('change', (e) => {
+                    updatePaymentSetting('cod', e.target.checked);
+                });
+            }
         }
 
         // --- FAST NOTIFICATION INIT ---
@@ -2358,24 +2377,7 @@
             document.addEventListener('touchstart', unlockAudio, { once: true });
             document.addEventListener('keydown', unlockAudio, { once: true });
 
-            // Load payment settings (Real-time)
-            initPaymentSettingsListener();
 
-            // Wire up payment toggle event listeners
-            const onlineToggle = document.getElementById('toggle-online-payments');
-            const codToggle = document.getElementById('toggle-cod');
-
-            if (onlineToggle) {
-                onlineToggle.addEventListener('change', (e) => {
-                    updatePaymentSetting('online', e.target.checked);
-                });
-            }
-
-            if (codToggle) {
-                codToggle.addEventListener('change', (e) => {
-                    updatePaymentSetting('cod', e.target.checked);
-                });
-            }
 
             // Show button as visual feedback (will auto-hide on first interaction)
             const audioBtn = document.getElementById('enable-audio-btn');
