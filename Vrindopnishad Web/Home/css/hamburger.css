@@ -1,5 +1,5 @@
 .menu {
-    --color: #fff;
+    --color: var(--text-color, #000);
     width: 36px;
     height: 36px;
     padding: 0;
@@ -13,14 +13,15 @@
     appearance: none;
     -webkit-tap-highlight-color: transparent;
     z-index: 100000;
-    position: relative;
+    overflow: hidden;
 }
 
 .menu svg {
     width: 64px;
     height: 48px;
-    top: -6px;
-    left: -14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     stroke: var(--color);
     stroke-width: 4px;
     stroke-linecap: round;
@@ -32,7 +33,7 @@
 
 .menu svg path {
     transition: stroke-dasharray var(--duration, .85s) var(--easing, ease) var(--delay, 0s),
-                stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
+        stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
     stroke-dasharray: var(--array-1, 26px) var(--array-2, 100px);
     stroke-dashoffset: var(--offset, 126px);
     transform: translateZ(0);
