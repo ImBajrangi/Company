@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Vrindopnishad</title>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Laila:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #040307;
+            --text-color: #f5f5f5;
+            --accent-color: #64b5f6;
+            --secondary-color: #90caf9;
+            --font-main: 'Outfit', sans-serif;
+            --font-hindi: 'Laila', serif;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #f8f9fa;
+                --text-color: #2c3e50;
+                --accent-color: #1a73e8;
+                --secondary-color: #0d47a1;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(var(--bg-color-rgb, 4, 3, 7), 0.4) 100%);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .overlay {
+                background: radial-gradient(circle at center, transparent 0%, rgba(4, 3, 7, 0.6) 100%);
+            }
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 3rem;
+            position: relative;
+            z-index: 10;
+            background: rgba(var(--bg-color-rgb, 4, 3, 7), 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            width: 80px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        h1 {
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--text-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .hindi-text {
+            font-family: var(--font-hindi);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.4s;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.7;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--bg-color);
+            background-color: var(--text-color);
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.8s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .countdown {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.5;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.2s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png"
+            alt="Vrindopnishad Logo" class="logo">
+        <h1>404</h1>
+        <div class="hindi-text">यह मार्ग उपलब्ध नहीं है</div>
+        <p>The sanctuary you're looking for seems to have moved. Enjoy this random visual experiment while we guide you
+            back.</p>
+
+        <a href="/" class="btn">Return to Home</a>
+
+        <div class="countdown">
+            Redirecting in <span id="seconds">20</span> seconds...
+        </div>
+    </div>
+
+    <script>
+        // Random Demo Logic
+        const DEMO_PAGES = [
+            "./Projects/getMe/GLSL Particle Metamorphosis/index.html",
+        ];
+
+        const randomIndex = Math.floor(Math.random() * DEMO_PAGES.length);
+        const selectedDemo = DEMO_PAGES[randomIndex];
+
+        const iframe = document.createElement('iframe');
+        iframe.src = selectedDemo;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope";
+        document.body.insertBefore(iframe, document.body.firstChild);
+
+        // Redirect logic
+        let seconds = 20;
+        const secondsEl = document.getElementById('seconds');
+
+        const countdown = setInterval(() => {
+            seconds--;
+            secondsEl.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                window.location.href = '/';
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
