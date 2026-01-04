@@ -599,6 +599,16 @@
                         </svg>
                     </button>
 
+                    <!-- **** NEW: Unified Search Button **** -->
+                    <button id="unified-search-btn"
+                        class="w-10 h-10 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-all"
+                        title="Search everything (Ctrl+K)">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+
                     <!-- **** NEW: Notification Bell **** -->
                     <div class="relative flex-shrink-0">
                         <button id="notification-bell-btn"
@@ -666,6 +676,26 @@
                         <h2 class="text-3xl font-semibold text-gray-900 mb-2">Shop Now</h2>
                         <p class="text-gray-500">Choose where you'd like to order from.</p>
                     </div>
+                    <!-- Shop Search Bar -->
+                    <div class="mb-6">
+                        <div class="relative">
+                            <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" id="shop-search-input" placeholder="Search for shops..."
+                                class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all">
+                            <button id="shop-search-clear"
+                                class="hidden absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="shop-search-results" class="mt-2 text-sm text-gray-500"></div>
+                    </div>
                     <div id="shop-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
                 <div id="menu-and-cart-view" class="hidden">
@@ -678,6 +708,26 @@
                                 <div class="mb-6">
                                     <h2 class="text-3xl font-semibold text-gray-900 mb-2" id="menu-shop-name">Menu</h2>
                                     <p class="text-gray-500">Choose your favorites</p>
+                                </div>
+                                <!-- Menu Search Bar -->
+                                <div class="mb-6">
+                                    <div class="relative">
+                                        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        </svg>
+                                        <input type="text" id="menu-search-input" placeholder="Search for dishes..."
+                                            class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all">
+                                        <button id="menu-search-clear"
+                                            class="hidden absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="menu-search-results" class="mt-2 text-sm text-gray-500"></div>
                                 </div>
                                 <div id="menu-items" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
                             </div>
@@ -708,6 +758,27 @@
                     <div class="mb-6">
                         <h2 class="text-3xl font-semibold text-gray-900 mb-2">My Orders</h2>
                         <p class="text-gray-500">View your order history and track orders.</p>
+                    </div>
+                    <!-- Order History Search Bar -->
+                    <div class="mb-6">
+                        <div class="relative">
+                            <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" id="order-history-search-input"
+                                placeholder="Search your orders by items, order #, or date..."
+                                class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all">
+                            <button id="order-history-search-clear"
+                                class="hidden absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="order-history-search-results" class="mt-2 text-sm text-gray-500"></div>
                     </div>
                     <div id="customer-order-list" class="space-y-4">
                         <p class="text-gray-500 text-center py-12">Loading orders...</p>
@@ -757,6 +828,27 @@
                         <h2 class="text-3xl font-semibold text-gray-900" id="transport-view-title">Delivery</h2>
                         <p class="text-sm text-gray-500">Ready for delivery from your shop</p>
                     </div>
+                </div>
+                <!-- Transport Search Bar -->
+                <div class="mb-6">
+                    <div class="relative">
+                        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" id="transport-search-input"
+                            placeholder="Search orders by order #, customer name, or items..."
+                            class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all">
+                        <button id="transport-search-clear"
+                            class="hidden absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="transport-search-results" class="mt-2 text-sm text-gray-500"></div>
                 </div>
                 <!-- GLOBAL STOP ALARM BUTTON FOR DELIVERY (Normally Hidden) -->
                 <button id="global-stop-alarm-btn-delivery"
@@ -1629,6 +1721,50 @@
         </div>
     </div>
 
+    <!-- Unified Search Modal -->
+    <div id="unified-search-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-start justify-center z-50 p-4 pt-20"
+        style="backdrop-filter: blur(4px);">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] overflow-hidden flex flex-col">
+            <!-- Search Input -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="relative">
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" id="unified-search-input" placeholder="Search shops, menu items, orders..."
+                        class="w-full pl-14 pr-14 py-4 text-lg border-0 focus:outline-none focus:ring-0" autofocus>
+                    <button id="unified-search-close"
+                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="mt-2 text-xs text-gray-500 flex items-center gap-4">
+                    <span>Press <kbd class="px-2 py-1 bg-gray-100 rounded text-xs font-mono">ESC</kbd> to close</span>
+                    <span>Press <kbd class="px-2 py-1 bg-gray-100 rounded text-xs font-mono">↑</kbd> <kbd
+                            class="px-2 py-1 bg-gray-100 rounded text-xs font-mono">↓</kbd> to navigate</span>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <div id="unified-search-results" class="flex-1 overflow-y-auto p-6">
+                <div class="text-center py-12 text-gray-400">
+                    <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <p>Start typing to search...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="profile-modal"
         class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -2118,6 +2254,7 @@
 
         let allShops = [];
         let currentMenu = [];
+        let allMenuItems = []; // Global menu items from all shops for search
         let selectedShopId = null;
         let isShopCurrentlyClosed = false; // Track if selected shop is closed
         const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -2274,11 +2411,36 @@
                     populateScheduleSelect();
                 }
                 updateDevSummary();
+                // Load all menu items for search
+                await loadAllMenuItems();
+                // Initialize customer search
+                setupCustomerSearchFunctionality();
+                // Initialize unified search
+                setupUnifiedSearch();
             } catch (error) {
                 // --- MODIFICATION: Improved console and UI error reporting ---
                 console.error("❌ CRITICAL FIREBASE ERROR: Failed to load shops or check rules. This usually means your Firestore Security Rules are blocking access for anonymous users.", error);
                 showAlert("Could not load kitchens. Please check the Developer Console for errors (likely a database permission issue).", true);
                 // --- END MODIFICATION ---
+            }
+        }
+
+        async function loadAllMenuItems() {
+            try {
+                const menuSnapshot = await getDocs(collection(db, "menus"));
+                allMenuItems = menuSnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    // Include shop info for better search results
+                    const shop = allShops.find(s => s.id === data.shopId);
+                    return {
+                        id: doc.id,
+                        ...data,
+                        shopName: shop?.name || 'Unknown Shop'
+                    };
+                });
+                console.log('Loaded all menu items:', allMenuItems.length);
+            } catch (error) {
+                console.error("Error loading menu items:", error);
             }
         }
 
@@ -2889,6 +3051,10 @@
 
             // Re-render order form to disable it if necessary
             renderOrderForm(null, isShopCurrentlyClosed);
+
+            // Reset and initialize menu search
+            originalMenuItems = [...currentMenu];
+            setupCustomerSearchFunctionality();
         }
 
 
@@ -3389,7 +3555,10 @@
 
             // Bug Fix: Only show "new" and "preparing" in the kitchen view
             const kitchenQuery = query(collection(db, "orders"), where("status", "in", ["new", "preparing"]), where("shopId", "==", currentUserShopId));
-            onSnapshot(kitchenQuery, s => renderOrders(kitchenList, s.docs, 'kitchen'));
+            onSnapshot(kitchenQuery, s => {
+                originalKitchenOrders = s.docs; // Store for search
+                renderOrders(kitchenList, s.docs, 'kitchen');
+            });
 
             // For delivery staff with multiple shops, show orders from all assigned shops
             // Firestore 'in' query supports up to 10 values
@@ -3402,7 +3571,13 @@
                 where("status", "in", ["ready_for_pickup", "out_for_delivery"]),
                 where("shopId", "in", shopIdsForTransport)
             );
-            onSnapshot(transportQuery, s => renderOrders(transportList, s.docs, 'transport'));
+            onSnapshot(transportQuery, s => {
+                originalTransportOrders = s.docs; // Store for search
+                renderOrders(transportList, s.docs, 'transport');
+            });
+
+            // Initialize search functionality
+            setupSearchFunctionality();
         }
 
         async function toggleItemReady(orderId, itemId) {
@@ -3490,6 +3665,698 @@
                     return `<div class="card p-4 flex flex-col justify-between"><div><div class="flex justify-between items-start mb-2 gap-2"><strong class="text-gray-800">${order.customerName}</strong><div class="flex gap-1 flex-wrap">${cashBadge}${shopBadge}${order.isTestOrder ? '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">TEST</span>' : ''}</div></div>${customerInfoHTML}<div class="mt-2 border-t pt-2">${itemsList}</div><div class="mt-4 flex justify-between items-center"><span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span><p class="text-lg font-bold">₹${order.totalAmount}</p></div></div>${actionButton}</div>`;
                 }).join('');
         }
+
+        // Search functionality for kitchen and transport views  
+        let originalKitchenOrders = [];
+        let originalTransportOrders = [];
+
+        function setupSearchFunctionality() {
+            const kitchenSearchInput = document.getElementById('kitchen-search-input');
+            const kitchenSearchClear = document.getElementById('kitchen-search-clear');
+            const kitchenSearchResults = document.getElementById('kitchen-search-results');
+
+            const transportSearchInput = document.getElementById('transport-search-input');
+            const transportSearchClear = document.getElementById('transport-search-clear');
+            const transportSearchResults = document.getElementById('transport-search-results');
+
+            // Kitchen search
+            if (kitchenSearchInput) {
+                kitchenSearchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    // Show/hide clear button
+                    if (searchTerm) {
+                        kitchenSearchClear.classList.remove('hidden');
+                    } else {
+                        kitchenSearchClear.classList.add('hidden');
+                    }
+
+                    filterOrders('kitchen', searchTerm);
+                });
+
+                kitchenSearchClear.addEventListener('click', () => {
+                    kitchenSearchInput.value = '';
+                    kitchenSearchClear.classList.add('hidden');
+                    kitchenSearchResults.textContent = '';
+                    filterOrders('kitchen', '');
+                });
+            }
+
+            // Transport search
+            if (transportSearchInput) {
+                transportSearchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    // Show/hide clear button
+                    if (searchTerm) {
+                        transportSearchClear.classList.remove('hidden');
+                    } else {
+                        transportSearchClear.classList.add('hidden');
+                    }
+
+                    filterOrders('transport', searchTerm);
+                });
+
+                transportSearchClear.addEventListener('click', () => {
+                    transportSearchInput.value = '';
+                    transportSearchClear.classList.add('hidden');
+                    transportSearchResults.textContent = '';
+                    filterOrders('transport', '');
+                });
+            }
+        }
+
+        function filterOrders(viewType, searchTerm) {
+            const container = viewType === 'kitchen'
+                ? document.getElementById('kitchen-orders-list')
+                : document.getElementById('transport-orders-list');
+
+            const results = viewType === 'kitchen'
+                ? document.getElementById('kitchen-search-results')
+                : document.getElementById('transport-search-results');
+
+            const orders = viewType === 'kitchen' ? originalKitchenOrders : originalTransportOrders;
+
+            if (!container || !orders || orders.length === 0) return;
+
+            if (!searchTerm) {
+                // Show all orders
+                renderOrders(container, orders, viewType);
+                if (results) results.textContent = '';
+                return;
+            }
+
+            // Filter orders based on search term
+            const filteredOrders = orders.filter(doc => {
+                const order = doc.data();
+                const orderId = doc.id.toLowerCase();
+                const customerName = (order.customerName || '').toLowerCase();
+                const customerPhone = (order.customerPhone || '').toLowerCase();
+                const items = (order.items || []).map(item => item.name.toLowerCase()).join(' ');
+
+                return orderId.includes(searchTerm) ||
+                    customerName.includes(searchTerm) ||
+                    customerPhone.includes(searchTerm) ||
+                    items.includes(searchTerm);
+            });
+
+            // Render filtered results
+            renderOrders(container, filteredOrders, viewType);
+
+            // Update results count
+            if (results) {
+                if (filteredOrders.length === 0) {
+                    results.textContent = 'No orders found';
+                    results.className = 'mt-2 text-sm text-red-500';
+                } else {
+                    results.textContent = `Showing ${filteredOrders.length} of ${orders.length} orders`;
+                    results.className = 'mt-2 text-sm text-gray-500';
+                }
+            }
+        }
+
+        // Customer search functionality
+        let originalShopsList = [];
+        let originalMenuItems = [];
+        let originalCustomerOrders = [];
+
+        function setupCustomerSearchFunctionality() {
+            // Shop search
+            const shopSearchInput = document.getElementById('shop-search-input');
+            const shopSearchClear = document.getElementById('shop-search-clear');
+            const shopSearchResults = document.getElementById('shop-search-results');
+
+            if (shopSearchInput) {
+                shopSearchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    if (searchTerm) {
+                        shopSearchClear.classList.remove('hidden');
+                    } else {
+                        shopSearchClear.classList.add('hidden');
+                    }
+
+                    filterShops(searchTerm);
+                });
+
+                shopSearchClear.addEventListener('click', () => {
+                    shopSearchInput.value = '';
+                    shopSearchClear.classList.add('hidden');
+                    shopSearchResults.textContent = '';
+                    filterShops('');
+                });
+            }
+
+            // Menu search
+            const menuSearchInput = document.getElementById('menu-search-input');
+            const menuSearchClear = document.getElementById('menu-search-clear');
+            const menuSearchResults = document.getElementById('menu-search-results');
+
+            if (menuSearchInput) {
+                menuSearchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    if (searchTerm) {
+                        menuSearchClear.classList.remove('hidden');
+                    } else {
+                        menuSearchClear.classList.add('hidden');
+                    }
+
+                    filterMenuItems(searchTerm);
+                });
+
+                menuSearchClear.addEventListener('click', () => {
+                    menuSearchInput.value = '';
+                    menuSearchClear.classList.add('hidden');
+                    menuSearchResults.textContent = '';
+                    filterMenuItems('');
+                });
+            }
+
+            // Order history search
+            const orderHistorySearchInput = document.getElementById('order-history-search-input');
+            const orderHistorySearchClear = document.getElementById('order-history-search-clear');
+            const orderHistorySearchResults = document.getElementById('order-history-search-results');
+
+            if (orderHistorySearchInput) {
+                orderHistorySearchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    if (searchTerm) {
+                        orderHistorySearchClear.classList.remove('hidden');
+                    } else {
+                        orderHistorySearchClear.classList.add('hidden');
+                    }
+
+                    filterCustomerOrders(searchTerm);
+                });
+
+                orderHistorySearchClear.addEventListener('click', () => {
+                    orderHistorySearchInput.value = '';
+                    orderHistorySearchClear.classList.add('hidden');
+                    orderHistorySearchResults.textContent = '';
+                    filterCustomerOrders('');
+                });
+            }
+        }
+
+        function filterShops(searchTerm) {
+            const container = document.getElementById('shop-list-container');
+            const results = document.getElementById('shop-search-results');
+
+            if (!container) return;
+
+            // Store all shops if not already stored
+            if (originalShopsList.length === 0 && allShops.length > 0) {
+                originalShopsList = [...allShops];
+            }
+
+            if (!searchTerm) {
+                // Show all shops
+                renderShopSelector();
+                if (results) results.textContent = '';
+                return;
+            }
+
+            // Filter shops
+            const filteredShops = originalShopsList.filter(shop => {
+                const name = (shop.name || '').toLowerCase();
+                const address = (shop.address || '').toLowerCase();
+
+                return name.includes(searchTerm) || address.includes(searchTerm);
+            });
+
+            // Render filtered shops (temporarily replace allShops)
+            const tempShops = allShops;
+            allShops = filteredShops;
+            renderShopSelector();
+            allShops = tempShops;
+
+            // Update results
+            if (results) {
+                if (filteredShops.length === 0) {
+                    results.textContent = 'No shops found';
+                    results.className = 'mt-2 text-sm text-red-500';
+                } else {
+                    results.textContent = `Showing ${filteredShops.length} of ${originalShopsList.length} shops`;
+                    results.className = 'mt-2 text-sm text-gray-500';
+                }
+            }
+        }
+
+        function filterMenuItems(searchTerm) {
+            const container = document.getElementById('menu-items');
+            const results = document.getElementById('menu-search-results');
+
+            if (!container) return;
+
+            // Store original menu items if not already stored
+            if (originalMenuItems.length === 0 && currentMenu.length > 0) {
+                originalMenuItems = [...currentMenu];
+            }
+
+            if (!searchTerm) {
+                // Restore all items
+                currentMenu = [...originalMenuItems];
+                renderMenuDisplay();
+                if (results) results.textContent = '';
+                return;
+            }
+
+            // Filter menu items
+            const filteredItems = originalMenuItems.filter(item => {
+                const name = (item.name || '').toLowerCase();
+                const price = String(item.price || '');
+
+                return name.includes(searchTerm) || price.includes(searchTerm);
+            });
+
+            // Update currentMenu and re-render
+            currentMenu = filteredItems;
+            renderMenuDisplay();
+
+            // Update results
+            if (results) {
+                if (filteredItems.length === 0) {
+                    results.textContent = 'No dishes found';
+                    results.className = 'mt-2 text-sm text-red-500';
+                } else {
+                    results.textContent = `Showing ${filteredItems.length} of ${originalMenuItems.length} dishes`;
+                    results.className = 'mt-2 text-sm text-gray-500';
+                }
+            }
+        }
+
+        function renderMenuDisplay() {
+            const container = document.getElementById('menu-items');
+            if (!container) return;
+
+            if (currentMenu.length === 0) {
+                container.innerHTML = '<p class=\"text-gray-500 col-span-full text-center\">No items match your search.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            currentMenu.forEach(item => {
+                const cartItem = cart.find(ci => ci.id === item.id);
+                let buttonHTML;
+
+                if (isShopCurrentlyClosed) {
+                    buttonHTML = `<button disabled class="mt-4 btn-danger w-full opacity-70">CLOSED</button>`;
+                } else if (cartItem) {
+                    buttonHTML = `
+                        <div class="quantity-selector mt-4">
+                            <button class="quantity-btn quantity-minus" data-id="${item.id}">-</button>
+                            <span class="quantity-display">${cartItem.quantity}</span>
+                            <button class="quantity-btn quantity-plus" data-id="${item.id}">+</button>
+                        </div>
+                    `;
+                } else {
+                    buttonHTML = `<button data-id="${item.id}" class="add-to-cart-btn mt-4 btn-primary w-full">Add to Cart</button>`;
+                }
+
+                container.innerHTML += `
+                    <div class="menu-item card p-0">
+                        <div class="relative w-full h-40 bg-gray-200 overflow-hidden">
+                            <img src="${item.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EItem%3C/text%3E%3C/svg%3E'}" 
+                                 alt="${item.name}" 
+                                 class="w-full h-full object-cover" 
+                                 loading="lazy"
+                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E'">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold">${item.name}</h3>
+                            <p class="text-gray-600">₹${item.price}</p>
+                            ${buttonHTML}
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function filterCustomerOrders(searchTerm) {
+            const container = document.getElementById('customer-order-list');
+            const results = document.getElementById('order-history-search-results');
+
+            if (!container || originalCustomerOrders.length === 0) return;
+
+            if (!searchTerm) {
+                // Show all orders
+                renderCustomerOrderList(originalCustomerOrders);
+                if (results) results.textContent = '';
+                return;
+            }
+
+            // Filter orders
+            const filteredOrders = originalCustomerOrders.filter(order => {
+                const orderId = (order.id || '').toLowerCase();
+                const shopName = (allShops.find(s => s.id === order.shopId)?.name || '').toLowerCase();
+                const items = (order.items || []).map(item => item.name.toLowerCase()).join(' ');
+                const status = (order.status || '').toLowerCase();
+                const date = order.createdAt?.toDate();
+                const dateStr = date ? date.toLocaleDateString().toLowerCase() : '';
+
+                return orderId.includes(searchTerm) ||
+                    shopName.includes(searchTerm) ||
+                    items.includes(searchTerm) ||
+                    status.includes(searchTerm) ||
+                    dateStr.includes(searchTerm);
+            });
+
+            // Render filtered orders
+            renderCustomerOrderList(filteredOrders);
+
+            // Update results
+            if (results) {
+                if (filteredOrders.length === 0) {
+                    results.textContent = 'No orders found';
+                    results.className = 'mt-2 text-sm text-red-500';
+                } else {
+                    results.textContent = `Showing ${filteredOrders.length} of ${originalCustomerOrders.length} orders`;
+                    results.className = 'mt-2 text-sm text-gray-500';
+                }
+            }
+        }
+
+        function renderCustomerOrderList(orders) {
+            const container = document.getElementById('customer-order-list');
+            if (!container) return;
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No Orders Found</h3>
+                        <p class="text-gray-500">Try adjusting your search.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = orders.map(order => {
+                const date = order.createdAt?.toDate();
+                const formattedDate = date ? new Intl.DateTimeFormat('en-IN', {
+                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                }).format(date) : 'Date N/A';
+
+                const shopName = allShops.find(s => s.id === order.shopId)?.name || 'Unknown Shop';
+                const itemCount = order.items?.reduce((sum, item) => sum + (item.quantity || 1), 0) || 0;
+
+                return `
+                    <div class="card p-4 cursor-pointer hover:shadow-lg transition-all" onclick="viewOrderTracking('${order.id}')">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h4 class="font-bold text-gray-900">${shopName}</h4>
+                                <p class="text-xs text-gray-500">${formattedDate}</p>
+                            </div>
+                            <span class="status-tag status-tag-${order.status}">${order.status.replace(/_/g, ' ')}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">${itemCount} item${itemCount > 1 ? 's' : ''}</p>
+                        <div class="flex justify-between items-center pt-2 border-t">
+                            <span class="text-lg font-bold text-gray-900">₹${order.totalAmount}</span>
+                            ${order.paymentMethod === 'cash' ? '<span class="cash-badge">💵 CASH</span>' : '<span class="text-xs text-green-600">✓ Paid Online</span>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ========== UNIFIED SEARCH FUNCTIONALITY ==========
+        function setupUnifiedSearch() {
+            const searchModal = document.getElementById('unified-search-modal');
+            const searchBtn = document.getElementById('unified-search-btn');
+            const searchInput = document.getElementById('unified-search-input');
+            const searchClose = document.getElementById('unified-search-close');
+            const searchResults = document.getElementById('unified-search-results');
+
+            // Open search modal
+            function openUnifiedSearch() {
+                searchModal.classList.remove('hidden');
+                setTimeout(() => searchInput.focus(), 100);
+            }
+
+            // Close search modal
+            function closeUnifiedSearch() {
+                searchModal.classList.add('hidden');
+                searchInput.value = '';
+                searchResults.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <p>Start typing to search...</p>
+                    </div>
+                `;
+            }
+
+            // Event listeners
+            if (searchBtn) {
+                searchBtn.addEventListener('click', openUnifiedSearch);
+            }
+
+            if (searchClose) {
+                searchClose.addEventListener('click', closeUnifiedSearch);
+            }
+
+            // Click outside to close
+            if (searchModal) {
+                searchModal.addEventListener('click', (e) => {
+                    if (e.target === searchModal) {
+                        closeUnifiedSearch();
+                    }
+                });
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl+K or Cmd+K to open search
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    openUnifiedSearch();
+                }
+
+                // ESC to close
+                if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
+                    closeUnifiedSearch();
+                }
+            });
+
+            // Real-time search
+            if (searchInput) {
+                let searchTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    if (!searchTerm) {
+                        searchResults.innerHTML = `
+                            <div class="text-center py-12 text-gray-400">
+                                <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                <p>Start typing to search...</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    // Debounce search
+                    searchTimeout = setTimeout(() => {
+                        performUnifiedSearch(searchTerm);
+                    }, 200);
+                });
+            }
+        }
+
+        function performUnifiedSearch(searchTerm) {
+            const searchResults = document.getElementById('unified-search-results');
+
+            // Search shops
+            const matchedShops = allShops.filter(shop => {
+                const name = (shop.name || '').toLowerCase();
+                const address = (shop.address || '').toLowerCase();
+                return name.includes(searchTerm) || address.includes(searchTerm);
+            });
+
+            // Search menu items (from ALL shops, not just current shop)
+            const matchedMenuItems = allMenuItems.filter(item => {
+                const name = (item.name || '').toLowerCase();
+                const price = String(item.price || '');
+                const shopName = (item.shopName || '').toLowerCase();
+                return name.includes(searchTerm) ||
+                    price.includes(searchTerm) ||
+                    shopName.includes(searchTerm);
+            });
+
+            // Search orders (staff orders or customer orders)
+            let matchedOrders = [];
+
+            // For staff: search kitchen and transport orders
+            if (['kitchen', 'owner', 'delivery', 'developer'].includes(userRole)) {
+                const allStaffOrders = [...originalKitchenOrders, ...originalTransportOrders];
+                matchedOrders = allStaffOrders.filter(doc => {
+                    const order = doc.data();
+                    const orderId = doc.id.toLowerCase();
+                    const customerName = (order.customerName || '').toLowerCase();
+                    const customerPhone = (order.customerPhone || '').toLowerCase();
+                    const items = (order.items || []).map(item => item.name.toLowerCase()).join(' ');
+
+                    return orderId.includes(searchTerm) ||
+                        customerName.includes(searchTerm) ||
+                        customerPhone.includes(searchTerm) ||
+                        items.includes(searchTerm);
+                });
+            } else {
+                // For customers: search their own orders
+                matchedOrders = originalCustomerOrders.filter(order => {
+                    const orderId = (order.id || '').toLowerCase();
+                    const shopName = (allShops.find(s => s.id === order.shopId)?.name || '').toLowerCase();
+                    const items = (order.items || []).map(item => item.name.toLowerCase()).join(' ');
+                    const status = (order.status || '').toLowerCase();
+
+                    return orderId.includes(searchTerm) ||
+                        shopName.includes(searchTerm) ||
+                        items.includes(searchTerm) ||
+                        status.includes(searchTerm);
+                });
+            }
+
+            // Render results
+            renderUnifiedSearchResults(matchedShops, matchedMenuItems, matchedOrders, searchTerm);
+        }
+
+        function renderUnifiedSearchResults(shops, menuItems, orders, searchTerm) {
+            const searchResults = document.getElementById('unified-search-results');
+
+            const totalResults = shops.length + menuItems.length + orders.length;
+
+            if (totalResults === 0) {
+                searchResults.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">No results found</p>
+                        <p class="text-sm">Try searching for something else</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `<div class="text-sm text-gray-500 mb-4">Found ${totalResults} result${totalResults > 1 ? 's' : ''}</div>`;
+
+            // Render Shops
+            if (shops.length > 0) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Shops (${shops.length})</h3>
+                        <div class="space-y-2">
+                            ${shops.slice(0, 5).map(shop => `
+                                <div class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors" onclick="unifiedSearchSelectShop('${shop.id}', '${shop.name}')">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-semibold text-gray-900 truncate">${shop.name}</p>
+                                            <p class="text-sm text-gray-500 truncate">${shop.address || 'No address'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${shops.length > 5 ? `<p class="text-xs text-gray-400 pl-3">+${shops.length - 5} more shops</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Render Menu Items
+            if (menuItems.length > 0) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Menu Items (${menuItems.length})</h3>
+                        <div class="space-y-2">
+                            ${menuItems.slice(0, 5).map(item => `
+                                <div class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors" onclick="unifiedSearchSelectShop('${item.shopId}', '${item.shopName}')">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-semibold text-gray-900 truncate">${item.name}</p>
+                                            <p class="text-sm text-gray-500">${item.shopName} • <span class="text-green-600 font-medium">₹${item.price}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${menuItems.length > 5 ? `<p class="text-xs text-gray-400 pl-3">+${menuItems.length - 5} more items</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Render Orders
+            if (orders.length > 0) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Orders (${orders.length})</h3>
+                        <div class="space-y-2">
+                            ${orders.slice(0, 5).map(order => {
+                    // Handle both staff orders (Firestore docs) and customer orders (plain objects)
+                    const orderData = order.data ? order.data() : order;
+                    const orderId = order.id || order.id;
+                    const shopName = allShops.find(s => s.id === orderData.shopId)?.name || 'Unknown Shop';
+                    const itemCount = orderData.items?.length || 0;
+
+                    return `
+                                    <div class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors" onclick="unifiedSearchViewOrder('${orderId}')">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-semibold text-gray-900 truncate">${orderData.customerName || 'Order'}</p>
+                                                <p class="text-sm text-gray-500">${shopName} • ${itemCount} item${itemCount > 1 ? 's' : ''} • ₹${orderData.totalAmount}</p>
+                                            </div>
+                                            <span class="status-tag status-tag-${orderData.status} text-xs whitespace-nowrap">${orderData.status.replace(/_/g, ' ')}</span>
+                                        </div>
+                                    </div>
+                                `;
+                }).join('')}
+                            ${orders.length > 5 ? `<p class="text-xs text-gray-400 pl-3">+${orders.length - 5} more orders</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            searchResults.innerHTML = html;
+        }
+
+        // Search result actions
+        function unifiedSearchSelectShop(shopId, shopName) {
+            document.getElementById('unified-search-modal').classList.add('hidden');
+            selectShop(shopId, shopName);
+        }
+
+        function unifiedSearchViewOrder(orderId) {
+            document.getElementById('unified-search-modal').classList.add('hidden');
+            if (typeof viewOrderTracking === 'function') {
+                viewOrderTracking(orderId);
+            }
+        }
+
+        // Make functions global for onclick handlers
+        window.unifiedSearchSelectShop = unifiedSearchSelectShop;
+        window.unifiedSearchViewOrder = unifiedSearchViewOrder;
+
 
         async function handleEmailAuth(e, isSignup) {
             e.preventDefault();
