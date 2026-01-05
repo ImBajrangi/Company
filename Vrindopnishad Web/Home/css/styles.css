@@ -307,10 +307,22 @@ header.scrolled {
 .logo {
     display: flex;
     align-items: center;
+    gap: 12px;
     font-size: 1.4rem;
     height: 100%;
     z-index: 10;
     font-weight: 700;
+}
+
+.header-logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover .header-logo-img {
+    transform: scale(1.1);
 }
 
 .header-right {
