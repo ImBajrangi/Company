@@ -2,11 +2,61 @@
 <html lang="en" data-load-bundle="home">
 
 <head>
-    <link rel="icon" href="Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#8E7F7F">
-    <title>Vrindopnishad</title>
+    <title>Vrindopnishad — Authentic Spiritual & Vedic Knowledge</title>
+    <meta name="description"
+        content="Vrindopnishad is a premium digital sanctuary dedicated to preserving and sharing authentic spiritual and Vedic knowledge through art, wisdom, and interactive technology.">
+    <meta name="keywords"
+        content="Vrindopnishad, Vedic Knowledge, Spiritual Wisdom, Indian Culture, Sacred Art, Hindu Philosophy, Meditation, Yoga, Vrindavan, Bhagavad Gita, Upanishads, Vrindavan, BhaktiPath">
+    <link rel="canonical" href="https://vrindopnishad.in/">
+
+    <link rel="icon" href="Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vrindopnishad.in/">
+    <meta property="og:title" content="Vrindopnishad — Authentic Spiritual & Vedic Knowledge">
+    <meta property="og:description"
+        content="Explore a digital sanctuary of ancient wisdom and modern creativity at Vrindopnishad.">
+    <meta property="og:image" content="Vrindopnishad%20Web/class/logo/v-logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vrindopnishad.in/">
+    <meta property="twitter:title" content="Vrindopnishad — Authentic Spiritual & Vedic Knowledge">
+    <meta property="twitter:description"
+        content="Explore a digital sanctuary of ancient wisdom and modern creativity at Vrindopnishad.">
+    <meta property="twitter:image" content="Vrindopnishad%20Web/class/logo/v-logo.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Vrindopnishad",
+      "url": "https://vrindopnishad.in/",
+      "logo": "https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png",
+      "sameAs": [
+        "https://www.instagram.com/vrindopnishad"
+      ],
+      "description": "Vrindopnishad is a platform dedicated to preserving and sharing authentic spiritual and Vedic knowledge."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Vrindopnishad",
+      "url": "https://vrindopnishad.in/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://vrindopnishad.in/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -26,15 +76,18 @@
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/styles.css">
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/menu.css">
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/cloude.css">
-    <!-- <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/styles-optimized.css"> -->
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/image-hover.css">
     <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.css">
     <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.css">
     <!-- Splitting.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
     <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css">
-    <!-- WebFont Loader (from source project) -->
+    <!-- WebFont Loader -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+    <!-- Scripts -->
+    <script src="js/image-helper.js"></script>
+    <script src="js/offline-handler.js" defer></script>
 </head>
 
 <body>
@@ -82,13 +135,13 @@
 
     <!-- Notification Sounds -->
     <audio id="notification-success" preload="auto">
-        <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert4.mp3" type="audio/mpeg">
+        <source src="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/Home/sounds/alert4.mp3" type="audio/mpeg">
     </audio>
     <audio id="notification-error" preload="auto">
-        <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert3.wav" type="audio/mpeg">
+        <source src="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/Home/sounds/alert3.wav" type="audio/mpeg">
     </audio>
     <audio id="notification-info" preload="auto">
-        <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert1.wav" type="audio/mpeg">
+        <source src="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/Home/sounds/alert1.wav" type="audio/mpeg">
     </audio>
 
     <!-- Header -->
@@ -681,7 +734,7 @@
                     </a>
 
                     <!-- Chitra Vrinda -->
-                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="showcase-card staggered-item">
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="showcase-card staggered-item">
                         <div class="showcase-image">
                             <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/chitra_vrinda_hero.png"
                                 alt="Chitra Vrinda" loading="lazy">
@@ -732,7 +785,7 @@
             <div class="more-container">
                 <h3 class="more-title content__title fade-up" data-splitting data-effect5>More Creations</h3>
                 <div class="more-grid staggered-list">
-                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="more-item staggered-item">
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="more-item staggered-item">
                         <span class="more-num">04</span>
                         <div class="more-info">
                             <span class="more-name">Photo Gallery</span>
@@ -740,7 +793,7 @@
                         </div>
                         <span class="more-arrow">→</span>
                     </a>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
+                    <a href="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/sketch/main/new-read-me.html"
                         class="more-item staggered-item">
                         <span class="more-num">05</span>
                         <div class="more-info">
@@ -749,7 +802,7 @@
                         </div>
                         <span class="more-arrow">→</span>
                     </a>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+                    <a href="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/pdf/main/pdf-viewer.html"
                         class="more-item staggered-item">
                         <span class="more-num">06</span>
                         <div class="more-info">
@@ -949,7 +1002,7 @@
                     </a>
 
                     <!-- Photo Gallery -->
-                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="bento-card staggered-item">
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="bento-card staggered-item">
                         <div class="bento-number">02</div>
                         <div class="bento-content">
                             <h3>Gallery</h3>
@@ -970,7 +1023,7 @@
                     </a>
 
                     <!-- Spiritual Texts - Wide Card -->
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
+                    <a href="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/sketch/main/new-read-me.html"
                         class="bento-card bento-wide staggered-item">
                         <div class="bento-number">04</div>
                         <div class="bento-content">
@@ -981,7 +1034,7 @@
                     </a>
 
                     <!-- PDF Library -->
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+                    <a href="https://imbajrangi.github.io/CompanyVrindopnishad%20Web/pdf/main/pdf-viewer.html"
                         class="bento-card staggered-item">
                         <div class="bento-number">05</div>
                         <div class="bento-content">
@@ -1193,7 +1246,7 @@
                                 class="text-hover">Foody Vrinda</a>
                         </li>
                         <li class="staggered-item">
-                            <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="text-hover">Chitra Vrinda</a>
+                            <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="text-hover">Chitra Vrinda</a>
                         </li>
                         <li class="staggered-item">
                             <a href="https://imbajrangi.github.io/Company/Projects/Brij Yatra/map.html"
