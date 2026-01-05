@@ -12,9 +12,8 @@
         content="Vrindopnishad, Vedic Knowledge, Spiritual Wisdom, Indian Culture, Sacred Art, Hindu Philosophy, Meditation, Yoga, Vrindavan, Bhagavad Gita, Upanishads, Vrindavan, BhaktiPath">
     <link rel="canonical" href="https://vrindopnishad.in/">
 
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png"
-        type="image/png">
-    <link rel="apple-touch-icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png">
+    <link rel="icon" href="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -22,7 +21,7 @@
     <meta property="og:title" content="Vrindopnishad — Authentic Spiritual & Vedic Knowledge">
     <meta property="og:description"
         content="Explore a digital sanctuary of ancient wisdom and modern creativity at Vrindopnishad.">
-    <meta property="og:image" content="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png">
+    <meta property="og:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -30,34 +29,72 @@
     <meta property="twitter:title" content="Vrindopnishad — Authentic Spiritual & Vedic Knowledge">
     <meta property="twitter:description"
         content="Explore a digital sanctuary of ancient wisdom and modern creativity at Vrindopnishad.">
-    <meta property="twitter:image"
-        content="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png">
+    <meta property="twitter:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Vrindopnishad",
-      "url": "https://vrindopnishad.in/",
-      "logo": "https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png",
-      "sameAs": [
-        "https://www.instagram.com/vrindopnishad"
-      ],
-      "description": "Vrindopnishad is a platform dedicated to preserving and sharing authentic spiritual and Vedic knowledge."
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Vrindopnishad",
-      "url": "https://vrindopnishad.in/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://vrindopnishad.in/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://vrindopnishad.in/#organization",
+          "name": "Vrindopnishad",
+          "url": "https://vrindopnishad.in/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": [
+            "https://www.instagram.com/vrindopnishad"
+          ],
+          "description": "Vrindopnishad is a platform dedicated to preserving and sharing authentic spiritual and Vedic knowledge."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://vrindopnishad.in/#website",
+          "name": "Vrindopnishad",
+          "url": "https://vrindopnishad.in/",
+          "publisher": { "@id": "https://vrindopnishad.in/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://vrindopnishad.in/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "name": "Main Projects",
+          "itemListElement": [
+            {
+              "@type": "SiteNavigationElement",
+              "position": 1,
+              "name": "Foody Vrinda",
+              "url": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 2,
+              "name": "Vrinda Tours",
+              "url": "https://vrindopnishad.in/Projects/Brij%20Yatra/vrinda%20yatra.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 3,
+              "name": "Chitra Vrinda",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 4,
+              "name": "Sant Vaani",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/sketch/main/new-read-me.html"
+            }
+          ]
+        }
+      ]
     }
     </script>
 
