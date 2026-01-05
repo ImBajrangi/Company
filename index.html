@@ -1,72 +1,2160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-load-bundle="home">
 
 <head>
+    <link rel="icon" href="Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./Vrindopnishad Web/class/logo/v-logo-transparent.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#8E7F7F">
     <title>Vrindopnishad</title>
-    <!-- 
-        This is the main entry point for Vrindopnishad.
-        It routes users to the mobile-optimized home page or the big screen version
-        based on their device type and screen width.
-    -->
-    <script>
-        (function () {
-            function isMobile() {
-                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-                const isSmallScreen = window.innerWidth <= 768;
-                return isMobileUA || isSmallScreen;
-            }
 
-            if (isMobile()) {
-                window.location.replace("Vrindopnishad Web/Home/main/index(forSmallScreen).html");
-            } else {
-                window.location.replace("Vrindopnishad Web/Home/main/index(forBigScreen).html");
-            }
-        })();
-    </script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #040307;
-            color: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: 'Outfit', sans-serif;
-        }
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
 
-        .loader {
-            text-align: center;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #64b5f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Anton&family=Laila:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- TypeKit Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/cvn8slu.css">
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/hamburger.css">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/styles.css">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/menu.css">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/cloude.css">
+    <!-- <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/styles-optimized.css"> -->
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/image-hover.css">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.css">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.css">
+    <!-- Splitting.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css">
+    <!-- WebFont Loader (from source project) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 </head>
 
 <body>
-    <div class="loader">
-        <div class="spinner"></div>
-        <p>Entering the Sanctuary...</p>
+    <div class="menu-overlay"></div>
+
+    <!-- Vrindopnishad Random Loader -->
+    <!-- <script
+        src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script> -->
+
+    <!-- Add noise element for texture -->
+    <!-- <div class="noise"></div> -->
+
+    <!-- Background elements --
+    <div class="bg-element bg-element-1" data-speed="0.05" data-scroll-speed="0.02"></div>
+    <div class="bg-element bg-element-2" data-speed="0.03" data-scroll-speed="0.05"></div>
+    <div class="bg-element bg-element-3" data-speed="0.07" data-scroll-speed="0.03"></div>-->
+    <!-- Floating background elements (disabled)
+    <div class="floating-elements">
+        <div class="float-item float-1"></div>
+        <div class="float-item float-2"></div>
+        <div class="float-item float-3"></div>
     </div>
+    -->
+
+    <!-- Scroll progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-text">
+            <span>Vrindopnishad</span>
+        </div>
+        <div class="counter">0%</div>
+    </div>
+
+    <!-- Custom cursor -->
+    <!-- <div class="cursor"></div>
+    <div class="cursor-follower"></div> -->
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <!-- Notifications container -->
+    <div id="notifications" class="notifications"></div>
+
+    <!-- Notification Sounds -->
+    <audio id="notification-success" preload="auto">
+        <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert4.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="notification-error" preload="auto">
+        <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert3.wav" type="audio/mpeg">
+    </audio>
+    <audio id="notification-info" preload="auto">
+        <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert1.wav" type="audio/mpeg">
+    </audio>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <span>Vrindopnishad</span>
+        </a>
+
+        <div class="main-nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="Vrindopnishad%20Web/about%20code/main/about.html">About</a></li>
+                <li><a href="Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
+            </ul>
+        </div>
+
+        <!-- Right side icons container -->
+        <div class="header-right">
+            <!-- Tools/settings icon (Gear Design) -->
+            <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="transform: rotate(0deg);">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+            </div>
+
+            <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
+                <svg viewBox="0 0 64 48">
+                    <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
+                    <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
+                    <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <nav aria-hidden="true">
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
+            <li><a href="Vrindopnishad%20Web/Pictures/main/pictures.html">Photos</a></li>
+            <li><a href="Vrindopnishad%20Web/about%20code/main/about.html">About</a></li>
+            <li><a href="Vrindopnishad%20Web/pdf/main/pdf-viewer.html">PDF Library</a></li>
+            <li><a href="Projects/Cloud-Kitchen/kitchen.html">Cloud Kitchen</a></li>
+        </ul>
+    </nav>
+
+    <!-- Fullscreen Tools Menu -->
+    <div class="tools-menu">
+        <div class="tools-menu-header">
+            <div class="tools-menu-logo">Vrindopnishad Tools</div>
+            <div class="tools-menu-close" aria-label="Close tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+        </div>
+
+        <div class="tools-menu-content">
+            <div class="tools-grid">
+                <!-- Collection Tool -->
+                <div class="tool-item" data-bg-color="#8E7F7F" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Collection</h3>
+                        <p>Browse our curated collections</p>
+                    </div>
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" data-link="stack" class="tool-link"></a>
+                </div>
+
+                <!-- Photos Tool -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Photos</h3>
+                        <p>Explore our photo gallery</p>
+                    </div>
+                    <a href="Vrindopnishad%20Web/Pictures/main/pictures.html" data-link="gallery" class="tool-link"></a>
+                </div>
+
+                <!-- Login Tool -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Login Page</h3>
+                        <p>Access your personal dashboard</p>
+                    </div>
+                    <a href="Projects/LoginPage/loginew.html" class="tool-link"></a>
+                </div>
+
+                <!-- Cloud Kitchen -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="1" x2="6" y2="4"></line>
+                            <line x1="10" y1="1" x2="10" y2="4"></line>
+                            <line x1="14" y1="1" x2="14" y2="4"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Cloud Kitchen</h3>
+                        <p>Delicious meals delivered to you</p>
+                    </div>
+                    <a href="Projects/Cloud-Kitchen/modern-kitchen(payment).html" class="tool-link"></a>
+                </div>
+
+                <!-- Vrinda Foods Side -->
+                <div class="tool-item" data-bg-color="#8E7F7F" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                            <path d="M3 6h18"></path>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Vrinda Foods</h3>
+                        <p>Owner administration dashboard</p>
+                    </div>
+                    <a href="Projects/Cloud-Kitchen/kitchen(developer).html" class="tool-link"></a>
+                </div>
+
+                <!-- Cloud Kitchen payment Side -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                            <line x1="2" y1="10" x2="22" y2="10"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Payment Side</h3>
+                        <p>Secure transaction management</p>
+                    </div>
+                    <a href="Projects/Cloud-Kitchen/kitchen(withPicture).html" class="tool-link"></a>
+                </div>
+
+                <!-- Cloud Kitchen Staff Side -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Staff Portal</h3>
+                        <p>Team management and coordination</p>
+                    </div>
+                    <a href="Projects/Cloud-Kitchen/kitchen(staff-no-error).html" class="tool-link"></a>
+                </div>
+
+                <!-- Cloud Kitchen Update Order Side -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            <path d="M9 14l2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Orders</h3>
+                        <p>Real-time order tracking and status</p>
+                    </div>
+                    <a href="Projects/Cloud-Kitchen/kitchen.html" class="tool-link"></a>
+                </div>
+
+                <!-- Cloud Kitchen Modern Sided -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Modern Kitchen</h3>
+                        <p>Next-gen kitchen experience</p>
+                    </div>
+                    <a href="Projects/Cloud-Kitchen/modern-kitchen.html" class="tool-link"></a>
+                </div>
+
+                <!-- PDF Library Tool -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>PDF Library</h3>
+                        <p>Access our digital document collection</p>
+                    </div>
+                    <a href="Vrindopnishad%20Web/pdf/main/pdf-viewer.html" data-link="pdf-viewer" class="tool-link"></a>
+                </div>
+
+                <!-- Spiritual Texts Tool -->
+                <div class="tool-item" data-bg-color="#000" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Spiritual Texts</h3>
+                        <p>Explore ancient wisdom and teachings</p>
+                    </div>
+                    <a href="Vrindopnishad%20Web/sketch/main/new-read-me.html" data-link="book" class="tool-link"></a>
+                </div>
+
+                <!-- Dark Reader Tool -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Dark Reader</h3>
+                        <p>Enable dark mode for better readability</p>
+                    </div>
+                    <a href="Vrindopnishad%20Web/श्री_हरिवंश.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
+                </div>
+
+                <!-- Tourism Map Tool -->
+                <div class="tool-item" data-bg-color="#D4AF37" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Tourism Map</h3>
+                        <p>Explore devotional brij yatra journeys</p>
+                    </div>
+                    <a href="Projects/Brij Yatra/map.html" class="tool-link"></a>
+                </div>
+
+                <!-- Chat Tool -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <circle cx="9" cy="9" r="1"></circle>
+                            <circle cx="15" cy="9" r="1"></circle>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>ChatBot Animated</h3>
+                        <p>AI-powered interactive assistant</p>
+                    </div>
+                    <a href="Projects/chat/animated-chatbot.html" class="tool-link"></a>
+                </div>
+
+                <!-- Chat Tool Embedded -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>ChatBot Embedded</h3>
+                        <p>Seamlessly integrated support</p>
+                    </div>
+                    <a href="Projects/chat/chatbot-embedded.html" class="tool-link"></a>
+                </div>
+
+                <!-- Trials Brij Tours -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Trials Brij Tours</h3>
+                        <p>Experimental yatra experiences (Ref)</p>
+                    </div>
+                    <a href="Projects/Trials/rejected/brij-pilgrimage-web/index.html" class="tool-link"></a>
+                </div>
+
+                <!-- Trials Hotel Booking -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Hotel Booking</h3>
+                        <p>Experimental accommodation services</p>
+                    </div>
+                    <a href="Projects/Trials/Hotels Booking/index.html" class="tool-link"></a>
+                </div>
+
+                <!-- Video Player -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Video Player</h3>
+                        <p>Premium media streaming experience</p>
+                    </div>
+                    <a href="Projects/Video/video-player.html" class="tool-link"></a>
+                </div>
+
+                <!-- Zen Mode Search -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Zen Mode</h3>
+                        <p>Minimalist search and discovery</p>
+                    </div>
+                    <a href="Projects/Video/zen-mode.html" class="tool-link"></a>
+                </div>
+
+                <!-- Web Dev Services -->
+                <div class="tool-item" data-bg-color="#4A4A4A" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Web Services</h3>
+                        <p>Custom development and solutions</p>
+                    </div>
+                    <a href="Projects/Web%20dev/vrinda%20web%20dev.html" class="tool-link"></a>
+                </div>
+
+                <!-- Articles Tool -->
+                <div class="tool-item" data-bg-color="#e9d0a4" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <line x1="6" y1="8" x2="18" y2="8"></line>
+                            <line x1="6" y1="12" x2="18" y2="12"></line>
+                            <line x1="6" y1="16" x2="12" y2="16"></line>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Articles</h3>
+                        <p>Read our latest blogs and updates</p>
+                    </div>
+                    <a data-link="web-content-manager" class="tool-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <main>
+        <section id="home" class="hero-section">
+            <!-- Hero Background Image (Fixed) -->
+            <div class="hero-image-container">
+                <img src="Vrindopnishad%20Web/class/logo/v-logo-transparent.png" alt="Hero Background Pattern"
+                    class="hero-bg-pattern">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-container">
+                <!-- Decorative Elements -->
+                <div class="v-hero-decor">
+                    <span class="v-decor-line"></span>
+                    <span class="v-decor-dot"></span>
+                </div>
+
+                <!-- Hero Badge -->
+                <div class="hero-badge fade-up">
+                    <span class="badge-dot"></span>
+                    <span>Digital Sanctuary • Est. 2026</span>
+                </div>
+
+                <!-- Main Title -->
+                <h1 class="hero-title">
+                    <div class="title-row">
+                        <span class="title-small fade-up">Welcome to</span>
+                    </div>
+                    <div class="title-row">
+                        <span class="title-main content__title" data-splitting data-effect1>Vrindopnishad</span>
+                    </div>
+                </h1>
+
+                <!-- Tagline -->
+                <div class="hero-tagline fade-up">
+                    <p>Where <strong>ancient wisdom</strong> meets <strong>modern innovation</strong></p>
+                </div>
+
+                <!-- Description -->
+                <div class="hero-description fade-up">
+                    <p>We craft digital experiences that connect food, art, travel, and spirituality under one purpose —
+                        serving you better.</p>
+                </div>
+
+                <!-- CTA Group -->
+                <div class="hero-cta-group fade-up">
+                    <a href="#our-story" class="hero-btn hero-btn-primary">
+                        <span>Discover Our Story</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="#projects" class="hero-btn hero-btn-secondary">
+                        <span>View Projects</span>
+                    </a>
+                </div>
+
+                <!-- Stats Strip -->
+                <div class="hero-stats fade-up">
+                    <div class="stat">
+                        <span class="stat-num">4+</span>
+                        <span class="stat-text">Projects</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-text">Creativity</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-num">1</span>
+                        <span class="stat-text">Mission</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="hero-scroll">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- Our Story Section - Modern Design -->
+        <section id="our-story" class="story-section">
+            <div class="story-container staggered-list">
+                <!-- Left: Image -->
+                <div class="story-visual staggered-item">
+                    <div class="story-image-wrapper">
+                        <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/vrindopnishad_story.png"
+                            alt="Vrindopnishad Story" loading="lazy">
+                        <div class="story-image-overlay"></div>
+                    </div>
+                    <div class="story-year-badge">
+                        <span class="year-label">SINCE</span>
+                        <span class="year-num">2024</span>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="story-content">
+                    <span class="story-label fade-up">THE JOURNEY</span>
+                    <h2 class="story-title content__title" data-splitting data-effect6>Our Story</h2>
+
+                    <div class="story-blocks">
+                        <div class="story-block fade-up">
+                            <span class="block-marker">01</span>
+                            <div class="block-text">
+                                <h4>The Beginning</h4>
+                                <p><strong>Vrindopnishad</strong> was born from a simple belief — that the wisdom of our
+                                    ancestors can thrive in the digital age.</p>
+                            </div>
+                        </div>
+
+                        <div class="story-block fade-up">
+                            <span class="block-marker">02</span>
+                            <div class="block-text">
+                                <h4>The Vision</h4>
+                                <p>We started as a dream to connect people with authentic experiences through food, art,
+                                    and sacred journeys.</p>
+                            </div>
+                        </div>
+
+                        <div class="story-block fade-up">
+                            <span class="block-marker">03</span>
+                            <div class="block-text">
+                                <h4>Today</h4>
+                                <p>From <strong>Foody Vrinda</strong> to <strong>Chitra Vrinda</strong> to
+                                    <strong>Vrinda Tours</strong> — we're here for every moment that matters.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#projects" class="story-cta fade-up">
+                        <span>Explore Our Work</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Showcase Section - Modern Design -->
+        <section id="projects" class="showcase-section">
+            <div class="showcase-container">
+                <div class="showcase-header">
+                    <span class="showcase-label fade-up">EXPLORE</span>
+                    <h2 class="showcase-title content__title" data-splitting data-effect2>Projects</h2>
+                    <p class="showcase-subtitle fade-up">The Vrinda family of services crafted for you</p>
+                </div>
+
+                <div class="showcase-grid staggered-list">
+                    <!-- Featured Project: Foody Vrinda -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html"
+                        class="showcase-card showcase-featured staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/foody_vrinda_hero.png"
+                                alt="Foody Vrinda" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">01</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Cloud Kitchen</span>
+                                <h3>Foody Vrinda</h3>
+                                <p>Delicious homemade meals delivered fresh to your doorstep</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Order Now</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Chitra Vrinda -->
+                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="showcase-card staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/chitra_vrinda_hero.png"
+                                alt="Chitra Vrinda" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">02</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Digital Art</span>
+                                <h3>Chitra Vrinda</h3>
+                                <p>Artistic photography & digital creations</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>View Gallery</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Vrinda Tours -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Brij Yatra/map.html"
+                        class="showcase-card staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/vrinda_tours_hero.png"
+                                alt="Vrinda Tours" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">03</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Pilgrimage</span>
+                                <h3>Vrinda Tours</h3>
+                                <p>Sacred journeys to holy destinations</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Plan Yatra</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legacy Projects Section -->
+        <!-- More Creations - Minimal List -->
+        <section class="more-section">
+            <div class="more-container">
+                <h3 class="more-title content__title fade-up" data-splitting data-effect5>More Creations</h3>
+                <div class="more-grid staggered-list">
+                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="more-item staggered-item">
+                        <span class="more-num">04</span>
+                        <div class="more-info">
+                            <span class="more-name">Photo Gallery</span>
+                            <span class="more-cat">Digital Art Collection</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
+                        class="more-item staggered-item">
+                        <span class="more-num">05</span>
+                        <div class="more-info">
+                            <span class="more-name">Spiritual Texts</span>
+                            <span class="more-cat">Ancient Wisdom Library</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+                        class="more-item staggered-item">
+                        <span class="more-num">06</span>
+                        <div class="more-info">
+                            <span class="more-name">PDF Library</span>
+                            <span class="more-cat">Document Archive</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html"
+                        class="more-item staggered-item">
+                        <span class="more-num">07</span>
+                        <div class="more-info">
+                            <span class="more-name">Web Development</span>
+                            <span class="more-cat">Custom Digital Solutions</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Info Panel - Modern Design -->
+        <div class="project-info-panel" id="projectInfoPanel">
+            <div class="project-info-overlay"></div>
+            <div class="project-info-content">
+                <button class="project-info-close" aria-label="Close project info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="project-info-image-container">
+                    <img src="" alt="Project" class="project-info-image">
+                </div>
+                <div class="project-info-details">
+                    <span class="project-info-label">PROJECT</span>
+                    <h3 class="project-info-title"></h3>
+                    <p class="project-info-category"></p>
+                    <p class="project-info-description"></p>
+                    <a href="#" class="project-info-link">
+                        <span>View Project</span>
+                        <span class="link-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Values Section - Modern Design -->
+        <section class="values-section">
+            <div class="values-container">
+                <div class="values-header">
+                    <span class="values-label fade-up">OUR PILLARS</span>
+                    <h2 class="values-title content__title" data-splitting data-effect5>Core Values</h2>
+                </div>
+
+                <div class="values-grid staggered-list">
+                    <!-- Innovation -->
+                    <div class="value-card value-featured staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <div class="value-num">01</div>
+                        <h3>Innovation</h3>
+                        <p>We embrace modern technology to create seamless digital experiences. From mobile apps to web
+                            platforms, we build solutions that make life easier.</p>
+                    </div>
+
+                    <!-- Tradition -->
+                    <div class="value-card staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="value-num">02</div>
+                        <h3>Tradition</h3>
+                        <p>Rooted in timeless wisdom of Vrindavan's sacred heritage.</p>
+                    </div>
+
+                    <!-- Community -->
+                    <div class="value-card staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="value-num">03</div>
+                        <h3>Community</h3>
+                        <p>Every project is designed to bring value to our people.</p>
+                    </div>
+
+                    <!-- Spirituality -->
+                    <div class="value-card value-wide staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                </path>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="value-num">04</div>
+                        <h3>Spirituality</h3>
+                        <p>At our core, we're a spiritual endeavor. Everything we create is infused with devotion and a
+                            desire to uplift souls on their journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section - Modern Unique Design -->
+        <section id="about" class="universe-section">
+            <div class="universe-container staggered-list">
+                <!-- Left: Visual -->
+                <div class="universe-visual staggered-item">
+                    <div class="universe-image-wrapper">
+                        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/main/image/Home%20Pics/img1.jpg"
+                            alt="Vrindopnishad" loading="lazy">
+                        <div class="universe-overlay"></div>
+                    </div>
+                    <div class="universe-badge">
+                        <span class="universe-year">EST.</span>
+                        <span class="universe-year-num">2024</span>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="universe-content">
+                    <span class="universe-label fade-up">ABOUT US</span>
+                    <h2 class="universe-title content__title" data-splitting data-effect8>Digital Universe</h2>
+
+                    <div class="universe-quote fade-up">
+                        <span class="quote-mark">"</span>
+                        <p>Where ancient wisdom meets modern creativity</p>
+                    </div>
+
+                    <div class="universe-text fade-up">
+                        <p>Vrindopnishad is more than a website—it's a digital sanctuary. Our platform bridges
+                            traditional artistic expressions with contemporary digital innovations, offering a unique
+                            space for spiritual and creative exploration.</p>
+                    </div>
+
+                    <div class="universe-stats staggered-list">
+                        <div class="stat-item staggered-item">
+                            <span class="stat-num">4+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-item staggered-item">
+                            <span class="stat-num">∞</span>
+                            <span class="stat-label">Creativity</span>
+                        </div>
+                        <div class="stat-item staggered-item">
+                            <span class="stat-num">1</span>
+                            <span class="stat-label">Mission</span>
+                        </div>
+                    </div>
+
+                    <a data-link="about" class="universe-cta fade-up">
+                        <span>Explore More</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services For You Section - Modern Bento Grid -->
+        <section id="services" class="bento-section">
+            <div class="bento-container">
+                <div class="bento-header">
+                    <span class="bento-label fade-up">EXPLORE</span>
+                    <h2 class="bento-title content__title" data-splitting data-effect10>For You</h2>
+                </div>
+
+                <div class="bento-grid staggered-list">
+                    <!-- Hero Card - Order Food -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html"
+                        class="bento-card bento-hero staggered-item">
+                        <div class="bento-number">01</div>
+                        <div class="bento-content">
+                            <h3>Order Food</h3>
+                            <p>Foody Vrinda — Delicious homemade meals delivered fresh</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Photo Gallery -->
+                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="bento-card staggered-item">
+                        <div class="bento-number">02</div>
+                        <div class="bento-content">
+                            <h3>Gallery</h3>
+                            <p>Divine art collection</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Plan a Yatra -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Brij Yatra/map.html"
+                        class="bento-card staggered-item">
+                        <div class="bento-number">03</div>
+                        <div class="bento-content">
+                            <h3>Yatra</h3>
+                            <p>Sacred pilgrimages</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Spiritual Texts - Wide Card -->
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
+                        class="bento-card bento-wide staggered-item">
+                        <div class="bento-number">04</div>
+                        <div class="bento-content">
+                            <h3>Sacred Texts</h3>
+                            <p>Ancient wisdom and spiritual teachings from timeless traditions</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- PDF Library -->
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+                        class="bento-card staggered-item">
+                        <div class="bento-number">05</div>
+                        <div class="bento-content">
+                            <h3>PDF Library</h3>
+                            <p>Digital resources</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Web Development -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html"
+                        class="bento-card staggered-item">
+                        <div class="bento-number">06</div>
+                        <div class="bento-content">
+                            <h3>Web Dev</h3>
+                            <p>Custom websites</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Download Section - Modern Bento Style -->
+        <section id="download-apps" class="apps-section">
+            <div class="apps-container">
+                <div class="apps-header">
+                    <span class="apps-label fade-up">DOWNLOAD</span>
+                    <h2 class="apps-title content__title" data-splitting data-effect6>Get Apps</h2>
+                </div>
+
+                <div class="apps-bento staggered-list">
+                    <!-- Featured App - Foody Vrinda -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/official_app/Foody%20Vrinda.apk"
+                        class="apps-card apps-featured staggered-item" download>
+                        <div class="apps-tag">★ FEATURED</div>
+                        <div class="apps-icon">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/foodyVrinda-logo.png"
+                                alt="Foody Vrinda">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Foody Vrinda</h3>
+                            <p>Cloud kitchen • Food ordering & delivery</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform">Android</span>
+                            <span class="apps-size">73 MB</span>
+                        </div>
+                        <div class="apps-cta">
+                            <span>↓ Download APK</span>
+                        </div>
+                    </a>
+
+                    <!-- Sant-Vaani -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Sant-Vaani/official_app/Sant-Vaani.apk"
+                        class="apps-card staggered-item" download>
+                        <div class="apps-icon">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png"
+                                alt="Sant-Vaani">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Sant-Vaani</h3>
+                            <p>Spiritual scriptures & mantras</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform">Android</span>
+                            <span class="apps-size">15 MB</span>
+                        </div>
+                        <div class="apps-cta"><span>↓</span></div>
+                    </a>
+
+                    <!-- Brij Yatra -->
+                    <a href="https://imbajrangi.github.io/Company/Projects/Brij%20Yatra/vrinda%20yatra.html"
+                        class="apps-card staggered-item">
+                        <div class="apps-icon">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/vrindaTours-logo.png"
+                                alt="Brij Yatra">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Brij Yatra</h3>
+                            <p>Pilgrimage map & guide</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform apps-web">Web</span>
+                        </div>
+                        <div class="apps-cta"><span>→</span></div>
+                    </a>
+
+                    <!-- Photo Gallery -->
+                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Pictures/main/pictures.html"
+                        class="apps-card staggered-item">
+                        <div class="apps-icon">
+                            <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png"
+                                alt="Photo Gallery">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Gallery</h3>
+                            <p>Divine art collection</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform apps-web">Web</span>
+                        </div>
+                        <div class="apps-cta"><span>→</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Showcase (Cloned Effects 1-15) -->
+        <!-- <section id="typography-showcase">
+            <div class="content">
+                <h2 class="content__title content__title--small" data-splitting data-effect1><span>Beyond</span><span
+                        class="font-6">meaning</span></h2>
+                <p>Studying texts and stiff meditation can make you lose your Original Mind.</p>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect2><span class="font-2">Heavenly</span><span
+                        class="font-4">pleasure</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title content__title--sides" data-splitting data-effect3><span class="font-7">The
+                        blossoms</span><span class="font-1">have fallen</span></h2>
+            </div>
+            <div class="content content--full">
+                <h2 class="content__title" data-splitting data-effect4><span class="font-larger">Human</span><span
+                        class="font-upper font-sub font-7">gratitude</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect5><span class="font-7">Intentionally</span><span
+                        class="font-6">dramatic</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title content__title--small" data-splitting data-effect6><span
+                        class="font-3">Blooming</span><span class="font-6">flowers</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect7><span class="font-3">Unfolding</span><span
+                        class="font-4">Elegantly</span><span class="font-7">Naturally</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect8><span class="font-8">Midnight</span></h2>
+            </div>
+            <div class="content content--full">
+                <h2 class="content__title" data-splitting data-effect9><span
+                        class="font-larger font-12">Moon</span><span
+                        class="font-upper font-sub font-1">Transportation</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect10><span class="font-7">Lucid</span><span
+                        class="font-4">Dreaming</span><span class="font-medium font-1">Diaries</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect11><span class="font-3 font-height">The
+                        Routine</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect12><span class="font-9 font-height">Night
+                        Time</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect13><span class="font-5">Megascrapers</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect14><span class="font-11">Futuristic</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect15><span class="font-10">Unintelligible</span></h2>
+            </div>
+        </section> -->
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo text-gradient">Vrindopnishad</div>
+                    <div class="footer-text">
+                        <p class="fade-up">A digital sanctuary where art, technology, and spirituality converge in
+                            harmonic resonance.</p>
+                        <p class="fade-up" style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">A digital
+                            sanctuary where ancient wisdom meets modern creativity, offering a unique space for
+                            spiritual and creative exploration.</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Navigate</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a data-link="home" class="text-hover">Home</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="gallery" class="text-hover">Gallery</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="collection" class="text-hover">Collection</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="pictures" class="text-hover">Photos</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="about" class="text-hover">About</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Our Projects</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html"
+                                class="text-hover">Foody Vrinda</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="text-hover">Chitra Vrinda</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="https://imbajrangi.github.io/Company/Projects/Brij Yatra/map.html"
+                                class="text-hover">Vrinda Tours</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html"
+                                class="text-hover">Web Development</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Connect</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a data-link="instagram" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Instagram</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="facebook" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Facebook</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="youtube" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">YouTube</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="whatsapp_channel" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Whatsapp</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vrindopnishad. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Loader
+        const loader = document.querySelector('.loader');
+        const counter = document.querySelector('.counter');
+        let count = 10;
+
+        const updateCounter = () => {
+            if (count < 100) {
+                count++;
+                counter.textContent = count + '%';
+                setTimeout(updateCounter, Math.floor(Math.random() * 30));
+            } else {
+                counter.textContent = '100%';
+                setTimeout(() => {
+                    loader.classList.add('hide');
+                }, 50);
+            }
+        };
+
+        updateCounter();
+    </script>
+
+    <script>
+        // Header scroll effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector('header');
+
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // Add IntersectionObserver for animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle fade-up animations
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(element => {
+                fadeObserver.observe(element);
+            });
+
+            // Handle staggered animations
+            const staggeredLists = document.querySelectorAll('.staggered-list');
+            staggeredLists.forEach(list => {
+                const items = list.querySelectorAll('.staggered-item');
+                const staggerObserver = new IntersectionObserver((entries) => {
+                    let delay = 0;
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                            delay += 100;
+                            staggerObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                items.forEach(item => {
+                    staggerObserver.observe(item);
+                });
+            });
+
+            // Handle reveal elements
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        });
+    </script>
+
+    <script>
+        // Fix for mobile viewport height issues
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // Set the value on initial load
+        setVH();
+
+        // Reset on resize and orientation change
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+    </script>
+
+    <script>
+        // Store language preference when a language is selected
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishBtn = document.querySelector('.language-btn-nav[href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/Home/home.html"]');
+            const hindiBtn = document.querySelector('.language-btn-nav[href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/Home/Home/home_hindi.html"]');
+
+            if (englishBtn) {
+                englishBtn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLanguage', 'english');
+                });
+            }
+
+            if (hindiBtn) {
+                hindiBtn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLanguage', 'hindi');
+                });
+            }
+        });
+    </script>
+
+    <!-- Backend Connection Script -->
+    <script>
+        // API Configuration
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
+            : 'https://api.vrindopnishad.in/api';
+
+        // Check if user is logged in
+        function checkAuthStatus() {
+            const token = localStorage.getItem('vrindopnishad_token');
+            if (token) {
+                // Add admin panel link if user is authenticated
+                const navUl = document.querySelector('nav ul');
+                if (navUl) {
+                    const adminLi = document.createElement('li');
+                    const adminLink = document.createElement('a');
+                    adminLink.href = 'admins code/admin.html';
+                    adminLink.className = 'text-hover';
+                    adminLink.textContent = 'Admin Panel';
+                    adminLi.appendChild(adminLink);
+                    navUl.insertBefore(adminLi, document.querySelector('.nav-divider'));
+                }
+            }
+        }
+
+        // Fetch content from API
+        async function fetchContent() {
+            try {
+                // Fetch featured content for homepage
+                const response = await fetch(`${API_BASE_URL}/collections/featured`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.data.length > 0) {
+                        updateFeaturedContent(data.data);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching content:', error);
+            }
+        }
+
+        // Update featured content on the page
+        function updateFeaturedContent(items) {
+            const projectList = document.querySelector('.project-list');
+            if (!projectList || !items.length) return;
+
+            // Keep only the first 6 items or less
+            const displayItems = items.slice(0, 6);
+
+            // Clear existing items
+            projectList.innerHTML = '';
+
+            // Add new items
+            displayItems.forEach(item => {
+                const projectItem = document.createElement('div');
+                projectItem.className = 'project-item staggered-item';
+                projectItem.setAttribute('data-image', item.imageUrl || './image/Home Pics/img2.jpg');
+
+                projectItem.innerHTML = `
+                    <div class="project-title">${item.title}</div>
+                    <div class="project-category">${item.category}</div>
+                `;
+
+                projectList.appendChild(projectItem);
+            });
+
+            // Re-initialize staggered animations
+            initStaggeredAnimations();
+        }
+
+        // Initialize staggered animations
+        function initStaggeredAnimations() {
+            const staggeredItems = document.querySelectorAll('.staggered-item');
+            const staggerObserver = new IntersectionObserver((entries) => {
+                let delay = 0;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, delay);
+                        delay += 100;
+                        staggerObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            staggeredItems.forEach(item => {
+                staggerObserver.observe(item);
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthStatus();
+            fetchContent();
+        });
+    </script>
+
+    <!-- Project Image Hover Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const imageHover = document.querySelector('.image-hover');
+            const projectItems = document.querySelectorAll('.project-item');
+
+            projectItems.forEach(item => {
+                const imageUrl = item.getAttribute('data-image');
+
+                item.addEventListener('mouseenter', () => {
+                    if (imageUrl) {
+                        const img = imageHover.querySelector('img');
+                        img.src = imageUrl;
+                        imageHover.style.opacity = '1';
+                        imageHover.style.visibility = 'visible';
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    imageHover.style.opacity = '0';
+                    imageHover.style.visibility = 'hidden';
+                });
+
+                item.addEventListener('mousemove', (e) => {
+                    const rect = imageHover.getBoundingClientRect();
+                    const x = e.clientX - (rect.width / 2);
+                    const y = e.clientY - (rect.height / 2);
+
+                    imageHover.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        });
+    </script>
+
+    <!-- Resource and Link Management Scripts -->
+    <!-- Resource and Link Management Scripts -->
+    <!-- Missing or unnecessary scripts commented out -->
+    <!-- <script src="Vrindopnishad%20Web/web-extentions/links/paths.js"></script> -->
+    <!-- <script src="Vrindopnishad%20Web/web-extentions/links/image path manager.js"></script> -->
+    <script src="Vrindopnishad%20Web/web-extentions/links/link-handler.js" defer></script>
+
+    <!-- Developer Guide Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize developer guide in hidden state
+            const devGuide = document.querySelector('.developer-guide');
+            const devToggleBtn = document.querySelector('.dev-toggle-btn');
+
+            if (devGuide && devToggleBtn) {
+                // Check if developer mode was previously enabled
+                const devModeEnabled = localStorage.getItem('devModeEnabled') === 'true';
+
+                // Set initial state
+                if (!devModeEnabled) {
+                    devGuide.classList.add('hidden');
+                }
+
+                // Toggle developer guide visibility
+                devToggleBtn.addEventListener('click', () => {
+                    devGuide.classList.toggle('hidden');
+
+                    // Store preference
+                    const isHidden = devGuide.classList.contains('hidden');
+                    localStorage.setItem('devModeEnabled', !isHidden);
+
+                    // Update button text
+                    devToggleBtn.querySelector('span').textContent = isHidden
+                        ? 'Show Developer Details'
+                        : 'Hide Developer Details';
+                });
+
+                // Set initial button text
+                devToggleBtn.querySelector('span').textContent = devGuide.classList.contains('hidden')
+                    ? 'Show Developer Details'
+                    : 'Hide Developer Details';
+
+                // Add keyboard shortcut (Ctrl+Shift+D) to toggle developer mode
+                document.addEventListener('keydown', (event) => {
+                    if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+                        event.preventDefault();
+                        devToggleBtn.click();
+                    }
+                });
+
+                // Add interactive features to the developer blocks
+                const treeNodes = document.querySelectorAll('.tree-node');
+                treeNodes.forEach(node => {
+                    node.addEventListener('click', () => {
+                        // Highlight corresponding section in the page if it exists
+                        const nodeName = node.textContent.trim();
+                        let targetElement;
+
+                        switch (nodeName) {
+                            case 'hero section':
+                                targetElement = document.querySelector('.hero');
+                                break;
+                            case 'projects section':
+                                targetElement = document.querySelector('.projects');
+                                break;
+                            case 'horizontal section':
+                                targetElement = document.querySelector('.horizontal-section');
+                                break;
+                            case 'about section':
+                                targetElement = document.querySelector('.about');
+                                break;
+                            case 'footer':
+                                targetElement = document.querySelector('footer');
+                                break;
+                            case 'header':
+                                targetElement = document.querySelector('header');
+                                break;
+                            default:
+                                // Try to find by class name
+                                targetElement = document.querySelector(`.${nodeName}`);
+                        }
+
+                        if (targetElement) {
+                            // Remove previous highlights
+                            document.querySelectorAll('.dev-highlight').forEach(el => {
+                                el.classList.remove('dev-highlight');
+                            });
+
+                            // Add highlight
+                            targetElement.classList.add('dev-highlight');
+
+                            // Scroll to element
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                            // Remove highlight after 2 seconds
+                            setTimeout(() => {
+                                targetElement.classList.remove('dev-highlight');
+                            }, 2000);
+                        }
+                    });
+                });
+
+                // Add copy functionality to code snippets
+                document.querySelectorAll('.api-endpoint code').forEach(codeBlock => {
+                    codeBlock.addEventListener('click', () => {
+                        const code = codeBlock.textContent;
+                        navigator.clipboard.writeText(code).then(() => {
+                            // Show copied notification
+                            const notification = document.createElement('div');
+                            notification.className = 'copy-notification';
+                            notification.textContent = 'Code copied!';
+                            document.body.appendChild(notification);
+
+                            // Remove notification after 2 seconds
+                            setTimeout(() => {
+                                notification.classList.add('fade-out');
+                                setTimeout(() => {
+                                    document.body.removeChild(notification);
+                                }, 300);
+                            }, 1700);
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+
+    <!-- Tools Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tools menu elements
+            const toolsIcon = document.querySelector('.tools-icon');
+            const toolsMenu = document.querySelector('.tools-menu');
+            const toolsMenuClose = document.querySelector('.tools-menu-close');
+            const toolItems = document.querySelectorAll('.tool-item');
+
+            // Track menu state
+            let isToolsMenuOpen = false;
+
+            // Function to open tools menu
+            function openToolsMenu() {
+                if (isToolsMenuOpen) return;
+
+                isToolsMenuOpen = true;
+
+                // Add animation before opening the menu
+                const iconSvg = toolsIcon?.querySelector('svg');
+                if (iconSvg) {
+                    iconSvg.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+                    iconSvg.style.color = 'var(--accent-color)';
+
+                    // Add pulse effect to the icon
+                    toolsIcon.classList.add('pulse-animation');
+                }
+
+                // Delay opening the menu slightly for better UX
+                setTimeout(() => {
+                    toolsMenu.classList.add('active');
+                    document.body.classList.add('tools-menu-open'); // Use class-based approach
+                }, 200);
+            }
+
+            // Function to close tools menu
+            function closeToolsMenu() {
+                if (!isToolsMenuOpen) return;
+
+                isToolsMenuOpen = false;
+                toolsMenu.classList.remove('active');
+                document.body.classList.remove('tools-menu-open'); // Use class-based approach
+
+                // Reset icon state
+                const iconSvg = toolsIcon?.querySelector('svg');
+                if (iconSvg) {
+                    setTimeout(() => {
+                        iconSvg.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                        iconSvg.style.color = '';
+                        toolsIcon.classList.remove('pulse-animation');
+                    }, 300);
+                }
+            }
+
+            // Open tools menu with animation
+            if (toolsIcon) {
+                toolsIcon.addEventListener('click', openToolsMenu);
+            }
+
+            // Close tools menu
+            if (toolsMenuClose) {
+                toolsMenuClose.addEventListener('click', closeToolsMenu);
+            }
+
+            // Add click event to all tool links to close the menu when clicked
+            document.querySelectorAll('.tool-item .tool-link').forEach(link => {
+                link.addEventListener('click', closeToolsMenu);
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isToolsMenuOpen) {
+                    closeToolsMenu();
+                }
+            });
+
+            // Handle tool item hover effects
+            toolItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const bgColor = item.getAttribute('data-bg-color');
+                    const textColor = item.getAttribute('data-text-color');
+
+                    if (bgColor && textColor) {
+                        item.style.backgroundColor = bgColor;
+                        item.style.color = textColor;
+
+                        // Change icon color
+                        const icon = item.querySelector('.tool-icon svg');
+                        if (icon) {
+                            icon.style.color = textColor;
+                        }
+
+                        // Apply styles to child elements
+                        const h3 = item.querySelector('h3');
+                        const p = item.querySelector('p');
+
+                        if (h3) h3.style.color = textColor;
+                        if (p) p.style.color = textColor;
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    item.style.backgroundColor = '';
+                    item.style.color = '';
+
+                    // Reset icon color
+                    const icon = item.querySelector('.tool-icon svg');
+                    if (icon) {
+                        icon.style.color = '';
+                    }
+
+                    // Reset styles for child elements
+                    const h3 = item.querySelector('h3');
+                    const p = item.querySelector('p');
+
+                    if (h3) h3.style.color = '';
+                    if (p) p.style.color = '';
+                });
+            });
+
+            // Add subtle parallax effect to tool items
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                if (isToolsMenuOpen) {
+                    toolItems.forEach(item => {
+                        const rect = item.getBoundingClientRect();
+                        const itemX = rect.left + rect.width / 2;
+                        const itemY = rect.top + rect.height / 2;
+
+                        const diffX = mouseX - itemX;
+                        const diffY = mouseY - itemY;
+
+                        // Calculate distance from mouse to item center
+                        const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+                        const maxDistance = Math.max(window.innerWidth, window.innerHeight) / 2;
+
+                        // Calculate movement factor based on distance (closer = more movement)
+                        const factor = 1 - Math.min(distance / maxDistance, 1);
+                        const moveX = diffX * factor * 0.03;
+                        const moveY = diffY * factor * 0.03;
+
+                        // Apply subtle transform
+                        item.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                    });
+                }
+            });
+
+            // Fix for page navigation: ensure body scrolling is restored when navigating away
+            window.addEventListener('beforeunload', () => {
+                document.body.classList.remove('tools-menu-open');
+            });
+
+            // Close tools menu when clicking anywhere outside the menu
+            document.addEventListener('click', (e) => {
+                if (isToolsMenuOpen &&
+                    !toolsMenu.contains(e.target) &&
+                    !toolsIcon.contains(e.target)) {
+                    closeToolsMenu();
+                }
+            });
+
+            // Handle popstate event (back/forward navigation)
+            window.addEventListener('popstate', () => {
+                if (isToolsMenuOpen) {
+                    closeToolsMenu();
+                }
+            });
+        });
+    </script>
+    <!-- Backend Connection Script -->
+    <script>
+        // Load books data from JSON
+        async function loadBooksData() {
+            try {
+                const response = await fetch('Vrindopnishad%20Web/class/json/books-data.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load books data');
+                }
+                const data = await response.json();
+                return data.books;
+            } catch (error) {
+                console.error('Error loading books:', error);
+                return [];
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            const books = await loadBooksData();
+
+            // Update featured content if available
+            if (books.length > 0) {
+                updateFeaturedContent(books);
+            }
+        });
+
+        // ... rest of your existing script ...
+    </script>
+
+    <!-- Notification Sound Script -->
+    <script>
+        // Initialize user interaction flag
+        let hasUserInteracted = false;
+
+        // Set user interaction flag on any user action
+        ['click', 'touchstart', 'keydown'].forEach(event => {
+            document.addEventListener(event, () => {
+                hasUserInteracted = true;
+            }, { once: true });
+        });
+
+        // Show welcome notification after page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for loader to complete
+            setTimeout(() => {
+                // Get current hour for greeting
+                const hour = new Date().getHours();
+                let greeting;
+
+                if (hour >= 5 && hour < 12) {
+                    greeting = "Good Morning";
+                } else if (hour >= 12 && hour < 17) {
+                    greeting = "Good Afternoon";
+                } else if (hour >= 17 && hour < 22) {
+                    greeting = "Good Evening";
+                } else {
+                    greeting = "Welcome";
+                }
+
+                // Show welcome notification
+                showNotification(`${greeting}! Welcome to Vrindopnishad 🙏`, 'success', {
+                    appName: 'Vrindopnishad',
+                    duration: 5000,
+                    playSound: true
+                });
+            }, 2000);
+        });
+    </script>
+
+    <!-- Scrolling Fix Script -->
+    <script>
+        // Emergency fix for scrolling issues
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check every 1 second if scrolling is improperly locked
+            setInterval(() => {
+                // Only run if there's no active menu
+                if (!document.querySelector('.tools-menu.active') &&
+                    !document.querySelector('nav.active')) {
+
+                    // Remove any overflow: hidden that might be stuck
+                    document.documentElement.style.removeProperty('overflow');
+                    document.body.style.removeProperty('overflow');
+
+                    // Remove any height constraints
+                    document.documentElement.style.removeProperty('height');
+                    document.body.style.removeProperty('height');
+
+                    // Force scroll to be available
+                    document.documentElement.style.overflowY = 'auto';
+                    document.body.style.overflowY = 'auto';
+
+                    // Remove any stuck classes
+                    document.body.classList.remove('tools-menu-open');
+                }
+            }, 1000);
+
+            // When user clicks anywhere that's not a menu
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.tools-menu') &&
+                    !e.target.closest('.tools-icon') &&
+                    !e.target.closest('nav') &&
+                    !e.target.closest('.mobile-menu-btn')) {
+
+                    // Force enable scrolling
+                    document.documentElement.style.overflowY = 'auto';
+                    document.body.style.overflowY = 'auto';
+                    document.body.classList.remove('tools-menu-open');
+                }
+            });
+        });
+    </script>
+
+
+
+    <!-- Core Scripts -->
+    <script src="Vrindopnishad%20Web/web-extentions/Custom Cursor/custom-cursor.js"></script>
+    <script src="Vrindopnishad%20Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
+    <script src="Vrindopnishad%20Web/Home/js/animations.js"></script>
+    <script src="Vrindopnishad%20Web/Home/js/effects.js"></script>
+    <script src="Vrindopnishad%20Web/Home/js/image-hover.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis removed - using direct GSAP like showcase project -->
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smart Header Logic
+            let lastScroll = 0;
+            const header = document.querySelector('header');
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                if (currentScroll <= 0) { header.classList.remove('hide'); return; }
+                if (currentScroll > lastScroll && !header.classList.contains('hide')) {
+                    header.classList.add('hide');
+                } else if (currentScroll < lastScroll && header.classList.contains('hide')) {
+                    header.classList.remove('hide');
+                }
+                lastScroll = currentScroll;
+            });
+
+            // Custom Cursor
+            const dot = document.querySelector('.cursor-dot');
+            const circle = document.querySelector('.cursor-circle');
+            let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+            document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+            function animateCursor() {
+                if (dot) { dot.style.left = `${mouseX}px`; dot.style.top = `${mouseY}px`; }
+                circleX += (mouseX - circleX) * 0.15;
+                circleY += (mouseY - circleY) * 0.15;
+                if (circle) { circle.style.left = `${circleX}px`; circle.style.top = `${circleY}px`; }
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            document.querySelectorAll('a, button, .magnetic, .tools-icon').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+            document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+            document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+
+            // Mobile Menu
+            const mobileMenuBtn = document.querySelector('.menu');
+            const nav = document.querySelector('nav');
+            const menuOverlay = document.querySelector('.menu-overlay');
+            if (mobileMenuBtn && nav) {
+                function openMenu() {
+                    mobileMenuBtn.classList.add('active');
+                    if (nav) nav.classList.add('active');
+                    if (menuOverlay) menuOverlay.classList.add('active');
+                    document.body.classList.add('menu-open');
+                    if (nav) nav.setAttribute('aria-hidden', 'false');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                }
+                function closeMenu() {
+                    mobileMenuBtn.classList.remove('active');
+                    if (nav) nav.classList.remove('active');
+                    if (menuOverlay) menuOverlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                    if (nav) nav.setAttribute('aria-hidden', 'true');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                }
+                mobileMenuBtn.addEventListener('click', (e) => { e.preventDefault(); nav.classList.contains('active') ? closeMenu() : openMenu(); });
+                if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+                document.querySelectorAll('nav a').forEach(link => link.addEventListener('click', closeMenu));
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('active')) closeMenu(); });
+            }
+
+            // Typography Animations
+            const wrapElements = (elems, wrapType, wrapClass) => {
+                elems.forEach(char => { const wrapEl = document.createElement(wrapType); wrapEl.classList = wrapClass; char.parentNode.appendChild(wrapEl); wrapEl.appendChild(char); });
+            };
+
+            const initTypography = () => {
+                gsap.registerPlugin(ScrollTrigger);
+                Splitting();
+
+                // No Lenis - direct GSAP ScrollTrigger (same as showcase project)
+
+                // Get all effect titles (exactly like source)
+                const fx1Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect1]')];
+                const fx2Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect2]')];
+                const fx3Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect3]')];
+                const fx4Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect4]')];
+                const fx5Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect5]')];
+                const fx6Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect6]')];
+                const fx7Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect7]')];
+                const fx8Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect8]')];
+                const fx9Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect9]')];
+                const fx10Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect10]')];
+                const fx11Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect11]')];
+                const fx12Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect12]')];
+                const fx13Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect13]')];
+                const fx14Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect14]')];
+                const fx15Titles = [...document.querySelectorAll('.content__title[data-splitting][data-effect15]')];
+
+                // FX1
+                fx1Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    gsap.fromTo(chars, { 'will-change': 'opacity, transform', opacity: 0, scale: 0.6, rotationZ: () => gsap.utils.random(-20, 20) },
+                        { ease: 'power4', opacity: 1, scale: 1, rotation: 0, stagger: 0.4, scrollTrigger: { trigger: title, start: 'center+=20% bottom', end: '+=50%', scrub: true } });
+                });
+
+                // FX2
+                fx2Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    gsap.fromTo(chars, { 'will-change': 'opacity, transform', opacity: 0, yPercent: 120, scaleY: 2.3, scaleX: 0.7, transformOrigin: '50% 0%' },
+                        { duration: 1, ease: 'back.inOut(2)', opacity: 1, yPercent: 0, scaleY: 1, scaleX: 1, stagger: 0.03, scrollTrigger: { trigger: title, start: 'center bottom+=50%', end: 'bottom top+=40%', scrub: true } });
+                });
+
+                // FX3
+                fx3Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    gsap.fromTo(chars, { 'will-change': 'transform', transformOrigin: '50% 0%', scaleY: 0 },
+                        { ease: 'back', opacity: 1, scaleY: 1, yPercent: 0, stagger: 0.03, scrollTrigger: { trigger: title, start: 'center bottom-=5%', end: 'top top-=20%', scrub: true } });
+                });
+
+                // FX4
+                fx4Titles.forEach(title => {
+                    const words = title.querySelectorAll('.word');
+                    for (const word of words) {
+                        const chars = word.querySelectorAll('.char');
+                        gsap.fromTo(chars, { 'will-change': 'opacity, transform', x: (position, _, arr) => 150 * (position - arr.length / 2) },
+                            { ease: 'power1.inOut', x: 0, stagger: { grid: 'auto', from: 'center' }, scrollTrigger: { trigger: word, start: 'center bottom+=30%', end: 'top top+=15%', scrub: true } });
+                    }
+                });
+
+                // FX5
+                fx5Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    gsap.fromTo(chars, { 'will-change': 'opacity, transform', opacity: 0, xPercent: () => gsap.utils.random(-200, 200), yPercent: () => gsap.utils.random(-150, 150) },
+                        { ease: 'power1.inOut', opacity: 1, xPercent: 0, yPercent: 0, stagger: { each: 0.05, grid: 'auto', from: 'random' }, scrollTrigger: { trigger: title, start: 'center bottom+=10%', end: 'bottom center', scrub: 0.9 } });
+                });
+
+                // FX6
+                fx6Titles.forEach(title => {
+                    const words = title.querySelectorAll('.word');
+                    for (const word of words) {
+                        const chars = word.querySelectorAll('.char');
+                        chars.forEach(char => gsap.set(char.parentNode, { perspective: 2000 }));
+                        gsap.fromTo(chars, { 'will-change': 'opacity, transform', opacity: 0, rotationX: -90, yPercent: 50 },
+                            { ease: 'power1.inOut', opacity: 1, rotationX: 0, yPercent: 0, stagger: { each: 0.03, from: 0 }, scrollTrigger: { trigger: word, start: 'center bottom+=40%', end: 'bottom center-=30%', scrub: 0.9 } });
+                    }
+                });
+
+                // FX7
+                fx7Titles.forEach(title => {
+                    const words = title.querySelectorAll('.word');
+                    for (const word of words) {
+                        const chars = word.querySelectorAll('.char');
+                        chars.forEach(char => gsap.set(char.parentNode, { perspective: 2000 }));
+                        gsap.fromTo(chars, { 'will-change': 'opacity, transform', transformOrigin: '100% 50%', opacity: 0, rotationY: -90, z: -300 },
+                            { ease: 'expo', opacity: 1, rotationY: 0, z: 0, stagger: { each: 0.06, from: 'end' }, scrollTrigger: { trigger: word, start: 'bottom bottom+=20%', end: 'bottom top', scrub: 1 } });
+                    }
+                });
+
+                // FX8
+                const lettersAndSymbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*', '-', '_', '+', '=', ';', ':', '<', '>', ','];
+                fx8Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    chars.forEach((char, position) => {
+                        let initialHTML = char.innerHTML;
+                        gsap.fromTo(char, { opacity: 0 },
+                            { duration: 0.03, innerHTML: () => lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)], repeat: 1, repeatRefresh: true, opacity: 1, repeatDelay: 0.03, delay: (position + 1) * 0.18, onComplete: () => gsap.set(char, { innerHTML: initialHTML, delay: 0.03 }), scrollTrigger: { trigger: title, start: 'top bottom', end: 'bottom center', toggleActions: "play resume resume reset", onEnter: () => gsap.set(char, { opacity: 0 }) } });
+                    });
+                });
+
+                // FX9
+                fx9Titles.forEach(title => {
+                    const words = title.querySelectorAll('.word');
+                    for (const word of words) {
+                        const chars = word.querySelectorAll('.char');
+                        gsap.fromTo(chars, { 'will-change': 'transform', scaleX: 0, x: (_, target) => window.innerWidth / 2 - target.offsetLeft - target.offsetWidth / 2 },
+                            { ease: 'power1.inOut', scaleX: 1, x: 0, scrollTrigger: { trigger: word, start: 'top bottom', end: 'top top', scrub: true } });
+                    }
+                });
+
+                // FX10
+                fx10Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    gsap.fromTo(chars, { 'will-change': 'opacity', opacity: 0, filter: 'blur(20px)' },
+                        { duration: 0.25, ease: 'power1.inOut', opacity: 1, filter: 'blur(0px)', stagger: { each: 0.05, from: 'random' }, scrollTrigger: { trigger: title, start: 'top bottom', end: 'center center', toggleActions: "play resume resume reset" } });
+                });
+
+                // FX11
+                fx11Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    wrapElements(chars, 'span', 'char-wrap');
+                    gsap.fromTo(chars, { 'will-change': 'transform', transformOrigin: '0% 50%', xPercent: 105 },
+                        { duration: 1, ease: 'expo', xPercent: 0, stagger: 0.042, scrollTrigger: { trigger: title, start: 'top bottom', end: 'top top+=10%', toggleActions: "play resume resume reset" } });
+                });
+
+                // FX12
+                fx12Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    wrapElements(chars, 'span', 'char-wrap');
+                    gsap.fromTo(chars, { 'will-change': 'transform', xPercent: -250, rotationZ: 45, scaleX: 6, transformOrigin: '100% 50%' },
+                        { duration: 1, ease: 'power2', xPercent: 0, rotationZ: 0, scaleX: 1, stagger: -0.06, scrollTrigger: { trigger: title, start: 'top bottom+=10%', end: 'bottom top+=10%', scrub: true } });
+                });
+
+                // FX13
+                fx13Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    chars.forEach(char => gsap.set(char.parentNode, { perspective: 2000 }));
+                    gsap.fromTo(chars, { 'will-change': 'opacity, transform', opacity: 0, rotationY: 180, xPercent: -40, yPercent: 100 },
+                        { ease: 'power4.inOut()', opacity: 1, rotationY: 0, xPercent: 0, yPercent: 0, stagger: { each: -0.03, from: 0 }, scrollTrigger: { trigger: title, start: 'center bottom', end: 'bottom center-=30%', scrub: 0.9 } });
+                });
+
+                // FX14
+                fx14Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    gsap.timeline()
+                        .fromTo(title, { 'will-change': 'transform', xPercent: 100 }, { ease: 'none', xPercent: 0, scrollTrigger: { trigger: title, scrub: true, start: 'center center', end: '+=100%', pin: title.parentNode } })
+                        .fromTo(chars, { 'will-change': 'transform', scale: 3, yPercent: -900 }, { ease: 'back(2)', scale: 1, yPercent: 0, stagger: 0.05, scrollTrigger: { trigger: title, start: 'center center', end: '+=100%', scrub: 1.9 } }, 0);
+                });
+
+                // FX15
+                fx15Titles.forEach(title => {
+                    const chars = title.querySelectorAll('.char');
+                    chars.forEach(char => gsap.set(char.parentNode, { perspective: 2000 }));
+                    gsap.timeline()
+                        .fromTo(title, { 'will-change': 'transform', xPercent: -80 }, { ease: 'none', xPercent: 0, scrollTrigger: { trigger: title, scrub: true, start: 'center center', end: '+=100%', pin: title.parentNode } })
+                        .fromTo(chars, { 'will-change': 'opacity, transform', transformOrigin: '50% 50% -200px', rotationX: 380, opacity: 0 }, { ease: 'expo.inOut', rotationX: 0, z: 0, opacity: 1, stagger: -0.03, scrollTrigger: { trigger: title, start: 'center center', end: '+=140%', scrub: 1.2 } }, 0);
+                });
+            };
+
+            // Preload fonts then initialize (exactly like source)
+            const preloadFonts = (id) => {
+                return new Promise((resolve) => {
+                    WebFont.load({ typekit: { id: id }, active: resolve });
+                });
+            };
+            preloadFonts('cvn8slu').then(() => initTypography());
+        });
+    </script>
 </body>
 
 </html>
