@@ -25,6 +25,8 @@
     <!-- CSS Dependencies -->
     <link rel="stylesheet" href="../css/hamburger.css">
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/cloude.css">
     <!-- <link rel="stylesheet" href="../css/styles-optimized.css"> -->
     <link rel="stylesheet" href="../css/image-hover.css">
     <link rel="stylesheet" href="../../web-extentions/Custom Cursor/custom-cursor.css">
@@ -34,26 +36,31 @@
     <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css">
     <!-- WebFont Loader (from source project) -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+
 </head>
 
 <body>
+    <div class="menu-overlay"></div>
+
     <!-- Vrindopnishad Random Loader -->
     <!-- <script
         src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script> -->
 
     <!-- Add noise element for texture -->
-    <div class="noise"></div>
+    <!-- <div class="noise"></div> -->
 
     <!-- Background elements --
     <div class="bg-element bg-element-1" data-speed="0.05" data-scroll-speed="0.02"></div>
     <div class="bg-element bg-element-2" data-speed="0.03" data-scroll-speed="0.05"></div>
     <div class="bg-element bg-element-3" data-speed="0.07" data-scroll-speed="0.03"></div>-->
-    <!-- Floating background elements -->
+    <!-- Floating background elements (disabled)
     <div class="floating-elements">
         <div class="float-item float-1"></div>
         <div class="float-item float-2"></div>
         <div class="float-item float-3"></div>
     </div>
+    -->
 
     <!-- Scroll progress -->
     <div class="scroll-progress"></div>
@@ -76,11 +83,6 @@
     <!-- Notifications container -->
     <div id="notifications" class="notifications"></div>
 
-    <div class="hero-image-container">
-        <img src="../../.gemini/antigravity/brain/652357a1-4679-4841-a391-15a457451c04/spiritual_modern_hero_1767526180333.png"
-            alt="Spiritual Modern Hero" class="hero-image">
-    </div>
-
     <!-- Notification Sounds -->
     <audio id="notification-success" preload="auto">
         <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert4.mp3" type="audio/mpeg">
@@ -92,46 +94,37 @@
         <source src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/sounds/alert1.wav" type="audio/mpeg">
     </audio>
 
-    <!-- Menu overlay -->
-    <div class="menu-overlay"></div>
+
 
     <!-- Header -->
     <header>
-        <a href="https://imbajrangi.github.io/Company/" class="logo magnetic"
-            data-magnetic-strength="0.7"><span>Vrindopnishad</span></a>
+        <a href="../../../index.html" class="logo">
+            <span>Vrindopnishad</span>
+        </a>
 
-        <!-- Main navigation (visible) -->
+        <!-- Main navigation (desktop) -->
         <div class="main-nav">
             <ul>
-                <!-- <li><a data-link="home" class="active">Home</a></li>
-                <li><a data-link="about" class="text-hover">About</a></li>
-                <li><a data-link="gallery" class="text-hover">Gallery</a></li> -->
-                <li><a href="https://imbajrangi.github.io/Company/" class="active">Home</a></li>
-                <li><a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html"
-                        class="text-hover">About</a></li>
-                <li><a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="text-hover">Gallery</a></li>
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="../../about code/main/about.html">About</a></li>
+                <li><a href="../../Pictures/main/Gallery.html">Gallery</a></li>
             </ul>
         </div>
 
         <!-- Right side icons container -->
         <div class="header-right">
-            <!-- Tools shortcut icon -->
-            <div class="tools-icon magnetic" data-magnetic-strength="0.5" aria-label="Open tools menu" role="button"
-                tabindex="0">
-                <!-- Perfectly Centered Modern Sliders Icon -->
-                <svg viewBox="0 0 24 24" width="24" height="24" class="settings-svg"
-                    preserveAspectRatio="xMidYMid meet">
-                    <rect x="3" y="5" width="18" height="1.5" rx="0.75" fill="currentColor" opacity="0.3" />
-                    <rect x="3" y="11.25" width="18" height="1.5" rx="0.75" fill="currentColor" opacity="0.3" />
-                    <rect x="3" y="17.5" width="18" height="1.5" rx="0.75" fill="currentColor" opacity="0.3" />
-                    <circle cx="8" cy="5.75" r="2.5" fill="currentColor" class="slider-knob knob-1" />
-                    <circle cx="16" cy="12" r="2.5" fill="currentColor" class="slider-knob knob-2" />
-                    <circle cx="10" cy="18.25" r="2.5" fill="currentColor" class="slider-knob knob-3" />
+            <!-- Tools/settings icon (Gear Design) -->
+            <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="transform: rotate(0deg);">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
                 </svg>
-                <span class="visually-hidden">Open Settings</span>
             </div>
 
-            <!-- Mobile menu button -->
             <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
                 <svg viewBox="0 0 64 48">
                     <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
@@ -141,6 +134,17 @@
             </button>
         </div>
     </header>
+
+    <nav aria-hidden="true">
+        <ul>
+            <li><a href="home.html" class="active">Home</a></li>
+            <li><a href="../../Pictures/main/Gallery.html">Gallery</a></li>
+            <li><a href="../../Pictures/main/pictures.html">Photos</a></li>
+            <li><a href="../../about code/main/about.html">About</a></li>
+            <li><a href="../../pdf/main/pdf-viewer.html">PDF Library</a></li>
+            <li><a href="../../../Projects/Cloud-Kitchen/kitchen.html">Cloud Kitchen</a></li>
+        </ul>
+    </nav>
 
     <!-- Fullscreen Tools Menu -->
     <div class="tools-menu">
@@ -170,7 +174,7 @@
                         <h3>Collection</h3>
                         <p>Browse our curated collections</p>
                     </div>
-                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" data-link="stack" class="tool-link"></a>
+                    <a href="../../Pictures/main/Gallery.html" data-link="stack" class="tool-link"></a>
                 </div>
 
                 <!-- Photos Tool -->
@@ -187,7 +191,7 @@
                         <h3>Photos</h3>
                         <p>Explore our photo gallery</p>
                     </div>
-                    <a href="/Vrindopnishad Web/Pictures/main/pictures.html" data-link="gallery" class="tool-link"></a>
+                    <a href="../../Pictures/main/pictures.html" data-link="gallery" class="tool-link"></a>
                 </div>
 
                 <!-- Login Tool -->
@@ -204,8 +208,7 @@
                         <h3>Login Page</h3>
                         <p>Explore our Login Page</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/LoginPage/loginew.html" data-link="gallery"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/LoginPage/loginew.html" class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen -->
@@ -221,8 +224,7 @@
                         <h3>Cloud Kitchen</h3>
                         <p>Explore our exclusive Cloud Kitchen services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen(payment).html"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/Cloud-Kitchen/modern-kitchen(payment).html" class="tool-link"></a>
                 </div>
 
                 <!-- Vrinda Foods Side -->
@@ -238,8 +240,7 @@
                         <h3>Vrinda Foods</h3>
                         <p>Explore our exclusive Vrinda Foods Owner Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(developer).html"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/Cloud-Kitchen/kitchen(developer).html" class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen payment Side -->
@@ -255,8 +256,7 @@
                         <h3>Cloud Kitchen Picture Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Payment Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(withPicture).html"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/Cloud-Kitchen/kitchen(withPicture).html" class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen Staff Sided -->
@@ -272,8 +272,7 @@
                         <h3>Cloud Kitchen Staff Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Staff Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen(staff-no-error).html"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/Cloud-Kitchen/kitchen(staff-no-error).html" class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen old Sided -->
@@ -289,8 +288,7 @@
                         <h3>Cloud Kitchen Update Order Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/kitchen.html"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/Cloud-Kitchen/kitchen.html" class="tool-link"></a>
                 </div>
 
                 <!-- Cloud Kitchen Modern Sided -->
@@ -306,8 +304,7 @@
                         <h3>Cloud Kitchen Modern Side</h3>
                         <p>Explore our exclusive Cloud Kitchen Modern Side services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Cloud-Kitchen/modern-kitchen.html"
-                        class="tool-link"></a>
+                    <a href="../../../Projects/Cloud-Kitchen/modern-kitchen.html" class="tool-link"></a>
                 </div>
 
                 <!-- PDF Library Tool -->
@@ -326,8 +323,7 @@
                         <h3>PDF Library</h3>
                         <p>Access our digital document collection</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"
-                        data-link="pdf-viewer" class="tool-link"></a>
+                    <a href="../../pdf/main/pdf-viewer.html" data-link="pdf-viewer" class="tool-link"></a>
                 </div>
 
                 <!-- Language Tool --
@@ -362,8 +358,7 @@
                         <h3>Spiritual Texts</h3>
                         <p>Explore ancient wisdom and teachings</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"
-                        data-link="book" class="tool-link"></a>
+                    <a href="../../sketch/main/new-read-me.html" data-link="book" class="tool-link"></a>
                 </div>
 
                 <!-- Dark Reader Tool -->
@@ -379,8 +374,7 @@
                         <h3>Dark Reader</h3>
                         <p>Enable dark mode for better readability</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Vrindopnishad Web/श्री_हरिवंश.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../श्री_हरिवंश.html" data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Tourism Map Tool -->
@@ -396,7 +390,7 @@
                         <h3>Tourism Map</h3>
                         <p>Explore devotional content related to tourism</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Brij Yatra/map.html" class="tool-link"></a>
+                    <a href="../../../Projects/Brij Yatra/map.html" class="tool-link"></a>
                 </div>
 
                 <!-- Chat Tool -->
@@ -412,8 +406,8 @@
                         <h3>ChatBot Animated</h3>
                         <p>Interact with our AI-powered chatbot</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/chat/animated-chatbot.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/chat/animated-chatbot.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Chat Tool -->
@@ -429,8 +423,8 @@
                         <h3>ChatBot Embedded</h3>
                         <p>Interact with our AI-powered chatbot</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/chat/chatbot-embedded.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/chat/chatbot-embedded.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Trials -->
@@ -446,7 +440,7 @@
                         <h3>Trials Brij Tours</h3>
                         <p>Explore our exclusive trials for Brij Tours (Rejected)</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/rejected/brij-pilgrimage-web/index.html"
+                    <a href="../../../Projects/Trials/rejected/brij-pilgrimage-web/index.html"
                         data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
@@ -463,7 +457,7 @@
                         <h3>Trials Brij Tours</h3>
                         <p>Explore our exclusive trials for Brij Tours (rejected)</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/rejected/brij-tourism-site/index.html"
+                    <a href="../../../Projects/Trials/rejected/brij-tourism-site/index.html"
                         data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
@@ -480,8 +474,8 @@
                         <h3>Trials Hotel Booking</h3>
                         <p>Explore our exclusive trials for Hotel Booking</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/Hotels Booking/index.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/Trials/Hotels Booking/index.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Trials -->
@@ -497,8 +491,7 @@
                         <h3>Tours</h3>
                         <p>Explore our exclusive trials for Tours & Travels</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Trials/tours.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/Trials/tours.html" data-link="shri-harivansh-dark" class="tool-link"></a>
                 </div>
 
                 <!-- Video Player -->
@@ -514,8 +507,8 @@
                         <h3>Video Player</h3>
                         <p>Explore our exclusive trials for Video Player</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Video/video-player.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/Video/video-player.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Video Player -->
@@ -531,8 +524,8 @@
                         <h3>Zen Mode Search</h3>
                         <p>Explore our exclusive trials for Zen Mode Search</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Video/zen-mode.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/Video/zen-mode.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Vrinda Chat Section -->
@@ -548,8 +541,8 @@
                         <h3>Service Chat Section</h3>
                         <p>Explore our exclusive trials for Service Chat Section</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Vrinda Chat/vrinda chat.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/Vrinda%20Chat/vrinda%20chat.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Web Dev Section -->
@@ -565,8 +558,8 @@
                         <h3>Web dev Services</h3>
                         <p>Explore our exclusive trials for Web dev Services</p>
                     </div>
-                    <a href="https://imbajrangi.github.io/Company/Projects/Web dev/vrinda web dev.html"
-                        data-link="shri-harivansh-dark" class="tool-link"></a>
+                    <a href="../../../Projects/Web%20dev/vrinda%20web%20dev.html" data-link="shri-harivansh-dark"
+                        class="tool-link"></a>
                 </div>
 
                 <!-- Articles Tool -->
@@ -591,45 +584,22 @@
         </div>
     </div>
 
-    <!-- Mobile Navigation Menu -->
-    <nav aria-hidden="true">
-        <ul>
-            <li>
-                <a data-link="home" class="active">Home</a>
-            </li>
-            <li>
-                <a data-link="pictures_collection" class="text-hover">Gallery</a>
-            </li>
-            <!-- <li><a data-link="gallery" class="text-hover">Gallery</a></li> -->
-            <li>
-                <a data-link="stack" class="text-hover">Collection</a>
-            </li>
-            <li>
-                <a data-link="pdf-viewer" class="text-hover">PDF Library</a>
-            </li>
-            <li>
-                <a data-link="about" class="text-hover">About</a>
-            </li>
-            <!-- <li class="nav-divider"></li>
-            <li class="language-item">
-                <span class="language-label">Language</span>
-                <div class="language-switch-nav">
-                    <a data-link="home" class="language-btn-nav active">English</a>
-                    <a href="#" data-link="home-hindi" class="language-btn-nav">Hindi</a>
-                </div>
-            </li> -->
-        </ul>
-    </nav>
+
 
     <!-- Main content -->
     <main>
-        <!-- Hero Section - Modern Unique Design -->
         <section id="home" class="hero-section">
+            <!-- Hero Background Image (Fixed) -->
+            <div class="hero-image-container">
+                <img src="../../class/logo/v-logo-transparent.png" alt="Hero Background Pattern"
+                    class="hero-bg-pattern">
+                <div class="hero-overlay"></div>
+            </div>
             <div class="hero-container">
                 <!-- Decorative Elements -->
-                <div class="hero-decor">
-                    <span class="decor-line"></span>
-                    <span class="decor-dot"></span>
+                <div class="v-hero-decor">
+                    <span class="v-decor-line"></span>
+                    <span class="v-decor-dot"></span>
                 </div>
 
                 <!-- Hero Badge -->
@@ -1602,9 +1572,11 @@
     </script>
 
     <!-- Resource and Link Management Scripts -->
-    <script src="/web-extentions/links/paths.js"></script>
-    <script src="/web-extentions/links/image path manager.js"></script>
-    <script src="/web-extentions/links/link-handler.js" defer></script>
+    <!-- Resource and Link Management Scripts -->
+    <!-- Missing or unnecessary scripts commented out -->
+    <!-- <script src="../../web-extentions/links/paths.js"></script> -->
+    <!-- <script src="../../web-extentions/links/image path manager.js"></script> -->
+    <script src="../../web-extentions/links/link-handler.js" defer></script>
 
     <!-- Developer Guide Toggle Script -->
     <script>
@@ -1905,7 +1877,7 @@
         // Load books data from JSON
         async function loadBooksData() {
             try {
-                const response = await fetch('./Stack/books-data.json');
+                const response = await fetch('../../class/json/books-data.json');
                 if (!response.ok) {
                     throw new Error('Failed to load books data');
                 }
@@ -2013,170 +1985,7 @@
         });
     </script>
 
-    <!-- Fix for magnetic effect -->
-    <script>
-        // Manually initialize magnetic effect
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('Manually initializing magnetic effect...');
-            const magneticElements = document.querySelectorAll('.magnetic');
-            console.log(`Found ${magneticElements.length} magnetic elements.`);
 
-            if (magneticElements.length === 0) {
-                console.warn('No magnetic elements found!');
-                return;
-            }
-
-            // Initialize magnetic effect for each element
-            magneticElements.forEach(element => {
-                // Create state object for each element
-                const state = {
-                    x: 0,             // Current x position
-                    y: 0,             // Current y position
-                    targetX: 0,       // Target x position
-                    targetY: 0,       // Target y position
-                    lastX: 0,         // Last x position before click
-                    lastY: 0,         // Last y position before click
-                    active: false,    // Is currently being clicked
-                    hovering: false   // Is being hovered
-                };
-
-                // Get strength from data attribute or use default
-                const strength = parseFloat(element.getAttribute('data-magnetic-strength')) || 0.5;
-
-                // Ensure element has inner span
-                let innerElement = element.querySelector('span');
-                if (!innerElement) {
-                    console.log(`Adding span element to magnetic element:`, element);
-                    const content = element.innerHTML;
-                    element.innerHTML = `<span>${content}</span>`;
-                    innerElement = element.querySelector('span');
-                }
-
-                // Add event listeners for hover
-                element.addEventListener('mouseenter', () => {
-                    state.hovering = true;
-                    element.classList.add('magnetic-hover');
-
-                    // Add cursor effect if exists
-                    const cursor = document.querySelector('.cursor');
-                    const cursorFollower = document.querySelector('.cursor-follower');
-                    if (cursor && cursorFollower) {
-                        cursor.classList.add('magnetic-hover');
-                        cursorFollower.classList.add('magnetic-hover');
-                    }
-                });
-
-                // Track mouse movement for magnetic effect
-                element.addEventListener('mousemove', (e) => {
-                    if (!state.hovering) return;
-
-                    // Get element dimensions
-                    const rect = element.getBoundingClientRect();
-
-                    // Calculate mouse position relative to center
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-
-                    // Distance from center
-                    const distX = e.clientX - centerX;
-                    const distY = e.clientY - centerY;
-
-                    // Set target positions with strength factor
-                    state.targetX = distX * strength;
-                    state.targetY = distY * strength;
-
-                    // Apply transform with easing
-                    const ease = state.active ? 0.1 : 0.2;
-                    state.x += (state.targetX - state.x) * ease;
-                    state.y += (state.targetY - state.y) * ease;
-
-                    // Apply to element
-                    element.style.transform = `translate3d(${state.x}px, ${state.y}px, 0)`;
-
-                    // Move inner element in opposite direction
-                    if (innerElement) {
-                        innerElement.style.transform = `translate3d(${state.x * -0.2}px, ${state.y * -0.2}px, 0)`;
-                    }
-                });
-
-                // Reset on mouse leave
-                element.addEventListener('mouseleave', () => {
-                    state.hovering = false;
-                    element.classList.remove('magnetic-hover');
-
-                    // Reset positions
-                    state.targetX = 0;
-                    state.targetY = 0;
-
-                    // Animate back to original position
-                    element.style.transform = 'translate3d(0px, 0px, 0)';
-                    element.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-
-                    if (innerElement) {
-                        innerElement.style.transform = 'translate3d(0px, 0px, 0)';
-                        innerElement.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-                    }
-
-                    // Remove cursor effect
-                    // const cursor = document.querySelector('.cursor');
-                    // const cursorFollower = document.querySelector('.cursor-follower');
-                    // if (cursor && cursorFollower) {
-                    //     cursor.classList.remove('magnetic-hover');
-                    //     cursorFollower.classList.remove('magnetic-hover');
-                    // }
-
-                    // Clear transition after animation completes
-                    setTimeout(() => {
-                        element.style.transition = '';
-                        if (innerElement) innerElement.style.transition = '';
-                    }, 400);
-                });
-
-                // Handle click effect
-                element.addEventListener('mousedown', () => {
-                    state.active = true;
-                    element.classList.add('active');
-
-                    // Add cursor effect
-                    // const cursor = document.querySelector('.cursor');
-                    // const cursorFollower = document.querySelector('.cursor-follower');
-                    // if (cursor && cursorFollower) {
-                    //     cursor.classList.add('magnetic-click');
-                    //     cursorFollower.classList.add('magnetic-click');
-                    // }
-
-                    // Scale inner element
-                    if (innerElement) {
-                        innerElement.style.transform = `translate3d(${state.x * -0.1}px, ${state.y * -0.1}px, 0) scale(0.95)`;
-                    }
-                });
-
-                // Handle release
-                element.addEventListener('mouseup', () => {
-                    state.active = false;
-
-                    // Delayed removal of active class for better effect
-                    setTimeout(() => {
-                        element.classList.remove('active');
-                    }, 300);
-
-                    // Remove cursor effect
-                    // const cursor = document.querySelector('.cursor');
-                    // const cursorFollower = document.querySelector('.cursor-follower');
-                    // if (cursor && cursorFollower) {
-                    //     cursor.classList.remove('magnetic-click');
-                    //     cursorFollower.classList.remove('magnetic-click');
-                    // }
-
-                    // Reset inner element
-                    if (innerElement) {
-                        innerElement.style.transform = `translate3d(${state.x * -0.2}px, ${state.y * -0.2}px, 0) scale(1)`;
-                    }
-                });
-            });
-            console.log('Magnetic effect initialization complete!');
-        });
-    </script>
 
     <!-- Core Scripts -->
     <script src="../../web-extentions/Custom Cursor/custom-cursor.js"></script>
@@ -2232,8 +2041,22 @@
             const nav = document.querySelector('nav');
             const menuOverlay = document.querySelector('.menu-overlay');
             if (mobileMenuBtn && nav) {
-                function openMenu() { mobileMenuBtn.classList.add('active'); nav.classList.add('active'); if (menuOverlay) menuOverlay.classList.add('active'); document.body.classList.add('menu-open'); }
-                function closeMenu() { mobileMenuBtn.classList.remove('active'); nav.classList.remove('active'); if (menuOverlay) menuOverlay.classList.remove('active'); document.body.classList.remove('menu-open'); }
+                function openMenu() {
+                    mobileMenuBtn.classList.add('active');
+                    if (nav) nav.classList.add('active');
+                    if (menuOverlay) menuOverlay.classList.add('active');
+                    document.body.classList.add('menu-open');
+                    if (nav) nav.setAttribute('aria-hidden', 'false');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                }
+                function closeMenu() {
+                    mobileMenuBtn.classList.remove('active');
+                    if (nav) nav.classList.remove('active');
+                    if (menuOverlay) menuOverlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                    if (nav) nav.setAttribute('aria-hidden', 'true');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                }
                 mobileMenuBtn.addEventListener('click', (e) => { e.preventDefault(); nav.classList.contains('active') ? closeMenu() : openMenu(); });
                 if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
                 document.querySelectorAll('nav a').forEach(link => link.addEventListener('click', closeMenu));

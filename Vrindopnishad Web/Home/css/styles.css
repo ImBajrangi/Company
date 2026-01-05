@@ -284,21 +284,126 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacing-md);
+    padding: 0 1.5rem;
+    height: 80px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
-    transition: all 0.3s var(--transition-smooth);
-    background-color: rgba(var(--bg-color-rgb), 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    z-index: 2000;
+    transition: all 0.4s var(--transition-smooth);
+    background-color: transparent;
 }
 
-.main-nav {
+header.scrolled {
+    height: 70px;
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.logo {
     display: flex;
     align-items: center;
+    font-size: 1.4rem;
+    height: 100%;
+    z-index: 10;
+    font-weight: 700;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 100%;
+    flex-wrap: nowrap;
+}
+
+.tools-icon,
+.menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(var(--text-color-rgb), 0.05);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.4s var(--transition-smooth);
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.tools-icon:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.tools-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+button.menu svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    header {
+        height: 70px;
+        padding: 0 1rem;
+    }
+
+    .logo {
+        font-size: 1.25rem;
+    }
+
+    .tools-icon,
+    .menu {
+        width: 38px;
+        height: 38px;
+    }
+
+    .tools-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+}
+
+/* Main Navigation */
+.main-nav {
+    display: none;
+    /* Hidden by default, shown on desktop */
+    align-items: center;
+    height: 100%;
+}
+
+@media (min-width: 992px) {
+    .main-nav {
+        display: flex;
+    }
 }
 
 .main-nav ul {
@@ -306,27 +411,34 @@ header {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: var(--spacing-md);
+    gap: 2rem;
 }
 
 .main-nav a {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    position: relative;
-    padding: 0.5rem 0;
-    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    opacity: 1;
 }
 
 .main-nav a::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -4px;
     left: 0;
     width: 0;
     height: 2px;
-    background-color: var(--accent-color);
-    transition: width 0.3s ease;
+    background-color: var(--text-color);
+    transition: width 0.3s var(--transition-smooth);
 }
 
 .main-nav a:hover::after,
@@ -334,35 +446,11 @@ header {
     width: 100%;
 }
 
-/* Final adjustments for tools icon centering */
-.tools-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
+/* Final adjustments for icons */
+.tools-icon,
+.menu {
     border-radius: 50%;
-    background-color: rgba(var(--text-color-rgb), 0.08);
-    /* cursor: pointer; */
-    transition: all 0.4s var(--transition-bounce);
-    margin-right: var(--spacing-sm);
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
     z-index: 10;
-    backdrop-filter: var(--blur-effect);
-    -webkit-backdrop-filter: var(--blur-effect);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(var(--text-color-rgb), 0.05);
-}
-
-.tools-icon span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: relative;
 }
 
 .tools-icon svg {
@@ -808,7 +896,7 @@ header {
 /* Adaptive tools menu for different devices */
 @media (max-width: 768px) {
     .main-nav {
-        display: none;
+        display: none !important;
     }
 
     .tools-icon {
@@ -1490,99 +1578,12 @@ header {
     box-shadow: var(--shadow-md);
 }
 
-/* Enhanced mobile navigation */
-nav {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 100%;
-    max-width: 400px;
-    height: 100vh;
-    background-color: rgba(var(--bg-color-rgb), 0.95);
-    backdrop-filter: var(--blur-effect);
-    -webkit-backdrop-filter: var(--blur-effect);
-    z-index: 1000;
-    transition: right 0.5s var(--transition-smooth);
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-lg);
-    border-left: 1px solid rgba(var(--text-color-rgb), 0.1);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-}
+/* ============================================
+   Mobile Navigation - Handled by menu.css
+   ============================================ */
+/* All nav element styles are in menu.css for the creative fullscreen menu */
 
-nav.active {
-    right: 0;
-}
-
-.nav-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-md);
-    border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
-}
-
-.nav-logo {
-    font-family: 'Protest Strike', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.nav-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* cursor: pointer; */
-    background-color: rgba(var(--text-color-rgb), 0.08);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: var(--blur-effect);
-    -webkit-backdrop-filter: var(--blur-effect);
-    border: 1px solid rgba(var(--text-color-rgb), 0.05);
-}
-
-.nav-close:hover {
-    background-color: rgba(var(--text-color-rgb), 0.15);
-    transform: rotate(90deg);
-}
-
-nav ul {
-    list-style: none;
-    padding: var(--spacing-md);
-    margin: 0;
-}
-
-nav li {
-    margin-bottom: var(--spacing-sm);
-}
-
-nav a {
-    display: block;
-    padding: 0.8rem 0;
-    color: var(--text-color);
-    text-decoration: none;
-    font-size: var(--font-size-md);
-    transition: all 0.3s ease;
-    position: relative;
-    opacity: 0.8;
-}
-
-nav a:hover {
-    opacity: 1;
-    transform: translateX(8px);
-}
-
-.nav-divider {
-    height: 1px;
-    background-color: rgba(var(--text-color-rgb), 0.1);
-    margin: var(--spacing-md) 0;
-}
-
+/* Language section styles for navigation */
 .language-item {
     margin-top: var(--spacing-md);
 }
@@ -2094,24 +2095,7 @@ footer {
     }
 }
 
-/* Menu overlay */
-.menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
 
-body.menu-open .menu-overlay {
-    display: block;
-    opacity: 1;
-}
 
 /* Navigation header styles */
 .nav-header {
@@ -2221,53 +2205,7 @@ body.menu-open .menu-overlay {
         font-size: var(--font-size-md);
     }
 
-    /* Improved mobile menu */
-    .mobile-menu-btn {
-        display: flex;
-        top: 15px;
-        right: 15px;
-        z-index: 1002;
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background-color: rgba(var(--bg-color-rgb), 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        transform: translateX(100%);
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 1001;
-        padding: 80px 20px 20px;
-        overflow-y: auto;
-        visibility: hidden;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-    }
-
-    nav.active {
-        transform: translateX(0);
-        visibility: visible;
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: var(--spacing-md);
-    }
-
-    nav a {
-        font-size: var(--font-size-lg);
-        padding: var(--spacing-sm) 0;
-        opacity: 0.8;
-    }
-
-    nav a:hover {
-        opacity: 1;
-        transform: translateX(10px);
-    }
+    /* Mobile navigation is handled by menu.css */
 
     /* Improved language switch for mobile */
     .language-switch {
@@ -3107,24 +3045,7 @@ main {
     }
 }
 
-/* Add overlay when menu is open */
-.menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
 
-body.menu-open .menu-overlay {
-    display: block;
-    opacity: 1;
-}
 
 /* Fix animations for mobile */
 @media (max-width: 768px) {
@@ -3639,134 +3560,10 @@ body.menu-open .menu-overlay {
     }
 }
 
-/* Mobile menu styles */
-nav {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 80%;
-    max-width: 350px;
-    height: 100vh;
-    background-color: var(--bg-color);
-    z-index: 1000;
-    padding: var(--spacing-md);
-    transition: right 0.5s var(--transition-smooth);
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-    display: block;
-    overflow-y: auto;
-}
+/* Mobile menu styles - Handled by menu.css */
+/* All nav styling is in menu.css for the creative fullscreen menu */
 
-nav.active {
-    right: 0;
-}
 
-.nav-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid rgba(var(--text-color-rgb), 0.1);
-}
-
-.nav-logo {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.nav-close {
-    font-size: 2rem;
-    /* cursor: pointer; */
-    transition: all 0.3s ease;
-}
-
-.nav-close:hover {
-    transform: rotate(90deg);
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-nav li {
-    margin-bottom: var(--spacing-sm);
-}
-
-nav a {
-    display: block;
-    padding: var(--spacing-sm) 0;
-    color: var(--text-color);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
-}
-
-nav a:hover {
-    color: var(--accent-color);
-    transform: translateX(5px);
-}
-
-.nav-divider {
-    height: 1px;
-    background-color: rgba(var(--text-color-rgb), 0.1);
-    margin: var(--spacing-md) 0;
-}
-
-.language-item {
-    margin-top: var(--spacing-md);
-}
-
-.language-label {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    font-weight: 500;
-}
-
-.language-switch-nav {
-    display: flex;
-    gap: 10px;
-}
-
-.language-btn-nav {
-    padding: 5px 15px;
-    border-radius: 20px;
-    background-color: rgba(var(--text-color-rgb), 0.1);
-    color: var(--text-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.language-btn-nav.active {
-    background-color: var(--accent-color);
-    color: var(--bg-color);
-}
-
-.language-btn-nav:hover {
-    background-color: rgba(var(--text-color-rgb), 0.2);
-}
-
-/* Menu overlay */
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    backdrop-filter: blur(3px);
-}
-
-body.menu-open .menu-overlay {
-    opacity: 1;
-    visibility: visible;
-}
 
 /* Mobile menu button */
 .mobile-menu-btn {
@@ -3864,47 +3661,87 @@ body.menu-open .menu-overlay {
 .header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1rem;
     position: relative;
+    z-index: 10;
 }
 
-/* Make both icons magnetic on the same horizontal axis */
-.mobile-menu-btn,
-.tools-icon {
+/* Ensure icons have consistent sizing and behavior */
+.tools-icon,
+.menu {
     position: relative;
-    will-change: transform;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(var(--text-color-rgb), 0.05);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.4s var(--transition-smooth);
+    overflow: hidden;
 }
 
-/* Magnetic effect for both icons */
-.mobile-menu-btn.magnetic,
-.tools-icon.magnetic {
-    display: inline-block;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
+.tools-icon:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
 }
 
-/* Horizontal magnetic movement */
-.mobile-menu-btn.magnetic:hover,
-.tools-icon.magnetic:hover {
-    transform: translateX(10px);
+.tools-icon svg,
+.menu svg {
+    width: 20px;
+    height: 20px;
+    transition: all 0.4s var(--transition-smooth);
 }
 
-/* Active state for magnetic effect */
-.mobile-menu-btn.magnetic:active,
-.tools-icon.magnetic:active {
-    transform: scale(0.95);
+.tools-icon:hover svg {
+    transform: rotate(90deg);
+}
+
+/* Specific fix for the hamburger menu SVG size */
+.menu svg {
+    width: 32px;
+    height: 32px;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+    header {
+        height: 70px;
+        padding: 0 var(--spacing-sm);
+    }
+
+    .header-right {
+        gap: 0.5rem;
+    }
+
+    .tools-icon,
+    .menu {
+        width: 40px;
+        height: 40px;
+    }
+
+    .tools-icon svg,
+    .menu svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Disable magnetic effect on mobile for better touch UX */
+    .magnetic {
+        transform: none !important;
+    }
 }
 
 /* Add smooth transition for hover effect */
-.mobile-menu-btn.magnetic,
-.tools-icon.magnetic {
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.magnetic {
+    transition: transform 0.4s var(--transition-bounce);
 }
 
 /* Ensure proper spacing between icons */
 .header-right {
-    gap: 12px;
+    gap: 1rem;
 }
 
 /* Mobile-specific adjustments */
@@ -4154,12 +3991,21 @@ body.menu-open .menu-overlay {
     touch-action: pan-x pan-y;
 }
 
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
     .notification {
         background-color: rgba(58, 58, 60, 0.85);
-        color: var(--bg-color);
+        color: #ffffff;
         border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .notification span,
+    .notification-app-name,
+    .notification-content {
+        color: #ffffff;
+    }
+
+    .notification-time {
+        color: rgba(255, 255, 255, 0.6);
     }
 }
 
@@ -4346,15 +4192,7 @@ body.tools-menu-open {
 }
 
 .story-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 80%;
-    height: 150%;
-    background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-    z-index: 0;
-    pointer-events: none;
+    display: none;
 }
 
 .story-container {
@@ -6592,37 +6430,79 @@ footer {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Hero Background Image Styles */
+.hero-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(1px) brightness(0.8) grayscale(10%);
+    opacity: 0.2;
+    transform: scale(1.02);
+    transition: transform 2s var(--transition-smooth), opacity 1s ease;
+    will-change: transform;
+}
+
+.hero-section:hover .hero-image {
+    transform: scale(1.08);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(var(--bg-color-rgb), 0.8) 0%,
+            transparent 20%,
+            transparent 80%,
+            var(--bg-color) 100%),
+        radial-gradient(circle at center, transparent 0%, var(--bg-color) 90%);
+    z-index: 1;
 }
 
 /* Decorative Elements */
-.hero-decor {
+.v-hero-decor {
     position: absolute;
-    top: 50%;
+    top: 100px;
+    /* Below header */
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     pointer-events: none;
+    z-index: 1;
 }
 
-.decor-line {
+.v-decor-line {
     position: absolute;
     width: 1px;
-    height: 200px;
+    height: 80px;
     background: linear-gradient(to bottom, transparent, var(--card-border), transparent);
     left: 50%;
-    top: -100px;
-    opacity: 0.5;
+    top: -40px;
+    opacity: 0.2;
 }
 
-.decor-dot {
+.v-decor-dot {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: var(--text-color);
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.2;
+    top: 40px;
+    transform: translateX(-50%);
+    opacity: 0.15;
 }
 
 /* Badge */

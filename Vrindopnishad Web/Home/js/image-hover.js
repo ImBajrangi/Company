@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.cursor-dot') || document.querySelector('.cursor-circle');
 
     if (!imageHover) {
-        console.error('Image hover element not found');
+        // Silent return if image hover container is not present on this page
         return;
     }
 
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lastKnownX = e.clientX;
         lastKnownY = e.clientY;
-        
+
         if (!ticking) {
             requestAnimationFrame(() => {
                 const x = lastKnownX - (imageHover.offsetWidth / 2);
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             img.src = imagePath;
             isVisible = true;
             imageHover.classList.add('visible');
-            
+
             // Set initial position immediately
             const x = e.clientX - (imageHover.offsetWidth / 2);
             const y = e.clientY - (imageHover.offsetHeight / 2);
