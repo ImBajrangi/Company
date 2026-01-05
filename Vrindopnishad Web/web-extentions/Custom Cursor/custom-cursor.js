@@ -27,8 +27,10 @@ class CustomCursor {
             this.cursorY = e.clientY;
 
             // Update dot position immediately
-            this.cursorDot.style.left = `${this.cursorX}px`;
-            this.cursorDot.style.top = `${this.cursorY}px`;
+            if (this.cursorDot) {
+                this.cursorDot.style.left = `${this.cursorX}px`;
+                this.cursorDot.style.top = `${this.cursorY}px`;
+            }
 
             // Update SVG cursors if visible
             // Object.values(this.svgCursors).forEach(cursor => {
@@ -53,6 +55,7 @@ class CustomCursor {
     }
 
     animateCircle() {
+        if (!this.cursorCircle) return;
         const ease = 0.15;
         const circleX = parseFloat(this.cursorCircle.style.left) || this.cursorX;
         const circleY = parseFloat(this.cursorCircle.style.top) || this.cursorY;
@@ -77,8 +80,12 @@ class CustomCursor {
             // Text elements
             const textable = e.target.closest('p, h1, h2, h3, h4, h5, h6, span, li, input, textarea');
             if (textable) {
-                this.cursorDot.classList.add('text');
-                this.cursorCircle.classList.add('text');
+                if (this.cursorDot) {
+                    this.cursorDot.classList.add('text');
+                }
+                if (this.cursorCircle) {
+                    this.cursorCircle.classList.add('text');
+                }
             }
         });
 
@@ -138,16 +145,16 @@ class CustomCursor {
         });
 
         document.addEventListener('mouseenter', () => {
-            this.cursorDot.style.opacity = '1';
-            this.cursorCircle.style.opacity = '1';
+            if (this.cursorDot) this.cursorDot.style.opacity = '1';
+            if (this.cursorCircle) this.cursorCircle.style.opacity = '1';
         });
     }
 
     disableCursor() {
-        this.cursorDot.style.display = 'none';
-        this.cursorCircle.style.display = 'none';
+        if (this.cursorDot) this.cursorDot.style.display = 'none';
+        if (this.cursorCircle) this.cursorCircle.style.display = 'none';
         Object.values(this.svgCursors).forEach(cursor => {
-            cursor.style.display = 'none';
+            if (cursor) cursor.style.display = 'none';
         });
         document.body.style.cursor = 'auto';
     }
