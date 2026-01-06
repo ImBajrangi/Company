@@ -211,8 +211,8 @@ export class KitchenNotifier {
         this.isPlaying = false;
         this.hasInteracted = false;
 
-        // Try to get permission immediately
-        this.requestNotificationPermission();
+        // Try to get permission only when enabled
+        // this.requestNotificationPermission(); // REMOVED: Must be from user gesture
 
         // Bind stop function
         this.stopAlarm = this.stopAlarm.bind(this);

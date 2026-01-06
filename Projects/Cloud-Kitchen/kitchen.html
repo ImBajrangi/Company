@@ -588,7 +588,7 @@
         }
     </style>
     <!-- Google Maps JS SDK -->
-    <script
+    <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbFR_K70QZEhfKNfKfsddE0ad-vXo0Eto&libraries=places"></script>
 </head>
 
@@ -1609,6 +1609,79 @@
                     </div>
                 </div>
 
+                <!-- SECTION: CASH AUDIT -->
+                <div id="dev-section-cash-audit" class="dev-section bg-yellow-50/20">
+                    <div class="section-header">
+                        <div class="section-icon bg-yellow-100 text-yellow-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="section-title">Cash Audit & Settlement</h3>
+                    </div>
+
+                    <div class="card p-6">
+                        <div class="flex flex-col md:flex-row gap-4 mb-6 items-end">
+                            <div class="flex-grow">
+                                <label class="form-label">Shop Filter</label>
+                                <select id="cash-audit-shop-select" class="w-full">
+                                    <option value="">-- All Shops --</option>
+                                </select>
+                            </div>
+                            <button onclick="loadCashAuditData()"
+                                class="btn-primary bg-blue-600 hover:bg-blue-700 h-[52px]">
+                                Refresh Audit
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm bg-white">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Order Info</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Shop</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Delivery Staff</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-[10px] font-bold text-gray-500 uppercase tracking-wider text-right">
+                                            Amount</th>
+                                        <th
+                                            class="px-6 py-3 text-center text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                                            Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dev-cash-audit-list" class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-10 text-center text-gray-500 italic">Select a
+                                            shop or click Refresh to see unsettled cash orders.</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot id="dev-cash-audit-footer" class="hidden bg-gray-50">
+                                    <tr>
+                                        <td colspan="3" class="px-6 py-4 text-right font-bold text-gray-900">Total
+                                            Unsettled:</td>
+                                        <td id="dev-cash-audit-total"
+                                            class="px-6 py-4 text-right font-bold text-lg text-red-600">₹0</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button id="batch-settle-btn" onclick="batchSettleCash()"
+                                                class="btn-primary bg-green-600 hover:bg-green-700 py-2 text-xs">
+                                                SETTLE ALL
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- SECTION: SYSTEM TOOLS -->
                 <div id="dev-section-tools" class="dev-section">
                     <div class="section-header">
@@ -1692,6 +1765,22 @@
                                 <button id="dev-view-delivery-btn"
                                     class="btn-primary w-full bg-purple-600 hover:bg-purple-700">Switch
                                     View</button>
+                            </div>
+                        </div>
+                        <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                            <h4 class="text-sm font-bold text-indigo-700 mb-4 uppercase">Notification Debug</h4>
+                            <div class="space-y-4">
+                                <p class="text-[10px] text-indigo-600 italic">Triggers a local alarm sound and system
+                                    notification to verify permissions on this domain.</p>
+                                <button onclick="testAlarm()"
+                                    class="btn-primary w-full bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                                        </path>
+                                    </svg>
+                                    Test Alarm System
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1955,6 +2044,29 @@
                     <img id="edit-shop-image-img" src="" alt="Shop preview"
                         class="w-full h-32 object-cover rounded-lg border">
                 </div>
+                <!-- Pricing Configuration Section -->
+                <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-4">
+                    <h5 class="font-medium text-gray-700">Pricing Configuration</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Min Order
+                                (₹)</label>
+                            <input type="number" id="edit-shop-min-order" min="0" class="w-full text-sm"
+                                placeholder="0">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Delivery (₹)</label>
+                            <input type="number" id="edit-shop-delivery-charge" min="0" class="w-full text-sm"
+                                placeholder="0">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">GST (%)</label>
+                            <input type="number" id="edit-shop-gst" min="0" max="28" class="w-full text-sm"
+                                placeholder="5">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-4">
                     <h5 class="font-medium text-gray-700">Display & Wait Time</h5>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2102,7 +2214,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, addDoc, onSnapshot, doc, updateDoc, query, where, serverTimestamp, getDoc, setDoc, getDocs, orderBy, deleteDoc, limit, startAfter, Timestamp, endAt, endBefore, startAt, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         import { FastOrderMonitor } from './js/fast_notify.js';
         import { NotificationManager, KitchenNotifier } from './js/notify.js';
@@ -2234,17 +2346,22 @@
             codEnabled: true
         };
 
+        // Shop data caching
+        let shopCache = {
+            data: null,
+            lastFetched: null
+        };
+        const SHOP_CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
         try {
             app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-
-            // ENABLE OFFLINE PERSISTENCE
-            enableIndexedDbPersistence(db).catch((err) => {
-                if (err.code == 'failed-precondition') {
-                    console.warn('Persistence failed: Multiple tabs open');
-                } else if (err.code == 'unimplemented') {
-                    console.warn('Persistence failed: Browser not supported');
-                }
+            // Modern Firestore Init: Force Long Polling + Persistent Cache (v11+)
+            db = initializeFirestore(app, {
+                experimentalForceLongPolling: true,
+                useFetchStreams: false,
+                localCache: persistentLocalCache({
+                    tabManager: persistentMultipleTabManager()
+                })
             });
 
             auth = getAuth(app);
@@ -2439,10 +2556,31 @@
 
         document.getElementById('profile-close').addEventListener('click', () => document.getElementById('profile-modal').classList.add('hidden'));
 
-        async function loadAllShops() {
+        async function loadAllShops(forceRefresh = false) {
+            // Check cache
+            const now = Date.now();
+            if (!forceRefresh && shopCache.data && shopCache.lastFetched && (now - shopCache.lastFetched < SHOP_CACHE_TTL)) {
+                console.log('Using cached shop data (TTL: 5m)');
+                allShops = shopCache.data;
+                renderShopSelector();
+                if (userRole === 'developer') {
+                    populateShopDropdowns();
+                    renderDevShopList();
+                    populateScheduleSelect();
+                }
+                updateDevSummary();
+                return;
+            }
+
             try {
+                console.log('Fetching shops from Firestore...');
                 const snapshot = await getDocs(collection(db, "shops"));
                 allShops = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                // Update cache
+                shopCache.data = allShops;
+                shopCache.lastFetched = now;
+
                 console.log('Loaded shops:', allShops);
                 renderShopSelector();
                 if (userRole === 'developer') {
@@ -2663,13 +2801,24 @@
             fastMonitor.startListening(role); // Pass role to monitor
 
             // Smart Audio Unlock: Unlock on ANY user interaction
-            const unlockAudio = () => {
+            const unlockAudio = async () => {
+                console.log("🔓 Unlocking audio and requesting notifications...");
+
+                // 1. Request Notification Permission
+                if ("Notification" in window && Notification.permission === "default") {
+                    try {
+                        const permission = await Notification.requestPermission();
+                        console.log("System Notification Permission:", permission);
+                    } catch (e) { console.error("Permission request failed", e); }
+                }
+
                 if (fastMonitor) {
                     fastMonitor.enableAudio();
                     // Hide the button once audio is unlocked
                     const audioBtn = document.getElementById('enable-audio-btn');
                     if (audioBtn) audioBtn.classList.add('hidden');
                 }
+
                 // Remove listeners once unlocked to avoid redundant calls
                 document.removeEventListener('click', unlockAudio);
                 document.removeEventListener('touchstart', unlockAudio);
@@ -5228,6 +5377,7 @@
             document.getElementById('dev-dashboard-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
             document.getElementById('dev-staff-shop').innerHTML = `<option value="">-- Assign Shop --</option>${shopOptions}`;
             document.getElementById('dev-delivery-shop-select').innerHTML = `<option value="">-- Select a Shop --</option>${shopOptions}`;
+            document.getElementById('cash-audit-shop-select').innerHTML = `<option value="">-- All Shops --</option>${shopOptions}`;
         }
 
         async function renderDevShopList() {
@@ -5397,6 +5547,11 @@
             document.getElementById('edit-shop-show-wait').checked = shop.showWaitTime !== false;
             document.getElementById('edit-shop-show-queue').checked = shop.showOrderQueue === true;
 
+            // Populate pricing configuration fields
+            document.getElementById('edit-shop-min-order').value = shop.minimumOrderAmount || 0;
+            document.getElementById('edit-shop-delivery-charge').value = shop.deliveryCharge || 0;
+            document.getElementById('edit-shop-gst').value = shop.gstPercentage || 5;
+
             // Set schedule values
             const sched = shop.schedule || {};
             document.getElementById('edit-shop-open-time').value = sched.openTime || '09:00';
@@ -5451,6 +5606,11 @@
             const showWait = document.getElementById('edit-shop-show-wait').checked;
             const showQueue = document.getElementById('edit-shop-show-queue').checked;
 
+            // Read pricing configuration values
+            const minimumOrderAmount = parseFloat(document.getElementById('edit-shop-min-order').value) || 0;
+            const deliveryCharge = parseFloat(document.getElementById('edit-shop-delivery-charge').value) || 0;
+            const gstPercentage = parseFloat(document.getElementById('edit-shop-gst').value) || 5;
+
             const openTime = document.getElementById('edit-shop-open-time').value;
             const closeTime = document.getElementById('edit-shop-close-time').value;
             const daysOpen = Array.from(document.querySelectorAll('input[name="edit-shop-days"]:checked')).map(cb => cb.value);
@@ -5477,6 +5637,9 @@
                 estimatedWaitTime: waitTime,
                 showWaitTime: showWait,
                 showOrderQueue: showQueue,
+                minimumOrderAmount,
+                deliveryCharge,
+                gstPercentage,
                 alarmSettings
             };
 
@@ -5887,6 +6050,171 @@
         // Event listeners for data consistency buttons
         document.getElementById('run-data-check-btn')?.addEventListener('click', runDataConsistencyCheck);
         document.getElementById('fix-data-btn')?.addEventListener('click', fixDataInconsistencies);
+
+        let lastCashAuditData = [];
+
+        window.loadCashAuditData = async function () {
+            const shopId = document.getElementById('cash-audit-shop-select').value;
+            const listEl = document.getElementById('dev-cash-audit-list');
+            const footerEl = document.getElementById('dev-cash-audit-footer');
+            const totalEl = document.getElementById('dev-cash-audit-total');
+
+            listEl.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-500 italic">Syncing with Firestore...</td></tr>';
+            footerEl.classList.add('hidden');
+
+            try {
+                let q = query(collection(db, "orders"), where("paymentMethod", "==", "cod"), where("cashStatus", "==", "unsettled"));
+                if (shopId) {
+                    q = query(q, where("shopId", "==", shopId));
+                }
+
+                const snapshot = await getDocs(q);
+                lastCashAuditData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                if (lastCashAuditData.length === 0) {
+                    listEl.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">No unsettled cash orders found.</td></tr>';
+                    return;
+                }
+
+                // Fetch all unique delivery staff and shop names for display
+                const staffIds = [...new Set(lastCashAuditData.map(o => o.deliveryStaffId).filter(id => !!id))];
+                const staffMap = {};
+                for (const sid of staffIds) {
+                    const sdoc = await getDoc(doc(db, "users", sid));
+                    if (sdoc.exists()) staffMap[sid] = sdoc.data().displayName || sdoc.data().email;
+                }
+
+                let totalAmount = 0;
+                listEl.innerHTML = lastCashAuditData.map(o => {
+                    const staffName = staffMap[o.deliveryStaffId] || 'Unknown';
+                    const shopName = allShops.find(s => s.id === o.shopId)?.name || 'Unknown Shop';
+                    const date = o.createdAt?.toDate() ? o.createdAt.toDate().toLocaleDateString('en-GB') : 'N/A';
+                    totalAmount += (o.totalAmount || 0);
+
+                    return `
+                        <tr>
+                            <td class="px-6 py-4">
+                                <p class="text-sm font-bold text-gray-900">#${o.id.substring(0, 6)}</p>
+                                <p class="text-xs text-gray-500">${o.customerName} • ${date}</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-xs text-gray-600 font-medium">${shopName}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] text-blue-600 font-bold">
+                                        ${staffName.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span class="text-sm text-gray-700">${staffName}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="text-sm font-bold text-gray-900">₹${o.totalAmount}</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="settleCashOrderFromAudit('${o.id}', ${o.totalAmount}, '${o.deliveryStaffId}', '${o.shopId}')" 
+                                    class="text-blue-600 hover:text-blue-800 text-xs font-bold uppercase">Settle</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                totalEl.textContent = `₹${totalAmount}`;
+                footerEl.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Cash audit load error:", error);
+                listEl.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-red-500">Error: ${error.message}</td></tr>`;
+            }
+        };
+
+        window.settleCashOrderFromAudit = async function (orderId, amount, deliveryStaffId, shopId) {
+            if (!confirm(`Confirm settlement of ₹${amount} for order #${orderId.substring(0, 6)}?`)) return;
+            try {
+                const batch = writeBatch(db);
+                batch.update(doc(db, "orders", orderId), { cashStatus: 'settled' });
+                batch.set(doc(collection(db, "cash_transactions")), {
+                    shopId, orderId, userId: deliveryStaffId, amount, type: 'settlement',
+                    method: 'cash', createdAt: serverTimestamp(), settledBy: auth.currentUser.uid
+                });
+                await batch.commit();
+                showAlert('Order settled successfully');
+                loadCashAuditData();
+            } catch (error) {
+                showAlert('Settlement failed: ' + error.message, true);
+            }
+        };
+
+        window.testAlarm = function () {
+            if (!fastMonitor) {
+                const msg = (userRole === 'developer')
+                    ? "Notification system not initialized. Please select a shop from the 'Switch View' panel below first."
+                    : "Notification system not initialized. Please log in first.";
+                showAlert(msg, true);
+                return;
+            }
+
+            if (Notification.permission !== "granted") {
+                showAlert("Notification permission not granted. Please click 'Enable Sound' first.", true);
+            }
+
+            console.log("🔔 Triggering Test Alarm...");
+            fastMonitor.triggerAlert({
+                customerName: "TEST CUSTOMER",
+                totalAmount: 999,
+                status: 'new'
+            }, "TEST_ORDER_ID", "TEST ALARM!");
+
+            showAlert("Test Alarm triggered! Check your notifications and sound.");
+        };
+
+        window.batchSettleCash = async function () {
+            const count = lastCashAuditData.length;
+            if (count === 0) return;
+            if (!confirm(`Are you sure you want to settle ALL ${count} pending orders? This cannot be undone.`)) return;
+
+            const btn = document.getElementById('batch-settle-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'SETTLING...';
+
+            try {
+                // Firestore batches are limited to 500 operations. Cash Audit usually won't exceed this, 
+                // but we'll process in chunks of 100 just to be safe.
+                const chunks = [];
+                for (let i = 0; i < lastCashAuditData.length; i += 100) {
+                    chunks.push(lastCashAuditData.slice(i, i + 100));
+                }
+
+                for (const chunk of chunks) {
+                    const batch = writeBatch(db);
+                    for (const o of chunk) {
+                        batch.update(doc(db, "orders", o.id), { cashStatus: 'settled' });
+                        batch.set(doc(collection(db, "cash_transactions")), {
+                            shopId: o.shopId,
+                            orderId: o.id,
+                            userId: o.deliveryStaffId,
+                            amount: o.totalAmount,
+                            type: 'settlement',
+                            method: 'cash',
+                            createdAt: serverTimestamp(),
+                            settledBy: auth.currentUser.uid,
+                            batchId: `batch_${Date.now()}`
+                        });
+                    }
+                    await batch.commit();
+                }
+
+                showAlert(`Successfully settled ${count} orders!`);
+                loadCashAuditData();
+            } catch (error) {
+                console.error("Batch settlement error:", error);
+                showAlert('Batch settlement failed: ' + error.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        };
 
 
         async function createTestOrder(e) {
@@ -6603,6 +6931,7 @@
                 document.getElementById('owner-view-title').textContent = `${currentShopName} - Dashboard`;
                 updateAuthStatusUI();
                 listenForNotifications(); // Refresh notifications for new shop context
+                initFastNotification(currentUserShopId, userRole); // Initialize alarm system
 
                 loadOwnerDashboard();
                 listenToOrderHistory();
@@ -6626,6 +6955,7 @@
                 document.getElementById('transport-view-title').textContent = `${currentShopName} - Delivery`;
                 updateAuthStatusUI();
                 listenForNotifications();
+                initFastNotification(currentUserShopId, userRole); // Initialize alarm system
 
                 // Listen to orders for this shop (populate transport-orders-list)
                 listenToStaffOrders();

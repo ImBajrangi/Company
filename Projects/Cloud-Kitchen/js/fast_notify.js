@@ -154,7 +154,7 @@ export class FastOrderMonitor {
 
     sendSystemNotification(order, title) {
         if (!("Notification" in window)) return;
-        if (Notification.permission === "default") Notification.requestPermission();
+        // Permission should be requested via user gesture elsewhere (e.g. Enable Sound button)
 
         if (Notification.permission === "granted") {
             const options = {
