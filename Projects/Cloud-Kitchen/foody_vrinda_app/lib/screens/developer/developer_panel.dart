@@ -73,10 +73,10 @@ class _DeveloperPanelState extends State<DeveloperPanel>
   String _searchQuery = '';
 
   // Search queries for each section
-  String _shopSearch = '';
-  String _menuSearch = '';
+  final String _shopSearch = '';
+  final String _menuSearch = '';
   String _userSearch = '';
-  String _staffSearch = '';
+  final String _staffSearch = '';
 
   // Menu management
   String? _selectedMenuShopId;
@@ -1911,11 +1911,13 @@ class _DeveloperPanelState extends State<DeveloperPanel>
             child: StreamBuilder<List<ShopModel>>(
               stream: _shopsStream,
               builder: (context, snapshot) {
-                if (!snapshot.hasData)
+                if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
+                }
                 final shops = snapshot.data!;
-                if (shops.isEmpty)
+                if (shops.isEmpty) {
                   return const Center(child: Text('No shops found.'));
+                }
                 return ListView.separated(
                   shrinkWrap: true,
                   itemCount: shops.length,
@@ -1985,11 +1987,13 @@ class _DeveloperPanelState extends State<DeveloperPanel>
               ),
             );
           }
-          if (!snapshot.hasData)
+          if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
+          }
           final shops = snapshot.data!;
-          if (shops.isEmpty)
+          if (shops.isEmpty) {
             return const Text('Create a shop first to manage schedules.');
+          }
 
           return ConstrainedBox(
             constraints: BoxConstraints(
@@ -2075,8 +2079,9 @@ class _DeveloperPanelState extends State<DeveloperPanel>
                                         _openTime ??
                                         const TimeOfDay(hour: 9, minute: 0),
                                   );
-                                  if (picked != null)
+                                  if (picked != null) {
                                     setState(() => _openTime = picked);
+                                  }
                                 },
                               ),
                             ),
@@ -2094,8 +2099,9 @@ class _DeveloperPanelState extends State<DeveloperPanel>
                                         _closeTime ??
                                         const TimeOfDay(hour: 21, minute: 0),
                                   );
-                                  if (picked != null)
+                                  if (picked != null) {
                                     setState(() => _closeTime = picked);
+                                  }
                                 },
                               ),
                             ),
@@ -3378,7 +3384,7 @@ class _DeveloperPanelState extends State<DeveloperPanel>
                     .toList();
               }
 
-              if (filteredUsers.isEmpty)
+              if (filteredUsers.isEmpty) {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -3390,6 +3396,7 @@ class _DeveloperPanelState extends State<DeveloperPanel>
                     ),
                   ),
                 );
+              }
 
               return ConstrainedBox(
                 constraints: BoxConstraints(
