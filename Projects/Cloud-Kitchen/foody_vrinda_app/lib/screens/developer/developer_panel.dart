@@ -586,6 +586,8 @@ class _DeveloperPanelState extends State<DeveloperPanel>
               if (_hasPerm(user, 'shops')) _buildShopManagement(),
               if (_hasPerm(user, 'shops')) const SizedBox(height: 16),
               if (_hasPerm(user, 'shops')) _buildShopScheduleManagement(),
+              if (_hasPerm(user, 'shops')) const SizedBox(height: 16),
+              if (_hasPerm(user, 'shops')) _buildShopPricingManagement(),
               if (_hasPerm(user, 'menu')) const SizedBox(height: 16),
               if (_hasPerm(user, 'menu')) _buildMenuManagement(),
             ]),
@@ -2243,6 +2245,257 @@ class _DeveloperPanelState extends State<DeveloperPanel>
         );
       }
     }
+  }
+
+  // ========== SHOP PRICING MANAGEMENT ==========
+  Widget _buildShopPricingManagement() {
+    return _DevCard(
+      title: 'Shop Pricing Management',
+      subtitle: 'Configure minimum order, delivery charges & GST',
+      icon: Icons.currency_rupee,
+      iconColor: AppTheme.success,
+      child: StreamBuilder<List<ShopModel>>(
+        stream: _shopsStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error loading shops: ${snapshot.error}',
+                style: const TextStyle(color: AppTheme.error),
+              ),
+            );
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final shops = snapshot.data!;
+          if (shops.isEmpty) {
+            return const Text('Create a shop first to manage pricing.');
+          }
+
+          // Use a constrained scrollable list for many shops
+          return ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: shops.length > 3 ? 400 : double.infinity,
+            ),
+            child: ListView.builder(
+              shrinkWrap: shops.length <= 3,
+              itemCount: shops.length,
+              itemBuilder: (context, index) {
+                final shop = shops[index];
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppTheme.borderLight),
+                  ),
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      leading: const Icon(
+                        Icons.store,
+                        size: 20,
+                        color: AppTheme.primaryBlue,
+                      ),
+                      title: Text(
+                        shop.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        'Min: ₹${shop.minimumOrderAmount.toInt()} • Delivery: ₹${shop.deliveryCharge.toInt()} • GST: ${shop.gstPercentage.toInt()}%',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      children: [
+                        _buildPricingRow(
+                          label: 'Minimum Order',
+                          value: shop.minimumOrderAmount,
+                          suffix: '',
+                          prefix: '₹',
+                          step: 50,
+                          min: 0,
+                          max: 1000,
+                          onChanged: (value) => _updateShopPricing(
+                            shop.id,
+                            'minimumOrderAmount',
+                            value,
+                            'Minimum Order',
+                            '₹',
+                            '',
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        _buildPricingRow(
+                          label: 'Delivery Charge',
+                          value: shop.deliveryCharge,
+                          suffix: '',
+                          prefix: '₹',
+                          step: 10,
+                          min: 0,
+                          max: 200,
+                          onChanged: (value) => _updateShopPricing(
+                            shop.id,
+                            'deliveryCharge',
+                            value,
+                            'Delivery Charge',
+                            '₹',
+                            '',
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        _buildPricingRow(
+                          label: 'GST',
+                          value: shop.gstPercentage,
+                          suffix: '%',
+                          prefix: '',
+                          step: 1,
+                          min: 0,
+                          max: 18,
+                          onChanged: (value) => _updateShopPricing(
+                            shop.id,
+                            'gstPercentage',
+                            value,
+                            'GST',
+                            '',
+                            '%',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _updateShopPricing(
+    String shopId,
+    String field,
+    double value,
+    String label,
+    String prefix,
+    String suffix,
+  ) async {
+    try {
+      await _firestore.collection('shops').doc(shopId).update({field: value});
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$label updated to $prefix${value.toInt()}$suffix'),
+            backgroundColor: AppTheme.success,
+            duration: const Duration(seconds: 1),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to update $label: $e'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  Widget _buildPricingRow({
+    required String label,
+    required double value,
+    required String suffix,
+    required String prefix,
+    required double step,
+    required double min,
+    required double max,
+    required Function(double) onChanged,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: AppTheme.cardBackground,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppTheme.borderLight),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(7),
+                  ),
+                  onTap: () {
+                    if (value >= min + step) {
+                      onChanged(value - step);
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.remove, size: 16),
+                  ),
+                ),
+              ),
+              Container(
+                constraints: const BoxConstraints(minWidth: 55),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  '$prefix${value.toInt()}$suffix',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(7),
+                  ),
+                  onTap: () {
+                    if (value <= max - step) {
+                      onChanged(value + step);
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.add, size: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildMenuManagement() {

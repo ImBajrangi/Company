@@ -3187,13 +3187,72 @@
                 return;
             }
 
-            let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            // Get shop pricing settings
+            const shop = allShops.find(s => s.id === selectedShopId);
+            const minimumOrderAmount = shop?.minimumOrderAmount || 0;
+            const deliveryCharge = shop?.deliveryCharge || 0;
+            const gstPercentage = shop?.gstPercentage || 5;
+
+            // Calculate pricing breakdown
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const gstAmount = Math.round(subtotal * (gstPercentage / 100));
+            const total = subtotal + deliveryCharge + gstAmount;
+            const isBelowMinimum = subtotal < minimumOrderAmount && minimumOrderAmount > 0;
+
             itemsEl.innerHTML = cart.map(item => `
                 <div class="flex justify-between items-center">
                     <div><p class="font-medium">${item.name}</p><p class="text-sm text-gray-500">₹${item.price} x ${item.quantity}</p></div>
                     <span class="font-semibold w-16 text-right">₹${item.price * item.quantity}</span>
                 </div>`).join('');
-            summaryEl.innerHTML = `<div class="flex justify-between font-bold text-xl"><span>Total</span><span>₹${total}</span></div>`;
+
+            // Build pricing summary with breakdown
+            let summaryHTML = '';
+
+            // Minimum order warning
+            if (isBelowMinimum) {
+                summaryHTML += `
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                        <p class="text-yellow-700 text-sm font-medium">
+                            ⚠️ Minimum order: ₹${minimumOrderAmount}. Add ₹${minimumOrderAmount - subtotal} more.
+                        </p>
+                    </div>`;
+            }
+
+            // Subtotal
+            summaryHTML += `
+                <div class="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span>₹${subtotal}</span>
+                </div>`;
+
+            // Delivery charge
+            if (deliveryCharge > 0) {
+                summaryHTML += `
+                    <div class="flex justify-between text-gray-600 mt-1">
+                        <span>Delivery Charge</span>
+                        <span>₹${deliveryCharge}</span>
+                    </div>`;
+            }
+
+            // GST
+            if (gstPercentage > 0) {
+                summaryHTML += `
+                    <div class="flex justify-between text-gray-600 mt-1">
+                        <span>GST (${gstPercentage}%)</span>
+                        <span>₹${gstAmount}</span>
+                    </div>`;
+            }
+
+            // Total
+            summaryHTML += `
+                <div class="border-t mt-3 pt-3">
+                    <div class="flex justify-between font-bold text-xl">
+                        <span>Total</span>
+                        <span>₹${total}</span>
+                    </div>
+                </div>`;
+
+            summaryEl.innerHTML = summaryHTML;
         }
 
         function renderOrderForm(order = null, isDisabled = false) {
@@ -3282,12 +3341,26 @@
             const customerName = document.getElementById('customer-name').value;
             const customerAddress = document.getElementById('customer-address').value;
             const customerPhone = document.getElementById('customer-phone').value;
-            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value || 'online';
 
             // Basic form validation before payment
             if (!customerName || !customerAddress || !customerPhone) {
                 return showAlert("Please fill out all delivery details.", true);
+            }
+
+            // ========== PRICING BREAKDOWN CALCULATION ==========
+            const shop = allShops.find(s => s.id === selectedShopId);
+            const minimumOrderAmount = shop?.minimumOrderAmount || 0;
+            const deliveryCharge = shop?.deliveryCharge || 0;
+            const gstPercentage = shop?.gstPercentage || 5;
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const gstAmount = Math.round(subtotal * (gstPercentage / 100));
+            const totalAmount = subtotal + deliveryCharge + gstAmount;
+
+            // ========== MINIMUM ORDER VALIDATION ==========
+            if (subtotal < minimumOrderAmount && minimumOrderAmount > 0) {
+                return showAlert(`Minimum order amount is ₹${minimumOrderAmount}. Add ₹${minimumOrderAmount - subtotal} more.`, true);
             }
 
             // CRITICAL: Validate payment method is enabled
@@ -3307,6 +3380,9 @@
                     deliveryAddress: customerAddress,
                     customerPhone,
                     items: cart.map(item => ({ ...item, ready: false })),
+                    subtotal,
+                    deliveryCharge,
+                    gstAmount,
                     totalAmount,
                     status: 'new',
                     createdAt: serverTimestamp(),
@@ -3334,6 +3410,9 @@
                         deliveryAddress: customerAddress,
                         customerPhone,
                         items: cart.map(item => ({ ...item, ready: false })),
+                        subtotal,
+                        deliveryCharge,
+                        gstAmount,
                         totalAmount,
                         status: 'new',
                         createdAt: serverTimestamp(),
