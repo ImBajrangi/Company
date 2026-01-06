@@ -72,6 +72,12 @@ class _DeveloperPanelState extends State<DeveloperPanel>
   String _orderFilter = 'all';
   String _searchQuery = '';
 
+  // Search queries for each section
+  String _shopSearch = '';
+  String _menuSearch = '';
+  String _userSearch = '';
+  String _staffSearch = '';
+
   // Menu management
   String? _selectedMenuShopId;
 
@@ -3329,159 +3335,150 @@ class _DeveloperPanelState extends State<DeveloperPanel>
               ),
             ],
           ),
+          const SizedBox(height: 8),
+          // Search bar
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Search users by email or name...',
+              prefixIcon: const Icon(Icons.search, size: 18),
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              suffixIcon: _userSearch.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear, size: 18),
+                      onPressed: () => setState(() => _userSearch = ''),
+                    )
+                  : null,
+            ),
+            onChanged: (value) => setState(() => _userSearch = value),
+          ),
           const SizedBox(height: 12),
-          if (managableUsers.isEmpty)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'No users found or permission denied.',
-                  style: TextStyle(color: AppTheme.textSecondary),
-                ),
-              ),
-            )
-          else
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: managableUsers.length > 5 ? 350 : double.infinity,
-              ),
-              child: ListView.builder(
-                shrinkWrap: managableUsers.length <= 5,
-                itemCount: managableUsers.length,
-                itemBuilder: (context, index) {
-                  final user = managableUsers[index];
-                  final roleValue =
-                      [
-                        'customer',
-                        'kitchen',
-                        'delivery',
-                        'owner',
-                        'developer',
-                      ].contains(user.role.value)
-                      ? user.role.value
-                      : 'customer';
+          Builder(
+            builder: (context) {
+              // Apply search filter
+              var filteredUsers = managableUsers;
+              if (_userSearch.isNotEmpty) {
+                filteredUsers = managableUsers
+                    .where(
+                      (u) =>
+                          u.email.toLowerCase().contains(
+                            _userSearch.toLowerCase(),
+                          ) ||
+                          (u.displayName?.toLowerCase().contains(
+                                _userSearch.toLowerCase(),
+                              ) ??
+                              false),
+                    )
+                    .toList();
+              }
 
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppTheme.borderLight),
+              if (filteredUsers.isEmpty)
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      _userSearch.isNotEmpty
+                          ? 'No users found for "$_userSearch"'
+                          : 'No users found or permission denied.',
+                      style: const TextStyle(color: AppTheme.textSecondary),
                     ),
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(dividerColor: Colors.transparent),
-                      child: ExpansionTile(
-                        tilePadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 0,
-                        ),
-                        childrenPadding: const EdgeInsets.fromLTRB(
-                          12,
-                          0,
-                          12,
-                          12,
-                        ),
-                        leading: CircleAvatar(
-                          radius: 14,
-                          backgroundColor: _getRoleColor(
-                            user.role,
-                          ).withValues(alpha: 0.2),
-                          child: Text(
-                            user.email.substring(0, 1).toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: _getRoleColor(user.role),
-                              fontWeight: FontWeight.bold,
+                  ),
+                );
+
+              return ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: filteredUsers.length > 5 ? 350 : double.infinity,
+                ),
+                child: ListView.builder(
+                  shrinkWrap: filteredUsers.length <= 5,
+                  itemCount: filteredUsers.length,
+                  itemBuilder: (context, index) {
+                    final user = filteredUsers[index];
+                    final roleValue =
+                        [
+                          'customer',
+                          'kitchen',
+                          'delivery',
+                          'owner',
+                          'developer',
+                        ].contains(user.role.value)
+                        ? user.role.value
+                        : 'customer';
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.background,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppTheme.borderLight),
+                      ),
+                      child: Theme(
+                        data: Theme.of(
+                          context,
+                        ).copyWith(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          tilePadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 0,
+                          ),
+                          childrenPadding: const EdgeInsets.fromLTRB(
+                            12,
+                            0,
+                            12,
+                            12,
+                          ),
+                          leading: CircleAvatar(
+                            radius: 14,
+                            backgroundColor: _getRoleColor(
+                              user.role,
+                            ).withValues(alpha: 0.2),
+                            child: Text(
+                              user.email.substring(0, 1).toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: _getRoleColor(user.role),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        title: Text(
-                          user.email,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                          title: Text(
+                            user.email,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        subtitle: Row(
-                          children: [
-                            _RoleBadge(role: user.role),
-                            if (user.shopId != null) ...[
-                              const SizedBox(width: 6),
-                              Flexible(
-                                child: Text(
-                                  '• ${_getShopName(user.shopId)}',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                        children: [
-                          // Role Selector
-                          Row(
+                          subtitle: Row(
                             children: [
-                              const Text(
-                                'Role:',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                              _RoleBadge(role: user.role),
+                              if (user.shopId != null) ...[
+                                const SizedBox(width: 6),
+                                Flexible(
+                                  child: Text(
+                                    '• ${_getShopName(user.shopId)}',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              ),
-                              const Spacer(),
-                              DropdownButton<String>(
-                                value: roleValue,
-                                isDense: true,
-                                underline: const SizedBox(),
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                ),
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: 'customer',
-                                    child: Text('Customer'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'kitchen',
-                                    child: Text('Kitchen'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'delivery',
-                                    child: Text('Delivery'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'owner',
-                                    child: Text('Owner'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'developer',
-                                    child: Text('Developer'),
-                                  ),
-                                ],
-                                onChanged:
-                                    user.role == UserRole.developer &&
-                                        user.email == AppConfig.developerEmail
-                                    ? null
-                                    : (value) =>
-                                          _updateUserRole(user.uid, value!),
-                              ),
+                              ],
                             ],
                           ),
-                          const SizedBox(height: 8),
-                          // Shop Assignment
-                          if (user.role == UserRole.kitchen ||
-                              user.role == UserRole.owner)
+                          children: [
+                            // Role Selector
                             Row(
                               children: [
                                 const Text(
-                                  'Shop:',
+                                  'Role:',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
@@ -3489,101 +3486,157 @@ class _DeveloperPanelState extends State<DeveloperPanel>
                                 ),
                                 const Spacer(),
                                 DropdownButton<String>(
-                                  value:
-                                      _cachedShops.any(
-                                        (s) => s.id == user.shopId,
-                                      )
-                                      ? user.shopId
-                                      : null,
-                                  hint: const Text(
-                                    'Select Shop',
-                                    style: TextStyle(fontSize: 11),
-                                  ),
+                                  value: roleValue,
                                   isDense: true,
                                   underline: const SizedBox(),
                                   style: const TextStyle(
                                     fontSize: 12,
                                     color: Colors.black,
                                   ),
-                                  items: _cachedShops
-                                      .map(
-                                        (shop) => DropdownMenuItem(
-                                          value: shop.id,
-                                          child: Text(
-                                            shop.name,
-                                            style: const TextStyle(
-                                              fontSize: 12,
+                                  items: const [
+                                    DropdownMenuItem(
+                                      value: 'customer',
+                                      child: Text('Customer'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'kitchen',
+                                      child: Text('Kitchen'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'delivery',
+                                      child: Text('Delivery'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'owner',
+                                      child: Text('Owner'),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'developer',
+                                      child: Text('Developer'),
+                                    ),
+                                  ],
+                                  onChanged:
+                                      user.role == UserRole.developer &&
+                                          user.email == AppConfig.developerEmail
+                                      ? null
+                                      : (value) =>
+                                            _updateUserRole(user.uid, value!),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            // Shop Assignment
+                            if (user.role == UserRole.kitchen ||
+                                user.role == UserRole.owner)
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Shop:',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  DropdownButton<String>(
+                                    value:
+                                        _cachedShops.any(
+                                          (s) => s.id == user.shopId,
+                                        )
+                                        ? user.shopId
+                                        : null,
+                                    hint: const Text(
+                                      'Select Shop',
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    isDense: true,
+                                    underline: const SizedBox(),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                    ),
+                                    items: _cachedShops
+                                        .map(
+                                          (shop) => DropdownMenuItem(
+                                            value: shop.id,
+                                            child: Text(
+                                              shop.name,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                      .toList(),
-                                  onChanged: (value) =>
-                                      _updateUserShop(user.uid, value!),
-                                ),
-                              ],
-                            ),
-                          if (user.role == UserRole.delivery)
-                            Row(
-                              children: [
-                                Text(
-                                  'Shops: ${user.shopIds?.length ?? 0} assigned',
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                                const Spacer(),
-                                TextButton.icon(
-                                  onPressed: () =>
-                                      _showMultiShopSelectionDialog(user),
-                                  icon: const Icon(
-                                    Icons.edit_location_alt_outlined,
-                                    size: 14,
+                                        )
+                                        .toList(),
+                                    onChanged: (value) =>
+                                        _updateUserShop(user.uid, value!),
                                   ),
-                                  label: const Text(
-                                    'Manage',
-                                    style: TextStyle(fontSize: 11),
+                                ],
+                              ),
+                            if (user.role == UserRole.delivery)
+                              Row(
+                                children: [
+                                  Text(
+                                    'Shops: ${user.shopIds?.length ?? 0} assigned',
+                                    style: const TextStyle(fontSize: 12),
                                   ),
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: const Size(60, 30),
+                                  const Spacer(),
+                                  TextButton.icon(
+                                    onPressed: () =>
+                                        _showMultiShopSelectionDialog(user),
+                                    icon: const Icon(
+                                      Icons.edit_location_alt_outlined,
+                                      size: 14,
+                                    ),
+                                    label: const Text(
+                                      'Manage',
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: const Size(60, 30),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          if (user.role == UserRole.owner)
-                            Row(
-                              children: [
-                                const Text(
-                                  'Permissions',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                                ],
+                              ),
+                            if (user.role == UserRole.owner)
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Permissions',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                const Spacer(),
-                                TextButton.icon(
-                                  onPressed: () => _showPermissionsDialog(user),
-                                  icon: const Icon(
-                                    Icons.security_outlined,
-                                    size: 14,
+                                  const Spacer(),
+                                  TextButton.icon(
+                                    onPressed: () =>
+                                        _showPermissionsDialog(user),
+                                    icon: const Icon(
+                                      Icons.security_outlined,
+                                      size: 14,
+                                    ),
+                                    label: const Text(
+                                      'Manage',
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: const Size(60, 30),
+                                    ),
                                   ),
-                                  label: const Text(
-                                    'Manage',
-                                    style: TextStyle(fontSize: 11),
-                                  ),
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: const Size(60, 30),
-                                  ),
-                                ),
-                              ],
-                            ),
-                        ],
+                                ],
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
