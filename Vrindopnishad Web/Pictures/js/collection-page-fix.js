@@ -411,10 +411,9 @@ function updateSiteConfig(config) {
 }
 
 function updateNavigation(navItems) {
-    const navMenu = document.querySelector('.nav-menu');
-    if (!navMenu) return;
-
-    navMenu.innerHTML = '';
+    // DISABLED: Preserve the clean minimal header from HTML
+    // The navigation is now defined directly in the HTML file
+    return;
 
     navItems.forEach(item => {
         if (item.name === 'Browse by Category') {
