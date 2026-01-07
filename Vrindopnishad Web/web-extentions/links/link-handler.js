@@ -7,7 +7,7 @@ const PROJECT_PATHS = {
   'home': '/',
   'about': '/Vrindopnishad Web/about code/main/about.html',
   'gallery': '/Vrindopnishad Web/Pictures/main/Gallery.html',
-  'pictures': '/Vrindopnishad Web/Pictures/main/pictures.html',
+  'pictures': '/Vrindopnishad Web/Pictures/main/photos.html',
   'pdf': '/Vrindopnishad Web/pdf/main/pdf-viewer.html',
   'book': '/Vrindopnishad Web/sketch/main/new-read-me.html',
   'articles': '/Vrindopnishad Web/sketch/main/nw-read-me.html', // (aka web-content-manager)

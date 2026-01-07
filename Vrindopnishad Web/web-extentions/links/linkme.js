@@ -19,17 +19,17 @@ const pageAssets = {
       },
       { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
       {
-        href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
+        href: '/Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.css',
         attributes: { class: 'css' }
       },
-      { href: '/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css' }
+      { href: '/Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.css' }
     ],
     js: [
       {
-        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+        src: '/Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js',
         attributes: { defer: true } // 'defer' is ok for a standalone script
       },
-      { src: '/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js' }
+      { src: '/Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.js' }
     ]
   },
 
@@ -38,35 +38,35 @@ const pageAssets = {
     css: [
       { href: 'https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap' },
       {
-        href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/claude-collection.css',
+        href: '/Vrindopnishad%20Web/Pictures/css/claude-collection.css',
         attributes: { class: 'style' }
       },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/hero-video.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.css' }
+      { href: '/Vrindopnishad%20Web/Pictures/css/hero-video.css' },
+      { href: '/Vrindopnishad%20Web/web-extentions/Ripple btn/btn-ripple.css' }
     ],
     js: [
-      { src: '/Vrindopnishad Web/Pictures/js/collection-page-fix.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.js' }
+      { src: '/Vrindopnishad%20Web/Pictures/js/collection-page-fix.js' },
+      { src: '/Vrindopnishad%20Web/web-extentions/Ripple btn/btn-ripple.js' }
     ]
   },
 
-  // 'pictures' assets for pictures.html
-  pictures: {
+  // 'photos' assets for photos.html
+  photos: {
     css: [
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/pic-collection.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/css/lazy-load.css' }
+      { href: '/Vrindopnishad%20Web/Pictures/css/pic-collection.css' },
+      { href: '/Vrindopnishad%20Web/Pictures/css/lazy-load.css' }
     ],
     js: [
       { src: 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js' },
       { src: 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/js/immediate-loader.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/js/pic-collection.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/js/pic-simple.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/js/notifications.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/disable-right-click.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/image-protection.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/watermark.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/links/link-handler.js' }
+      { src: '/Vrindopnishad%20Web/Pictures/js/immediate-loader.js' },
+      { src: '/Vrindopnishad%20Web/Pictures/js/pic-collection.js' },
+      { src: '/Vrindopnishad%20Web/Pictures/js/pic-simple.js' },
+      { src: '/Vrindopnishad%20Web/Pictures/js/notifications.js' },
+      { src: '/Vrindopnishad%20Web/Security/disable-right-click.js' },
+      { src: '/Vrindopnishad%20Web/Security/image-protection.js' },
+      { src: '/Vrindopnishad%20Web/Security/watermark.js' },
+      { src: '/Vrindopnishad%20Web/web-extentions/links/link-handler.js' }
     ]
   },
 
@@ -77,10 +77,10 @@ const pageAssets = {
         href: 'https://fonts.googleapis.com/css2?family=Anton&display=swap',
         attributes: { rel: 'stylesheet' }
       },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/styles.css' },
-      { href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/image-hover.css' },
+      { href: '/Vrindopnishad%20Web/Home/css/styles.css' },
+      { href: '/Vrindopnishad%20Web/Home/css/image-hover.css' },
       {
-        href: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.css',
+        href: '/Vrindopnishad%20Web/web-extentions/Custom Cursor/custom-cursor.css',
         attributes: { class: 'stylesheet' }
       },
       {
@@ -93,11 +93,11 @@ const pageAssets = {
       }
     ],
     js: [
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/animations.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/effects.js' },
-      { src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/js/image-hover.js' },
+      { src: '/Vrindopnishad%20Web/Home/js/animations.js' },
+      { src: '/Vrindopnishad%20Web/Home/js/effects.js' },
+      { src: '/Vrindopnishad%20Web/Home/js/image-hover.js' },
       {
-        src: 'https://imbajrangi.github.io/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js',
+        src: '/Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js',
         attributes: { defer: true }
       }
     ]
