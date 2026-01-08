@@ -49,6 +49,10 @@
             --mobile-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
         }
 
+        :root {
+            --header-bg-rgb: 255, 255, 255;
+        }
+
         /* Dark Mode */
         @media (prefers-color-scheme: dark) {
             :root {
@@ -60,9 +64,26 @@
                 --card-bg: #1c1c1e;
                 --overlay-bg: rgba(0, 0, 0, 0.7);
                 --header-bg: rgba(28, 28, 30, 0.82);
+                --header-bg-rgb: 28, 28, 30;
                 --mobile-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                 --mobile-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
             }
+        }
+
+        /* Explicit Theme Support */
+        .dark-mode,
+        .dark {
+            --primary-bg: #000000;
+            --secondary-bg: #1c1c1e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #98989d;
+            --border-color: #38383a;
+            --card-bg: #1c1c1e;
+            --overlay-bg: rgba(0, 0, 0, 0.7);
+            --header-bg: rgba(28, 28, 30, 0.82);
+            --header-bg-rgb: 28, 28, 30;
+            --mobile-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --mobile-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
         }
 
         body {
@@ -474,6 +495,42 @@
             display: block;
         }
 
+        /* Watermark Styles */
+        .main-image-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            background: url('../../class/logo/v-logo-transparent.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .thumbnail::after,
+        .related-card .image-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: url('../../class/logo/v-logo-transparent.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .related-card .image-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
         /* Product Info Section */
         .product-info {
             padding: 20px 0;
@@ -691,7 +748,7 @@
             opacity: 0.9;
         }
 
-        .related-card img {
+        .related-card .image-wrapper img {
             width: 100%;
             aspect-ratio: 1;
             object-fit: cover;
@@ -1124,13 +1181,17 @@
                 left: 0;
                 right: 0;
                 z-index: 1000;
-                background: transparent;
+                background: linear-gradient(to bottom,
+                        rgba(var(--header-bg-rgb, 255, 255, 255), 0.2) 0%,
+                        transparent 100%);
+                backdrop-filter: saturate(180%) blur(5px);
+                -webkit-backdrop-filter: saturate(180%) blur(5px);
                 border-bottom: none;
-                transition: all 0.3s ease;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .main-header.scrolled {
-                background: var(--primary-bg);
+                background: var(--header-bg);
                 backdrop-filter: saturate(180%) blur(20px);
                 -webkit-backdrop-filter: saturate(180%) blur(20px);
                 border-bottom: 1px solid var(--border-color);
@@ -2266,7 +2327,9 @@
 
             grid.innerHTML = related.map(item => `
                 <a href="?id=${item.id}" class="related-card" onclick="navigateToCollection(event, '${item.id}')">
-                    <img src="${item.image}" alt="${item.title}">
+                    <div class="image-wrapper">
+                        <img src="${item.image}" alt="${item.title}">
+                    </div>
                     <div class="related-info">
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
