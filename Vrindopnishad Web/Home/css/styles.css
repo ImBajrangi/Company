@@ -6118,9 +6118,9 @@ footer {
 }
 
 .apps-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
     overflow: hidden;
     background: rgba(var(--text-color-rgb), 0.05);
     border: 1px solid var(--card-border);
@@ -6201,9 +6201,9 @@ footer {
 }
 
 .apps-featured .apps-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 18px;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
 }
 
 .apps-featured .apps-info h3 {

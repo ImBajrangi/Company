@@ -417,9 +417,10 @@ const mat4 = {
 
         // Add transition to all links that lead to another page
         links.forEach(link => {
-            // Skip anchor links and javascript links
-            if (link.getAttribute('href').startsWith('#') ||
-                link.getAttribute('href').startsWith('javascript')) {
+            const href = link.getAttribute('href');
+            // Skip links without href, anchor links and javascript links
+            if (!href || href.startsWith('#') ||
+                href.startsWith('javascript')) {
                 return;
             }
 
