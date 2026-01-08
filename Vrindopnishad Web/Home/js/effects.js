@@ -103,11 +103,15 @@ function initParticleField() {
     }
     requestAnimationFrame(render);
 
+    // Aspect ratio cache to avoid forced reflows
+    let aspect = window.innerWidth / window.innerHeight;
+
     // Handle window resize
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+        aspect = canvas.width / canvas.height;
     });
 }
 
@@ -168,9 +172,8 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // Create a perspective matrix
+    // Use cached aspect ratio to avoid forced reflow
     const fieldOfView = 45 * Math.PI / 180;   // in radians
-    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const zNear = 0.1;
     const zFar = 100.0;
     const projectionMatrix = mat4.create();
