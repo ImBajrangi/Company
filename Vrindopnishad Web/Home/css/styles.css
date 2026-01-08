@@ -161,7 +161,7 @@ a {
 
 /* Logo styling to match Book Collection heading */
 .logo {
-    font-family: 'Protest Strike', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: var(--font-size-xl);
     color: var(--text-color);
     text-decoration: none;
@@ -2402,7 +2402,7 @@ footer {
 }
 
 .footer-logo {
-    font-family: 'Protest Strike', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 600;
     margin-bottom: 1.5rem;
@@ -5215,10 +5215,10 @@ body.tools-menu-open {
 
 /* Content title styles for split text animations */
 .content__title {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(2rem, 10vw, 8rem);
     line-height: 1;
-    font-weight: 400;
+    font-weight: 700;
     letter-spacing: -0.02em;
 }
 
@@ -5233,7 +5233,8 @@ body.tools-menu-open {
 }
 
 .font-2 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
 }
 
 .font-3 {
@@ -5247,7 +5248,8 @@ body.tools-menu-open {
 }
 
 .font-5 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
 }
 
 .font-6 {
@@ -5262,7 +5264,8 @@ body.tools-menu-open {
 }
 
 .font-8 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
     text-transform: uppercase;
 }
 
@@ -5276,7 +5279,8 @@ body.tools-menu-open {
 }
 
 .font-11 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
 }
 
 .font-12 {

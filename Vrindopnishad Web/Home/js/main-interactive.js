@@ -123,18 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('active')) closeMenu(); });
     }
 
-    // Preload fonts then initialize
-    const preloadFonts = (id) => {
-        return new Promise((resolve) => {
-            if (window.WebFont) {
-                WebFont.load({ typekit: { id: id }, active: resolve });
-            } else {
-                // Fallback if WebFont isn't loaded yet
-                setTimeout(() => preloadFonts(id).then(resolve), 100);
-            }
-        });
-    };
-    preloadFonts('cvn8slu').then(() => initTypography());
+    // Initialize typography animations after fonts and GSAP load
+    // Note: TypeKit removed, using Google Fonts which load via CSS
+    setTimeout(() => initTypography(), 500);
 });
 
 // Typography Animations

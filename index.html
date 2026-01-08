@@ -102,10 +102,32 @@
     }
     </script>
 
+    <!-- PERFORMANCE OPTIMIZATION: Preload Critical Resources -->
+    <!-- Preload LCP image (hero/logo) for faster First Contentful Paint -->
+    <link rel="preload" as="image" href="Vrindopnishad%20Web/class/logo/v-logo-transparent.png" fetchpriority="high">
+
     <!-- Preconnect Hints for Third-Party Origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://ajax.googleapis.com">
+
+    <!-- Preload Primary Font for faster text rendering -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    </noscript>
+
+    <!-- Google Fonts (Async loading with swap) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Laila:wght@300;400;600;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Laila:wght@300;400;600;700&display=swap"
+            rel="stylesheet">
+    </noscript>
 
     <!-- Font Awesome (Deferred - Non-Critical) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -115,37 +137,26 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     </noscript>
 
-    <!-- Google Fonts (Primary fonts: Inter, Anton, Laila) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Anton&family=Laila:wght@300;400;600;700&display=swap"
-        rel="stylesheet">
-    <!-- TypeKit removed - was loading Impact-style fonts that disturbed the look -->
-
-    <!-- Critical CSS Dependencies (Render-Blocking) -->
+    <!-- Critical CSS (Render-Blocking - Minimized) -->
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/hamburger.css">
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/styles.css">
-    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/menu.css">
-    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/cloude.css">
 
-    <!-- Non-Critical CSS (Deferred) -->
+    <!-- Non-Critical CSS (Deferred for performance) -->
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/menu.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/cloude.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/image-hover.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.css" media="print"
         onload="this.media='all'">
     <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.css" media="print"
         onload="this.media='all'">
 
-    <!-- Splitting.js CSS (Deferred) - Using jsDelivr CDN for reliability -->
+    <!-- Splitting.js CSS (Deferred) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting.css" media="print"
         onload="this.media='all'">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting-cells.css" media="print"
         onload="this.media='all'">
 
-    <!-- WebFont Loader (Async) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" async></script>
-
-    <!-- Scripts -->
+    <!-- Deferred Scripts -->
     <script src="js/image-helper.js" defer></script>
     <script src="js/offline-handler.js" defer></script>
 </head>
@@ -950,7 +961,8 @@
                         class="apps-card apps-featured staggered-item" download>
                         <div class="apps-tag">★ FEATURED</div>
                         <div class="apps-icon">
-                            <img src="Vrindopnishad%20Web/class/logo/foodyVrinda-logo.png" alt="Foody Vrinda">
+                            <img src="Vrindopnishad%20Web/class/logo/foodyVrinda-logo.png" alt="Foody Vrinda"
+                                loading="lazy">
                         </div>
                         <div class="apps-info">
                             <h3>Foody Vrinda</h3>
@@ -969,7 +981,7 @@
                     <a href="Projects/Vrindopnishad/official_app/Vrindopnishad.apk" class="apps-card staggered-item"
                         download>
                         <div class="apps-icon">
-                            <img src="Vrindopnishad%20Web/class/logo/v-logo.png" alt="Vrindopnishad App">
+                            <img src="Vrindopnishad%20Web/class/logo/v-logo.png" alt="Vrindopnishad App" loading="lazy">
                         </div>
                         <div class="apps-info">
                             <h3>Vrindopnishad App</h3>
@@ -1006,7 +1018,8 @@
                     <!-- Vrinda Tours -->
                     <a href="Projects/Vrinda-Tours/vrinda-tours.html" class="apps-card staggered-item">
                         <div class="apps-icon">
-                            <img src="Vrindopnishad%20Web/class/logo/vrindaTours-logo.png" alt="Vrinda Tours">
+                            <img src="Vrindopnishad%20Web/class/logo/vrindaTours-logo.png" alt="Vrinda Tours"
+                                loading="lazy">
                         </div>
                         <div class="apps-info">
                             <h3>Vrinda Tours</h3>
@@ -1021,7 +1034,7 @@
                     <!-- Photo Gallery -->
                     <a href="Vrindopnishad%20Web/Pictures/main/photos.html" class="apps-card staggered-item">
                         <div class="apps-icon">
-                            <img src="Vrindopnishad%20Web/class/logo/v-logo.png" alt="Photo Gallery">
+                            <img src="Vrindopnishad%20Web/class/logo/v-logo.png" alt="Photo Gallery" loading="lazy">
                         </div>
                         <div class="apps-info">
                             <h3>Gallery</h3>
@@ -1777,19 +1790,20 @@
     </script>
 
     <!-- Notification Sound Script -->
-    <!-- Main Interactive Logic (Deferred) -->
+    <!-- GSAP Animation Library (Must load first - dependencies) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting.min.js" defer></script>
+
+    <!-- Main Interactive Logic (after GSAP) -->
     <script src="Vrindopnishad%20Web/Home/js/main-interactive.js" defer></script>
 
-    <!-- Core Scripts -->
-    <script src="Vrindopnishad%20Web/web-extentions/Custom Cursor/custom-cursor.js"></script>
-    <script src="Vrindopnishad%20Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
-    <script src="Vrindopnishad%20Web/Home/js/animations.js"></script>
-    <script src="Vrindopnishad%20Web/Home/js/effects.js"></script>
-    <script src="Vrindopnishad%20Web/Home/js/image-hover.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- Lenis removed - using direct GSAP like showcase project -->
-    <script src="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting.min.js"></script>
+    <!-- Core Scripts (All Deferred - after dependencies) -->
+    <script src="Vrindopnishad%20Web/Home/js/animations.js" defer></script>
+    <script src="Vrindopnishad%20Web/Home/js/effects.js" defer></script>
+    <script src="Vrindopnishad%20Web/Home/js/image-hover.js" defer></script>
+    <script src="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js" defer></script>
+    <script src="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.js" defer></script>
 
 </body>
 
