@@ -1,787 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--Take menu bar reffrence from pic-collection.html-->
 
 <head>
     <link rel="apple-touch-icon" sizes="180x180" href="../../class/favicon-vrindopnishad/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../class/favicon-vrindopnishad/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../class/favicon-vrindopnishad/favicon-16x16.png">
-    <link rel="manifest" href="../../class/favicon-vrindopnishad/site.webmanifest">
-    <link rel="shortcut icon" href="../../class/favicon-vrindopnishad/favicon.ico">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#8E7F7F">
-    <title>About Vrindopnishad — Authentic Spiritual & Vedic Knowledge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>About — Vrindopnishad</title>
     <meta name="description"
-        content="Learn about Vrindopnishad, a platform dedicated to preserving and sharing authentic spiritual and Vedic knowledge through art and wisdom.">
-    <link rel="canonical" href="https://vrindopnishad.in/about">
-    <!-- <link rel="shortcut icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/about%20code/main/image/icon_main_02.png" type="image/x-icon"> -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../web-extentions/Custom Cursor/custom-cursor.css" class="rel">
+        content="Vrindopnishad - Preserving authentic spiritual wisdom through art, music, and digital innovation.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../css/about_style.css">
-    <link rel="stylesheet" href="../css/button-fixes.css">
-    <link rel="stylesheet" href="../css/team-section.css">
-    <link rel="stylesheet" href="../../Home/css/styles.css">
-    <link rel="stylesheet" href="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css">
-
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-    <!-- <script src="/web-extentions/links/paths.js"></script> -->
-    <!-- <script src="/Vrindopnishad Web/web-extentions/links/image path manager.js"></script> -->
-    <!-- <script src="/web-extentions/links/link-handler.js" defer></script> -->
-    <script type="module" src="../../web-extentions/Custom Cursor/custom-cursor.js" defer></script>
-
-    <style>
-        /* Enhanced menu button styles to improve visibility across browsers */
-        .mobile-menu-btn {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            background: rgba(142, 127, 127, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1001;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            -webkit-backdrop-filter: none !important;
-            backdrop-filter: none !important;
-            transition: all 0.3s ease;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-
-        .mobile-menu-btn:hover {
-            background: rgba(142, 127, 127, 0.5);
-            transform: scale(1.1);
-        }
-
-        .mobile-menu-btn svg {
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            min-width: 20px;
-            min-height: 20px;
-            stroke: #fff;
-            stroke-width: 1.5;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-        }
-
-        /* Tools Menu Improvements */
-        .tools-menu {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 380px;
-            height: 100vh;
-            background: rgba(28, 28, 28, 0.95);
-            z-index: 10000;
-            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            overflow-y: auto;
-            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .tools-menu.active {
-            right: 0;
-        }
-
-        .tools-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tools-menu-content {
-            padding: 30px;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .tool-item {
-            position: relative;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 25px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            color: #fff;
-        }
-
-        .tool-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .tool-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-
-        .tool-info h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .tool-info p {
-            font-size: 14px;
-            opacity: 0.7;
-            margin: 0;
-        }
-
-        /* Language section improvements */
-        .language-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 20px;
-        }
-
-        .language-section h3 {
-            color: #fff;
-            font-size: 18px;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        /* Language switcher improvements */
-        .language-switch-tools {
-            display: flex;
-            gap: 10px;
-        }
-
-        .language-btn-tools {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .language-btn-tools.active {
-            background: #8E7F7F;
-            color: #fff;
-        }
-
-        .language-btn-tools:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        @media (max-width: 480px) {
-            .mobile-menu-btn {
-                width: 42px;
-                height: 42px;
-            }
-
-            .tools-menu {
-                width: 100%;
-                right: -100%;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .tool-item {
-                padding: 20px;
-            }
-
-            .language-section {
-                padding: 20px;
-            }
-
-            .language-section h3 {
-                font-size: 16px;
-            }
-
-            .language-btn-tools {
-                padding: 8px 16px;
-                font-size: 13px;
-            }
-        }
-
-        /* Safari specific fixes */
-        @supports (-webkit-touch-callout: none) {
-            .mobile-menu-btn {
-                position: relative;
-                display: block !important;
-            }
-
-            .mobile-menu-btn svg {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        /* Large display improvements */
-        @media (min-width: 1200px) {
-            .tools-menu {
-                width: 450px;
-                right: -450px;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .tool-item {
-                padding: 30px;
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .tool-icon {
-                margin-bottom: 0;
-                margin-right: 20px;
-                width: 54px;
-                height: 54px;
-                flex-shrink: 0;
-            }
-
-            .tool-info {
-                flex: 1;
-            }
-
-            .tool-info h3 {
-                font-size: 20px;
-            }
-
-            .tool-info p {
-                font-size: 16px;
-            }
-
-            .language-section {
-                padding: 30px;
-            }
-
-            .language-section h3 {
-                font-size: 20px;
-                margin-bottom: 20px;
-            }
-
-            .language-btn-tools {
-                padding: 12px 24px;
-                font-size: 16px;
-            }
-        }
-    </style>
 </head>
 
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
-
-    <!-- Add noise element for texture --
-    <div class="noise"></div>
-    
-    <!-- Background elements --
-    <div class="bg-element bg-element-1" data-speed="0.05" data-scroll-speed="0.02"></div>
-    <div class="bg-element bg-element-2" data-speed="0.03" data-scroll-speed="0.05"></div>
-    <div class="bg-element bg-element-3" data-speed="0.07" data-scroll-speed="0.03"></div>
-
-    <!-- Scroll progress -->
-    <div class="scroll-progress"></div>
-
-    <!-- Loader -->
-    <div class="loader">
-        <div class="loader-text">
-            <span>Vrindopnishad</span>
-        </div>
-        <div class="counter">0%</div>
-    </div>
-
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <a href="../../../index.html" class="logo magnetic">Vrindopnishad</a>
-            <div class="header-right">
-                <div class="tools-container">
-                    <div class="mobile-menu-btn magnetic">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            style="color: #fff; min-width: 24px; min-height: 24px;">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path
-                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-                            </path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Menu overlay -->
-    <div class="menu-overlay"></div>
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-noise"></div>
+    <div class="bg-grid"></div>
 
     <!-- Navigation -->
-    <nav>
-        <div class="nav-header">
-            <a class="nav-logo">Vrindopnishad</a>
-            <div class="nav-close">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </div>
+    <nav class="nav" id="nav">
+        <a href="../../../index.html" class="nav-logo">
+            <span class="logo-text">Vrindo</span><span class="logo-accent">pnishad</span>
+        </a>
+        <div class="nav-links">
+            <a href="../../../index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link active">About</a>
+            <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="nav-link">Gallery</a>
+            <a href="#contact" class="nav-link nav-cta">Contact</a>
         </div>
-        <ul>
-            <li><a data-link="home">Home</a></li>
-            <li><a data-link="about" class="active">About</a></li>
-            <li><a data-link="stack">Collection</a></li>
-            <li><a data-link="pictures">Photos</a></li>
-            <li><a data-link="gallery">Gallery</a></li>
-            <li class="nav-divider"></li>
-        </ul>
+        <button class="nav-toggle" id="nav-toggle">
+            <span></span>
+            <span></span>
+        </button>
     </nav>
 
-    <!-- Tools menu -->
-    <div class="tools-menu">
-        <div class="tools-menu-header">
-            <div class="tools-menu-logo">Navigation</div>
-            <div class="tools-menu-close">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </div>
-        </div>
-        <div class="tools-menu-content">
-            <div class="tools-grid">
-                <div class="tool-item" data-bg-color="#8E7F7F">
-                    <div class="tool-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 22V12h6v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div class="tool-info">
-                        <h3>Home</h3>
-                        <p>Return to the main page</p>
-                    </div>
-                    <a href="../../../index.html" class="tool-link"></a>
-                </div>
-
-                <div class="tool-item" data-bg-color="#D4AF37">
-                    <div class="tool-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 7h20M16 21V7M8 21V7" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <rect x="2" y="3" width="20" height="4" rx="1" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div class="tool-info">
-                        <h3>About</h3>
-                        <p>Learn about Vrindopnishad</p>
-                    </div>
-                    <a href="about.html" class="tool-link"></a>
-                </div>
-
-                <div class="tool-item" data-bg-color="#4A4A4A">
-                    <div class="tool-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div class="tool-info">
-                        <h3>Gallery</h3>
-                        <p>View our beautiful gallery</p>
-                    </div>
-                    <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="tool-link"></a>
-                </div>
-
-                <div class="tool-item" data-bg-color="#8E7F7F">
-                    <div class="tool-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 6h6M2 10h9M2 14h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <rect x="11" y="4" width="9" height="9" rx="2" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M11 17l-2 4 4-2 4 2-2-4" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div class="tool-info">
-                        <h3>Pictures</h3>
-                        <p>Explore our Pictures</p>
-                    </div>
-                    <a href="/Vrindopnishad Web/Pictures/main/photos.html" class="tool-link"></a>
-                </div>
-
-                <!-- <div class="tool-item" data-bg-color="#D4AF37">
-                    <div class="tool-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 8h1a4 4 0 010 8h-1M6 8H5a4 4 0 000 8h1M7 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <div class="tool-info">
-                        <h3>Photos</h3>
-                        <p>View our photo collection</p>
-                    </div>
-                    <a href="/Vrindopnishad Web/Pictures/main/photos.html" class="tool-link"></a>
-                </div> -->
-
-                <!-- <div class="tool-item" data-bg-color="#4A4A4A"> -->
-                <!-- <div class="tool-icon"> -->
-                <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l-.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg> -->
-                <!-- </div> -->
-                <!-- <div class="tool-info">
-                        <h3>Settings <span class="settings-new-badge">NEW</span></h3>
-                        <p>Customize your experience</p>
-                    </div> -->
-                <!-- <a href="#" class="tool-link"></a> -->
-                <!-- </div> -->
-            </div>
-            <!-- <div class="language-section">
-                <h3>Language</h3>
-                <div class="language-switch-tools">
-                    <button class="language-btn-tools active" data-lang="en">English</button>
-                    <button class="language-btn-tools" data-lang="hi">Hindi</button>
-                </div>
-            </div> -->
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../../../index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
+        <a href="#contact">Contact</a>
     </div>
 
     <main>
-        <!-- Hero Section -->
+        <!-- Hero - Full Impact -->
         <section class="hero">
-            <div class="container">
-                <div class="hero-title">
-                    <div class="row"><span>About</span></div>
-                    <div class="row"><span>Vrindopnishad</span></div>
-                    <div class="row"><span>Team</span></div>
+            <div class="hero-bg-text">VRINDO</div>
+            <div class="hero-content">
+                <div class="hero-tag">
+                    <span class="tag-dot"></span>
+                    <span>Creative Studio</span>
                 </div>
-                <div class="hero-subtitle">
-                    <span>Discover our journey, mission, and the people behind Vrindopnishad</span>
-                </div>
-                <a href="#about-section" class="btn magnetic">Learn More</a>
-            </div>
-        </section>
-
-        <!-- Carousel Section -->
-        <!-- <section class="carousel-section">
-            <div class="carousel-container">
-                <div class="carousel-item">
-                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/about%20code/main/image/Home%20Pics/img2.jpg" alt="Our Journey">
-                    <div class="carousel-caption">
-                        <h3>Our Journey</h3>
-                        <p>Explore the spiritual path that led us to create this divine platform.</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/about%20code/main/image/Home%20Pics/img_rv04.png" alt="Our Vision">
-                    <div class="carousel-caption">
-                        <h3>Our Vision</h3>
-                        <p>Bridging ancient wisdom with modern technology for spiritual growth.</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/about%20code/main/image/Home%20Pics/img4.jpg" alt="Our Community">
-                    <div class="carousel-caption">
-                        <h3>Our Community</h3>
-                        <p>Join our growing family of spiritual seekers and knowledge sharers.</p>
-                    </div>
+                <h1 class="hero-title">
+                    <span class="line">Where <em>tradition</em></span>
+                    <span class="line">meets <span class="highlight">innovation</span></span>
+                </h1>
+                <p class="hero-desc">We craft immersive digital experiences that honor the sacred wisdom of Vrindavan
+                </p>
+                <div class="hero-actions">
+                    <a href="#work" class="btn-primary">
+                        <span>View Our Work</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                    </a>
+                    <a href="#philosophy" class="btn-ghost">Learn More</a>
                 </div>
             </div>
-        </section> -->
-
-        <!-- About Section -->
-        <section class="about" id="about-section">
-            <div class="container">
-                <h2 class="section-title">Our AIM</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>As Your Sewak</h2>
-                        <!-- <p>The One Who Is Working 18 X 6 for You And You Only</p>
-                        <p>The One Who Is Always Working For Helping You to Step Up On Your bhakti Marg</p>
-                        <p>The One Who Always Wants Peace And Happiness in Your Life</p> -->
-                        <p>To Work 18 X 6 for You And You Only</p>
-                        <p>To Always Work For Helping You to Step Up On Your bhakti Marg</p>
-                        <p>Always Want Peace And Happiness in Your Life</p>
-                    </div>
-                    <div class="about-image">
-                        <div class="reveal-mask"></div>
-                        <img src="../../class/Team picure/scooter wale maharaj ji.png" alt="About Vrindopnishad">
-                    </div>
+            <div class="hero-scroll">
+                <div class="scroll-line"></div>
+            </div>
+            <div class="hero-stats">
+                <div class="mini-stat">
+                    <span class="mini-num">50+</span>
+                    <span class="mini-label">Projects</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-num">10K+</span>
+                    <span class="mini-label">Community</span>
                 </div>
             </div>
         </section>
 
-        <!-- Team Section -->
-        <section class="team-section" id="team">
-            <h2 class="section-title">Our Working Partners</h2>
-            <div class="horizontal-content">
-                <div class="horizontal-item team-member">
-                    <div class="member-image">
-                        <img src="https://i.postimg.cc/sD9xzDgx/temp-Image2n-Gxqd.avif" alt="Team Member">
-                    </div>
-                    <div class="member-info">
-                        <div class="horizontal-title">Yash</div>
-                        <div class="horizontal-text">
-                            <p>Coding is Art</p>
-                            <p>The Visionary, The Most Important Person, The VIP, The Picture Designer, The Graphic
-                                Artist, The Artist, The Creative Thinker, The Innovator</p>
-                        </div>
-                    </div>
+        <!-- Marquee -->
+        <div class="marquee">
+            <div class="marquee-track">
+                <span>Art × Music × Devotion × Technology × Wisdom × Culture × </span>
+                <span>Art × Music × Devotion × Technology × Wisdom × Culture × </span>
+            </div>
+        </div>
+
+        <!-- Philosophy - Modern Unique Grid -->
+        <section class="philosophy" id="philosophy">
+            <div class="container">
+                <div class="philosophy-header">
+                    <span class="section-tag">01 — Philosophy</span>
+                    <h2 class="philosophy-headline">
+                        What <span class="text-outline">drives</span> us
+                    </h2>
+                    <p class="philosophy-subtext">Four pillars that define our mission</p>
                 </div>
 
-                <div class="horizontal-item team-member">
-                    <div class="member-image">
-                        <img src="https://i.postimg.cc/3JHNzDY0/temp-Images-SCS61.avif" alt="Team Member">
-                    </div>
-                    <div class="member-info">
-                        <div class="horizontal-title">Hemraj</div>
-                        <div class="horizontal-text">
-                            <p>Coding is Fashion</p>
-                            <p>Frontend Specialist, Website Manager, Head of Data Entry Department</p>
+                <div class="philosophy-grid">
+                    <div class="philosophy-item" data-index="01">
+                        <div class="item-visual">
+                            <div class="item-blob"></div>
+                            <div class="item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="horizontal-item team-member">
-                    <div class="member-image">
-                        <img src="https://i.postimg.cc/pXtr3nR9/temp-Image4co-QDC.avif" alt="Team Member">
-                    </div>
-                    <div class="member-info">
-                        <div class="horizontal-title">Hariom</div>
-                        <div class="horizontal-text">
-                            <p>Coding makes Smart</p>
-                            <p>Software Developer, Machine Learning Enthusiast, Data Analyst, Head Of Data Management
-                                Department</p>
+                        <div class="item-content">
+                            <span class="item-num">01</span>
+                            <h3>Preserve Art</h3>
+                            <p>Documenting the rich artistic heritage through cutting-edge digital mediums.</p>
                         </div>
+                        <div class="item-line"></div>
                     </div>
-                </div>
-                <div class="horizontal-item team-member">
-                    <div class="member-image">
-                        <img src="https://i.postimg.cc/HsCnF7dC/temp-Image-Cs7ehf.avif" alt="Team Member">
+
+                    <div class="philosophy-item" data-index="02">
+                        <div class="item-visual">
+                            <div class="item-blob"></div>
+                            <div class="item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            <span class="item-num">02</span>
+                            <h3>Share Wisdom</h3>
+                            <p>Making ancient Vedic knowledge accessible to seekers worldwide.</p>
+                        </div>
+                        <div class="item-line"></div>
                     </div>
-                    <div class="member-info">
-                        <div class="horizontal-title">Punit</div>
-                        <div class="horizontal-text">
-                            <p>Coding is Love</p>
-                            <p>Projects Manager, Managing Director (MD), Team Leader, Mentor</p>
+
+                    <div class="philosophy-item" data-index="03">
+                        <div class="item-visual">
+                            <div class="item-blob"></div>
+                            <div class="item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path
+                                        d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            <span class="item-num">03</span>
+                            <h3>Spread Devotion</h3>
+                            <p>Producing devotional content that inspires spiritual growth.</p>
+                        </div>
+                        <div class="item-line"></div>
+                    </div>
+
+                    <div class="philosophy-item" data-index="04">
+                        <div class="item-visual">
+                            <div class="item-blob"></div>
+                            <div class="item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path
+                                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            <span class="item-num">04</span>
+                            <h3>Connect Global</h3>
+                            <p>Building bridges between cultures through shared spiritual heritage.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Section -->
-        <section class="projects">
+        <!-- Featured Work -->
+        <section class="work" id="work">
             <div class="container">
-                <h2 class="section-title">Our Projects</h2>
-                <div class="project-list">
-                    <a href="/Vrindopnishad Web/Pictures/main/photos.html" class="project-item">
-                        <div class="project-title">Picturise It</div>
-                        <div class="project-category">
-                            <p>The Place where your dreams Meet Real Visuals</p>
+                <div class="section-intro">
+                    <span class="section-tag">02 — Work</span>
+                    <h2 class="section-headline">Selected projects</h2>
+                </div>
+                <div class="work-grid">
+                    <a href="/Vrindopnishad Web/Pictures/main/photos.html" class="work-card work-large">
+                        <div class="work-img">
+                            <div class="work-placeholder">📸</div>
+                        </div>
+                        <div class="work-overlay">
+                            <span class="work-category">Photography</span>
+                            <h3>Picturise It</h3>
+                            <span class="work-arrow">↗</span>
                         </div>
                     </a>
-                    <a href="../../Sketch/main/new-read-me.html" class="project-item">
-                        <div class="project-title">Har Ghar Vaani Ji</div>
-                        <div class="project-category">
-                            <p>Website Which Provides Sant Vaani to Everyone For Free</p>
+                    <a href="../../Sketch/main/new-read-me.html" class="work-card">
+                        <div class="work-img">
+                            <div class="work-placeholder">📖</div>
+                        </div>
+                        <div class="work-overlay">
+                            <span class="work-category">Literature</span>
+                            <h3>Har Ghar Vaani Ji</h3>
+                            <span class="work-arrow">↗</span>
                         </div>
                     </a>
-                    <a href="https://www.youtube.com/@vrindopnishad" class="project-item">
-                        <div class="project-title">Vaani ji Production</div>
-                        <div class="project-category">
-                            <p>The Most Unexpected Music Production House of Vrindavan, brij Mandal</p>
+                    <a href="https://youtube.com/@vrindopnishad" target="_blank" class="work-card">
+                        <div class="work-img">
+                            <div class="work-placeholder">🎵</div>
+                        </div>
+                        <div class="work-overlay">
+                            <span class="work-category">Music</span>
+                            <h3>Vaani ji Production</h3>
+                            <span class="work-arrow">↗</span>
                         </div>
                     </a>
-                    <!-- <div href="#about-section" class="project-item">
-                        <div class="project-title">Rest Mode</div>
-                        <div class="project-category">
-                            <p>Ye Aaraam ka Maamla hai...</p>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section class="about">
+        <!-- Team - Unique Orbital Layout -->
+        <section class="team" id="team">
             <div class="container">
-                <h2 class="section-title">Contact Us</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <div class="contact-info">
-                            <h2>Get in Touch</h2>
-                            <!-- <p>Phone: +91 70*** *****</p> -->
-                            <p>Email: vrinda.connect.us@gmail.com</p>
-                            <p>Address: Mathura, Uttar Pradesh, भारत</p>
-                            <p>Feel free to reach out to us with any questions or inquiries. We'd love to hear from you!
-                            </p>
+                <div class="team-header">
+                    <span class="section-tag">03 — Team</span>
+                    <h2 class="team-headline">
+                        The <span class="text-gradient">creators</span>
+                    </h2>
+                </div>
+
+                <div class="team-showcase">
+                    <div class="team-orbit">
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring orbit-ring-2"></div>
+                    </div>
+
+                    <div class="team-cards">
+                        <div class="team-card" data-pos="top-left">
+                            <div class="card-avatar">
+                                <span>YS</span>
+                                <div class="avatar-glow"></div>
+                            </div>
+                            <div class="card-info">
+                                <h3>Yash</h3>
+                                <span class="card-role">Co-Founder & Lead Dev</span>
+                                <p class="card-bio">Architecting digital experiences with code</p>
+                            </div>
+                            <div class="card-number">01</div>
+                        </div>
+
+                        <div class="team-card" data-pos="top-right">
+                            <div class="card-avatar">
+                                <span>HO</span>
+                                <div class="avatar-glow"></div>
+                            </div>
+                            <div class="card-info">
+                                <h3>Hariom</h3>
+                                <span class="card-role">Co-Founder & Creative</span>
+                                <p class="card-bio">Crafting visual stories that inspire</p>
+                            </div>
+                            <div class="card-number">02</div>
+                        </div>
+
+                        <div class="team-card" data-pos="bottom-left">
+                            <div class="card-avatar">
+                                <span>HR</span>
+                                <div class="avatar-glow"></div>
+                            </div>
+                            <div class="card-info">
+                                <h3>Hemraj</h3>
+                                <span class="card-role">Content & Operations</span>
+                                <p class="card-bio">Weaving words with wisdom</p>
+                            </div>
+                            <div class="card-number">03</div>
+                        </div>
+
+                        <div class="team-card" data-pos="bottom-right">
+                            <div class="card-avatar">
+                                <span>PT</span>
+                                <div class="avatar-glow"></div>
+                            </div>
+                            <div class="card-info">
+                                <h3>Punit</h3>
+                                <span class="card-role">Community Lead</span>
+                                <p class="card-bio">Building bonds across boundaries</p>
+                            </div>
+                            <div class="card-number">04</div>
                         </div>
                     </div>
-                    <form id="contact-form" class="contact-form">
-                        <h3>Send Message</h3>
-                        <div class="form-group">
-                            <input type="text" id="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="magnetic">Send Message</button>
-                    </form>
+
+                    <div class="team-center-text">
+                        <span>United by</span>
+                        <strong>Devotion</strong>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Contact - Split Layout -->
+        <section class="contact" id="contact">
+            <div class="contact-layout">
+                <div class="contact-info">
+                    <span class="section-tag">04 — Contact</span>
+                    <h2 class="contact-headline">Let's create<br>something <em>amazing</em></h2>
+                    <a href="mailto:vrinda.connect.us@gmail.com" class="contact-email">vrinda.connect.us@gmail.com</a>
+                    <div class="contact-social">
+                        <a href="https://instagram.com/vrindopnishad" target="_blank">Instagram</a>
+                        <a href="https://youtube.com/@vrindopnishad" target="_blank">YouTube</a>
+                        <a href="https://facebook.com/vrindopnishad" target="_blank">Facebook</a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <input type="text" id="name" required>
+                            <label for="name">
+                                <span class="label-icon">✦</span>
+                                Your name
+                            </label>
+                            <div class="field-glow"></div>
+                        </div>
+                        <div class="form-field">
+                            <input type="email" id="email" required>
+                            <label for="email">
+                                <span class="label-icon">✦</span>
+                                Your email
+                            </label>
+                            <div class="field-glow"></div>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <textarea id="message" rows="4" required></textarea>
+                        <label for="message">
+                            <span class="label-icon">✦</span>
+                            Share your thoughts...
+                        </label>
+                        <div class="field-glow"></div>
+                    </div>
+                    <button type="submit" class="btn-radhe">
+                        <span class="btn-text">Send with Love</span>
+                        <span class="btn-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                            </svg>
+                        </span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </form>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer>
+    <!-- Footer - Radhe Trending Style -->
+    <footer class="footer" id="footer">
+        <div class="footer-mantra">
+            <span>॥ राधे राधे ॥</span>
+            <span>॥ राधे राधे ॥</span>
+            <span>॥ राधे राधे ॥</span>
+            <span>॥ राधे राधे ॥</span>
+            <span>॥ राधे राधे ॥</span>
+            <span>॥ राधे राधे ॥</span>
+        </div>
+
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">Vrindopnishad</div>
-                <div class="footer-text">
-                    <p>Shri Ji's Kripa</p>
-                    <p>Copyright © 2025 Vrindopnishad. All rights reserved</p>
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <span class="footer-logo">
+                        <span class="logo-icon">✦</span>
+                        Vrindopnishad
+                    </span>
+                    <p class="footer-tagline">Sacred traditions.<br>Modern expression.</p>
                 </div>
+
                 <div class="footer-links">
-                    <h3>Connect</h3>
-                    <ul>
-                        <li><a href="https://www.instagram.com/vrindopnishad" class="footer-link" target="_blank"
-                                rel="noopener noreferrer">Instagram</a></li>
-                        <li><a href="https://www.facebook.com/vrindopnishad" class="footer-link" target="_blank"
-                                rel="noopener noreferrer">Facebook</a></li>
-                        <li><a href="https://www.youtube.com/@vrindopnishad" class="footer-link" target="_blank"
-                                rel="noopener noreferrer">YouTube</a></li>
-                        <li><a href="https://whatsapp.com/channel/0029Vb6UR3Z9mrGcDXbHzA1Q" class="footer-link"
-                                target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-                    </ul>
-                </div>
-                <div class="newsletter">
-                    <h3>Subscribe to Connect With Us</h3>
-                    <form id="newsletter-form">
-                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
-                        <button type="submit" class="magnetic">
-                            <ion-icon name="arrow-forward-outline"></ion-icon>
-                        </button>
-                    </form>
+                    <div class="footer-col">
+                        <span class="footer-col-title">Navigate</span>
+                        <nav class="footer-nav">
+                            <a href="../../../index.html">
+                                <span class="nav-dot">●</span> Home
+                            </a>
+                            <a href="about.html">
+                                <span class="nav-dot">●</span> About
+                            </a>
+                            <a href="/Vrindopnishad Web/Pictures/main/Gallery.html">
+                                <span class="nav-dot">●</span> Gallery
+                            </a>
+                            <a href="#contact">
+                                <span class="nav-dot">●</span> Contact
+                            </a>
+                        </nav>
+                    </div>
+
+                    <div class="footer-col">
+                        <span class="footer-col-title">Connect</span>
+                        <div class="footer-social">
+                            <a href="https://instagram.com/vrindopnishad" target="_blank" class="social-link">
+                                <span class="social-icon">IG</span>
+                                <span class="social-glow"></span>
+                            </a>
+                            <a href="https://youtube.com/@vrindopnishad" target="_blank" class="social-link">
+                                <span class="social-icon">YT</span>
+                                <span class="social-glow"></span>
+                            </a>
+                            <a href="https://facebook.com/vrindopnishad" target="_blank" class="social-link">
+                                <span class="social-icon">FB</span>
+                                <span class="social-glow"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="footer-bottom">
+                <div class="footer-divider">
+                    <span class="divider-dot">✦</span>
+                </div>
+                <div class="footer-credits">
+                    <span>© 2025 Vrindopnishad</span>
+                    <span class="credits-separator">•</span>
+                    <span>Made with <em>devotion</em> in Vrindavan</span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="../js/about_app.js"></script>
-    <script src="../js/button-fixes.js"></script>
-    <script src="../js/settings.js"></script>
-    <!-- <script src="https://imbajrangi.github.io/Company/Vrindopnishad Web/Security/disable-right-click.js"></script> -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if functions exist before calling them
-            if (typeof initLoader === 'function') initLoader();
-            if (typeof initCursor === 'function') initCursor();
-            if (typeof initScrollProgress === 'function') initScrollProgress();
-            if (typeof initParallaxBg === 'function') initParallaxBg();
-            if (typeof initNavigation === 'function') initNavigation();
-            if (typeof initRevealAnimations === 'function') initRevealAnimations();
-            if (typeof initCarousel === 'function') initCarousel();
-            if (typeof initImageHoverEffects === 'function') initImageHoverEffects();
-            if (typeof initScrollAnimations === 'function') initScrollAnimations();
-            if (typeof removeAllBlurEffects === 'function') removeAllBlurEffects();
-            if (typeof fixMenuButtonVisibility === 'function') fixMenuButtonVisibility();
-            if (typeof initToolItemEffects === 'function') initToolItemEffects();
-
-            // Apply these fixes again after a short delay to ensure they work
-            setTimeout(() => {
-                if (typeof fixMenuButtonVisibility === 'function') fixMenuButtonVisibility();
-                if (typeof removeAllBlurEffects === 'function') removeAllBlurEffects();
-                if (typeof initToolItemEffects === 'function') initToolItemEffects();
-            }, 500);
-
-            // --- New code for the contact form ---
-            const contactForm = document.getElementById('contact-form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Stop the form from submitting the traditional way
-
-                    // Get form values
-                    const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-
-                    // Construct the mailto link
-                    const recipient = 'vrinda.connect.us@gmail.com';
-                    const subject = `Message from ${name} via Vrindopnishad Website`;
-                    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-
-                    // Create the mailto link and trigger it
-                    const mailtoLink = `mailTo:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                    window.location.href = mailtoLink;
-                });
-            }
+        // Mobile menu
+        const toggle = document.getElementById('nav-toggle');
+        const menu = document.getElementById('mobile-menu');
+        toggle?.addEventListener('click', () => {
+            toggle.classList.toggle('active');
+            menu.classList.toggle('active');
         });
 
-        // --- New code for the Newsletter Subscription form ---
-        const newsletterForm = document.getElementById('newsletter-form');
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function (event) {
-                event.preventDefault(); // Stop the form from submitting the traditional way
+        // Nav scroll
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
 
-                // Get form values
-                const email = document.getElementById('newsletter-email').value;
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    toggle?.classList.remove('active');
+                    menu?.classList.remove('active');
+                }
+            });
+        });
 
-                // Construct the mailto link
-                const recipient = 'vrinda.connect.us@gmail.com';
-                const subject = `SUBSCRIPTION REQUEST from Vrindopnishad Website`;
-                // Note: The body contains the user's email, which will be sent to your email address.
-                const body = `Please add the following email address to the Vrindopnishad newsletter list:\n\nSubscriber Email: ${email}`;
+        // Reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
 
-                // Create the mailto link and trigger it
-                const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}&cc=${encodeURIComponent(email)}`;
+        document.querySelectorAll('.philosophy-card, .work-card, .team-member, section').forEach(el => {
+            el.classList.add('reveal');
+            observer.observe(el);
+        });
 
-                // Open the email client
-                window.location.href = mailtoLink;
+        // Form
+        document.getElementById('contact-form')?.addEventListener('submit', e => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            window.location.href = `mailto:vrinda.connect.us@gmail.com?subject=Message from ${encodeURIComponent(name)}&body=${encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`)}`;
+        });
+
+        // Philosophy horizontal scroll
+        const track = document.querySelector('.philosophy-track');
+        if (track) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            track.addEventListener('mousedown', e => {
+                isDown = true;
+                startX = e.pageX - track.offsetLeft;
+                scrollLeft = track.parentElement.scrollLeft;
+            });
+
+            track.addEventListener('mouseleave', () => isDown = false);
+            track.addEventListener('mouseup', () => isDown = false);
+            track.addEventListener('mousemove', e => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const walk = (x - startX) * 2;
+                track.parentElement.scrollLeft = scrollLeft - walk;
             });
         }
     </script>
-    <script src="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
 </body>
 
 </html>
