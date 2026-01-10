@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+
+<head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <meta name="color-scheme" content="light dark">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212"> -->
     <title>Vrindopnishad Collection</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Protest+Strike&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Protest+Strike&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/Pictures/css/collection-pictures.css" class="style">
     <link rel="stylesheet" href="/Pictures/css/claude-collection.css" class="style">
     <link rel="stylesheet" href="/Pictures/css/hero-video.css">
-    
+
     <link rel="stylesheet" href="/Custom/custom-cursor.css" class="css">
     <script type="module" src="/Custom/custom-Cursor.js"></script>
 
@@ -23,6 +29,7 @@
 </head>
 
 <!-- Previous head and style content remains the same -->
+
 <body>
     <div class="app-container">
         <!-- Popup Modal -->
@@ -117,10 +124,12 @@
         </header>
 
         <!-- Hero Section -->
-        <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1604608672908-3b1f1aeb8f9b?w=1200&h=800&fit=crop');">
+        <section class="hero-section"
+            style="background-image: url('https://images.unsplash.com/photo-1604608672908-3b1f1aeb8f9b?w=1200&h=800&fit=crop');">
             <div class="hero-content">
                 <h1 class="hero-title">Discover Beautiful Collections</h1>
-                <p class="hero-description">Explore curated collections of stunning images and artwork from talented creators around the world.</p>
+                <p class="hero-description">Explore curated collections of stunning images and artwork from talented
+                    creators around the world.</p>
                 <div class="hero-buttons">
                     <button class="btn btn-primary">
                         <i class="fas fa-play"></i>
@@ -233,7 +242,8 @@
                 <div class="footer-branding">
                     <h2 class="footer-logo">Vrindopnishad</h2>
                     <p class="footer-text">
-                        Discover and explore amazing collections of visual content from around the world. Join our community of creators and collectors.
+                        Discover and explore amazing collections of visual content from around the world. Join our
+                        community of creators and collectors.
                     </p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -271,7 +281,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Vrindopnishad. All rights reserved.</p>
+                <p>&copy; 2026 Vrindopnishad. All rights reserved.</p>
             </div>
         </footer>
     </div>
@@ -347,7 +357,7 @@
         };
 
         // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadCollections();
             initializePopup();
             initializeTheme();
@@ -529,20 +539,21 @@
                 // Show/hide scroll buttons based on scroll position
                 slider.addEventListener('scroll', () => {
                     leftBtn.style.display = slider.scrollLeft > 0 ? 'flex' : 'none';
-                    rightBtn.style.display = 
-                        slider.scrollLeft < (slider.scrollWidth - slider.clientWidth - 1) 
-                        ? 'flex' 
-                        : 'none';
+                    rightBtn.style.display =
+                        slider.scrollLeft < (slider.scrollWidth - slider.clientWidth - 1)
+                            ? 'flex'
+                            : 'none';
                 });
 
                 // Initial check
                 leftBtn.style.display = 'none';
-                rightBtn.style.display = 
-                    slider.scrollWidth > slider.clientWidth 
-                    ? 'flex' 
-                    : 'none';
+                rightBtn.style.display =
+                    slider.scrollWidth > slider.clientWidth
+                        ? 'flex'
+                        : 'none';
             });
         }
     </script>
 </body>
+
 </html>

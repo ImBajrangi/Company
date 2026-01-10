@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrinda - Tourism Services</title>
@@ -182,7 +184,7 @@
             letter-spacing: -0.015em;
             line-height: 1.1;
         }
-        
+
         .hero h1 span {
             display: inline-block;
             opacity: 0;
@@ -428,7 +430,7 @@
             font-weight: 600;
             color: var(--accent-primary);
         }
-        
+
         .testimonials {
             padding: 6rem 5%;
             background: var(--bg-secondary);
@@ -543,7 +545,8 @@
             font-weight: 600;
         }
 
-        .footer-section p, .footer-section a {
+        .footer-section p,
+        .footer-section a {
             color: var(--text-secondary);
             text-decoration: none;
             display: block;
@@ -635,7 +638,10 @@
         }
 
         @media (max-width: 480px) {
-            .services, .featured, .map-section {
+
+            .services,
+            .featured,
+            .map-section {
                 padding: 4rem 5%;
             }
 
@@ -665,8 +671,13 @@
         }
 
         @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         [data-theme="dark"] .partners::before {
@@ -730,11 +741,14 @@
         }
 
         @keyframes pulse {
-            0%, 100% { 
+
+            0%,
+            100% {
                 transform: scale(1.8);
                 opacity: 0.15;
             }
-            50% { 
+
+            50% {
                 transform: scale(2.2);
                 opacity: 0.08;
             }
@@ -766,14 +780,17 @@
         }
 
         @keyframes energyFlow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 5px var(--accent-primary),
-                            0 0 10px var(--accent-primary);
+                    0 0 10px var(--accent-primary);
             }
+
             50% {
                 box-shadow: 0 0 10px var(--accent-primary),
-                            0 0 20px var(--accent-primary),
-                            0 0 30px var(--accent-primary);
+                    0 0 20px var(--accent-primary),
+                    0 0 30px var(--accent-primary);
             }
         }
 
@@ -792,32 +809,54 @@
             text-shadow: 0 0 15px rgba(0, 149, 255, 0.8);
         }
 
-        .partner-logo:nth-child(1):hover { animation: float 2.5s ease-in-out infinite; }
-        .partner-logo:nth-child(2):hover { animation: float 2.5s ease-in-out 0.3s infinite; }
-        .partner-logo:nth-child(3):hover { animation: float 2.5s ease-in-out 0.6s infinite; }
-        .partner-logo:nth-child(4):hover { animation: float 2.5s ease-in-out 0.9s infinite; }
-        .partner-logo:nth-child(5):hover { animation: float 2.5s ease-in-out 1.2s infinite; }
-        .partner-logo:nth-child(6):hover { animation: float 2.5s ease-in-out 1.5s infinite; }
+        .partner-logo:nth-child(1):hover {
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        .partner-logo:nth-child(2):hover {
+            animation: float 2.5s ease-in-out 0.3s infinite;
+        }
+
+        .partner-logo:nth-child(3):hover {
+            animation: float 2.5s ease-in-out 0.6s infinite;
+        }
+
+        .partner-logo:nth-child(4):hover {
+            animation: float 2.5s ease-in-out 0.9s infinite;
+        }
+
+        .partner-logo:nth-child(5):hover {
+            animation: float 2.5s ease-in-out 1.2s infinite;
+        }
+
+        .partner-logo:nth-child(6):hover {
+            animation: float 2.5s ease-in-out 1.5s infinite;
+        }
 
         @keyframes float {
-            0%, 100% { transform: translateY(-8px) scale(1.1); }
-            50% { transform: translateY(-15px) scale(1.12); }
+
+            0%,
+            100% {
+                transform: translateY(-8px) scale(1.1);
+            }
+
+            50% {
+                transform: translateY(-15px) scale(1.12);
+            }
         }
 
         .partner-logo:hover .partner-name::before {
             content: '';
             position: absolute;
             inset: -5px;
-            background: conic-gradient(
-                from 0deg,
-                transparent 0deg,
-                var(--accent-primary) 45deg,
-                transparent 90deg,
-                transparent 180deg,
-                var(--accent-secondary) 225deg,
-                transparent 270deg,
-                transparent 360deg
-            );
+            background: conic-gradient(from 0deg,
+                    transparent 0deg,
+                    var(--accent-primary) 45deg,
+                    transparent 90deg,
+                    transparent 180deg,
+                    var(--accent-secondary) 225deg,
+                    transparent 270deg,
+                    transparent 360deg);
             opacity: 0.3;
             filter: blur(10px);
             animation: rotate 3s linear infinite;
@@ -844,10 +883,12 @@
                 transform: scale(1);
                 opacity: 0.3;
             }
+
             50% {
                 transform: scale(3);
                 opacity: 0.1;
             }
+
             100% {
                 transform: scale(5);
                 opacity: 0;
@@ -890,12 +931,15 @@
                 transform: translateY(0) scale(1);
                 opacity: 0;
             }
+
             20% {
                 opacity: 1;
             }
+
             80% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(-50px) scale(0);
                 opacity: 0;
@@ -931,6 +975,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="logo"><i class="fas fa-plane-departure"></i>Vrindopnishad Tours</div>
@@ -968,22 +1013,26 @@
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-hotel"></i></div>
                 <h3>Luxury Hotels</h3>
-                <p>Stay in handpicked 5-star hotels with world-class amenities, stunning views, and exceptional service that makes every moment memorable.</p>
+                <p>Stay in handpicked 5-star hotels with world-class amenities, stunning views, and exceptional service
+                    that makes every moment memorable.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-utensils"></i></div>
                 <h3>Fine Dining</h3>
-                <p>Savor exquisite cuisines at the finest restaurants. From local delicacies to international favorites, experience culinary excellence.</p>
+                <p>Savor exquisite cuisines at the finest restaurants. From local delicacies to international favorites,
+                    experience culinary excellence.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-map-marked-alt"></i></div>
                 <h3>Expert Travel Guides</h3>
-                <p>Explore with our knowledgeable local guides who bring destinations to life with fascinating stories and hidden gems.</p>
+                <p>Explore with our knowledgeable local guides who bring destinations to life with fascinating stories
+                    and hidden gems.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-car-side"></i></div>
                 <h3>Premium Vehicles</h3>
-                <p>Travel in comfort and style with our fleet of luxury vehicles. From sedans to SUVs, enjoy safe and elegant transportation.</p>
+                <p>Travel in comfort and style with our fleet of luxury vehicles. From sedans to SUVs, enjoy safe and
+                    elegant transportation.</p>
             </div>
         </div>
     </section>
@@ -1079,17 +1128,20 @@
         <div class="testimonial-slider">
             <div class="testimonial-slide active">
                 <img src="https://i.pravatar.cc/80?img=1" alt="Client 1">
-                <p>"An absolutely unforgettable experience. The attention to detail was impeccable. We can't wait for our next journey with Vrindopnishad Tours!"</p>
+                <p>"An absolutely unforgettable experience. The attention to detail was impeccable. We can't wait for
+                    our next journey with Vrindopnishad Tours!"</p>
                 <div class="author">- Jane Doe</div>
             </div>
             <div class="testimonial-slide">
                 <img src="https://i.pravatar.cc/80?img=2" alt="Client 2">
-                <p>"From the luxury hotels to the expert guides, every aspect of our trip was flawless. Highly recommended for a stress-free vacation."</p>
+                <p>"From the luxury hotels to the expert guides, every aspect of our trip was flawless. Highly
+                    recommended for a stress-free vacation."</p>
                 <div class="author">- John Smith</div>
             </div>
             <div class="testimonial-slide">
                 <img src="https://i.pravatar.cc/80?img=3" alt="Client 3">
-                <p>"The best travel agency we have ever worked with. They truly listen to your needs and craft the perfect itinerary. A five-star service!"</p>
+                <p>"The best travel agency we have ever worked with. They truly listen to your needs and craft the
+                    perfect itinerary. A five-star service!"</p>
                 <div class="author">- The Williams Family</div>
             </div>
             <div class="slider-nav">
@@ -1109,7 +1161,8 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>About Vrindopnishad Tours</h4>
-                <p>Your trusted partner in creating unforgettable travel experiences with premium services and personalized attention.</p>
+                <p>Your trusted partner in creating unforgettable travel experiences with premium services and
+                    personalized attention.</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -1126,11 +1179,12 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Wanderlust Tourism. All rights reserved.</p>
+            <p>&copy; 2026 Wanderlust Tourism. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBujG7_yMBLFYP2fXsFtbLcJWyL64sUfnA&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBujG7_yMBLFYP2fXsFtbLcJWyL64sUfnA&callback=initMap"
+        async defer></script>
     <script>
         let map;
         let markers = [];
@@ -1151,7 +1205,7 @@
 
         function initMap() {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            
+
             map = new google.maps.Map(document.getElementById('map-canvas'), {
                 center: { lat: 27.1800, lng: 78.0420 },
                 zoom: 13,
@@ -1182,9 +1236,9 @@
             });
 
             createMarkers();
-            
+
             document.querySelectorAll('.map-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     activeFilter = this.dataset.filter;
@@ -1202,7 +1256,7 @@
                 };
 
                 const config = iconConfig[location.type];
-                
+
                 const svgMarker = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">
                         <defs>
@@ -1295,11 +1349,11 @@
         themeToggle.addEventListener('click', () => {
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             themeIcon.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            
+
             if (map) {
                 const isDark = newTheme === 'dark';
                 map.setOptions({
@@ -1401,4 +1455,5 @@
         });
     </script>
 </body>
+
 </html>

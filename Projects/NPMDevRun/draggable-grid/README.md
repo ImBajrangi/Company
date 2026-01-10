@@ -2,9 +2,9 @@
 
 Building a Smooth, Draggable Product Grid with GSAP: Recreating Palmer's Experience.
 
-![Image Title](https://codrops-1f606.kxcdn.com/codrops/wp-content/uploads/2025/08/thumbnail.png?x45163")
+![Image Title](https://codrops-1f606.kxcdn.com/codrops/wp-content/uploads/2026/08/thumbnail.png?x45163")
 
-[Article on Codrops](https://tympanus.net/codrops/2025/09/01/recreating-palmers-draggable-product-grid-with-gsap/)
+[Article on Codrops](https://tympanus.net/codrops/2026/09/01/recreating-palmers-draggable-product-grid-with-gsap/)
 
 [Demo](https://tympanus.net/Tutorials/PalmerDraggableGrid/)
 

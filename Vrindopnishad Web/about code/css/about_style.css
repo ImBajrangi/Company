@@ -745,8 +745,14 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;
+    color: var(--text);
     opacity: 0.3;
+}
+
+.work-placeholder svg {
+    width: 64px;
+    height: 64px;
+    stroke-width: 1.5;
 }
 
 .work-overlay {
@@ -919,6 +925,9 @@ section {
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(10px);
     overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
 }
 
 .team-card::before {
@@ -974,13 +983,13 @@ section {
     transform: scale(1.1);
 }
 
-.card-avatar span {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--bg);
+.card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .avatar-glow {
@@ -1087,6 +1096,11 @@ section {
     .team-cards {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        padding: 0;
+    }
+
+    .team-card {
+        padding: 1.5rem;
     }
 
     .team-orbit {
@@ -1099,16 +1113,21 @@ section {
         top: auto;
         left: auto;
         margin-bottom: 2rem;
+        font-size: 0.9rem;
     }
 
-    .team-card {
-        padding: 1.5rem;
+    .team-center-text strong {
+        font-size: 1.25rem;
     }
+}
 
-    .card-bio {
-        opacity: 1;
-        transform: none;
-    }
+.team-card {
+    padding: 1.5rem;
+}
+
+.card-bio {
+    opacity: 1;
+    transform: none;
 }
 
 /* ========== Contact - Modern Unique ========== */

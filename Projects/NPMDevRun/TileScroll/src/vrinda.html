@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#8E7F7F">
     <title>Vrindopnishad - Complete with Page Transitions</title>
-    
+
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
-    
+
     <style>
         *,
         *::after,
@@ -25,7 +27,7 @@
         }
 
         :root {
-            --change-color: #f9f9a0;  
+            --change-color: #f9f9a0;
             font-size: 16px;
             --color-text: #fff;
             --color-bg: #111;
@@ -57,6 +59,7 @@
                 --menu-bg: rgba(17, 17, 17, 0.98);
             }
         }
+
         ::selection {
             background-color: var(--accent-color);
             color: var(--bg-color);
@@ -65,16 +68,16 @@
         html.has-scroll-smooth {
             overflow: hidden;
         }
-        
+
         html.has-scroll-dragging {
             -webkit-user-select: none;
             user-select: none;
         }
-        
+
         .has-scroll-smooth body {
             overflow: hidden;
         }
-        
+
         .has-scroll-smooth [data-scroll-container] {
             min-height: 100vh;
         }
@@ -149,7 +152,7 @@
         @keyframes loaderAnim {
             to {
                 opacity: 1;
-                transform: scale3d(0.5,0.5,1);
+                transform: scale3d(0.5, 0.5, 1);
             }
         }
 
@@ -274,7 +277,7 @@
 
         .menu svg path {
             transition: stroke-dasharray var(--duration, .85s) var(--easing, ease) var(--delay, 0s),
-                        stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
+                stroke-dashoffset var(--duration, .85s) var(--easing, ease) var(--delay, 0s);
             stroke-dasharray: var(--array-1, 26px) var(--array-2, 100px);
             stroke-dashoffset: var(--offset, 126px);
             transform: translateZ(0);
@@ -369,11 +372,25 @@
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        nav.active li:nth-child(1) { animation: slideIn 0.3s ease forwards 0.1s; }
-        nav.active li:nth-child(2) { animation: slideIn 0.3s ease forwards 0.15s; }
-        nav.active li:nth-child(3) { animation: slideIn 0.3s ease forwards 0.2s; }
-        nav.active li:nth-child(4) { animation: slideIn 0.3s ease forwards 0.25s; }
-        nav.active li:nth-child(5) { animation: slideIn 0.3s ease forwards 0.3s; }
+        nav.active li:nth-child(1) {
+            animation: slideIn 0.3s ease forwards 0.1s;
+        }
+
+        nav.active li:nth-child(2) {
+            animation: slideIn 0.3s ease forwards 0.15s;
+        }
+
+        nav.active li:nth-child(3) {
+            animation: slideIn 0.3s ease forwards 0.2s;
+        }
+
+        nav.active li:nth-child(4) {
+            animation: slideIn 0.3s ease forwards 0.25s;
+        }
+
+        nav.active li:nth-child(5) {
+            animation: slideIn 0.3s ease forwards 0.3s;
+        }
 
         @keyframes slideIn {
             to {
@@ -576,7 +593,7 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate3d(-50%,-50%,0);
+            transform: translate3d(-50%, -50%, 0);
             backface-visibility: hidden;
             transform-style: preserve-3d;
         }
@@ -584,7 +601,7 @@
         .tiles--columns-rotated .tiles__wrap {
             width: 150%;
             display: flex;
-            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
+            transform: translate3d(-50%, -50%, 0) rotate(-22.5deg);
             left: 50%;
             top: 50%;
             align-items: center;
@@ -887,11 +904,11 @@
             .tiles--columns-rotated .tiles__line {
                 width: 33vmax;
             }
-            
+
             .tiles--columns-rotated .tiles__line:nth-child(even) {
                 margin-top: -20vmax;
             }
-            
+
             .tiles--columns-rotated .tiles__line-img {
                 height: 40vmax;
             }
@@ -900,7 +917,7 @@
                 display: flex;
                 align-items: center;
             }
-            
+
             .main-nav ul {
                 display: flex;
                 list-style: none;
@@ -908,7 +925,7 @@
                 padding: 0;
                 gap: 2rem;
             }
-            
+
             .main-nav a {
                 color: var(--text-color);
                 text-decoration: none;
@@ -917,7 +934,7 @@
                 padding: 0.5rem 0;
                 transition: color 0.3s ease;
             }
-            
+
             .main-nav a::after {
                 content: '';
                 position: absolute;
@@ -928,25 +945,25 @@
                 background-color: var(--accent-color);
                 transition: width 0.3s ease;
             }
-            
+
             .main-nav a:hover,
             .main-nav a.active {
                 color: var(--accent-color);
             }
-            
+
             .main-nav a:hover::after,
             .main-nav a.active::after {
                 width: 100%;
             }
-            
+
             .menu {
                 display: none !important;
             }
-            
+
             .menu-overlay {
                 display: none !important;
             }
-            
+
             nav {
                 display: none !important;
             }
@@ -990,7 +1007,8 @@
 
     <!-- Page Transition Overlay -->
     <svg class="page-transition-overlay" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path class="page-transition-overlay__path" vector-effect="non-scaling-stroke" d="M 0 0 h 0 c 0 50 0 50 0 100 H 0 V 0 Z" />
+        <path class="page-transition-overlay__path" vector-effect="non-scaling-stroke"
+            d="M 0 0 h 0 c 0 50 0 50 0 100 H 0 V 0 Z" />
     </svg>
 
     <div class="menu-overlay"></div>
@@ -999,23 +1017,31 @@
         <a href="#" class="logo page-transition-link" data-url="https://imbajrangi.github.io/Company/">
             <span>Vrindopnishad</span>
         </a>
-        
+
         <div class="main-nav">
             <ul>
-                <li><a href="#" class="active page-transition-link" data-url="https://imbajrangi.github.io/Company/">Home</a></li>
-                <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
-                <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
+                <li><a href="#" class="active page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/">Home</a></li>
+                <li><a href="#" class="page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a>
+                </li>
+                <li><a href="#" class="page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
+                </li>
             </ul>
         </div>
-        
+
         <div class="header-right">
             <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
                 </svg>
             </div>
-            
+
             <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
                 <svg viewBox="0 0 64 48">
                     <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
@@ -1025,14 +1051,23 @@
             </button>
         </div>
     </header>
-    
+
     <nav aria-hidden="true">
         <ul>
-            <li><a href="#" class="active page-transition-link" data-url="https://imbajrangi.github.io/Company/">Home</a></li>
-            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a></li>
-            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Photos</a></li>
-            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a></li>
-            <li><a href="#" class="page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html">PDF Library</a></li>
+            <li><a href="#" class="active page-transition-link"
+                    data-url="https://imbajrangi.github.io/Company/">Home</a></li>
+            <li><a href="#" class="page-transition-link"
+                    data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html">Gallery</a>
+            </li>
+            <li><a href="#" class="page-transition-link"
+                    data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html">Photos</a>
+            </li>
+            <li><a href="#" class="page-transition-link"
+                    data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/about code/main/about.html">About</a>
+            </li>
+            <li><a href="#" class="page-transition-link"
+                    data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html">PDF
+                    Library</a></li>
         </ul>
     </nav>
 
@@ -1040,18 +1075,20 @@
         <div class="tools-menu-header">
             <div class="tools-menu-logo">Vrindopnishad Tools</div>
             <div class="tools-menu-close" aria-label="Close tools menu" role="button" tabindex="0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </div>
         </div>
-        
+
         <div class="tools-menu-content">
             <div class="tools-grid">
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="9" y1="3" x2="9" y2="21"></line>
                         </svg>
@@ -1060,12 +1097,14 @@
                         <h3>Collection</h3>
                         <p>Browse our curated collections</p>
                     </div>
-                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html"></a>
+                    <a href="#" class="tool-link page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/Gallery.html"></a>
                 </div>
-                
+
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <circle cx="8.5" cy="8.5" r="1.5"></circle>
                             <polyline points="21 15 16 10 5 21"></polyline>
@@ -1075,12 +1114,14 @@
                         <h3>Photos</h3>
                         <p>Explore our photo gallery</p>
                     </div>
-                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html"></a>
+                    <a href="#" class="tool-link page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/Pictures/main/pictures.html"></a>
                 </div>
-                
+
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -1092,12 +1133,14 @@
                         <h3>PDF Library</h3>
                         <p>Access our digital document collection</p>
                     </div>
-                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"></a>
+                    <a href="#" class="tool-link page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html"></a>
                 </div>
-                
+
                 <div class="tool-item">
                     <div class="tool-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
@@ -1106,50 +1149,101 @@
                         <h3>Spiritual Texts</h3>
                         <p>Explore ancient wisdom and teachings</p>
                     </div>
-                    <a href="#" class="tool-link page-transition-link" data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"></a>
+                    <a href="#" class="tool-link page-transition-link"
+                        data-url="https://imbajrangi.github.io/Company/Vrindopnishad Web/sketch/main/new-read-me.html"></a>
                 </div>
             </div>
         </div>
     </div>
 
     <main data-scroll-container>
-        
+
         <section class="tiles tiles--columns-rotated tiles--darker" id="grid" data-scroll-section>
             <div class="tiles__wrap">
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120257933ba?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
                 </div>
             </div>
             <h2 class="tiles__title" data-scroll data-scroll-speed="-5">Shri Harivansh</h2>
@@ -1162,7 +1256,8 @@
                     <div>Cosmic</div>
                     <div>Journey</div>
                 </h1>
-                <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for spiritual and creative exploration</p>
+                <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
+                    spiritual and creative exploration</p>
             </div>
         </section>
 
@@ -1172,22 +1267,26 @@
                 <p class="shader-description" data-scroll data-scroll-speed="1">Click on an image to see the effect</p>
                 <div class="shader-grid">
                     <div class="shader-item" data-scroll data-scroll-speed="1">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="Gallery Image 1" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+                            alt="Gallery Image 1" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Pose – 001</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="1">
-                        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800" alt="Gallery Image 2" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800"
+                            alt="Gallery Image 2" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Stand – 002</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="1">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800" alt="Gallery Image 3" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800"
+                            alt="Gallery Image 3" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Dance – 003</span>
                     </div>
                     <div class="shader-item" data-scroll data-scroll-speed="1">
-                        <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800" alt="Gallery Image 4" class="shader-image">
+                        <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800"
+                            alt="Gallery Image 4" class="shader-image">
                         <canvas class="shader-canvas"></canvas>
                         <span class="shader-label">Attitude – 004</span>
                     </div>
@@ -1197,58 +1296,91 @@
 
         <section class="tiles tiles--oneline" id="grid2" data-scroll-section>
             <div class="tiles__wrap">
-                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid2" data-scroll-direction="horizontal">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)"></div>
+                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid2"
+                    data-scroll-direction="horizontal">
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
+                    </div>
                 </div>
             </div>
-            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Civilization</h2>
+            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
+                data-scroll-speed="2">Civilization</h2>
         </section>
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Digital Sanctuary</h2>
-                <p>A space where creativity and spirituality converge in harmony, fostering deeper connections with art and wisdom.</p>
+                <p>A space where creativity and spirituality converge in harmony, fostering deeper connections with art
+                    and wisdom.</p>
             </div>
         </section>
 
         <section class="tiles tiles--oneline" id="grid3" data-scroll-section>
             <div class="tiles__wrap">
-                <div class="tiles__line" data-scroll data-scroll-speed="-2" data-scroll-target="#grid3" data-scroll-direction="horizontal">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)"></div>
+                <div class="tiles__line" data-scroll data-scroll-speed="-2" data-scroll-target="#grid3"
+                    data-scroll-direction="horizontal">
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
+                    </div>
                 </div>
             </div>
-            <h2 class="tiles__title tiles__title--left tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Empowerment</h2>
+            <h2 class="tiles__title tiles__title--left tiles__title--full tiles__title--alt" data-scroll
+                data-scroll-speed="2">Empowerment</h2>
         </section>
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Artistic Excellence</h2>
-                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital innovations.</p>
+                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital
+                    innovations.</p>
             </div>
         </section>
 
         <section class="tiles tiles--oneline" id="grid4" data-scroll-section>
             <div class="tiles__wrap">
-                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid4" data-scroll-direction="horizontal">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)"></div>
+                <div class="tiles__line" data-scroll data-scroll-speed="2" data-scroll-target="#grid4"
+                    data-scroll-direction="horizontal">
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120257933ba?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
+                    </div>
                 </div>
             </div>
-            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll data-scroll-speed="2">Apocalypse</h2>
+            <h2 class="tiles__title tiles__title--right tiles__title--full tiles__title--alt" data-scroll
+                data-scroll-speed="2">Apocalypse</h2>
         </section>
 
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Visual Stories</h2>
-                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.</p>
+                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.
+                </p>
             </div>
         </section>
 
@@ -1265,7 +1397,7 @@
                 <p>A digital sanctuary where art, technology, and spirituality converge.</p>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Vrindopnishad. All rights reserved.</p>
+                <p>&copy; 2026 Vrindopnishad. All rights reserved.</p>
             </div>
         </footer>
     </main>
@@ -1275,14 +1407,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+
     <script>
         // Page Transition System
         class PageTransition {
             constructor() {
                 this.overlayPath = document.querySelector('.page-transition-overlay__path');
                 this.isAnimating = false;
-                
+
                 this.paths = {
                     step1: {
                         unfilled: 'M 0 0 h 0 c 0 50 0 50 0 100 H 0 V 0 Z',
@@ -1295,11 +1427,11 @@
                         unfilled: 'M 100 0 H 100 c 0 50 0 50 0 100 h 0 V 0 Z',
                     }
                 };
-                
+
                 this.setupTimeline();
                 this.attachEventListeners();
             }
-            
+
             setupTimeline() {
                 this.timeline = gsap.timeline({
                     paused: true,
@@ -1307,57 +1439,57 @@
                         this.isAnimating = false;
                     }
                 })
-                .set(this.overlayPath, {
-                    attr: { d: this.paths.step1.unfilled }
-                })
-                .to(this.overlayPath, { 
-                    duration: 0.8,
-                    ease: 'power3.in',
-                    attr: { d: this.paths.step1.inBetween }
-                }, 0)
-                .to(this.overlayPath, { 
-                    duration: 0.2,
-                    ease: 'power1',
-                    attr: { d: this.paths.step1.filled },
-                    onComplete: () => this.navigateToPage()
-                })
-                .set(this.overlayPath, { 
-                    attr: { d: this.paths.step2.filled }
-                })
-                .to(this.overlayPath, { 
-                    duration: 0.15,
-                    ease: 'sine.in',
-                    attr: { d: this.paths.step2.inBetween }
-                })
-                .to(this.overlayPath, { 
-                    duration: 1,
-                    ease: 'power4',
-                    attr: { d: this.paths.step2.unfilled }
-                });
+                    .set(this.overlayPath, {
+                        attr: { d: this.paths.step1.unfilled }
+                    })
+                    .to(this.overlayPath, {
+                        duration: 0.8,
+                        ease: 'power3.in',
+                        attr: { d: this.paths.step1.inBetween }
+                    }, 0)
+                    .to(this.overlayPath, {
+                        duration: 0.2,
+                        ease: 'power1',
+                        attr: { d: this.paths.step1.filled },
+                        onComplete: () => this.navigateToPage()
+                    })
+                    .set(this.overlayPath, {
+                        attr: { d: this.paths.step2.filled }
+                    })
+                    .to(this.overlayPath, {
+                        duration: 0.15,
+                        ease: 'sine.in',
+                        attr: { d: this.paths.step2.inBetween }
+                    })
+                    .to(this.overlayPath, {
+                        duration: 1,
+                        ease: 'power4',
+                        attr: { d: this.paths.step2.unfilled }
+                    });
             }
-            
+
             attachEventListeners() {
                 const links = document.querySelectorAll('.page-transition-link');
-                
+
                 links.forEach(link => {
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
-                        
+
                         if (this.isAnimating) return;
-                        
+
                         this.targetUrl = link.getAttribute('data-url') || link.href;
                         this.startTransition();
                     });
                 });
             }
-            
+
             startTransition() {
                 if (this.isAnimating) return;
-                
+
                 this.isAnimating = true;
                 this.timeline.play(0);
             }
-            
+
             navigateToPage() {
                 if (this.targetUrl) {
                     window.location.href = this.targetUrl;
@@ -1373,28 +1505,28 @@
                 this.canvas = container.querySelector('.shader-canvas');
                 this.isBw = false;
                 this.isAnimating = false;
-                
+
                 this.init();
             }
-            
+
             init() {
                 if (this.img.complete) {
                     this.setup();
                 } else {
                     this.img.addEventListener('load', () => this.setup());
                 }
-                
+
                 this.container.addEventListener('click', (e) => this.onClick(e));
             }
-            
+
             setup() {
                 const rect = this.img.getBoundingClientRect();
                 this.canvas.width = rect.width;
                 this.canvas.height = rect.height;
-                
+
                 this.scene = new THREE.Scene();
                 this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-                
+
                 this.renderer = new THREE.WebGLRenderer({
                     canvas: this.canvas,
                     alpha: true,
@@ -1402,13 +1534,13 @@
                 });
                 this.renderer.setSize(rect.width, rect.height);
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                
+
                 const loader = new THREE.TextureLoader();
                 loader.crossOrigin = 'anonymous';
                 const texture = loader.load(this.img.src, () => {
                     this.img.classList.add('loaded');
                 });
-                
+
                 this.material = new THREE.ShaderMaterial({
                     uniforms: {
                         uTexture: { value: texture },
@@ -1486,71 +1618,71 @@
                         }
                     `
                 });
-                
+
                 const geometry = new THREE.PlaneGeometry(2, 2, 50, 50);
                 this.mesh = new THREE.Mesh(geometry, this.material);
                 this.scene.add(this.mesh);
-                
+
                 this.render();
             }
-            
+
             render() {
                 if (this.renderer) {
                     this.renderer.render(this.scene, this.camera);
                 }
                 requestAnimationFrame(() => this.render());
             }
-            
+
             onClick(e) {
                 if (this.isAnimating) return;
-                
+
                 const rect = this.container.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width;
                 const y = 1 - (e.clientY - rect.top) / rect.height;
-                
+
                 this.animate(x, y);
             }
-            
+
             animate(x, y) {
                 if (!this.material) return;
-                
+
                 this.isAnimating = true;
                 this.isBw = !this.isBw;
-                
+
                 const duration = 1500;
                 const startTime = Date.now();
-                
+
                 this.material.uniforms.uMouse.value.set(x, y);
                 this.material.uniforms.uDirection.value = this.isBw ? 1.0 : -1.0;
-                
+
                 const animateFrame = () => {
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    
+
                     this.material.uniforms.uGrayscaleProgress.value = progress;
                     this.material.uniforms.uTime.value += 0.1;
-                    
+
                     if (progress < 0.5) {
                         this.material.uniforms.uRippleProgress.value = progress * 2;
                     } else {
                         this.material.uniforms.uRippleProgress.value = (1 - progress) * 2;
                     }
-                    
+
                     if (progress < 1) {
                         requestAnimationFrame(animateFrame);
                     } else {
                         this.isAnimating = false;
                     }
                 };
-                
+
                 animateFrame();
             }
         }
-        
+
         // Initialize
         const preloadImages = (selector = 'img') => {
             return new Promise((resolve) => {
-                imagesLoaded(document.querySelectorAll(selector), {background: true}, resolve);
+                imagesLoaded(document.querySelectorAll(selector), { background: true }, resolve);
             });
         };
 
@@ -1565,7 +1697,7 @@
         };
 
         Promise.all([
-            preloadImages('.tiles__line-img, .shader-image'), 
+            preloadImages('.tiles__line-img, .shader-image'),
             preloadFonts('rmd7deq')
         ]).then(() => {
             document.body.classList.remove('loading');
@@ -1632,53 +1764,53 @@
             const nav = document.querySelector('nav');
             const menuOverlay = document.querySelector('.menu-overlay');
             const toolsIcon = document.querySelector('.tools-icon');
-            
+
             if (!mobileMenuBtn || !nav) return;
-            
+
             function openMenu() {
                 mobileMenuBtn.classList.add('active');
                 nav.classList.add('active');
                 menuOverlay.classList.add('active');
                 document.body.classList.add('menu-open');
-                
+
                 mobileMenuBtn.setAttribute('aria-expanded', 'true');
                 nav.setAttribute('aria-hidden', 'false');
-                
+
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '1001';
                 }
             }
-            
+
             function closeMenu() {
                 mobileMenuBtn.classList.remove('active');
                 nav.classList.remove('active');
                 menuOverlay.classList.remove('active');
                 document.body.classList.remove('menu-open');
-                
+
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
                 nav.setAttribute('aria-hidden', 'true');
-                
+
                 if (toolsIcon) {
                     toolsIcon.style.zIndex = '';
                 }
             }
-            
+
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
             nav.setAttribute('aria-hidden', 'true');
-            
+
             mobileMenuBtn.addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                
+
                 if (nav.classList.contains('active')) {
                     closeMenu();
                 } else {
                     openMenu();
                 }
             });
-            
+
             menuOverlay.addEventListener('click', closeMenu);
-            
+
             document.addEventListener('click', (event) => {
                 if ((nav.classList.contains('active') &&
                     !nav.contains(event.target) &&
@@ -1687,18 +1819,18 @@
                     closeMenu();
                 }
             });
-            
+
             const navLinks = document.querySelectorAll('nav a');
             navLinks.forEach(link => {
                 link.addEventListener('click', closeMenu);
             });
-            
+
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && nav.classList.contains('active')) {
                     closeMenu();
                 }
             });
-            
+
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 768 && nav.classList.contains('active')) {
                     closeMenu();
@@ -1712,33 +1844,33 @@
             const toolsIcon = document.querySelector('.tools-icon');
             const toolsMenu = document.querySelector('.tools-menu');
             const toolsMenuClose = document.querySelector('.tools-menu-close');
-            
+
             let isToolsMenuOpen = false;
-            
+
             function openToolsMenu() {
                 if (isToolsMenuOpen) return;
-                
+
                 isToolsMenuOpen = true;
-                
+
                 const iconSvg = toolsIcon?.querySelector('svg');
                 if (iconSvg) {
                     iconSvg.style.transform = 'rotate(90deg)';
                     iconSvg.style.color = 'var(--accent-color)';
                 }
-                
+
                 setTimeout(() => {
                     toolsMenu.classList.add('active');
                     document.body.classList.add('tools-menu-open');
                 }, 200);
             }
-            
+
             function closeToolsMenu() {
                 if (!isToolsMenuOpen) return;
-                
+
                 isToolsMenuOpen = false;
                 toolsMenu.classList.remove('active');
                 document.body.classList.remove('tools-menu-open');
-                
+
                 const iconSvg = toolsIcon?.querySelector('svg');
                 if (iconSvg) {
                     setTimeout(() => {
@@ -1747,28 +1879,28 @@
                     }, 300);
                 }
             }
-            
+
             if (toolsIcon) {
                 toolsIcon.addEventListener('click', openToolsMenu);
             }
-            
+
             if (toolsMenuClose) {
                 toolsMenuClose.addEventListener('click', closeToolsMenu);
             }
-            
+
             document.querySelectorAll('.tool-item .tool-link').forEach(link => {
                 link.addEventListener('click', closeToolsMenu);
             });
-            
+
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && isToolsMenuOpen) {
                     closeToolsMenu();
                 }
             });
-            
+
             document.addEventListener('click', (e) => {
-                if (isToolsMenuOpen && 
-                    !toolsMenu.contains(e.target) && 
+                if (isToolsMenuOpen &&
+                    !toolsMenu.contains(e.target) &&
                     !toolsIcon.contains(e.target)) {
                     closeToolsMenu();
                 }
@@ -1776,4 +1908,5 @@
         });
     </script>
 </body>
+
 </html

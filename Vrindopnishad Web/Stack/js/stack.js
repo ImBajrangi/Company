@@ -115,7 +115,7 @@ function initCustomCursor() {
 //         }
 
 //         // Fallback to original JSON loading
-//         const response = await fetch('/class/json/Shri Harivansh Chandr-2025-09-21T12-02-46.json');
+//         const response = await fetch('/class/json/Shri Harivansh Chandr-2026-09-21T12-02-46.json');
 //         if (!response.ok) {
 //             throw new Error('Failed to load fallback books data');
 //         }
@@ -2116,7 +2116,7 @@ async function loadFallbackBooks() {
         const possibleFiles = [
             '/Vrindopnishad Web/class/json/books-data.json',
             '/Vrindopnishad Web/class/json/books-data.json', 
-            '/Vrindopnishad Web/class/json/Shri Harivansh Chandr-2025-09-21T12-02-46.json',
+            '/Vrindopnishad Web/class/json/Shri Harivansh Chandr-2026-09-21T12-02-46.json',
             '/Vrindopnishad Web/class/json/poems.json'
         ];
 

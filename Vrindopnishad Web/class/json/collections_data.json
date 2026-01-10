@@ -6,10 +6,26 @@
     "description": "Discover sacred images and divine artworks that inspire the soul. Explore our carefully curated collection of spiritual photography and religious art."
   },
   "navigation": [
-    { "name": "Home", "href": "#", "active": true },
-    { "name": "Collections", "href": "#", "active": false },
-    { "name": "My List", "href": "#", "active": false },
-    { "name": "Browse by Category", "href": "#", "active": false }
+    {
+      "name": "Home",
+      "href": "#",
+      "active": true
+    },
+    {
+      "name": "Collections",
+      "href": "#",
+      "active": false
+    },
+    {
+      "name": "My List",
+      "href": "#",
+      "active": false
+    },
+    {
+      "name": "Browse by Category",
+      "href": "#",
+      "active": false
+    }
   ],
   "heroSection": {
     "title": "Spiritual & Divine Collection",
@@ -280,7 +296,7 @@
     "dark": {
       "title": "Dark Aesthetic",
       "items": [
-      {
+        {
           "id": "modern-buildings",
           "title": "Modern Buildings",
           "description": "Contemporary architecture",
@@ -289,8 +305,8 @@
           "image": "https://i.postimg.cc/rsQv1t57/temp-Imageq2-Af-Gz.avif",
           "category": "architecture",
           "views": 15600
-      },
-      {
+        },
+        {
           "id": "historic-structures",
           "title": "Historic Structures",
           "description": "Ancient architectural marvels",
@@ -299,8 +315,8 @@
           "image": "https://i.postimg.cc/FFVmFYkR/temp-Imageoo-RS7-Y.avif",
           "category": "architecture",
           "views": 12300
-      },
-      {
+        },
+        {
           "id": "city-skylines",
           "title": "City Skylines",
           "description": "Urban landscape photography",
@@ -309,8 +325,8 @@
           "image": "https://i.postimg.cc/fWCnn11f/temp-Image-Qu2-Bi-Z.avif",
           "category": "architecture",
           "views": 18900
-      },
-      {
+        },
+        {
           "id": "bridges-roads",
           "title": "Bridges & Roads",
           "description": "Infrastructure photography",
@@ -319,8 +335,8 @@
           "image": "https://i.postimg.cc/rFGD2ns7/94.avif",
           "category": "architecture",
           "views": 9800
-      },
-      {
+        },
+        {
           "id": "interior-design",
           "title": "Interior Design",
           "description": "Beautiful indoor spaces",
@@ -329,7 +345,7 @@
           "image": "https://i.postimg.cc/GmH1jz7H/temp-Image-UQR4i-G.avif",
           "category": "architecture",
           "views": 14500
-      },
+        },
         {
           "id": "modern-buildings",
           "title": "Modern Buildings",
@@ -551,12 +567,28 @@
     }
   },
   "socialLinks": [
-    { "platform": "facebook", "icon": "fab fa-facebook", "url": "#" },
-    { "platform": "instagram", "icon": "fab fa-instagram", "url": "#" },
-    { "platform": "pinterest", "icon": "fab fa-pinterest", "url": "#" },
-    { "platform": "youtube", "icon": "fab fa-youtube", "url": "#" }
+    {
+      "platform": "facebook",
+      "icon": "fab fa-facebook",
+      "url": "#"
+    },
+    {
+      "platform": "instagram",
+      "icon": "fab fa-instagram",
+      "url": "#"
+    },
+    {
+      "platform": "pinterest",
+      "icon": "fab fa-pinterest",
+      "url": "#"
+    },
+    {
+      "platform": "youtube",
+      "icon": "fab fa-youtube",
+      "url": "#"
+    }
   ],
   "footer": {
-    "copyrightText": "© 2025 Vrindopnishad Collection. All images are property of their respective owners."
+    "copyrightText": "© 2026 Vrindopnishad Collection. All images are property of their respective owners."
   }
 }

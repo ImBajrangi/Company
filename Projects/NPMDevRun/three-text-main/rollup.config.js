@@ -11,7 +11,7 @@ import { createFilter } from '@rollup/pluginutils';
 // License banner for all builds
 const licenseBanner = `/*!
  * three-text v${JSON.parse(readFileSync('./package.json', 'utf8')).version}
- * Copyright (C) 2025 Countertype LLC
+ * Copyright (C) 2026 Countertype LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
