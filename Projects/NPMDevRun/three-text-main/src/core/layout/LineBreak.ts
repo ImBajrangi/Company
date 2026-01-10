@@ -465,7 +465,7 @@ export class LineBreak {
     let glueWidth: number;
     let glueStretch: number;
     let glueShrink: number;
-    
+
     if (glueParams) {
       glueWidth = glueParams.width;
       glueStretch = glueParams.stretch;

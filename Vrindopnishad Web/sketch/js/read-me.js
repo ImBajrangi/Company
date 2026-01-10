@@ -10,7 +10,7 @@ const fontUp = document.getElementById('fontUp');
 const themeToggle = document.getElementById('themeToggle');
 
 // Load JSON data with correct structure handling
-fetch('/Vrindopnishad Web/class/json/Default Collection-2025-09-24T15-20-20.json')
+fetch('/Vrindopnishad Web/class/json/Default Collection-2026-09-24T15-20-20.json')
     .then(response => response.json())
     .then(data => {
         jsonData = data; // Store the full JSON data for media access

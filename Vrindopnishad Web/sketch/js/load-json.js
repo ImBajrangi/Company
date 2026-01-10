@@ -4,7 +4,7 @@ alert('JavaScript is working!');
 // CONFIGURATION - Add your JSON file paths here
 // ============================================
 const JSON_FILES = [
-    '/class/json/Default Collection-2025-09-24T15-20-20.json',
+    '/class/json/Default Collection-2026-09-24T15-20-20.json',
     // Add more JSON files as needed:
     '/class/json/Another-Collection.json',
     '/class/json/More-Content.json'

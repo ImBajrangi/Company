@@ -4,7 +4,7 @@ Implementation of a infinite layers grid by [Jorge Toloza](http://jorgetoloza.co
 
 ![Image Title](cover.jpg)
 
-[Tutorial on Codrops](https://tympanus.net/codrops/2025/06/11/building-an-infinite-parallax-grid-with-gsap-and-seamless-tiling/)
+[Tutorial on Codrops](https://tympanus.net/codrops/2026/06/11/building-an-infinite-parallax-grid-with-gsap-and-seamless-tiling/)
 
 [Demo](https://tympanus.net/Tutorials/InfiniteLayersGrid)
 

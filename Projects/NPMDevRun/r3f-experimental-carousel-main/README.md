@@ -2,7 +2,7 @@
 
 _Creating a wavy infinite carousel with React Three Fiber._
 
-![Thumbnail](https://tympanus.net/codrops/wp-content/uploads/2025/11/Carousel_Featured.jpg)
+![Thumbnail](https://tympanus.net/codrops/wp-content/uploads/2026/11/Carousel_Featured.jpg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=104645)
 

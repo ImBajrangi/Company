@@ -1,14 +1,14 @@
 // Sample data
 const data = {
   pages: [
-    { id: 1, title: 'Monsoon Whispers', desc: 'Poem page about rains', src: 'class/image/Home Pics/img_sn01.png', featured: true, trending: true, date: '2025-07-20', tags: ['nature','hindi'], href: 'page/content.html' },
-    { id: 2, title: 'Midnight Ghazal', desc: 'Romantic verses', src: 'class/image/Home Pics/img_sn02.png', featured: false, trending: false, date: '2025-07-22', tags: ['romance','english'], href: 'page/content.html' },
+    { id: 1, title: 'Monsoon Whispers', desc: 'Poem page about rains', src: 'class/image/Home Pics/img_sn01.png', featured: true, trending: true, date: '2026-07-20', tags: ['nature','hindi'], href: 'page/content.html' },
+    { id: 2, title: 'Midnight Ghazal', desc: 'Romantic verses', src: 'class/image/Home Pics/img_sn02.png', featured: false, trending: false, date: '2026-07-22', tags: ['romance','english'], href: 'page/content.html' },
   ],
   videos: [
-    { id: 1, title: 'Recital: Kabir', desc: 'Dohe in voice-over', src: 'Stack/sounds/info.mp3', featured: true, trending: true, date: '2025-07-18', tags: ['kabir','recital'], href: 'Gallery/main/Gallery.html' },
+    { id: 1, title: 'Recital: Kabir', desc: 'Dohe in voice-over', src: 'Stack/sounds/info.mp3', featured: true, trending: true, date: '2026-07-18', tags: ['kabir','recital'], href: 'Gallery/main/Gallery.html' },
   ],
   pictures: [
-    { id: 1, title: 'Ink and Paper', desc: 'Still life', src: 'class/image/icons/book-open-cover.svg', featured: false, trending: false, date: '2025-07-23', tags: ['art','aesthetic'], href: 'Gallery/main/Gallery.html' },
+    { id: 1, title: 'Ink and Paper', desc: 'Still life', src: 'class/image/icons/book-open-cover.svg', featured: false, trending: false, date: '2026-07-23', tags: ['art','aesthetic'], href: 'Gallery/main/Gallery.html' },
   ]
 };
 

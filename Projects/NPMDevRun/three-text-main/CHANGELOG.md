@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.12] - 2025-12-14
+## [0.2.12] - 2026-12-14
 
 ### Fixed
 
@@ -10,19 +10,19 @@
 
 - Migrated to `@types/libtess` package from DefinitelyTyped after contributing type definitions upstream
 
-## [0.2.11] - 2025-12-08
+## [0.2.11] - 2026-12-08
 
 ### Fixed
 
 - `LineBreak.ts`: Default short line detection threshold increased from 50% to 70%
 
-## [0.2.10] - 2025-12-08
+## [0.2.10] - 2026-12-08
 
 ### Fixed
 
 - `LineBreak.ts`: Fixed demerit logic that was causing poor breakpoint selection
 
-## [0.2.9] - 2025-12-07
+## [0.2.9] - 2026-12-07
 
 ### Added
 
@@ -40,7 +40,7 @@
 - Removed unnecessary defensive check in update method
 - `LineBreak.ts`: improvements to emergency stretch, threshold handling, and minimum demerits tracking
 
-## [0.2.8] - 2025-12-04
+## [0.2.8] - 2026-12-04
 
 ### Added
 
@@ -55,7 +55,7 @@
 - Short line detection threshold reduced from 75% to 50% for better balance
 - Renamed `disableSingleWordDetection` option to `disableShortLineDetection`
 
-## [0.2.7] - 2025-12-01
+## [0.2.7] - 2026-12-01
 
 ### Added
 
@@ -64,7 +64,7 @@
 - Integration tests with real HarfBuzz and fonts
 - `npm run benchmark` command for performance measurement
 
-## [0.2.6] - 2025-12-01
+## [0.2.6] - 2026-12-01
 
 ### Added
 
@@ -76,19 +76,19 @@
 - `DebugLogger.ts` has become `Logger.ts` and `debugLogger` is now `logger`
 - Optimized font metadata parsing (2x faster) by using integer tag comparisons instead of string decoding
 
-## [0.2.5] - 2025-11-30
+## [0.2.5] - 2026-11-30
 
 ### Fixed
 
 - Letter spacing now correctly accounts for trailing spacing in width measurements
 
-## [0.2.4] - 2025-11-26
+## [0.2.4] - 2026-11-26
 
 ### Changed
 
 - Switched from `tess2-ts` to `libtess` - submitting type defitinitions to `@types` is a TODO
 
-## [0.2.3] - 2025-11-26
+## [0.2.3] - 2026-11-26
 
 ### Fixed
 
@@ -99,7 +99,7 @@
 - Examples display render timing showing total time for `Text.create()` call
 - Vertex colors are now optional - only added when explicitly provided
 
-## [0.2.2] - 2025-11-24
+## [0.2.2] - 2026-11-24
 
 ### Changed
 
@@ -107,14 +107,14 @@
 - `createThreeTextGeometry()` returns object with `geometry`, `planeBounds`, and `glyphs`
 - p5 example tries to stay closer to p5 patterns
 
-## [0.2.1] - 2025-11-24
+## [0.2.1] - 2026-11-24
 
 ### Fixed
 
 - Normal vectors are no longer scaled
 - Front face normals now point towards viewer
 
-## [0.2.0] - 2025-11-24
+## [0.2.0] - 2026-11-24
 
 ### Breaking Changes
 
@@ -154,13 +154,13 @@ import { Text } from 'three-text/three/react';
 - Build system supports multiple entry points
 - TypeScript definitions for all adapters
 
-## [0.1.1] - 2025-11-23
+## [0.1.1] - 2026-11-23
 
 ### Fixed
 
 - Numeric map keys
 - Removed double curve length calculation
 
-## [0.1.0] - 2025-11-23
+## [0.1.0] - 2026-11-23
 
 Initial alpha release

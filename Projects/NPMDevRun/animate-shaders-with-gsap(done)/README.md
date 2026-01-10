@@ -2,9 +2,9 @@
 
 _A step by step tutorial on how to craft different effects to make your website more immersive, engaging and exciting._
 
-![Image Title](https://codrops-1f606.kxcdn.com/codrops/wp-content/uploads/2025/10/animating-shaders-with-gsap-for-your-immersive-website-cover.jpg)
+![Image Title](https://codrops-1f606.kxcdn.com/codrops/wp-content/uploads/2026/10/animating-shaders-with-gsap-for-your-immersive-website-cover.jpg)
 
-[Article on Codrops](https://tympanus.net/codrops/2025/10/08/how-to-animate-webgl-shaders-with-gsap-ripples-reveals-and-dynamic-blur-effects/)
+[Article on Codrops](https://tympanus.net/codrops/2026/10/08/how-to-animate-webgl-shaders-with-gsap-ripples-reveals-and-dynamic-blur-effects/)
 
 [Demo](https://tympanus.net/Tutorials/ShaderAnimationGSAP/)
 

@@ -2,7 +2,7 @@
 
 Smooth, infinite 3D carousel where each image drives a reactive, canvas-based background gradient that adapts to its colors.
 
-![Image Title](https://tympanus.net/codrops/wp-content/uploads/2025/11/carousel.jpg)
+![Image Title](https://tympanus.net/codrops/wp-content/uploads/2026/11/carousel.jpg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=103532)
 

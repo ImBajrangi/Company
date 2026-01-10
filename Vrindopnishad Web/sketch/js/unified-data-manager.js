@@ -115,7 +115,7 @@ class UnifiedDataManager {
     // Discover available collection files
     async discoverCollectionFiles() {
         const commonFiles = [
-            'Shri Harivansh Chandr-2025-09-21T12-02-46.json',
+            'Shri Harivansh Chandr-2026-09-21T12-02-46.json',
             'poems.json',
             'collection.json',
             'content.json'

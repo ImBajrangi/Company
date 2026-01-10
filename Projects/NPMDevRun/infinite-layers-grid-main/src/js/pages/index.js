@@ -14,7 +14,7 @@ export default class Index {
       {src: 'https://i.postimg.cc/yx32SQ76/62.avif', caption: 'After Storm <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022'},
       {src: 'https://i.postimg.cc/0QwLzXkk/80.avif', caption: 'Untitled <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2016'},
       {src: 'https://i.postimg.cc/c18s3T98/64.avif', caption: 'Toilet Paper <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022'},
-      {src: 'https://i.postimg.cc/vBBJG8jV/49.avif', caption: 'Cocoa Eggplant Tomato <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2025'},
+      {src: 'https://i.postimg.cc/vBBJG8jV/49.avif', caption: 'Cocoa Eggplant Tomato <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2026'},
       {src: 'https://i.postimg.cc/m2wK1HsH/48.avif', caption: 'Toilet Paper <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022'},
       {src: 'https://i.postimg.cc/zXs8phQP/24.avif', caption: 'Production Fun Fact (Eggs) <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2024'},
     ];

@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vrindopnishad</title>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Rozha+One&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lora:ital@0;1&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+<head>
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrindopnishad</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Merriweather:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rozha+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lora:ital@0;1&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -24,7 +35,7 @@
             --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
             --border-radius-md: 20px;
             --shadow-md: 0 15px 35px rgba(31, 38, 135, 0.5);
-            
+
             /* Safari-compatible blur values */
             --blur-light: blur(10px);
             --blur-medium: blur(15px);
@@ -45,7 +56,7 @@
             font-size: 18px;
             position: relative;
             overflow-x: hidden;
-            
+
             /* Safari-compatible background */
             background: #667eea;
             background: -webkit-linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -65,9 +76,9 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            
+
             /* Multiple radial gradients for Safari compatibility */
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 80%, rgba(120, 164, 170, 0.4) 0%, rgba(120, 164, 170, 0) 50%),
                 radial-gradient(circle at 80% 20%, rgba(233, 208, 164, 0.4) 0%, rgba(233, 208, 164, 0) 50%),
                 radial-gradient(circle at 40% 40%, rgba(142, 68, 173, 0.3) 0%, rgba(142, 68, 173, 0) 50%);
@@ -81,25 +92,41 @@
             animation: float 8s ease-in-out infinite;
         }
 
-        .particle:nth-child(1) { animation-delay: -2s; }
-        .particle:nth-child(2) { animation-delay: -4s; }
-        .particle:nth-child(3) { animation-delay: -6s; }
-        .particle:nth-child(4) { animation-delay: -8s; }
+        .particle:nth-child(1) {
+            animation-delay: -2s;
+        }
+
+        .particle:nth-child(2) {
+            animation-delay: -4s;
+        }
+
+        .particle:nth-child(3) {
+            animation-delay: -6s;
+        }
+
+        .particle:nth-child(4) {
+            animation-delay: -8s;
+        }
 
         @keyframes float {
-            0%, 100% { 
+
+            0%,
+            100% {
                 transform: translateY(0px) translateX(0px) rotate(0deg);
                 opacity: 0.7;
             }
-            25% { 
+
+            25% {
                 transform: translateY(-30px) translateX(10px) rotate(90deg);
                 opacity: 1;
             }
-            50% { 
+
+            50% {
                 transform: translateY(-20px) translateX(-10px) rotate(180deg);
                 opacity: 0.8;
             }
-            75% { 
+
+            75% {
                 transform: translateY(-40px) translateX(5px) rotate(270deg);
                 opacity: 0.9;
             }
@@ -112,11 +139,11 @@
             width: 100%;
             height: 80px;
             background: rgba(255, 255, 255, 0.1);
-            
+
             /* Safari-compatible backdrop filter */
             -webkit-backdrop-filter: var(--blur-medium);
             backdrop-filter: var(--blur-medium);
-            
+
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 1000;
             padding: 1rem 2rem;
@@ -131,7 +158,7 @@
             font-size: 1.8rem;
             font-weight: 600;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .author-header {
@@ -148,6 +175,7 @@
                 opacity: 0;
                 transform: translateX(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0px);
@@ -162,7 +190,8 @@
 
         /* DEVELOPER-ONLY FILTERS (Hidden from users) */
         .filter-controls {
-            display: none; /* Hide from users */
+            display: none;
+            /* Hide from users */
             gap: 0.5rem;
             flex-wrap: wrap;
         }
@@ -220,18 +249,18 @@
             width: 400px;
             height: calc(100vh - 80px);
             background: rgba(255, 255, 255, 0.12);
-            
+
             /* Safari-compatible backdrop filter */
             -webkit-backdrop-filter: var(--blur-heavy);
             backdrop-filter: var(--blur-heavy);
-            
+
             border-right: 1px solid rgba(255, 255, 255, 0.2);
             overflow-y: auto;
             overflow-x: hidden;
             z-index: 999;
             transition: left 0.4s var(--transition-bounce);
             padding: 0;
-            
+
             /* Custom scrollbar for webkit browsers */
             scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
@@ -269,7 +298,7 @@
             background: rgba(255, 255, 255, 0.05);
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .toc-content {
@@ -381,11 +410,11 @@
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
-            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.7));
+            background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             transition: opacity 0.5s var(--transition-smooth);
             animation: titleFade 0.5s var(--transition-smooth);
         }
@@ -395,6 +424,7 @@
                 opacity: 0;
                 transform: translateY(-15px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -440,7 +470,8 @@
             font-size: 1.1rem;
         }
 
-        .poem-type, .poem-status {
+        .poem-type,
+        .poem-status {
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.8rem;
@@ -486,7 +517,7 @@
             font-size: 1.3rem;
             line-height: 2.2;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .navigation {
@@ -524,7 +555,7 @@
         .poem-counter {
             color: white;
             font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .controls {
@@ -569,13 +600,13 @@
         }
 
         /* RESPONSIVE DESIGN */
-        
+
         /* Large tablets and small desktops */
         @media (max-width: 1024px) {
             .container.toc-open {
                 margin-left: 100px;
             }
-            
+
             .table-of-contents {
                 width: 350px;
                 left: -350px;
@@ -588,82 +619,82 @@
                 padding: 1rem;
                 height: 70px;
             }
-            
+
             .logo {
                 font-size: 1.4rem;
             }
-            
+
             .author-header {
                 font-size: 1rem;
                 max-width: 40%;
                 text-align: right;
             }
-            
+
             .toc-toggle {
                 padding: 0.5rem 1rem;
                 font-size: 0.8rem;
             }
-            
+
             .table-of-contents {
                 width: 320px;
                 left: -320px;
                 top: 70px;
                 height: calc(100vh - 70px);
             }
-            
+
             .toc-header {
                 font-size: 1.1rem;
                 padding: 1.5rem 1rem 1rem;
             }
-            
+
             .toc-item {
                 margin: 0.4rem 0.8rem;
                 padding: 1rem;
             }
-            
+
             .container {
                 margin-top: 5rem;
                 padding: 0 1rem;
             }
-            
+
             .container.toc-open {
                 margin-left: 0;
             }
-            
+
             .reader {
                 padding: 2rem;
             }
-            
+
             h1.dynamic-title {
                 font-size: 2.5rem;
                 margin-bottom: 1.5rem;
             }
-            
+
             .poem-title {
                 font-size: 1.6rem;
             }
-            
+
             .poem-content {
                 font-size: 1.2rem;
                 line-height: 2;
             }
-            
+
             .controls {
                 bottom: 1rem;
                 right: 1rem;
                 gap: 0.5rem;
             }
-            
+
             .control-btn {
                 padding: 0.8rem 1rem;
                 font-size: 0.9rem;
             }
-            
+
             .navigation {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .nav-btn {
                 padding: 0.7rem 1.2rem;
             }
@@ -674,61 +705,61 @@
             header {
                 padding: 0.8rem;
             }
-            
+
             .logo {
                 font-size: 1.2rem;
             }
-            
+
             .author-header {
                 font-size: 0.9rem;
                 max-width: 50%;
             }
-            
+
             .table-of-contents {
                 width: 280px;
                 left: -280px;
             }
-            
+
             .toc-header {
                 font-size: 1rem;
                 padding: 1.2rem 0.8rem 0.8rem;
             }
-            
+
             .toc-item {
                 margin: 0.3rem 0.6rem;
                 padding: 0.8rem;
             }
-            
+
             .toc-title {
                 font-size: 1rem;
             }
-            
+
             .container {
                 padding: 0 0.8rem;
             }
-            
+
             .reader {
                 padding: 1.5rem;
             }
-            
+
             h1.dynamic-title {
                 font-size: 2rem;
             }
-            
+
             .poem-title {
                 font-size: 1.4rem;
             }
-            
+
             .poem-content {
                 font-size: 1.1rem;
             }
-            
+
             .controls {
                 bottom: 0.8rem;
                 right: 0.8rem;
                 flex-direction: column;
             }
-            
+
             .control-btn {
                 padding: 0.7rem;
                 font-size: 0.8rem;
@@ -741,11 +772,11 @@
                 width: 260px;
                 left: -260px;
             }
-            
+
             .reader {
                 padding: 1.2rem;
             }
-            
+
             h1.dynamic-title {
                 font-size: 1.8rem;
             }
@@ -777,6 +808,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Floating particles -->
     <div class="particle" style="top: 15%; left: 10%; width: 4px; height: 4px;"></div>
@@ -901,7 +933,7 @@
 
         // Uncomment this section to load from JSON file instead:
         // /*
-        fetch('/class/json/content-export-2025-09-09.json')
+        fetch('/class/json/content-export-2026-09-09.json')
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data)) {
@@ -919,13 +951,13 @@
         // Filter functionality
         function applyFilter(filterType) {
             currentFilter = filterType;
-            
+
             if (filterType === 'all') {
                 filteredPoems = allPoems;
             } else {
                 filteredPoems = allPoems.filter(poem => poem.type === filterType);
             }
-            
+
             currentIndex = 0;
             updateFilterButtons();
             updateFilterStatus();
@@ -943,7 +975,7 @@
         }
 
         function updateFilterStatus() {
-            const statusText = currentFilter === 'all' 
+            const statusText = currentFilter === 'all'
                 ? `Showing all ${filteredPoems.length} items`
                 : `Showing ${filteredPoems.length} ${currentFilter}${filteredPoems.length !== 1 ? 's' : ''}`;
             filterStatus.textContent = statusText;
@@ -957,7 +989,7 @@
                 if (index === currentIndex) {
                     tocItem.classList.add('current');
                 }
-                
+
                 tocItem.innerHTML = `
                     <div class="toc-title">${poem.title || 'Untitled'}</div>
                     <div class="toc-meta">
@@ -965,7 +997,7 @@
                         ${poem.status || 'published'}
                     </div>
                 `;
-                
+
                 tocItem.addEventListener('click', () => {
                     currentIndex = index;
                     displayPoem();
@@ -976,7 +1008,7 @@
                         mainContainer.classList.remove('toc-open');
                     }
                 });
-                
+
                 tocItems.appendChild(tocItem);
             });
         }
@@ -1012,15 +1044,15 @@
             }
 
             const poem = filteredPoems[currentIndex];
-            
+
             // Update the main title and author with animation
             const dynamicTitle = document.getElementById('dynamicTitle');
             const authorDisplay = document.getElementById('authorDisplay');
-            
+
             dynamicTitle.style.opacity = '0';
             authorDisplay.style.opacity = '0';
             authorDisplay.style.transform = 'translateX(10px)';
-            
+
             setTimeout(() => {
                 dynamicTitle.textContent = poem.title || 'वृन्दोपनिषद्';
                 authorDisplay.textContent = poem.excerpt || '';
@@ -1037,7 +1069,7 @@
                 </div>
             ` : '';
 
-            const tags = poem.tags && poem.tags.length > 0 ? 
+            const tags = poem.tags && poem.tags.length > 0 ?
                 `<div class="poem-tags">${poem.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : '';
 
             const content = formatContent(poem.content || '');
@@ -1062,12 +1094,12 @@
 
         function formatContent(content) {
             if (!content) return '';
-            
+
             const words = content.trim().split(/\s+/);
             if (words.length > 5 && words.every(word => word.toLowerCase() === words[0].toLowerCase())) {
                 const uniqueWord = words[0];
                 const count = words.length;
-                
+
                 if (count > 20) {
                     let formatted = '';
                     for (let i = 0; i < count; i++) {
@@ -1081,7 +1113,7 @@
                     return formatted;
                 }
             }
-            
+
             return content.replace(/\n\s*\n/g, '\n\n');
         }
 
@@ -1165,4 +1197,5 @@
         });
     </script>
 </body>
+
 </html>
