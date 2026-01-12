@@ -1,7 +1,7 @@
 {
     "overview": {
         "title": "Welcome to Vrindopnishad Privacy & Terms",
-        "lastModified": "December 20, 2025",
+        "lastModified": "December 20, 2026",
         "pdfUrl": "../assets/pdfs/privacy_overview.pdf",
         "sections": [
             {
@@ -41,7 +41,7 @@
     },
     "privacy": {
         "title": "Vrindopnishad Privacy Policy",
-        "lastModified": "December 20, 2025",
+        "lastModified": "December 20, 2026",
         "pdfUrl": "../assets/pdfs/privacy_policy.pdf",
         "sections": [
             {
@@ -95,7 +95,7 @@
     },
     "terms": {
         "title": "Vrindopnishad Terms of Service",
-        "lastModified": "December 20, 2025",
+        "lastModified": "December 20, 2026",
         "pdfUrl": "../assets/pdfs/terms_of_service.pdf",
         "sections": [
             {
@@ -136,7 +136,7 @@
     },
     "technologies": {
         "title": "Technologies and Principles",
-        "lastModified": "December 20, 2025",
+        "lastModified": "December 20, 2026",
         "sections": [
             {
                 "id": "tech-overview",
@@ -171,7 +171,7 @@
     },
     "faq": {
         "title": "Frequently Asked Questions",
-        "lastModified": "December 20, 2025",
+        "lastModified": "December 20, 2026",
         "sections": [
             {
                 "id": "general-faq",

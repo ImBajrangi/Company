@@ -14,6 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/about_style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -191,7 +192,7 @@
                 <div class="work-grid">
                     <a href="/Vrindopnishad Web/Pictures/main/photos.html" class="work-card work-large">
                         <div class="work-img">
-                            <div class="work-placeholder">📸</div>
+                            <div class="work-placeholder"><i data-lucide="camera"></i></div>
                         </div>
                         <div class="work-overlay">
                             <span class="work-category">Photography</span>
@@ -201,7 +202,7 @@
                     </a>
                     <a href="../../Sketch/main/new-read-me.html" class="work-card">
                         <div class="work-img">
-                            <div class="work-placeholder">📖</div>
+                            <div class="work-placeholder"><i data-lucide="book-open"></i></div>
                         </div>
                         <div class="work-overlay">
                             <span class="work-category">Literature</span>
@@ -211,7 +212,7 @@
                     </a>
                     <a href="https://youtube.com/@vrindopnishad" target="_blank" class="work-card">
                         <div class="work-img">
-                            <div class="work-placeholder">🎵</div>
+                            <div class="work-placeholder"><i data-lucide="music"></i></div>
                         </div>
                         <div class="work-overlay">
                             <span class="work-category">Music</span>
@@ -240,9 +241,9 @@
                     </div>
 
                     <div class="team-cards">
-                        <div class="team-card" data-pos="top-left">
+                        <a href="team-portfolio.html?member=yash" class="team-card" data-pos="top-left">
                             <div class="card-avatar">
-                                <span>YS</span>
+                                <img src="https://i.postimg.cc/sD9xzDgx/temp-Image2n-Gxqd.avif" alt="Yash">
                                 <div class="avatar-glow"></div>
                             </div>
                             <div class="card-info">
@@ -251,11 +252,11 @@
                                 <p class="card-bio">Architecting digital experiences with code</p>
                             </div>
                             <div class="card-number">01</div>
-                        </div>
+                        </a>
 
-                        <div class="team-card" data-pos="top-right">
+                        <a href="team-portfolio.html?member=hariom" class="team-card" data-pos="top-right">
                             <div class="card-avatar">
-                                <span>HO</span>
+                                <img src="https://i.postimg.cc/pXtr3nR9/temp-Image4co-QDC.avif" alt="Hariom">
                                 <div class="avatar-glow"></div>
                             </div>
                             <div class="card-info">
@@ -264,11 +265,11 @@
                                 <p class="card-bio">Crafting visual stories that inspire</p>
                             </div>
                             <div class="card-number">02</div>
-                        </div>
+                        </a>
 
-                        <div class="team-card" data-pos="bottom-left">
+                        <a href="team-portfolio.html?member=hemraj" class="team-card" data-pos="bottom-left">
                             <div class="card-avatar">
-                                <span>HR</span>
+                                <img src="https://i.postimg.cc/HsCnF7dC/temp-Image-Cs7ehf.avif" alt="Hemraj">
                                 <div class="avatar-glow"></div>
                             </div>
                             <div class="card-info">
@@ -277,11 +278,11 @@
                                 <p class="card-bio">Weaving words with wisdom</p>
                             </div>
                             <div class="card-number">03</div>
-                        </div>
+                        </a>
 
-                        <div class="team-card" data-pos="bottom-right">
+                        <a href="team-portfolio.html?member=punit" class="team-card" data-pos="bottom-right">
                             <div class="card-avatar">
-                                <span>PT</span>
+                                <img src="https://i.postimg.cc/3JHNzDY0/temp-Images-SCS61.avif" alt="Punit">
                                 <div class="avatar-glow"></div>
                             </div>
                             <div class="card-info">
@@ -290,7 +291,7 @@
                                 <p class="card-bio">Building bonds across boundaries</p>
                             </div>
                             <div class="card-number">04</div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="team-center-text">
@@ -420,7 +421,7 @@
                     <span class="divider-dot">✦</span>
                 </div>
                 <div class="footer-credits">
-                    <span>© 2025 Vrindopnishad</span>
+                    <span>© 2026 Vrindopnishad</span>
                     <span class="credits-separator">•</span>
                     <span>Made with <em>devotion</em> in Vrindavan</span>
                 </div>
@@ -500,6 +501,9 @@
                 track.parentElement.scrollLeft = scrollLeft - walk;
             });
         }
+
+        // Initialize Lucide icons
+        lucide.createIcons();
     </script>
 </body>
 

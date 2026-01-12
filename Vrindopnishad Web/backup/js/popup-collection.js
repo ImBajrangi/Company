@@ -46,7 +46,7 @@ function initializePopup() {
             </div>
 
             <div class="popup-meta">
-                <span class="popup-year">2025</span>
+                <span class="popup-year">2026</span>
                 <span class="popup-count">${collection.count} Items</span>
                 <span class="popup-category">${collection.category}</span>
             </div>

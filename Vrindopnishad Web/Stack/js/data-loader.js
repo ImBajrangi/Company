@@ -15,7 +15,7 @@ class JSONDataLoader {
             {
                 id: 'harivansh_collection',
                 name: 'Shri Harivansh Collection',
-                file: '/class/json/Shri-Harivansh-Chandr-2025-09-21T12-02-46.json',
+                file: '/class/json/Shri-Harivansh-Chandr-2026-09-21T12-02-46.json',
                 category: 'spiritual',
                 enabled: true
             },

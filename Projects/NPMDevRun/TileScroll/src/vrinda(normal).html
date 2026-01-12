@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#8E7F7F">
     <title>Vrindopnishad</title>
-    
+
     <!-- External Resources -->
     <link rel="stylesheet" href="https://use.typekit.net/rmd7deq.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.css">
-    
+
     <style>
         /* ===================================
            CRITICAL BASE STYLES
@@ -36,7 +38,7 @@
             --color-link: #aaa;
             --color-link-hover: #fff;
             --color-alt: #7f6a57;
-            
+
             /* Your existing variables */
             --bg-color: #ffffff;
             --bg-color-rgb: 255, 255, 255;
@@ -70,18 +72,18 @@
         html.has-scroll-smooth {
             overflow: hidden;
         }
-        
+
         html.has-scroll-dragging {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
-        
+
         .has-scroll-smooth body {
             overflow: hidden;
         }
-        
+
         .has-scroll-smooth [data-scroll-container] {
             min-height: 100vh;
         }
@@ -90,6 +92,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+
             ::selection {
                 background-color: var(--accent-color);
                 color: var(--bg-color);
@@ -135,7 +138,7 @@
         @keyframes loaderAnim {
             to {
                 opacity: 1;
-                transform: scale3d(0.5,0.5,1);
+                transform: scale3d(0.5, 0.5, 1);
             }
         }
 
@@ -194,7 +197,7 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate3d(-50%,-50%,0) rotate(-22.5deg);
+            transform: translate3d(-50%, -50%, 0) rotate(-22.5deg);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -391,11 +394,11 @@
             .tiles__line {
                 width: 33vmax;
             }
-            
+
             .tiles__line:nth-child(even) {
                 margin-top: -20vmax;
             }
-            
+
             .tiles__line-img {
                 height: 40vmax;
             }
@@ -417,44 +420,94 @@
 
     <!-- Main content with Locomotive Scroll container -->
     <main data-scroll-container>
-        
+
         <!-- Tiles Section -->
         <section class="tiles tiles--columns-rotated tiles--darker" id="grid" data-scroll-section>
             <div class="tiles__wrap">
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1476231790875-69f6c17995eb?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="-1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1490682143684-14369e18dce8?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800)">
+                    </div>
                 </div>
                 <div class="tiles__line" data-scroll data-scroll-speed="1" data-scroll-target="#grid">
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)"></div>
-                    <div class="tiles__line-img" style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)"></div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800)">
+                    </div>
+                    <div class="tiles__line-img"
+                        style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800)">
+                    </div>
                 </div>
             </div>
             <h2 class="tiles__title" data-scroll data-scroll-speed="10">Shri Harivansh</h2>
@@ -468,7 +521,8 @@
                     <div>Cosmic</div>
                     <div>Journey</div>
                 </h1>
-                <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for spiritual and creative exploration</p>
+                <p>A digital sanctuary where ancient wisdom meets modern creativity, offering a unique space for
+                    spiritual and creative exploration</p>
             </div>
         </section>
 
@@ -476,7 +530,8 @@
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Digital Sanctuary</h2>
-                <p>A space where creativity and spirituality converge in harmony, fostering deeper connections with art and wisdom.</p>
+                <p>A space where creativity and spirituality converge in harmony, fostering deeper connections with art
+                    and wisdom.</p>
             </div>
         </section>
 
@@ -484,7 +539,8 @@
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Artistic Excellence</h2>
-                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital innovations.</p>
+                <p>Curated collections of stunning artworks that blend traditional techniques with modern digital
+                    innovations.</p>
             </div>
         </section>
 
@@ -492,7 +548,8 @@
         <section class="content-section" data-scroll-section>
             <div class="content-box" data-scroll data-scroll-speed="2">
                 <h2>Visual Stories</h2>
-                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.</p>
+                <p>Captivating photography that captures moments of beauty, devotion, and wonder across time and space.
+                </p>
             </div>
         </section>
 
@@ -511,7 +568,7 @@
                 <p>A digital sanctuary where art, technology, and spirituality converge.</p>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Vrindopnishad. All rights reserved.</p>
+                <p>&copy; 2026 Vrindopnishad. All rights reserved.</p>
             </div>
         </footer>
     </main>
@@ -520,12 +577,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.6.1/dist/locomotive-scroll.min.js"></script>
-    
+
     <script>
         // Preload functions
         const preloadImages = (selector = 'img') => {
             return new Promise((resolve) => {
-                imagesLoaded(document.querySelectorAll(selector), {background: true}, resolve);
+                imagesLoaded(document.querySelectorAll(selector), { background: true }, resolve);
             });
         };
 
@@ -541,7 +598,7 @@
 
         // Initialize
         Promise.all([
-            preloadImages('.tiles__line-img'), 
+            preloadImages('.tiles__line-img'),
             preloadFonts('rmd7deq')
         ]).then(() => {
             // Remove loader
@@ -601,4 +658,5 @@
         });
     </script>
 </body>
+
 </html>

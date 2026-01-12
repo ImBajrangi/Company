@@ -50,8 +50,12 @@
             "title": "Anime Character",
             "description": "Beautiful anime character illustration",
             "category": "Anime",
-            "tags": ["anime", "character", "illustration"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "character",
+                "illustration"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 4,
@@ -60,8 +64,12 @@
             "title": "Scenic Landscape",
             "description": "Breathtaking natural landscape view",
             "category": "Landscape",
-            "tags": ["landscape", "nature", "scenic"],
-            "date": "2025-09-07"
+            "tags": [
+                "landscape",
+                "nature",
+                "scenic"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 5,
@@ -70,8 +78,12 @@
             "title": "Anime Art",
             "description": "Colorful anime artwork",
             "category": "Anime",
-            "tags": ["anime", "art", "colorful"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "art",
+                "colorful"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 6,
@@ -80,8 +92,12 @@
             "title": "Anime Scene",
             "description": "Dynamic anime scene",
             "category": "Anime",
-            "tags": ["anime", "scene", "dynamic"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "scene",
+                "dynamic"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 7,
@@ -90,8 +106,12 @@
             "title": "Mountain View",
             "description": "Majestic mountain landscape",
             "category": "Landscape",
-            "tags": ["landscape", "mountain", "nature"],
-            "date": "2025-09-07"
+            "tags": [
+                "landscape",
+                "mountain",
+                "nature"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 8,
@@ -100,8 +120,12 @@
             "title": "Anime Fantasy",
             "description": "Fantasy anime illustration",
             "category": "Anime",
-            "tags": ["anime", "fantasy", "illustration"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "fantasy",
+                "illustration"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 9,
@@ -110,8 +134,12 @@
             "title": "Natural Beauty",
             "description": "Beautiful nature scene",
             "category": "Nature",
-            "tags": ["nature", "beautiful", "scenic"],
-            "date": "2025-09-07"
+            "tags": [
+                "nature",
+                "beautiful",
+                "scenic"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 10,
@@ -120,8 +148,12 @@
             "title": "Anime Portrait",
             "description": "Stunning anime character portrait",
             "category": "Anime",
-            "tags": ["anime", "portrait", "character"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "portrait",
+                "character"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 11,
@@ -130,8 +162,12 @@
             "title": "Anime Style",
             "description": "Modern anime style artwork",
             "category": "Anime",
-            "tags": ["anime", "style", "modern"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "style",
+                "modern"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 12,
@@ -140,8 +176,12 @@
             "title": "Anime Design",
             "description": "Creative anime design",
             "category": "Anime",
-            "tags": ["anime", "design", "creative"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "design",
+                "creative"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 13,
@@ -150,8 +190,12 @@
             "title": "Panoramic View",
             "description": "Wide panoramic landscape",
             "category": "Landscape",
-            "tags": ["landscape", "panoramic", "wide"],
-            "date": "2025-09-07"
+            "tags": [
+                "landscape",
+                "panoramic",
+                "wide"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 14,
@@ -160,8 +204,12 @@
             "title": "Anime Collection",
             "description": "Part of anime collection",
             "category": "Anime",
-            "tags": ["anime", "collection", "art"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "collection",
+                "art"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 15,
@@ -170,8 +218,12 @@
             "title": "Forest Scene",
             "description": "Peaceful forest environment",
             "category": "Nature",
-            "tags": ["nature", "forest", "peaceful"],
-            "date": "2025-09-07"
+            "tags": [
+                "nature",
+                "forest",
+                "peaceful"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 16,
@@ -180,8 +232,12 @@
             "title": "Anime World",
             "description": "Immersive anime world",
             "category": "Anime",
-            "tags": ["anime", "world", "immersive"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "world",
+                "immersive"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 17,
@@ -190,8 +246,12 @@
             "title": "Anime Aesthetic",
             "description": "Aesthetic anime artwork",
             "category": "Anime",
-            "tags": ["anime", "aesthetic", "artwork"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "aesthetic",
+                "artwork"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 18,
@@ -200,8 +260,12 @@
             "title": "Anime Vision",
             "description": "Creative anime vision",
             "category": "Anime",
-            "tags": ["anime", "vision", "creative"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "vision",
+                "creative"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 19,
@@ -210,8 +274,12 @@
             "title": "Anime Dreams",
             "description": "Dreamlike anime scene",
             "category": "Anime",
-            "tags": ["anime", "dreams", "dreamlike"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "dreams",
+                "dreamlike"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 20,
@@ -220,8 +288,12 @@
             "title": "Anime Magic",
             "description": "Magical anime illustration",
             "category": "Anime",
-            "tags": ["anime", "magic", "magical"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "magic",
+                "magical"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 21,
@@ -230,8 +302,12 @@
             "title": "Anime Spirit",
             "description": "Spiritual anime artwork",
             "category": "Anime",
-            "tags": ["anime", "spirit", "spiritual"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "spirit",
+                "spiritual"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 22,
@@ -240,8 +316,12 @@
             "title": "Anime Journey",
             "description": "Epic anime journey scene",
             "category": "Anime",
-            "tags": ["anime", "journey", "epic"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "journey",
+                "epic"
+            ],
+            "date": "2026-09-07"
         },
         {
             "id": 23,
@@ -250,8 +330,12 @@
             "title": "Anime Adventure",
             "description": "Adventure-themed anime art",
             "category": "Anime",
-            "tags": ["anime", "adventure", "themed"],
-            "date": "2025-09-07"
+            "tags": [
+                "anime",
+                "adventure",
+                "themed"
+            ],
+            "date": "2026-09-07"
         }
     ]
 }

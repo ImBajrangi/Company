@@ -13,7 +13,7 @@ A high fidelity 3D font renderer and text layout engine for the web
 ## Overview
 
 > [!CAUTION]
-> three-text is an alpha release and the API may break rapidly. This warning will last at least through the end of 2025. If API stability is important to you, consider pinning your version. Community feedback is encouraged; please open an issue if you have any suggestions or feedback, thank you
+> three-text is an alpha release and the API may break rapidly. This warning will last at least through the end of 2026. If API stability is important to you, consider pinning your version. Community feedback is encouraged; please open an issue if you have any suggestions or feedback, thank you
 
 **three-text** renders and formats text from TTF, OTF, and WOFF font files as 3D geometry. It uses [TeX](https://en.wikipedia.org/wiki/TeX)-based parameters for breaking text into paragraphs across multiple lines, and turns font outlines into 3D shapes on the fly. Glyph geometry is cached for low CPU overhead, especially in languages with lots of repeating glyphs. Variable fonts are supported as static instances at a given axis coordinate
 

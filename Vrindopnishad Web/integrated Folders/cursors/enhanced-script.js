@@ -1,5 +1,5 @@
 // Enhanced Hatom Custom Cursor JavaScript: Morphing, Hotspots & Advanced Animation
-// Author: AI | Date: 2025-08-22
+// Author: AI | Date: 2026-08-22
 // See HTML for all required class/id names
 
 class EnhancedCursor {
