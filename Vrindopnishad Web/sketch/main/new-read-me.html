@@ -2,11 +2,8 @@
 <html lang="en">
 
 <head>
-    <link rel="apple-touch-icon" sizes="180x180" href="../../class/favicon-vrindopnishad/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../class/favicon-vrindopnishad/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../class/favicon-vrindopnishad/favicon-16x16.png">
-    <link rel="manifest" href="../../class/favicon-vrindopnishad/site.webmanifest">
-    <link rel="shortcut icon" href="../../class/favicon-vrindopnishad/favicon.ico">
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad - Paath</title>
@@ -181,7 +178,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 80px;
+            height: 70px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
@@ -204,11 +201,13 @@
 
         .author-header {
             font-family: "poppins";
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: rgb(255, 255, 255);
             text-shadow: 0px 0px 5px rgba(255, 237, 132, 0.6);
             transition: opacity 0.5s var(--transition-smooth);
             animation: authorFade 0.5s var(--transition-smooth);
+            max-width: 300px;
+            text-align: center;
         }
 
         .header-controls {
@@ -219,35 +218,36 @@
 
         .container {
             max-width: 900px;
-            margin: 6rem auto 0;
+            margin: 90px auto 0;
             position: relative;
-            padding: 0 2rem;
-            min-height: calc(100vh - 80px);
+            padding: 0 2rem 2rem;
+            min-height: calc(100vh - 90px);
         }
 
         .grid-container {
             max-width: 1200px;
-            margin: 6rem auto 0;
-            padding: 0 2rem;
-            min-height: calc(100vh - 80px);
+            margin: 90px auto 0;
+            padding: 0 2rem 2rem;
+            min-height: calc(100vh - 90px);
         }
 
         h1.page-title {
             font-family: var(--font-headings);
             color: white;
-            font-size: 3.5rem;
+            font-size: 3rem;
             text-align: center;
             margin-bottom: 3rem;
             font-weight: 600;
             background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         h1.dynamic-title {
             font-family: var(--font-headings);
             color: white;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
@@ -263,17 +263,18 @@
         .sidebar {
             position: fixed;
             left: 0;
-            top: 80px;
-            width: 280px;
-            height: calc(100vh - 80px);
-            background: rgba(255, 255, 255, 0.05);
+            top: 70px;
+            width: 320px;
+            height: calc(100vh - 70px);
+            background: rgba(15, 5, 30, 0.95);
             backdrop-filter: var(--blur-effect);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
             padding: 2rem;
             overflow-y: auto;
             transform: translateX(-100%);
             transition: transform 0.3s ease;
             z-index: 999;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .sidebar.active {
@@ -281,30 +282,40 @@
         }
 
         .category-filter h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #a78bfa;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: #c4b5fd;
+            font-weight: 600;
+            text-align: center;
+            font-family: var(--font-headings);
         }
 
         .category-btn {
             display: block;
             width: 100%;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 12px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
             font-family: var(--font-body);
+            font-size: 1rem;
         }
 
-        .category-btn:hover,
+        .category-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateX(5px);
+        }
+
         .category-btn.active {
-            background: linear-gradient(135deg, #190050, #2e0040);
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
             border-color: transparent;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         .content-grid {
@@ -314,7 +325,7 @@
         }
 
         .content-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -326,23 +337,26 @@
         }
 
         .content-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
-            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(167, 139, 250, 0.4);
         }
 
         .content-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #a78bfa;
+            color: #c4b5fd;
             font-weight: 600;
+            font-family: var(--font-headings);
         }
 
         .content-card p {
-            opacity: 0.8;
-            line-height: 1.6;
+            opacity: 0.85;
+            line-height: 1.7;
             margin-bottom: 1rem;
             color: white;
+            font-size: 1rem;
         }
 
         .content-card .tags {
@@ -355,9 +369,9 @@
         .tag {
             background: rgba(142, 68, 173, 0.3);
             color: white;
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 0.9rem;
             border-radius: 15px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             border: 1px solid rgba(142, 68, 173, 0.5);
         }
 
@@ -370,7 +384,7 @@
         }
 
         .reader {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             padding: 3rem;
@@ -383,10 +397,10 @@
 
         .poem-title {
             font-family: var(--font-headings);
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #fff;
-            margin-bottom: 1rem;
-            font-weight: 500;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
         }
 
         .poem-meta {
@@ -399,15 +413,15 @@
 
         .poem-author {
             font-style: italic;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             font-size: 1.1rem;
         }
 
         .poem-type,
         .poem-status {
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 1rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 500;
             text-transform: uppercase;
         }
@@ -438,15 +452,14 @@
 
         .poem-content {
             white-space: pre-line;
-            font-size: 1.3rem;
-            line-height: 2.2;
+            font-size: 1.25rem;
+            line-height: 2;
             color: white;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
-        /* Media Content Styles */
         .media-gallery,
         .media-audio,
         .media-links {
@@ -459,18 +472,18 @@
         }
 
         .media-title {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             text-align: center;
             font-family: var(--font-headings);
         }
 
         .image-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
             margin-top: 1rem;
         }
 
@@ -480,9 +493,9 @@
 
         .media-item img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s var(--transition-smooth);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -490,22 +503,22 @@
         }
 
         .media-item img:hover {
-            transform: scale(1.02);
-            border-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 10px 25px rgba(49, 0, 64, 0.4);
+            transform: scale(1.03);
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
         }
 
         .media-caption {
-            margin-top: 0.5rem;
+            margin-top: 0.7rem;
             color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-style: italic;
         }
 
         .audio-player {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -526,12 +539,6 @@
             margin-bottom: 0.3rem;
         }
 
-        .audio-artist {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.5rem;
-        }
-
         .links-grid {
             display: grid;
             gap: 1rem;
@@ -539,59 +546,45 @@
 
         .sacred-link {
             display: block;
-            padding: 1rem;
-            background: rgba(118, 0, 158, 0.5);
+            padding: 1.2rem;
+            background: rgba(118, 0, 158, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
+            border-radius: 12px;
             text-decoration: none;
-            color: rgba(99, 0, 129, 0.9);
             transition: all 0.3s var(--transition-smooth);
             position: relative;
             overflow: hidden;
         }
 
         .sacred-link:hover {
-            background: rgba(108, 0, 181, 0.6);
-            border-color: rgba(255, 255, 255, 0.05);
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(57, 0, 89, 0.2);
+            background: rgba(139, 92, 246, 0.4);
+            border-color: rgba(167, 139, 250, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
         }
 
         .sacred-link::before {
             content: '🔗';
             position: absolute;
-            right: 1rem;
+            right: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
             opacity: 0.5;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .link-title {
             font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
             color: rgba(255, 255, 255, 0.95);
         }
 
         .link-description {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
-            line-height: 1.4;
+            line-height: 1.5;
         }
-
-        /* .link-title {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .link-description {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.4;
-        } */
 
         .navigation {
             display: flex;
@@ -602,32 +595,35 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.8rem;
             border-radius: 12px;
             cursor: pointer;
             font-family: var(--font-body);
             font-weight: 500;
-            transition: all 0.4s var(--transition-bounce);
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .nav-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px) scale(1.005);
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         .nav-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
         .poem-counter {
             color: white;
             font-weight: 500;
+            font-size: 1.05rem;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
@@ -637,7 +633,7 @@
             right: 2rem;
             display: flex;
             gap: 1rem;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: opacity 0.3s ease;
             z-index: 1000;
             flex-direction: column;
@@ -654,18 +650,18 @@
         }
 
         .music-player-container {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(20, 10, 40, 0.95);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
-            padding: 1rem;
+            padding: 1.2rem;
             display: none;
             flex-direction: column;
-            gap: 0.8rem;
-            min-width: 280px;
-            max-width: 320px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            gap: 1rem;
+            min-width: 300px;
+            max-width: 340px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .music-player-container.active {
@@ -678,34 +674,36 @@
             align-items: center;
             color: white;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .music-close-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             padding: 0;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
+            border-radius: 50%;
+            opacity: 0.8;
+            transition: all 0.3s ease;
         }
 
         .music-close-btn:hover {
             opacity: 1;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .music-track-info {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            max-height: 40px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-height: 45px;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -741,26 +739,13 @@
             }
 
             50% {
-                transform: scale(1.1);
+                transform: scale(1.15);
                 opacity: 0.8;
             }
         }
 
-        @media (max-width: 768px) {
-            .controls {
-                bottom: 1rem;
-                right: 1rem;
-            }
-
-            .music-player-container {
-                min-width: 250px;
-                max-width: 280px;
-                padding: 0.8rem;
-            }
-        }
-
         .control-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             color: white;
@@ -770,14 +755,16 @@
             cursor: pointer;
             font-family: var(--font-body);
             font-weight: 500;
-            transition: all 0.5s var(--transition-bounce);
+            font-size: 1rem;
+            transition: all 0.3s ease;
             width: auto;
             height: auto;
         }
 
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-0.5px) scale3d(1.02, 1.02, 1.5);
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         #themeToggle i {
@@ -786,7 +773,7 @@
         }
 
         #themeToggle i.fa-sun {
-            color: #ffde24;
+            color: #ffd700;
         }
 
         #themeToggle i.fa-moon {
@@ -794,14 +781,63 @@
         }
 
         #themeToggle:hover i {
-            transform: rotate(45deg);
+            transform: rotate(180deg);
         }
 
         .menu-toggle {
             display: none;
-            width: 50px;
+            width: 60px;
             height: 50px;
-            border-radius: 50%;
+            background: transparent;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .wrapper-menu {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 330ms ease-out;
+            padding: 8px 0;
+        }
+
+        .wrapper-menu.open {
+            transform: rotate(-45deg);
+        }
+
+        .line-menu {
+            background-color: #fff;
+            border-radius: 3px;
+            width: 100%;
+            height: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .line-menu.half {
+            width: 70%;
+        }
+
+        .line-menu.start {
+            transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
+            transform-origin: right;
+        }
+
+        .wrapper-menu.open .line-menu.start {
+            transform: rotate(-90deg) translateX(3px);
+        }
+
+        .line-menu.end {
+            align-self: flex-end;
+            transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
+            transform-origin: left;
+        }
+
+        .wrapper-menu.open .line-menu.end {
+            transform: rotate(-90deg) translateX(-3px);
         }
 
         footer {
@@ -1082,35 +1118,74 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 2rem;
             }
+
+            h1.page-title {
+                font-size: 2.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
+            header {
+                height: 60px;
+                padding: 0.8rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .author-header {
+                font-size: 0.85rem;
+                max-width: 150px;
+            }
 
             .container,
             .grid-container {
-                margin-top: 5rem;
-                padding: 0 1rem;
+                margin-top: 80px;
+                padding: 0 1rem 1.5rem;
             }
 
             .sidebar {
                 width: 100%;
+                top: 60px;
+                height: calc(100vh - 60px);
             }
 
             .menu-toggle {
                 display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .wrapper-menu {
+                width: 40px;
+                height: 40px;
+            }
+
+            .line-menu {
+                height: 5px;
             }
 
             .content-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .reader {
-                padding: 2rem;
+                padding: 1.5rem;
             }
 
-            h1.page-title,
+            h1.page-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
             h1.dynamic-title {
-                font-size: 2.5rem;
+                font-size: 1.8rem;
             }
 
             .poem-title {
@@ -1138,6 +1213,11 @@
                 gap: 1rem;
             }
 
+            .nav-btn {
+                width: 100%;
+                padding: 0.9rem 1.5rem;
+            }
+
             .image-grid {
                 grid-template-columns: 1fr;
             }
@@ -1146,10 +1226,10 @@
                 height: 250px;
             }
 
-            .author-header {
-                font-size: 0.9rem;
-                max-width: 50%;
-                text-align: right;
+            .music-player-container {
+                min-width: 260px;
+                max-width: 290px;
+                padding: 1rem;
             }
 
             .footer-content {
@@ -1194,21 +1274,39 @@
                 gap: 1rem;
             }
         }
+
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1000px;
+            }
+
+            .grid-container {
+                max-width: 1400px;
+            }
+
+            h1.page-title {
+                font-size: 3.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Vrindopnishad Random Loader -->
-    <!-- <script
-        src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script> -->
-
     <div class="nebula"></div>
     <header>
         <div class="logo">वृंदोपनिषद्</div>
         <div id="authorDisplay" class="author-header"></div>
         <div class="header-controls">
             <button class="control-btn menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
+                <div class="wrapper-menu" id="wrapperMenu">
+                    <div class="line-menu half start"></div>
+                    <div class="line-menu"></div>
+                    <div class="line-menu half end"></div>
+                </div>
             </button>
             <button class="control-btn" id="backBtn" style="display: none;">
                 <i class="fas fa-arrow-left"></i>
@@ -1360,6 +1458,7 @@
         const categoryList = document.getElementById('categoryList');
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menuToggle');
+        const wrapperMenu = document.getElementById('wrapperMenu');
         const backBtn = document.getElementById('backBtn');
         const musicToggle = document.getElementById('musicToggle');
         const musicPlayer = document.getElementById('musicPlayer');
@@ -1430,6 +1529,7 @@
 
             renderGrid();
             sidebar.classList.remove('active');
+            wrapperMenu.classList.remove('open');
         }
 
         function renderGrid() {
@@ -1455,7 +1555,6 @@
             const poemContent = currentEntry.content;
             const content = formatContent(poemContent?.content || '');
 
-            // Update title and author with animation
             dynamicTitle.style.opacity = '0';
             authorDisplay.style.opacity = '0';
 
@@ -1466,7 +1565,6 @@
                 authorDisplay.style.opacity = '1';
             }, 250);
 
-            // Check if audio/video is available
             if (currentEntry.videos && currentEntry.videos.length > 0) {
                 currentAudioUrl = currentEntry.videos[0].url;
                 musicToggle.style.display = 'flex';
@@ -1476,7 +1574,6 @@
                 musicPlayer.classList.remove('active');
             }
 
-            // Generate media content
             const { imageContent, audioContent, linkContent } = generateMediaContent(currentEntry);
 
             const navigation = filteredEntries.length > 1 ? `
@@ -1614,7 +1711,7 @@
                         left: 0;
                         width: 100%;
                         height: 100%;
-                        background: rgba(0, 0, 0, 0.9);
+                        background: rgba(0, 0, 0, 0.95);
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -1639,7 +1736,7 @@
                         max-height: 80vh;
                         object-fit: contain;
                         border-radius: 10px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
                     }
                     .modal-title {
                         color: white;
@@ -1664,6 +1761,7 @@
                         justify-content: center;
                         padding: 0;
                         line-height: 1;
+                        transition: background 0.3s ease;
                     }
                 `;
                 document.head.appendChild(styles);
@@ -1692,7 +1790,10 @@
             audioPlayer.pause();
         };
 
-        menuToggle.onclick = () => sidebar.classList.toggle('active');
+        menuToggle.onclick = () => {
+            sidebar.classList.toggle('active');
+            wrapperMenu.classList.toggle('open');
+        };
 
         musicToggle.onclick = () => {
             if (musicPlayer.classList.contains('active')) {
@@ -1735,7 +1836,6 @@
                 document.documentElement.style.setProperty('--nebula-color-2', 'rgba(32, 84, 174, 0.15)');
                 document.documentElement.style.setProperty('--nebula-color-3', 'rgba(175, 38, 255, 0.15)');
 
-                const bodyAfter = document.querySelector('body::after') || document.body;
                 document.body.style.setProperty('--gradient-1', 'rgba(0, 8, 45, 0.8)');
                 document.body.style.setProperty('--gradient-2', 'rgba(63, 0, 125, 0.6)');
                 document.body.style.setProperty('--gradient-3', 'rgba(45, 0, 102, 0.7)');
