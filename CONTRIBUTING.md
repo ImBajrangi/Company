@@ -60,3 +60,14 @@ Use clear prefixes:
 - [ ] Understands not to touch `main`.
 - [ ] SSH/HTTPS keys authorized by @ImBajrangi.
 - [ ] Ready to create first feature branch.
+
+## 5. Committing Changes
+
+# 1. Make your changes to files
+# 2. Stage and commit
+- [ ] git add .
+- [ ] git commit -m "Your commit message"
+# 3. Pull any remote changes (will auto-merge now)
+- [ ] git pull origin main-me
+# 4. Push your changes
+- [ ] git push origin main-me
