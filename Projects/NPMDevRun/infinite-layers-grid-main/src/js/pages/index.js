@@ -6,17 +6,17 @@ export default class Index {
   constructor() {
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
-    
+
     this.sources = [
-      {src: 'https://i.postimg.cc/NjGqdx4D/31.avif', caption: '30 knots <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2021'},
-      {src: 'https://i.postimg.cc/PJHFPtVy/32.avif', caption: 'Sad Mis-Step <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2024'},
-      {src: 'https://i.postimg.cc/W1x8dNhZ/46.avif', caption: 'Mini Orange <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2014'},
-      {src: 'https://i.postimg.cc/yx32SQ76/62.avif', caption: 'After Storm <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022'},
-      {src: 'https://i.postimg.cc/0QwLzXkk/80.avif', caption: 'Untitled <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2016'},
-      {src: 'https://i.postimg.cc/c18s3T98/64.avif', caption: 'Toilet Paper <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022'},
-      {src: 'https://i.postimg.cc/vBBJG8jV/49.avif', caption: 'Cocoa Eggplant Tomato <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2026'},
-      {src: 'https://i.postimg.cc/m2wK1HsH/48.avif', caption: 'Toilet Paper <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022'},
-      {src: 'https://i.postimg.cc/zXs8phQP/24.avif', caption: 'Production Fun Fact (Eggs) <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2024'},
+      { src: 'https://i.postimg.cc/NjGqdx4D/31.avif', caption: '30 knots <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2021' },
+      { src: 'https://i.postimg.cc/PJHFPtVy/32.avif', caption: 'Sad Mis-Step <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2026' },
+      { src: 'https://i.postimg.cc/W1x8dNhZ/46.avif', caption: 'Mini Orange <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2014' },
+      { src: 'https://i.postimg.cc/yx32SQ76/62.avif', caption: 'After Storm <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022' },
+      { src: 'https://i.postimg.cc/0QwLzXkk/80.avif', caption: 'Untitled <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2016' },
+      { src: 'https://i.postimg.cc/c18s3T98/64.avif', caption: 'Toilet Paper <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022' },
+      { src: 'https://i.postimg.cc/vBBJG8jV/49.avif', caption: 'Cocoa Eggplant Tomato <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2026' },
+      { src: 'https://i.postimg.cc/m2wK1HsH/48.avif', caption: 'Toilet Paper <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2022' },
+      { src: 'https://i.postimg.cc/zXs8phQP/24.avif', caption: 'Production Fun Fact (Eggs) <br>12 x 16 inch C type hand print <br>Edition of 1 Plus an additional artist Proof <br>2026' },
     ];
 
     // Load all images first to get their natural dimensions
@@ -41,7 +41,7 @@ export default class Index {
 
       // Function to get random spacing
       const getRandomSpacing = () => minSpacing + Math.random() * (maxSpacing - minSpacing);
-      
+
       // Function to add some chaos to position
       const addChaos = (value, range) => {
         return value + (Math.random() - 0.5) * range;
