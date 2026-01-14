@@ -2173,9 +2173,9 @@
                             reader.onloadend = () => resolve(reader.result);
                             reader.readAsDataURL(blob);
                         });
-                    } catch (e) { 
+                    } catch (e) {
                         console.warn("Logo could not be loaded for PDF:", e);
-                        return null; 
+                        return null;
                     }
                 };
 
@@ -2183,22 +2183,22 @@
 
                 // --- 1. Generate Modern License PDF ---
                 const licenseDoc = new jsPDF();
-                
+
                 // Header Design
                 licenseDoc.setFillColor(29, 29, 31); // Dark background
                 licenseDoc.rect(0, 0, 210, 45, 'F');
-                
+
                 if (logoData) {
                     try {
                         licenseDoc.addImage(logoData, 'PNG', 20, 10, 25, 25);
                     } catch (e) { console.error("Error adding logo to License PDF:", e); }
                 }
-                
+
                 licenseDoc.setFont("helvetica", "bold");
                 licenseDoc.setFontSize(28);
                 licenseDoc.setTextColor(255, 255, 255);
                 licenseDoc.text("Chitra Vrinda", 55, 27);
-                
+
                 licenseDoc.setFontSize(14);
                 licenseDoc.setTextColor(174, 174, 178); // Light gray
                 licenseDoc.text("Personal & Commercial License", 55, 36);
@@ -2207,7 +2207,7 @@
                 licenseDoc.setTextColor(29, 29, 31);
                 licenseDoc.setFontSize(18);
                 licenseDoc.text("License Details", 20, 65);
-                
+
                 // Info Box
                 licenseDoc.setFillColor(245, 245, 247);
                 licenseDoc.roundedRect(20, 75, 170, 40, 4, 4, 'F');
@@ -2216,7 +2216,7 @@
                 licenseDoc.text("COLLECTION:", 30, 88);
                 licenseDoc.text("LICENSE ID:", 30, 98);
                 licenseDoc.text("ISSUE DATE:", 30, 108);
-                
+
                 licenseDoc.setFont("helvetica", "normal");
                 licenseDoc.text(item.title.toUpperCase(), 70, 88);
                 licenseDoc.text(paymentId || 'N/A', 70, 98);
@@ -2253,27 +2253,27 @@
                 licenseDoc.setFontSize(9);
                 licenseDoc.setTextColor(142, 142, 147);
                 licenseDoc.text("Thank you for choosing Vrindopnishad's Chitra Vrinda. All rights reserved.", 105, 287, { align: 'center' });
-                
+
                 zip.file(`License_${item.id}.pdf`, licenseDoc.output('blob'));
 
                 // --- 2. Generate Modern Receipt PDF ---
                 const receiptDoc = new jsPDF();
-                
+
                 // Header Design
                 receiptDoc.setFillColor(0, 113, 227); // Blue background
                 receiptDoc.rect(0, 0, 210, 45, 'F');
-                
+
                 if (logoData) {
                     try {
                         receiptDoc.addImage(logoData, 'PNG', 20, 10, 25, 25);
                     } catch (e) { console.error("Error adding logo to Receipt PDF:", e); }
                 }
-                
+
                 receiptDoc.setFont("helvetica", "bold");
                 receiptDoc.setFontSize(28);
                 receiptDoc.setTextColor(255, 255, 255);
                 receiptDoc.text("Chitra Vrinda", 55, 27);
-                
+
                 receiptDoc.setFontSize(14);
                 receiptDoc.text("Official Purchase Receipt", 55, 36);
 
@@ -2281,16 +2281,16 @@
                 receiptDoc.setTextColor(29, 29, 31);
                 receiptDoc.setFontSize(18);
                 receiptDoc.text("Invoice Information", 20, 65);
-                
+
                 // Transaction Details Table-ish
                 receiptDoc.setFillColor(245, 245, 247);
                 receiptDoc.roundedRect(20, 75, 170, 30, 2, 2, 'F');
-                
+
                 receiptDoc.setFontSize(10);
                 receiptDoc.setTextColor(142, 142, 147);
                 receiptDoc.text("TRANSACTION ID", 30, 85);
                 receiptDoc.text("ORDER DATE", 110, 85);
-                
+
                 receiptDoc.setTextColor(29, 29, 31);
                 receiptDoc.setFontSize(11);
                 receiptDoc.text(paymentId || 'N/A', 30, 95);
@@ -2300,23 +2300,23 @@
                 receiptDoc.setFontSize(14);
                 receiptDoc.setFont("helvetica", "bold");
                 receiptDoc.text("Collection Details", 20, 125);
-                
+
                 receiptDoc.setDrawColor(230, 230, 230);
                 receiptDoc.line(20, 130, 190, 130);
-                
+
                 receiptDoc.setFontSize(11);
                 receiptDoc.text("ITEM DESCRIPTION", 20, 140);
                 receiptDoc.text("AMOUNT", 170, 140, { align: 'right' });
-                
+
                 receiptDoc.setFont("helvetica", "normal");
                 receiptDoc.text(item.title, 20, 155);
                 receiptDoc.setTextColor(142, 142, 147);
                 receiptDoc.text((item.description || '').substring(0, 80) + '...', 20, 162, { maxWidth: 130 });
-                
+
                 receiptDoc.setTextColor(29, 29, 31);
-                receiptDoc.setFont("helvetica", "bold");
-                receiptDoc.text(formatPrice(item.price), 170, 155, { align: 'right' });
-                
+                const pdfPrice = `Rs. ${item.price.toLocaleString('en-IN')}`;
+                receiptDoc.text(pdfPrice, 170, 155, { align: 'right' });
+
                 // Total Box
                 receiptDoc.setFillColor(245, 245, 247);
                 receiptDoc.rect(120, 180, 70, 25, 'F');
@@ -2325,7 +2325,7 @@
                 receiptDoc.text("TOTAL PAID", 125, 190);
                 receiptDoc.setTextColor(0, 113, 227);
                 receiptDoc.setFontSize(16);
-                receiptDoc.text(formatPrice(item.price), 185, 198, { align: 'right' });
+                receiptDoc.text(pdfPrice, 185, 198, { align: 'right' });
 
                 // Professional Note
                 receiptDoc.setFontSize(10);
@@ -2393,67 +2393,67 @@
         }
 
         function renderRelated(currentItem) {
-                const grid = document.getElementById('related-grid');
-                if (!currentItem || !currentItem.tags || !Array.isArray(currentItem.tags)) {
-                    console.warn('Cannot render related items: current item is invalid or has no tags.', currentItem);
-                    grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Could not load related items.</p>';
-                    return;
+            const grid = document.getElementById('related-grid');
+            if (!currentItem || !currentItem.tags || !Array.isArray(currentItem.tags)) {
+                console.warn('Cannot render related items: current item is invalid or has no tags.', currentItem);
+                grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Could not load related items.</p>';
+                return;
+            }
+
+            // *** FIXED: Load all collection data from session storage
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                console.warn('Cannot render related items: allCollectionsData not in sessionStorage.');
+                grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Could not load related items.</p>';
+                return;
+            }
+
+            let allCollections;
+            try {
+                allCollections = JSON.parse(allCollectionsJson);
+            } catch (e) {
+                console.error("Failed to parse allCollectionsData from sessionStorage", e);
+                grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Error loading related items.</p>';
+                return;
+            }
+
+            // Flatten all items from all categories
+            const allItems = Object.values(allCollections).flatMap(category => category.items || []);
+
+            const currentTags = currentItem.tags;
+            // *** FIXED: Filter from the 'allItems' loaded from session storage
+            const allOtherItems = allItems.filter(item => item.id !== currentItem.id);
+
+            // 1. Calculate similarity score for all other items
+            const scoredItems = allOtherItems.map(item => {
+                let score = 0;
+                if (item.tags && Array.isArray(item.tags)) {
+                    // Count matching tags
+                    score = item.tags.reduce((acc, tag) => {
+                        return acc + (currentTags.includes(tag) ? 1 : 0);
+                    }, 0);
                 }
+                return { item, score };
+            });
 
-                // *** FIXED: Load all collection data from session storage
-                const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
-                if (!allCollectionsJson) {
-                    console.warn('Cannot render related items: allCollectionsData not in sessionStorage.');
-                    grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Could not load related items.</p>';
-                    return;
+            // 2. Sort by score (highest first).
+            scoredItems.sort((a, b) => {
+                if (b.score !== a.score) {
+                    return b.score - a.score; // Higher score first
                 }
+                return Math.random() - 0.5; // Randomize items with the same score
+            });
 
-                let allCollections;
-                try {
-                    allCollections = JSON.parse(allCollectionsJson);
-                } catch (e) {
-                    console.error("Failed to parse allCollectionsData from sessionStorage", e);
-                    grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">Error loading related items.</p>';
-                    return;
-                }
+            // 3. Get the top 4 related items
+            const related = scoredItems.slice(0, 4).map(scoredItem => scoredItem.item);
 
-                // Flatten all items from all categories
-                const allItems = Object.values(allCollections).flatMap(category => category.items || []);
+            // 4. Render them
+            if (related.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">No related items found.</p>';
+                return;
+            }
 
-                const currentTags = currentItem.tags;
-                // *** FIXED: Filter from the 'allItems' loaded from session storage
-                const allOtherItems = allItems.filter(item => item.id !== currentItem.id);
-
-                // 1. Calculate similarity score for all other items
-                const scoredItems = allOtherItems.map(item => {
-                    let score = 0;
-                    if (item.tags && Array.isArray(item.tags)) {
-                        // Count matching tags
-                        score = item.tags.reduce((acc, tag) => {
-                            return acc + (currentTags.includes(tag) ? 1 : 0);
-                        }, 0);
-                    }
-                    return { item, score };
-                });
-
-                // 2. Sort by score (highest first).
-                scoredItems.sort((a, b) => {
-                    if (b.score !== a.score) {
-                        return b.score - a.score; // Higher score first
-                    }
-                    return Math.random() - 0.5; // Randomize items with the same score
-                });
-
-                // 3. Get the top 4 related items
-                const related = scoredItems.slice(0, 4).map(scoredItem => scoredItem.item);
-
-                // 4. Render them
-                if (related.length === 0) {
-                    grid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1;">No related items found.</p>';
-                    return;
-                }
-
-                grid.innerHTML = related.map(item => `
+            grid.innerHTML = related.map(item => `
                 <a href="?id=${item.id}" class="related-card" onclick="navigateToCollection(event, '${item.id}')">
                     <div class="image-wrapper">
                         <img src="${item.image}" alt="${item.title}">
@@ -2465,80 +2465,80 @@
                     </div>
                 </a>
             `).join('');
+        }
+
+        // --- Shopping bag functions ---
+        function updateBagCount() {
+            const count = shoppingBag.length;
+            document.getElementById('bag-count').textContent = count;
+            document.getElementById('bag-count').style.display = count > 0 ? 'flex' : 'none';
+            // Save to localStorage
+            localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
+        }
+
+        function addToBag(item) {
+            // Check if already in bag or purchased
+            const exists = shoppingBag.find(bagItem => bagItem.id === item.id);
+            // Ensure purchasedItems is an array before using .includes()
+            const isPurchased = Array.isArray(purchasedItems) && purchasedItems.includes(item.id);
+
+            if (exists) {
+                showToast('Item is already in your bag', 'error');
+                return;
+            }
+            if (isPurchased) {
+                showToast('You have already purchased this item', 'error');
+                return;
             }
 
-            // --- Shopping bag functions ---
-            function updateBagCount() {
-                const count = shoppingBag.length;
-                document.getElementById('bag-count').textContent = count;
-                document.getElementById('bag-count').style.display = count > 0 ? 'flex' : 'none';
-                // Save to localStorage
-                localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
-            }
+            shoppingBag.push(item);
+            updateBagCount();
+            renderBag();
+            showToast('Added to bag');
 
-            function addToBag(item) {
-                // Check if already in bag or purchased
-                const exists = shoppingBag.find(bagItem => bagItem.id === item.id);
-                // Ensure purchasedItems is an array before using .includes()
-                const isPurchased = Array.isArray(purchasedItems) && purchasedItems.includes(item.id);
+            // Disable button
+            document.getElementById('add-to-bag').disabled = true;
+            document.getElementById('add-to-bag').innerHTML = '<i class="fas fa-check-circle"></i> In Bag';
+        }
 
-                if (exists) {
-                    showToast('Item is already in your bag', 'error');
-                    return;
+        function removeFromBag(itemId) {
+            shoppingBag = shoppingBag.filter(item => item.id !== itemId);
+            updateBagCount();
+            renderBag();
+
+            // Re-enable "Add to Bag" button if we are on that item's page
+            const currentId = getCollectionIdFromURL();
+            if (currentId === itemId) {
+                const addToBagBtn = document.getElementById('add-to-bag');
+                // Only re-enable if not purchased
+                const isPurchased = Array.isArray(purchasedItems) && purchasedItems.includes(itemId);
+                if (!isPurchased) {
+                    addToBagBtn.disabled = false;
+                    addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
                 }
-                if (isPurchased) {
-                    showToast('You have already purchased this item', 'error');
-                    return;
-                }
-
-                shoppingBag.push(item);
-                updateBagCount();
-                renderBag();
-                showToast('Added to bag');
-
-                // Disable button
-                document.getElementById('add-to-bag').disabled = true;
-                document.getElementById('add-to-bag').innerHTML = '<i class="fas fa-check-circle"></i> In Bag';
             }
+        }
 
-            function removeFromBag(itemId) {
-                shoppingBag = shoppingBag.filter(item => item.id !== itemId);
-                updateBagCount();
-                renderBag();
+        function renderBag() {
+            const bagContent = document.getElementById('bag-content');
+            const bagFooter = document.getElementById('bag-footer');
 
-                // Re-enable "Add to Bag" button if we are on that item's page
-                const currentId = getCollectionIdFromURL();
-                if (currentId === itemId) {
-                    const addToBagBtn = document.getElementById('add-to-bag');
-                    // Only re-enable if not purchased
-                    const isPurchased = Array.isArray(purchasedItems) && purchasedItems.includes(itemId);
-                    if (!isPurchased) {
-                        addToBagBtn.disabled = false;
-                        addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
-                    }
-                }
-            }
-
-            function renderBag() {
-                const bagContent = document.getElementById('bag-content');
-                const bagFooter = document.getElementById('bag-footer');
-
-                if (shoppingBag.length === 0) {
-                    bagContent.innerHTML = `
+            if (shoppingBag.length === 0) {
+                bagContent.innerHTML = `
                     <div class="bag-empty">
                         <i class="fas fa-shopping-bag"></i>
                         <p>Your bag is empty</p>
                     </div>
                 `;
-                    bagFooter.innerHTML = '';
-                    return;
-                }
+                bagFooter.innerHTML = '';
+                return;
+            }
 
-                const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
-                const tax = subtotal * 0.18; // Assuming 18% tax
-                const total = subtotal + tax;
+            const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
+            const tax = subtotal * 0.18; // Assuming 18% tax
+            const total = subtotal + tax;
 
-                bagContent.innerHTML = `
+            bagContent.innerHTML = `
                 <div>
                     ${shoppingBag.map((item, index) => `
                         <div class="bag-item">
@@ -2556,7 +2556,7 @@
                 </div>
             `;
 
-                bagFooter.innerHTML = `
+            bagFooter.innerHTML = `
                 <div class="bag-summary">
                     <div class="summary-row">
                         <span>Subtotal</span>
@@ -2578,87 +2578,87 @@
                     </button>
                 </div>
             `;
-            }
+        }
 
-            // --- Favorites functions ---
-            function updateLikeCount() {
-                const count = favorites.length;
-                const likeBtn = document.getElementById('like-toggle');
-                const likeCountEl = document.getElementById('like-count');
-                likeCountEl.textContent = count;
-                likeCountEl.style.display = count > 0 ? 'flex' : 'none';
+        // --- Favorites functions ---
+        function updateLikeCount() {
+            const count = favorites.length;
+            const likeBtn = document.getElementById('like-toggle');
+            const likeCountEl = document.getElementById('like-count');
+            likeCountEl.textContent = count;
+            likeCountEl.style.display = count > 0 ? 'flex' : 'none';
 
-                if (likeBtn) { // Add null check for likeBtn
-                    if (count > 0) {
-                        likeBtn.classList.add('liked');
-                        likeBtn.querySelector('i').className = 'fas fa-heart';
-                    } else {
-                        likeBtn.classList.remove('liked');
-                        likeBtn.querySelector('i').className = 'far fa-heart';
-                    }
-                }
-
-                // Save to localStorage
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-            }
-
-            function addToFavorites(item) {
-                if (!item) return; // Prevent errors if item is null
-                const exists = favorites.find(fav => fav.id === item.id);
-                const wishlistBtn = document.getElementById('add-to-wishlist');
-
-                if (!exists) {
-                    favorites.push(item);
-                    updateLikeCount();
-                    renderFavorites();
-                    showToast('Added to favorites ❤️');
-                    if (wishlistBtn) {
-                        wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
-                        wishlistBtn.classList.add('liked-btn');
-                    }
+            if (likeBtn) { // Add null check for likeBtn
+                if (count > 0) {
+                    likeBtn.classList.add('liked');
+                    likeBtn.querySelector('i').className = 'fas fa-heart';
                 } else {
-                    favorites = favorites.filter(fav => fav.id !== item.id);
-                    updateLikeCount();
-                    renderFavorites();
-                    showToast('Removed from favorites');
-                    if (wishlistBtn) {
-                        wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
-                        wishlistBtn.classList.remove('liked-btn');
-                    }
+                    likeBtn.classList.remove('liked');
+                    likeBtn.querySelector('i').className = 'far fa-heart';
                 }
             }
 
-            function removeFromFavorites(itemId) {
-                favorites = favorites.filter(item => item.id !== itemId);
+            // Save to localStorage
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function addToFavorites(item) {
+            if (!item) return; // Prevent errors if item is null
+            const exists = favorites.find(fav => fav.id === item.id);
+            const wishlistBtn = document.getElementById('add-to-wishlist');
+
+            if (!exists) {
+                favorites.push(item);
                 updateLikeCount();
                 renderFavorites();
-
-                // Re-enable "Add to Favorites" button if we are on that item's page
-                const currentId = getCollectionIdFromURL();
-                if (currentId === itemId) {
-                    const wishlistBtn = document.getElementById('add-to-wishlist');
-                    if (wishlistBtn) {
-                        wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
-                        wishlistBtn.classList.remove('liked-btn');
-                    }
+                showToast('Added to favorites ❤️');
+                if (wishlistBtn) {
+                    wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
+                    wishlistBtn.classList.add('liked-btn');
+                }
+            } else {
+                favorites = favorites.filter(fav => fav.id !== item.id);
+                updateLikeCount();
+                renderFavorites();
+                showToast('Removed from favorites');
+                if (wishlistBtn) {
+                    wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
+                    wishlistBtn.classList.remove('liked-btn');
                 }
             }
+        }
 
-            function renderFavorites() {
-                const favContent = document.getElementById('favorites-content');
-                if (!favContent) return; // Add null check
+        function removeFromFavorites(itemId) {
+            favorites = favorites.filter(item => item.id !== itemId);
+            updateLikeCount();
+            renderFavorites();
 
-                if (favorites.length === 0) {
-                    favContent.innerHTML = `
+            // Re-enable "Add to Favorites" button if we are on that item's page
+            const currentId = getCollectionIdFromURL();
+            if (currentId === itemId) {
+                const wishlistBtn = document.getElementById('add-to-wishlist');
+                if (wishlistBtn) {
+                    wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
+                    wishlistBtn.classList.remove('liked-btn');
+                }
+            }
+        }
+
+        function renderFavorites() {
+            const favContent = document.getElementById('favorites-content');
+            if (!favContent) return; // Add null check
+
+            if (favorites.length === 0) {
+                favContent.innerHTML = `
                     <div class="bag-empty">
                         <i class="fas fa-heart-broken"></i>
                         <p>Your favorites list is empty</p>
                     </div>
                 `;
-                    return;
-                }
+                return;
+            }
 
-                favContent.innerHTML = `
+            favContent.innerHTML = `
                 <div>
                     ${favorites.map((item, index) => `
                         <div class="bag-item">
@@ -2676,95 +2676,95 @@
                     `).join('')}
                 </div>
             `;
+        }
+
+        // UPDATED to use navigateToCollection
+        function viewCollection(id) {
+            navigateToCollection(null, id); // Pass null for the event
+        }
+
+
+        // --- Modals and UI functions ---
+        function toggleBag() {
+            document.getElementById('bag-modal').classList.toggle('active');
+            document.getElementById('bag-overlay').classList.toggle('active');
+        }
+
+        function toggleFavorites() {
+            renderFavorites(); // Always re-render when opening
+            document.getElementById('favorites-modal').classList.toggle('active');
+            document.getElementById('bag-overlay').classList.toggle('active');
+        }
+
+        function togglePurchased() {
+            const purchasedModal = document.getElementById('purchased-modal');
+            const overlay = document.getElementById('bag-overlay');
+            if (!purchasedModal || !overlay) return;
+
+            // Close other modals
+            document.getElementById('bag-modal').classList.remove('active');
+            document.getElementById('favorites-modal').classList.remove('active');
+
+            const isActive = purchasedModal.classList.toggle('active');
+            if (isActive) {
+                overlay.classList.add('active');
+                renderPurchased();
+            } else {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function toggleSearch() {
+            const searchModal = document.getElementById('search-modal');
+            const searchInput = document.getElementById('search-input');
+            if (!searchModal || !searchInput) return;
+
+            searchModal.classList.toggle('active');
+
+            if (searchModal.classList.contains('active')) {
+                setTimeout(() => searchInput.focus(), 100);
+            } else {
+                searchInput.value = '';
+                const resultsEl = document.getElementById('search-results');
+                if (resultsEl) resultsEl.innerHTML = '';
+            }
+        }
+
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('search-results');
+            if (!resultsContainer) return;
+
+            if (query.length < 2) {
+                resultsContainer.innerHTML = '';
+                return;
             }
 
-            // UPDATED to use navigateToCollection
-            function viewCollection(id) {
-                navigateToCollection(null, id); // Pass null for the event
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                console.warn('Cannot search: allCollectionsData not in sessionStorage.');
+                resultsContainer.innerHTML = '<p>Error loading search data.</p>';
+                return;
             }
 
-
-            // --- Modals and UI functions ---
-            function toggleBag() {
-                document.getElementById('bag-modal').classList.toggle('active');
-                document.getElementById('bag-overlay').classList.toggle('active');
+            let allItems;
+            try {
+                const allCollections = JSON.parse(allCollectionsJson);
+                allItems = Object.values(allCollections).flatMap(category => category.items || []);
+            } catch (e) {
+                console.error("Failed to parse allCollectionsData for search", e);
+                resultsContainer.innerHTML = '<p>Error loading search data.</p>';
+                return;
             }
 
-            function toggleFavorites() {
-                renderFavorites(); // Always re-render when opening
-                document.getElementById('favorites-modal').classList.toggle('active');
-                document.getElementById('bag-overlay').classList.toggle('active');
-            }
+            const results = allItems.filter(item =>
+                (item.title && item.title.toLowerCase().includes(query)) ||
+                (item.description && item.description.toLowerCase().includes(query)) ||
+                (item.tags && item.tags.some(tag => tag.toLowerCase().includes(query)))
+            );
 
-            function togglePurchased() {
-                const purchasedModal = document.getElementById('purchased-modal');
-                const overlay = document.getElementById('bag-overlay');
-                if (!purchasedModal || !overlay) return;
-
-                // Close other modals
-                document.getElementById('bag-modal').classList.remove('active');
-                document.getElementById('favorites-modal').classList.remove('active');
-
-                const isActive = purchasedModal.classList.toggle('active');
-                if (isActive) {
-                    overlay.classList.add('active');
-                    renderPurchased();
-                } else {
-                    overlay.classList.remove('active');
-                }
-            }
-
-            function toggleSearch() {
-                const searchModal = document.getElementById('search-modal');
-                const searchInput = document.getElementById('search-input');
-                if (!searchModal || !searchInput) return;
-
-                searchModal.classList.toggle('active');
-
-                if (searchModal.classList.contains('active')) {
-                    setTimeout(() => searchInput.focus(), 100);
-                } else {
-                    searchInput.value = '';
-                    const resultsEl = document.getElementById('search-results');
-                    if (resultsEl) resultsEl.innerHTML = '';
-                }
-            }
-
-            function handleSearch(e) {
-                const query = e.target.value.toLowerCase().trim();
-                const resultsContainer = document.getElementById('search-results');
-                if (!resultsContainer) return;
-
-                if (query.length < 2) {
-                    resultsContainer.innerHTML = '';
-                    return;
-                }
-
-                const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
-                if (!allCollectionsJson) {
-                    console.warn('Cannot search: allCollectionsData not in sessionStorage.');
-                    resultsContainer.innerHTML = '<p>Error loading search data.</p>';
-                    return;
-                }
-
-                let allItems;
-                try {
-                    const allCollections = JSON.parse(allCollectionsJson);
-                    allItems = Object.values(allCollections).flatMap(category => category.items || []);
-                } catch (e) {
-                    console.error("Failed to parse allCollectionsData for search", e);
-                    resultsContainer.innerHTML = '<p>Error loading search data.</p>';
-                    return;
-                }
-
-                const results = allItems.filter(item =>
-                    (item.title && item.title.toLowerCase().includes(query)) ||
-                    (item.description && item.description.toLowerCase().includes(query)) ||
-                    (item.tags && item.tags.some(tag => tag.toLowerCase().includes(query)))
-                );
-
-                if (results.length > 0) {
-                    resultsContainer.innerHTML = results.map(item => `
+            if (results.length > 0) {
+                resultsContainer.innerHTML = results.map(item => `
                     <div class="search-result-item" onclick="navigateToCollection(event, '${item.id}')">
                         <div class="search-result-title">${item.title}</div>
                         <div class="search-result-desc">${item.description.substring(0, 100)}...</div>
@@ -2773,113 +2773,113 @@
                         </div>
                     </div>
                 `).join('');
-                } else {
-                    resultsContainer.innerHTML = `
+            } else {
+                resultsContainer.innerHTML = `
                     <div class="search-result-item" style="text-align: center; color: var(--text-secondary);">
                         No results found for "${query}"
                     </div>
                 `;
-                }
+            }
+        }
+
+        function navigateToCollection(event, id) {
+            if (event) event.preventDefault();
+
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                console.error('Cannot navigate: allCollectionsData not in sessionStorage.');
+                alert('An error occurred. Please go back to the gallery and try again.');
+                return;
             }
 
-            function navigateToCollection(event, id) {
-                if (event) event.preventDefault();
-
-                const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
-                if (!allCollectionsJson) {
-                    console.error('Cannot navigate: allCollectionsData not in sessionStorage.');
-                    alert('An error occurred. Please go back to the gallery and try again.');
-                    return;
-                }
-
-                let allItems;
-                try {
-                    const allCollections = JSON.parse(allCollectionsJson);
-                    allItems = Object.values(allCollections).flatMap(category => category.items || []);
-                } catch (e) {
-                    console.error("Failed to parse allCollectionsData for navigation", e);
-                    alert('An error occurred processing collection data.');
-                    return;
-                }
-
-                const itemToNav = allItems.find(item => item.id === id);
-
-                if (itemToNav) {
-                    sessionStorage.setItem('collectionData', JSON.stringify(itemToNav));
-                } else {
-                    console.error(`Item with id ${id} not found in allCollectionsData.`);
-                    alert('Could not find item details. Please try again from the gallery.');
-                    return;
-                }
-
-                window.location.href = `?id=${id}`;
+            let allItems;
+            try {
+                const allCollections = JSON.parse(allCollectionsJson);
+                allItems = Object.values(allCollections).flatMap(category => category.items || []);
+            } catch (e) {
+                console.error("Failed to parse allCollectionsData for navigation", e);
+                alert('An error occurred processing collection data.');
+                return;
             }
 
-            function subscribeNewsletter(e) {
-                e.preventDefault();
-                const emailInput = e.target.querySelector('input');
-                if (emailInput) {
-                    const email = emailInput.value;
-                    showToast('Thanks for subscribing! 📧');
-                    e.target.reset();
-                }
-                return false;
+            const itemToNav = allItems.find(item => item.id === id);
+
+            if (itemToNav) {
+                sessionStorage.setItem('collectionData', JSON.stringify(itemToNav));
+            } else {
+                console.error(`Item with id ${id} not found in allCollectionsData.`);
+                alert('Could not find item details. Please try again from the gallery.');
+                return;
             }
 
-            function showToast(message, type = 'success') {
-                const toast = document.getElementById('toast');
-                if (!toast) return;
+            window.location.href = `?id=${id}`;
+        }
 
-                toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> ${message}`;
+        function subscribeNewsletter(e) {
+            e.preventDefault();
+            const emailInput = e.target.querySelector('input');
+            if (emailInput) {
+                const email = emailInput.value;
+                showToast('Thanks for subscribing! 📧');
+                e.target.reset();
+            }
+            return false;
+        }
 
-                toast.classList.remove('error', 'info');
-                if (type === 'error') {
-                    toast.classList.add('error');
-                } else if (type === 'info') {
-                    toast.classList.add('info');
-                }
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
 
-                toast.classList.add('show');
-                const duration = type === 'success' ? 3000 : 5000;
-                setTimeout(() => toast.classList.remove('show'), duration);
+            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> ${message}`;
+
+            toast.classList.remove('error', 'info');
+            if (type === 'error') {
+                toast.classList.add('error');
+            } else if (type === 'info') {
+                toast.classList.add('info');
             }
 
-            function renderPurchased() {
-                const purchasedContent = document.getElementById('purchased-content');
-                if (!purchasedContent) return;
+            toast.classList.add('show');
+            const duration = type === 'success' ? 3000 : 5000;
+            setTimeout(() => toast.classList.remove('show'), duration);
+        }
 
-                const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
-                if (!allCollectionsJson) {
-                    purchasedContent.innerHTML = '<div class="empty-state"><p>Data not loaded. Please return to gallery.</p></div>';
-                    return;
-                }
+        function renderPurchased() {
+            const purchasedContent = document.getElementById('purchased-content');
+            if (!purchasedContent) return;
 
-                let allItems = [];
-                try {
-                    const allCollections = JSON.parse(allCollectionsJson);
-                    allItems = Object.values(allCollections).flatMap(category => category.items || []);
-                } catch (e) {
-                    console.error("Error parsing allCollectionsData", e);
-                }
+            const allCollectionsJson = sessionStorage.getItem('allCollectionsData');
+            if (!allCollectionsJson) {
+                purchasedContent.innerHTML = '<div class="empty-state"><p>Data not loaded. Please return to gallery.</p></div>';
+                return;
+            }
 
-                const purchasedIds = Object.keys(purchasedItems);
+            let allItems = [];
+            try {
+                const allCollections = JSON.parse(allCollectionsJson);
+                allItems = Object.values(allCollections).flatMap(category => category.items || []);
+            } catch (e) {
+                console.error("Error parsing allCollectionsData", e);
+            }
 
-                if (purchasedIds.length === 0) {
-                    purchasedContent.innerHTML = `
+            const purchasedIds = Object.keys(purchasedItems);
+
+            if (purchasedIds.length === 0) {
+                purchasedContent.innerHTML = `
                     <div class="empty-state" style="text-align: center; padding: 40px 20px;">
                         <i class="fas fa-file-invoice" style="font-size: 40px; color: var(--border-color); margin-bottom: 16px;"></i>
                         <p>No purchased items yet.</p>
                     </div>
                 `;
-                    return;
-                }
+                return;
+            }
 
-                let html = '';
-                purchasedIds.forEach(id => {
-                    const item = allItems.find(i => i.id === id);
-                    if (item) {
-                        const purchaseData = purchasedItems[id];
-                        html += `
+            let html = '';
+            purchasedIds.forEach(id => {
+                const item = allItems.find(i => i.id === id);
+                if (item) {
+                    const purchaseData = purchasedItems[id];
+                    html += `
                         <div class="bag-item" style="padding: 16px 0; align-items: center;">
                             <img src="${item.image}" alt="${item.title}" class="bag-item-image">
                             <div class="bag-item-info" style="display: flex; flex-direction: column; gap: 4px;">
@@ -2892,195 +2892,195 @@
                             </div>
                         </div>
                     `;
-                    }
-                });
+                }
+            });
 
-                purchasedContent.innerHTML = html;
+            purchasedContent.innerHTML = html;
+        }
+
+        // --- Checkout Function ---
+        function handleCheckout() {
+            if (shoppingBag.length === 0) {
+                showToast('Your bag is empty', 'error');
+                return;
             }
 
-            // --- Checkout Function ---
-            function handleCheckout() {
-                if (shoppingBag.length === 0) {
-                    showToast('Your bag is empty', 'error');
-                    return;
-                }
+            const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+            const totalInPaise = Math.round(total * 100);
 
-                const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
-                const tax = subtotal * 0.18;
-                const total = subtotal + tax;
-                const totalInPaise = Math.round(total * 100);
+            const options = {
+                "key": "rzp_test_RU9lPJQl5wqQFM",
+                "amount": totalInPaise,
+                "currency": "INR",
+                "name": "Vrindopnishad",
+                "description": `Purchase of ${shoppingBag.length} Collection(s)`,
+                "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
+                "handler": function (response) {
+                    console.log("Razorpay Response:", response);
+                    showToast('Payment Successful! ✅ Preparing your download(s)...', 'info');
 
-                const options = {
-                    "key": "rzp_test_RU9lPJQl5wqQFM",
-                    "amount": totalInPaise,
-                    "currency": "INR",
-                    "name": "Vrindopnishad",
-                    "description": `Purchase of ${shoppingBag.length} Collection(s)`,
-                    "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
-                    "handler": function (response) {
-                        console.log("Razorpay Response:", response);
-                        showToast('Payment Successful! ✅ Preparing your download(s)...', 'info');
+                    const purchasedIds = shoppingBag.map(item => item.id);
 
-                        const purchasedIds = shoppingBag.map(item => item.id);
-
-                        purchasedIds.forEach(id => {
-                            purchasedItems[id] = {
-                                date: new Date().toISOString(),
-                                paymentId: response.razorpay_payment_id
-                            };
-                        });
-
-                        localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
-
-                        shoppingBag.forEach((item, index) => {
-                            setTimeout(async () => {
-                                try {
-                                    await downloadCollection(item, response.razorpay_payment_id);
-                                } catch (downloadError) {
-                                    console.error(`Error downloading ${item.title}: `, downloadError);
-                                    showToast(`Error preparing download for ${item.title}.`, 'error');
-                                }
-                            }, index * 1500);
-                        });
-
-                        shoppingBag = [];
-                        updateBagCount();
-                        renderBag();
-
-                        const currentId = getCollectionIdFromURL();
-                        if (purchasedIds.indexOf(currentId) !== -1) {
-                            const currentItem = findCollection(currentId);
-                            if (currentItem) renderProduct(currentItem);
-                        }
-
-                        setTimeout(toggleBag, 1000);
-                    },
-                    "prefill": {
-                        "name": "Art Lover",
-                        "email": "customer@example.com",
-                        "contact": "9999999999"
-                    },
-                    "notes": {
-                        "item_ids": shoppingBag.map(item => item.id).join(',')
-                    },
-                    "theme": {
-                        "color": "#0071e3"
-                    }
-                };
-
-                try {
-                    const rzp1 = new Razorpay(options);
-                    rzp1.on('payment.failed', function (response) {
-                        console.error("Razorpay Payment Failed:", response);
-                        let message = 'Payment failed. Please try again.';
-                        if (response.error && response.error.description) {
-                            message = `Payment failed: ${response.error.description}`;
-                        }
-                        showToast(message, 'error');
+                    purchasedIds.forEach(id => {
+                        purchasedItems[id] = {
+                            date: new Date().toISOString(),
+                            paymentId: response.razorpay_payment_id
+                        };
                     });
-                    rzp1.open();
-                } catch (rzpError) {
-                    console.error("Razorpay Initialization Error:", rzpError);
-                    showToast('Could not initiate payment. Please check console.', 'error');
+
+                    localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+
+                    shoppingBag.forEach((item, index) => {
+                        setTimeout(async () => {
+                            try {
+                                await downloadCollection(item, response.razorpay_payment_id);
+                            } catch (downloadError) {
+                                console.error(`Error downloading ${item.title}: `, downloadError);
+                                showToast(`Error preparing download for ${item.title}.`, 'error');
+                            }
+                        }, index * 1500);
+                    });
+
+                    shoppingBag = [];
+                    updateBagCount();
+                    renderBag();
+
+                    const currentId = getCollectionIdFromURL();
+                    if (purchasedIds.indexOf(currentId) !== -1) {
+                        const currentItem = findCollection(currentId);
+                        if (currentItem) renderProduct(currentItem);
+                    }
+
+                    setTimeout(toggleBag, 1000);
+                },
+                "prefill": {
+                    "name": "Art Lover",
+                    "email": "customer@example.com",
+                    "contact": "9999999999"
+                },
+                "notes": {
+                    "item_ids": shoppingBag.map(item => item.id).join(',')
+                },
+                "theme": {
+                    "color": "#0071e3"
+                }
+            };
+
+            try {
+                const rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    console.error("Razorpay Payment Failed:", response);
+                    let message = 'Payment failed. Please try again.';
+                    if (response.error && response.error.description) {
+                        message = `Payment failed: ${response.error.description}`;
+                    }
+                    showToast(message, 'error');
+                });
+                rzp1.open();
+            } catch (rzpError) {
+                console.error("Razorpay Initialization Error:", rzpError);
+                showToast('Could not initiate payment. Please check console.', 'error');
+            }
+        }
+
+        // --- Event listeners ---
+        document.querySelector('.action-buttons').addEventListener('click', (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const id = getCollectionIdFromURL();
+            const item = findCollection(id);
+
+            if (target.id === 'add-to-bag') {
+                if (item) addToBag(item);
+            } else if (target.id === 'add-to-wishlist') {
+                if (item) addToFavorites(item);
+            } else if (target.id === 'download-collection') {
+                if (item) {
+                    const paymentId = purchasedItems[item.id]?.paymentId || 'N/A (Previously Owned)';
+                    downloadCollection(item, paymentId);
                 }
             }
+        });
 
-            // --- Event listeners ---
-            document.querySelector('.action-buttons').addEventListener('click', (e) => {
-                const target = e.target.closest('button');
-                if (!target) return;
+        const bagToggle = document.getElementById('bag-toggle');
+        const bagClose = document.getElementById('bag-close');
+        const bagOverlay = document.getElementById('bag-overlay');
+        const bagFooter = document.getElementById('bag-footer');
 
-                const id = getCollectionIdFromURL();
-                const item = findCollection(id);
+        if (bagToggle) bagToggle.addEventListener('click', toggleBag);
+        if (bagClose) bagClose.addEventListener('click', toggleBag);
+        if (bagOverlay) {
+            bagOverlay.addEventListener('click', () => {
+                if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
+                if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
+                if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
+            });
+        }
 
-                if (target.id === 'add-to-bag') {
-                    if (item) addToBag(item);
-                } else if (target.id === 'add-to-wishlist') {
-                    if (item) addToFavorites(item);
-                } else if (target.id === 'download-collection') {
-                    if (item) {
-                        const paymentId = purchasedItems[item.id]?.paymentId || 'N/A (Previously Owned)';
-                        downloadCollection(item, paymentId);
-                    }
+        if (bagFooter) {
+            bagFooter.addEventListener('click', (e) => {
+                if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
+                    handleCheckout();
                 }
             });
+        }
 
-            const bagToggle = document.getElementById('bag-toggle');
-            const bagClose = document.getElementById('bag-close');
-            const bagOverlay = document.getElementById('bag-overlay');
-            const bagFooter = document.getElementById('bag-footer');
+        const likeToggle = document.getElementById('like-toggle');
+        const favClose = document.getElementById('favorites-close');
+        if (likeToggle) likeToggle.addEventListener('click', toggleFavorites);
+        if (favClose) favClose.addEventListener('click', toggleFavorites);
 
-            if (bagToggle) bagToggle.addEventListener('click', toggleBag);
-            if (bagClose) bagClose.addEventListener('click', toggleBag);
-            if (bagOverlay) {
-                bagOverlay.addEventListener('click', () => {
-                    if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
-                    if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
-                    if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
-                });
-            }
+        const purchasedToggle = document.getElementById('purchased-toggle');
+        const purchasedClose = document.getElementById('purchased-close');
+        if (purchasedToggle) purchasedToggle.addEventListener('click', togglePurchased);
+        if (purchasedClose) purchasedClose.addEventListener('click', togglePurchased);
 
-            if (bagFooter) {
-                bagFooter.addEventListener('click', (e) => {
-                    if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
-                        handleCheckout();
-                    }
-                });
-            }
+        const searchToggle = document.getElementById('search-toggle');
+        const searchClose = document.getElementById('search-close');
+        const searchModal = document.getElementById('search-modal');
+        const searchInput = document.getElementById('search-input');
 
-            const likeToggle = document.getElementById('like-toggle');
-            const favClose = document.getElementById('favorites-close');
-            if (likeToggle) likeToggle.addEventListener('click', toggleFavorites);
-            if (favClose) favClose.addEventListener('click', toggleFavorites);
-
-            const purchasedToggle = document.getElementById('purchased-toggle');
-            const purchasedClose = document.getElementById('purchased-close');
-            if (purchasedToggle) purchasedToggle.addEventListener('click', togglePurchased);
-            if (purchasedClose) purchasedClose.addEventListener('click', togglePurchased);
-
-            const searchToggle = document.getElementById('search-toggle');
-            const searchClose = document.getElementById('search-close');
-            const searchModal = document.getElementById('search-modal');
-            const searchInput = document.getElementById('search-input');
-
-            if (searchToggle) searchToggle.addEventListener('click', toggleSearch);
-            if (searchClose) searchClose.addEventListener('click', toggleSearch);
-            if (searchModal) {
-                searchModal.addEventListener('click', (e) => {
-                    if (e.target.id === 'search-modal') toggleSearch();
-                });
-            }
-            if (searchInput) searchInput.addEventListener('input', handleSearch);
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (document.getElementById('search-modal')?.classList.contains('active')) toggleSearch();
-                    if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
-                    if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
-                    if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
-                }
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                    e.preventDefault();
-                    toggleSearch();
-                }
+        if (searchToggle) searchToggle.addEventListener('click', toggleSearch);
+        if (searchClose) searchClose.addEventListener('click', toggleSearch);
+        if (searchModal) {
+            searchModal.addEventListener('click', (e) => {
+                if (e.target.id === 'search-modal') toggleSearch();
             });
+        }
+        if (searchInput) searchInput.addEventListener('input', handleSearch);
 
-            window.removeFromBag = removeFromBag;
-            window.removeFromFavorites = removeFromFavorites;
-            window.viewCollection = viewCollection;
-            window.navigateToCollection = navigateToCollection;
-            window.subscribeNewsletter = subscribeNewsletter;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.getElementById('search-modal')?.classList.contains('active')) toggleSearch();
+                if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
+                if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
+                if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
+            }
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleSearch();
+            }
+        });
 
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('=== Collection Details Page Initializing ===');
-                favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-                shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
-                purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
+        window.removeFromBag = removeFromBag;
+        window.removeFromFavorites = removeFromFavorites;
+        window.viewCollection = viewCollection;
+        window.navigateToCollection = navigateToCollection;
+        window.subscribeNewsletter = subscribeNewsletter;
 
-                const id = getCollectionIdFromURL();
-                if (!id) {
-                    console.error('No collection ID found in URL');
-                    document.getElementById('product-container').innerHTML = `
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('=== Collection Details Page Initializing ===');
+            favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
+            purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
+
+            const id = getCollectionIdFromURL();
+            if (!id) {
+                console.error('No collection ID found in URL');
+                document.getElementById('product-container').innerHTML = `
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>No Collection Specified</h2>
                         <p>Please return to the gallery and select a collection.</p>
@@ -3089,20 +3089,20 @@
                         </a>
                     </div>
                 `;
-                    if (document.getElementById('bag-count')) document.getElementById('bag-count').style.display = 'none';
-                    if (document.getElementById('like-count')) document.getElementById('like-count').style.display = 'none';
-                    return;
-                }
+                if (document.getElementById('bag-count')) document.getElementById('bag-count').style.display = 'none';
+                if (document.getElementById('like-count')) document.getElementById('like-count').style.display = 'none';
+                return;
+            }
 
-                console.log('Collection ID from URL:', id);
-                const item = findCollection(id);
+            console.log('Collection ID from URL:', id);
+            const item = findCollection(id);
 
-                if (item) {
-                    renderProduct(item);
-                    renderRelated(item);
-                } else {
-                    console.error('Failed to load collection data from sessionStorage');
-                    document.getElementById('product-container').innerHTML = `
+            if (item) {
+                renderProduct(item);
+                renderRelated(item);
+            } else {
+                console.error('Failed to load collection data from sessionStorage');
+                document.getElementById('product-container').innerHTML = `
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>Collection Not Found</h2>
                         <p>Sorry, we couldn't find the details for this collection. Please return to the gallery.</p>
@@ -3111,128 +3111,128 @@
                         </a>
                     </div>
                 `;
-                    const relatedGrid = document.getElementById('related-grid');
-                    if (relatedGrid) relatedGrid.innerHTML = '';
-                }
+                const relatedGrid = document.getElementById('related-grid');
+                if (relatedGrid) relatedGrid.innerHTML = '';
+            }
 
-                updateBagCount();
-                updateLikeCount();
-                renderBag();
-                renderFavorites();
+            updateBagCount();
+            updateLikeCount();
+            renderBag();
+            renderFavorites();
 
-                const thumbnailGrid = document.getElementById('thumbnail-grid');
-                if (thumbnailGrid) {
-                    thumbnailGrid.addEventListener('click', (e) => {
-                        const downloadBtn = e.target.closest('.thumbnail-download-btn');
-                        if (downloadBtn) {
-                            e.stopPropagation();
-                            const imgSrc = downloadBtn.dataset.imgSrc;
-                            if (typeof openWindowAndCheck === 'function' && openWindowAndCheck(imgSrc)) {
-                                showToast('Opening image... Please right-click and save.');
-                            } else {
-                                showToast('Could not open image. Please check pop-up blocker.', 'error');
-                            }
-                        }
-                    });
-                }
-
-                const warningBanner = document.getElementById('popup-warning');
-                const closeWarningBtn = document.getElementById('popup-warning-close');
-                if (warningBanner && closeWarningBtn) {
-                    closeWarningBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
+            const thumbnailGrid = document.getElementById('thumbnail-grid');
+            if (thumbnailGrid) {
+                thumbnailGrid.addEventListener('click', (e) => {
+                    const downloadBtn = e.target.closest('.thumbnail-download-btn');
+                    if (downloadBtn) {
                         e.stopPropagation();
-                        warningBanner.style.display = 'none';
-                        sessionStorage.setItem('popupWarningDismissed', 'true');
-                        console.log('Popup warning dismissed by user.');
-                    });
-                }
-
-                // Mobile Menu Toggle
-                const hamburger = document.getElementById('mobile-menu-toggle');
-                const mobileMenu = document.getElementById('mobile-menu');
-
-                if (hamburger && mobileMenu) {
-                    hamburger.addEventListener('click', () => {
-                        hamburger.classList.toggle('active');
-                        mobileMenu.classList.toggle('active');
-                        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-                    });
-
-                    // Close menu when clicking on a link
-                    mobileMenu.querySelectorAll('.mobile-menu-link').forEach(link => {
-                        link.addEventListener('click', () => {
-                            hamburger.classList.remove('active');
-                            mobileMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        });
-                    });
-
-                    // Close menu when clicking outside
-                    mobileMenu.addEventListener('click', (e) => {
-                        if (e.target === mobileMenu) {
-                            hamburger.classList.remove('active');
-                            mobileMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        }
-                    });
-
-                    // Close on Escape key
-                    document.addEventListener('keydown', (e) => {
-                        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                            hamburger.classList.remove('active');
-                            mobileMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        }
-                    });
-                }
-
-                // Header Scroll Detection - Transparent to Solid
-                const mainHeader = document.querySelector('.main-header');
-                if (mainHeader) {
-                    let lastScrollY = 0;
-                    window.addEventListener('scroll', () => {
-                        const currentScrollY = window.scrollY;
-                        if (currentScrollY > 50) {
-                            mainHeader.classList.add('scrolled');
+                        const imgSrc = downloadBtn.dataset.imgSrc;
+                        if (typeof openWindowAndCheck === 'function' && openWindowAndCheck(imgSrc)) {
+                            showToast('Opening image... Please right-click and save.');
                         } else {
-                            mainHeader.classList.remove('scrolled');
+                            showToast('Could not open image. Please check pop-up blocker.', 'error');
                         }
-                        lastScrollY = currentScrollY;
-                    }, { passive: true });
-                }
+                    }
+                });
+            }
 
-                // Mobile Bottom Bar Functionality
-                const mobileAddToBag = document.getElementById('mobile-add-to-bag');
-                const mobileFavoriteBtn = document.getElementById('mobile-favorite-btn');
-                const mainAddToBag = document.getElementById('add-to-bag');
-                const mainWishlist = document.getElementById('add-to-wishlist');
+            const warningBanner = document.getElementById('popup-warning');
+            const closeWarningBtn = document.getElementById('popup-warning-close');
+            if (warningBanner && closeWarningBtn) {
+                closeWarningBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    warningBanner.style.display = 'none';
+                    sessionStorage.setItem('popupWarningDismissed', 'true');
+                    console.log('Popup warning dismissed by user.');
+                });
+            }
 
-                if (mobileAddToBag && mainAddToBag) {
-                    mobileAddToBag.addEventListener('click', () => {
-                        mainAddToBag.click();
+            // Mobile Menu Toggle
+            const hamburger = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+                });
+
+                // Close menu when clicking on a link
+                mobileMenu.querySelectorAll('.mobile-menu-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
                     });
-                }
+                });
 
-                if (mobileFavoriteBtn && mainWishlist) {
-                    mobileFavoriteBtn.addEventListener('click', () => {
-                        mainWishlist.click();
-                        // Update icon state
-                        const icon = mobileFavoriteBtn.querySelector('i');
-                        if (icon.classList.contains('far')) {
-                            icon.classList.remove('far');
-                            icon.classList.add('fas');
-                            mobileFavoriteBtn.style.color = '#ff3b30';
-                        } else {
-                            icon.classList.remove('fas');
-                            icon.classList.add('far');
-                            mobileFavoriteBtn.style.color = '';
-                        }
-                    });
-                }
+                // Close menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        hamburger.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
 
-                console.log('=== Initialization Complete ===');
-            });
+                // Close on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                        hamburger.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Header Scroll Detection - Transparent to Solid
+            const mainHeader = document.querySelector('.main-header');
+            if (mainHeader) {
+                let lastScrollY = 0;
+                window.addEventListener('scroll', () => {
+                    const currentScrollY = window.scrollY;
+                    if (currentScrollY > 50) {
+                        mainHeader.classList.add('scrolled');
+                    } else {
+                        mainHeader.classList.remove('scrolled');
+                    }
+                    lastScrollY = currentScrollY;
+                }, { passive: true });
+            }
+
+            // Mobile Bottom Bar Functionality
+            const mobileAddToBag = document.getElementById('mobile-add-to-bag');
+            const mobileFavoriteBtn = document.getElementById('mobile-favorite-btn');
+            const mainAddToBag = document.getElementById('add-to-bag');
+            const mainWishlist = document.getElementById('add-to-wishlist');
+
+            if (mobileAddToBag && mainAddToBag) {
+                mobileAddToBag.addEventListener('click', () => {
+                    mainAddToBag.click();
+                });
+            }
+
+            if (mobileFavoriteBtn && mainWishlist) {
+                mobileFavoriteBtn.addEventListener('click', () => {
+                    mainWishlist.click();
+                    // Update icon state
+                    const icon = mobileFavoriteBtn.querySelector('i');
+                    if (icon.classList.contains('far')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        mobileFavoriteBtn.style.color = '#ff3b30';
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        mobileFavoriteBtn.style.color = '';
+                    }
+                });
+            }
+
+            console.log('=== Initialization Complete ===');
+        });
     </script>
 
     <!-- Image Protection Scripts -->
