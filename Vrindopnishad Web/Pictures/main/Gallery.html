@@ -12,6 +12,10 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../js/auth.js" defer></script>
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212">
@@ -159,6 +163,9 @@
             </nav>
 
             <div class="header-actions">
+                <button class="icon-btn" id="user-auth-btn" aria-label="User Account">
+                    <i class="fas fa-user"></i>
+                </button>
                 <button class="icon-btn" id="search-toggle" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </button>
@@ -590,6 +597,22 @@
             });
 
         })();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
     </script>
 </body>
 

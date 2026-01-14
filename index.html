@@ -158,6 +158,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting-cells.css" media="print"
         onload="this.media='all'">
 
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js" defer></script>
+
     <!-- Deferred Scripts -->
     <script src="js/image-helper.js" defer></script>
     <script src="js/offline-handler.js" defer></script>
@@ -235,8 +239,17 @@
 
         <!-- Right side icons container -->
         <div class="header-right">
+            <!-- User Auth Icon -->
+            <div id="user-auth-btn" class="header-icon" aria-label="User Account" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+
             <!-- Tools/settings icon (Gear Design) -->
-            <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+            <div id="tools-menu-btn" class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     style="transform: rotate(0deg);">
@@ -1640,7 +1653,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Tools menu elements
-            const toolsIcon = document.querySelector('.tools-icon');
+            const toolsIcon = document.getElementById('tools-menu-btn');
             const toolsMenu = document.querySelector('.tools-menu');
             const toolsMenuClose = document.querySelector('.tools-menu-close');
             const toolItems = document.querySelectorAll('.tool-item');
@@ -1856,6 +1869,22 @@
     <script src="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js" defer></script>
     <script src="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.js" defer></script>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

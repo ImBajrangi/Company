@@ -11,6 +11,10 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Protest+Strike&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../js/auth.js" defer></script>
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Home/css/styles.css">
     <link rel="stylesheet" href="https://imbajrangi.github.io/Company/Vrindopnishad Web/Stack/css/stack.css"
         class="stylesheet">
@@ -127,6 +131,12 @@
         </ul>
 
         <div class="header-right">
+            <!-- User Auth Icon -->
+            <div id="user-auth-btn" class="search-toggle magnetic" data-magnetic-strength="0.8"
+                aria-label="User Account" role="button" tabindex="0">
+                <i class="fas fa-user"></i>
+            </div>
+
             <div class="search-toggle magnetic" data-magnetic-strength="0.8" id="searchToggle" aria-label="Search"
                 role="button" tabindex="0">
                 <i class="fas fa-search"></i>
@@ -548,7 +558,22 @@
             }
         });
     </script>
-    <!-- <script src="/Vrindopnishad Web/Stack/js/data-loader.js"></script> -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

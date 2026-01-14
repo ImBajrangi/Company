@@ -62,6 +62,10 @@
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/auth.js" defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap');
@@ -297,7 +301,10 @@
     <div
         class="absolute top-4 left-4 right-4 sm:right-auto sm:left-6 flex flex-col sm:flex-row sm:items-start gap-2 sm:space-x-4 z-[1000]">
         <!-- Map Style Dropdown -->
-        <div id="map-style-selector" class="relative">
+        <div id="map-style-selector" class="relative flex items-center gap-2">
+            <button id="user-auth-btn" class="bg-white p-2.5 rounded-lg shadow-lg hover:scale-105 transition-transform">
+                <i data-lucide="user" class="w-5 h-5"></i>
+            </button>
             <button id="style-dropdown-btn">
                 <span id="current-style-name">Google Original</span>
                 <i data-lucide="chevron-down" class="w-4 h-4 ml-2"></i>
@@ -1163,6 +1170,22 @@
 
         window.onload = loadMapsScript;
 
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
     </script>
 </body>
 

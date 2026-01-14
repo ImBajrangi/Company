@@ -98,6 +98,7 @@
     box-sizing: border-box;
     cursor: none;
     font-family: var(--font-primary);
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Remove blue focus outline/box globally */
@@ -487,6 +488,7 @@ button.menu svg {
 
 /* Final adjustments for icons */
 .tools-icon,
+.header-icon,
 .menu {
     border-radius: 50%;
     z-index: 10;
@@ -512,6 +514,19 @@ button.menu svg {
 .tools-icon:hover svg,
 .tools-icon:active svg {
     transform: rotate(90deg);
+    color: var(--accent-color);
+}
+
+/* Header icon (profile button) styling */
+.header-icon svg {
+    display: block;
+    transition: color 0.3s ease;
+    color: var(--text-color);
+    width: 20px;
+    height: 20px;
+}
+
+.header-icon:hover svg {
     color: var(--accent-color);
 }
 

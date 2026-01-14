@@ -4,6 +4,7 @@
     box-sizing: border-box;
     outline: 0;
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 :root {
