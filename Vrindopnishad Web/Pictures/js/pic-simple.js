@@ -184,47 +184,68 @@ function initializeAllFeatures() {
     console.log("All features initialized");
 }
 
-// Load gallery from JSON
-async function loadGalleryFromJSON() {
+// Load gallery data (from Supabase or fallback JSON)
+async function loadGalleryData() {
     try {
-        console.log("Loading gallery from JSON...");
-        // here to input json file path
-        const response = await fetch(dataUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        console.log("Attempting to load gallery data...");
+
+        let images = null;
+        let categories = null;
+
+        // 1. Try fetching from Supabase if configured
+        if (window.supabaseClient && window.supabaseClient.supabaseUrl !== 'https://your-project-url.supabase.co') {
+            const data = await fetchImagesFromSupabase();
+            if (data && data.length > 0) {
+                console.log(`Loaded ${data.length} images from Supabase`);
+                images = data;
+                // Category counts will be calculated from the fetched images
+                categories = [
+                    { id: 'all', name: 'All' },
+                    { id: 'anime', name: 'Anime' },
+                    { id: 'landscape', name: 'Landscape' },
+                    { id: 'nature', name: 'Nature' },
+                    { id: 'spiritual', name: 'Spiritual' }
+                ];
+            }
         }
-        const data = await response.json();
+
+        // 2. Fallback to local JSON if Supabase failed or isn't configured
+        if (!images) {
+            console.log("Supabase not configured or failed, falling back to local JSON...");
+            const response = await fetch(dataUrl);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const localData = await response.json();
+            images = localData.images;
+            categories = localData.categories;
+            console.log(`Loaded ${images.length} images from local JSON`);
+        }
 
         // Clear existing content
         const masonryLayout = document.querySelector('.masonry-layout');
-        if (!masonryLayout) {
-            console.error("Masonry layout container not found");
-            return;
-        }
-
-        const existingCards = masonryLayout.querySelectorAll('.image-card');
-        existingCards.forEach(card => card.remove());
+        if (!masonryLayout) return;
+        masonryLayout.querySelectorAll('.image-card').forEach(card => card.remove());
 
         // Store images globally
-        allImages = data.images;
-        console.log(`Loaded ${allImages.length} images`);
+        allImages = images;
 
         // Generate image cards
-        data.images.forEach((image, index) => {
+        images.forEach((image, index) => {
             const imageCard = createImageCard(image, index);
             masonryLayout.appendChild(imageCard);
         });
 
         // Update filter buttons
-        updateFilterButtons(data.categories, data.images);
-
-        console.log(`Generated ${data.images.length} image cards`);
+        updateFilterButtons(categories, images);
 
     } catch (error) {
-        console.error('Failed to load JSON:', error);
-        // Keep existing HTML images as fallback
+        console.error('Failed to load gallery data:', error);
         initializeFallbackImages();
     }
+}
+
+// Keep the old function name for compatibility if needed, but point to the new logic
+async function loadGalleryFromJSON() {
+    return loadGalleryData();
 }
 
 function createImageCard(image, index) {
