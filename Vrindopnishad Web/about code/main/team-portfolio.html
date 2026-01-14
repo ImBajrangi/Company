@@ -307,6 +307,60 @@
                 font-size: 1rem;
             }
         }
+
+        /* Footer Mantra - Radhe Radhe Styling */
+        .footer-mantra {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(var(--text-color-rgb), 0.03) 20%,
+                    rgba(var(--text-color-rgb), 0.05) 50%,
+                    rgba(var(--text-color-rgb), 0.03) 80%,
+                    transparent);
+            animation: mantraScroll 20s linear infinite;
+        }
+
+        .footer-mantra span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.7;
+            white-space: nowrap;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .footer-mantra span:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        @keyframes mantraScroll {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-mantra {
+                gap: 1.5rem;
+                padding: 1.5rem 0;
+            }
+
+            .footer-mantra span {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 

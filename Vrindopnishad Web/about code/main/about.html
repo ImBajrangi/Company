@@ -899,19 +899,48 @@
             text-align: center;
         }
 
+        /* Footer Mantra - Radhe Radhe Styling */
         .footer-mantra {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            padding: 1rem 0;
-            margin-bottom: 3rem;
+            gap: 3rem;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
             overflow: hidden;
+            position: relative;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(var(--text-color-rgb), 0.03) 20%,
+                    rgba(var(--text-color-rgb), 0.05) 50%,
+                    rgba(var(--text-color-rgb), 0.03) 80%,
+                    transparent);
+            background-size: 200% 100%;
+            animation: mantraScroll 20s linear infinite;
         }
 
         .footer-mantra span {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-color);
+            opacity: 0.7;
+            white-space: nowrap;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .footer-mantra span:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        @keyframes mantraScroll {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
         }
 
         .footer-logo {
@@ -1067,8 +1096,13 @@
             }
 
             .footer-mantra {
-                flex-direction: column;
-                gap: 0.5rem;
+                gap: 1.5rem;
+                padding: 1.5rem 0;
+                flex-wrap: wrap;
+            }
+
+            .footer-mantra span {
+                font-size: 0.9rem;
             }
 
             .footer-links {
