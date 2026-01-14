@@ -75,6 +75,18 @@ const AuthService = {
     },
 
     /**
+     * Get user avatar URL from OAuth provider or uploaded picture
+     */
+    getAvatarUrl(user) {
+        if (!user) return null;
+
+        const metadata = user.user_metadata || {};
+
+        // Check for avatar from OAuth providers (Google, GitHub, etc.)
+        return metadata.avatar_url || metadata.picture || null;
+    },
+
+    /**
      * Update a profile button with user state
      */
     async updateProfileUI(buttonId) {
@@ -87,9 +99,16 @@ const AuthService = {
         button.innerHTML = '';
 
         if (user) {
-            // Show initials
-            const initials = this.getInitials(user);
-            button.innerHTML = `<div class="auth-initials">${initials}</div>`;
+            const avatarUrl = this.getAvatarUrl(user);
+
+            if (avatarUrl) {
+                // Show profile picture
+                button.innerHTML = `<img class="auth-avatar" src="${avatarUrl}" alt="Profile" onerror="this.parentElement.innerHTML='<div class=\'auth-initials\'>${this.getInitials(user)}</div>'" />`;
+            } else {
+                // Show initials
+                const initials = this.getInitials(user);
+                button.innerHTML = `<div class="auth-initials">${initials}</div>`;
+            }
             button.classList.add('logged-in');
         } else {
             // Show person icon
@@ -196,6 +215,14 @@ const AuthService = {
                 font-weight: 700;
                 font-size: 14px;
                 letter-spacing: 0.05em;
+                box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+            }
+            .auth-avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #d4af37;
                 box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
             }
             .auth-dropdown-menu {
