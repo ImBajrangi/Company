@@ -53,6 +53,112 @@
     <style>
         /* ========== About Page Specific Styles ========== */
 
+        /* Fix hamburger menu visibility in both themes */
+        .menu svg {
+            stroke: var(--text-color) !important;
+            fill: none !important;
+        }
+
+        .menu svg path {
+            stroke: var(--text-color) !important;
+        }
+
+        /* Simple Tools Menu for About Page */
+        .about-tools-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100vh;
+            background: var(--bg-color);
+            border-left: 1px solid rgba(var(--text-color-rgb), 0.1);
+            z-index: 99999;
+            padding: 80px 2rem 2rem;
+            transition: right 0.4s var(--transition-smooth);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-tools-menu.active {
+            right: 0;
+        }
+
+        .about-tools-menu h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .about-tools-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .about-tools-menu li {
+            margin-bottom: 0.75rem;
+        }
+
+        .about-tools-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            color: var(--text-color);
+            background: rgba(var(--text-color-rgb), 0.03);
+            border: 1px solid rgba(var(--text-color-rgb), 0.1);
+            border-radius: 12px;
+            transition: all 0.3s var(--transition-smooth);
+            text-decoration: none;
+        }
+
+        .about-tools-menu a:hover {
+            background: rgba(var(--text-color-rgb), 0.08);
+            transform: translateX(5px);
+        }
+
+        .about-tools-menu a i {
+            font-size: 1.1rem;
+        }
+
+        .tools-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(var(--text-color-rgb), 0.05);
+            border: 1px solid rgba(var(--text-color-rgb), 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .tools-close:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .tools-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 99998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .tools-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* Hero Section */
         .about-hero {
             min-height: 100vh;
@@ -1031,6 +1137,30 @@
         </ul>
     </nav>
 
+    <!-- Tools Overlay -->
+    <div class="tools-overlay"></div>
+
+    <!-- Tools Menu Panel -->
+    <div class="about-tools-menu">
+        <div class="tools-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <h3>Quick Links</h3>
+        <ul>
+            <li><a href="../../../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="../../../Vrindopnishad%20Web/Pictures/main/Gallery.html"><i class="fas fa-images"></i>
+                    Gallery</a></li>
+            <li><a href="../../../Vrindopnishad%20Web/Pictures/main/photos.html"><i class="fas fa-camera"></i>
+                    Photos</a></li>
+            <li><a href="../../../Vrindopnishad%20Web/pdf/main/pdf-viewer.html"><i class="fas fa-book"></i> PDF
+                    Library</a></li>
+            <li><a href="https://youtube.com/@vrindopnishad" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+            </li>
+            <li><a href="https://instagram.com/vrindopnishad" target="_blank"><i class="fab fa-instagram"></i>
+                    Instagram</a></li>
+        </ul>
+    </div>
+
     <main>
         <!-- Hero Section -->
         <section class="about-hero">
@@ -1384,11 +1514,27 @@
             }
         });
 
-        // Tools icon click - redirect to main site tools
+        // Tools menu functionality
         const toolsIcon = document.querySelector('.tools-icon');
-        toolsIcon?.addEventListener('click', () => {
-            window.location.href = '../../../index.html';
-        });
+        const toolsMenu = document.querySelector('.about-tools-menu');
+        const toolsOverlay = document.querySelector('.tools-overlay');
+        const toolsClose = document.querySelector('.tools-close');
+
+        function openToolsMenu() {
+            toolsMenu?.classList.add('active');
+            toolsOverlay?.classList.add('active');
+            document.body.classList.add('tools-menu-open');
+        }
+
+        function closeToolsMenu() {
+            toolsMenu?.classList.remove('active');
+            toolsOverlay?.classList.remove('active');
+            document.body.classList.remove('tools-menu-open');
+        }
+
+        toolsIcon?.addEventListener('click', openToolsMenu);
+        toolsClose?.addEventListener('click', closeToolsMenu);
+        toolsOverlay?.addEventListener('click', closeToolsMenu);
     </script>
 
     <!-- Custom Cursor JS -->
