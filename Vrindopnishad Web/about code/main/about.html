@@ -46,6 +46,8 @@
     <!-- CSS - Using main site styles for consistency -->
     <link rel="stylesheet" href="../../../Vrindopnishad%20Web/Home/css/hamburger.css">
     <link rel="stylesheet" href="../../../Vrindopnishad%20Web/Home/css/styles.css">
+    <link rel="stylesheet" href="../../../Vrindopnishad%20Web/Home/css/menu.css">
+    <link rel="stylesheet" href="../../../Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.css">
 
     <!-- About Page Specific Styles -->
     <style>
@@ -95,44 +97,7 @@
             text-align: center;
         }
 
-        /* Custom Cursor */
-        .cursor-dot {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--text-color);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
-        }
 
-        .cursor-circle {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--text-color);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transform: translate(-50%, -50%);
-            transition: all 0.15s ease-out;
-            opacity: 0.5;
-        }
-
-        .cursor-dot.hover,
-        .cursor-circle.hover {
-            transform: translate(-50%, -50%) scale(1.5);
-        }
-
-        @media (max-width: 768px) {
-
-            .cursor-dot,
-            .cursor-circle {
-                display: none;
-            }
-        }
 
         .hero-badge {
             display: inline-flex;
@@ -1009,16 +974,15 @@
 </head>
 
 <body>
+    <!-- Scroll progress -->
+    <div class="scroll-progress"></div>
+
     <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
 
-    <!-- Scroll progress -->
-    <div class="scroll-progress"></div>
-
-    <!-- Header - Matching main site -->
     <header>
-        <a href="/index.html" class="logo">
+        <a href="../../../index.html" class="logo">
             <img src="../../../Vrindopnishad%20Web/class/v-logo-rounded/android-chrome-192x192.png"
                 alt="Vrindopnishad Logo" class="header-logo-img" width="40" height="40">
             <span>Vrindopnishad</span>
@@ -1026,9 +990,9 @@
 
         <div class="main-nav">
             <ul>
-                <li><a href="/index.html">Home</a></li>
+                <li><a href="../../../index.html">Home</a></li>
                 <li><a href="about.html" class="active">About</a></li>
-                <li><a href="/Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
+                <li><a href="../../../Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
             </ul>
         </div>
 
@@ -1053,12 +1017,15 @@
         </div>
     </header>
 
+    <!-- Menu Overlay -->
+    <div class="menu-overlay"></div>
+
     <!-- Mobile Menu -->
     <nav aria-hidden="true">
         <ul>
-            <li><a href="/index.html">Home</a></li>
+            <li><a href="../../../index.html">Home</a></li>
             <li><a href="about.html" class="active">About</a></li>
-            <li><a href="/Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
+            <li><a href="../../../Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -1365,11 +1332,21 @@
         // Mobile menu toggle
         const menuButton = document.querySelector('.menu');
         const nav = document.querySelector('nav');
+        const menuOverlay = document.querySelector('.menu-overlay');
 
         menuButton?.addEventListener('click', () => {
             menuButton.classList.toggle('active');
-            nav.classList.toggle('is-open');
+            nav.classList.toggle('active');
+            menuOverlay?.classList.toggle('active');
             document.body.classList.toggle('menu-open');
+        });
+
+        // Close menu when clicking overlay
+        menuOverlay?.addEventListener('click', () => {
+            menuButton?.classList.remove('active');
+            nav?.classList.remove('active');
+            menuOverlay?.classList.remove('active');
+            document.body.classList.remove('menu-open');
         });
 
         // Smooth scroll for anchor links
@@ -1381,7 +1358,8 @@
                     target.scrollIntoView({ behavior: 'smooth' });
                     // Close mobile menu if open
                     menuButton?.classList.remove('active');
-                    nav?.classList.remove('is-open');
+                    nav?.classList.remove('active');
+                    menuOverlay?.classList.remove('active');
                     document.body.classList.remove('menu-open');
                 }
             });
@@ -1405,38 +1383,15 @@
             }
         });
 
-        // Custom Cursor
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorCircle = document.querySelector('.cursor-circle');
-
-        if (cursorDot && cursorCircle) {
-            document.addEventListener('mousemove', (e) => {
-                cursorDot.style.left = e.clientX + 'px';
-                cursorDot.style.top = e.clientY + 'px';
-                cursorCircle.style.left = e.clientX + 'px';
-                cursorCircle.style.top = e.clientY + 'px';
-            });
-
-            // Hover effects for interactive elements
-            const hoverElements = document.querySelectorAll('a, button, .team-card, .philosophy-card, .work-card, .tools-icon');
-            hoverElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursorDot.classList.add('hover');
-                    cursorCircle.classList.add('hover');
-                });
-                el.addEventListener('mouseleave', () => {
-                    cursorDot.classList.remove('hover');
-                    cursorCircle.classList.remove('hover');
-                });
-            });
-        }
-
         // Tools icon click - redirect to main site tools
         const toolsIcon = document.querySelector('.tools-icon');
         toolsIcon?.addEventListener('click', () => {
-            window.location.href = '/index.html#tools';
+            window.location.href = '../../../index.html';
         });
     </script>
+
+    <!-- Custom Cursor JS -->
+    <script src="../../../Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js" defer></script>
 </body>
 
 </html>
