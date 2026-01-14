@@ -411,23 +411,56 @@ button.menu svg {
 
 @media (max-width: 768px) {
     header {
-        height: 70px;
-        padding: 0 1rem;
+        height: 60px;
+        padding: 0 0.75rem;
     }
 
     .logo {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
+        gap: 8px;
+        max-width: 55%;
+        overflow: hidden;
+    }
+
+    .logo span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .header-logo-img {
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .header-right {
+        gap: 0.4rem;
+    }
+
+    .header-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        background-color: rgba(var(--text-color-rgb), 0.05);
+        border: 1px solid var(--glass-border);
+        border-radius: 50%;
+    }
+
+    .header-icon svg {
+        width: 16px;
+        height: 16px;
     }
 
     .tools-icon,
     .menu {
-        width: 38px;
-        height: 38px;
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
     }
 
     .tools-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
     }
 
 }
