@@ -53,6 +53,21 @@
     <style>
         /* ========== About Page Specific Styles ========== */
 
+        /* Remove blue focus outline/box */
+        *:focus {
+            outline: none !important;
+        }
+
+        button:focus,
+        a:focus,
+        input:focus,
+        select:focus,
+        textarea:focus,
+        [tabindex]:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
         /* Fix hamburger menu visibility in both themes */
         .menu svg {
             stroke: var(--text-color) !important;

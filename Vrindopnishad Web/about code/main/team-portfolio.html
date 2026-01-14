@@ -39,6 +39,22 @@
     <script src="../../../Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js" defer></script>
     <style>
         /* Portfolio-specific styles - Using main site variables */
+
+        /* Remove blue focus outline/box */
+        *:focus {
+            outline: none !important;
+        }
+
+        button:focus,
+        a:focus,
+        input:focus,
+        select:focus,
+        textarea:focus,
+        [tabindex]:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
         .portfolio-hero {
             min-height: 70vh;
             display: flex;
