@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+  <!-- Modern Rounded Vrindopnishad Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>three-text WebGL Example</title>
   <style>
-    body { 
-      margin: 0; 
+    body {
+      margin: 0;
       background: #000;
       color: #fff;
       font-family: sans-serif;
     }
-    canvas { 
-      display: block; 
+
+    canvas {
+      display: block;
       width: 100%;
       height: 100vh;
     }
+
     #status {
       position: fixed;
       bottom: 50px;
@@ -28,11 +38,21 @@
       z-index: 100;
       backdrop-filter: blur(10px);
     }
-    .status-loading { color: #ffa500; }
-    .status-ready { color: #00ff00; }
-    .status-error { color: #ff4444; }
+
+    .status-loading {
+      color: #ffa500;
+    }
+
+    .status-ready {
+      color: #00ff00;
+    }
+
+    .status-error {
+      color: #ff4444;
+    }
   </style>
 </head>
+
 <body>
   <div id="status" class="status-loading">Initializing WebGL...</div>
   <canvas id="canvas"></canvas>
@@ -46,13 +66,13 @@
     async function main() {
       const canvas = document.getElementById('canvas');
       const gl = canvas.getContext('webgl2', { antialias: true }) || canvas.getContext('webgl', { antialias: true });
-      
+
       if (!gl) {
         status.textContent = 'WebGL not supported';
         status.className = 'status-error';
         return;
       }
-      
+
       const devicePixelRatio = window.devicePixelRatio || 1;
       canvas.width = canvas.clientWidth * devicePixelRatio;
       canvas.height = canvas.clientHeight * devicePixelRatio;
@@ -84,10 +104,10 @@
       const centerY = (bounds.min.y + bounds.max.y) / 2;
       const width = bounds.max.x - bounds.min.x;
       const height = bounds.max.y - bounds.min.y;
-      
+
       status.textContent = `Ready: ${bufferSet.drawCount / 3} triangles`;
       status.className = 'status-ready';
-      
+
       // WebGL Shaders
       const vertexShaderSource = `
         attribute vec3 position;
@@ -182,20 +202,20 @@
       // Camera matrices
       function getMatrices() {
         const aspect = canvas.width / canvas.height;
-        
+
         // Fit text in viewport
         const padding = 1.8;
         const scaleX = 2 / (width * padding);
         const scaleY = (2 / (width * padding)) * aspect;
         const translateX = -centerX * scaleX;
         const translateY = -centerY * scaleY;
-        
+
         // Static rotation
         const cy = Math.cos(staticYaw);
         const sy = Math.sin(staticYaw);
         const cp = Math.cos(staticPitch);
         const sp = Math.sin(staticPitch);
-        
+
         // MVP
         return new Float32Array([
           scaleX * cy, scaleX * sy * sp, scaleX * sy * cp, 0,
@@ -242,4 +262,5 @@
     });
   </script>
 </body>
+
 </html>

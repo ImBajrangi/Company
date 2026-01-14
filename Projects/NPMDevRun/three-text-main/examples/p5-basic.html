@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+  <!-- Modern Rounded Vrindopnishad Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>three-text p5.js Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <style>
-    body { 
-      margin: 0; 
+    body {
+      margin: 0;
       background: #000;
       color: #fff;
       font-family: sans-serif;
     }
+
     #status {
       position: fixed;
       bottom: 50px;
@@ -24,12 +33,25 @@
       z-index: 100;
       backdrop-filter: blur(10px);
     }
-    .status-loading { color: #ffa500; }
-    .status-ready { color: #00ff00; }
-    .status-error { color: #ff4444; }
-    #p5_loading { display: none !important; }
+
+    .status-loading {
+      color: #ffa500;
+    }
+
+    .status-ready {
+      color: #00ff00;
+    }
+
+    .status-error {
+      color: #ff4444;
+    }
+
+    #p5_loading {
+      display: none !important;
+    }
   </style>
 </head>
+
 <body>
   <div id="status" class="status-loading">Initializing p5.js...</div>
 
@@ -40,18 +62,18 @@
     let font;
     let textResult;
 
-    window.preload = function() {
+    window.preload = function () {
       status.textContent = 'Loading text shaper...';
       loadThreeTextShaper('/examples/hb/hb.wasm');
-      
+
       status.textContent = 'Loading font...';
       font = loadThreeTextFont('./fonts/NimbusSanL-Reg.woff');
     };
 
-    window.setup = async function() {
+    window.setup = async function () {
       createCanvas(windowWidth, windowHeight, WEBGL);
       setAttributes('antialias', true);
-      
+
       status.textContent = 'Creating text geometry...';
 
       try {
@@ -70,34 +92,34 @@
       }
     };
 
-    window.draw = function() {
+    window.draw = function () {
       background(20);
-      
+
       if (!textResult || !textResult.geometry) return;
-      
+
       const { geometry, planeBounds } = textResult;
       const centerX = (planeBounds.min.x + planeBounds.max.x) / 2;
       const centerY = (planeBounds.min.y + planeBounds.max.y) / 2;
       const centerZ = (planeBounds.min.z + planeBounds.max.z) / 2;
-      
+
       ambientLight(150);
       directionalLight(200, 200, 200, 0.5, 0.5, -1);
-      
+
       push();
       rotateY(frameCount * 0.01);
       rotateX(0.3);
       translate(-centerX, centerY, -centerZ);
-      
+
       fill(255);
       noStroke();
       model(geometry);
       pop();
     };
 
-    window.windowResized = function() {
+    window.windowResized = function () {
       resizeCanvas(windowWidth, windowHeight);
     };
   </script>
 </body>
-</html>
 
+</html>

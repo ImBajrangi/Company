@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <!-- Modern Rounded Vrindopnishad Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GSAP Interactive Carousel</title>
@@ -45,11 +53,9 @@
             width: 100%;
             overflow: hidden;
             /* Dotted background pattern */
-            background-image: radial-gradient(
-                circle,
-                rgba(255, 255, 255, 0.05) 1px,
-                transparent 1px
-            );
+            background-image: radial-gradient(circle,
+                    rgba(255, 255, 255, 0.05) 1px,
+                    transparent 1px);
             background-size: 11px 11px;
         }
 
@@ -120,10 +126,8 @@
             display: flex;
             gap: 20px;
             background-color: #222;
-            background-image: radial-gradient(
-                rgba(255, 255, 255, 0.015) 1px,
-                transparent 0
-            );
+            background-image: radial-gradient(rgba(255, 255, 255, 0.015) 1px,
+                    transparent 0);
             background-size: 7px 7px;
             background-position: -1px -1px;
             padding: 10px 20px;
@@ -184,44 +188,45 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- HTML Structure -->
     <div class="carousel-container">
-      <div class="carousel-items">
-        <!-- Cards will be generated here by JS -->
-      </div>
+        <div class="carousel-items">
+            <!-- Cards will be generated here by JS -->
+        </div>
     </div>
 
     <div class="switch" id="controls">
-      <button class="switch-button" id="resetBtn">
-        <span class="indicator-dot"></span>
-        RESET
-      </button>
-      <button class="switch-button switch-button-current" id="circleBtn">
-        <span class="indicator-dot"></span>
-        CIRCLE
-      </button>
-      <button class="switch-button" id="waveBtn">
-        <span class="indicator-dot"></span>
-        WAVE
-      </button>
-      <button class="switch-button" id="staggerBtn">
-        <span class="indicator-dot"></span>
-        STAGGER
-      </button>
-      <button class="switch-button" id="gridBtn">
-        <span class="indicator-dot"></span>
-        GRID
-      </button>
-      <button class="switch-button" id="fanBtn">
-        <span class="indicator-dot"></span>
-        FAN
-      </button>
-      <button class="switch-button" id="depthBtn">
-        <span class="indicator-dot"></span>
-        3D DEPTH
-      </button>
+        <button class="switch-button" id="resetBtn">
+            <span class="indicator-dot"></span>
+            RESET
+        </button>
+        <button class="switch-button switch-button-current" id="circleBtn">
+            <span class="indicator-dot"></span>
+            CIRCLE
+        </button>
+        <button class="switch-button" id="waveBtn">
+            <span class="indicator-dot"></span>
+            WAVE
+        </button>
+        <button class="switch-button" id="staggerBtn">
+            <span class="indicator-dot"></span>
+            STAGGER
+        </button>
+        <button class="switch-button" id="gridBtn">
+            <span class="indicator-dot"></span>
+            GRID
+        </button>
+        <button class="switch-button" id="fanBtn">
+            <span class="indicator-dot"></span>
+            FAN
+        </button>
+        <button class="switch-button" id="depthBtn">
+            <span class="indicator-dot"></span>
+            3D DEPTH
+        </button>
     </div>
 
     <!-- GSAP Libraries (UPDATED TO v3.13.0 AS REQUESTED) -->
@@ -235,7 +240,7 @@
         // Register GSAP plugins immediately as the external files are guaranteed
         // to have loaded before this inline script runs (since it's at the end of the body).
         gsap.registerPlugin(Draggable, InertiaPlugin);
-        
+
         // This is the beginning of the main application logic, which now runs without 
         // being wrapped in an unreliable 'load' event listener.
 
@@ -572,10 +577,10 @@
             const waveHeight = Math.min(viewport.height * 0.1, 80);
             // Get the initial y position from the setup
             const initialY = cards.map(card => gsap.getProperty(card, "y"));
-            
+
             return gsap.to(cards, {
                 y: (i, target) => {
-                     // Calculate the wave offset from the base position
+                    // Calculate the wave offset from the base position
                     const normalizedIndex = i / (CONFIG.totalCards - 1);
                     const waveOffset = Math.sin(normalizedIndex * Math.PI * 2 + Math.PI) * waveHeight;
                     // Add the offset to the card's initial y position
@@ -909,9 +914,9 @@
         function updateZIndices(pattern) {
             const cards = gsap.utils.toArray(".carousel-item");
             if (pattern === "depth") {
-               // For 3D depth, z-index is set during setup3DDepthPositions
-               // We just need to call it to get the z-indices set
-               setup3DDepthPositions(); 
+                // For 3D depth, z-index is set during setup3DDepthPositions
+                // We just need to call it to get the z-indices set
+                setup3DDepthPositions();
             } else {
                 // For all other patterns, restore the original z-indices
                 cards.forEach((card, index) => {
@@ -928,10 +933,10 @@
         function transitionToPattern(newPattern) {
             if (isTransitioning && newPattern === currentAnimation) return;
             isTransitioning = true;
-            
+
             // Update menu state
             updateMenuState(newPattern);
-            
+
             // Kill active animations
             killActiveAnimations();
 
@@ -945,19 +950,19 @@
                 draggableInstance.kill();
                 draggableInstance = null;
             }
-            
+
             // Remove draggable cursor class
             carouselItemsEl.classList.remove("draggable");
-            
+
             // Clear mouse tracking
             carouselContainerEl.onmousemove = null;
-            
+
             // Save previous animation
             const prevAnimation = currentAnimation;
-            
+
             // Update current animation
             currentAnimation = newPattern;
-            
+
             // Create a master timeline for the transition
             const timeline = gsap.timeline({
                 onComplete: () => {
@@ -978,7 +983,7 @@
                     }
                 }
             });
-            
+
             activeAnimations.push(timeline);
 
             // If coming from 'depth', reset the container's 3D rotation
@@ -997,7 +1002,7 @@
 
             // Reset the container's 2D rotation if not transitioning to circle or fan
             if (newPattern !== "circle" && newPattern !== "fan") {
-                 timeline.to(
+                timeline.to(
                     ".carousel-items",
                     {
                         rotation: 0,
@@ -1007,11 +1012,11 @@
                     0
                 );
             }
-            
+
             // Restore original z-indices unless moving to 'depth'
             if (newPattern !== 'depth') {
                 const cards = gsap.utils.toArray(".carousel-item");
-                 cards.forEach((card, index) => {
+                cards.forEach((card, index) => {
                     if (index < originalZIndices.length) {
                         timeline.set(card, {
                             zIndex: originalZIndices[index]
@@ -1053,7 +1058,7 @@
         function initializeCarousel() {
             const cards = gsap.utils.toArray(".carousel-item");
             const totalCards = cards.length;
-            
+
             // Set initial opacity and scale (hidden)
             gsap.set(cards, {
                 x: 0,
@@ -1086,7 +1091,7 @@
             for (let i = 0; i < totalCards; i++) {
                 const card = cards[i];
                 const delay = (totalCards - 1 - i) * 0.1; // Shorter delay per card
-                
+
                 // Set z-index so card 0 is at the bottom, card 11 is at the top
                 gsap.set(card, {
                     zIndex: 100 + i
@@ -1104,18 +1109,18 @@
                     delay
                 );
             }
-            
+
             // Add a pause before circle transition
             timeline.to({}, { duration: 0.3 });
-            
+
             // Transition to circle with animation
             const circleTimeline = setupCirclePositions(true);
             timeline.add(circleTimeline);
-            
+
             // Set current animation and store timeline
             currentAnimation = "circle";
             activeAnimations.push(timeline);
-            
+
             // Update menu state
             updateMenuState("circle");
             return timeline;
@@ -1163,7 +1168,7 @@
         }
 
         // --- INITIALIZATION ---
-        
+
         // Add event listeners
         resetBtn.addEventListener("click", resetCarousel);
         circleBtn.addEventListener("click", () => transitionToPattern("circle"));
@@ -1173,10 +1178,11 @@
         fanBtn.addEventListener("click", () => transitionToPattern("fan"));
         depthBtn.addEventListener("click", () => transitionToPattern("depth"));
         window.addEventListener("resize", handleResize);
-        
+
         // Generate cards and start the initial animation
         generateCards();
         initializeCarousel();
     </script>
 </body>
+
 </html>
