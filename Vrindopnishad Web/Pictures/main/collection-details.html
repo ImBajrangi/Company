@@ -875,8 +875,10 @@
         .bag-item {
             display: flex;
             gap: 16px;
-            padding: 24px 0;
+            padding: 20px 0;
             border-bottom: 1px solid var(--border-color);
+            align-items: flex-start;
+            transition: background 0.2s;
         }
 
         .bag-item:first-child {
@@ -888,16 +890,22 @@
         }
 
         .bag-item-image {
-            width: 100px;
+            width: 80px;
             height: 100px;
             border-radius: 12px;
             object-fit: cover;
             background: var(--secondary-bg);
             flex-shrink: 0;
+            border: 1px solid var(--border-color);
         }
 
         .bag-item-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            /* Prevents overflow */
         }
 
         .bag-item-title {
@@ -913,8 +921,9 @@
         }
 
         .bag-item-price {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 600;
+            margin-top: 4px;
         }
 
         .bag-item-actions {
@@ -927,9 +936,16 @@
             background: none;
             border: none;
             color: var(--accent-blue);
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            padding: 0;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+
+        .bag-item-remove:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
         }
 
         .bag-summary {
@@ -2759,14 +2775,14 @@
                 if (item) {
                     const purchaseData = purchasedItems[id];
                     html += `
-                        <div class="bag-item">
-                            <img src="${item.image}" alt="${item.title}" class="bag-item-img">
-                            <div class="bag-item-info">
-                                <div class="bag-item-title">${item.title}</div>
-                                <div class="bag-item-price">${purchaseData.date ? new Date(purchaseData.date).toLocaleDateString() : 'Previous purchase'}</div>
-                                <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px; margin-top: 8px;"
+                        <div class="bag-item" style="padding: 16px 0; align-items: center;">
+                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
+                            <div class="bag-item-info" style="display: flex; flex-direction: column; gap: 4px;">
+                                <div class="bag-item-title" style="font-size: 16px; margin-bottom: 2px;">${item.title}</div>
+                                <div class="bag-item-desc" style="font-size: 13px; margin-bottom: 4px; opacity: 0.8;">Purchased: ${purchaseData.date ? new Date(purchaseData.date).toLocaleDateString() : 'N/A'}</div>
+                                <button class="btn btn-primary" style="padding: 10px 16px; font-size: 13px; align-self: flex-start; border-radius: 10px;"
                                     onclick="downloadCollection(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${purchaseData.paymentId}')">
-                                    <i class="fas fa-download"></i> Download Again
+                                    <i class="fas fa-download"></i> Download
                                 </button>
                             </div>
                         </div>
