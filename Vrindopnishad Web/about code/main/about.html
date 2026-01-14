@@ -95,6 +95,45 @@
             text-align: center;
         }
 
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--text-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-circle {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--text-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: all 0.15s ease-out;
+            opacity: 0.5;
+        }
+
+        .cursor-dot.hover,
+        .cursor-circle.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+
+        @media (max-width: 768px) {
+
+            .cursor-dot,
+            .cursor-circle {
+                display: none;
+            }
+        }
+
         .hero-badge {
             display: inline-flex;
             align-items: center;
@@ -106,7 +145,6 @@
             font-size: 0.85rem;
             color: var(--secondary-color);
             margin-bottom: 2rem;
-            animation: fadeUp 0.8s ease forwards;
         }
 
         .badge-pulse {
@@ -142,16 +180,6 @@
 
         .about-hero-title .line {
             display: block;
-            animation: fadeUp 0.8s ease forwards;
-            opacity: 0;
-        }
-
-        .about-hero-title .line:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .about-hero-title .line:nth-child(2) {
-            animation-delay: 0.2s;
         }
 
         .about-hero-title em {
@@ -181,8 +209,6 @@
             max-width: 600px;
             margin: 0 auto 2.5rem;
             line-height: 1.7;
-            animation: fadeUp 0.8s ease 0.3s forwards;
-            opacity: 0;
         }
 
         .hero-actions {
@@ -190,8 +216,6 @@
             justify-content: center;
             gap: 1rem;
             flex-wrap: wrap;
-            animation: fadeUp 0.8s ease 0.4s forwards;
-            opacity: 0;
         }
 
         .btn-primary {
@@ -237,8 +261,6 @@
             justify-content: center;
             gap: 3rem;
             margin-top: 4rem;
-            animation: fadeUp 0.8s ease 0.5s forwards;
-            opacity: 0;
         }
 
         .stat-item {
@@ -987,6 +1009,10 @@
 </head>
 
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
     <!-- Scroll progress -->
     <div class="scroll-progress"></div>
 
@@ -1007,6 +1033,16 @@
         </div>
 
         <div class="header-right">
+            <!-- Tools Icon -->
+            <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+            </div>
             <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
                 <svg viewBox="0 0 64 48">
                     <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
@@ -1369,24 +1405,36 @@
             }
         });
 
-        // Intersection Observer for reveal animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+        if (cursorDot && cursorCircle) {
+            document.addEventListener('mousemove', (e) => {
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+                cursorCircle.style.left = e.clientX + 'px';
+                cursorCircle.style.top = e.clientY + 'px';
             });
-        }, observerOptions);
 
-        // Observe all sections and cards
-        document.querySelectorAll('.philosophy-card, .work-card, .team-card, section').forEach(el => {
-            el.classList.add('reveal');
-            observer.observe(el);
+            // Hover effects for interactive elements
+            const hoverElements = document.querySelectorAll('a, button, .team-card, .philosophy-card, .work-card, .tools-icon');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursorDot.classList.add('hover');
+                    cursorCircle.classList.add('hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursorDot.classList.remove('hover');
+                    cursorCircle.classList.remove('hover');
+                });
+            });
+        }
+
+        // Tools icon click - redirect to main site tools
+        const toolsIcon = document.querySelector('.tools-icon');
+        toolsIcon?.addEventListener('click', () => {
+            window.location.href = '/index.html#tools';
         });
     </script>
 </body>
