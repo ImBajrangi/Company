@@ -14,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- FileSaver.js for saving files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- jsPDF for creating PDF files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css">
     <!-- Link Pop-up Checker Script -->
     <script src="/Vrindopnishad Web/js/popup-checker.js"></script>
@@ -2151,57 +2153,89 @@
 
         // Function to download purchased items as a ZIP file
         async function downloadCollection(item, paymentId) {
-            showToast('Packaging your download... Please wait.', 'info');
-            const downloadBtn = document.getElementById('download-collection'); // Get button for disabling/re-enabling
-            if (downloadBtn) downloadBtn.disabled = true; // Disable button immediately
+            showToast('Packaging your PDF documents and images...', 'info');
+            const downloadBtn = document.getElementById('download-collection');
+            if (downloadBtn) downloadBtn.disabled = true;
 
             try {
                 const zip = new JSZip();
+                const { jsPDF } = window.jspdf;
 
-                // 1. Add License File
-                const licenseContent = `
-                    Vrindopnishad - Commercial License
-                    ==================================
+                // --- 1. Generate License PDF ---
+                const licenseDoc = new jsPDF();
+                licenseDoc.setFont("helvetica", "bold");
+                licenseDoc.setFontSize(22);
+                licenseDoc.setTextColor(0, 113, 227); // Accent Blue
+                licenseDoc.text("Chitra Vrinda", 105, 20, { align: "center" });
 
-                    Date: ${new Date().toLocaleDateString()}
-                    Collection: ${item.title}
-                    License ID: ${paymentId || 'N/A'}
+                licenseDoc.setFontSize(16);
+                licenseDoc.setTextColor(0, 0, 0);
+                licenseDoc.text("Commercial License Agreement", 105, 35, { align: "center" });
 
-                    This license grants you, the purchaser, a non-exclusive, worldwide license to use the images in this collection for personal and commercial projects.
+                licenseDoc.setLineWidth(0.5);
+                licenseDoc.line(20, 40, 190, 40);
 
-                    Permitted Uses:
-                    - Websites, blogs, and social media.
-                    - Advertising and promotional materials.
-                    - Printed materials such as brochures and posters.
-                    - Digital media (videos, presentations).
+                licenseDoc.setFont("helvetica", "normal");
+                licenseDoc.setFontSize(11);
+                licenseDoc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 50);
+                licenseDoc.text(`Collection ID: ${item.id}`, 20, 60);
+                licenseDoc.text(`License ID: ${paymentId || 'N/A'}`, 20, 70);
 
-                    Restrictions:
-                    - You may not resell or redistribute the original image files.
-                    - You may not use the images in a way that is defamatory or illegal.
+                const licenseText = `
+This license grants you, the purchaser, a non-exclusive, worldwide license to use the images in the "${item.title}" collection for personal and commercial projects.
 
-                    Thank you for your purchase.
-                    Vrindopnishad
+Permitted Uses:
+• Websites, blogs, and social media.
+• Advertising and promotional materials.
+• Printed materials such as brochures and posters.
+• Digital media (videos, presentations).
+
+Restrictions:
+• You may not resell or redistribute the original image files.
+• You may not use the images in a way that is defamatory or illegal.
+
+Thank you for your purchase and for supporting Chitra Vrinda.
                 `;
-                zip.file(`License_${item.id}.txt`, licenseContent.trim());
+                licenseDoc.text(licenseText.trim(), 20, 85, { maxWidth: 170 });
 
-                // 2. Add Bill/Receipt File
-                const billContent = `
-                    Vrindopnishad - Purchase Receipt
-                    ==================================
+                const licenseBlob = licenseDoc.output('blob');
+                zip.file(`License_${item.id}.pdf`, licenseBlob);
 
-                    Date: ${new Date().toLocaleString()}
-                    Payment ID: ${paymentId || 'N/A'}
+                // --- 2. Generate Bill PDF ---
+                const billDoc = new jsPDF();
+                billDoc.setFont("helvetica", "bold");
+                billDoc.setFontSize(22);
+                billDoc.setTextColor(0, 113, 227);
+                billDoc.text("Chitra Vrinda", 105, 20, { align: "center" });
 
-                    Item: ${item.title}
-                    Description: ${item.description}
-                    Price: ${formatPrice(item.price)}
+                billDoc.setFontSize(16);
+                billDoc.setTextColor(0, 0, 0);
+                billDoc.text("Official Purchase Receipt", 105, 35, { align: "center" });
 
-                    ----------------------------------
-                    Total: ${formatPrice(item.price)}
+                billDoc.setLineWidth(0.5);
+                billDoc.line(20, 40, 190, 40);
 
-                    Thank you for your purchase!
-                `;
-                zip.file(`Bill_${item.id}.txt`, billContent.trim());
+                billDoc.setFont("helvetica", "normal");
+                billDoc.setFontSize(11);
+                billDoc.text(`Date: ${new Date().toLocaleString()}`, 20, 50);
+                billDoc.text(`Payment ID: ${paymentId || 'N/A'}`, 20, 60);
+
+                billDoc.setFont("helvetica", "bold");
+                billDoc.text("Item Details", 20, 80);
+                billDoc.setFont("helvetica", "normal");
+                billDoc.text(`Title: ${item.title}`, 20, 90);
+                billDoc.text(`Description: ${item.description}`, 20, 100, { maxWidth: 170 });
+
+                billDoc.line(20, 115, 190, 115);
+                billDoc.setFont("helvetica", "bold");
+                billDoc.text(`Total Amount: ${formatPrice(item.price)}`, 190, 125, { align: "right" });
+
+                billDoc.setFont("helvetica", "italic");
+                billDoc.setFontSize(10);
+                billDoc.text("This is a computer generated receipt and does not require a signature.", 105, 145, { align: "center" });
+
+                const billBlob = billDoc.output('blob');
+                zip.file(`Bill_${item.id}.pdf`, billBlob);
 
                 // 3. Add Images
                 const imgFolder = zip.folder("images");
