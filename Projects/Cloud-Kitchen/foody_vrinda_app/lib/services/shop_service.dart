@@ -151,6 +151,27 @@ class ShopService {
   List<MenuItemModel> getCachedMenuItems(String shopId) =>
       _menuCache[shopId] ?? [];
 
+  /// Get all menu items from all shops (for trending section)
+  Stream<List<MenuItemModel>> getAllMenuItems() {
+    return _firestore.collection('menus').snapshots().map((snapshot) {
+      print('ShopService: Got ${snapshot.docs.length} total menu items');
+      final items = snapshot.docs.map((doc) {
+        try {
+          return MenuItemModel.fromFirestore(doc);
+        } catch (e) {
+          print('ShopService: Error parsing menu item ${doc.id}: $e');
+          return MenuItemModel(
+            id: doc.id,
+            shopId: '',
+            name: 'Error loading item',
+            price: 0,
+          );
+        }
+      }).toList();
+      return items;
+    });
+  }
+
   /// Get available menu items for a shop
   Stream<List<MenuItemModel>> getAvailableMenuItems(String shopId) {
     return _firestore

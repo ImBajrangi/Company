@@ -261,7 +261,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     crossAxisCount: 2,
                                     mainAxisSpacing: 16,
                                     crossAxisSpacing: 16,
-                                    childAspectRatio: 0.7,
+                                    childAspectRatio: 0.65,
                                   ),
                               itemCount: menuItems.length,
                               itemBuilder: (context, index) {
@@ -273,7 +273,10 @@ class _MenuScreenState extends State<MenuScreen> {
                                 return MenuItemCard(
                                   name: item.name,
                                   price: item.price,
+                                  originalPrice: item.originalPrice,
                                   imageUrl: item.imageUrl,
+                                  isVeg: item.isVeg,
+                                  rating: item.rating,
                                   quantity: quantity,
                                   onAdd: () => cartProvider.addItem(item),
                                   onIncrement: () =>

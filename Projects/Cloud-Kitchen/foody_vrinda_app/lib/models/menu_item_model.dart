@@ -5,10 +5,14 @@ class MenuItemModel {
   final String shopId;
   final String name;
   final double price;
+  final double? originalPrice; // For showing discounts (strikethrough price)
   final String? imageUrl;
   final bool isAvailable;
   final String? category;
   final String? description;
+  final bool isVeg;
+  final double rating;
+  final int ratingCount;
   final DateTime? createdAt;
 
   MenuItemModel({
@@ -16,10 +20,14 @@ class MenuItemModel {
     required this.shopId,
     required this.name,
     required this.price,
+    this.originalPrice,
     this.imageUrl,
     this.isAvailable = true,
     this.category,
     this.description,
+    this.isVeg = true,
+    this.rating = 0.0,
+    this.ratingCount = 0,
     this.createdAt,
   });
 
@@ -34,7 +42,7 @@ class MenuItemModel {
       );
     }
 
-    // Handle both 'image' and 'imageUrl' field names for compatibility with different sources
+    // Handle both 'image' and 'imageUrl' field names for compatibility
     String? image = data['imageUrl'] ?? data['image'];
 
     return MenuItemModel(
@@ -42,10 +50,16 @@ class MenuItemModel {
       shopId: data['shopId'] ?? '',
       name: data['name'] ?? 'Unnamed Item',
       price: (data['price'] ?? 0).toDouble(),
+      originalPrice: data['originalPrice'] != null 
+          ? (data['originalPrice']).toDouble() 
+          : null,
       imageUrl: image,
       isAvailable: data['isAvailable'] ?? true,
       category: data['category'],
       description: data['description'],
+      isVeg: data['isVeg'] ?? true,
+      rating: (data['rating'] ?? 0.0).toDouble(),
+      ratingCount: data['ratingCount'] ?? 0,
       createdAt: data['createdAt'] != null
           ? (data['createdAt'] as Timestamp).toDate()
           : null,
@@ -57,10 +71,14 @@ class MenuItemModel {
       'shopId': shopId,
       'name': name,
       'price': price,
-      'image': imageUrl, // Use 'image' to match existing web app data structure
+      'originalPrice': originalPrice,
+      'image': imageUrl,
       'isAvailable': isAvailable,
       'category': category,
       'description': description,
+      'isVeg': isVeg,
+      'rating': rating,
+      'ratingCount': ratingCount,
       'createdAt': createdAt != null
           ? Timestamp.fromDate(createdAt!)
           : FieldValue.serverTimestamp(),
@@ -72,10 +90,14 @@ class MenuItemModel {
     String? shopId,
     String? name,
     double? price,
+    double? originalPrice,
     String? imageUrl,
     bool? isAvailable,
     String? category,
     String? description,
+    bool? isVeg,
+    double? rating,
+    int? ratingCount,
     DateTime? createdAt,
   }) {
     return MenuItemModel(
@@ -83,13 +105,19 @@ class MenuItemModel {
       shopId: shopId ?? this.shopId,
       name: name ?? this.name,
       price: price ?? this.price,
+      originalPrice: originalPrice ?? this.originalPrice,
       imageUrl: imageUrl ?? this.imageUrl,
       isAvailable: isAvailable ?? this.isAvailable,
       category: category ?? this.category,
       description: description ?? this.description,
+      isVeg: isVeg ?? this.isVeg,
+      rating: rating ?? this.rating,
+      ratingCount: ratingCount ?? this.ratingCount,
       createdAt: createdAt ?? this.createdAt,
     );
   }
 
   String get formattedPrice => '₹${price.toStringAsFixed(0)}';
+  String get formattedOriginalPrice => originalPrice != null ? '₹${originalPrice!.toStringAsFixed(0)}' : '';
+  bool get hasDiscount => originalPrice != null && originalPrice! > price;
 }

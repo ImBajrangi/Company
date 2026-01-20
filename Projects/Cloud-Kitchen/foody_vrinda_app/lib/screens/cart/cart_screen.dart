@@ -334,25 +334,23 @@ class _CartScreenState extends State<CartScreen> {
 
                             return Column(
                               children: [
-                                // Minimum order warning
+                                // Minimum order warning - Red alert
                                 if (isBelowMinimum) ...[
                                   Container(
                                     padding: const EdgeInsets.all(12),
                                     margin: const EdgeInsets.only(bottom: 12),
                                     decoration: BoxDecoration(
-                                      color: AppTheme.warning.withOpacity(0.1),
+                                      color: AppTheme.error.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
-                                        color: AppTheme.warning.withOpacity(
-                                          0.3,
-                                        ),
+                                        color: AppTheme.error.withOpacity(0.3),
                                       ),
                                     ),
                                     child: Row(
                                       children: [
                                         const Icon(
-                                          Icons.warning_amber_rounded,
-                                          color: AppTheme.warning,
+                                          Icons.error_outline_rounded,
+                                          color: AppTheme.error,
                                           size: 20,
                                         ),
                                         const SizedBox(width: 8),
@@ -360,9 +358,9 @@ class _CartScreenState extends State<CartScreen> {
                                           child: Text(
                                             'Minimum order: ₹${minimumOrder.toInt()}. Add ₹${(minimumOrder - subtotal).toInt()} more.',
                                             style: const TextStyle(
-                                              color: AppTheme.warning,
+                                              color: AppTheme.error,
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ),

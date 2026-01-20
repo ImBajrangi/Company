@@ -8,6 +8,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../models/user_model.dart';
 import '../../models/shop_model.dart';
+import '../../models/menu_item_model.dart';
 import '../../services/shop_service.dart';
 import '../../services/resource_cache_service.dart';
 import '../../widgets/cards.dart';
@@ -549,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icon(
                     Icons.store_mall_directory_outlined,
                     size: 80,
-                    color: AppTheme.textTertiary.withValues(alpha: 0.5),
+                    color: AppTheme.textTertiary.withOpacity(0.5),
                   ),
                   const SizedBox(height: 24),
                   Text(
@@ -578,53 +579,508 @@ class _HomeScreenState extends State<HomeScreen> {
           ResourceCacheService().cacheImages(shopImages);
         }
 
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: shops.length + 2, // Header items + list
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // What's on your mind? - Category Icons
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'Shop Now 🍽️',
-                  style: Theme.of(context).textTheme.displaySmall,
+                  "What's on your mind?",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                 ),
-              );
-            }
-            if (index == 1) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 100,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  children: [
+                    _buildCategoryChip('🍕', 'Pizza'),
+                    _buildCategoryChip('🍔', 'Burger'),
+                    _buildCategoryChip('🍜', 'Noodles'),
+                    _buildCategoryChip('🍱', 'Thali'),
+                    _buildCategoryChip('🥗', 'Salad'),
+                    _buildCategoryChip('🍰', 'Desserts'),
+                    _buildCategoryChip('☕', 'Beverages'),
+                    _buildCategoryChip('🥪', 'Sandwich'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Trending Items Section
+              _buildTrendingItemsSection(shops),
+
+              const SizedBox(height: 24),
+
+              // Shops Section Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Text(
+                      'Restaurants to explore 🍽️',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${shops.length} places',
+                      style: TextStyle(
+                        color: AppTheme.textSecondary,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  "Choose where you'd like to order from.",
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textSecondary,
+                  "Choose where you'd like to order from",
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Shops List
+              ...shops.map(
+                (shop) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: ShopCard(
+                    name: shop.name,
+                    address: shop.address,
+                    imageUrl: shop.imageUrl,
+                    isOpen: shop.isOpen,
+                    schedule: shop.schedule.displaySchedule,
+                    rating: shop.rating > 0 ? shop.rating : null,
+                    deliveryTime: shop.showWaitTime
+                        ? '${shop.estimatedWaitTime} min'
+                        : null,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MenuScreen(shop: shop),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              );
-            }
-
-            final shop = shops[index - 2];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ShopCard(
-                name: shop.name,
-                address: shop.address,
-                imageUrl: shop.imageUrl,
-                isOpen: shop.isOpen,
-                schedule: shop.schedule.displaySchedule,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MenuScreen(shop: shop),
-                    ),
-                  );
-                },
               ),
-            );
-          },
+              const SizedBox(height: 16),
+            ],
+          ),
         );
       },
+    );
+  }
+
+  /// Build a category chip with emoji and label
+  Widget _buildCategoryChip(String emoji, String label) {
+    return GestureDetector(
+      onTap: () {
+        // Navigate to search with category filter
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SearchScreen()),
+        );
+      },
+      child: Container(
+        width: 80,
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(emoji, style: const TextStyle(fontSize: 32)),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Build trending items section with horizontal scroll
+  Widget _buildTrendingItemsSection(List<ShopModel> shops) {
+    if (shops.isEmpty) return const SizedBox.shrink();
+
+    // Create a map of shopId -> ShopModel for quick lookup
+    final shopMap = {for (var shop in shops) shop.id: shop};
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              const Text('🔥', style: TextStyle(fontSize: 22)),
+              const SizedBox(width: 8),
+              Text(
+                'Trending dishes near you!',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 20,
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 240,
+          child: StreamBuilder<List<MenuItemModel>>(
+            stream: _shopService.getAllMenuItems(),
+            builder: (context, menuSnapshot) {
+              // Handle loading state
+              if (menuSnapshot.connectionState == ConnectionState.waiting) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return _buildTrendingItemPlaceholder();
+                  },
+                );
+              }
+
+              // Handle error state
+              if (menuSnapshot.hasError) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          color: AppTheme.textTertiary,
+                          size: 32,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Could not load trending dishes',
+                          style: TextStyle(
+                            color: AppTheme.textSecondary,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              // Handle empty state
+              final items = menuSnapshot.data ?? [];
+              if (items.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.restaurant_menu,
+                          color: AppTheme.textTertiary.withOpacity(0.5),
+                          size: 40,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'No dishes available yet',
+                          style: TextStyle(
+                            color: AppTheme.textSecondary,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              // Show actual items (limit to 8)
+              final displayItems = items.take(8).toList();
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                itemCount: displayItems.length,
+                itemBuilder: (context, index) {
+                  final item = displayItems[index];
+                  // Get the shop for this item, fallback to first shop if not found
+                  final shop = shopMap[item.shopId] ?? shops.first;
+                  return _buildTrendingItemCard(item, shop);
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Build a trending item card
+  Widget _buildTrendingItemCard(MenuItemModel item, ShopModel shop) {
+    return Consumer<CartProvider>(
+      builder: (context, cartProvider, child) {
+        final quantity = cartProvider.getItemQuantity(item.id);
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MenuScreen(shop: shop)),
+            );
+          },
+          child: Container(
+            width: 155,
+            margin: const EdgeInsets.symmetric(horizontal: 6),
+            decoration: BoxDecoration(
+              color: AppTheme.cardBackground,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Image with badges overlay
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child:
+                            item.imageUrl != null && item.imageUrl!.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: item.imageUrl!,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  color: AppTheme.background,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    _buildItemPlaceholder(),
+                              )
+                            : _buildItemPlaceholder(),
+                      ),
+                    ),
+                    // Veg/Non-veg indicator overlay
+                    Positioned(
+                      top: 8,
+                      left: 8,
+                      child: _buildVegIndicator(item.isVeg),
+                    ),
+                  ],
+                ),
+                // Item details - compact layout to prevent overflow
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 13,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (item.rating > 0) ...[
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.star,
+                              size: 10,
+                              color: item.rating >= 4.0
+                                  ? Colors.green
+                                  : AppTheme.primaryOrange,
+                            ),
+                            const SizedBox(width: 2),
+                            Text(
+                              item.rating.toStringAsFixed(1),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: item.rating >= 4.0
+                                    ? Colors.green
+                                    : AppTheme.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryOrange.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '₹${item.price.toStringAsFixed(0)}',
+                              style: TextStyle(
+                                color: AppTheme.primaryOrange,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          if (item.hasDiscount) ...[
+                            const SizedBox(width: 6),
+                            Text(
+                              '₹${item.originalPrice!.toStringAsFixed(0)}',
+                              style: const TextStyle(
+                                color: AppTheme.textTertiary,
+                                fontSize: 11,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Build veg/non-veg indicator icon
+  Widget _buildVegIndicator(bool isVeg) {
+    return Container(
+      padding: const EdgeInsets.all(1.5),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.95),
+        border: Border.all(
+          color: isVeg ? Colors.green : Colors.red,
+          width: 1.2,
+        ),
+        borderRadius: BorderRadius.circular(2),
+      ),
+      child: Icon(
+        Icons.circle,
+        size: 7,
+        color: isVeg ? Colors.green : Colors.red,
+      ),
+    );
+  }
+
+  Widget _buildItemPlaceholder() {
+    return Container(
+      color: AppTheme.primaryOrange.withOpacity(0.05),
+      child: Center(
+        child: Icon(
+          Icons.restaurant_menu,
+          color: AppTheme.primaryOrange.withOpacity(0.2),
+          size: 40,
+        ),
+      ),
+    );
+  }
+
+  /// Placeholder for loading state
+  Widget _buildTrendingItemPlaceholder() {
+    return Container(
+      width: 140,
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      decoration: BoxDecoration(
+        color: AppTheme.cardBackground,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: 100,
+            decoration: BoxDecoration(
+              color: AppTheme.background,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(14),
+              ),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 12, width: 80),
+                SizedBox(height: 4),
+                SizedBox(height: 14, width: 50),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
