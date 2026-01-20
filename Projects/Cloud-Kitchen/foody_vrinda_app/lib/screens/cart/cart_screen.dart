@@ -786,218 +786,238 @@ class _CartScreenState extends State<CartScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: AppTheme.cardBackground,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Handle bar
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) {
+          return Container(
+            decoration: const BoxDecoration(
+              color: AppTheme.cardBackground,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            const SizedBox(height: 16),
-            // Title
-            Row(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(
-                  Icons.receipt_long,
-                  color: AppTheme.primaryBlue,
-                  size: 24,
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  'Order Summary',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Delivery Address
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppTheme.background,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.borderLight),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    color: AppTheme.success,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Delivery To',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: AppTheme.textSecondary,
-                          ),
-                        ),
-                        Text(
-                          _addressController.text.trim(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                // Handle bar
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Cart Items
-            const Text(
-              'Items',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-            ),
-            const SizedBox(height: 8),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.25,
-              ),
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: cartProvider.items.length,
-                separatorBuilder: (_, __) => const Divider(height: 16),
-                itemBuilder: (context, index) {
-                  final item = cartProvider.items[index];
-                  return Row(
+                ),
+                const SizedBox(height: 16),
+                // Title
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.receipt_long,
+                      color: AppTheme.primaryBlue,
+                      size: 24,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Order Summary',
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Delivery Address
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppTheme.borderLight),
+                  ),
+                  child: Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryBlue.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          '${item.quantity}x',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.primaryBlue,
-                            fontSize: 12,
-                          ),
-                        ),
+                      const Icon(
+                        Icons.location_on,
+                        color: AppTheme.success,
+                        size: 20,
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(
-                          item.menuItem.name,
-                          style: const TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      Text(
-                        '₹${(item.menuItem.price * item.quantity).toStringAsFixed(0)}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Delivery To',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: AppTheme.textSecondary,
+                              ),
+                            ),
+                            Text(
+                              _addressController.text.trim(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
                       ),
                     ],
-                  );
-                },
-              ),
-            ),
-            const Divider(height: 24),
-            // Pricing Breakdown
-            _buildPriceRow('Subtotal', subtotal),
-            if (gstPercentage > 0)
-              _buildPriceRow(
-                'GST (${gstPercentage.toStringAsFixed(0)}%)',
-                gstAmount,
-              ),
-            if (deliveryCharge > 0)
-              _buildPriceRow('Delivery Charge', deliveryCharge),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Cart Items
                 const Text(
-                  'Total',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  'Items',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                Text(
-                  '₹${total.toStringAsFixed(0)}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: AppTheme.primaryBlue,
+                const SizedBox(height: 8),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.25,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Payment Method Selection
-            const Text(
-              'Payment Method',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildPaymentChip(
-                    'Cash on Delivery',
-                    Icons.payments_outlined,
-                    PaymentMethod.cash,
-                    _codEnabled,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _buildPaymentChip(
-                    'Online Pay',
-                    Icons.account_balance_wallet_outlined,
-                    PaymentMethod.online,
-                    _onlinePaymentsEnabled,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Confirm Button
-            AppButton(
-              text: _selectedPaymentMethod == PaymentMethod.online
-                  ? 'Pay & Place Order'
-                  : 'Confirm Order',
-              isFullWidth: true,
-              height: 50,
-              onPressed: _selectedPaymentMethod == null
-                  ? null
-                  : () {
-                      Navigator.pop(context);
-                      _placeOrder();
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: cartProvider.items.length,
+                    separatorBuilder: (_, __) => const Divider(height: 16),
+                    itemBuilder: (context, index) {
+                      final item = cartProvider.items[index];
+                      return Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryBlue.withValues(
+                                alpha: 0.1,
+                              ),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              '${item.quantity}x',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primaryBlue,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              item.menuItem.name,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                          Text(
+                            '₹${(item.menuItem.price * item.quantity).toStringAsFixed(0)}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      );
                     },
+                  ),
+                ),
+                const Divider(height: 24),
+                // Pricing Breakdown
+                _buildPriceRow('Subtotal', subtotal),
+                if (gstPercentage > 0)
+                  _buildPriceRow(
+                    'GST (${gstPercentage.toStringAsFixed(0)}%)',
+                    gstAmount,
+                  ),
+                if (deliveryCharge > 0)
+                  _buildPriceRow('Delivery Charge', deliveryCharge),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Total',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      '₹${total.toStringAsFixed(0)}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: AppTheme.primaryBlue,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // Payment Method Selection
+                const Text(
+                  'Payment Method',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildPaymentChipWithCallback(
+                        'Cash on Delivery',
+                        Icons.payments_outlined,
+                        PaymentMethod.cash,
+                        _codEnabled,
+                        () {
+                          setSheetState(
+                            () => _selectedPaymentMethod = PaymentMethod.cash,
+                          );
+                          setState(() {}); // Also update parent
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _buildPaymentChipWithCallback(
+                        'Online Pay',
+                        Icons.account_balance_wallet_outlined,
+                        PaymentMethod.online,
+                        _onlinePaymentsEnabled,
+                        () {
+                          setSheetState(
+                            () => _selectedPaymentMethod = PaymentMethod.online,
+                          );
+                          setState(() {}); // Also update parent
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // Confirm Button
+                AppButton(
+                  text: _selectedPaymentMethod == PaymentMethod.online
+                      ? 'Pay & Place Order'
+                      : 'Confirm Order',
+                  isFullWidth: true,
+                  height: 50,
+                  onPressed: _selectedPaymentMethod == null
+                      ? null
+                      : () {
+                          Navigator.pop(context);
+                          _placeOrder();
+                        },
+                ),
+                SizedBox(height: MediaQuery.of(context).padding.bottom),
+              ],
             ),
-            SizedBox(height: MediaQuery.of(context).padding.bottom),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -1028,46 +1048,185 @@ class _CartScreenState extends State<CartScreen> {
     bool isEnabled,
   ) {
     final isSelected = _selectedPaymentMethod == method;
+    final isCash = method == PaymentMethod.cash;
+
+    // Vibrant colors for each payment type
+    final activeColor = isCash
+        ? const Color(0xFF00C853)
+        : const Color(0xFF2962FF);
+    final bgColor = isSelected
+        ? activeColor.withValues(alpha: 0.12)
+        : (isEnabled ? Colors.white : Colors.grey.shade100);
+
     return GestureDetector(
       onTap: isEnabled
           ? () => setState(() => _selectedPaymentMethod = method)
           : null,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         decoration: BoxDecoration(
-          color: isSelected
-              ? AppTheme.primaryBlue.withValues(alpha: 0.1)
-              : (isEnabled ? AppTheme.background : Colors.grey.shade200),
-          borderRadius: BorderRadius.circular(12),
+          color: bgColor,
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? AppTheme.primaryBlue : AppTheme.borderLight,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? activeColor : AppTheme.borderLight,
+            width: isSelected ? 2.5 : 1.5,
           ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: activeColor.withValues(alpha: 0.25),
+                    blurRadius: 12,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: 18,
-              color: isEnabled
-                  ? (isSelected ? AppTheme.primaryBlue : AppTheme.textSecondary)
-                  : Colors.grey,
+            // Icon with colored background
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? activeColor
+                    : (isEnabled
+                          ? activeColor.withValues(alpha: 0.1)
+                          : Colors.grey.shade200),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: 24,
+                color: isSelected
+                    ? Colors.white
+                    : (isEnabled ? activeColor : Colors.grey),
+              ),
             ),
-            const SizedBox(width: 6),
-            Flexible(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isEnabled
-                      ? (isSelected
-                            ? AppTheme.primaryBlue
-                            : AppTheme.textPrimary)
-                      : Colors.grey,
-                ),
-                overflow: TextOverflow.ellipsis,
+            const SizedBox(height: 10),
+            // Label
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                color: isEnabled
+                    ? (isSelected ? activeColor : AppTheme.textPrimary)
+                    : Colors.grey,
+                letterSpacing: isSelected ? 0.3 : 0,
+              ),
+            ),
+            const SizedBox(height: 4),
+            // Selection indicator
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: isSelected ? 24 : 0,
+              height: 3,
+              decoration: BoxDecoration(
+                color: activeColor,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Payment chip with custom callback for use in StatefulBuilder
+  Widget _buildPaymentChipWithCallback(
+    String label,
+    IconData icon,
+    PaymentMethod method,
+    bool isEnabled,
+    VoidCallback onTap,
+  ) {
+    final isSelected = _selectedPaymentMethod == method;
+    final isCash = method == PaymentMethod.cash;
+
+    // Vibrant colors for each payment type
+    final activeColor = isCash
+        ? const Color(0xFF00C853)
+        : const Color(0xFF2962FF);
+    final bgColor = isSelected
+        ? activeColor.withValues(alpha: 0.12)
+        : (isEnabled ? Colors.white : Colors.grey.shade100);
+
+    return GestureDetector(
+      onTap: isEnabled ? onTap : null,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? activeColor : AppTheme.borderLight,
+            width: isSelected ? 2.5 : 1.5,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: activeColor.withValues(alpha: 0.25),
+                    blurRadius: 12,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Icon with colored background
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? activeColor
+                    : (isEnabled
+                          ? activeColor.withValues(alpha: 0.1)
+                          : Colors.grey.shade200),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: 24,
+                color: isSelected
+                    ? Colors.white
+                    : (isEnabled ? activeColor : Colors.grey),
+              ),
+            ),
+            const SizedBox(height: 10),
+            // Label
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                color: isEnabled
+                    ? (isSelected ? activeColor : AppTheme.textPrimary)
+                    : Colors.grey,
+                letterSpacing: isSelected ? 0.3 : 0,
+              ),
+            ),
+            const SizedBox(height: 4),
+            // Selection indicator
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: isSelected ? 24 : 0,
+              height: 3,
+              decoration: BoxDecoration(
+                color: activeColor,
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
           ],
@@ -1425,12 +1584,14 @@ class _CartScreenState extends State<CartScreen> {
               decoration: BoxDecoration(
                 color: isSelected
                     ? (isOnlinePayment
-                        ? AppTheme.paymentBlueBg
-                        : AppTheme.success.withOpacity(0.08))
+                          ? AppTheme.paymentBlueBg
+                          : AppTheme.success.withOpacity(0.08))
                     : AppTheme.background,
                 border: Border.all(
                   color: isSelected
-                      ? (isOnlinePayment ? AppTheme.paymentBlue : AppTheme.success)
+                      ? (isOnlinePayment
+                            ? AppTheme.paymentBlue
+                            : AppTheme.success)
                       : AppTheme.border,
                   width: isSelected ? 2 : 1,
                 ),
@@ -1445,8 +1606,8 @@ class _CartScreenState extends State<CartScreen> {
                     decoration: BoxDecoration(
                       gradient: isSelected
                           ? (isOnlinePayment
-                              ? AppTheme.paymentGradient
-                              : AppTheme.successGradient)
+                                ? AppTheme.paymentGradient
+                                : AppTheme.successGradient)
                           : null,
                       color: isSelected ? null : AppTheme.borderLight,
                       borderRadius: BorderRadius.circular(12),
@@ -1466,12 +1627,14 @@ class _CartScreenState extends State<CartScreen> {
                         Text(
                           title,
                           style: TextStyle(
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w600,
                             fontSize: 15,
                             color: isSelected
                                 ? (isOnlinePayment
-                                    ? AppTheme.paymentBlueDark
-                                    : AppTheme.success)
+                                      ? AppTheme.paymentBlueDark
+                                      : AppTheme.success)
                                 : AppTheme.textPrimary,
                           ),
                         ),
@@ -1495,11 +1658,15 @@ class _CartScreenState extends State<CartScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: isSelected
-                          ? (isOnlinePayment ? AppTheme.paymentBlue : AppTheme.success)
+                          ? (isOnlinePayment
+                                ? AppTheme.paymentBlue
+                                : AppTheme.success)
                           : Colors.transparent,
                       border: Border.all(
                         color: isSelected
-                            ? (isOnlinePayment ? AppTheme.paymentBlue : AppTheme.success)
+                            ? (isOnlinePayment
+                                  ? AppTheme.paymentBlue
+                                  : AppTheme.success)
                             : AppTheme.border,
                         width: 2,
                       ),

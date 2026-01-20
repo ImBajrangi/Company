@@ -36,11 +36,13 @@ class _DeliveryViewState extends State<DeliveryView> {
   bool _isFirstLoad = true;
   bool _isOnline = true; // Delivery availability status
   bool _isTogglingStatus = false;
+  late Stream<List<ShopModel>> _shopsStream;
 
   @override
   void initState() {
     super.initState();
     _selectedShopId = widget.shopId;
+    _shopsStream = _shopService.getShops();
     _initNotifications();
     _initAlarmListener();
   }
@@ -262,7 +264,7 @@ class _DeliveryViewState extends State<DeliveryView> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 StreamBuilder<List<ShopModel>>(
-                  stream: _shopService.getShops(),
+                  stream: _shopsStream,
                   builder: (context, snapshot) {
                     final shops = snapshot.data ?? [];
                     final shopName = isDeveloper && _selectedShopId == null
@@ -302,7 +304,7 @@ class _DeliveryViewState extends State<DeliveryView> {
             builder: (context, auth, _) {
               if (auth.userData?.role == UserRole.developer) {
                 return StreamBuilder<List<ShopModel>>(
-                  stream: _shopService.getShops(),
+                  stream: _shopsStream,
                   builder: (context, snapshot) {
                     final shops = snapshot.data ?? [];
                     return Container(
@@ -449,7 +451,7 @@ class _DeliveryViewState extends State<DeliveryView> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFF00B894),  // Teal green for delivery
+            const Color(0xFF00B894), // Teal green for delivery
             const Color(0xFF00CEC9),
           ],
         ),
@@ -469,10 +471,7 @@ class _DeliveryViewState extends State<DeliveryView> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Colors.white.withOpacity(0.15),
-                Colors.transparent,
-              ],
+              colors: [Colors.white.withOpacity(0.15), Colors.transparent],
             ),
           ),
           child: Row(

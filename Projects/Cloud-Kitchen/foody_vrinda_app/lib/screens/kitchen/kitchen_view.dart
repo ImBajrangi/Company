@@ -33,11 +33,13 @@ class _KitchenViewState extends State<KitchenView> {
   String? _selectedShopId;
   bool _isAlarmActive = false;
   int _unacknowledgedCount = 0;
+  late Stream<List<ShopModel>> _shopsStream;
 
   @override
   void initState() {
     super.initState();
     _selectedShopId = widget.shopId;
+    _shopsStream = _shopService.getShops();
     _initNotificationListener();
     _initAlarmListener();
   }
@@ -209,7 +211,8 @@ class _KitchenViewState extends State<KitchenView> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: userData?.photoURL != null && userData!.photoURL!.isNotEmpty
+              child:
+                  userData?.photoURL != null && userData!.photoURL!.isNotEmpty
                   ? CachedNetworkImage(
                       imageUrl: userData.photoURL!,
                       fit: BoxFit.cover,
@@ -249,7 +252,7 @@ class _KitchenViewState extends State<KitchenView> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 StreamBuilder<List<ShopModel>>(
-                  stream: _shopService.getShops(),
+                  stream: _shopsStream,
                   builder: (context, snapshot) {
                     final shops = snapshot.data ?? [];
                     final shopName = _selectedShopId == null
@@ -257,7 +260,8 @@ class _KitchenViewState extends State<KitchenView> {
                         : shops
                               .firstWhere(
                                 (s) => s.id == _selectedShopId,
-                                orElse: () => ShopModel(id: '', name: 'Unknown Shop'),
+                                orElse: () =>
+                                    ShopModel(id: '', name: 'Unknown Shop'),
                               )
                               .name;
                     return Text(
@@ -282,7 +286,7 @@ class _KitchenViewState extends State<KitchenView> {
 
               if (isDev) {
                 return StreamBuilder<List<ShopModel>>(
-                  stream: _shopService.getShops(),
+                  stream: _shopsStream,
                   builder: (context, snapshot) {
                     final shops = snapshot.data ?? [];
                     return Container(
@@ -399,13 +403,13 @@ class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
   @override
   void initState() {
     super.initState();
-    
+
     // Pulsing glow animation
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _pulseAnimation = Tween<double>(begin: 0.6, end: 1.0).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
@@ -415,7 +419,7 @@ class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
       duration: const Duration(milliseconds: 400),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _bellAnimation = Tween<double>(begin: -0.15, end: 0.15).animate(
       CurvedAnimation(parent: _bellController, curve: Curves.elasticIn),
     );
@@ -448,7 +452,9 @@ class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFF6B6B).withOpacity(0.5 * _pulseAnimation.value),
+                color: const Color(
+                  0xFFFF6B6B,
+                ).withOpacity(0.5 * _pulseAnimation.value),
                 blurRadius: 20 * _pulseAnimation.value,
                 spreadRadius: 2 * _pulseAnimation.value,
                 offset: const Offset(0, 4),
@@ -469,10 +475,7 @@ class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white.withOpacity(0.15),
-                    Colors.transparent,
-                  ],
+                  colors: [Colors.white.withOpacity(0.15), Colors.transparent],
                 ),
               ),
               child: Row(
@@ -486,7 +489,9 @@ class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.3 * _pulseAnimation.value),
+                          color: Colors.white.withOpacity(
+                            0.3 * _pulseAnimation.value,
+                          ),
                           blurRadius: 12 * _pulseAnimation.value,
                         ),
                       ],

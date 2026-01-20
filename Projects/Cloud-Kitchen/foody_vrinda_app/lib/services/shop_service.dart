@@ -16,18 +16,19 @@ class ShopService {
   final Map<String, ShopModel> _shopCache = {};
   final Map<String, List<MenuItemModel>> _menuCache = {};
 
+  // Shared Streams for performance
+  Stream<List<ShopModel>>? _shopsStream;
+  Stream<List<MenuItemModel>>? _allMenuItemsStream;
+
   /// Get all shops - direct Firestore stream with caching
   Stream<List<ShopModel>> getShops() {
-    return _firestore.collection('shops').snapshots().map((snapshot) {
-      print('ShopService: Got ${snapshot.docs.length} shops');
+    _shopsStream ??= _firestore.collection('shops').snapshots().map((snapshot) {
       final shops = snapshot.docs.map((doc) {
         try {
           final shop = ShopModel.fromFirestore(doc);
           _shopCache[shop.id] = shop; // Cache individual shop
-          print('ShopService: Parsed shop: ${shop.name}');
           return shop;
         } catch (e) {
-          print('ShopService: Error parsing shop ${doc.id}: $e');
           return ShopModel(id: doc.id, name: 'Error loading shop');
         }
       }).toList();
@@ -35,7 +36,9 @@ class ShopService {
       // Update cache
       _cachedShops = shops;
       return shops;
-    });
+    }).asBroadcastStream();
+
+    return _shopsStream!;
   }
 
   /// Get cached shops synchronously (for instant access)
@@ -124,14 +127,10 @@ class ShopService {
         .where('shopId', isEqualTo: shopId)
         .snapshots()
         .map((snapshot) {
-          print(
-            'ShopService: Got ${snapshot.docs.length} menu items for shop $shopId',
-          );
           final items = snapshot.docs.map((doc) {
             try {
               return MenuItemModel.fromFirestore(doc);
             } catch (e) {
-              print('ShopService: Error parsing menu item ${doc.id}: $e');
               return MenuItemModel(
                 id: doc.id,
                 shopId: shopId,
@@ -153,13 +152,13 @@ class ShopService {
 
   /// Get all menu items from all shops (for trending section)
   Stream<List<MenuItemModel>> getAllMenuItems() {
-    return _firestore.collection('menus').snapshots().map((snapshot) {
-      print('ShopService: Got ${snapshot.docs.length} total menu items');
+    _allMenuItemsStream ??= _firestore.collection('menus').snapshots().map((
+      snapshot,
+    ) {
       final items = snapshot.docs.map((doc) {
         try {
           return MenuItemModel.fromFirestore(doc);
         } catch (e) {
-          print('ShopService: Error parsing menu item ${doc.id}: $e');
           return MenuItemModel(
             id: doc.id,
             shopId: '',
@@ -169,7 +168,9 @@ class ShopService {
         }
       }).toList();
       return items;
-    });
+    }).asBroadcastStream();
+
+    return _allMenuItemsStream!;
   }
 
   /// Get available menu items for a shop
