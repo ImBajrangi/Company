@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   
   // Primary Brand Colors
-  static const Color primaryBlue = Color(0xFF2563EB);  // Trust blue for payments
-  static const Color primaryOrange = Color(0xFFFC8019); // Swiggy-inspired orange
-  static const Color primaryRed = Color(0xFFE23744);    // Zomato-inspired red
+  static const Color primaryBlue = Color(0xFF2563EB);
+  static const Color primaryOrange = Color(0xFFFC8019);
+  static const Color primaryRed = Color(0xFFE23744);
   static const Color primaryBlack = Color(0xFF1D1D1F);
 
   // Payment/Transaction Blue Theme (Trust & Security)
