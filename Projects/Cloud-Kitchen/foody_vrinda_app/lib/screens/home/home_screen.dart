@@ -34,8 +34,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ShopService _shopService = ShopService();
-  int _selectedViewIndex =
-      0; // 0: Customer, 1: Kitchen, 2: Delivery, 3: Dashboard, 4: Dev
+  int _selectedViewIndex = 0;
+  late Stream<List<ShopModel>> _shopsStream;
+  late Stream<List<MenuItemModel>> _trendingStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _shopsStream = _shopService.getShops();
+    _trendingStream = _shopService.getAllMenuItems();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Logo
               Container(
@@ -94,6 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -116,188 +132,116 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
 
-              // Title
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Foody Vrinda',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      'Find your favorites',
-                      style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Cart badge (for customers)
-              if (_selectedViewIndex == 0 && cartProvider.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  child: Stack(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CartScreen(),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.shopping_bag_outlined),
-                      ),
-                      Positioned(
-                        right: 4,
-                        top: 4,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                            color: AppTheme.error,
-                            shape: BoxShape.circle,
+              // Actions
+              Row(
+                children: [
+                  // Cart badge (for customers)
+                  if (_selectedViewIndex == 0 && cartProvider.isNotEmpty)
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CartScreen(),
                           ),
-                          child: Text(
-                            cartProvider.totalItems.toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              // Order history icon
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OrderHistoryScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.receipt_long_outlined),
-                tooltip: 'My Orders',
-              ),
-
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NotificationSettingsScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.notifications_outlined),
-              ),
-
-              // Profile
-              Flexible(
-                child: GestureDetector(
-                  onTap: () => _showProfileModal(context, authProvider),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Avatar
-                        Container(
-                          width: 28,
-                          height: 28,
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryBlue.withValues(alpha: 0.2),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppTheme.primaryBlue.withValues(
-                                alpha: 0.3,
+                        );
+                      },
+                      icon: Stack(
+                        children: [
+                          const Icon(Icons.shopping_bag_outlined),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(
+                                color: AppTheme.error,
+                                shape: BoxShape.circle,
                               ),
-                              width: 1,
+                              child: Text(
+                                cartProvider.totalItems.toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                          child: ClipOval(
-                            child:
-                                userData?.photoURL != null &&
-                                    userData!.photoURL!.isNotEmpty
-                                ? CachedNetworkImage(
-                                    imageUrl: userData.photoURL!,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => const Center(
-                                      child: SizedBox(
-                                        width: 14,
-                                        height: 14,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 1.5,
-                                        ),
-                                      ),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Center(
-                                          child: Text(
-                                            userData.initials,
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppTheme.primaryBlue,
-                                            ),
-                                          ),
-                                        ),
-                                  )
-                                : Center(
-                                    child: Text(
-                                      userData?.initials ?? 'G',
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppTheme.primaryBlue,
-                                      ),
-                                    ),
-                                  ),
-                          ),
+                        ],
+                      ),
+                    ),
+
+                  // Order history icon
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const OrderHistoryScreen(),
                         ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            authProvider.isAuthenticated && userData != null
-                                ? (userData.displayName ??
-                                      userData.email.split('@').first)
-                                : 'Guest',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                      );
+                    },
+                    icon: const Icon(Icons.receipt_long_outlined),
+                    tooltip: 'My Orders',
+                  ),
+
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const NotificationSettingsScreen(),
                         ),
-                      ],
+                      );
+                    },
+                    icon: const Icon(Icons.notifications_outlined),
+                  ),
+
+                  // Profile Avatar Only
+                  GestureDetector(
+                    onTap: () => _showProfileModal(context, authProvider),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 8),
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppTheme.primaryBlue.withValues(alpha: 0.2),
+                          width: 2,
+                        ),
+                      ),
+                      child: Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryBlue.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: ClipOval(
+                          child:
+                              userData?.photoURL != null &&
+                                  userData!.photoURL!.isNotEmpty
+                              ? CachedNetworkImage(
+                                  imageUrl: userData.photoURL!,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      _buildInitialsAvatar(userData),
+                                )
+                              : _buildInitialsAvatar(userData),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
-          // Search Bar
-          const SizedBox(height: 12),
+
+          // Modern Search Bar
+          const SizedBox(height: 18),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -306,22 +250,40 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: BoxDecoration(
                 color: AppTheme.background,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.border.withOpacity(0.5)),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: Row(
+              child: const Row(
                 children: [
-                  Icon(Icons.search, color: AppTheme.textTertiary, size: 20),
-                  const SizedBox(width: 12),
-                  Text(
-                    'Search shops, items, cuisines...',
-                    style: TextStyle(
-                      color: AppTheme.textTertiary,
-                      fontSize: 14,
+                  Icon(
+                    Icons.search_rounded,
+                    color: AppTheme.primaryOrange,
+                    size: 22,
+                  ),
+                  SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      'Search delicious food, shops...',
+                      style: TextStyle(
+                        color: AppTheme.textTertiary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
+                  ),
+                  Icon(
+                    Icons.tune_rounded,
+                    color: AppTheme.textTertiary,
+                    size: 20,
                   ),
                 ],
               ),
@@ -484,19 +446,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildCustomerView() {
     return StreamBuilder<List<ShopModel>>(
-      stream: _shopService.getShops(),
+      stream: _shopsStream,
       builder: (context, snapshot) {
-        // Debug logging
-        print('HomeScreen: ConnectionState = ${snapshot.connectionState}');
-        print('HomeScreen: hasData = ${snapshot.hasData}');
-        print('HomeScreen: hasError = ${snapshot.hasError}');
-        if (snapshot.hasError) {
-          print('HomeScreen: Error = ${snapshot.error}');
-        }
-        if (snapshot.hasData) {
-          print('HomeScreen: Shops count = ${snapshot.data?.length}');
-        }
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: AnimatedLoader(message: 'Loading shops...'),
@@ -766,7 +717,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: 240,
           child: StreamBuilder<List<MenuItemModel>>(
-            stream: _shopService.getAllMenuItems(),
+            stream: _trendingStream,
             builder: (context, menuSnapshot) {
               // Handle loading state
               if (menuSnapshot.connectionState == ConnectionState.waiting) {
@@ -1313,6 +1264,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 16),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInitialsAvatar(UserModel? userData) {
+    return Center(
+      child: Text(
+        userData?.initials ?? 'G',
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w800,
+          color: AppTheme.primaryBlue,
         ),
       ),
     );
