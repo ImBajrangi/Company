@@ -9,6 +9,7 @@ import '../../services/order_service.dart';
 import '../../services/shop_service.dart';
 import '../../services/order_notification_manager.dart';
 import '../../services/notification_service.dart';
+import '../../services/kitchen_alarm_service.dart';
 import '../../widgets/order_widgets.dart';
 import '../../widgets/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,13 +29,36 @@ class _KitchenViewState extends State<KitchenView> {
   final OrderNotificationManager _notificationManager =
       OrderNotificationManager();
   final NotificationService _notificationService = NotificationService();
+  final KitchenAlarmService _alarmService = KitchenAlarmService();
   String? _selectedShopId;
+  bool _isAlarmActive = false;
+  int _unacknowledgedCount = 0;
 
   @override
   void initState() {
     super.initState();
     _selectedShopId = widget.shopId;
     _initNotificationListener();
+    _initAlarmListener();
+  }
+
+  void _initAlarmListener() {
+    // Initialize alarm service
+    _alarmService.initialize();
+    // Listen for alarm state changes
+    _alarmService.addListener(_onAlarmStateChanged);
+    // Set initial state
+    _isAlarmActive = _alarmService.isAlarmActive;
+    _unacknowledgedCount = _alarmService.unacknowledgedCount;
+  }
+
+  void _onAlarmStateChanged() {
+    if (mounted) {
+      setState(() {
+        _isAlarmActive = _alarmService.isAlarmActive;
+        _unacknowledgedCount = _alarmService.unacknowledgedCount;
+      });
+    }
   }
 
   Future<void> _initNotificationListener() async {
@@ -61,6 +85,7 @@ class _KitchenViewState extends State<KitchenView> {
 
   @override
   void dispose() {
+    _alarmService.removeListener(_onAlarmStateChanged);
     _notificationManager.stopListening();
     super.dispose();
   }
@@ -89,6 +114,9 @@ class _KitchenViewState extends State<KitchenView> {
 
     return Column(
       children: [
+        // Alarm Banner - shows when new orders need acknowledgment
+        if (_isAlarmActive) _buildAlarmBanner(),
+
         // Header
         _buildHeader(isDeveloper),
 
@@ -151,6 +179,91 @@ class _KitchenViewState extends State<KitchenView> {
                 ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAlarmBanner() {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.8, end: 1.0),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+      builder: (context, value, child) {
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppTheme.error.withOpacity(value),
+                AppTheme.error.withOpacity(0.8 * value),
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.error.withOpacity(0.4),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              // Animated bell icon
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: -0.1, end: 0.1),
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                builder: (context, rotation, child) {
+                  return Transform.rotate(
+                    angle: rotation,
+                    child: const Icon(
+                      Icons.notifications_active,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$_unacknowledgedCount New Order${_unacknowledgedCount > 1 ? 's' : ''}!',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Text(
+                      'Tap to acknowledge',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => _alarmService.acknowledgeAll(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppTheme.error,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                ),
+                icon: const Icon(Icons.check, size: 18),
+                label: const Text('Acknowledge'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/order_model.dart';
 import '../models/user_model.dart';
 import 'notification_service.dart';
+import 'kitchen_alarm_service.dart';
 
 /// Manages real-time order listeners and triggers notifications for staff
 class OrderNotificationManager {
@@ -120,6 +121,13 @@ class OrderNotificationManager {
       amount: order.totalAmount,
       userRole: _currentUserRole,
     );
+
+    // Trigger persistent kitchen alarm for owner/kitchen/developer roles
+    if (_currentUserRole == UserRole.owner ||
+        _currentUserRole == UserRole.kitchen ||
+        _currentUserRole == UserRole.developer) {
+      KitchenAlarmService().triggerAlarm(order.id);
+    }
   }
 
   /// Stop listening for orders
