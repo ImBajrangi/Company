@@ -550,12 +550,15 @@ class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
                               size: 14,
                             ),
                             const SizedBox(width: 4),
-                            Text(
-                              'Tap to acknowledge & stop alarm',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.85),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                            Flexible(
+                              child: Text(
+                                'Tap to acknowledge & stop alarm',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.85),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],

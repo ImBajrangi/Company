@@ -11,6 +11,7 @@ import '../../providers/auth_provider.dart';
 import '../../services/order_service.dart';
 import '../../services/shop_service.dart';
 import '../../services/notification_service.dart';
+import '../../services/delivery_alarm_service.dart';
 import '../../widgets/order_widgets.dart';
 import '../../widgets/animations.dart';
 
@@ -41,6 +42,24 @@ class _DeliveryViewState extends State<DeliveryView> {
     super.initState();
     _selectedShopId = widget.shopId;
     _initNotifications();
+    _initAlarmListener();
+  }
+
+  void _initAlarmListener() {
+    DeliveryAlarmService().addListener(_onAlarmStateChanged);
+  }
+
+  void _onAlarmStateChanged() {
+    if (mounted) setState(() {});
+  }
+
+  bool get _isAlarmActive => DeliveryAlarmService().isAlarmActive;
+  int get _unacknowledgedCount => DeliveryAlarmService().unacknowledgedCount;
+
+  @override
+  void dispose() {
+    DeliveryAlarmService().removeListener(_onAlarmStateChanged);
+    super.dispose();
   }
 
   Future<void> _initNotifications() async {
@@ -102,7 +121,7 @@ class _DeliveryViewState extends State<DeliveryView> {
     final currentOrderIds = orders.map((o) => o.id).toSet();
     final newOrderIds = currentOrderIds.difference(_previousOrderIds);
 
-    // Show notification for each new order
+    // Show notification and trigger alarm for each new order
     for (final orderId in newOrderIds) {
       final order = orders.firstWhere((o) => o.id == orderId);
       _notificationService.showReadyForDeliveryNotification(
@@ -110,6 +129,8 @@ class _DeliveryViewState extends State<DeliveryView> {
         customerName: order.customerName,
         address: order.deliveryAddress,
       );
+      // Trigger alarm for delivery personnel
+      DeliveryAlarmService().triggerAlarm(orderId);
     }
 
     _previousOrderIds = currentOrderIds;
@@ -158,6 +179,7 @@ class _DeliveryViewState extends State<DeliveryView> {
     return Column(
       children: [
         _buildHeader(userData, isDeveloper),
+        if (_isAlarmActive) _buildAlarmBanner(),
         Expanded(
           child: StreamBuilder<List<OrderModel>>(
             stream: _orderService.getDeliveryOrders(null), // null = all shops
@@ -176,6 +198,7 @@ class _DeliveryViewState extends State<DeliveryView> {
     return Column(
       children: [
         _buildHeader(userData, isDeveloper),
+        if (_isAlarmActive) _buildAlarmBanner(),
         Expanded(
           child: shopId == null
               ? const Center(
@@ -204,6 +227,7 @@ class _DeliveryViewState extends State<DeliveryView> {
     return Column(
       children: [
         _buildHeader(userData, isDeveloper),
+        if (_isAlarmActive) _buildAlarmBanner(),
         Expanded(
           child: StreamBuilder<List<OrderModel>>(
             stream: _orderService.getDeliveryOrdersMultiShop(shopIds),
@@ -413,6 +437,170 @@ class _DeliveryViewState extends State<DeliveryView> {
         );
       }
     }
+  }
+
+  /// Builds the alarm banner for new delivery orders
+  Widget _buildAlarmBanner() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFF00B894),  // Teal green for delivery
+            const Color(0xFF00CEC9),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF00B894).withOpacity(0.4),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white.withOpacity(0.15),
+                Colors.transparent,
+              ],
+            ),
+          ),
+          child: Row(
+            children: [
+              // Delivery icon
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.delivery_dining,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Text content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '$_unacknowledgedCount',
+                            style: const TextStyle(
+                              color: Color(0xFF00B894),
+                              fontWeight: FontWeight.w900,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            'Ready for Pickup!',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.touch_app_rounded,
+                          color: Colors.white.withOpacity(0.8),
+                          size: 12,
+                        ),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            'Tap OK to acknowledge',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.85),
+                              fontSize: 11,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              // Acknowledge button
+              GestureDetector(
+                onTap: () => DeliveryAlarmService().acknowledgeAll(),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.check_circle_rounded,
+                        color: const Color(0xFF00B894),
+                        size: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        'OK',
+                        style: TextStyle(
+                          color: Color(0xFF2D3436),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

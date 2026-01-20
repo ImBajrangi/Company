@@ -463,7 +463,7 @@ class _CartScreenState extends State<CartScreen> {
                                       style: const TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w700,
-                                        color: AppTheme.primaryBlue,
+                                        color: AppTheme.paymentBlue,
                                       ),
                                     ),
                                   ],
@@ -591,39 +591,102 @@ class _CartScreenState extends State<CartScreen> {
 
                   const SizedBox(height: 20),
 
-                  // Payment Method Selection
+                  // Payment Method Selection - Blue Trust Theme
                   Container(
-                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: AppTheme.cardBackground,
                       borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.paymentBlue.withOpacity(0.08),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Payment Method',
-                          style: Theme.of(context).textTheme.titleLarge,
+                        // Blue gradient header
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            gradient: AppTheme.paymentGradient,
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(16),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Icon(
+                                  Icons.verified_user_rounded,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Payment Method',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Text(
+                                      '100% Secure Payments',
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                                Icons.shield_rounded,
+                                color: Colors.white.withOpacity(0.8),
+                                size: 20,
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 16),
-                        _buildPaymentOption(
-                          title: 'Cash on Delivery',
-                          subtitle: _codEnabled
-                              ? 'Pay when you receive your food'
-                              : 'Temporarily unavailable',
-                          icon: Icons.payments_outlined,
-                          method: PaymentMethod.cash,
-                          isEnabled: _codEnabled,
-                        ),
-                        const Divider(height: 24),
-                        _buildPaymentOption(
-                          title: 'Online Payment',
-                          subtitle: _onlinePaymentsEnabled
-                              ? 'Pay securely via Razorpay'
-                              : 'Temporarily unavailable',
-                          icon: Icons.account_balance_wallet_outlined,
-                          method: PaymentMethod.online,
-                          isEnabled: _onlinePaymentsEnabled,
+                        // Payment options
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              _buildPaymentOption(
+                                title: 'Cash on Delivery',
+                                subtitle: _codEnabled
+                                    ? 'Pay when you receive your food'
+                                    : 'Temporarily unavailable',
+                                icon: Icons.payments_outlined,
+                                method: PaymentMethod.cash,
+                                isEnabled: _codEnabled,
+                              ),
+                              const SizedBox(height: 12),
+                              _buildPaymentOption(
+                                title: 'Online Payment',
+                                subtitle: _onlinePaymentsEnabled
+                                    ? 'Pay securely via Razorpay'
+                                    : 'Temporarily unavailable',
+                                icon: Icons.account_balance_wallet_outlined,
+                                method: PaymentMethod.online,
+                                isEnabled: _onlinePaymentsEnabled,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -1343,85 +1406,113 @@ class _CartScreenState extends State<CartScreen> {
     required bool isEnabled,
   }) {
     final isSelected = _selectedPaymentMethod == method;
+    final isOnlinePayment = method == PaymentMethod.online;
 
-    return InkWell(
-      onTap: isEnabled
-          ? () => setState(() => _selectedPaymentMethod = method)
-          : null,
-      child: Opacity(
-        opacity: isEnabled ? 1.0 : 0.5,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? AppTheme.primaryBlue.withValues(alpha: 0.05)
-                : Colors.transparent,
-            border: Border.all(
-              color: isSelected ? AppTheme.primaryBlue : Colors.transparent,
-              width: 1,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      margin: const EdgeInsets.only(bottom: 4),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isEnabled
+              ? () => setState(() => _selectedPaymentMethod = method)
+              : null,
+          borderRadius: BorderRadius.circular(14),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 200),
+            opacity: isEnabled ? 1.0 : 0.5,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? (isOnlinePayment
+                        ? AppTheme.paymentBlueBg
+                        : AppTheme.success.withOpacity(0.08))
+                    : AppTheme.background,
+                border: Border.all(
+                  color: isSelected
+                      ? (isOnlinePayment ? AppTheme.paymentBlue : AppTheme.success)
+                      : AppTheme.border,
+                  width: isSelected ? 2 : 1,
+                ),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  // Icon container
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      gradient: isSelected
+                          ? (isOnlinePayment
+                              ? AppTheme.paymentGradient
+                              : AppTheme.successGradient)
+                          : null,
+                      color: isSelected ? null : AppTheme.borderLight,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: isSelected ? Colors.white : AppTheme.textSecondary,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Text content
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                            fontSize: 15,
+                            color: isSelected
+                                ? (isOnlinePayment
+                                    ? AppTheme.paymentBlueDark
+                                    : AppTheme.success)
+                                : AppTheme.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textSecondary,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Selection indicator
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isSelected
+                          ? (isOnlinePayment ? AppTheme.paymentBlue : AppTheme.success)
+                          : Colors.transparent,
+                      border: Border.all(
+                        color: isSelected
+                            ? (isOnlinePayment ? AppTheme.paymentBlue : AppTheme.success)
+                            : AppTheme.border,
+                        width: 2,
+                      ),
+                    ),
+                    child: isSelected
+                        ? const Icon(Icons.check, color: Colors.white, size: 16)
+                        : null,
+                  ),
+                ],
+              ),
             ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppTheme.primaryBlue.withValues(alpha: 0.1)
-                      : AppTheme.background,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  icon,
-                  color: isSelected
-                      ? AppTheme.primaryBlue
-                      : AppTheme.textTertiary,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontWeight: isSelected
-                            ? FontWeight.bold
-                            : FontWeight.w500,
-                        fontSize: 16,
-                        color: isEnabled
-                            ? (isSelected
-                                  ? AppTheme.primaryBlue
-                                  : AppTheme.textPrimary)
-                            : AppTheme.textSecondary,
-                      ),
-                    ),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppTheme.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Radio<PaymentMethod>(
-                value: method,
-                groupValue: _selectedPaymentMethod,
-                onChanged: isEnabled
-                    ? (val) {
-                        if (val != null) {
-                          setState(() => _selectedPaymentMethod = val);
-                        }
-                      }
-                    : null,
-                activeColor: AppTheme.primaryBlue,
-              ),
-            ],
           ),
         ),
       ),

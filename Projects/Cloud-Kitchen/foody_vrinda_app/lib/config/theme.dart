@@ -2,55 +2,96 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Primary Colors
-  static const Color primaryBlue = Color(0xFF0071E3);
-  static const Color primaryGreen = success; // Alias for success color
+  
+  // Primary Brand Colors
+  static const Color primaryBlue = Color(0xFF2563EB);  // Trust blue for payments
+  static const Color primaryOrange = Color(0xFFFC8019); // Swiggy-inspired orange
+  static const Color primaryRed = Color(0xFFE23744);    // Zomato-inspired red
   static const Color primaryBlack = Color(0xFF1D1D1F);
 
-  // Status Colors
+  // Payment/Transaction Blue Theme (Trust & Security)
+  static const Color paymentBlue = Color(0xFF2563EB);
+  static const Color paymentBlueDark = Color(0xFF1D4ED8);
+  static const Color paymentBlueLight = Color(0xFF3B82F6);
+  static const Color paymentBlueBg = Color(0xFFEFF6FF);
+  
+  // Accent Colors (Food-inspired warmth)
+  static const Color accentOrange = Color(0xFFFC8019);
+  static const Color accentYellow = Color(0xFFFBBF24);
+  static const Color accentCoral = Color(0xFFF97316);
+  
+  // Legacy alias
+  static const Color primaryGreen = success;
+
+  // Status Colors (Modern vibrant)
   static const Color success = Color(0xFF10B981);
   static const Color warning = Color(0xFFF59E0B);
-  static const Color error = Color(0xFFE53E3E);
-  static const Color info = Color(0xFF0284C7);
+  static const Color error = Color(0xFFEF4444);
+  static const Color info = Color(0xFF3B82F6);
 
   // Status Tag Colors
-  static const Color statusNew = Color(0xFFE0F2FE);
-  static const Color statusNewText = Color(0xFF0284C7);
+  static const Color statusNew = Color(0xFFDCFCE7);
+  static const Color statusNewText = Color(0xFF16A34A);
   static const Color statusPreparing = Color(0xFFFEF3C7);
-  static const Color statusPreparingText = Color(0xFF92400E);
+  static const Color statusPreparingText = Color(0xFFD97706);
   static const Color statusReady = Color(0xFFD1FAE5);
   static const Color statusReadyText = Color(0xFF065F46);
-  static const Color statusDelivery = Color(0xFFE0E7FF);
-  static const Color statusDeliveryText = Color(0xFF4338CA);
+  static const Color statusDelivery = Color(0xFFDBEAFE);
+  static const Color statusDeliveryText = Color(0xFF2563EB);
   static const Color statusCompleted = Color(0xFFF3F4F6);
   static const Color statusCompletedText = Color(0xFF4B5563);
 
-  // Background Colors
-  static const Color background = Color(0xFFF5F5F7);
+  // Background Colors (Clean & Modern)
+  static const Color background = Color(0xFFF8FAFC);
   static const Color cardBackground = Colors.white;
   static const Color inputBackground = Colors.white;
+  static const Color surfaceElevated = Color(0xFFFFFFFF);
 
   // Text Colors
-  static const Color textPrimary = Color(0xFF1D1D1F);
+  static const Color textPrimary = Color(0xFF1F2937);
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color textTertiary = Color(0xFF9CA3AF);
+  static const Color textOnPrimary = Colors.white;
 
   // Border Colors
-  static const Color border = Color(0xFFD2D2D7);
-  static const Color borderColor = border; // Alias for convenience
-  static const Color borderLight = Color(0xFFE5E7EB);
+  static const Color border = Color(0xFFE5E7EB);
+  static const Color borderColor = border;
+  static const Color borderLight = Color(0xFFF3F4F6);
 
-  // Role Colors
+  // Role Colors (Distinct for each user type)
   static const Color ownerColor = Color(0xFF6366F1);
-  static const Color developerColor = Color(0xFFE53E3E);
-  static const Color kitchenColor = Color(0xFFF59E0B);
-  static const Color deliveryColor = Color(0xFF10B981);
+  static const Color developerColor = Color(0xFFE11D48);
+  static const Color kitchenColor = Color(0xFFEA580C);
+  static const Color deliveryColor = Color(0xFF059669);
 
-  // Gradients
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF0071E3), Color(0xFF00B4D8)],
+  // ============ GRADIENTS ============
+  
+  // Payment/Trust Gradient (Blue)
+  static const LinearGradient paymentGradient = LinearGradient(
+    colors: [Color(0xFF2563EB), Color(0xFF06B6D4)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
+  );
+  
+  // Primary Action Gradient (Orange - Swiggy style)
+  static const LinearGradient primaryGradient = LinearGradient(
+    colors: [Color(0xFFFC8019), Color(0xFFF97316)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  
+  // Success Gradient
+  static const LinearGradient successGradient = LinearGradient(
+    colors: [Color(0xFF10B981), Color(0xFF059669)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  
+  // Premium Dark Gradient
+  static const LinearGradient darkGradient = LinearGradient(
+    colors: [Color(0xFF1F2937), Color(0xFF111827)],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
   );
 
   static ThemeData get lightTheme {
@@ -141,26 +182,27 @@ class AppTheme {
           color: textTertiary,
         ),
       ),
-      cardTheme: const CardThemeData(
+      cardTheme: CardThemeData(
         color: cardBackground,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(18)),
+          borderRadius: BorderRadius.circular(16),
         ),
-        shadowColor: Colors.black12,
+        shadowColor: Colors.black.withOpacity(0.08),
+        surfaceTintColor: Colors.transparent,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryBlue,
+          backgroundColor: primaryOrange, // Swiggy-style orange for primary actions
           foregroundColor: Colors.white,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           textStyle: GoogleFonts.inter(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
@@ -221,29 +263,34 @@ class AppTheme {
           color: textPrimary,
         ),
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: cardBackground,
-        selectedItemColor: primaryBlue,
+        selectedItemColor: primaryOrange, // Swiggy-style orange
         unselectedItemColor: textSecondary,
         type: BottomNavigationBarType.fixed,
-        elevation: 8,
+        elevation: 0,
+        selectedLabelStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600),
+        unselectedLabelStyle: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: const Color(0xFFE2E8F0),
+        backgroundColor: const Color(0xFFF3F4F6),
+        selectedColor: primaryOrange.withOpacity(0.15),
         labelStyle: GoogleFonts.inter(
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: FontWeight.w500,
           color: textPrimary,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        side: BorderSide.none,
       ),
       dividerTheme: const DividerThemeData(color: borderLight, thickness: 1),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: textPrimary,
-        contentTextStyle: GoogleFonts.inter(fontSize: 14, color: Colors.white),
+        backgroundColor: const Color(0xFF1F2937),
+        contentTextStyle: GoogleFonts.inter(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
+        elevation: 6,
       ),
     );
   }
