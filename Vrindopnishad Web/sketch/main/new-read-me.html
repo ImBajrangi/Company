@@ -13,6 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Rozha+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../js/auth.js" defer></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -1301,6 +1305,12 @@
         <div class="logo">वृंदोपनिषद्</div>
         <div id="authorDisplay" class="author-header"></div>
         <div class="header-controls">
+            <!-- User Authentication Button -->
+            <button class="control-btn" id="user-auth-btn" aria-label="User Account"
+                style="margin-right: 1rem; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden;">
+                <i class="fas fa-user"></i>
+            </button>
+
             <button class="control-btn menu-toggle" id="menuToggle">
                 <div class="wrapper-menu" id="wrapperMenu">
                     <div class="line-menu half start"></div>
@@ -1437,7 +1447,6 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api'; // Update this to your production API URL if needed
 
         let allEntries = [];
         let filteredEntries = [];
@@ -1469,20 +1478,27 @@
             gridView.innerHTML = '<p style="text-align: center; padding: 3rem; opacity: 0.7; color: white;">Loading content...</p>';
 
             try {
-                // Fetch from Supabase API
-                const response = await fetch(`${API_BASE_URL}/content`);
-                if (!response.ok) throw new Error('Failed to fetch content from API');
+                // Fetch directly from Supabase
+                if (!window.supabaseClient) {
+                    throw new Error('Supabase client not initialized. Check your connection or scripts.');
+                }
 
-                const data = await response.json();
+                const { data, error } = await window.supabaseClient
+                    .from('content')
+                    .select('*')
+                    .order('created_at', { ascending: false });
 
-                if (data?.content) {
-                    allEntries = data.content;
+                if (error) throw error;
+
+                if (data) {
+                    allEntries = data;
                 }
 
                 if (allEntries.length === 0) {
                     throw new Error('No entries found in database');
                 }
 
+                categories.clear();
                 allEntries.forEach(entry => {
                     if (entry.category) categories.add(entry.category);
                 });
@@ -1491,11 +1507,12 @@
                 filterByCategory('all');
 
             } catch (error) {
+                console.error('Data Load Error:', error);
                 gridView.innerHTML = `
                     <div style="text-align: center; padding: 3rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;">
                         <h3 style="color: #ef4444; margin-bottom: 1rem;">Error Loading Content</h3>
                         <p style="color: white;">${error.message}</p>
-                        <p style="color: grey; font-size: 0.8rem; margin-top: 1rem;">Make sure the backend server at ${API_BASE_URL} is running.</p>
+                        <p style="color: grey; font-size: 0.8rem; margin-top: 1rem;">Please check your internet connection or Supabase configuration.</p>
                     </div>
                 `;
             }
@@ -1899,7 +1916,20 @@
 
         createStars(50);
         setInterval(createShootingStar, 8000);
-        loadAllData();
+
+        // Initialize Shared Auth & Load Data
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.AuthService) {
+                // Initialize Auth UI
+                AuthService.updateProfileUI('user-auth-btn');
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+
+            // Load content after auth is ready
+            loadAllData();
+        });
     </script>
 </body>
 
