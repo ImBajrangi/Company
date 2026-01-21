@@ -63,8 +63,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Supabase & Shared Auth -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
-    <!-- <script src="../../js/auth.js" defer></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/auth.js" defer></script>
     <script>
         // Capture the install prompt early, before the main module loads
         window.deferredPrompt = null;
@@ -680,7 +680,7 @@
                         </div>
                         <div id="auth-status" class="font-medium text-gray-700 truncate">Guest</div>
                     </div>
-                    <button id="auth-btn"
+                    <button id="user-auth-btn"
                         class="bg-black text-white px-3 py-1.5 text-xs font-medium rounded-lg hover:bg-gray-800 transition-all flex-shrink-0">
                         Profile
                     </button>
@@ -7652,18 +7652,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const authBtn = document.getElementById('auth-btn');
-            const authStatus = document.getElementById('auth-status');
-            const avatarImg = document.getElementById('auth-avatar-img');
-            const avatarText = document.getElementById('auth-avatar-text');
+            const userBtn = document.getElementById('user-auth-btn');
 
-            if (authBtn && window.AuthService) {
+            if (userBtn && window.AuthService) {
                 // Initialize UI
-                AuthService.updateProfileUI('auth-btn');
+                AuthService.updateProfileUI('user-auth-btn');
 
                 // Update UI on auth state change
                 AuthService.onAuthStateChange(() => {
-                    AuthService.updateProfileUI('auth-btn');
+                    AuthService.updateProfileUI('user-auth-btn');
                 });
             }
         });

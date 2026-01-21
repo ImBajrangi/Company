@@ -9,30 +9,31 @@ const SUPABASE_ANON_KEY = 'sb_publishable_0YiM-Q8itRORUDdToracaQ_vzcrjUlC';
 // Initialize Supabase client globally if not already present
 if (typeof supabase === 'undefined') {
     console.warn('Supabase library not found. Please ensure the CDN is included.');
-} else {
+} else if (!window.supabaseClient) {
     window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Handle OAuth callback - process tokens from URL hash after OAuth redirect
-    (async function handleOAuthCallback() {
-        const hash = window.location.hash;
-        // Check if this is an OAuth callback with tokens
-        if (hash && hash.includes('access_token')) {
-            try {
-                // Supabase automatically picks up the session from URL hash
-                const { data, error } = await window.supabaseClient.auth.getSession();
-                if (error) {
-                    console.error('OAuth callback error:', error);
-                } else if (data.session) {
-                    console.log('OAuth login successful');
-                    // Clean the URL by removing the hash fragment
-                    window.history.replaceState(null, '', window.location.pathname + window.location.search);
-                }
-            } catch (err) {
-                console.error('Error processing OAuth callback:', err);
-            }
-        }
-    })();
+    console.log('Supabase client initialized');
 }
+
+// Handle OAuth callback - process tokens from URL hash after OAuth redirect
+(async function handleOAuthCallback() {
+    const hash = window.location.hash;
+    // Check if this is an OAuth callback with tokens
+    if (hash && hash.includes('access_token')) {
+        try {
+            // Supabase automatically picks up the session from URL hash
+            const { data, error } = await window.supabaseClient.auth.getSession();
+            if (error) {
+                console.error('OAuth callback error:', error);
+            } else if (data.session) {
+                console.log('OAuth login successful');
+                // Clean the URL by removing the hash fragment
+                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+        } catch (err) {
+            console.error('Error processing OAuth callback:', err);
+        }
+    }
+})();
 
 const AuthService = {
     /**
