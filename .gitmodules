@@ -4,3 +4,6 @@
 [submodule "Projects/Sakha"]
 	path = Projects/Sakha
 	url = https://github.com/ImBajrangi/Sakha.git
+[submodule "Projects/HitSoochi"]
+	path = Projects/HitSoochi
+	url = https://github.com/ImBajrangi/Hit-Soochi.git
