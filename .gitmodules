@@ -1,3 +1,6 @@
 [submodule "Projects/VrindaVaani"]
 	path = Projects/VrindaVaani
 	url = https://github.com/ImBajrangi/Sant-Vaani.git
+[submodule "Projects/Sakha"]
+	path = Projects/Sakha
+	url = https://github.com/ImBajrangi/Sakha.git
