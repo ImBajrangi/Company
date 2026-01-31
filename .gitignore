@@ -12,3 +12,8 @@
 node_modules/
 dist/
 build/
+
+# Large model files and outputs
+Projects/CustomerAssistantBot/model_output/
+Projects/CustomerAssistantBot/*.zip
+vrindaBot/

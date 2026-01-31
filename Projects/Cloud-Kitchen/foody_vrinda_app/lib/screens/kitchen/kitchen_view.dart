@@ -9,6 +9,7 @@ import '../../services/order_service.dart';
 import '../../services/shop_service.dart';
 import '../../services/order_notification_manager.dart';
 import '../../services/notification_service.dart';
+import '../../services/kitchen_alarm_service.dart';
 import '../../widgets/order_widgets.dart';
 import '../../widgets/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,13 +29,38 @@ class _KitchenViewState extends State<KitchenView> {
   final OrderNotificationManager _notificationManager =
       OrderNotificationManager();
   final NotificationService _notificationService = NotificationService();
+  final KitchenAlarmService _alarmService = KitchenAlarmService();
   String? _selectedShopId;
+  bool _isAlarmActive = false;
+  int _unacknowledgedCount = 0;
+  late Stream<List<ShopModel>> _shopsStream;
 
   @override
   void initState() {
     super.initState();
     _selectedShopId = widget.shopId;
+    _shopsStream = _shopService.getShops();
     _initNotificationListener();
+    _initAlarmListener();
+  }
+
+  void _initAlarmListener() {
+    // Initialize alarm service
+    _alarmService.initialize();
+    // Listen for alarm state changes
+    _alarmService.addListener(_onAlarmStateChanged);
+    // Set initial state
+    _isAlarmActive = _alarmService.isAlarmActive;
+    _unacknowledgedCount = _alarmService.unacknowledgedCount;
+  }
+
+  void _onAlarmStateChanged() {
+    if (mounted) {
+      setState(() {
+        _isAlarmActive = _alarmService.isAlarmActive;
+        _unacknowledgedCount = _alarmService.unacknowledgedCount;
+      });
+    }
   }
 
   Future<void> _initNotificationListener() async {
@@ -61,6 +87,7 @@ class _KitchenViewState extends State<KitchenView> {
 
   @override
   void dispose() {
+    _alarmService.removeListener(_onAlarmStateChanged);
     _notificationManager.stopListening();
     super.dispose();
   }
@@ -89,6 +116,9 @@ class _KitchenViewState extends State<KitchenView> {
 
     return Column(
       children: [
+        // Alarm Banner - shows when new orders need acknowledgment
+        if (_isAlarmActive) _buildAlarmBanner(),
+
         // Header
         _buildHeader(isDeveloper),
 
@@ -154,6 +184,13 @@ class _KitchenViewState extends State<KitchenView> {
     );
   }
 
+  Widget _buildAlarmBanner() {
+    return _AnimatedAlarmBanner(
+      unacknowledgedCount: _unacknowledgedCount,
+      onAcknowledge: () => _alarmService.acknowledgeAll(),
+    );
+  }
+
   Widget _buildHeader(bool isDeveloper) {
     final userData = Provider.of<AuthProvider>(context, listen: false).userData;
 
@@ -165,10 +202,10 @@ class _KitchenViewState extends State<KitchenView> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppTheme.primaryBlue.withValues(alpha: 0.1),
+              color: AppTheme.primaryBlue.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: AppTheme.primaryBlue.withValues(alpha: 0.2),
+                color: AppTheme.primaryBlue.withOpacity(0.2),
                 width: 1.5,
               ),
             ),
@@ -215,7 +252,7 @@ class _KitchenViewState extends State<KitchenView> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 StreamBuilder<List<ShopModel>>(
-                  stream: _shopService.getShops(),
+                  stream: _shopsStream,
                   builder: (context, snapshot) {
                     final shops = snapshot.data ?? [];
                     final shopName = _selectedShopId == null
@@ -249,7 +286,7 @@ class _KitchenViewState extends State<KitchenView> {
 
               if (isDev) {
                 return StreamBuilder<List<ShopModel>>(
-                  stream: _shopService.getShops(),
+                  stream: _shopsStream,
                   builder: (context, snapshot) {
                     final shops = snapshot.data ?? [];
                     return Container(
@@ -291,7 +328,6 @@ class _KitchenViewState extends State<KitchenView> {
                   children: [
                     ElevatedButton.icon(
                       onPressed: () {
-                        // TODO: Show create order dialog
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Create order coming soon!'),
@@ -340,6 +376,250 @@ class _KitchenViewState extends State<KitchenView> {
         );
       }
     }
+  }
+}
+
+/// Premium animated alarm banner inspired by Swiggy/Zomato
+class _AnimatedAlarmBanner extends StatefulWidget {
+  final int unacknowledgedCount;
+  final VoidCallback onAcknowledge;
+
+  const _AnimatedAlarmBanner({
+    required this.unacknowledgedCount,
+    required this.onAcknowledge,
+  });
+
+  @override
+  State<_AnimatedAlarmBanner> createState() => _AnimatedAlarmBannerState();
+}
+
+class _AnimatedAlarmBannerState extends State<_AnimatedAlarmBanner>
+    with TickerProviderStateMixin {
+  late AnimationController _pulseController;
+  late AnimationController _bellController;
+  late Animation<double> _pulseAnimation;
+  late Animation<double> _bellAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Pulsing glow animation
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _pulseAnimation = Tween<double>(begin: 0.6, end: 1.0).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+
+    // Bell shake animation
+    _bellController = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _bellAnimation = Tween<double>(begin: -0.15, end: 0.15).animate(
+      CurvedAnimation(parent: _bellController, curve: Curves.elasticIn),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    _bellController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: Listenable.merge([_pulseAnimation, _bellAnimation]),
+      builder: (context, child) {
+        return Container(
+          margin: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                const Color(0xFFFF6B6B),
+                const Color(0xFFEE5A5A),
+                const Color(0xFFD63031),
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(
+                  0xFFFF6B6B,
+                ).withOpacity(0.5 * _pulseAnimation.value),
+                blurRadius: 20 * _pulseAnimation.value,
+                spreadRadius: 2 * _pulseAnimation.value,
+                offset: const Offset(0, 4),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                // Glassmorphism overlay
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.white.withOpacity(0.15), Colors.transparent],
+                ),
+              ),
+              child: Row(
+                children: [
+                  // Animated bell with glow
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(
+                            0.3 * _pulseAnimation.value,
+                          ),
+                          blurRadius: 12 * _pulseAnimation.value,
+                        ),
+                      ],
+                    ),
+                    child: Transform.rotate(
+                      angle: _bellAnimation.value,
+                      child: const Icon(
+                        Icons.notifications_active_rounded,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Text content
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                '${widget.unacknowledgedCount}',
+                                style: const TextStyle(
+                                  color: Color(0xFFD63031),
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                'New Order${widget.unacknowledgedCount > 1 ? 's' : ''}!',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  letterSpacing: 0.5,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.touch_app_rounded,
+                              color: Colors.white.withOpacity(0.8),
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                'Tap to acknowledge & stop alarm',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.85),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Premium acknowledge button
+                  GestureDetector(
+                    onTap: widget.onAcknowledge,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.check_circle_rounded,
+                            color: const Color(0xFF00B894),
+                            size: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          const Text(
+                            'OK',
+                            style: TextStyle(
+                              color: Color(0xFF2D3436),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

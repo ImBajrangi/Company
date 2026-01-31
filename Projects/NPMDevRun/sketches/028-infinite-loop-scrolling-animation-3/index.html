@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-	<head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Sketch 028: Infinite Loop Scrolling (scaleX and scaleY) | Codrops</title>
-		<meta name="description" content="Infinite scrolling with looping content using Lenis" />
-		<meta name="keywords" content="Lenis, infinite scrolling, loop scrolling, javascript, continuous scrolling" />
-		<meta name="author" content="Codrops" />
-		<link rel="shortcut icon" href="https://tympanus.net/Sketches/favicon.ico">
-		<link rel="stylesheet" type="text/css" href="css/base.css" />
-		<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser");</script>
-		<script src="//tympanus.net/codrops/adpacks/analytics.js"></script>
-	</head>
-	<body class="loading">
-		<main>
-			<div class="frame">
-				<h1 class="frame__title">Sketch 028: Infinite Loop (scaleX and scaleY) </h1>
-				<nav class="frame__links">
-					<a href="https://github.com/codrops/codrops-sketches/tree/main/028-infinite-loop-scrolling-animation-3">GitHub</a>
-					<a href="https://tympanus.net/codrops/sketches">Archive</a>
-				</nav>
+
+<head>
+	<!-- Modern Rounded Vrindopnishad Favicon -->
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Sketch 028: Infinite Loop Scrolling (scaleX and scaleY) | Codrops</title>
+	<meta name="description" content="Infinite scrolling with looping content using Lenis" />
+	<meta name="keywords" content="Lenis, infinite scrolling, loop scrolling, javascript, continuous scrolling" />
+	<meta name="author" content="Codrops" />
+	<link rel="shortcut icon" href="https://tympanus.net/Sketches/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+	<script>document.documentElement.className = "js"; var supportsCssVars = function () { var e, t = document.createElement("style"); return t.innerHTML = "root: { --tmp-var: bold; }", document.head.appendChild(t), e = !!(window.CSS && window.CSS.supports && window.CSS.supports("font-weight", "var(--tmp-var)")), t.parentNode.removeChild(t), e }; supportsCssVars() || alert("Please view this demo in a modern browser");</script>
+	<script src="//tympanus.net/codrops/adpacks/analytics.js"></script>
+</head>
+
+<body class="loading">
+	<main>
+		<div class="frame">
+			<h1 class="frame__title">Sketch 028: Infinite Loop (scaleX and scaleY) </h1>
+			<nav class="frame__links">
+				<a
+					href="https://github.com/codrops/codrops-sketches/tree/main/028-infinite-loop-scrolling-animation-3">GitHub</a>
+				<a href="https://tympanus.net/codrops/sketches">Archive</a>
+			</nav>
+		</div>
+		<div class="grid">
+			<div class="grid__item"
+				style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/1.jpg');">
 			</div>
-			<div class="grid">
-				<div class="grid__item" style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/1.jpg');"></div>
-				<div class="grid__item" style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/2.jpg');"></div>
-				<div class="grid__item" style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/3.jpg');"></div>
-				<div class="grid__item" style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/4.jpg');"></div>
-				<div class="grid__item" style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/5.jpg');"></div>
-				<div class="grid__item" style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/6.jpg');"></div>
+			<div class="grid__item"
+				style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/2.jpg');">
 			</div>
-		</main>
-		<script src="https://tympanus.net/codrops/adpacks/cda_sponsor.js"></script>
-		<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@0.2.28/bundled/lenis.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-		<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-		<script src="js/index.js"></script>
-	</body>
+			<div class="grid__item"
+				style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/3.jpg');">
+			</div>
+			<div class="grid__item"
+				style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/4.jpg');">
+			</div>
+			<div class="grid__item"
+				style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/5.jpg');">
+			</div>
+			<div class="grid__item"
+				style="background-image:url('https://imbajrangi.github.io/Company/Projects/NPMDevRun/sketches/028-infinite-loop-scrolling-animation-3/img/6.jpg');">
+			</div>
+		</div>
+	</main>
+	<script src="https://tympanus.net/codrops/adpacks/cda_sponsor.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@0.2.28/bundled/lenis.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+	<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+	<script src="js/index.js"></script>
+</body>
+
 </html>

@@ -172,7 +172,6 @@ class _DeveloperPanelState extends State<DeveloperPanel>
         });
       }
     } catch (e) {
-      print('DevPanel: Error loading shops: $e');
       if (mounted) {
         setState(() => _shopsLoaded = true); // Mark loaded even on error
       }
@@ -220,7 +219,7 @@ class _DeveloperPanelState extends State<DeveloperPanel>
         setState(() => _allUsers = users);
       }
     } catch (e) {
-      print('DevPanel: Error loading users: $e');
+      // Silently fail
     }
   }
 
@@ -263,7 +262,7 @@ class _DeveloperPanelState extends State<DeveloperPanel>
         setState(() => _ordersToday = ordersTodayData.length);
       }
     } catch (e) {
-      print('DevPanel: Error loading orders today: $e');
+      // Silently fail
     }
   }
 
@@ -280,7 +279,6 @@ class _DeveloperPanelState extends State<DeveloperPanel>
       await _firestore.collection('shops').limit(1).get();
       setState(() => _testResults['firebase'] = 'pass');
     } catch (e) {
-      print('Firebase test error: $e');
       setState(() => _testResults['firebase'] = 'fail');
     }
 
@@ -352,7 +350,6 @@ class _DeveloperPanelState extends State<DeveloperPanel>
             : 'OK',
       );
     } catch (e) {
-      print('DeveloperPanel: Orphan menus check error: $e');
       setState(() => _consistencyResults['orphanMenus'] = 'Error');
     }
 

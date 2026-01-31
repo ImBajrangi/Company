@@ -2,17 +2,24 @@
 <html lang="en">
 
 <head>
-    <link rel="apple-touch-icon" sizes="180x180" href="../../class/favicon-vrindopnishad/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../class/favicon-vrindopnishad/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../class/favicon-vrindopnishad/favicon-16x16.png">
-    <link rel="manifest" href="../../class/favicon-vrindopnishad/site.webmanifest">
-    <link rel="shortcut icon" href="../../class/favicon-vrindopnishad/favicon.ico">
+    <!-- Favicon Configuration - Absolute URLs for Google Search Reliability -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon.ico" sizes="48x48">
+    <link rel="icon" href="https://vrindopnishad.in/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://vrindopnishad.in/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://vrindopnishad.in/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
+    <link rel="manifest" href="https://vrindopnishad.in/site.webmanifest">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../js/auth.js" defer></script>
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212">
-    <title>Chitra Vrinda | Spiritual Art Gallery</title>
+    <title>Chitra Vrinda - Vrindopnishad | Spiritual Art Gallery</title>
     <meta name="description"
         content="Explore the divine artistry of Vrindavan through Chitra Vrinda. A curated collection of spiritual and cultural imagery dedicated to Vedic heritage.">
     <meta name="keywords"
@@ -22,18 +29,23 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html">
-    <meta property="og:title" content="Chitra Vrinda — Divine Artistic Expressions">
+    <meta property="og:title" content="Chitra Vrinda - Vrindopnishad | Divine Spiritual Art Gallery">
     <meta property="og:description"
-        content="Explore a digital sanctuary of spiritual art and cultural imagery at Chitra Vrinda.">
+        content="Explore the divine sanctuary of Vrindavan through Chitra Vrinda. A curated collection of spiritual photography, Vedic art, and sacred imagery.">
     <meta property="og:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
+    <meta property="og:site_name" content="Vrindopnishad">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html">
-    <meta property="twitter:title" content="Chitra Vrinda — Divine Artistic Expressions">
-    <meta property="twitter:description"
-        content="Explore a digital sanctuary of spiritual art and cultural imagery at Chitra Vrinda.">
-    <meta property="twitter:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html">
+    <meta name="twitter:title" content="Chitra Vrinda - Vrindopnishad | Divine Spiritual Art Gallery">
+    <meta name="twitter:description"
+        content="Explore the divine sanctuary of Vrindavan through Chitra Vrinda. A curated collection of spiritual photography and sacred imagery.">
+    <meta name="twitter:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
+
+    <!-- Pinterest Optimization -->
+    <meta name="p:domain_verify" content="PLACEHOLDER_FOR_USER_VERIFICATION">
+    <meta name="pinterest-rich-pin" content="true">
 
     <script type="application/ld+json">
     {
@@ -93,6 +105,9 @@
     <script src="../../web-extentions/Custom Cursor/custom-cursor.js" defer></script>
     <script src="/Vrindopnishad Web/Pictures/js/notifications.js"></script>
 
+    <!-- Supabase Integration (Handled by auth.js) -->
+    <!-- <script src="/Vrindopnishad Web/Pictures/js/supabase-client.js"></script> -->
+
     <!-- MAIN SCRIPT FOR COLLECTIONS LOGIC -->
     <script src="/Vrindopnishad Web/Pictures/js/collection-page-fix.js"></script>
 
@@ -102,7 +117,7 @@
     <script src="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
 
     <!-- Image Resource Helper -->
-    <!-- <script src="../../../js/image-helper.js"></script> -->
+    <script src="../../../js/image-helper.js"></script>
 
 </head>
 
@@ -152,6 +167,9 @@
             </nav>
 
             <div class="header-actions">
+                <button class="icon-btn" id="user-auth-btn" aria-label="User Account">
+                    <i class="fas fa-user"></i>
+                </button>
                 <button class="icon-btn" id="search-toggle" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </button>
@@ -184,8 +202,8 @@
             <div class="hero-content">
                 <span class="hero-label">Curated Gallery</span>
                 <h1 class="hero-heading">
-                    Divine art<br>
-                    <span class="hero-accent">that inspires</span>
+                    Chitra Vrinda:<br>
+                    <span class="hero-accent">Divine art that inspires</span>
                 </h1>
                 <p class="hero-text">A carefully curated collection of spiritual photography and sacred artworks from
                     Vrindavan.</p>
@@ -583,6 +601,22 @@
             });
 
         })();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
     </script>
 </body>
 

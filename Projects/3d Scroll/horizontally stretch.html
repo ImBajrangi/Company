@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <!-- Modern Rounded Vrindopnishad Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horizontal Scroll Timeline</title>
@@ -11,45 +19,59 @@
         /* Define theme colors using CSS variables */
         :root {
             /* Light Theme (Classic/Premium) */
-            --bg-start: #fcfcfc; /* Off-White/Cream */
+            --bg-start: #fcfcfc;
+            /* Off-White/Cream */
             --bg-end: #f5f5f5;
-            --text-color: #333333; /* Dark Gray text */
+            --text-color: #333333;
+            /* Dark Gray text */
             --card-bg: white;
-            --accent-color: #d97706; /* Amber-700 (Rich Gold/Bronze) */
+            --accent-color: #d97706;
+            /* Amber-700 (Rich Gold/Bronze) */
             --line-color: #e0e0e0;
-            --shadow-base: rgba(0, 0, 0, 0.15); /* Crisper, subtler shadow */
+            --shadow-base: rgba(0, 0, 0, 0.15);
+            /* Crisper, subtler shadow */
             --shadow-strip-base: rgba(0, 0, 0, 0.1);
-            --star-opacity: 0.1; /* Very subtle stars in light mode */
+            --star-opacity: 0.1;
+            /* Very subtle stars in light mode */
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 /* Dark Theme (Classic/Premium Navy/Gold) */
-                --bg-start: #1e2a38; /* Deep Slate Blue */
-                --bg-end: #0f172a; /* Slate-900 */
-                --text-color: #f0f0f0; /* Off-White text */
-                --card-bg: #293847; /* Slightly lighter card */
-                --accent-color: #fbbf24; /* Amber-400 (Brighter Gold) */
+                --bg-start: #1e2a38;
+                /* Deep Slate Blue */
+                --bg-end: #0f172a;
+                /* Slate-900 */
+                --text-color: #f0f0f0;
+                /* Off-White text */
+                --card-bg: #293847;
+                /* Slightly lighter card */
+                --accent-color: #fbbf24;
+                /* Amber-400 (Brighter Gold) */
                 --line-color: #4b5563;
-                --shadow-base: rgba(0, 0, 0, 0.7); /* Deep shadow in dark mode */
-                --shadow-strip-base: rgba(0, 0, 0, 0.3); 
-                --star-opacity: 1; /* Full opacity in dark mode */
+                --shadow-base: rgba(0, 0, 0, 0.7);
+                /* Deep shadow in dark mode */
+                --shadow-strip-base: rgba(0, 0, 0, 0.3);
+                --star-opacity: 1;
+                /* Full opacity in dark mode */
             }
         }
 
         /* Setup for the entire page */
         html {
-            scroll-behavior: auto; 
+            scroll-behavior: auto;
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
-        
+
         body {
             margin: 0;
             /* Use CSS variables for premium gradient background */
             background: radial-gradient(circle at 50% 10%, var(--bg-start) 0%, var(--bg-end) 100%);
-            color: var(--text-color); /* Apply theme text color globally */
-            transition: background 0.5s ease; /* Smooth transition when theme changes */
+            color: var(--text-color);
+            /* Apply theme text color globally */
+            transition: background 0.5s ease;
+            /* Smooth transition when theme changes */
         }
 
         /* --- NEW: 3D Starfield Background CSS --- */
@@ -59,7 +81,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 5; /* Behind content (z-index 20) */
+            z-index: 5;
+            /* Behind content (z-index 20) */
             background: transparent;
             overflow: hidden;
             /* Ensures starfield takes up 200% height to cover vertical scroll space,
@@ -73,9 +96,9 @@
             background: transparent;
             /* REMOVED: animation: animStar linear infinite; */
             will-change: transform;
-            transition: opacity 0.5s; 
+            transition: opacity 0.5s;
         }
-        
+
         /* REMOVED: @keyframes animStar */
 
         /* Star Layer Definitions (Large box-shadow arrays for static particles) */
@@ -102,15 +125,23 @@
         }
 
         /* Set base opacity using the CSS variable for theme adaptation */
-        .stars-1 { opacity: calc(var(--star-opacity) * 0.8); }
-        .stars-2 { opacity: calc(var(--star-opacity) * 0.5); }
-        .stars-3 { opacity: calc(var(--star-opacity) * 0.3); }
+        .stars-1 {
+            opacity: calc(var(--star-opacity) * 0.8);
+        }
+
+        .stars-2 {
+            opacity: calc(var(--star-opacity) * 0.5);
+        }
+
+        .stars-3 {
+            opacity: calc(var(--star-opacity) * 0.3);
+        }
 
 
         /* 1. The Scroll Trigger: This tall container enables vertical scrolling */
         #scroll-trigger {
             width: 100%;
-            position: relative; 
+            position: relative;
         }
 
         /* 2. The Fixed Container: This holds the visual content and remains in place */
@@ -120,79 +151,85 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            overflow: hidden; 
-            perspective: 1000px; 
+            overflow: hidden;
+            perspective: 1000px;
         }
 
         /* 3. The Horizontal Strip: This moves left/right based on vertical scroll */
         #horizontal-scroll-strip {
             display: flex;
             height: 100%;
-            will-change: transform; 
+            will-change: transform;
             transform-style: preserve-3d;
-            
-            z-index: 20; 
-            
-            transition: box-shadow 0.3s ease-out; 
+
+            z-index: 20;
+
+            transition: box-shadow 0.3s ease-out;
         }
 
         /* Styling for each timeline slide */
         .timeline-slide {
-            flex-shrink: 0; 
-            width: 100vw; 
+            flex-shrink: 0;
+            width: 100vw;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 4rem;
-            background-color: transparent; 
+            background-color: transparent;
         }
 
         /* Content Card Styling - New for premium look */
         .content-card {
-            background-color: var(--card-bg); /* Use variable for card background */
+            background-color: var(--card-bg);
+            /* Use variable for card background */
             padding: 3rem;
-            border-radius: 0.5rem; 
-            box-shadow: 0 5px 15px var(--shadow-base); 
+            border-radius: 0.5rem;
+            box-shadow: 0 5px 15px var(--shadow-base);
             max-width: 90%;
             /* Ensure smooth transition for the dynamic JS scale transformation */
             transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s, background-color 0.5s;
-            z-index: 30; 
-            position: relative; 
+            z-index: 30;
+            position: relative;
         }
+
         .content-card:hover {
-             /* Adjusted hover shadow for both themes */
-             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); 
+            /* Adjusted hover shadow for both themes */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         /* Styling for the dot navigation */
         .timeline-dot {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
         /* Persistent Timeline Line */
         #timeline-line {
             position: absolute;
-            top: 10%; 
+            top: 10%;
             height: 2px;
             width: 100%;
-            background-color: var(--line-color); /* Use variable for line color */
+            background-color: var(--line-color);
+            /* Use variable for line color */
             z-index: 10;
-            transform: translateY(-50%); 
+            transform: translateY(-50%);
         }
+
         #timeline-progress {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
             width: 0;
-            background-color: var(--accent-color); /* Use variable for accent color */
+            background-color: var(--accent-color);
+            /* Use variable for accent color */
             transition: width 0.3s ease-out;
             will-change: width;
         }
     </style>
 </head>
+
 <body>
 
     <!-- NEW: Static 3D Space Background (Particle/Starfield) -->
@@ -206,11 +243,11 @@
     <div id="scroll-trigger"></div>
 
     <!-- The visual content remains fixed on the screen -->
-    <div id="sticky-container"> 
-        
+    <div id="sticky-container">
+
         <!-- Persistent Timeline Line (Now higher up) -->
         <div id="timeline-line">
-             <div id="timeline-progress"></div>
+            <div id="timeline-progress"></div>
         </div>
 
         <div id="horizontal-scroll-strip">
@@ -220,7 +257,8 @@
                 <div class="content-card max-w-xl">
                     <h1 class="text-6xl font-extrabold mb-4" style="color: var(--accent-color);">Luxury Timeline</h1>
                     <p class="text-2xl font-light text-gray-700 dark:text-gray-300">
-                        Experience the difference of **velocity-driven 3D effects** and weighted scrolling in a clean, modern timeline.
+                        Experience the difference of **velocity-driven 3D effects** and weighted scrolling in a clean,
+                        modern timeline.
                     </p>
                     <div class="mt-8 text-sm font-medium" style="color: var(--accent-color);">
                         <span class="inline-block animate-pulse">↓</span> Scroll to Begin
@@ -232,8 +270,11 @@
             <div id="slide-2" class="timeline-slide">
                 <div class="content-card grid md:grid-cols-2 gap-12 max-w-7xl">
                     <!-- Placeholder color is now gold -->
-                    <div class="rounded-lg overflow-hidden h-72 w-full flex items-center justify-center shadow-inner" style="background-color: var(--accent-color);">
-                        <img src="https://placehold.co/800x600/d97706/ffffff?text=Classic+Design" alt="Abstract Feature 1" class="object-cover w-full h-full opacity-70 transition duration-500 hover:opacity-100">
+                    <div class="rounded-lg overflow-hidden h-72 w-full flex items-center justify-center shadow-inner"
+                        style="background-color: var(--accent-color);">
+                        <img src="https://placehold.co/800x600/d97706/ffffff?text=Classic+Design"
+                            alt="Abstract Feature 1"
+                            class="object-cover w-full h-full opacity-70 transition duration-500 hover:opacity-100">
                     </div>
                     <div class="flex flex-col justify-center">
                         <span class="text-lg font-semibold uppercase text-yellow-500 mb-2">Classic Experience</span>
@@ -241,7 +282,8 @@
                             Weighted Movement & LERP.
                         </h2>
                         <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                            Linear Interpolation (LERP) ensures the scroll is never instant, providing the **heavy, premium inertia** that sets this experience apart from standard scrolling.
+                            Linear Interpolation (LERP) ensures the scroll is never instant, providing the **heavy,
+                            premium inertia** that sets this experience apart from standard scrolling.
                         </p>
                     </div>
                 </div>
@@ -253,13 +295,14 @@
                     <span class="text-lg font-semibold uppercase text-amber-500 mb-2 block">High Fidelity</span>
                     <h2 class="text-5xl font-bold mb-6" style="color: var(--text-color);">
                         Velocity-Driven 3D Effects.
-                    </h1>
-                    <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-                        The content doesn't just move; it scales and its shadow blurs based on your scrolling speed, creating an immersive sense of **acceleration and visual depth**.
-                    </p>
+                        </h1>
+                        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+                            The content doesn't just move; it scales and its shadow blurs based on your scrolling speed,
+                            creating an immersive sense of **acceleration and visual depth**.
+                        </p>
                 </div>
             </div>
-            
+
             <!-- Slide 4: Conclusion -->
             <div id="slide-4" class="timeline-slide justify-end">
                 <div class="content-card max-w-xl text-right">
@@ -268,8 +311,9 @@
                         A final call to action to showcase a truly unique and memorable web presence.
                     </p>
                     <!-- Use dynamic style for button background -->
-                    <button class="mt-8 px-8 py-3 transition duration-300 text-white font-medium rounded-lg shadow-xl hover:shadow-2xl transform hover:scale-105"
-                            style="background-color: var(--accent-color);">
+                    <button
+                        class="mt-8 px-8 py-3 transition duration-300 text-white font-medium rounded-lg shadow-xl hover:shadow-2xl transform hover:scale-105"
+                        style="background-color: var(--accent-color);">
                         Start Your Project
                     </button>
                 </div>
@@ -280,15 +324,18 @@
         <!-- Fixed Navigation Dots (Indicator) -->
         <div id="timeline-dots" class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col space-y-4">
             <!-- Dot colors are handled by JS to use the theme accent -->
-            <a class="timeline-dot w-4 h-4 rounded-full shadow-lg" style="background-color: var(--accent-color);" data-slide="1"></a>
+            <a class="timeline-dot w-4 h-4 rounded-full shadow-lg" style="background-color: var(--accent-color);"
+                data-slide="1"></a>
             <a class="timeline-dot w-3 h-3 bg-gray-400 rounded-full" data-slide="2"></a>
             <a class="timeline-dot w-3 h-3 bg-gray-400 rounded-full" data-slide="3"></a>
             <a class="timeline-dot w-3 h-3 bg-gray-400 rounded-full" data-slide="4"></a>
         </div>
 
         <!-- Fixed Scroll Hint (Visual Cue) -->
-        <div id="scroll-cue" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-500" style="color: var(--accent-color);">
-            <svg class="w-10 h-10 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div id="scroll-cue" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-opacity duration-500"
+            style="color: var(--accent-color);">
+            <svg class="w-10 h-10 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>
@@ -300,30 +347,30 @@
         // State variables
         let scrollY = 0;
         let ticking = false;
-        
+
         // Caching for the main elements
         const scrollTrigger = document.getElementById('scroll-trigger');
         const horizontalStrip = document.getElementById('horizontal-scroll-strip');
-        const scrollCue = document.getElementById('scroll-cue'); 
-        const timelineProgress = document.getElementById('timeline-progress'); 
-        
-        let numSlides = 0; 
-        
+        const scrollCue = document.getElementById('scroll-cue');
+        const timelineProgress = document.getElementById('timeline-progress');
+
+        let numSlides = 0;
+
         // Easing parameters
-        let currentTranslateX = 0; 
-        let targetTranslateX = 0; 
-        const easingFactor = 0.05; 
-        
+        let currentTranslateX = 0;
+        let targetTranslateX = 0;
+        const easingFactor = 0.05;
+
         // Dimensions calculation
         let scrollRange = 0;
         let horizontalDistance = 0;
-        
+
         // Caching CSS variable values for dynamic use
         let shadowStripBase = 'rgba(0, 0, 0, 0.1)';
         let accentColor = '#d97706'; // Default to light theme accent
 
         // NEW: Array to cache content cards for performance
-        const cardElements = []; 
+        const cardElements = [];
 
         // Mouse Parallax State for 3D Camera Effect
         let targetRotateX = 0; // Target rotation around X axis (tilt up/down)
@@ -352,7 +399,7 @@
          */
         function calculateDimensions() {
             const actualSlidesCount = document.querySelectorAll('.timeline-slide').length;
-            
+
             // Aggressive Fallback to ensure scrollbar appears
             const expectedSlides = 4;
             if (actualSlidesCount < 2) {
@@ -362,20 +409,20 @@
                 numSlides = actualSlidesCount;
             }
 
-            const numTransitions = numSlides > 1 ? numSlides - 1 : 0; 
-            
+            const numTransitions = numSlides > 1 ? numSlides - 1 : 0;
+
             const viewportHeight = window.innerHeight > 0 ? window.innerHeight : 600;
 
             scrollRange = numTransitions * viewportHeight;
-            scrollTrigger.style.height = `${scrollRange + viewportHeight}px`; 
+            scrollTrigger.style.height = `${scrollRange + viewportHeight}px`;
 
             horizontalDistance = numTransitions * window.innerWidth;
-            
+
             if (scrollRange <= 0) {
                 console.error("Scroll range is zero or less. Vertical scrollbar may not appear.");
             }
 
-            mapScrollToTarget(); 
+            mapScrollToTarget();
         }
 
         /**
@@ -387,7 +434,7 @@
             const slideWidth = window.innerWidth;
             // Ensure slideIndex calculation is clamped properly
             const slideIndex = Math.min(numSlides, Math.max(1, Math.round(currentTranslateX / slideWidth) + 1));
-            
+
             const dots = document.querySelectorAll('.timeline-dot');
             dots.forEach(dot => {
                 const dotSlide = parseInt(dot.getAttribute('data-slide'));
@@ -395,23 +442,23 @@
                     dot.classList.remove('bg-gray-400', 'w-3', 'h-3');
                     dot.classList.add('w-4', 'h-4', 'shadow-lg');
                     // Set active dot color via style attribute using the theme variable
-                    dot.style.backgroundColor = accentColor; 
+                    dot.style.backgroundColor = accentColor;
                 } else {
                     // Reset to default gray color
-                    dot.style.backgroundColor = ''; 
+                    dot.style.backgroundColor = '';
                     dot.classList.remove('w-4', 'h-4', 'shadow-lg');
                     dot.classList.add('bg-gray-400', 'w-3', 'h-3');
                 }
             });
             // Update dynamic element colors manually
             document.querySelector('#scroll-cue').style.color = accentColor;
-            
+
             // Safely update button color if it exists (for slide 4)
             const button = document.querySelector('#slide-4 button');
             if (button) {
                 button.style.backgroundColor = accentColor;
             }
-            
+
             // Safely update header colors
             document.querySelector('#slide-1 h1').style.color = accentColor;
             document.querySelector('#slide-4 h2').style.color = accentColor;
@@ -424,75 +471,75 @@
             // Calculate normalized coordinates (-1 to 1) from center
             const centerW = window.innerWidth / 2;
             const centerH = window.innerHeight / 2;
-            
+
             // Normalized X: -1 (left) to 1 (right)
             const normalizedX = (e.clientX - centerW) / centerW;
             // Normalized Y: -1 (top) to 1 (bottom)
-            const normalizedY = (e.clientY - centerH) / centerH; 
+            const normalizedY = (e.clientY - centerH) / centerH;
 
             // Tilt Y-axis (side to side): Mouse right -> rotate right (positive Y-axis rotation)
             targetRotateY = normalizedX * maxTilt;
             // Tilt X-axis (up/down): Mouse down -> rotate up (negative X-axis rotation)
-            targetRotateX = -normalizedY * maxTilt; 
+            targetRotateX = -normalizedY * maxTilt;
         }
-        
+
         /**
          * The core animation loop executed by requestAnimationFrame (rAF).
          */
         function render() {
             // 1. Easing (LERP): Gradually move current position toward the target
-            const deltaX = targetTranslateX - currentTranslateX; 
+            const deltaX = targetTranslateX - currentTranslateX;
             currentTranslateX += deltaX * easingFactor;
-            
+
             // 2. Velocity-Driven Scaling (3D Zoom on STRIP)
             const normalizedSpeed = Math.min(1, Math.abs(deltaX) / window.innerWidth);
             // Increased scale factor for more aggressive zoom feel (0.30)
-            const scaleFactor = 1.0 + (normalizedSpeed * 0.30); 
+            const scaleFactor = 1.0 + (normalizedSpeed * 0.30);
 
             // 3. Velocity-Driven Z-Rotation (Roll)
             const maxRotateZ = 0.5; // Subtle roll
-            const rotateZ = (deltaX > 0 ? -1 : 1) * normalizedSpeed * maxRotateZ; 
-            
+            const rotateZ = (deltaX > 0 ? -1 : 1) * normalizedSpeed * maxRotateZ;
+
             // 4. Easing for Mouse Tilt (RotateX and RotateY)
             currentRotateY += (targetRotateY - currentRotateY) * tiltEasingFactor;
             currentRotateX += (targetRotateX - currentRotateX) * tiltEasingFactor;
-            
+
             // 5. Apply the combined transform (Scale, RotateZ, RotateX, RotateY, TranslateX)
-            horizontalStrip.style.transform = 
+            horizontalStrip.style.transform =
                 `scale(${scaleFactor.toFixed(4)}) 
                  rotateZ(${rotateZ.toFixed(2)}deg) 
                  rotateX(${currentRotateX.toFixed(2)}deg) 
                  rotateY(${currentRotateY.toFixed(2)}deg) 
                  translateX(-${currentTranslateX.toFixed(2)}px)`;
-            
+
             // ******************************************************
             // FIX: Positional Stretching (Zoom Out/Stretching)
             // ******************************************************
             if (numSlides > 0 && cardElements.length === numSlides) {
                 const slideWidth = window.innerWidth;
                 const viewportCenter = slideWidth / 2;
-                
+
                 cardElements.forEach((card, index) => {
                     // 1. Calculate the center of the card's slide area on screen (considering strip translation)
                     const slideCenterRelative = (index * slideWidth) + (slideWidth / 2);
                     const cardCenterOnScreen = slideCenterRelative - currentTranslateX;
-                    
+
                     // 2. Calculate the distance from the viewport center
                     const distance = Math.abs(cardCenterOnScreen - viewportCenter);
-                    
+
                     // 3. Normalize distance: 0 (center) to 1 (full width away)
                     // We normalize by half the viewport width for a quicker, more pronounced effect
-                    const normalizedDistance = Math.min(1.0, distance / (slideWidth * 0.5)); 
-                    
+                    const normalizedDistance = Math.min(1.0, distance / (slideWidth * 0.5));
+
                     // 4. Calculate ScaleX (Stretching: 1.0 at center, 1.25 far away)
                     // REDUCED stretchFactor from 0.3 to 0.25 to prevent overlap
-                    const stretchFactor = 0.25; 
-                    const scaleX = 1.0 + (normalizedDistance * stretchFactor); 
-                    
+                    const stretchFactor = 0.25;
+                    const scaleX = 1.0 + (normalizedDistance * stretchFactor);
+
                     // 5. Calculate ScaleY (Compression: 1.0 at center, 0.92 far away)
                     // REDUCED compression from 0.1 to 0.08
-                    const scaleY = 1.0 - (normalizedDistance * 0.08); 
-                    
+                    const scaleY = 1.0 - (normalizedDistance * 0.08);
+
                     // Apply the transform
                     card.style.transform = `scaleX(${scaleX.toFixed(4)}) scaleY(${scaleY.toFixed(4)})`;
                 });
@@ -521,19 +568,19 @@
          * Maps vertical scroll position to the target horizontal position.
          */
         function mapScrollToTarget() {
-            if (scrollRange === 0) return; 
+            if (scrollRange === 0) return;
 
             scrollY = window.scrollY;
 
             // 1. Calculate scroll progress (0 to 1)
             const progress = Math.min(1, Math.max(0, scrollY / scrollRange));
-            
+
             // 2. Map progress to the total horizontal distance
             targetTranslateX = progress * horizontalDistance;
 
             ticking = false;
         }
-        
+
         /**
          * Handles the scroll event. Throttled by requestAnimationFrame.
          */
@@ -549,8 +596,8 @@
          */
         function startListenersAndRender() {
             if (scrollRange <= 0) {
-                 console.error("Initialization failed after all attempts. Scroll mechanism remains inactive.");
-                 return;
+                console.error("Initialization failed after all attempts. Scroll mechanism remains inactive.");
+                return;
             }
 
             // Read the initial CSS variables
@@ -564,12 +611,12 @@
             window.addEventListener('resize', calculateDimensions);
             // Add mouse move listener for the 3D camera effect
             window.addEventListener('mousemove', onMouseMove);
-            
+
             // 2. Set up dot click handlers
             document.querySelectorAll('.timeline-dot').forEach(dot => {
                 dot.addEventListener('click', handleDotClick);
             });
-            
+
             // 3. Start the continuous rendering loop
             render();
         }
@@ -581,19 +628,19 @@
         function handleDotClick(e) {
             e.preventDefault();
             const slideNumber = parseInt(e.target.getAttribute('data-slide'));
-            
-            const slideIndex = slideNumber - 1; 
+
+            const slideIndex = slideNumber - 1;
             const numTransitions = numSlides - 1;
-            
-            const targetProgress = numTransitions > 0 ? slideIndex / numTransitions : 0; 
+
+            const targetProgress = numTransitions > 0 ? slideIndex / numTransitions : 0;
             const targetScrollY = targetProgress * scrollRange;
-            
+
             window.scrollTo({
                 top: targetScrollY,
                 behavior: 'smooth'
             });
         }
-        
+
         /**
          * Initialization function with retry logic.
          */
@@ -605,7 +652,7 @@
                 setTimeout(() => {
                     calculateDimensions();
                     startListenersAndRender();
-                }, 200); 
+                }, 200);
             } else {
                 startListenersAndRender();
             }
@@ -613,10 +660,11 @@
 
         // Run initialization on window load
         window.onload = initHorizontalParallax;
-        
+
         // Listen for theme changes to update cached variables immediately
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readCssVariables);
-        
+
     </script>
 </body>
+
 </html>

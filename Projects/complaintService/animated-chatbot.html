@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <!-- Modern Rounded Vrindopnishad Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service Chatbot</title>
@@ -11,53 +19,67 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-        :root { 
-            font-family: 'Inter', sans-serif; 
+
+        :root {
+            font-family: 'Inter', sans-serif;
             /* Define a custom, softer shadow for modern lift */
             --tw-shadow-3xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --tw-shadow-color: rgba(67, 56, 202, 0.2); /* Indigo 600 subtle */
-            
+            --tw-shadow-color: rgba(67, 56, 202, 0.2);
+            /* Indigo 600 subtle */
+
             /* Custom properties for the dynamic AI glow effect */
-            --ai-glow-color: transparent; 
+            --ai-glow-color: transparent;
             --ai-glow-spread: 0px;
         }
-        
+
         /* Updated shadow definition to include the dynamic AI glow with transition */
         .shadow-3xl {
-            box-shadow: var(--tw-shadow-3xl), 
-                        0 0 40px -10px var(--tw-shadow-color),
-                        0 0 var(--ai-glow-spread) 0 var(--ai-glow-color);
-            transition: box-shadow 0.5s ease-in-out; /* Smooth transition for the glow */
+            box-shadow: var(--tw-shadow-3xl),
+                0 0 40px -10px var(--tw-shadow-color),
+                0 0 var(--ai-glow-spread) 0 var(--ai-glow-color);
+            transition: box-shadow 0.5s ease-in-out;
+            /* Smooth transition for the glow */
         }
 
         /* Class added by JS when AI is processing */
         .ai-active-glow {
-            --ai-glow-color: rgba(79, 70, 229, 0.6); /* Vibrant Indigo glow */
+            --ai-glow-color: rgba(79, 70, 229, 0.6);
+            /* Vibrant Indigo glow */
             --ai-glow-spread: 10px;
         }
-        
+
         /* Custom scrollbar for chat history */
         #chat-history::-webkit-scrollbar {
             width: 6px;
         }
+
         #chat-history::-webkit-scrollbar-thumb {
-            background-color: #94a3b8; /* slate-400 */
+            background-color: #94a3b8;
+            /* slate-400 */
             border-radius: 3px;
         }
+
         #chat-history::-webkit-scrollbar-track {
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
+            /* slate-50 */
         }
+
         /* NEW: Custom scrollbar for modal body */
         #modal-body::-webkit-scrollbar {
             width: 6px;
         }
+
         #modal-body::-webkit-scrollbar-thumb {
-            background-color: #94a3b8; /* slate-400 */
+            background-color: #94a3b8;
+            /* slate-400 */
             border-radius: 3px;
         }
+
         #modal-body::-webkit-scrollbar-track {
-            background-color: #f0f4ff; /* Lighter Indigo for contrast */
+            background-color: #f0f4ff;
+            /* Lighter Indigo for contrast */
         }
+
         /* Style for the select element arrow override */
         select {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23374151'%3e%3cpath d='M7 8l3 3 3-3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3e%3c/path%3e%3c/svg%3e");
@@ -68,52 +90,76 @@
 
         /* === NEW: Message Entrance Animation (Simple Fade and Slide) === */
         @keyframes fadeInMove {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .animate-in {
             animation: fadeInMove 0.4s ease-out forwards;
         }
 
         /* === Typing Indicator Animation (Wave effect remains fluid) === */
         @keyframes dotWave {
-            0%, 80%, 100% {
+
+            0%,
+            80%,
+            100% {
                 transform: translateY(0);
             }
+
             40% {
                 transform: translateY(-5px);
             }
         }
+
         .dot {
             width: 7px;
             height: 7px;
-            background-color: #4f46e5; /* Indigo 600 */
+            background-color: #4f46e5;
+            /* Indigo 600 */
             border-radius: 50%;
             display: inline-block;
             margin: 0 2px;
             animation: dotWave 0.8s infinite ease-in-out;
         }
-        .dot-2 { animation-delay: 0.1s; }
-        .dot-3 { animation-delay: 0.2s; }
+
+        .dot-2 {
+            animation-delay: 0.1s;
+        }
+
+        .dot-3 {
+            animation-delay: 0.2s;
+        }
 
         .typing-bubble {
-            background-color: #f0f4ff; /* Lighter Indigo */
+            background-color: #f0f4ff;
+            /* Lighter Indigo */
             border-radius: 12px 12px 12px 4px;
             padding: 10px 14px;
-            width: 70px; 
+            width: 70px;
             display: flex;
-            align-items: flex-end; 
+            align-items: flex-end;
             justify-content: space-around;
         }
     </style>
 </head>
+
 <body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
 
     <!-- Chatbot Container - NOW TARGETABLE FOR GLOW EFFECT -->
-    <div id="chatbot-container" class="w-full max-w-sm bg-white shadow-3xl rounded-3xl flex flex-col h-[90vh] max-h-[700px] overflow-hidden transition-all duration-300">
-        
+    <div id="chatbot-container"
+        class="w-full max-w-sm bg-white shadow-3xl rounded-3xl flex flex-col h-[90vh] max-h-[700px] overflow-hidden transition-all duration-300">
+
         <!-- Header - Subtle Gradient and Elevation -->
-        <header class="bg-gradient-to-r from-indigo-600 to-purple-700 p-5 text-white flex items-center rounded-t-3xl shadow-xl">
+        <header
+            class="bg-gradient-to-r from-indigo-600 to-purple-700 p-5 text-white flex items-center rounded-t-3xl shadow-xl">
             <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4 shadow-md">
                 <i data-lucide="bot" class="w-6 h-6 text-indigo-600"></i>
             </div>
@@ -122,20 +168,20 @@
                 <p class="text-xs opacity-90" id="header-status">Intake required to begin</p>
             </div>
         </header>
-        
+
         <!-- === INTAKE FORM (Visible by default) === - Enhanced Padding and Focus -->
         <div id="intake-form-container" class="p-8 overflow-y-auto flex-grow flex flex-col justify-center">
             <h2 class="text-2xl font-extrabold text-gray-800 mb-6">Start Your Request</h2>
             <form id="intake-form" class="space-y-5">
-                
+
                 <input type="text" id="customer-name" placeholder="Your Full Name" required
-                       class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
-                
+                    class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+
                 <input type="email" id="customer-email" placeholder="Contact Email" required
-                       class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
-                
+                    class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm">
+
                 <select id="issue-category" required
-                        class="w-full p-4 border border-gray-200 rounded-xl bg-white focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm appearance-none text-gray-700">
+                    class="w-full p-4 border border-gray-200 rounded-xl bg-white focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm appearance-none text-gray-700">
                     <option value="" disabled selected class="text-gray-500">Select Issue Category</option>
                     <option value="Product Inquiry">Product Inquiry</option>
                     <option value="Technical Support">Technical Support</option>
@@ -145,17 +191,17 @@
                 </select>
 
                 <textarea id="issue-description" placeholder="Briefly describe your issue..." rows="4" required
-                          class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm resize-none"></textarea>
-                
-                <button type="submit" 
-                        class="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold hover:bg-indigo-700 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    class="w-full p-4 border border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 shadow-sm resize-none"></textarea>
+
+                <button type="submit"
+                    class="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold hover:bg-indigo-700 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                     Start Chat Session
                 </button>
             </form>
         </div>
 
         <!-- === CHAT INTERFACE (Hidden by default) === -->
-        
+
         <!-- Chat History - Softer Background -->
         <div id="chat-history" class="hidden flex-grow p-6 space-y-4 overflow-y-auto bg-white">
             <!-- Personalized welcome message will be injected here -->
@@ -166,11 +212,11 @@
             <h3 class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Agent Toolbox</h3>
             <div class="flex space-x-2">
                 <button id="summarize-btn"
-                        class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">
+                    class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">
                     Summarize Chat ✨
                 </button>
                 <button id="escalate-btn"
-                        class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">
+                    class="flex-1 text-xs py-2 px-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-indigo-50 transition duration-150 shadow-sm disabled:opacity-50">
                     Escalate to Email ✨
                 </button>
             </div>
@@ -181,42 +227,40 @@
             <!-- Image Preview Container -->
             <div id="image-preview-container" class="hidden mb-2 p-2 border border-gray-200 rounded-lg relative w-fit">
                 <img id="image-preview" class="max-h-24 rounded-md">
-                <button id="remove-image-btn" class="absolute -top-2 -right-2 bg-gray-700 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none transition-colors">&times;</button>
+                <button id="remove-image-btn"
+                    class="absolute -top-2 -right-2 bg-gray-700 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none transition-colors">&times;</button>
             </div>
 
             <!-- Input Row -->
             <div class="flex space-x-3 items-center">
-                 <!-- Hidden file input -->
+                <!-- Hidden file input -->
                 <input type="file" id="image-upload" class="hidden" accept="image/*">
                 <!-- Attach button -->
-                <button id="attach-button" class="flex-shrink-0 p-2 text-gray-500 hover:text-indigo-600 transition duration-150 rounded-full hover:bg-gray-100">
+                <button id="attach-button"
+                    class="flex-shrink-0 p-2 text-gray-500 hover:text-indigo-600 transition duration-150 rounded-full hover:bg-gray-100">
                     <i data-lucide="paperclip" class="w-5 h-5"></i>
                 </button>
-                <input 
-                    type="text" 
-                    id="user-input" 
-                    placeholder="Ask a follow-up question..." 
+                <input type="text" id="user-input" placeholder="Ask a follow-up question..."
                     class="flex-grow min-w-0 p-3 border-2 border-gray-200 rounded-full bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
-                    autocomplete="off"
-                >
-                <button 
-                    id="send-button"
-                    class="bg-indigo-600 text-white w-10 h-10 rounded-full hover:bg-indigo-700 active:bg-indigo-800 transition duration-150 flex-shrink-0 flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
-                >
+                    autocomplete="off">
+                <button id="send-button"
+                    class="bg-indigo-600 text-white w-10 h-10 rounded-full hover:bg-indigo-700 active:bg-indigo-800 transition duration-150 flex-shrink-0 flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105">
                     <i data-lucide="send" class="w-5 h-5"></i>
                 </button>
             </div>
         </div>
 
         <!-- Loading Indicator -->
-        <div id="loading-indicator" class="hidden p-3 text-center bg-yellow-50 text-yellow-700 text-sm font-medium rounded-b-3xl">
+        <div id="loading-indicator"
+            class="hidden p-3 text-center bg-yellow-50 text-yellow-700 text-sm font-medium rounded-b-3xl">
             Waiting for service response...
         </div>
     </div>
 
     <!-- === MODAL POPUP (Hidden by default) === -->
     <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0 flex flex-col max-h-[90vh]" id="modal-content">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0 flex flex-col max-h-[90vh]"
+            id="modal-content">
             <header class="p-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center flex-shrink-0">
                 <h4 class="text-lg font-semibold text-gray-800" id="modal-title">Tool Output</h4>
                 <button onclick="hideModal()" class="text-gray-500 hover:text-gray-700 transition">
@@ -224,41 +268,46 @@
                 </button>
             </header>
             <div id="modal-body" class="p-4 overflow-y-auto">
-                
+
                 <!-- Confirmation/Description Area -->
                 <p class="text-sm text-gray-700 mb-3" id="modal-description"></p>
-                
+
                 <!-- Subject Display Area -->
-                <div id="modal-subject-display-container" class="mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hidden">
+                <div id="modal-subject-display-container"
+                    class="mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hidden">
                     <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Subject:</p>
                     <p id="modal-subject-value" class="text-sm font-medium text-gray-800"></p>
                 </div>
 
                 <!-- NEW: Image Display Area for Escalation -->
-                <div id="modal-image-display-container" class="hidden mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                    <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Image Provided by User:</p>
+                <div id="modal-image-display-container"
+                    class="hidden mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Image Provided by User:
+                    </p>
                     <img id="modal-image-preview" class="rounded-lg max-w-full h-auto mb-3 border">
                     <a id="modal-download-button" href="#" download="chat-image.png"
-                       class="w-full block text-center bg-gray-600 text-white p-2 rounded-lg font-semibold hover:bg-gray-700 transition duration-150 text-sm">
+                        class="w-full block text-center bg-gray-600 text-white p-2 rounded-lg font-semibold hover:bg-gray-700 transition duration-150 text-sm">
                         Download Image
                     </a>
                 </div>
 
                 <!-- Email Body / Content Area -->
-                <textarea id="modal-textarea" readonly rows="10" 
-                          class="w-full p-3 border border-gray-200 rounded-lg bg-gray-50 font-mono text-xs resize-none"></textarea>
-                
+                <textarea id="modal-textarea" readonly rows="10"
+                    class="w-full p-3 border border-gray-200 rounded-lg bg-gray-50 font-mono text-xs resize-none"></textarea>
+
                 <!-- NEW: Image Permission Checkbox -->
-                <div id="modal-image-permission" class="hidden mt-3 p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
+                <div id="modal-image-permission"
+                    class="hidden mt-3 p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
                     <label class="flex items-center text-sm text-gray-800 font-medium cursor-pointer">
-                        <input type="checkbox" id="include-image-checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2">
+                        <input type="checkbox" id="include-image-checkbox"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2">
                         <span>Include a note that an image was provided</span>
                     </label>
                 </div>
 
                 <!-- Dynamic Action Button -->
                 <button id="modal-action-button"
-                        class="mt-3 w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150 flex items-center justify-center">
+                    class="mt-3 w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150 flex items-center justify-center">
                     <i data-lucide="copy" class="w-4 h-4 mr-2"></i> Copy to Clipboard
                 </button>
             </div>
@@ -273,11 +322,11 @@
         const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
         const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
         const API_KEY = "eeAIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMwee"; // Canvas will provide this key at runtime
-        const VRINDOPNISHAD_SUPPORT_EMAIL = "vrinda.connect.us@gmail.com"; 
+        const VRINDOPNISHAD_SUPPORT_EMAIL = "vrinda.connect.us@gmail.com";
 
         let chatHistory = [];
-        let systemPrompt = ""; 
-        let typingIndicatorElement = null; 
+        let systemPrompt = "";
+        let typingIndicatorElement = null;
         let attachedImageBase64 = null;
         let attachedImageMimeType = null;
 
@@ -325,8 +374,8 @@
             if (typingIndicatorElement) return;
 
             const messageWrapper = document.createElement('div');
-            messageWrapper.className = 'flex justify-start'; 
-            
+            messageWrapper.className = 'flex justify-start';
+
             const typingBubble = document.createElement('div');
             typingBubble.className = 'typing-bubble shadow-md';
             typingBubble.innerHTML = `
@@ -334,10 +383,10 @@
                 <div class="dot dot-2"></div>
                 <div class="dot dot-3"></div>
             `;
-            
+
             messageWrapper.appendChild(typingBubble);
             chatHistoryDiv.appendChild(messageWrapper);
-            
+
             typingIndicatorElement = messageWrapper;
             chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
         }
@@ -358,7 +407,7 @@
             // Remove list markers and trim whitespace
             text = text.replace(/^- (.*)/gm, '$1').trim();
             // Replace multiple newlines with single ones for cleaner email body
-            text = text.replace(/\n\s*\n/g, '\n\n'); 
+            text = text.replace(/\n\s*\n/g, '\n\n');
             return text;
         }
 
@@ -391,11 +440,11 @@
             const encodedSubject = encodeURIComponent(subject);
             // encodeURIComponent correctly converts \n (newline) to %0A (line feed),
             // which most modern email clients interpret as a line break within the email body.
-            const encodedBody = encodeURIComponent(body); 
-            
+            const encodedBody = encodeURIComponent(body);
+
             // Construct mailto link
             const mailtoLink = `mailto:${VRINDOPNISHAD_SUPPORT_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-            
+
             // Open the user's default email client
             window.open(mailtoLink, '_blank');
             hideModal();
@@ -406,7 +455,7 @@
         function showModal(title, descriptionHtml, content, actionType = 'copy', subject = null, options = {}) {
             modalTitle.textContent = title;
             modalTextarea.value = content;
-            
+
             const imagePermissionContainer = document.getElementById('modal-image-permission');
 
             // Reset visibility
@@ -414,7 +463,7 @@
             imagePermissionContainer.classList.add('hidden');
             modalImageDisplayContainer.classList.add('hidden'); // NEW: Hide image display
             const imageCheckbox = document.getElementById('include-image-checkbox');
-            if(imageCheckbox) imageCheckbox.checked = false; // Reset checkbox
+            if (imageCheckbox) imageCheckbox.checked = false; // Reset checkbox
 
             modalActionButton.onclick = null;
             modalActionButton.innerHTML = '';
@@ -426,7 +475,7 @@
 
                 // Confirmation message for sending mail (Clean, non-Markdown message)
                 modalDescription.innerHTML = `This draft is ready for the support team. You can download any attached images below before sending the email via your default mail client to **${VRINDOPNISHAD_SUPPORT_EMAIL}**.`;
-                
+
                 // NEW: Show permission checkbox if an image was available in chat
                 if (options.imageAvailable && options.imageData) {
                     imagePermissionContainer.classList.remove('hidden');
@@ -448,7 +497,7 @@
                     let finalBody = content;
                     // NEW: Append note if checkbox is checked
                     if (imageCheckbox && imageCheckbox.checked) {
-                         finalBody += "\n\n[Note: An image was provided by the user for additional context. Please review the full chat transcript to see the attachment.]";
+                        finalBody += "\n\n[Note: An image was provided by the user for additional context. Please review the full chat transcript to see the attachment.]";
                     }
                     sendMail(subject, finalBody);
                 };
@@ -458,7 +507,7 @@
                 modalActionButton.innerHTML = '<i data-lucide="copy" class="w-4 h-4 mr-2"></i> Copy to Clipboard';
                 modalActionButton.onclick = () => copyToClipboard('modal-textarea');
             }
-            
+
             lucide.createIcons(); // Re-render icons after changing innerHTML
 
             modalOverlay.classList.remove('hidden');
@@ -469,7 +518,7 @@
                 modalContent.classList.add('scale-100', 'opacity-100');
             }, 10);
         }
-        
+
         /** Hides the modal. */
         function hideModal() {
             modalContent.classList.remove('scale-100', 'opacity-100');
@@ -485,18 +534,18 @@
         /** Appends a message to the chat history, optionally with an image. */
         function appendMessage(text, sender, imageUrl = null) {
             const messageWrapper = document.createElement('div');
-            messageWrapper.className = sender === 'user' 
-                ? 'flex justify-end' 
+            messageWrapper.className = sender === 'user'
+                ? 'flex justify-end'
                 : 'flex justify-start animate-in';
 
             const messageBubble = document.createElement('div');
-            
+
             const baseClass = 'p-3 max-w-[80%] shadow-md transition duration-200 text-sm';
-            messageBubble.className = sender === 'user' 
+            messageBubble.className = sender === 'user'
                 ? `bg-indigo-600 text-white rounded-t-xl rounded-bl-xl rounded-br-md ${baseClass}`
                 : `bg-slate-100 text-gray-800 rounded-t-xl rounded-br-xl rounded-bl-md ${baseClass}`;
-            
-             // Add image if it exists
+
+            // Add image if it exists
             if (imageUrl) {
                 const img = document.createElement('img');
                 img.src = imageUrl;
@@ -506,7 +555,7 @@
 
             if (text) {
                 // Format text to handle new lines and convert Markdown bold/emphasis to HTML tags
-                let renderedText = text.replace(/\n/g, '<br>'); 
+                let renderedText = text.replace(/\n/g, '<br>');
                 renderedText = renderedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 renderedText = renderedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
@@ -514,7 +563,7 @@
                 textNode.innerHTML = renderedText;
                 messageBubble.appendChild(textNode);
             }
-            
+
             messageWrapper.appendChild(messageBubble);
             chatHistoryDiv.appendChild(messageWrapper);
             chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
@@ -536,9 +585,9 @@
          */
         async function fetchWithBackoff(payload, attempt = 1, useGrounding = true) {
             const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
-            
+
             if (useGrounding) {
-                 payload.tools = [{ "google_search": {} }];
+                payload.tools = [{ "google_search": {} }];
             }
 
             try {
@@ -558,7 +607,7 @@
 
             } catch (error) {
                 console.error(`Attempt ${attempt} failed: ${error.message}`);
-                
+
                 if (attempt < 4) { // Max 4 attempts (1 original + 3 retries)
                     const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff + jitter
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -577,14 +626,14 @@
                 const text = msg.parts.find(p => p.text)?.text || '[Image was sent]';
                 // Skip the internal context messages that shouldn't be in the visible transcript
                 if (text.startsWith("Initial issue:") || text.startsWith("Hello ")) {
-                    return; 
+                    return;
                 }
                 transcript += `${role}: ${text}\n`;
             });
             transcript += "--- End Transcript ---\n";
             return transcript.trim();
         }
-        
+
         // --- Core Chat Functions ---
 
         // Company-specific knowledge injection
@@ -632,14 +681,14 @@
                 Your primary directive is to use the knowledge above to answer the query. You MUST NOT use the Google Search tool.
                 Start the conversation by politely acknowledging their issue and asking a clarifying follow-up question.
             `.trim();
-            
+
             // 4. Inject the initial personalized bot message (UPDATED RESPONSE)
             const initialBotMessage = `Hello ${customerData.name}. Thank you for reaching out to **Vrindopnishad Support** regarding **${customerData.category}**. We understand your request concerning "${customerData.description}". 
 
 I have logged these details. To start, could you please provide a specific order number, product ID, or account reference number so I can pull up your records immediately?`;
 
             appendMessage(initialBotMessage, 'bot');
-            
+
             // 5. Add initial context to chat history
             // We keep these two for chat history purposes, but filter them out for tool transcript creation
             chatHistory.push({ role: "user", parts: [{ text: `Initial issue: ${customerData.description}` }] });
@@ -654,7 +703,7 @@ I have logged these details. To start, could you please provide a specific order
             appendMessage(userQuery, 'user', attachedImageBase64);
             userInput.value = '';
 
-             // --- Prepare message parts for API ---
+            // --- Prepare message parts for API ---
             const messageParts = [];
             if (userQuery) {
                 messageParts.push({ text: userQuery });
@@ -674,7 +723,7 @@ I have logged these details. To start, could you please provide a specific order
             if (attachedImageBase64) {
                 removeImageBtn.click();
             }
-            
+
             // Disable input and show loading
             userInput.disabled = true;
             sendButton.disabled = true;
@@ -683,7 +732,7 @@ I have logged these details. To start, could you please provide a specific order
             escalateBtn.disabled = true;
 
             chatHistory.push({ role: "user", parts: messageParts });
-            
+
             // --- Show typing indicator and AI GLOW ---
             showTypingIndicator();
             chatbotContainer.classList.add('ai-active-glow');
@@ -698,9 +747,9 @@ I have logged these details. To start, could you please provide a specific order
 
             try {
                 // IMPORTANT: Call fetchWithBackoff with useGrounding set to false 
-                const result = await fetchWithBackoff(payload, 1, false); 
+                const result = await fetchWithBackoff(payload, 1, false);
                 const { text, usageMetadata } = parseResponse(result);
-                
+
                 // --- NEW: Log the token count to the developer console ---
                 console.log('Token Usage:', {
                     prompt: usageMetadata.promptTokenCount,
@@ -717,10 +766,10 @@ I have logged these details. To start, could you please provide a specific order
 
             } catch (error) {
                 console.error("Chatbot operation failed:", error);
-                
+
                 // --- Hide typing indicator on error ---
-                hideTypingIndicator(); 
-                
+                hideTypingIndicator();
+
                 appendMessage("I apologize, but I am currently experiencing technical difficulties. This conversation may need to be escalated to a human agent.", 'bot');
             } finally {
                 // Re-enable input and hide loading
@@ -730,25 +779,25 @@ I have logged these details. To start, could you please provide a specific order
                 summarizeBtn.disabled = false;
                 escalateBtn.disabled = false;
                 userInput.focus();
-                
+
                 // --- Hide AI GLOW ---
                 chatbotContainer.classList.remove('ai-active-glow');
             }
         }
-        
+
         /**
          * LLM-powered function to summarize the current chat history.
          */
         async function summarizeChat() {
             if (chatHistory.length < 2) {
                 showModal(
-                    "Error", 
-                    "Chat history is too short to summarize.", 
+                    "Error",
+                    "Chat history is too short to summarize.",
                     "Please have at least one back-and-forth exchange before summarizing."
                 );
                 return;
             }
-            
+
             // Use the button itself for loading state
             summarizeBtn.disabled = true;
             const originalText = summarizeBtn.textContent;
@@ -772,7 +821,7 @@ I have logged these details. To start, could you please provide a specific order
 
                 SUMMARY FORMAT: Provide a concise summary listing the Customer Name, Initial Issue Category, the Core Problem discussed, and the key outcome or last unresolved question. Ensure the output is clean text, suitable for a summary report.
             `.trim();
-            
+
             const payload = {
                 contents: [{ role: "user", parts: [{ text: summaryPrompt }] }], // Send as a single user instruction
                 systemInstruction: {
@@ -782,7 +831,7 @@ I have logged these details. To start, could you please provide a specific order
 
             try {
                 // Call API without grounding
-                const result = await fetchWithBackoff(payload, 1, false); 
+                const result = await fetchWithBackoff(payload, 1, false);
                 const { text } = parseResponse(result);
 
                 showModal(
@@ -795,8 +844,8 @@ I have logged these details. To start, could you please provide a specific order
                 console.error("Summarization failed:", error);
                 // Display a specific error message for tool failures
                 showModal(
-                    "Error", 
-                    "Sorry, the LLM failed to generate a summary.", 
+                    "Error",
+                    "Sorry, the LLM failed to generate a summary.",
                     "Please ensure the conversation is long enough to summarize, or try again. Error details logged to console."
                 );
             } finally {
@@ -812,8 +861,8 @@ I have logged these details. To start, could you please provide a specific order
         async function generateEscalationEmail() {
             if (chatHistory.length < 2) {
                 showModal(
-                    "Error", 
-                    "Chat history is too short for escalation.", 
+                    "Error",
+                    "Chat history is too short for escalation.",
                     "Please have at least one back-and-forth exchange before escalating."
                 );
                 return;
@@ -874,7 +923,7 @@ I have logged these details. To start, could you please provide a specific order
             };
 
             try {
-                const result = await fetchWithBackoff(payload, 1, false); 
+                const result = await fetchWithBackoff(payload, 1, false);
                 const { text } = parseResponse(result);
 
                 // --- NEW PARSING AND CLEANING LOGIC ---
@@ -882,19 +931,19 @@ I have logged these details. To start, could you please provide a specific order
                 const bodyMatch = text.match(/BODY:\s*([\s\S]*)/i);
 
                 let subject = `Escalation: ${customerData.category} for ${customerData.name}`;
-                let body = text; 
-                
+                let body = text;
+
                 if (subjectMatch && bodyMatch) {
                     subject = subjectMatch[1].trim();
-                    body = bodyMatch[1].trim(); 
+                    body = bodyMatch[1].trim();
                 } else if (text.length > 50) {
-                     body = text;
+                    body = text;
                 }
-                
+
                 // FINAL CLEANUP: Strip remaining markdown from the body
                 const cleanedBody = stripMarkdown(body);
                 // --- END NEW PARSING AND CLEANING LOGIC ---
-                
+
                 // Show modal with new 'escalation' action type
                 showModal(
                     "Escalation Email Draft",
@@ -909,8 +958,8 @@ I have logged these details. To start, could you please provide a specific order
                 console.error("Escalation draft failed:", error);
                 // Display a specific error message for tool failures
                 showModal(
-                    "Error", 
-                    "Sorry, the LLM failed to generate the email draft.", 
+                    "Error",
+                    "Sorry, the LLM failed to generate the email draft.",
                     "Please ensure the conversation is long enough to escalate, or try again. Error details logged to console."
                 );
             } finally {
@@ -919,9 +968,9 @@ I have logged these details. To start, could you please provide a specific order
                 chatbotContainer.classList.remove('ai-active-glow');
             }
         }
-        
+
         // --- Event Listeners ---
-        
+
         // 1. Handle form submission to start the chat
         intakeForm.addEventListener('submit', startChat);
 
@@ -932,14 +981,14 @@ I have logged these details. To start, could you please provide a specific order
                 sendMessage();
             }
         });
-        
+
         // 3. Handle new Agent Toolbox buttons
         summarizeBtn.addEventListener('click', summarizeChat);
         escalateBtn.addEventListener('click', generateEscalationEmail);
-        
+
         // 4. Handle Image Attachment
         attachButton.addEventListener('click', () => imageUpload.click());
-        
+
         removeImageBtn.addEventListener('click', () => {
             attachedImageBase64 = null;
             attachedImageMimeType = null;
@@ -963,6 +1012,7 @@ I have logged these details. To start, could you please provide a specific order
 
     </script>
 </body>
+
 </html>
 <!-- const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
     const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";

@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+  <!-- Modern Rounded Vrindopnishad Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>three-text WebGPU Example</title>
   <style>
-    body { 
-      margin: 0; 
+    body {
+      margin: 0;
       background: #000;
       color: #fff;
       font-family: sans-serif;
     }
-    canvas { 
-      display: block; 
+
+    canvas {
+      display: block;
       width: 100%;
       height: 100vh;
     }
+
     #status {
       position: fixed;
       bottom: 50px;
@@ -28,11 +38,21 @@
       z-index: 100;
       backdrop-filter: blur(10px);
     }
-    .status-loading { color: #ffa500; }
-    .status-ready { color: #00ff00; }
-    .status-error { color: #ff4444; }
+
+    .status-loading {
+      color: #ffa500;
+    }
+
+    .status-ready {
+      color: #00ff00;
+    }
+
+    .status-error {
+      color: #ff4444;
+    }
   </style>
 </head>
+
 <body>
   <div id="status" class="status-loading">Initializing WebGPU...</div>
   <canvas id="canvas"></canvas>
@@ -61,10 +81,10 @@
       }
 
       const device = await adapter.requestDevice();
-      
+
       const canvas = document.getElementById('canvas');
       const context = canvas.getContext('webgpu');
-      
+
       const devicePixelRatio = window.devicePixelRatio || 1;
       canvas.width = canvas.clientWidth * devicePixelRatio;
       canvas.height = canvas.clientHeight * devicePixelRatio;
@@ -92,7 +112,7 @@
 
       // Create WebGPU buffers from geometry
       const bufferSet = createWebGPUBuffers(device, textGeometry);
-      
+
       const bounds = textGeometry.planeBounds;
       const centerX = (bounds.min.x + bounds.max.x) / 2;
       const centerY = (bounds.min.y + bounds.max.y) / 2;
@@ -209,20 +229,20 @@
         const staticYaw = 0.4;
         const staticPitch = 0.2;
         const aspect = canvas.width / canvas.height;
-        
+
         // Fit text in viewport
         const padding = 1.8;
         const scaleX = 2 / (width * padding);
         const scaleY = (2 / (width * padding)) * aspect;
         const translateX = -centerX * scaleX;
         const translateY = -centerY * scaleY;
-        
+
         // Static rotation
         const cy = Math.cos(staticYaw);
         const sy = Math.sin(staticYaw);
         const cp = Math.cos(staticPitch);
         const sp = Math.sin(staticPitch);
-        
+
         // MVP
         const mvp = new Float32Array([
           scaleX * cy, scaleX * sy * sp, scaleX * sy * cp, 0,
@@ -244,21 +264,21 @@
       // Render loop
       function frame(time) {
         const { mvp, normalMatrix } = getMatrices(time * 0.001);
-        
+
 
         // Pack uniforms with alignment (mat4 + mat3)
         const uniformData = new Float32Array(64);
         uniformData.set(mvp, 0);
-        
+
         // mat3 with vec4 row alignment
         uniformData[16] = normalMatrix[0];
         uniformData[17] = normalMatrix[1];
         uniformData[18] = normalMatrix[2];
-        
+
         uniformData[20] = normalMatrix[3];
         uniformData[21] = normalMatrix[4];
         uniformData[22] = normalMatrix[5];
-        
+
         uniformData[24] = normalMatrix[6];
         uniformData[25] = normalMatrix[7];
         uniformData[26] = normalMatrix[8];
@@ -303,17 +323,17 @@
       window.addEventListener('resize', () => {
         canvas.width = canvas.clientWidth * devicePixelRatio;
         canvas.height = canvas.clientHeight * devicePixelRatio;
-        
+
         msaaTexture.destroy();
         depthTexture.destroy();
-        
+
         msaaTexture = device.createTexture({
           size: [canvas.width, canvas.height],
           format: presentationFormat,
           sampleCount: 4,
           usage: GPUTextureUsage.RENDER_ATTACHMENT
         });
-        
+
         depthTexture = device.createTexture({
           size: [canvas.width, canvas.height],
           format: 'depth24plus',
@@ -330,5 +350,5 @@
     });
   </script>
 </body>
-</html>
 
+</html>

@@ -12,13 +12,18 @@
         content="Vrindopnishad, Vedic Knowledge, Spiritual Wisdom, Indian Culture, Sacred Art, Hindu Philosophy, Meditation, Yoga, Vrindavan, Bhagavad Gita, Upanishads, Vrindavan, BhaktiPath, premanand ji maharaj, radha keli kunj, barsana, nandgaav, govardhan, Sant-Vaani, vrindopnishad">
     <link rel="canonical" href="https://vrindopnishad.in/">
 
-    <!-- Favicon Configuration - Optimized for Google Search -->
-    <link rel="icon" href="/favicon.ico" sizes="48x48">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <!-- Favicon Configuration - Absolute URLs for Google Search Reliability -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon.ico" sizes="48x48">
+    <link rel="icon" href="https://vrindopnishad.in/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://vrindopnishad.in/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://vrindopnishad.in/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
+    <link rel="manifest" href="https://vrindopnishad.in/site.webmanifest">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js" defer></script>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -74,28 +79,34 @@
           "name": "Main Projects",
           "itemListElement": [
             {
-              "@type": "SiteNavigationElement",
+              "@type": "ListItem",
               "position": 1,
               "name": "Foody Vrinda",
               "url": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html"
             },
             {
-              "@type": "SiteNavigationElement",
+              "@type": "ListItem",
               "position": 2,
               "name": "Vrinda Tours",
               "url": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html"
             },
             {
-              "@type": "SiteNavigationElement",
+              "@type": "ListItem",
               "position": 3,
-              "name": "Chitra Vrinda",
+              "name": "Chitra Vrinda Gallery",
               "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html"
             },
             {
-              "@type": "SiteNavigationElement",
+              "@type": "ListItem",
               "position": 4,
-              "name": "Vrindopnishad App",
-              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/sketch/main/new-read-me.html"
+              "name": "About Vrindopnishad",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/about%20code/main/about.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Vrindopnishad Assistant",
+              "url": "https://vrindopnishad.in/Projects/complaintService/chatbot.html"
             }
           ]
         }
@@ -157,6 +168,10 @@
         onload="this.media='all'">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting-cells.css" media="print"
         onload="this.media='all'">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js" defer></script>
 
     <!-- Deferred Scripts -->
     <script src="js/image-helper.js" defer></script>
@@ -222,7 +237,7 @@
         <a href="index.html" class="logo">
             <img src="Vrindopnishad%20Web/class/v-logo-rounded/android-chrome-192x192.png"
                 alt="Vrindopnishad — Official Brand Logo" class="header-logo-img" width="70" height="70">
-            <span>Vrindopnishad</span>
+            <!-- <span>Vrindopnishad</span> -->
         </a>
 
         <div class="main-nav">
@@ -235,8 +250,17 @@
 
         <!-- Right side icons container -->
         <div class="header-right">
+            <!-- User Auth Icon -->
+            <div id="user-auth-btn" class="header-icon" aria-label="User Account" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+
             <!-- Tools/settings icon (Gear Design) -->
-            <div class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
+            <div id="tools-menu-btn" class="tools-icon" aria-label="Open tools menu" role="button" tabindex="0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     style="transform: rotate(0deg);">
@@ -385,6 +409,23 @@
                     <a href="Vrindopnishad%20Web/pdf/main/pdf-viewer.html" class="tool-link"></a>
                 </div>
 
+                <!-- Sant-Vaani App -->
+                <div class="tool-item" data-bg-color="#FF6B35" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Sant-Vaani</h3>
+                        <p>Sacred Shlokas, Strotras & Poems</p>
+                    </div>
+                    <a href="./Projects/VrindaVaani/frontend/build/index.html" class="tool-link" target="_blank"></a>
+                </div>
+
                 <!-- Spiritual Texts -->
                 <div class="tool-item" data-bg-color="#000" data-text-color="#FFFFFF">
                     <div class="tool-icon">
@@ -462,6 +503,22 @@
                         <p>Custom development and solutions</p>
                     </div>
                     <a href="Projects/Web%20dev/vrinda%20web%20dev.html" class="tool-link"></a>
+                </div>
+
+                <!-- Admin Portal -->
+                <div class="tool-item" data-bg-color="#EDA638" data-text-color="#FFFFFF">
+                    <div class="tool-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <div class="tool-info">
+                        <h3>Admin Portal</h3>
+                        <p>Manage sacred content and media</p>
+                    </div>
+                    <a href="Projects/VrindaVaani/admin/index.html" class="tool-link"></a>
                 </div>
             </div>
         </div>
@@ -553,7 +610,7 @@
                     </div>
                     <div class="story-year-badge">
                         <span class="year-label">SINCE</span>
-                        <span class="year-num">2024</span>
+                        <span class="year-num">2026</span>
                     </div>
                 </div>
 
@@ -677,6 +734,61 @@
             </div>
         </section>
 
+        <!-- "For You" Discovery Section - Dynamic Design -->
+        <!-- <section id="for-you" class="for-you-section">
+            <div class="showcase-container">
+                <div class="for-you-header">
+                    <span class="showcase-label fade-up">DISCOVER</span>
+                    <h2 class="showcase-title fade-up content__title" data-splitting data-effect6>For You</h2>
+                    <p class="showcase-subtitle fade-up">Personalized spiritual highlights and daily insights</p>
+                </div>
+
+                <div class="showcase-grid staggered-list">
+                    <!-- Item 1 --
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html"
+                        class="showcase-card staggered-item for-you-card">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/class/image/Home%20Pics/img4.jpg" alt="Sacred Art"
+                                loading="lazy">
+                            <div class="showcase-overlay for-you-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Discovery</span>
+                                <h3>Sacred Art</h3>
+                                <p>Immerse yourself in divine visual storytelling.</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Open Gallery</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Item 2 --
+                    <a href="Vrindopnishad%20Web/sketch/main/new-read-me.html"
+                        class="showcase-card staggered-item for-you-card">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/class/image/Home%20Pics/img5.jpg" alt="Daily Wisdom"
+                                loading="lazy">
+                            <div class="showcase-overlay for-you-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Inspiration</span>
+                                <h3>Vedic Wisdom</h3>
+                                <p>Timeless teachings adapted for modern living.</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Read More</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section> -->
+
         <!-- Legacy Projects Section -->
         <!-- More Creations - Minimal List -->
         <section class="more-section">
@@ -712,6 +824,15 @@
                         <div class="more-info">
                             <span class="more-name">Web Development</span>
                             <span class="more-cat">Custom Digital Solutions</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="Projects/VrindaVaani/frontend/build/index.html" class="more-item staggered-item"
+                        target="_blank">
+                        <span class="more-num">08</span>
+                        <div class="more-info">
+                            <span class="more-name">Sant-Vaani</span>
+                            <span class="more-cat">Sacred Shlokas & Spiritual Content</span>
                         </div>
                         <span class="more-arrow">→</span>
                     </a>
@@ -1598,7 +1719,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Tools menu elements
-            const toolsIcon = document.querySelector('.tools-icon');
+            const toolsIcon = document.getElementById('tools-menu-btn');
             const toolsMenu = document.querySelector('.tools-menu');
             const toolsMenuClose = document.querySelector('.tools-menu-close');
             const toolItems = document.querySelectorAll('.tool-item');
@@ -1814,6 +1935,22 @@
     <script src="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js" defer></script>
     <script src="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.js" defer></script>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

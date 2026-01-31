@@ -2,15 +2,14 @@
 <html lang="en">
 
 <head>
-    <!-- Modern Rounded Vrinda Tours Favicon -->
-    <link rel="icon" href="../../Vrindopnishad%20Web/class/vrindaTours-logo-rounded/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="../../Vrindopnishad%20Web/class/vrindaTours-logo-rounded/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="../../Vrindopnishad%20Web/class/vrindaTours-logo-rounded/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="../../Vrindopnishad%20Web/class/vrindaTours-logo-rounded/apple-touch-icon.png">
-    <link rel="manifest" href="../../Vrindopnishad%20Web/class/vrindaTours-logo-rounded/site.webmanifest">
+    <!-- Favicon Configuration - Absolute URLs for Google Search Reliability -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon.ico" sizes="48x48">
+    <link rel="icon" href="https://vrindopnishad.in/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://vrindopnishad.in/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://vrindopnishad.in/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
+    <link rel="manifest" href="https://vrindopnishad.in/site.webmanifest">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrinda Tours — Interactive Brij Yatra & Pilgrimage Map</title>
@@ -53,9 +52,6 @@
         {
           "@type": "TouristInformationCenter",
           "name": "Vrinda Tours Digital Guide",
-        {
-          "@type": "TouristInformationCenter",
-          "name": "Vrinda Tours Digital Guide",
           "url": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html",
           "parentOrganization": { "@id": "https://vrindopnishad.in/#organization" }
         }
@@ -63,6 +59,10 @@
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/auth.js" defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap');
@@ -298,7 +298,10 @@
     <div
         class="absolute top-4 left-4 right-4 sm:right-auto sm:left-6 flex flex-col sm:flex-row sm:items-start gap-2 sm:space-x-4 z-[1000]">
         <!-- Map Style Dropdown -->
-        <div id="map-style-selector" class="relative">
+        <div id="map-style-selector" class="relative flex items-center gap-2">
+            <button id="user-auth-btn" class="bg-white p-2.5 rounded-lg shadow-lg hover:scale-105 transition-transform">
+                <i data-lucide="user" class="w-5 h-5"></i>
+            </button>
             <button id="style-dropdown-btn">
                 <span id="current-style-name">Google Original</span>
                 <i data-lucide="chevron-down" class="w-4 h-4 ml-2"></i>
@@ -343,8 +346,8 @@
         class="side-panel absolute top-0 right-0 bottom-0 w-full max-w-sm flex flex-col p-4 sm:p-6 transition-transform duration-500 ease-in-out translate-x-full">
         <div class="flex-shrink-0 pb-4 border-b border-gray-200 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold">Brij 84 Kos Yatra</h1>
-                <p class="text-sm text-gray-500">A Sacred Digital Pilgrimage</p>
+                <h1 class="text-2xl sm:text-3xl font-bold">Vrinda Tours</h1>
+                <p class="text-sm text-gray-500">Brij 84 Kos Yatra — Sacred Digital Pilgrimage</p>
             </div>
             <button id="panel-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-colors"><i
                     data-lucide="x"></i></button>
@@ -1164,6 +1167,22 @@
 
         window.onload = loadMapsScript;
 
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+        });
     </script>
 </body>
 

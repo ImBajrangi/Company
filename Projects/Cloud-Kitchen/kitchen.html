@@ -50,17 +50,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#0071e3">
-    <!-- Modern Rounded Foody Vrinda Favicon -->
-    <link rel="icon" href="../../Vrindopnishad%20Web/class/foodyVrinda-logo-rounded/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="../../Vrindopnishad%20Web/class/foodyVrinda-logo-rounded/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="../../Vrindopnishad%20Web/class/foodyVrinda-logo-rounded/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="../../Vrindopnishad%20Web/class/foodyVrinda-logo-rounded/apple-touch-icon.png">
+    <!-- Favicon Configuration - Absolute URLs for Google Search Reliability -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon.ico" sizes="48x48">
+    <link rel="icon" href="https://vrindopnishad.in/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://vrindopnishad.in/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://vrindopnishad.in/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
+    <link rel="manifest" href="https://vrindopnishad.in/site.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Supabase & Shared Auth -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+    <!-- <script src="../../js/auth.js" defer></script> -->
     <script>
         // Capture the install prompt early, before the main module loads
         window.deferredPrompt = null;
@@ -676,7 +680,7 @@
                         </div>
                         <div id="auth-status" class="font-medium text-gray-700 truncate">Guest</div>
                     </div>
-                    <button id="auth-btn"
+                    <button id="user-auth-btn"
                         class="bg-black text-white px-3 py-1.5 text-xs font-medium rounded-lg hover:bg-gray-800 transition-all flex-shrink-0">
                         Profile
                     </button>
@@ -7643,6 +7647,22 @@
         window.addEventListener('appinstalled', () => {
             console.log('PWA was installed');
             installBtn.classList.add('hidden');
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userBtn = document.getElementById('user-auth-btn');
+
+            if (userBtn && window.AuthService) {
+                // Initialize UI
+                AuthService.updateProfileUI('user-auth-btn');
+
+                // Update UI on auth state change
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
         });
     </script>
 </body>

@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/order_model.dart';
 import '../models/user_model.dart';
 import 'notification_service.dart';
+import 'kitchen_alarm_service.dart';
 
 /// Manages real-time order listeners and triggers notifications for staff
 class OrderNotificationManager {
@@ -18,26 +20,35 @@ class OrderNotificationManager {
   Set<String> _knownOrderIds = {};
   bool _isFirstLoad = true;
   UserRole? _currentUserRole;
+  String? _currentShopId;
 
   /// Start listening for new orders based on user role
+  Future<void> _initNotifications() async {
+    await _notificationService.initialize();
+    await _notificationService.requestPermissions();
+  }
+
   Future<void> startListening({
     required UserRole userRole,
     String? shopId,
   }) async {
+    // Optimization: Skip restart if we are already listening for the same role/shop
+    if (_ordersSubscription != null &&
+        _currentUserRole == userRole &&
+        _currentShopId == shopId) {
+      return;
+    }
+
     // Stop any existing listener
     await stopListening();
 
     _currentUserRole = userRole;
+    _currentShopId = shopId;
     _isFirstLoad = true;
     _knownOrderIds.clear();
 
     // Initialize notification service
-    await _notificationService.initialize();
-    await _notificationService.requestPermissions();
-
-    print(
-      'OrderNotificationManager: Starting listener for role ${userRole.value}, shopId: $shopId',
-    );
+    await _initNotifications();
 
     // Build query - listen to recent orders only
     // Filter by shopId client-side to avoid composite index requirement
@@ -53,7 +64,8 @@ class OrderNotificationManager {
     _ordersSubscription = query.snapshots().listen(
       (snapshot) => _handleOrdersSnapshot(snapshot, shopId, userRole),
       onError: (error) {
-        print('OrderNotificationManager: Error listening to orders: $error');
+        // Log errors only
+        debugPrint('OrderNotificationManager Error: $error');
       },
     );
   }
@@ -79,9 +91,6 @@ class OrderNotificationManager {
       // On first load, just record existing order IDs without notifying
       _knownOrderIds = currentOrderIds;
       _isFirstLoad = false;
-      print(
-        'OrderNotificationManager: Initial load - ${_knownOrderIds.length} existing orders',
-      );
       return;
     }
 
@@ -93,10 +102,6 @@ class OrderNotificationManager {
       _knownOrderIds = currentOrderIds;
       return;
     }
-
-    print(
-      'OrderNotificationManager: ${newOrderIds.length} new order(s) detected',
-    );
 
     // Show notification for each new order
     for (final orderId in newOrderIds) {
@@ -110,16 +115,19 @@ class OrderNotificationManager {
   }
 
   void _showNewOrderNotification(OrderModel order) {
-    print(
-      'OrderNotificationManager: Showing notification for order ${order.orderNumber}',
-    );
-
     _notificationService.showNewOrderNotification(
       orderId: order.id,
       customerName: order.customerName,
       amount: order.totalAmount,
       userRole: _currentUserRole,
     );
+
+    // Trigger persistent kitchen alarm for owner/kitchen/developer roles
+    if (_currentUserRole == UserRole.owner ||
+        _currentUserRole == UserRole.kitchen ||
+        _currentUserRole == UserRole.developer) {
+      KitchenAlarmService().triggerAlarm(order.id);
+    }
   }
 
   /// Stop listening for orders
@@ -128,7 +136,8 @@ class OrderNotificationManager {
     _ordersSubscription = null;
     _knownOrderIds.clear();
     _isFirstLoad = true;
-    print('OrderNotificationManager: Stopped listening');
+    _currentUserRole = null;
+    _currentShopId = null;
   }
 
   /// Check if currently listening

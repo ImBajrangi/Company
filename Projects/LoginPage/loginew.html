@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" type="image/png">
+    <!-- Modern Rounded Vrindopnishad Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad Login</title>
@@ -10,6 +18,7 @@
     <!-- Use Inter font -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #000000;
@@ -19,6 +28,7 @@
             align-items: center;
             padding: 1rem;
         }
+
         /* Custom style for Google icon */
         .google-icon {
             width: 18px;
@@ -27,6 +37,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Main Container - Reduced size for focus on Auth -->
@@ -44,16 +55,18 @@
 
             <!-- Loading/Setup State -->
             <div id="loading-state" class="text-center py-6 w-full">
-                <div class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full"></div>
+                <div
+                    class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full">
+                </div>
                 <p class="mt-4 text-gray-600">Initializing Authentication services...</p>
             </div>
 
             <!-- Auth Form & Buttons (Logged Out State) -->
             <div id="auth-container" class="space-y-4 hidden w-full">
-                
+
                 <!-- Email/Password Form -->
                 <form id="auth-form" class="space-y-3">
-                    
+
                     <!-- New: Display Name Field (Visible only during Sign Up) -->
                     <div id="name-field-container" class="hidden">
                         <label for="display-name" class="block text-sm font-medium text-gray-700">Display Name</label>
@@ -96,15 +109,20 @@
                 <button id="google-signin-btn"
                     class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                     <!-- Updated and simplified Google Logo SVG -->
-                    <svg class="google-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <svg class="google-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512">
                         <!-- Blue -->
-                        <path fill="#4285F4" d="M386.9,235.8c0-14.8-1.3-29.2-3.8-43.2H256v82.7h72.4c-3.1,17.2-12.1,31.7-25.7,41.9v53.3h68.8C421.1,380.2,453.7,314.1,453.7,256C453.7,247.9,453.1,241.2,452.4,235.8z"/>
+                        <path fill="#4285F4"
+                            d="M386.9,235.8c0-14.8-1.3-29.2-3.8-43.2H256v82.7h72.4c-3.1,17.2-12.1,31.7-25.7,41.9v53.3h68.8C421.1,380.2,453.7,314.1,453.7,256C453.7,247.9,453.1,241.2,452.4,235.8z" />
                         <!-- Red -->
-                        <path fill="#EA4335" d="M256,453.7c33.5,0,62.8-11.3,83.7-30.7l-68.8-53.3c-18.7,12.5-43,20-68.8,20c-53.3,0-98.3-35.8-114.6-84.5h-71.1v55.5C70.6,400.9,157.9,453.7,256,453.7z"/>
+                        <path fill="#EA4335"
+                            d="M256,453.7c33.5,0,62.8-11.3,83.7-30.7l-68.8-53.3c-18.7,12.5-43,20-68.8,20c-53.3,0-98.3-35.8-114.6-84.5h-71.1v55.5C70.6,400.9,157.9,453.7,256,453.7z" />
                         <!-- Yellow -->
-                        <path fill="#FBBC05" d="M141.4,279.7c-3.6-10.4-5.6-21.5-5.6-32.9s2-22.5,5.6-32.9v-55.5h-71.1C58.3,191.6,50.7,222.9,50.7,246.8s7.6,55.2,19.6,83.9L141.4,279.7z"/>
+                        <path fill="#FBBC05"
+                            d="M141.4,279.7c-3.6-10.4-5.6-21.5-5.6-32.9s2-22.5,5.6-32.9v-55.5h-71.1C58.3,191.6,50.7,222.9,50.7,246.8s7.6,55.2,19.6,83.9L141.4,279.7z" />
                         <!-- Green -->
-                        <path fill="#34A853" d="M256,158c28.8,0,54.7,9.9,75.1,29.3L400,111.4c-20.9-19.4-50.2-30.7-83.7-30.7c-98.1,0-185.4,52.8-232.7,129.9l71.1,55.5C157.7,193.8,202.7,158,256,158z"/>
+                        <path fill="#34A853"
+                            d="M256,158c28.8,0,54.7,9.9,75.1,29.3L400,111.4c-20.9-19.4-50.2-30.7-83.7-30.7c-98.1,0-185.4,52.8-232.7,129.9l71.1,55.5C157.7,193.8,202.7,158,256,158z" />
                     </svg>
                     Sign in with Google
                 </button>
@@ -113,7 +131,9 @@
             <!-- User Profile (Logged In State) -->
             <div id="profile-container" class="space-y-6 text-center hidden w-full">
                 <p class="text-lg text-gray-700 font-semibold">Logged in successfully!</p>
-                <img id="user-photo" class="w-16 h-16 rounded-full mx-auto shadow-lg border-2 border-indigo-400" src="https://placehold.co/64x64/E0E7FF/4338CA?text=U" alt="User Photo" onerror="this.onerror=null;this.src='https://placehold.co/64x64/E0E7FF/4338CA?text=U';">
+                <img id="user-photo" class="w-16 h-16 rounded-full mx-auto shadow-lg border-2 border-indigo-400"
+                    src="https://placehold.co/64x64/E0E7FF/4338CA?text=U" alt="User Photo"
+                    onerror="this.onerror=null;this.src='https://placehold.co/64x64/E0E7FF/4338CA?text=U';">
                 <div class="bg-indigo-100 p-4 rounded-lg text-left">
                     <p class="text-sm font-semibold text-indigo-700">Display Name:</p>
                     <p id="user-display-name" class="break-all font-medium text-base mt-1 text-indigo-800"></p>
@@ -170,9 +190,9 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app); 
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
-        
+
         // Providers
         const googleProvider = new GoogleAuthProvider();
 
@@ -185,7 +205,7 @@
         const authContainerEl = document.getElementById('auth-container');
         const profileContainerEl = document.getElementById('profile-container');
         const authTitleEl = document.getElementById('auth-title');
-        
+
         // Email/Password Form Elements
         const authFormEl = document.getElementById('auth-form');
         const displayNameEl = document.getElementById('display-name'); // New DOM reference
@@ -195,10 +215,10 @@
         const submitBtnEl = document.getElementById('submit-btn');
         const toggleAuthBtnEl = document.getElementById('toggle-auth-btn');
         const togglePromptEl = document.getElementById('toggle-prompt');
-        
+
         // Google Button
         const googleSignInBtnEl = document.getElementById('google-signin-btn');
-        
+
         // Profile Elements
         const signoutBtnEl = document.getElementById('signout-btn');
         const userIdEl = document.getElementById('user-id');
@@ -261,7 +281,7 @@
          */
         function updateUI(user) {
             loadingStateEl.classList.add('hidden');
-            
+
             // Check if the user is authenticated (not null)
             if (user) {
                 // LOGGED IN State
@@ -273,7 +293,7 @@
                 userIdEl.textContent = user.uid;
                 userEmailEl.textContent = user.email || 'N/A';
                 // Display the name, or fall back if not available
-                userDisplayNameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'No Display Name'); 
+                userDisplayNameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'No Display Name');
                 userPhotoEl.src = user.photoURL || 'https://placehold.co/64x64/E0E7FF/4338CA?text=U';
 
 
@@ -299,7 +319,7 @@
             const email = emailEl.value;
             const password = passwordEl.value;
             const name = displayNameEl.value.trim(); // Get name and trim whitespace
-            
+
             submitBtnEl.disabled = true;
             const originalText = isSignUpMode ? "Sign Up" : "Sign In";
             submitBtnEl.textContent = isSignUpMode ? "Processing..." : "Processing...";
@@ -323,7 +343,7 @@
                 if (isSignUpMode) {
                     // Sign Up
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    
+
                     // Update the user's profile with the name after successful creation
                     await updateProfile(userCredential.user, {
                         displayName: name
@@ -348,7 +368,7 @@
                 } else if (error.code === 'auth/invalid-credential') {
                     errorMessage = "Invalid email or password. Please check your credentials.";
                 }
-                
+
                 displayMessage(errorMessage, 'error');
             } finally {
                 submitBtnEl.disabled = false;
@@ -430,7 +450,8 @@
         onAuthStateChanged(auth, (user) => {
             updateUI(user);
         });
-        
+
     </script>
 </body>
+
 </html>

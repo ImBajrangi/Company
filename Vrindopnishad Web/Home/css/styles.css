@@ -98,6 +98,22 @@
     box-sizing: border-box;
     cursor: none;
     font-family: var(--font-primary);
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove blue focus outline/box globally */
+*:focus {
+    outline: none !important;
+}
+
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 html,
@@ -395,23 +411,44 @@ button.menu svg {
 
 @media (max-width: 768px) {
     header {
-        height: 70px;
+        height: 65px;
         padding: 0 1rem;
     }
 
     .logo {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
+        gap: 10px;
     }
 
-    .tools-icon,
-    .menu {
-        width: 38px;
-        height: 38px;
+    .header-logo-img {
+        height: 36px;
     }
 
-    .tools-icon svg {
+    .header-right {
+        gap: 0.6rem;
+    }
+
+    /* Hide settings gear on mobile - accessible via hamburger menu */
+    .tools-icon {
+        display: none !important;
+    }
+
+    .header-icon {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(var(--text-color-rgb), 0.05);
+        border: 1px solid var(--glass-border);
+        border-radius: 50%;
+    }
+
+    .header-icon svg {
         width: 18px;
         height: 18px;
+    }
+
+    .menu {
+        width: 40px;
+        height: 40px;
     }
 
 }
@@ -472,6 +509,7 @@ button.menu svg {
 
 /* Final adjustments for icons */
 .tools-icon,
+.header-icon,
 .menu {
     border-radius: 50%;
     z-index: 10;
@@ -497,6 +535,19 @@ button.menu svg {
 .tools-icon:hover svg,
 .tools-icon:active svg {
     transform: rotate(90deg);
+    color: var(--accent-color);
+}
+
+/* Header icon (profile button) styling */
+.header-icon svg {
+    display: block;
+    transition: color 0.3s ease;
+    color: var(--text-color);
+    width: 20px;
+    height: 20px;
+}
+
+.header-icon:hover svg {
     color: var(--accent-color);
 }
 
@@ -597,13 +648,10 @@ button.menu svg {
 }
 
 @media (max-width: 768px) {
+
+    /* Hide settings gear on mobile - accessible via hamburger menu */
     .tools-icon {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 36px;
-        height: 36px;
-        margin-right: 10px;
+        display: none !important;
     }
 
     .tools-icon span {
@@ -1350,10 +1398,9 @@ button.menu svg {
         display: none !important;
     }
 
+    /* Hide settings gear on mobile - accessible via hamburger menu */
     .tools-icon {
-        width: 38px;
-        height: 38px;
-        margin-right: 10px;
+        display: none !important;
     }
 
     .mobile-menu-btn {
@@ -1477,15 +1524,10 @@ button.menu svg {
 }
 
 @media (max-width: 480px) {
-    .tools-icon {
-        width: 36px;
-        height: 36px;
-        margin-right: 8px;
-    }
 
-    .tools-icon svg {
-        width: 20px;
-        height: 20px;
+    /* Hide settings gear on mobile - accessible via hamburger menu */
+    .tools-icon {
+        display: none !important;
     }
 
     .mobile-menu-btn {
@@ -2321,15 +2363,10 @@ body.menu-open .menu-overlay {
 
 /* Very small mobile devices */
 @media (max-width: 360px) {
-    .tools-icon {
-        width: 34px;
-        height: 34px;
-        margin-right: 6px;
-    }
 
-    .tools-icon svg {
-        width: 18px;
-        height: 18px;
+    /* Hide settings gear on mobile */
+    .tools-icon {
+        display: none !important;
     }
 
     .logo {
@@ -2348,9 +2385,10 @@ body.menu-open .menu-overlay {
 
 /* Landscape mode on mobile */
 @media (max-height: 500px) and (orientation: landscape) {
+
+    /* Hide settings gear on mobile */
     .tools-icon {
-        width: 36px;
-        height: 36px;
+        display: none !important;
     }
 
     header {
@@ -7477,5 +7515,101 @@ footer {
     50% {
         transform: scaleY(0.5);
         opacity: 0.1;
+    }
+}
+
+/* ===============================================
+   FOR YOU SECTION - PREMIUM REDESIGN
+   =============================================== */
+.for-you-section {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--bg-color);
+    position: relative;
+}
+
+.for-you-overlay {
+    position: absolute;
+    inset: 0;
+    /* High-contrast gradient for maximum legibility */
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.7) 35%,
+            rgba(0, 0, 0, 0.3) 65%,
+            transparent 100%);
+    transition: all 0.5s ease;
+}
+
+.for-you-card:hover .for-you-overlay {
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.8) 45%,
+            rgba(0, 0, 0, 0.4) 75%,
+            transparent 100%);
+}
+
+.for-you-card .showcase-content {
+    padding: 2.5rem 2rem;
+    z-index: 2;
+}
+
+.for-you-card h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+.for-you-card p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    font-weight: 400;
+    max-width: 32ch;
+    color: #f0f0f0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Dynamic Reveal Animations (Replacing Boring Fade) */
+.for-you-card.staggered-item {
+    opacity: 0;
+    transform: translateY(60px) scale(0.85);
+    filter: blur(15px);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 1s ease,
+        filter 1s ease;
+    will-change: transform, opacity, filter;
+}
+
+.for-you-card.staggered-item.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+/* Title Reveal override */
+.for-you-section .showcase-title {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1s var(--transition-bounce);
+}
+
+.for-you-section .showcase-title.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Ensure font visibility on small devices */
+@media (max-width: 768px) {
+    .for-you-card h3 {
+        font-size: 1.8rem;
+    }
+
+    .for-you-card p {
+        font-size: 1rem;
+    }
+
+    .for-you-card .showcase-content {
+        padding: 1.5rem;
     }
 }

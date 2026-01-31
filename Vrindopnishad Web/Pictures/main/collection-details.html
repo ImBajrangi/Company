@@ -5,7 +5,47 @@
     <link rel="icon" href="/Vrindopnishad Web/class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collection Details - Vrindopnishad</title>
+    <title>Chitra Vrinda - Vrindopnishad | Collection Details</title>
+    <meta name="description"
+        content="View detailed information about our spiritual art collections. Experience the divine essence of Vrindavan through Chitra Vrinda.">
+    <meta name="keywords"
+        content="Chitra Vrinda, Vrindopnishad, Spiritual Art, Collection Details, Vedic Imagery, Vrindavan Art">
+    <link rel="canonical" href="https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/collection-details.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url"
+        content="https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/collection-details.html">
+    <meta property="og:title" content="Chitra Vrinda - Vrindopnishad | Collection Details">
+    <meta property="og:description" content="Explore high-quality spiritual art and divine imagery at Chitra Vrinda.">
+    <meta property="og:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url"
+        content="https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/collection-details.html">
+    <meta property="twitter:title" content="Chitra Vrinda - Vrindopnishad | Collection Details">
+    <meta property="twitter:description"
+        content="Explore high-quality spiritual art and divine imagery at Chitra Vrinda.">
+    <meta property="twitter:image" content="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Chitra Vrinda - Vrindopnishad | Collection Details",
+      "description": "View detailed information about our spiritual art collections.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Vrindopnishad",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png"
+        }
+      }
+    }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- Add Razorpay Script -->
@@ -14,11 +54,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- FileSaver.js for saving files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- jsPDF for creating PDF files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css">
     <!-- Link Pop-up Checker Script -->
     <script src="/Vrindopnishad Web/js/popup-checker.js"></script>
     <script src="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/Vrindopnishad Web/Pictures/js/supabase-client.js"></script>
     <!-- <script src="/Vrindopnishad Web/js/popup-checker.js"></script> -->
+    <script src="../../../js/image-helper.js"></script>
 
     <style>
         * {
@@ -872,8 +917,10 @@
         .bag-item {
             display: flex;
             gap: 16px;
-            padding: 24px 0;
+            padding: 20px 0;
             border-bottom: 1px solid var(--border-color);
+            align-items: flex-start;
+            transition: background 0.2s;
         }
 
         .bag-item:first-child {
@@ -885,16 +932,22 @@
         }
 
         .bag-item-image {
-            width: 100px;
+            width: 80px;
             height: 100px;
             border-radius: 12px;
             object-fit: cover;
             background: var(--secondary-bg);
             flex-shrink: 0;
+            border: 1px solid var(--border-color);
         }
 
         .bag-item-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            /* Prevents overflow */
         }
 
         .bag-item-title {
@@ -910,8 +963,9 @@
         }
 
         .bag-item-price {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 600;
+            margin-top: 4px;
         }
 
         .bag-item-actions {
@@ -924,9 +978,16 @@
             background: none;
             border: none;
             color: var(--accent-blue);
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            padding: 0;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+
+        .bag-item-remove:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
         }
 
         .bag-summary {
@@ -1258,7 +1319,8 @@
                 border-radius: 0;
                 margin-bottom: 0;
                 position: relative;
-                aspect-ratio: 4/5;
+                aspect-ratio: 1/1;
+                /* Square or 4/5 depending on preference, but 1/1 centers better on small screens */
             }
 
             .main-image {
@@ -1325,11 +1387,13 @@
             .product-info {
                 padding: 24px var(--mobile-spacing);
                 background: var(--card-bg);
-                margin: -32px var(--mobile-spacing) 0;
-                border-radius: var(--mobile-radius);
-                box-shadow: var(--mobile-shadow-lg);
+                margin: -40px 12px 16px;
+                /* Increased top negative margin for a subtle overlap */
+                border-radius: 24px;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
                 position: relative;
                 z-index: 10;
+                border: 1px solid var(--border-color);
             }
 
             .product-new {
@@ -1409,7 +1473,8 @@
 
             .description-text {
                 font-size: 15px;
-                line-height: 1.7;
+                line-height: 1.6;
+                color: var(--text-secondary);
             }
 
             .features-list li {
@@ -2127,99 +2192,220 @@
         */
 
         // Function to download purchased items as a ZIP file
+        // Function to download purchased items as a ZIP file
         async function downloadCollection(item, paymentId) {
-            showToast('Packaging your download... Please wait.', 'info');
-            const downloadBtn = document.getElementById('download-collection'); // Get button for disabling/re-enabling
-            if (downloadBtn) downloadBtn.disabled = true; // Disable button immediately
+            showToast('Crafting your experience... Please wait.', 'info');
+            const downloadBtn = document.getElementById('download-collection');
+            if (downloadBtn) downloadBtn.disabled = true;
 
             try {
                 const zip = new JSZip();
+                const { jsPDF } = window.jspdf;
 
-                // 1. Add License File
-                const licenseContent = `
-                    Vrindopnishad - Commercial License
-                    ==================================
+                // Helper to get image as Base64 for PDF
+                const getLogoBase64 = async () => {
+                    try {
+                        const response = await fetch('/Vrindopnishad Web/class/logo/v-logo-transparent.png');
+                        if (!response.ok) throw new Error('Logo fetch failed');
+                        const blob = await response.blob();
+                        return new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.readAsDataURL(blob);
+                        });
+                    } catch (e) {
+                        console.warn("Logo could not be loaded for PDF:", e);
+                        return null;
+                    }
+                };
 
-                    Date: ${new Date().toLocaleDateString()}
-                    Collection: ${item.title}
-                    License ID: ${paymentId || 'N/A'}
+                const logoData = await getLogoBase64();
 
-                    This license grants you, the purchaser, a non-exclusive, worldwide license to use the images in this collection for personal and commercial projects.
+                // --- 1. Generate Modern License PDF ---
+                const licenseDoc = new jsPDF();
 
-                    Permitted Uses:
-                    - Websites, blogs, and social media.
-                    - Advertising and promotional materials.
-                    - Printed materials such as brochures and posters.
-                    - Digital media (videos, presentations).
+                // Header Design
+                licenseDoc.setFillColor(29, 29, 31); // Dark background
+                licenseDoc.rect(0, 0, 210, 45, 'F');
 
-                    Restrictions:
-                    - You may not resell or redistribute the original image files.
-                    - You may not use the images in a way that is defamatory or illegal.
+                if (logoData) {
+                    try {
+                        licenseDoc.addImage(logoData, 'PNG', 20, 10, 25, 25);
+                    } catch (e) { console.error("Error adding logo to License PDF:", e); }
+                }
 
-                    Thank you for your purchase.
-                    Vrindopnishad
-                `;
-                zip.file(`License_${item.id}.txt`, licenseContent.trim());
+                licenseDoc.setFont("helvetica", "bold");
+                licenseDoc.setFontSize(28);
+                licenseDoc.setTextColor(255, 255, 255);
+                licenseDoc.text("Chitra Vrinda", 55, 27);
 
-                // 2. Add Bill/Receipt File
-                const billContent = `
-                    Vrindopnishad - Purchase Receipt
-                    ==================================
+                licenseDoc.setFontSize(14);
+                licenseDoc.setTextColor(174, 174, 178); // Light gray
+                licenseDoc.text("Personal & Commercial License", 55, 36);
 
-                    Date: ${new Date().toLocaleString()}
-                    Payment ID: ${paymentId || 'N/A'}
+                // Document Content
+                licenseDoc.setTextColor(29, 29, 31);
+                licenseDoc.setFontSize(18);
+                licenseDoc.text("License Details", 20, 65);
 
-                    Item: ${item.title}
-                    Description: ${item.description}
-                    Price: ${formatPrice(item.price)}
+                // Info Box
+                licenseDoc.setFillColor(245, 245, 247);
+                licenseDoc.roundedRect(20, 75, 170, 40, 4, 4, 'F');
+                licenseDoc.setFontSize(10);
+                licenseDoc.setFont("helvetica", "bold");
+                licenseDoc.text("COLLECTION:", 30, 88);
+                licenseDoc.text("LICENSE ID:", 30, 98);
+                licenseDoc.text("ISSUE DATE:", 30, 108);
 
-                    ----------------------------------
-                    Total: ${formatPrice(item.price)}
+                licenseDoc.setFont("helvetica", "normal");
+                licenseDoc.text(item.title.toUpperCase(), 70, 88);
+                licenseDoc.text(paymentId || 'N/A', 70, 98);
+                licenseDoc.text(new Date().toLocaleDateString(), 70, 108);
 
-                    Thank you for your purchase!
-                `;
-                zip.file(`Bill_${item.id}.txt`, billContent.trim());
+                // Terms section
+                licenseDoc.setFontSize(12);
+                licenseDoc.setFont("helvetica", "bold");
+                licenseDoc.text("Terms of Use", 20, 135);
+                licenseDoc.setFontSize(11);
+                licenseDoc.setFont("helvetica", "normal");
+                const termsIntro = `This license grants you a non-exclusive, worldwide right to use the images in the ${item.title} collection.`;
+                licenseDoc.text(termsIntro, 20, 145, { maxWidth: 170 });
+
+                // Two column dots
+                licenseDoc.setFillColor(0, 113, 227); // Blue
+                licenseDoc.text("Permitted Uses", 20, 165);
+                const permitted = ["Websites & Social Media", "Advertising & Marketing", "Print Media & Posters", "Digital Presentations"];
+                permitted.forEach((text, i) => {
+                    licenseDoc.circle(22, 173 + (i * 8), 1, 'F');
+                    licenseDoc.text(text, 28, 175 + (i * 8));
+                });
+
+                licenseDoc.text("Restrictions", 110, 165);
+                const restrictions = ["No Resale / Redistribution", "No Branding as Original Author", "No Illegal / Defamatory use"];
+                restrictions.forEach((text, i) => {
+                    licenseDoc.circle(112, 173 + (i * 8), 1, 'F');
+                    licenseDoc.text(text, 118, 175 + (i * 8));
+                });
+
+                // Footer
+                licenseDoc.setFillColor(245, 245, 247);
+                licenseDoc.rect(0, 277, 210, 20, 'F');
+                licenseDoc.setFontSize(9);
+                licenseDoc.setTextColor(142, 142, 147);
+                licenseDoc.text("Thank you for choosing Vrindopnishad's Chitra Vrinda. All rights reserved.", 105, 287, { align: 'center' });
+
+                zip.file(`License_${item.id}.pdf`, licenseDoc.output('blob'));
+
+                // --- 2. Generate Modern Receipt PDF ---
+                const receiptDoc = new jsPDF();
+
+                // Header Design
+                receiptDoc.setFillColor(0, 113, 227); // Blue background
+                receiptDoc.rect(0, 0, 210, 45, 'F');
+
+                if (logoData) {
+                    try {
+                        receiptDoc.addImage(logoData, 'PNG', 20, 10, 25, 25);
+                    } catch (e) { console.error("Error adding logo to Receipt PDF:", e); }
+                }
+
+                receiptDoc.setFont("helvetica", "bold");
+                receiptDoc.setFontSize(28);
+                receiptDoc.setTextColor(255, 255, 255);
+                receiptDoc.text("Chitra Vrinda", 55, 27);
+
+                receiptDoc.setFontSize(14);
+                receiptDoc.text("Official Purchase Receipt", 55, 36);
+
+                // Content
+                receiptDoc.setTextColor(29, 29, 31);
+                receiptDoc.setFontSize(18);
+                receiptDoc.text("Invoice Information", 20, 65);
+
+                // Transaction Details Table-ish
+                receiptDoc.setFillColor(245, 245, 247);
+                receiptDoc.roundedRect(20, 75, 170, 30, 2, 2, 'F');
+
+                receiptDoc.setFontSize(10);
+                receiptDoc.setTextColor(142, 142, 147);
+                receiptDoc.text("TRANSACTION ID", 30, 85);
+                receiptDoc.text("ORDER DATE", 110, 85);
+
+                receiptDoc.setTextColor(29, 29, 31);
+                receiptDoc.setFontSize(11);
+                receiptDoc.text(paymentId || 'N/A', 30, 95);
+                receiptDoc.text(new Date().toLocaleString(), 110, 95);
+
+                // Line items
+                receiptDoc.setFontSize(14);
+                receiptDoc.setFont("helvetica", "bold");
+                receiptDoc.text("Collection Details", 20, 125);
+
+                receiptDoc.setDrawColor(230, 230, 230);
+                receiptDoc.line(20, 130, 190, 130);
+
+                receiptDoc.setFontSize(11);
+                receiptDoc.text("ITEM DESCRIPTION", 20, 140);
+                receiptDoc.text("AMOUNT", 170, 140, { align: 'right' });
+
+                receiptDoc.setFont("helvetica", "normal");
+                receiptDoc.text(item.title, 20, 155);
+                receiptDoc.setTextColor(142, 142, 147);
+                receiptDoc.text((item.description || '').substring(0, 80) + '...', 20, 162, { maxWidth: 130 });
+
+                receiptDoc.setTextColor(29, 29, 31);
+                const pdfPrice = `Rs. ${item.price.toLocaleString('en-IN')}`;
+                receiptDoc.text(pdfPrice, 170, 155, { align: 'right' });
+
+                // Total Box
+                receiptDoc.setFillColor(245, 245, 247);
+                receiptDoc.rect(120, 180, 70, 25, 'F');
+                receiptDoc.setFontSize(10);
+                receiptDoc.setTextColor(142, 142, 147);
+                receiptDoc.text("TOTAL PAID", 125, 190);
+                receiptDoc.setTextColor(0, 113, 227);
+                receiptDoc.setFontSize(16);
+                receiptDoc.text(pdfPrice, 185, 198, { align: 'right' });
+
+                // Professional Note
+                receiptDoc.setFontSize(10);
+                receiptDoc.setTextColor(142, 142, 147);
+                receiptDoc.setFont("helvetica", "italic");
+                receiptDoc.text("This document serves as proof of purchase and licensing for Chitra Vrinda collections.", 105, 230, { align: 'center' });
+                receiptDoc.text("Generated securely by Vrindopnishad Digital Systems.", 105, 236, { align: 'center' });
+
+                zip.file(`Bill_${item.id}.pdf`, receiptDoc.output('blob'));
 
                 // 3. Add Images
                 const imgFolder = zip.folder("images");
                 const imagePromises = item.images.map(async (imgUrl, index) => {
                     try {
-                        // *** REMOVED PROXY *** Fetch the image directly
-                        console.log(`Attempting to fetch: ${imgUrl}`); // Log URL being fetched
+                        console.log(`Attempting to fetch: ${imgUrl}`);
                         const response = await fetch(imgUrl);
 
                         if (!response.ok) {
-                            // Log specific status text for better debugging
-                            console.error(`Fetch failed for ${imgUrl} with status: ${response.status} ${response.statusText}`);
-                            throw new Error(`Failed to fetch image ${index + 1}: ${response.statusText}`);
+                            console.error(`Fetch failed for ${imgUrl} with status: ${response.status}`);
+                            throw new Error(`Failed to fetch image ${index + 1}`);
                         }
 
                         const imageBlob = await response.blob();
-                        // Get file extension or default to .jpg
                         let extension = imgUrl.split('.').pop().split('?')[0] || 'jpg';
-                        // Make sure extension is reasonable
                         if (extension.length > 5 || /[^a-z0-9]/i.test(extension)) {
-                            // Try to get type from blob, fallback to jpg
-                            const mimeType = imageBlob.type; // e.g., "image/jpeg"
+                            const mimeType = imageBlob.type;
                             extension = mimeType.split('/')[1] || 'jpg';
-                            console.log(`Guessed extension from MIME type: ${extension}`);
                         }
-                        // Ensure it's a common image extension
                         if (!['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(extension.toLowerCase())) {
                             extension = 'jpg';
                         }
 
-                        const filename = `image_${String(index + 1).padStart(2, '0')}.${extension}`; // Use padded numbers
+                        const filename = `image_${String(index + 1).padStart(2, '0')}.${extension}`;
                         imgFolder.file(filename, imageBlob);
-                        console.log(`✓ Added ${filename} to zip`);
                     } catch (err) {
-                        console.error(`✗ Failed to add image ${index + 1} (${imgUrl}): ${err.message}. Skipping this file.`);
-                        // Add a text file to the zip indicating the failure
-                        imgFolder.file(`FAILED_TO_DOWNLOAD_image_${index + 1}.txt`, `Could not download image from: ${imgUrl}\nError: ${err.message}`);
+                        console.error(`Failed to add image ${index + 1}: ${err.message}. Skipping.`);
+                        imgFolder.file(`FAILED_TO_DOWNLOAD_image_${index + 1}.txt`, `Could not download from: ${imgUrl}\nError: ${err.message}`);
                     }
                 });
 
-                // Wait for all images to be fetched and added
                 await Promise.all(imagePromises);
 
                 // 4. Generate and Download ZIP
@@ -2227,43 +2413,25 @@
                 const content = await zip.generateAsync(
                     {
                         type: "blob",
-                        // Add compression for better file size
                         compression: "DEFLATE",
-                        compressionOptions: {
-                            level: 6 // Moderate compression level (0-9)
-                        }
+                        compressionOptions: { level: 6 }
                     },
                     (metadata) => {
-                        // Optional: update a progress bar dynamically on the page
                         console.log(`Zip progress: ${metadata.percent.toFixed(2)}%`);
-                        // Example: Update a progress bar element:
-                        // const progressBar = document.getElementById('zip-progress');
-                        // if (progressBar) progressBar.value = metadata.percent;
                     }
                 );
 
-                // Use FileSaver.js to trigger the download
-                // Sanitize filename: remove special characters, replace spaces with underscores
                 const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
                 saveAs(content, `${safeTitle}_collection.zip`);
                 showToast('Download started! 📁');
             } catch (error) {
                 console.error('Error during download:', error);
-
-                // Show pop-up warning if likely blocked or other error
-                const warningBanner = document.getElementById('popup-warning');
-                if (warningBanner && sessionStorage.getItem('popupWarningDismissed') !== 'true') {
-                    warningBanner.style.display = 'flex';
-                }
-
                 showToast('Failed to prepare download. Please check your connection.', 'error');
             } finally {
                 if (downloadBtn) downloadBtn.disabled = false;
             }
         }
 
-
-        // Render related items (UPDATED LOGIC)
         function renderRelated(currentItem) {
             const grid = document.getElementById('related-grid');
             if (!currentItem || !currentItem.tags || !Array.isArray(currentItem.tags)) {
@@ -2752,14 +2920,14 @@
                 if (item) {
                     const purchaseData = purchasedItems[id];
                     html += `
-                        <div class="bag-item">
-                            <img src="${item.image}" alt="${item.title}" class="bag-item-img">
-                            <div class="bag-item-info">
-                                <div class="bag-item-title">${item.title}</div>
-                                <div class="bag-item-price">${purchaseData.date ? new Date(purchaseData.date).toLocaleDateString() : 'Previous purchase'}</div>
-                                <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px; margin-top: 8px;"
+                        <div class="bag-item" style="padding: 16px 0; align-items: center;">
+                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
+                            <div class="bag-item-info" style="display: flex; flex-direction: column; gap: 4px;">
+                                <div class="bag-item-title" style="font-size: 16px; margin-bottom: 2px;">${item.title}</div>
+                                <div class="bag-item-desc" style="font-size: 13px; margin-bottom: 4px; opacity: 0.8;">Purchased: ${purchaseData.date ? new Date(purchaseData.date).toLocaleDateString() : 'N/A'}</div>
+                                <button class="btn btn-primary" style="padding: 10px 16px; font-size: 13px; align-self: flex-start; border-radius: 10px;"
                                     onclick="downloadCollection(${JSON.stringify(item).replace(/"/g, '&quot;')}, '${purchaseData.paymentId}')">
-                                    <i class="fas fa-download"></i> Download Again
+                                    <i class="fas fa-download"></i> Download
                                 </button>
                             </div>
                         </div>

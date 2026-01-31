@@ -57,6 +57,12 @@ class ShopCard extends StatelessWidget {
   final bool isOpen;
   final String? schedule;
   final VoidCallback? onTap;
+  // New Swiggy/Zomato-style properties
+  final double? rating;
+  final String? deliveryTime;
+  final List<String>? cuisines;
+  final String? offer;
+  final List<String>? popularItems;
 
   const ShopCard({
     super.key,
@@ -66,6 +72,11 @@ class ShopCard extends StatelessWidget {
     this.isOpen = true,
     this.schedule,
     this.onTap,
+    this.rating,
+    this.deliveryTime,
+    this.cuisines,
+    this.offer,
+    this.popularItems,
   });
 
   @override
@@ -75,112 +86,347 @@ class ShopCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.cardBackground,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(18),
-              ),
-              child: Hero(
-                tag: 'shop-${imageUrl ?? name}',
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: imageUrl?.isNotEmpty == true
-                      ? CachedNetworkImage(
-                          imageUrl: imageUrl!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: AppTheme.background,
-                            child: const Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: AppTheme.primaryBlue,
+            // Image with overlay badges
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                  child: Hero(
+                    tag: 'shop-${imageUrl ?? name}',
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: imageUrl?.isNotEmpty == true
+                          ? CachedNetworkImage(
+                              imageUrl: imageUrl!,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                color: AppTheme.background,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppTheme.primaryOrange,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              _buildPlaceholder(),
-                        )
-                      : _buildPlaceholder(),
+                              errorWidget: (context, url, error) =>
+                                  _buildPlaceholder(),
+                            )
+                          : _buildPlaceholder(),
+                    ),
+                  ),
                 ),
-              ),
+                // Status badge overlay
+                Positioned(
+                  top: 12,
+                  left: 12,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isOpen
+                          ? AppTheme.success
+                          : AppTheme.error.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: (isOpen ? AppTheme.success : AppTheme.error)
+                              .withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          isOpen ? Icons.check_circle : Icons.access_time,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isOpen ? 'OPEN' : 'CLOSED',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Gradient overlay at bottom for text readability
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 60,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.4),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
 
             // Content
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Name and Rating row
                   Row(
                     children: [
                       Expanded(
                         child: Text(
                           name,
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 17,
+                              ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isOpen
-                              ? AppTheme.statusReady
-                              : const Color(0xFFFEE2E2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          isOpen ? 'Open' : 'Closed',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: isOpen
-                                ? AppTheme.statusReadyText
-                                : const Color(0xFF991B1B),
+                      // Rating badge
+                      if (rating != null) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: rating! >= 4.0
+                                ? AppTheme.success
+                                : (rating! >= 3.0
+                                      ? AppTheme.primaryOrange
+                                      : AppTheme.error),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                rating!.toStringAsFixed(1),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(width: 2),
+                              const Icon(
+                                Icons.star,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                            ],
                           ),
                         ),
-                      ),
+                      ],
                     ],
                   ),
-                  if (address != null) ...[
-                    const SizedBox(height: 4),
+
+                  // Cuisines tags
+                  if (cuisines != null && cuisines!.isNotEmpty) ...[
+                    const SizedBox(height: 6),
                     Text(
-                      address!,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      cuisines!.take(3).join(' • '),
+                      style: TextStyle(
+                        color: AppTheme.textSecondary,
+                        fontSize: 13,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
-                  if (schedule != null) ...[
-                    const SizedBox(height: 8),
+
+                  // Address (if no cuisines)
+                  if ((cuisines == null || cuisines!.isEmpty) &&
+                      address != null) ...[
+                    const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.access_time,
+                        Icon(
+                          Icons.location_on_outlined,
+                          size: 14,
+                          color: AppTheme.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            address!,
+                            style: const TextStyle(
+                              color: AppTheme.textSecondary,
+                              fontSize: 13,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+
+                  // Delivery time and schedule row
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      if (deliveryTime != null) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.timer_outlined,
+                                size: 14,
+                                color: AppTheme.textSecondary,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                deliveryTime!,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                      if (schedule != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryOrange.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.schedule_rounded,
+                                size: 14,
+                                color: AppTheme.primaryOrange,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                schedule!,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.primaryOrange,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  // Offer banner
+                  if (offer != null) ...[
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryBlue.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppTheme.primaryBlue.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.local_offer_rounded,
+                            size: 16,
+                            color: AppTheme.primaryBlue,
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              offer!,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.primaryBlue,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+
+                  // Popular items preview
+                  if (popularItems != null && popularItems!.isNotEmpty) ...[
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.restaurant_menu,
                           size: 14,
                           color: AppTheme.textTertiary,
                         ),
-                        const SizedBox(width: 4),
-                        Text(
-                          schedule!,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppTheme.textTertiary,
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            popularItems!.take(3).join(', '),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.textTertiary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -238,8 +484,11 @@ class ShopCard extends StatelessWidget {
 class MenuItemCard extends StatelessWidget {
   final String name;
   final double price;
+  final double? originalPrice;
   final String? imageUrl;
   final int quantity;
+  final bool isVeg;
+  final double? rating;
   final VoidCallback? onAdd;
   final VoidCallback? onIncrement;
   final VoidCallback? onDecrement;
@@ -248,8 +497,11 @@ class MenuItemCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.price,
+    this.originalPrice,
     this.imageUrl,
     this.quantity = 0,
+    this.isVeg = true,
+    this.rating,
     this.onAdd,
     this.onIncrement,
     this.onDecrement,
@@ -260,99 +512,211 @@ class MenuItemCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.cardBackground,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Hero(
-              tag: 'menu-item-${imageUrl ?? name}',
-              child: AspectRatio(
-                aspectRatio: 4 / 3,
-                child: imageUrl?.isNotEmpty == true
-                    ? CachedNetworkImage(
-                        imageUrl: imageUrl!,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(
-                          color: AppTheme.background,
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: AppTheme.primaryBlue,
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
+                child: Hero(
+                  tag: 'menu-item-${imageUrl ?? name}',
+                  child: AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: imageUrl?.isNotEmpty == true
+                        ? CachedNetworkImage(
+                            imageUrl: imageUrl!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              color: AppTheme.background,
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppTheme.primaryOrange,
+                                ),
+                              ),
                             ),
+                            errorWidget: (context, url, error) =>
+                                _buildPlaceholder(),
+                          )
+                        : _buildPlaceholder(),
+                  ),
+                ),
+              ),
+              // Veg/Non-veg indicator overlay
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Container(
+                  padding: const EdgeInsets.all(1.5),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(2),
+                    border: Border.all(
+                      color: isVeg ? Colors.green : Colors.red,
+                      width: 1.2,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.circle,
+                    size: 7,
+                    color: isVeg ? Colors.green : Colors.red,
+                  ),
+                ),
+              ),
+              // Rating badge overlay
+              if (rating != null && rating! > 0)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: rating! >= 4.0
+                          ? Colors.green
+                          : AppTheme.primaryOrange,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          rating!.toStringAsFixed(1),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        errorWidget: (context, url, error) =>
-                            _buildPlaceholder(),
-                      )
-                    : _buildPlaceholder(),
-              ),
-            ),
+                        const SizedBox(width: 2),
+                        const Icon(Icons.star, size: 8, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
           ),
 
           // Content
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   name,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  maxLines: 2,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  '₹${price.toStringAsFixed(0)}',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(color: AppTheme.primaryBlue),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryOrange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        '₹${price.toStringAsFixed(0)}',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AppTheme.primaryOrange,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    if (originalPrice != null && originalPrice! > price) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        '₹${originalPrice!.toStringAsFixed(0)}',
+                        style: const TextStyle(
+                          color: AppTheme.textTertiary,
+                          fontSize: 13,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
 
-                // Add/Quantity controls
+                // Add/Quantity controls - Thick Swiggy style
                 SizedBox(
-                  height: 40,
+                  height: 42,
                   width: double.infinity,
                   child: quantity == 0
                       ? ElevatedButton(
                           onPressed: onAdd,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.primaryBlue,
+                            backgroundColor: AppTheme.primaryOrange,
                             foregroundColor: Colors.white,
-                            elevation: 0,
+                            elevation: 4,
+                            shadowColor: AppTheme.primaryOrange.withOpacity(
+                              0.4,
+                            ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             padding: EdgeInsets.zero,
                           ),
-                          child: const Text(
-                            'Add',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_rounded,
+                                size: 20,
+                                fontWeight: FontWeight.w900,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                'ADD',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 15,
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       : Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: AppTheme.primaryBlue.withValues(
-                                alpha: 0.2,
-                              ),
+                              color: AppTheme.primaryOrange,
+                              width: 2.0,
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppTheme.primaryBlue.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppTheme.primaryOrange.withOpacity(0.08),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.primaryOrange.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -360,34 +724,36 @@ class MenuItemCard extends StatelessWidget {
                               IconButton(
                                 onPressed: onDecrement,
                                 icon: const Icon(
-                                  Icons.remove,
-                                  size: 18,
-                                  color: AppTheme.primaryBlue,
+                                  Icons.remove_rounded,
+                                  size: 22,
+                                  color: AppTheme.primaryOrange,
+                                  weight: 900,
                                 ),
                                 constraints: const BoxConstraints(
-                                  minWidth: 40,
-                                  minHeight: 40,
+                                  minWidth: 44,
+                                  minHeight: 42,
                                 ),
                                 padding: EdgeInsets.zero,
                               ),
                               Text(
                                 quantity.toString(),
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: AppTheme.primaryBlue,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 18,
+                                  color: AppTheme.primaryOrange,
                                 ),
                               ),
                               IconButton(
                                 onPressed: onIncrement,
                                 icon: const Icon(
-                                  Icons.add,
-                                  size: 18,
-                                  color: AppTheme.primaryBlue,
+                                  Icons.add_rounded,
+                                  size: 22,
+                                  color: AppTheme.primaryOrange,
+                                  weight: 900,
                                 ),
                                 constraints: const BoxConstraints(
-                                  minWidth: 40,
-                                  minHeight: 40,
+                                  minWidth: 44,
+                                  minHeight: 42,
                                 ),
                                 padding: EdgeInsets.zero,
                               ),

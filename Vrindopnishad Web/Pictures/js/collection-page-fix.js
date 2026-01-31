@@ -309,15 +309,58 @@ function initializeSliders() {
     });
 }
 
-// Load collections data from JSON
+// Load collections data from JSON or Supabase
 async function loadCollectionsData() {
     try {
+        // --- NEW: Try fetching from Supabase first ---
+        if (window.supabaseClient && typeof window.supabaseClient.from === 'function') {
+            console.log('Fetching collections from Supabase...');
+            const { data, error } = await window.supabaseClient
+                .from('collections')
+                .select('*');
+
+            if (!error && data && data.length > 0) {
+                console.log(`Loaded ${data.length} collections from Supabase`);
+
+                // Group the flat Supabase data into the structured format the UI expects
+                const structuredData = {
+                    featured: { title: "Featured Collections", items: [] },
+                    popular: { title: "Popular Right Now", items: [] },
+                    rapper: { title: "Rapper Style", items: [] },
+                    anime: { title: "Anime Style", items: [] },
+                    dark: { title: "Dark Aesthetic", items: [] },
+                    warrior: { title: "Warrior Styles", items: [] },
+                    chhibi: { title: "Chhibi Styles", items: [] }
+                };
+
+                data.forEach(item => {
+                    const section = item.cat_section || 'featured';
+                    if (structuredData[section]) {
+                        structuredData[section].items.push(item);
+                    } else {
+                        // If section doesn't exist, put in featured as fallback or create new
+                        if (!structuredData[section]) {
+                            structuredData[section] = { title: item.cat_section, items: [] };
+                        }
+                        structuredData[section].items.push(item);
+                    }
+                });
+
+                collectionsData = structuredData;
+                sessionStorage.setItem('allCollectionsData', JSON.stringify(structuredData));
+                return true;
+            } else if (error) {
+                console.warn('Supabase fetch error:', error.message);
+            }
+        }
+
+        // --- FALLBACK: Load from local JSON ---
+        console.log('Falling back to local collections JSON...');
         const response = await fetch(dataUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         collectionsData = data.collections || data;
 
-        // *** NEW: Store all collection data in session storage for the details page
         if (data.collections) {
             sessionStorage.setItem('allCollectionsData', JSON.stringify(data.collections));
         }

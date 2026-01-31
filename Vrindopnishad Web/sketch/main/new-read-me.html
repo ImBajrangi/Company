@@ -2,7 +2,12 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
     <link rel="icon" href="../ ../class/logo/v-logo-transparent.png" type="image/png">
+=======
+    <link rel="icon" href="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo-transparent.png"
+        type="image/png">
+>>>>>>> main
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrindopnishad - Paath</title>
@@ -12,6 +17,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Rozha+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Supabase & Shared Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../js/auth.js" defer></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -1300,6 +1309,12 @@
         <div class="logo">वृंदोपनिषद्</div>
         <div id="authorDisplay" class="author-header"></div>
         <div class="header-controls">
+            <!-- User Authentication Button -->
+            <button class="control-btn" id="user-auth-btn" aria-label="User Account"
+                style="margin-right: 1rem; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden;">
+                <i class="fas fa-user"></i>
+            </button>
+
             <button class="control-btn menu-toggle" id="menuToggle">
                 <div class="wrapper-menu" id="wrapperMenu">
                     <div class="line-menu half start"></div>
@@ -1436,10 +1451,13 @@
     </div>
 
     <script>
+<<<<<<< HEAD
         const JSON_FILES = [
             '../ ../class/json/Default%20Collection-2026-09-24T15-20-20.json',
             '../ ../class/json/ye%20dekho%20shyam%20audio-file.json'
         ];
+=======
+>>>>>>> main
 
         let allEntries = [];
         let filteredEntries = [];
@@ -1471,24 +1489,27 @@
             gridView.innerHTML = '<p style="text-align: center; padding: 3rem; opacity: 0.7; color: white;">Loading content...</p>';
 
             try {
-                const promises = JSON_FILES.map(async (file) => {
-                    const response = await fetch(file);
-                    if (!response.ok) throw new Error(`Failed to load ${file}`);
-                    return await response.json();
-                });
-
-                const results = await Promise.all(promises);
-
-                results.forEach(data => {
-                    if (data?.collection?.entries) {
-                        allEntries.push(...data.collection.entries);
-                    }
-                });
-
-                if (allEntries.length === 0) {
-                    throw new Error('No entries found');
+                // Fetch directly from Supabase
+                if (!window.supabaseClient) {
+                    throw new Error('Supabase client not initialized. Check your connection or scripts.');
                 }
 
+                const { data, error } = await window.supabaseClient
+                    .from('content')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (data) {
+                    allEntries = data;
+                }
+
+                if (allEntries.length === 0) {
+                    throw new Error('No entries found in database');
+                }
+
+                categories.clear();
                 allEntries.forEach(entry => {
                     if (entry.category) categories.add(entry.category);
                 });
@@ -1497,10 +1518,12 @@
                 filterByCategory('all');
 
             } catch (error) {
+                console.error('Data Load Error:', error);
                 gridView.innerHTML = `
                     <div style="text-align: center; padding: 3rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;">
                         <h3 style="color: #ef4444; margin-bottom: 1rem;">Error Loading Content</h3>
                         <p style="color: white;">${error.message}</p>
+                        <p style="color: grey; font-size: 0.8rem; margin-top: 1rem;">Please check your internet connection or Supabase configuration.</p>
                     </div>
                 `;
             }
@@ -1551,20 +1574,28 @@
 
             if (!currentEntry) return;
 
-            const poemContent = currentEntry.content;
-            const content = formatContent(poemContent?.content || '');
+            const poemContent = currentEntry.content || {};
+            const contentBody = currentEntry.content_text || poemContent.content || '';
+            const content = formatContent(contentBody);
 
             dynamicTitle.style.opacity = '0';
             authorDisplay.style.opacity = '0';
 
             setTimeout(() => {
-                dynamicTitle.textContent = poemContent?.title || currentEntry.title || 'वृंदोपनिषद्';
-                authorDisplay.textContent = poemContent?.excerpt || currentEntry.description || '';
+                dynamicTitle.textContent = currentEntry.title || poemContent.title || 'वृंदोपनिषद्';
+                authorDisplay.textContent = currentEntry.author || currentEntry.description || poemContent.excerpt || '';
                 dynamicTitle.style.opacity = '1';
                 authorDisplay.style.opacity = '1';
             }, 250);
 
+<<<<<<< HEAD
             if (currentEntry.videos && currentEntry.videos.length > 0) {
+=======
+            if (currentEntry.audio_url) {
+                currentAudioUrl = currentEntry.audio_url;
+                musicToggle.style.display = 'flex';
+            } else if (currentEntry.videos && currentEntry.videos.length > 0) {
+>>>>>>> main
                 currentAudioUrl = currentEntry.videos[0].url;
                 musicToggle.style.display = 'flex';
             } else {
@@ -1640,41 +1671,51 @@
         }
 
         function generateMediaContent(entry) {
-            const imageContent = entry.images && entry.images.length > 0
+            const images = entry.image_urls || (entry.images ? entry.images.map(img => img.url) : []);
+            const imageContent = images.length > 0
                 ? `<div class="media-gallery">
                     <h3 class="media-title">Sacred Images</h3>
                     <div class="image-grid">
-                        ${entry.images.map(img => `
-                            <div class="media-item">
-                                <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${img.url}" alt="${img.title}" loading="lazy" onclick="openImageModal('https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${img.url}', '${img.title}')">
-                                ${img.title ? `<p class="media-caption">${img.title}</p>` : ''}
-                            </div>
-                        `).join('')}
+                        ${images.map((url, idx) => {
+                    const fullUrl = url.startsWith('http') ? url : `https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${url}`;
+                    const title = (entry.images && entry.images[idx] && entry.images[idx].title) || 'Sacred Darshan';
+                    return `
+                                <div class="media-item">
+                                    <img src="${fullUrl}" alt="${title}" loading="lazy" onclick="openImageModal('${url}', '${title}')">
+                                    <p class="media-caption">${title}</p>
+                                </div>
+                            `;
+                }).join('')}
                     </div>
                 </div>`
                 : '';
 
-            const audioContent = entry.videos && entry.videos.length > 0
+            const videos = entry.video_urls || (entry.videos ? entry.videos.map(v => v.url) : []);
+            const audioSrc = entry.audio_url || (entry.videos && entry.videos.length > 0 ? entry.videos[0].url : null);
+
+            const audioContent = audioSrc
                 ? `<div class="media-audio">
                     <h3 class="media-title">Sacred Audio</h3>
                     <div class="audio-player">
                         <audio controls preload="metadata">
-                            <source src="${entry.videos[0].url}" type="video/mp4">
+                            <source src="${audioSrc}" type="audio/mpeg">
+                            <source src="${audioSrc}" type="video/mp4">
                         </audio>
                         <div class="audio-info">
-                            <p class="audio-title">${entry.videos[0].title || 'Sacred Audio'}</p>
+                            <p class="audio-title">${entry.title || 'Sacred Track'}</p>
                         </div>
                     </div>
                 </div>`
                 : '';
 
-            const linkContent = entry.links && entry.links.length > 0
+            const links = entry.media_links?.filter(m => m.type === 'link') || entry.links || [];
+            const linkContent = links.length > 0
                 ? `<div class="media-links">
                     <h3 class="media-title">Related Sacred Links</h3>
                     <div class="links-grid">
-                        ${entry.links.map(link => `
+                        ${links.map(link => `
                             <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="sacred-link">
-                                <div class="link-title">${link.title}</div>
+                                <div class="link-title">${link.title || 'Link'}</div>
                                 ${link.description ? `<div class="link-description">${link.description}</div>` : ''}
                             </a>
                         `).join('')}
@@ -1890,7 +1931,20 @@
 
         createStars(50);
         setInterval(createShootingStar, 8000);
-        loadAllData();
+
+        // Initialize Shared Auth & Load Data
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.AuthService) {
+                // Initialize Auth UI
+                AuthService.updateProfileUI('user-auth-btn');
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                });
+            }
+
+            // Load content after auth is ready
+            loadAllData();
+        });
     </script>
 </body>
 
