@@ -1635,10 +1635,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const category = urlParams.get('category');
     const title = urlParams.get('title');
     const count = urlParams.get('count');
+    const imageId = urlParams.get('id');
 
     // Load gallery from JSON first, then initialize everything else
     loadGalleryFromJSON().then(() => {
         initializeAllFeatures();
+
+        // If coming from a product link (Google Shopping), scroll to the specific image
+        if (imageId) {
+            setTimeout(() => {
+                const targetCard = document.querySelector(`.image-card[data-image-id="${imageId}"]`);
+                if (targetCard) {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetCard.classList.add('active'); // Highlight the card
+                }
+            }, 800); // Wait for images to render
+        }
 
         // If coming from popup, apply the specific filter
         if (category && category !== 'all') {
