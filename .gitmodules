@@ -7,3 +7,9 @@
 [submodule "Projects/HitSoochi"]
 	path = Projects/HitSoochi
 	url = https://github.com/ImBajrangi/Hit-Soochi.git
+[submodule "Projects/Vrinda-Tours"]
+	path = Projects/Vrinda-Tours
+	url = https://github.com/ImBajrangi/Vrinda-Tours.git
+[submodule "Projects/Cloud-Kitchen"]
+	path = Projects/Cloud-Kitchen
+	url = https://github.com/ImBajrangi/Foody-Vrinda.git
