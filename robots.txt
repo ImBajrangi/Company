@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://vrindopnishad.in/sitemap.xml
+Sitemap: https://vrindopnishad.in/Vrindopnishad%20Web/sitemap-images.xml

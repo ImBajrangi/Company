@@ -255,8 +255,24 @@ function createImageCard(image, index) {
     imageCard.setAttribute('data-index', index);
     imageCard.setAttribute('data-image-id', image.id || index);
 
+    // Pinterest discovery attributes
+    imageCard.setAttribute('data-pin-description', image.description || image.alt);
+    imageCard.setAttribute('data-pin-media', image.src);
+    imageCard.setAttribute('data-pin-url', window.location.href);
+
+    // Schema.org Product & Offer (for Google Shopping discovery)
+    imageCard.setAttribute('itemscope', '');
+    imageCard.setAttribute('itemtype', 'http://schema.org/Product');
+
     imageCard.innerHTML = `
-        <img data-src="${image.src}" alt="${image.alt}" loading="lazy" class="lazy">
+        <div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+            <img data-src="${image.src}" 
+                 alt="${image.alt}" 
+                 itemprop="contentUrl"
+                 loading="lazy" 
+                 class="lazy">
+            <meta itemprop="url" content="${image.src}">
+        </div>
         <div class="image-overlay">
             <div class="image-actions">
                 <button class="action-btn like-btn magnetic" 
@@ -281,6 +297,16 @@ function createImageCard(image, index) {
                     <i class="fas fa-download"></i>
                 </button>
             </div>
+        </div>
+        <meta itemprop="name" content="${image.title || image.alt}">
+        <meta itemprop="description" content="${image.description || image.alt}">
+        
+        <!-- Offers Schema for Google Shopping Discovery -->
+        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <meta itemprop="price" content="${image.price || '0.00'}">
+            <meta itemprop="priceCurrency" content="${image.currency || 'INR'}">
+            <meta itemprop="availability" content="https://schema.org/InStock">
+            <meta itemprop="url" content="${window.location.href}">
         </div>
     `;
 
