@@ -204,5 +204,54 @@
                 ]
             }
         ]
+    },
+    "returns": {
+        "title": "Vrindopnishad Returns & Refunds",
+        "lastModified": "January 31, 2026",
+        "sections": [
+            {
+                "id": "return-overview",
+                "title": "Overview",
+                "items": [
+                    {
+                        "type": "text",
+                        "content": "Thank you for supporting Chitra Vrinda and Vrindopnishad. We strive to provide the highest quality divine art and spiritual experiences."
+                    }
+                ]
+            },
+            {
+                "id": "return-policy",
+                "title": "Standard Return Policy",
+                "items": [
+                    {
+                        "type": "text",
+                        "content": "We accept returns for products that are defective or damaged upon arrival. For non-defective products, we offer a 30-day return window from the date of purchase."
+                    },
+                    {
+                        "type": "list",
+                        "content": [
+                            "Returns must be initiated within 30 days of receiving your item.",
+                            "Items must be in the same condition as received.",
+                            "Exchanges are available for defective or incorrectly shipped items.",
+                            "Digital downloads are generally non-refundable once the file has been accessed."
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "refund-process",
+                "title": "Refund Process",
+                "items": [
+                    {
+                        "type": "text",
+                        "content": "Once your return is received and inspected, we will send you an email to notify you of the approval or rejection of your refund."
+                    },
+                    {
+                        "type": "text",
+                        "content": "If approved, your refund will be processed, and a credit will automatically be applied to your original method of payment within a certain amount of days."
+                    }
+                ]
+            }
+        ]
     }
 }

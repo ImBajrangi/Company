@@ -584,6 +584,7 @@
             <a href="#" class="nav-link" data-type="overview">Overview</a>
             <a href="#" class="nav-link" data-type="privacy">Privacy Policy</a>
             <a href="#" class="nav-link active" data-type="terms">Terms of Service</a>
+            <a href="#" class="nav-link" data-type="returns">Returns & Refunds</a>
             <a href="#" class="nav-link" data-type="technologies">Technologies</a>
             <a href="#" class="nav-link" data-type="faq">FAQ</a>
         </div>
@@ -872,8 +873,10 @@
             });
         });
 
-        // Initialize
-        loadPolicy('terms');
+        // Initialize with URL parameter support
+        const urlParams = new URLSearchParams(window.location.search);
+        const policyType = urlParams.get('type') || 'terms';
+        loadPolicy(policyType);
     </script>
 </body>
 
