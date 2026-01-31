@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+  <channel>
+    <title>Chitra Vrinda - Vrindopnishad</title>
+    <link>https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html</link>
+    <description>Divine spiritual art and photography from Vrindavan.</description>
+    
+    <!-- Product 1 -->
+    <item>
+      <g:id>1</g:id>
+      <g:title>Beautiful Anime Scene</g:title>
+      <g:description>A stunning anime landscape with vibrant colors from the Chitra Vrinda collection.</g:description>
+      <g:link>https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html?id=1</g:link>
+      <g:image_link>https://i.postimg.cc/y6nMpbfG/1.avif</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 INR</g:price>
+      <g:brand>Vrindopnishad</g:brand>
+      <g:google_product_category>Arts &amp; Entertainment &gt; Hobbies &gt; Creative Arts &gt; Visual Arts</g:google_product_category>
+    </item>
+
+    <!-- Product 2 -->
+    <item>
+      <g:id>2</g:id>
+      <g:title>Shri Rasik Bihari Ji</g:title>
+      <g:description>Divine spiritual artwork of Shri Rasik Bihari Ji from Vrindavan.</g:description>
+      <g:link>https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html?id=2</g:link>
+      <g:image_link>https://i.postimg.cc/D0CRWSJh/2.avif</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 INR</g:price>
+      <g:brand>Vrindopnishad</g:brand>
+      <g:google_product_category>Arts &amp; Entertainment &gt; Hobbies &gt; Creative Arts &gt; Visual Arts</g:google_product_category>
+    </item>
+
+    <!-- Product 3 -->
+    <item>
+      <g:id>3</g:id>
+      <g:title>Anime Character</g:title>
+      <g:description>Beautiful anime character illustration from the Chitra Vrinda collection.</g:description>
+      <g:link>https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html?id=3</g:link>
+      <g:image_link>https://i.postimg.cc/ncz6yGgh/3.avif</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 INR</g:price>
+      <g:brand>Vrindopnishad</g:brand>
+    </item>
+
+    <!-- Product 4 -->
+    <item>
+      <g:id>4</g:id>
+      <g:title>Scenic Landscape</g:title>
+      <g:description>Breathtaking natural landscape view from Vrindavan heritage areas.</g:description>
+      <g:link>https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html?id=4</g:link>
+      <g:image_link>https://i.postimg.cc/d3Qzt20n/4.avif</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 INR</g:price>
+      <g:brand>Vrindopnishad</g:brand>
+    </item>
+
+    <!-- Product 5 -->
+    <item>
+      <g:id>5</g:id>
+      <g:title>Anime Art</g:title>
+      <g:description>Colorful anime artwork showcasing divine themes.</g:description>
+      <g:link>https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html?id=5</g:link>
+      <g:image_link>https://i.postimg.cc/wjYQX6XY/5.avif</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 INR</g:price>
+      <g:brand>Vrindopnishad</g:brand>
+    </item>
+
+  </channel>
+</rss>
