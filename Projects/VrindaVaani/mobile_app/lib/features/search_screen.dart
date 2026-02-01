@@ -7,6 +7,7 @@ import '../core/theme.dart';
 import '../core/providers.dart';
 import '../core/localization.dart';
 import '../core/content_provider.dart';
+import '../services/hit_soochi_service.dart';
 import 'content_detail_screen.dart';
 import 'category_screen.dart';
 
@@ -19,8 +20,12 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final HitSoochiService _hitSoochi = HitSoochiService();
   String _searchQuery = '';
   bool _isSearching = false;
+  RecommendationResponse? _recommendation;
+  List<SacredContent> _rankedContent = [];
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -35,23 +40,28 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final l = AppLocalization(currentLanguage);
     final isDark = AppTheme.isDark(context);
 
-    // Filter content based on search
-    final filteredContent = _searchQuery.isEmpty
-        ? <SacredContent>[]
-        : allContent
-              .where(
-                (item) =>
-                    item.title.toLowerCase().contains(
-                      _searchQuery.toLowerCase(),
-                    ) ||
-                    item.translation.toLowerCase().contains(
-                      _searchQuery.toLowerCase(),
-                    ) ||
-                    item.category.toLowerCase().contains(
-                      _searchQuery.toLowerCase(),
-                    ),
-              )
-              .toList();
+    // Use enhanced search results if available, otherwise filter normally
+    List<SacredContent> filteredContent;
+    if (_rankedContent.isNotEmpty && _searchQuery.isNotEmpty) {
+      filteredContent = _rankedContent;
+    } else {
+      filteredContent = _searchQuery.isEmpty
+          ? <SacredContent>[]
+          : allContent
+                .where(
+                  (item) =>
+                      item.title.toLowerCase().contains(
+                        _searchQuery.toLowerCase(),
+                      ) ||
+                      item.translation.toLowerCase().contains(
+                        _searchQuery.toLowerCase(),
+                      ) ||
+                      item.category.toLowerCase().contains(
+                        _searchQuery.toLowerCase(),
+                      ),
+                )
+                .toList();
+    }
 
     return Scaffold(
       backgroundColor: isDark
@@ -157,6 +167,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           _searchQuery = value;
                           _isSearching = value.isNotEmpty;
                         });
+                        _performEnhancedSearch(value, allContent);
                       },
                     ),
                   ),
@@ -326,6 +337,143 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
           // Bottom padding
           const SliverToBoxAdapter(child: SizedBox(height: 100)),
+        ],
+      ),
+    );
+  }
+
+  /// Performs enhanced search using HitSoochi for semantic ranking
+  Future<void> _performEnhancedSearch(
+    String query,
+    List<SacredContent> allContent,
+  ) async {
+    if (query.trim().length < 2) {
+      setState(() {
+        _rankedContent = [];
+        _recommendation = null;
+      });
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Get recommendations and optimization in parallel
+      final futures = await Future.wait([
+        _hitSoochi.getRecommendations(query),
+        _hitSoochi.rankResults(
+          query,
+          allContent
+              .map(
+                (c) => {
+                  'title': c.title,
+                  'description': c.translation,
+                  'category': c.category,
+                },
+              )
+              .toList(),
+        ),
+      ]);
+
+      final recommendation = futures[0] as RecommendationResponse?;
+      final rankedItems = futures[1] as List<RankedItem>;
+
+      if (rankedItems.isNotEmpty) {
+        // Create score map
+        final scoreMap = <String, double>{};
+        for (final item in rankedItems) {
+          if (item.title != null) {
+            scoreMap[item.title!] = item.relevanceScore;
+          }
+        }
+
+        // Sort content by relevance score
+        final ranked = allContent.where((item) {
+          final queryLower = query.toLowerCase();
+          return item.title.toLowerCase().contains(queryLower) ||
+              item.translation.toLowerCase().contains(queryLower) ||
+              item.category.toLowerCase().contains(queryLower);
+        }).toList();
+
+        ranked.sort((a, b) {
+          final scoreA = scoreMap[a.title] ?? 0.0;
+          final scoreB = scoreMap[b.title] ?? 0.0;
+          return scoreB.compareTo(scoreA);
+        });
+
+        setState(() {
+          _rankedContent = ranked;
+          _recommendation = recommendation;
+        });
+      }
+    } catch (e) {
+      print('Enhanced search failed: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  /// Builds recommendation card based on detected intent
+  Widget _buildRecommendationCard(BuildContext context, bool isDark) {
+    if (_recommendation == null) return const SizedBox();
+
+    final primary = _recommendation!.primaryRecommendation;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: isDark
+              ? [const Color(0xFF2D1B4E), const Color(0xFF1A1A2E)]
+              : [const Color(0xFFFEF3C7), const Color(0xFFFBD38D)],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          Text(primary.icon, style: const TextStyle(fontSize: 28)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Try ${primary.service}',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: AppTheme.textPrimary(context),
+                  ),
+                ),
+                Text(
+                  primary.description,
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: AppTheme.textMuted(context),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              primary.cta,
+              style: GoogleFonts.outfit(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );
