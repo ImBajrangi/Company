@@ -17,7 +17,6 @@ build/
 Projects/CustomerAssistantBot/model_output/
 Projects/CustomerAssistantBot/*.zip
 vrindaBot/
-*.apk
 
 # Flutter
 *.apk
