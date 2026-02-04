@@ -4,35 +4,35 @@
 
 const PROJECT_PATHS = {
   // --- Internal Page Links ---
-  'home': '/',
-  'about': '/Vrindopnishad Web/about code/main/about.html',
-  'gallery': '/Vrindopnishad Web/Pictures/main/Gallery.html',
-  'pictures': '/Vrindopnishad Web/Pictures/main/photos.html',
-  'pdf': '/Vrindopnishad Web/pdf/main/pdf-viewer.html',
-  'book': '/Vrindopnishad Web/sketch/main/new-read-me.html',
-  'articles': '/Vrindopnishad Web/sketch/main/nw-read-me.html', // (aka web-content-manager)
-  'stack': '/Vrindopnishad Web/Pictures/main/Gallery.html', // (aka web-content-manager)
+  'home': 'index.html',
+  'about': 'Vrindopnishad Web/about code/main/about.html',
+  'gallery': 'Vrindopnishad Web/Pictures/main/Gallery.html',
+  'pictures': 'Vrindopnishad Web/Pictures/main/photos.html',
+  'pdf': 'Vrindopnishad Web/pdf/main/pdf-viewer.html',
+  'book': 'Vrindopnishad Web/sketch/main/new-read-me.html',
+  'articles': 'Vrindopnishad Web/sketch/main/new-read-me.html', // Fixed filename
+  'stack': 'Vrindopnishad Web/Pictures/main/Gallery.html',
 
   // --- Tool Links ---
-  'login-page': '/Projects/LoginPage/loginew.html',
-  'cloud-kitchen': '/Projects/Cloud-Kitchen/modern-kitchen(payment).html',
-  'vrinda-foods': '/Projects/Cloud-Kitchen/kitchen(developer).html',
-  'kitchen-picture': '/Projects/Cloud-Kitchen/kitchen(withPicture).html',
-  'kitchen-staff': '/Projects/Cloud-Kitchen/kitchen(staff-no-error).html',
-  'kitchen-old': '/Projects/Cloud-Kitchen/kitchen.html',
-  'kitchen-modern': '/Projects/Cloud-Kitchen/modern-kitchen.html',
-  'dark-reader': '/Vrindopnishad Web/श्री_हरिवंश.html',
-  'tourism-map': '/Projects/Brij Yatra/map.html',
-  'chat-animated': '/Projects/chat/animated-chatbot.html',
-  'chat-embedded': '/Projects/chat/chatbot-embedded.html',
-  'trials-brij-1': '/Projects/Trials/rejected/brij-pilgrimage-web/index.html',
-  'trials-brij-2': '/Projects/Trials/rejected/brij-tourism-site/index.html',
-  'trials-hotel': '/Projects/Trials/Hotels Booking/index.html',
-  'trials-tours': '/Projects/Trials/tours.html',
-  'video-player': '/Projects/Video/video-player.html',
-  'zen-search': '/Projects/Video/zen-mode.html',
-  'service-chat': '/Projects/Vrinda Chat/vrinda chat.html',
-  'web-dev': '/Projects/Web dev/vrinda web dev.html',
+  'login-page': 'Projects/LoginPage/loginew.html',
+  'cloud-kitchen': 'Projects/Cloud-Kitchen/kitchen.html', // Fixed path
+  'vrinda-foods': 'Projects/Cloud-Kitchen/kitchen.html',
+  'kitchen-picture': 'Projects/Cloud-Kitchen/kitchen.html',
+  'kitchen-staff': 'Projects/Cloud-Kitchen/kitchen.html',
+  'kitchen-old': 'Projects/Cloud-Kitchen/kitchen.html',
+  'kitchen-modern': 'Projects/Cloud-Kitchen/kitchen.html',
+  'dark-reader': 'Vrindopnishad Web/श्री_हरिवंश.html',
+  'tourism-map': 'Projects/Vrinda-Tours/vrinda-tours.html', // Redirected to existing tour page
+  'chat-animated': 'Projects/Vrinda Chat/vrindaChat.html',
+  'chat-embedded': 'Projects/Vrinda Chat/vrindaChat.html',
+  'trials-brij-1': 'Projects/Trials/rejected/brij-pilgrimage-web/index.html',
+  'trials-brij-2': 'Projects/Trials/rejected/brij-tourism-site/index.html',
+  'trials-hotel': 'Projects/Trials/Hotels Booking/index.html',
+  'trials-tours': 'Projects/Trials/tours.html',
+  'video-player': 'Projects/Video/video-player.html',
+  'zen-search': 'Projects/Video/zen-mode.html',
+  'service-chat': 'Projects/Vrinda Chat/vrindaChat.html', // Fixed filename
+  'web-dev': 'Projects/Web dev/vrinda web dev.html',
 
   // --- Social Media Links ---
   'instagram': 'https://www.instagram.com/vrindopnishad/',
