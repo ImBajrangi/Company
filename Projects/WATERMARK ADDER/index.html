@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermark Pro | Add Logos & Text with Precision</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700&family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&family=Pacifico&family=Bungee&family=Roboto+Mono&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-area">
+                <span class="gradient-text">Watermark Pro</span>
+            </div>
+            <div class="header-actions">
+                <label for="theme-toggle" class="switch">
+                    <input type="checkbox" id="theme-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </header>
+
+        <main>
+            <section class="controls-panel card">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="images">1. Pictures</button>
+                    <button class="tab-btn" data-tab="watermark">2. Watermark</button>
+                    <button class="tab-btn" data-tab="export">3. Export</button>
+                </div>
+
+                <div class="tab-content active" id="images">
+                    <div class="upload-zone" id="pic-upload-zone">
+                        <input type="file" id="pic-input" multiple accept="image/*" hidden>
+                        <div class="upload-content">
+                            <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <p>Drag & drop pictures or <span>browse</span></p>
+                        </div>
+                    </div>
+                    <div class="file-list-container">
+                        <p class="section-title">Batch List (<span id="pic-count">0</span>)</p>
+                        <ul id="file-list" class="file-list"></ul>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="watermark">
+                    <!-- Logo Config -->
+                    <div class="wm-config-section">
+                        <p class="section-title">Logo Watermark</p>
+                        <div class="setting-group" id="logo-setting">
+                            <label>Logo File</label>
+                            <div class="upload-zone-compact" id="logo-upload-zone">
+                                <input type="file" id="logo-input" accept="image/*" hidden>
+                                <p>Click to select logo</p>
+                            </div>
+                            <div id="logo-preview-container" class="hidden">
+                                <img id="logo-thumb" src="" alt="logo preview">
+                                <button id="remove-logo" class="btn-clear text-red">&times;</button>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>Logo Position</label>
+                            <div class="position-grid" id="logo-pos-grid">
+                                <button class="pos-btn" data-pos="tl">TL</button>
+                                <button class="pos-btn" data-pos="tc">TC</button>
+                                <button class="pos-btn" data-pos="tr">TR</button>
+                                <button class="pos-btn" data-pos="ml">ML</button>
+                                <button class="pos-btn active" data-pos="cc">CC</button>
+                                <button class="pos-btn" data-pos="mr">MR</button>
+                                <button class="pos-btn" data-pos="bl">BL</button>
+                                <button class="pos-btn" data-pos="bc">BC</button>
+                                <button class="pos-btn" data-pos="br">BR</button>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="setting-group">
+                                <div class="label-row"><label>Size</label> <span id="logo-size-val">20%</span></div>
+                                <input type="range" id="logo-size" min="5" max="100" value="20">
+                            </div>
+                            <div class="setting-group">
+                                <div class="label-row"><label>Opacity</label> <span id="logo-opacity-val">0.8</span>
+                                </div>
+                                <input type="range" id="logo-opacity" min="0.1" max="1" step="0.1" value="0.8">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <!-- Text Config -->
+                    <div class="wm-config-section">
+                        <p class="section-title">Text Watermark</p>
+                        <div class="setting-group" id="text-setting">
+                            <label>Watermark Text</label>
+                            <input type="text" id="wm-text" placeholder="Enter text...">
+                            <div class="sub-settings mt-2">
+                                <input type="color" id="wm-color" value="#ffffff">
+                                <select id="wm-font">
+                                    <option value="Outfit">Outfit (Clean)</option>
+                                    <option value="Playfair Display">Playfair (Elegant)</option>
+                                    <option value="Montserrat">Montserrat (Modern)</option>
+                                    <option value="Dancing Script">Dancing Script (Script)</option>
+                                    <option value="Caveat">Caveat (Handwritten)</option>
+                                    <option value="Pacifico">Pacifico (Fun)</option>
+                                    <option value="Bungee">Bungee (Bold)</option>
+                                    <option value="Roboto Mono">Mono (Tech)</option>
+                                    <option value="Arial">Arial</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Times New Roman">Serif</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>Text Position</label>
+                            <div class="position-grid" id="text-pos-grid">
+                                <button class="pos-btn" data-pos="tl">TL</button>
+                                <button class="pos-btn" data-pos="tc">TC</button>
+                                <button class="pos-btn" data-pos="tr">TR</button>
+                                <button class="pos-btn" data-pos="ml">ML</button>
+                                <button class="pos-btn" data-pos="cc">CC</button>
+                                <button class="pos-btn" data-pos="mr">MR</button>
+                                <button class="pos-btn" data-pos="bl">BL</button>
+                                <button class="pos-btn" data-pos="bc">BC</button>
+                                <button class="pos-btn active" data-pos="br">BR</button>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="setting-group">
+                                <div class="label-row"><label>Size</label> <span id="text-size-val">10%</span></div>
+                                <input type="range" id="text-size" min="1" max="50" value="10">
+                            </div>
+                            <div class="setting-group">
+                                <div class="label-row"><label>Opacity</label> <span id="text-opacity-val">0.8</span>
+                                </div>
+                                <input type="range" id="text-opacity" min="0.1" max="1" step="0.1" value="0.8">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="export">
+                    <div class="export-actions">
+                        <button id="process-btn" class="btn-primary">Process All Images</button>
+                        <div class="progress-container hidden" id="progress-container">
+                            <div class="progress-bar" id="progress-bar"></div>
+                            <span id="progress-text">0%</span>
+                        </div>
+                        <button id="download-zip" class="btn-secondary hidden">Download ZIP</button>
+                    </div>
+                    <div class="output-preview-gallery">
+                        <p class="section-title">Processed Results</p>
+                        <div id="results-grid" class="results-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="preview-panel card">
+                <div class="preview-header">
+                    <p class="section-title">Live Preview</p>
+                    <span id="preview-filename">No image selected</span>
+                </div>
+                <div class="preview-canvas-container">
+                    <canvas id="preview-canvas"></canvas>
+                    <div id="no-preview" class="no-preview-msg">
+                        <p>Upload a picture to see live changes</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
