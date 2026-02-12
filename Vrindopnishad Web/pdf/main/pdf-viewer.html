@@ -3,28 +3,26 @@
 
 <head>
     <!-- Modern Rounded Vrindopnishad Favicon -->
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="../../class/favicon-vrindopnishad/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../class/favicon-vrindopnishad/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../class/favicon-vrindopnishad/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../class/favicon-vrindopnishad/apple-touch-icon.png">
+    <link rel="manifest" href="../../class/favicon-vrindopnishad/site.webmanifest">
+    <link rel="mask-icon" href="../../class/favicon-vrindopnishad/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="icon" type="image/svg+xml" href="../../class/favicon-vrindopnishad/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PDF Viewer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/Vrindopnishad Web/pdf/css/pdf-viewer.css?v=1.4">
-    <script src="/Vrindopnishad Web/pdf/libs/pdf.min.js"></script>
-    <script src="/Vrindopnishad Web/pdf/js/three.min.js"></script>
+    <link rel="stylesheet" href="../css/pdf-viewer.css?v=1.4">
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/Vrindopnishad Web/pdf/libs/pdf.worker.min.js';
+        // PDF.js worker configuration will be handled in pdf-viewer.js
     </script>
 </head>
 
 <body class="dark-theme">
     <!-- Vrindopnishad Random Loader -->
-    <script src="/Vrindopnishad Web/web-extentions/loader/random-loader.js"></script>
+    <!-- <script src="../../web-extentions/loader/random-loader.js"></script> -->
 
     <div class="particles-background" id="particles-background"></div>
     <div class="constellation-lines" id="space-background"></div>
@@ -133,10 +131,10 @@
         </button>
     </div>
 
-    <div class="loader" id="loader">
-        <div class="loader-content">
+    <div class="pdf-viewer-loader" id="loader">
+        <div class="pdf-viewer-loader-content">
             <div class="spinner"></div>
-            <div class="loader-text">Loading PDF...</div>
+            <div class="pdf-viewer-loader-text">Loading PDF...</div>
         </div>
     </div>
 
@@ -157,58 +155,12 @@
         </div>
     </div>
 
-    <script src="/Vrindopnishad Web/pdf/js/pdf-viewer.js"></script>
-
-    <!-- Books Data Loading Script -->
-    <script>
-        // Load books data from JSON
-        async function loadBooksData() {
-            try {
-                const response = await fetch('/Vrindopnishad Web/class/json/books-data.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load books data');
-                }
-                const data = await response.json();
-                return data.books;
-            } catch (error) {
-                console.error('Error loading books:', error);
-                return [];
-            }
-        }
-
-        // Get PDF path from book ID
-        function getPdfPathFromId(books, bookId) {
-            const book = books.find(b => b.id === parseInt(bookId));
-            if (book && book.format.includes('pdf')) {
-                return `../pdfs/${book.title.toLowerCase().replace(/\s+/g, '-')}.pdf`;
-            }
-            return null;
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', async () => {
-            const books = await loadBooksData();
-
-            // Get book ID from URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const bookId = urlParams.get('book');
-
-            if (bookId && books.length > 0) {
-                const pdfPath = getPdfPathFromId(books, bookId);
-                if (pdfPath) {
-                    // Update file name display
-                    const fileNameElement = document.getElementById('file-name');
-                    const book = books.find(b => b.id === parseInt(bookId));
-                    if (fileNameElement && book) {
-                        fileNameElement.textContent = book.title;
-                    }
-
-                    // Load the PDF
-                    loadPdf(pdfPath);
-                }
-            }
-        });
-    </script>
+    <!-- PDF.js core library -->
+    <script src="../libs/pdf.min.js"></script>
+    <!-- Three.js for space background -->
+    <script src="../js/three.min.js"></script>
+    <!-- Application logic -->
+    <script src="../js/pdf-viewer.js"></script>
 </body>
 
 </html>
