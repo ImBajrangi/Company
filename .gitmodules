@@ -13,3 +13,6 @@
 [submodule "Projects/Cloud-Kitchen"]
 	path = Projects/Cloud-Kitchen
 	url = https://github.com/ImBajrangi/Foody-Vrinda.git
+[submodule "Projects/padhle"]
+	path = Projects/padhle
+	url = https://github.com/ImBajrangi/Padhle.git
