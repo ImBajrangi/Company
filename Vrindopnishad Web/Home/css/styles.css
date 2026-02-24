@@ -7652,6 +7652,34 @@ footer {
 
 /* Ensure font visibility on small devices */
 @media (max-width: 768px) {
+    .hero-section {
+        padding: 6rem var(--spacing-md) 3rem;
+    }
+
+    .title-main {
+        font-size: clamp(2rem, 15vw, 4rem);
+    }
+
+    .hero-tagline p {
+        font-size: 1rem;
+    }
+
+    .hero-description p {
+        font-size: 0.85rem;
+    }
+
+    .hero-stats {
+        padding: 1rem;
+        gap: 1rem;
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+    }
+
+    .hero-stats .stat-num {
+        font-size: 1.25rem;
+    }
+
     .for-you-card h3 {
         font-size: 1.8rem;
     }
