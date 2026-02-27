@@ -56,12 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeLogoBtn = document.getElementById('remove-logo');
 
     // Tab Logic
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    const tabIndicator = document.getElementById('tab-indicator');
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach((btn, index) => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            tabs.forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
             document.getElementById(btn.dataset.tab).classList.add('active');
+            if(tabIndicator) {
+                tabIndicator.style.transform = `translateX(${index * 100}%)`;
+            }
         });
     });
 
@@ -96,10 +101,31 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
         }, false);
+        logoUploadZone.addEventListener(eventName, e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        picUploadZone.addEventListener(eventName, () => picUploadZone.classList.add('drag-active'), false);
+        logoUploadZone.addEventListener(eventName, () => logoUploadZone.classList.add('drag-active'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        picUploadZone.addEventListener(eventName, () => picUploadZone.classList.remove('drag-active'), false);
+        logoUploadZone.addEventListener(eventName, () => logoUploadZone.classList.remove('drag-active'), false);
     });
 
     picUploadZone.addEventListener('drop', (e) => {
         handleFiles(e.dataTransfer.files);
+    });
+    
+    logoUploadZone.addEventListener('drop', (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            logoInput.files = e.dataTransfer.files;
+            handleLogoUpload({ target: logoInput });
+        }
     });
 
     picInput.addEventListener('change', (e) => handleFiles(e.target.files));
