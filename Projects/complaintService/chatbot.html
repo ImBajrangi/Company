@@ -57,6 +57,17 @@
             background-position: right 1rem center;
             background-size: 1.5em 1.5em;
         }
+
+        /* Style for clickable links in chat */
+        #chat-history a {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #chat-history a:hover {
+            opacity: 0.8;
+            text-decoration-thickness: 2px;
+        }
     </style>
 </head>
 
@@ -354,6 +365,28 @@
             // Convert *emphasis* to <em>emphasis</em>
             renderedText = renderedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
+            // Convert [text](url) to clickable links (Non-greedy match)
+            renderedText = renderedText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-indigo-600 font-bold hover:underline decoration-2 underline-offset-2">$1</a>');
+
+            // Auto-link plain URLs without double-wrapping
+            // 1. Temporarily extract all existing <a> tags to avoid double-processing
+            const placeholders = [];
+            renderedText = renderedText.replace(/<a [^>]*>.*?<\/a>/g, function (match) {
+                placeholders.push(match);
+                return '___LINK_PLACEHOLDER_' + (placeholders.length - 1) + '___';
+            });
+
+            // 2. Wrap remaining plain URLs
+            const urlPattern = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            renderedText = renderedText.replace(urlPattern, function (url) {
+                return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="text-indigo-600 font-bold hover:underline decoration-2 underline-offset-2">' + url + '</a>';
+            });
+
+            // 3. Restore placeholders
+            renderedText = renderedText.replace(/___LINK_PLACEHOLDER_(\d+)___/g, function (match, index) {
+                return placeholders[index];
+            });
+
             messageBubble.innerHTML = renderedText;
             messageWrapper.appendChild(messageBubble);
 
@@ -514,17 +547,39 @@ I have logged these details. To start, could you please provide a specific order
             };
 
             try {
-                // IMPORTANT: Call fetchWithBackoff with useGrounding set to false 
-                const result = await fetchWithBackoff(payload, 1, false);
-                const { text } = parseResponse(result);
+                // MODIFIED: Fetching from local Sakha Assistant Backend
+                const response = await fetch('http://localhost:8000/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: userQuery,
+                        history: chatHistory.map(item => ({
+                            role: item.role === 'user' ? 'user' : 'model',
+                            content: item.parts[0].text
+                        }))
+                    })
+                });
 
-                appendMessage(text, 'bot'); // No sources expected since grounding is off
+                if (!response.ok) throw new Error('Backend failed');
+                const data = await response.json();
+                const text = data.response;
+                const navigate = data.navigate;
 
+                appendMessage(text, 'bot');
+
+                // If navigation URL is provided, redirect after a short delay
+                if (navigate) {
+                    setTimeout(() => {
+                        window.location.href = navigate;
+                    }, 2500);
+                }
+
+                // Keep local history
                 chatHistory.push({ role: "model", parts: [{ text: text }] });
 
             } catch (error) {
                 console.error("Chatbot operation failed:", error);
-                appendMessage("I apologize, but I am currently experiencing technical difficulties. This conversation may need to be escalated to a human agent.", 'bot');
+                appendMessage("Radhe Radhe! I am currently having trouble connecting to my spiritual knowledge base. Please try again in a moment.", 'bot');
             } finally {
                 // Re-enable input and hide loading
                 userInput.disabled = false;
