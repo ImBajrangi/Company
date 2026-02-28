@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Archive Grid - Deep Void</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void": "#050505",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#404040",
+                        "border-void": "#1A1A1A",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+        .noise-overlay {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+            opacity: 0.04;
+        }
+        .grid-cell-overlay {
+            background: linear-gradient(180deg, rgba(5,5,5,0) 60%, rgba(5,5,5,0.8) 100%);
+        }
+        .scanner-line {
+            height: 1px;
+            background: rgba(240, 66, 66, 0.2);
+            box-shadow: 0 0 8px rgba(240, 66, 66, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-void text-text-main font-mono antialiased overflow-hidden selection:bg-primary selection:text-white">
+<div class="fixed inset-0 pointer-events-none noise-overlay z-50"></div>
+<div class="relative mx-auto h-screen w-full max-w-[430px] border-x border-border-void bg-void flex flex-col shadow-2xl overflow-hidden">
+<header class="shrink-0 z-40 p-4 border-b border-border-void bg-void/90 backdrop-blur-md flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[8px] text-primary tracking-[0.3em] font-bold uppercase mb-1">Live Feed // Active</span>
+<h1 class="text-lg font-bold tracking-tighter uppercase leading-none">The Archive Grid</h1>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] text-text-muted uppercase">Sectors: 124</span>
+<span class="text-[10px] text-text-muted uppercase font-bold">Latency: 12ms</span>
+</div>
+</header>
+<div class="shrink-0 bg-void z-40 flex items-center justify-between px-4 py-2 border-b border-border-void overflow-x-auto scrollbar-hide whitespace-nowrap gap-6 text-[9px] tracking-widest text-text-muted uppercase">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+<span>Signal Locked</span>
+</div>
+<span>Bit-Depth: 32pt</span>
+<span>Entropy: 0.992</span>
+<span>Void_Link: Est.</span>
+</div>
+<main class="flex-1 overflow-y-auto scrollbar-hide">
+<div class="grid grid-cols-3 w-full gap-[1px] bg-border-void">
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf5mCcEpWCkNAH9LuOp6uEt9WR4NU07fz6F0N9R-tRIO9QzBEbheABlrME8Lb1ndPJuY7qs3zkP22p6oOAL_Lr6nrVpBH-wz_vXE1Af1LOQyKEcnwlHQLeCX_TMTXPwEqoU387H_I7bqKZ4e4Kf_yYARdd07UIJGj40E3CWPdHY-D5JsmmU6RVtoZlDQvADycKCLdCvah8uEgNTahil2jmIG-PI4s61TKhdYya_dE_kJUcKgkqovurE6ndcUgKIfZYCBsOARpxDGY"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_001</span>
+<span class="absolute bottom-1 right-1 text-[7px] text-primary hidden group-hover:block uppercase tracking-tighter">Rec_Ready</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq6JC_Ljrkgnn94J_LF3_CEk7A-ZxXAlsgGYs-VRP8XRH3usUQ9QTBwTS2efyWdQSqkaMVSzsSkYh7WIYBT6wbGyy3k_9POlawDAithkjK4i64pQrFAoN-hWr-eH9M5PrqFXTK1PFepBX_Tq5FZq8of-i8LePAHlb92XwqZ5xf-YGk-6gCVu3YKfzkBa5SH2jYy2TXGAu8HIxSSyPrT85F7V5Th5Dd5_MJ66s06VY4pJLRJEeoZIKpI7pwbjNfR3Z5hT5JhjrHHhg"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_002</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzT_FwNs4HAMVMjo5GPuVhL1WS9UEPWNn0oAxN5wNxagjWGibzcUMWQ6m77LIWmhqcov0KjFBaKX2sSwhmR6toFGVcKcd2JhNDq_0LrvAJ9rMMPMHGACXw2IZZdbBfdT8XpIiC1RWPP-aRcku4JuoPCmqpuS1GPYMfIkGvZdDD-4zmtqjKo4lXZIaOBdWRQi39On93FcSBeEK4ClaEPYoEbVzRkQptqhIJIifiO0V92YqJuYqlS07AeTTPBrGkAaP5oOp_L9Ub8SA"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_003</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Cp6nHN_RMsPiu4bCUJm9f48kDtWcUezUwsv72ZuHQXYiDxRRer5vq2t9TAC9bqFUF3VSTBVewmwmtykHB4YU2P_Rt5k28xgLxH6MoYGPpOxGNvub-4SHKJ40j7aQ_JUEP8mM_Xlzz3jDJ8uBOeHoGrHUIhEUnnGMq5rb--dHl2J6hbAsWFA_qkvj0WbjHWzp0YjKTPgpp4MF7_YbKWtAza6GttUhdf-2rDDbkR9bYMkDpI5OvKYmRwU8w-pEyduL9DHq6Gyb4r0"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_004</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden ring-1 ring-primary/40 z-10">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-90 contrast-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSujXI7_8inc2KCwQSlqZKTmyjm3Me46VA7yVGov8AmIIo4gxOKO9l9zw7xDiVqs0XpFrwGuQwzRUU3gAXStwWciwPQy5qn3mG3HAE0XtRNjyx0lyh7S5-OXa81NHgPb6pZDLFYsImOgbJcQd_R5quwSZdUeXQJNjQXgLLL1ZhKrhSv4SPBPGZmQ9CSDeCJFzA2TaSFQT8kSa6Azn3Y7h19FcTVIVBoDupn8xRc6mifZ2nf3TcVV3qlevtry_aXzcrkMHeQjsWOYA"/>
+<div class="absolute inset-0 scanner-line top-1/2"></div>
+<div class="absolute inset-0 bg-primary/5"></div>
+<span class="absolute top-1 left-1 text-[8px] text-primary font-bold bg-black px-1">TS_005</span>
+<span class="absolute bottom-1 right-1 text-[7px] text-primary font-bold animate-pulse">ANALYZING</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNXM0b6iMrAaZwA69ARqUUZKJ-XEdDsyBq96N7c6HqjdpKxjcN02LAG_jbZ_OzgZQV76EdKzoagpkEYWXMqEFAohZGIB0uzd_-GbciuzZNgYd9O8b9WgpgL8q-whlXd0b5VSI__2FkJYSFv1eLqJVjVBFPkic7wJx39-pGOLeReBvYpnSg47Lc_2Eo_-gBpepDk-xHwtUgRX3wy1ito8Jh0u-gubEl-8ruvl9Yc8XleffKfEeHhw5cINSISnAlZObTz7B5uylW_d4"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_006</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyDYVUUIrMWmfP67CI8EBIqtaOiPr0uKxji3rXH9CW34TiV_nhKgtCJx1-ooVZ0HC6DJ8ajPL4bj__YgLDW3JvdLiLA8pHfzuzK8MlghSTjlmouKeu9KE_SA_oaITzPkejGWFP46Zaa7OzIcNIi08RYwkWqj7GUpLbQZjBBU0uqQQe7iLo303fDXxjfZMTBwfEQviCAv6NCzz7NTt4wMbBYCg2tv1gLnSPwzZaU1MwbPdk7A0pByDmWMt6VCAqWzGC52yNOFgnpxM"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_007</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBA-gUx1AxB8y7eaX4-QqnbqugWSAf5ttXyqCvWuB_j4fhgBYRjxoLEeQ6XtY98xTyjFZF4CXHOC9vv1BkQZ1LXPl2ExP2hdZVndBVpd_l7DEWMBtBmwkmG5SspWrH7qytmLXHC_oSZW1420O932RuFLBe3O5xjoXgNKxDT4tLPxnxOJQSOAOO3WmSEJF2nsHEdlW0TFAioFR7ASK2TdwiKZryR9T7HmZ9AJdLaP9zmE7g2N0rGCpiBSSZ-B1lqZ3GrbV1dI-9KMY"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_008</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3L5lgWm2btGwhdQ43hDYEKU_WvZMrzu8VyCDxtI-UWxQVbKz2SzX8QKOCMO2YA1JfK5ZKwaoHIsoIH6Rqv5bDFNMQvgFEP8GXZ0lMwMja56BBIcvjm96XLhSHAbKzkuev4YaQl_C83mQK58IfRnj2q6MhMt-ZOqVElMmVNLTUaeqO5pmAPUOgIayKK81MkmEthcom0oZf3g0DgSAXmkoLbMqUrEgsiIVIzZCC2uYYDlhn3Tdq1zTouhBUsaM1DrvLybQnlKPHkFk"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_009</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden border border-white/5 flex items-center justify-center">
+<span class="text-[10px] text-text-muted italic">CORRUPT_SEG</span>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_010</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRPxlLIo_DI653eoPjKTxwR_Z6rD2fGxCpc2kug55RPW7xpNptPrboi-dKOvNi_I8PbycM2XU9LXpFS26njII_C0W5Ngu6P0T-CsRNKbZwPlNRrr2x-wGBSDurHisjeprieQzHj-YfIHVtFDqDMK9lOT27TrvF5T-7Racl6LTkctWQ9TilgR2rJd18nys3927X7CDhP8FdHeURNh3J2JjlcQfxvm_8W0ouOchmjJ9gEXhpCgvUEERhDr63MSoZESILcOiZMzDeXJI"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_011</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR82PQnivfnms_7_WwTrd9m84fnDtAjtTO07ZJMO62MyI3XGsjj-9hDQ0m7mvKf7n80iODP4MZ8V-pnLca9PUJNT_NRbFNQh6ib5Mez7NZC4zccDyZcb3ZEHargrAkG3vzuv4jDcTX0IsMVpoqzZfZbsxuoyYhWlq1iAqXL3oL1lUQlRBOlgwZQuGSB461LmEW7cltQTt1-a8NyCUQc2SiuK6lhHSU4Zi-4mNoJrcMydDGk8x3AI8ZbQkXF_lzSKAsjE1lPMz7Lgg"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_012</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden border border-white/5 flex flex-col items-center justify-center gap-1">
+<div class="w-6 h-[1px] bg-text-muted"></div>
+<div class="w-4 h-[1px] bg-text-muted"></div>
+<div class="w-6 h-[1px] bg-text-muted"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_013</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden">
+<img alt="Void Abstract" class="w-full h-full object-cover grayscale opacity-60 contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx5oxGEIyLVjgBMVmc7RkV2Y6aQMVlGI571EEiX4H4fqlPt4DyZh9Hh8UTGEhm3P6QFdUf4CNm86yuv73vkM2bCDzxJTin0deO-xotsLbUqaQIR3SdTxUqMfRGnGClnTsq-75zpu6Y-2HyGyNpxSqk_xJLXzVrwrEHIjIkcHJRyjW52Y0M6bCqLEO4dPAcioV0IX-S1f4hdnvV5w5g-MmGWw5RyvhnjpzW7fxtxCAwIX4MUBwdXkCGVEZR94Z1eAwN5mq5NJudPJY"/>
+<div class="absolute inset-0 grid-cell-overlay"></div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_014</span>
+</div>
+<div class="aspect-square relative group bg-void overflow-hidden border border-white/5">
+<div class="absolute inset-0 flex items-center justify-center opacity-10">
+<span class="material-symbols-outlined text-4xl">warning</span>
+</div>
+<span class="absolute top-1 left-1 text-[8px] text-white/40 font-bold bg-black/40 px-1">TS_015</span>
+</div>
+</div>
+</main>
+<nav class="shrink-0 bg-void border-t border-border-void p-4 z-40">
+<div class="flex justify-between items-center mb-4">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">grid_view</span>
+<span class="text-[8px] text-text-muted tracking-widest uppercase">Index</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-primary">sensors</span>
+<span class="text-[8px] text-primary tracking-widest uppercase">Live</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">terminal</span>
+<span class="text-[8px] text-text-muted tracking-widest uppercase">Console</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary transition-colors">settings_input_component</span>
+<span class="text-[8px] text-text-muted tracking-widest uppercase">Filter</span>
+</button>
+</div>
+<div class="flex items-center gap-4 bg-[#0A0A0A] p-2 border border-border-void">
+<div class="flex-1 h-1 bg-border-void relative">
+<div class="absolute left-0 top-0 h-full w-[65%] bg-primary"></div>
+</div>
+<span class="text-[9px] text-text-muted font-mono whitespace-nowrap">BUFFER: 65%</span>
+</div>
+</nav>
+<footer class="shrink-0 bg-void px-4 pb-4 pt-0 text-[7px] text-text-muted uppercase tracking-[0.2em] flex justify-between">
+<span>Core_Hash: 0x8F2...A9</span>
+<span>Uptime: 432:12:08</span>
+</footer>
+</div>
+<aside class="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-8 pointer-events-none opacity-20">
+<div class="rotate-90 origin-right whitespace-nowrap text-[10px] tracking-[1em] uppercase">
+            Mobile Interface Virtualization
+        </div>
+<div class="h-64 w-px bg-border-void mx-auto"></div>
+<div class="rotate-90 origin-right whitespace-nowrap text-[10px] tracking-[1em] uppercase">
+            Deep Void Protocol
+        </div>
+</aside>
+
+</body></html>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from './components/Layout'
 import TheFeed from './components/TheFeed'
 import TheVoid from './components/TheVoid'
@@ -8,32 +8,77 @@ import TheHierarchy from './components/TheHierarchy'
 import TheArchiveGrid from './components/TheArchiveGrid'
 import TheStratification from './components/TheStratification'
 import TheDossier from './components/TheDossier'
+import TheNexus from './components/TheNexus'
+import TheNexusMobile from './components/TheNexusMobile'
+import TheSignal from './components/TheSignal'
+import TheSplash from './components/TheSplash'
+import { useMobile } from './hooks/useMobile'
+import { supabase } from './lib/supabase'
 
 function App() {
-  const [activeTab, setActiveTab] = useState('feed')
+  const isMobile = useMobile()
+  const [showSplash, setShowSplash] = useState(true)
+  const [activeTab, setActiveTab] = useState('nexus')
   const [selectedArticle, setSelectedArticle] = useState(null)
+  const [allEntries, setAllEntries] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSignalOpen, setIsSignalOpen] = useState(false)
+  const [systemSettings, setSystemSettings] = useState({
+    typeface: 'serif', // 'serif' or 'mono'
+    baseSize: 18,      // 14 to 32
+    immersionMode: true
+  })
 
-  // Mock data – will be replaced by real data from useData hook
-  const feedItems = [
-    { id: 1, title: "The Cold Architecture of Deep Space", source: "0x4F.2", clarity: "98.4%", date: "24.08.23", readTime: "12", author: "J. Doe", content: null },
-    { id: 2, title: "Minimalist Interfaces as a Shield Against Entropy", source: "0xA1.9", clarity: "72.1%", date: "20.08.23", readTime: "8", author: "N. Void" },
-    { id: 3, title: "Post-Digital Reading Habits", source: "0xBC.4", clarity: "100%", date: "15.08.23", readTime: "15", author: "K. Stillness" },
-    { id: 4, title: "Void Brutalism: A Manifesto", source: "0x00.0", clarity: "85.9%", date: "12.08.23", readTime: "6", author: "V. Null" },
-    { id: 5, title: "Encrypted Memories and the Permanent Web", source: "0xFE.1", clarity: "94.2%", date: "08.08.23", readTime: "22", author: "S. Archive" },
-  ]
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data, error } = await supabase
+          .from('content')
+          .select('*')
+          .order('created_at', { ascending: false });
 
-  const archiveItems = [
-    { title: "The Rot of the Internet", date: "24.10.2023", readTime: "12", isRead: false },
-    { title: "Silence as a Service", date: "22.10.2023", readTime: "08", isRead: false },
-    { title: "Digital Minimalism Guide", date: "20.10.2023", readTime: "15", isRead: false },
-    { title: "Architectural Brutalism", date: "18.10.2023", readTime: "05", isRead: false },
-    { title: "The Philosophy of Void", date: "16.10.2023", readTime: "22", isRead: false },
-    { title: "Cognitive Load in UI", date: "12.10.2023", readTime: "", isRead: true },
-  ]
+        if (error) throw error;
+        setAllEntries(data || []);
+      } catch (err) {
+        console.error('Error fetching content:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, [])
+
+  if (showSplash) {
+    return <TheSplash onEnter={() => setShowSplash(false)} />
+  }
+
+  // Map Supabase entries to app format
+  const feedItems = allEntries.map(item => ({
+    id: item.id,
+    title: item.title,
+    source: item.category?.toUpperCase() || "SYSTEM",
+    clarity: "100%",
+    date: new Date(item.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '.'),
+    readTime: "12",
+    author: item.author || "Unknown",
+    content: item.content_text || (typeof item.content === 'string' ? item.content : item.content?.content) || "",
+    category: item.category,
+    tags: item.tags || [],
+    audioUrl: item.audio_url,
+    images: item.images || []
+  }))
+
+  const archiveItems = feedItems.map(item => ({ ...item, isRead: false }));
 
   const handleArticleClick = (article) => {
-    setSelectedArticle(article)
-    setActiveTab('reader')
+    if (article.id && typeof article.id === 'string' && isNaN(parseInt(article.id))) {
+      // This is a tab switch request (e.g., 'archives', 'transmit')
+      setActiveTab(article.id)
+    } else {
+      setSelectedArticle(article)
+      setActiveTab('reader')
+    }
+    setIsSignalOpen(false)
   }
 
   const handleBackToFeed = () => {
@@ -41,51 +86,74 @@ function App() {
     setActiveTab('feed')
   }
 
+  const updateSystemSettings = (newSettings) => {
+    setSystemSettings(prev => ({ ...prev, ...newSettings }))
+  }
+
   return (
-    <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
-      {/* THE FEED – the_airlock_3 template */}
+    <Layout
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      settings={systemSettings}
+      onSignalOpen={() => setIsSignalOpen(true)}
+    >
+      {/* THE SIGNAL OVERLAY – derived from the_signal template */}
+      {isSignalOpen && (
+        <TheSignal onClose={() => setIsSignalOpen(false)} onSelection={handleArticleClick} />
+      )}
+
+      {/* THE NEXUS – the_airlock_2 / the_airlock_7 template */}
+      {activeTab === 'nexus' && (
+        isMobile ? <TheNexusMobile onItemClick={handleArticleClick} /> : <TheNexus onSignalClick={handleArticleClick} />
+      )}
+
+      {/* THE FEED – the_airlock_3 / the_airlock_15 template */}
       {activeTab === 'feed' && (
         <TheFeed items={feedItems} onItemClick={handleArticleClick} />
       )}
 
-      {/* THE VOID – the_void template (reader) */}
+      {/* THE VOID – the_vrinda template (reader) */}
       {activeTab === 'reader' && (
         <TheVoid
-          title={selectedArticle?.title || "The Architecture of Silence"}
-          author={selectedArticle?.author || "J. Doe"}
-          readTime={selectedArticle?.readTime || "12"}
-          date={selectedArticle?.date || "24.10.2023"}
+          title={selectedArticle?.title || "Transmission Unknown"}
+          author={selectedArticle?.author || "Link Restricted"}
+          readTime={selectedArticle?.readTime || "0"}
+          date={selectedArticle?.date || "00.00.00"}
           content={selectedArticle?.content}
           onBack={handleBackToFeed}
+          settings={systemSettings}
+          audioUrl={selectedArticle?.audioUrl}
+          images={selectedArticle?.images || []}
+          tags={selectedArticle?.tags || []}
         />
       )}
 
-      {/* THE ARCHIVES – the_archives template */}
+      {/* THE ARCHIVES */}
       {activeTab === 'archives' && (
         <TheArchives items={archiveItems} onItemClick={handleArticleClick} />
       )}
 
-      {/* THE TETHER – the_tether template (settings) */}
+      {/* THE TETHER (settings) */}
       {activeTab === 'settings' && (
-        <TheTether />
+        <TheTether settings={systemSettings} onUpdateSettings={updateSystemSettings} />
       )}
 
-      {/* THE HIERARCHY – the_airlock_1 template (leaderboard) */}
+      {/* THE HIERARCHY – airlock_16 / airlock_10 */}
       {activeTab === 'hierarchy' && (
         <TheHierarchy />
       )}
 
-      {/* THE ARCHIVE GRID – the_airlock_4 template (image gallery) */}
+      {/* THE ARCHIVE GRID */}
       {activeTab === 'grid' && (
         <TheArchiveGrid />
       )}
 
-      {/* THE STRATIFICATION – the_airlock_5 template (rankings) */}
+      {/* THE STRATIFICATION – airlock_5 / airlock_14 */}
       {activeTab === 'stratification' && (
         <TheStratification />
       )}
 
-      {/* THE DOSSIER – the_airlock_6 template (profile) */}
+      {/* THE DOSSIER */}
       {activeTab === 'profile' && (
         <TheDossier />
       )}

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useMobile } from '../hooks/useMobile';
+import TheHierarchyMobile from './TheHierarchyMobile';
 
 /**
- * TheHierarchy – exact clone of the_airlock_1/code.html
+ * TheHierarchy – exact clone of the_airlock_16/code.html (the_airlock_1)
  * Full-screen centered layout with tier sidebar on left, user table on right.
  * Template uses: h-screen overflow-hidden, flex items-center justify-center pt-24 px-12
  * grid-cols-12 max-w-6xl gap-12 h-[70vh]
@@ -17,6 +19,10 @@ const USERS = [
 ];
 
 const TheHierarchy = () => {
+    const isMobile = useMobile();
+    if (isMobile) {
+        return <TheHierarchyMobile />;
+    }
     return (
         <div className="h-screen w-full overflow-hidden font-display antialiased selection:bg-[#333333] selection:text-white relative">
             {/* Top nav – fixed full width */}
@@ -95,7 +101,7 @@ const TheHierarchy = () => {
                                         className="grid grid-cols-12 py-5 border-y border-[#f04242]/30 bg-[#f04242]/5 relative group"
                                     >
                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#f04242]" />
-                                        <div className="col-span-1 text-[#f04242]">{user.pos}</div>
+                                        <div className="col-span-1 text-[#f04242] pl-4">{user.pos}</div>
                                         <div className="col-span-6 flex items-center gap-2">
                                             <span className="text-[#E5E5E5] font-bold">{user.name}</span>
                                             <span
@@ -104,17 +110,20 @@ const TheHierarchy = () => {
                                             />
                                         </div>
                                         <div className="col-span-3 text-[#E5E5E5]">{user.weight}</div>
-                                        <div className="col-span-2 text-right text-[10px] text-[#f04242]">
+                                        <div className="col-span-2 text-right text-[10px] text-[#f04242] pr-4">
                                             [ {user.status} ]
                                         </div>
                                     </div>
                                 ) : (
                                     <div
                                         key={user.pos}
-                                        className="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 transition-opacity"
+                                        className="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 hover:bg-white hover:text-black hover:px-4 -mx-4 transition-all duration-200 cursor-pointer"
                                     >
                                         <div className="col-span-1">{user.pos}</div>
-                                        <div className="col-span-6">{user.name}</div>
+                                        <div className="col-span-6 flex items-center gap-2">
+                                            <span>{user.name}</span>
+                                            <span className="w-1.5 h-3 bg-transparent hover:bg-[#f04242]" style={{ animation: 'blink 1s step-end infinite' }} />
+                                        </div>
                                         <div className="col-span-3">{user.weight}</div>
                                         <div className="col-span-2 text-right text-[10px]">[ {user.status} ]</div>
                                     </div>

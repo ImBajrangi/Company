@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Dossier - OPERATOR_772</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void": "#000000",
+                        "text-main": "#FFFFFF",
+                        "text-muted": "#555555",
+                        "border-void": "#1A1A1A",
+                    },
+                    fontFamily: {
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-void text-text-main font-mono antialiased;
+            }
+        }
+        .noise-overlay {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+            opacity: 0.04;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(240, 66, 66, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-void overflow-x-hidden">
+<div class="fixed inset-0 pointer-events-none noise-overlay z-50"></div>
+<nav class="sticky top-0 bg-void/80 backdrop-blur-md border-b border-border-void z-40 px-6 py-4 flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[9px] text-text-muted tracking-[0.3em] uppercase">Status: Connected</span>
+<span class="text-[11px] text-primary font-bold">DEEP_VOID // ACCESS_GRANTED</span>
+</div>
+<button class="material-symbols-outlined text-text-main scale-90">menu</button>
+</nav>
+<main class="px-6 py-8 pb-24 max-w-md mx-auto">
+<header class="mb-12">
+<div class="inline-block border-l-2 border-primary pl-4 mb-4">
+<span class="text-[10px] text-text-muted tracking-[0.4em] uppercase">Operator Identity</span>
+<h1 class="text-4xl font-extrabold tracking-tighter mt-1">OPERATOR_772</h1>
+</div>
+<div class="flex items-center gap-4 text-xs text-text-muted">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-primary rounded-full"></span> ENCRYPTED</span>
+<span>LOC: SECTOR_04</span>
+</div>
+</header>
+<section class="grid grid-cols-2 border-t border-l border-border-void mb-12">
+<div class="border-r border-b border-border-void p-5">
+<span class="text-[9px] text-text-muted tracking-widest uppercase block mb-2">Signals</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold">1,402</span>
+<span class="text-[10px] text-primary">HZ</span>
+</div>
+</div>
+<div class="border-r border-b border-border-void p-5">
+<span class="text-[9px] text-text-muted tracking-widest uppercase block mb-2">Depth</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold">14.0</span>
+<span class="text-[10px] text-primary">KM</span>
+</div>
+</div>
+<div class="border-r border-b border-border-void p-5">
+<span class="text-[9px] text-text-muted tracking-widest uppercase block mb-2">Weight</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold">94.2</span>
+<span class="text-[10px] text-primary">W</span>
+</div>
+</div>
+<div class="border-r border-b border-border-void p-5">
+<span class="text-[9px] text-text-muted tracking-widest uppercase block mb-2">Sync</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold">99.9</span>
+<span class="text-[10px] text-primary">%</span>
+</div>
+</div>
+</section>
+<section>
+<div class="flex justify-between items-end mb-6">
+<h3 class="text-xs font-bold tracking-[0.2em] uppercase text-text-main">Acquired_Knowledge</h3>
+<span class="text-[9px] text-text-muted font-bold">TOTAL_08</span>
+</div>
+<div class="space-y-2">
+<div class="group bg-white text-void p-4 flex justify-between items-center transition-all active:scale-95">
+<div class="flex flex-col">
+<span class="text-[9px] font-bold tracking-widest uppercase opacity-60">Database_Fragment</span>
+<span class="text-sm font-extrabold tracking-tight">VOID_ARCHIVE_X01</span>
+</div>
+<span class="material-symbols-outlined text-lg">arrow_forward_ios</span>
+</div>
+<div class="group bg-white text-void p-4 flex justify-between items-center transition-all active:scale-95">
+<div class="flex flex-col">
+<span class="text-[9px] font-bold tracking-widest uppercase opacity-60">Neural_Log</span>
+<span class="text-sm font-extrabold tracking-tight">SYNAPTIC_OVERLOAD_4</span>
+</div>
+<span class="material-symbols-outlined text-lg">arrow_forward_ios</span>
+</div>
+<div class="group bg-white text-void p-4 flex justify-between items-center transition-all active:scale-95">
+<div class="flex flex-col">
+<span class="text-[9px] font-bold tracking-widest uppercase opacity-60">Visual_Data</span>
+<span class="text-sm font-extrabold tracking-tight">MONOLITH_STRUCTURE_RAW</span>
+</div>
+<span class="material-symbols-outlined text-lg">arrow_forward_ios</span>
+</div>
+<div class="group bg-white text-void p-4 flex justify-between items-center transition-all active:scale-95">
+<div class="flex flex-col">
+<span class="text-[9px] font-bold tracking-widest uppercase opacity-60">Audio_Feed</span>
+<span class="text-sm font-extrabold tracking-tight">GHOST_SIGNAL_RECON</span>
+</div>
+<span class="material-symbols-outlined text-lg">arrow_forward_ios</span>
+</div>
+<div class="group bg-border-void border border-dashed border-text-muted/30 p-4 flex justify-between items-center opacity-50">
+<div class="flex flex-col">
+<span class="text-[9px] font-bold tracking-widest uppercase text-text-muted">Classified</span>
+<span class="text-sm font-extrabold tracking-tight text-text-muted">FRAGMENT_LOCKED</span>
+</div>
+<span class="material-symbols-outlined text-lg text-text-muted">lock</span>
+</div>
+</div>
+</section>
+<div class="mt-16 pt-8 border-t border-border-void">
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="text-[10px] text-text-muted uppercase">Terminal Ver</span>
+<span class="text-[10px] text-text-main">V.1.04.88</span>
+</div>
+<div class="w-full bg-border-void h-1 relative">
+<div class="absolute top-0 left-0 h-full bg-primary w-2/3"></div>
+</div>
+<p class="text-[9px] text-text-muted leading-relaxed uppercase tracking-tighter">
+                    Warning: Dossier access is monitored. Any unauthorized extraction of knowledge fragments will result in neural disconnect.
+                </p>
+</div>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 w-full bg-void border-t border-border-void px-8 py-4 flex justify-between items-center z-40">
+<button class="material-symbols-outlined text-primary">data_object</button>
+<button class="material-symbols-outlined text-text-muted">sensors</button>
+<div class="h-10 w-10 bg-primary flex items-center justify-center -mt-8 border-4 border-void">
+<span class="material-symbols-outlined text-void font-bold">add</span>
+</div>
+<button class="material-symbols-outlined text-text-muted">hub</button>
+<button class="material-symbols-outlined text-text-muted">person_search</button>
+</div>
+
+</body></html>

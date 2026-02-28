@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>The Nexus - Home Page</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void": "#050505",
+                        "void-white": "#FFFFFF",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#666666",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-text-main font-display antialiased selection:bg-white selection:text-void overflow-x-hidden;
+            }
+        }
+        .void-border {
+            @apply border border-void-white/20;
+        }
+        .void-border-b {
+            @apply border-b border-void-white/20;
+        }
+        .void-border-r {
+            @apply border-r border-void-white/20;
+        }
+        .cursor-pulse {
+            display: inline-block;
+            width: 12px;
+            height: 24px;
+            background-color: white;
+            animation: pulse 1s infinite step-end;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .hover-invert:hover {
+            @apply bg-void-white text-void;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col p-6 md:p-12 lg:p-16 bg-background-light dark:bg-background-dark">
+    <nav
+        class="fixed top-0 left-0 w-full p-6 md:p-12 flex justify-between items-center z-50 bg-void/80 backdrop-blur-sm void-border-b">
+        <div class="font-mono text-[10px] tracking-[0.3em] text-text-muted">
+            SYSTEM_ACCESS // THE_NEXUS_V.4.0
+        </div>
+        <div class="flex gap-12">
+            <a class="font-mono text-[10px] tracking-[0.2em] hover:text-white transition-colors" href="#">[ ARCHIVES
+                ]</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] hover:text-white transition-colors" href="#">[ TRANSMIT
+                ]</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] hover:text-white transition-colors" href="#">[ TERMINAL
+                ]</a>
+        </div>
+    </nav>
+    <header class="mt-32 mb-24 md:mb-36">
+        <div class="relative">
+            <h1 class="font-display text-[15vw] leading-[0.8] font-bold tracking-tighter text-void-white">
+                THE_VRINDA<span class="cursor-pulse"></span>
+            </h1>
+            <div class="mt-8 flex justify-between items-end border-t border-void-white/10 pt-4">
+                <p class="font-mono text-xs text-text-muted max-w-sm uppercase leading-relaxed">
+                    Deep-tech blog &amp; archival platform for the silent majority. Decrypting the future of
+                    decentralised intelligence.
+                </p>
+                <div class="text-right font-mono text-[10px] text-text-muted">
+                    COORD: 40.7128° N, 74.0060° W<br />
+                    SIGNAL_STATUS: STABLE
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-0 void-border">
+        <section class="void-border-r p-8 space-y-12">
+            <h2 class="font-mono text-xs font-bold tracking-[0.4em] text-text-muted uppercase flex items-center gap-2">
+                <span class="w-2 h-2 bg-primary animate-pulse"></span>
+                LATEST_SIGNALS
+            </h2>
+            <div class="space-y-0 divide-y divide-void-white/10 -mx-8">
+                <article class="p-8 hover-invert group cursor-pointer transition-colors">
+                    <div class="font-mono text-[10px] text-text-muted group-hover:text-void mb-2">2024.05.12 // 04:22
+                    </div>
+                    <h3 class="font-display font-bold text-xl leading-tight">QUANTUM_ENTROPY_LEAK</h3>
+                    <p class="font-mono text-xs text-text-muted mt-4 group-hover:text-void leading-relaxed">Analyzing
+                        the recent disturbances in the subnet-7 encryption layers...</p>
+                </article>
+                <article class="p-8 hover-invert group cursor-pointer transition-colors">
+                    <div class="font-mono text-[10px] text-text-muted group-hover:text-void mb-2">2024.05.10 // 21:15
+                    </div>
+                    <h3 class="font-display font-bold text-xl leading-tight">NEURAL_DECAY_PROTOCOLS</h3>
+                    <p class="font-mono text-xs text-text-muted mt-4 group-hover:text-void leading-relaxed">
+                        Understanding the limits of synthetic memory retention in long-void exposure.</p>
+                </article>
+                <article class="p-8 hover-invert group cursor-pointer transition-colors">
+                    <div class="font-mono text-[10px] text-text-muted group-hover:text-void mb-2">2024.05.08 // 09:44
+                    </div>
+                    <h3 class="font-display font-bold text-xl leading-tight">THE_SILENT_SERVERS</h3>
+                    <p class="font-mono text-xs text-text-muted mt-4 group-hover:text-void leading-relaxed">Mapping the
+                        decommissioned data centers in Sector 9.</p>
+                </article>
+            </div>
+            <a class="inline-block font-mono text-[10px] tracking-widest border border-void-white/20 px-4 py-2 hover:bg-void-white hover:text-void transition-colors"
+                href="#">
+                [ VIEW_ALL_SIGNALS ]
+            </a>
+        </section>
+        <section class="void-border-r p-8 space-y-12 bg-white/5">
+            <h2 class="font-mono text-xs font-bold tracking-[0.4em] text-text-muted uppercase">SYSTEM_METRICS</h2>
+            <div class="space-y-12">
+                <div class="space-y-2">
+                    <div class="font-mono text-[10px] text-text-muted">OPERATORS_ONLINE</div>
+                    <div class="font-display text-5xl font-light tracking-tighter">1,240,882</div>
+                    <div class="w-full h-[1px] bg-void-white/10 relative">
+                        <div class="absolute top-0 left-0 h-full w-[72%] bg-void-white"></div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="font-mono text-[10px] text-text-muted">DATA_PROCESSED (PB)</div>
+                    <div class="font-display text-5xl font-light tracking-tighter">89.442</div>
+                    <div class="w-full h-[1px] bg-void-white/10 relative">
+                        <div class="absolute top-0 left-0 h-full w-[45%] bg-void-white"></div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="font-mono text-[10px] text-text-muted">VOID_DEPTH_INDEX</div>
+                    <div class="font-display text-5xl font-light tracking-tighter">0.0042</div>
+                    <div class="w-full h-[1px] bg-void-white/10 relative">
+                        <div class="absolute top-0 left-0 h-full w-[12%] bg-primary"></div>
+                    </div>
+                </div>
+                <div class="p-4 border border-void-white/10 font-mono text-[10px] text-text-muted leading-relaxed">
+                    <span class="text-white">STATUS_REPORT:</span> SYSTEM RUNNING AT NOMINAL CAPACITY. ALL NODES
+                    RESPONDING. NO UNRECOGNIZED INTERFERENCE DETECTED IN THE LAST 120 CYCLES.
+                </div>
+            </div>
+        </section>
+        <section class="p-8 space-y-12">
+            <h2 class="font-mono text-xs font-bold tracking-[0.4em] text-text-muted uppercase">ACTIVE_TRANSMISSIONS</h2>
+            <div class="space-y-6">
+                <div class="flex items-start gap-4 pb-6 border-b border-void-white/10 group cursor-crosshair">
+                    <div class="font-mono text-xs text-white bg-primary px-2 py-0.5">LIVE</div>
+                    <div>
+                        <div class="font-display font-medium text-sm">OPERATOR_991 // ENCRYPTED_CHANNEL</div>
+                        <div class="font-mono text-[10px] text-text-muted mt-1">RECOVERING_FRAGMENT_88...</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 pb-6 border-b border-void-white/10 group opacity-60">
+                    <div class="font-mono text-xs text-text-muted border border-void-white/20 px-2 py-0.5">IDLE</div>
+                    <div>
+                        <div class="font-display font-medium text-sm">OPERATOR_402 // STANDBY</div>
+                        <div class="font-mono text-[10px] text-text-muted mt-1">WAITING_FOR_SIGNAL_BURST</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 pb-6 border-b border-void-white/10 group">
+                    <div class="font-mono text-xs text-white bg-white/20 px-2 py-0.5">UPLINK</div>
+                    <div>
+                        <div class="font-display font-medium text-sm">SYSTEM_CORE // BROADCAST</div>
+                        <div class="font-mono text-[10px] text-text-muted mt-1">GLOBAL_REPLICA_SYNCING</div>
+                    </div>
+                </div>
+                <div class="mt-12 pt-12">
+                    <div class="font-mono text-[10px] text-text-muted mb-4 uppercase tracking-[0.2em]">
+                        Void_Terminal_Output</div>
+                    <div
+                        class="bg-void-white/5 p-4 font-mono text-[10px] text-text-muted space-y-1 overflow-hidden h-32">
+                        <p class="text-primary">&gt; BOOTING_NEXUS_CORE...</p>
+                        <p>&gt; LOAD_MODULE: VOID_BRUTALISM</p>
+                        <p>&gt; CHECKING_INTEGRITY... 100%</p>
+                        <p>&gt; CONNECTING_TO_PEERS... 12,992 FOUND</p>
+                        <p>&gt; ENABLING_HIGH_FIDELITY_TYPOGRAPHY</p>
+                        <p>&gt; READY.</p>
+                        <p class="animate-pulse">_</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="mt-24 pb-12 flex flex-col md:flex-row justify-between items-end border-t border-void-white/10 pt-12">
+        <div class="font-mono text-[10px] text-text-muted space-y-1">
+            <p>DESIGN_PROTOCOL: BRUTALIST_MINIMALISM</p>
+            <p>FRAMEWORK: VOID_STACK_V2</p>
+        </div>
+        <div class="text-right font-mono text-[10px] text-text-muted mt-8 md:mt-0 flex gap-12">
+            <div>
+                <p>UPLINK_STRENGTH: 99.9%</p>
+                <p>LATENCY: 4MS</p>
+            </div>
+            <div>
+                <p>© 2024 THE_VRINDA_RECORDS</p>
+                <p>ALL_RIGHTS_DECENTRALIZED</p>
+            </div>
+        </div>
+    </footer>
+    <div
+        class="fixed inset-0 pointer-events-none opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-[100]">
+    </div>
+
+</body>
+
+</html>

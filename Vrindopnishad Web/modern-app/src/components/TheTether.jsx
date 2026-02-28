@@ -6,10 +6,10 @@ import { Minus, Plus, Download } from 'lucide-react';
  * System Configuration / Settings page.
  * Features: Typeface toggle, font size control, immersion mode, export, storage, danger zone.
  */
-const TheTether = () => {
-    const [isSerif, setIsSerif] = useState(true);
-    const [fontSize, setFontSize] = useState(20);
-    const [immersionMode, setImmersionMode] = useState(true);
+const TheTether = ({ settings, onUpdateSettings }) => {
+    const { typeface, baseSize, immersionMode } = settings;
+    const isSerif = typeface === 'serif';
+    const fontSize = baseSize;
 
     return (
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 py-24">
@@ -39,14 +39,14 @@ const TheTether = () => {
                         </div>
                         <div className="flex items-center border border-[#262626] rounded-sm overflow-hidden">
                             <button
-                                onClick={() => setIsSerif(false)}
+                                onClick={() => onUpdateSettings({ typeface: 'mono' })}
                                 className={`px-6 py-2 text-sm font-medium transition-colors ${!isSerif ? 'bg-[#E5E5E5] text-[#050505]' : 'hover:bg-[#404040]'}`}
                             >
                                 SANS
                             </button>
                             <div className="w-px h-full bg-[#262626]"></div>
                             <button
-                                onClick={() => setIsSerif(true)}
+                                onClick={() => onUpdateSettings({ typeface: 'serif' })}
                                 className={`px-6 py-2 text-sm font-medium font-body italic transition-colors ${isSerif ? 'bg-[#E5E5E5] text-[#050505]' : 'hover:bg-[#404040]'}`}
                             >
                                 SERIF
@@ -64,13 +64,13 @@ const TheTether = () => {
                             <span className="font-mono text-xl w-12 text-center">{fontSize}px</span>
                             <div className="flex items-center border border-[#262626] rounded-sm">
                                 <button
-                                    onClick={() => setFontSize(Math.max(fontSize - 2, 12))}
+                                    onClick={() => onUpdateSettings({ baseSize: Math.max(fontSize - 2, 12) })}
                                     className="size-10 flex items-center justify-center hover:bg-[#E5E5E5] hover:text-[#050505] transition-colors border-r border-[#262626]"
                                 >
                                     <Minus size={18} />
                                 </button>
                                 <button
-                                    onClick={() => setFontSize(Math.min(fontSize + 2, 48))}
+                                    onClick={() => onUpdateSettings({ baseSize: Math.min(fontSize + 2, 48) })}
                                     className="size-10 flex items-center justify-center hover:bg-[#E5E5E5] hover:text-[#050505] transition-colors"
                                 >
                                     <Plus size={18} />
@@ -89,7 +89,7 @@ const TheTether = () => {
                             <input
                                 type="checkbox"
                                 checked={immersionMode}
-                                onChange={() => setImmersionMode(!immersionMode)}
+                                onChange={() => onUpdateSettings({ immersionMode: !immersionMode })}
                                 className="sr-only peer"
                             />
                             <div className="w-11 h-6 bg-[#404040] peer-checked:bg-[#E5E5E5] rounded-sm relative after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-[#050505] after:border after:rounded-sm after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>

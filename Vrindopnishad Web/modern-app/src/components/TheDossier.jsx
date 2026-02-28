@@ -8,6 +8,13 @@ import React from 'react';
  */
 
 const TheDossier = () => {
+    const [isPurging, setIsPurging] = React.useState(false);
+
+    const handlePurge = () => {
+        setIsPurging(true);
+        setTimeout(() => setIsPurging(false), 3000);
+    };
+
     return (
         <div className="min-h-screen flex flex-col p-8 md:p-16 lg:p-24">
             {/* Nav – template: fixed top-0 left-0 w-full p-8 z-50 mix-blend-difference */}
@@ -89,8 +96,11 @@ const TheDossier = () => {
 
                 {/* Danger Zone */}
                 <section className="pt-12 border-t border-[#262626]">
-                    <button className="font-mono text-xs tracking-widest text-[#f04242] hover:bg-[#f04242] hover:text-white px-4 py-2 transition-colors">
-                        [ TERMINATE_CONNECTION_AND_PURGE_DATA ]
+                    <button
+                        onClick={handlePurge}
+                        className={`font-mono text-xs tracking-widest px-4 py-2 transition-all duration-500 border ${isPurging ? 'bg-[#f04242] text-white border-[#f04242]' : 'text-[#f04242] border-transparent hover:bg-[#f04242] hover:text-white'}`}
+                    >
+                        {isPurging ? '[ PURGE_IN_PROGRESS... ]' : '[ TERMINATE_CONNECTION_AND_PURGE_DATA ]'}
                     </button>
                 </section>
             </main>
@@ -103,7 +113,7 @@ const TheDossier = () => {
                 </div>
                 <div className="text-right font-mono text-[10px] text-[#404040] mt-4 md:mt-0">
                     <p>USER_TOKEN: 0x82...F42A</p>
-                    <p>© 2024 THE_VOID_RECORDS</p>
+                    <p>© 2024 THE_VRINDA_RECORDS</p>
                 </div>
             </footer>
         </div>

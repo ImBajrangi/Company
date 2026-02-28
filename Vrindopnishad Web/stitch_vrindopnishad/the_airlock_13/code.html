@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Dossier - Deep Void</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void": "#050505",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#525252",
+                        "border-void": "#1A1A1A",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-void text-text-main;
+            }
+        }
+        .noise-overlay {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+            opacity: 0.02;
+        }
+        .scanline {
+            width: 100%;
+            height: 1px;
+            background: rgba(240, 66, 66, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-display antialiased min-h-screen flex items-center justify-center p-4">
+<div class="fixed inset-0 pointer-events-none noise-overlay z-0"></div>
+<div class="relative w-full max-w-[390px] h-[844px] bg-void border border-border-void overflow-hidden flex flex-col shadow-2xl">
+<header class="pt-12 px-6 pb-6 flex justify-between items-start z-10">
+<div class="flex flex-col gap-1">
+<span class="font-mono text-[10px] text-primary tracking-[0.3em] uppercase">Status: Connected</span>
+<h1 class="text-xs font-mono text-text-muted uppercase tracking-widest">The Dossier</h1>
+</div>
+<button class="material-symbols-outlined text-text-muted hover:text-white transition-colors">settings</button>
+</header>
+<main class="flex-1 overflow-y-auto px-6 pb-24 scrollbar-hide z-10">
+<section class="mb-12">
+<div class="mb-2 h-1 w-12 bg-primary"></div>
+<h2 class="text-5xl font-bold tracking-tighter leading-none mb-4 uppercase">OPERATOR_772</h2>
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] text-text-muted bg-white/5 px-2 py-0.5">LVL_04</span>
+<span class="font-mono text-[10px] text-text-muted bg-white/5 px-2 py-0.5">TIER: COMMANDER</span>
+</div>
+</section>
+<section class="grid grid-cols-2 gap-px bg-border-void border-y border-border-void mb-12">
+<div class="bg-void py-4 pr-4">
+<span class="block font-mono text-[9px] text-text-muted uppercase mb-1">Signals Decrypted</span>
+<span class="block font-mono text-lg text-text-main font-medium tabular-nums">14,204</span>
+</div>
+<div class="bg-void py-4 pl-4">
+<span class="block font-mono text-[9px] text-text-muted uppercase mb-1">Time in Void</span>
+<span class="block font-mono text-lg text-text-main font-medium tabular-nums">842:11:09</span>
+</div>
+<div class="bg-void py-4 pr-4">
+<span class="block font-mono text-[9px] text-text-muted uppercase mb-1">Contribution</span>
+<span class="block font-mono text-lg text-text-main font-medium tabular-nums">94.2k</span>
+</div>
+<div class="bg-void py-4 pl-4">
+<span class="block font-mono text-[9px] text-text-muted uppercase mb-1">Stability</span>
+<span class="block font-mono text-lg text-primary font-medium tabular-nums">98.4%</span>
+</div>
+</section>
+<section>
+<h3 class="font-mono text-[10px] text-text-muted uppercase tracking-[0.3em] mb-6 border-b border-border-void pb-2">Acquired Knowledge</h3>
+<div class="flex flex-col gap-3">
+<div class="border border-border-void p-4 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-tight">CRYPTO_ARCHIVE_01</span>
+<span class="font-mono text-[9px] text-text-muted uppercase">Verified 12.04.24</span>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+</div>
+<div class="border border-border-void p-4 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-tight">VOID_ANOMALY_LOG</span>
+<span class="font-mono text-[9px] text-text-muted uppercase">Verified 09.04.24</span>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+</div>
+<div class="border border-border-void p-4 flex justify-between items-center group hover:bg-white/5 transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-tight">DEEP_RECON_DATA</span>
+<span class="font-mono text-[9px] text-text-muted uppercase">Verified 05.04.24</span>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+</div>
+<div class="border border-border-void p-4 flex justify-between items-center opacity-40">
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-tight italic">ENCRYPTED_ENTRY</span>
+<span class="font-mono text-[9px] text-text-muted uppercase">Locked Protocol</span>
+</div>
+<span class="material-symbols-outlined text-text-muted text-sm">lock</span>
+</div>
+</div>
+</section>
+</main>
+<nav class="absolute bottom-0 left-0 w-full bg-void/80 backdrop-blur-md border-t border-border-void px-8 py-6 flex justify-between items-center z-20">
+<button class="material-symbols-outlined text-text-muted hover:text-white transition-colors">grid_view</button>
+<button class="material-symbols-outlined text-text-muted hover:text-white transition-colors">analytics</button>
+<button class="material-symbols-outlined text-primary">person</button>
+<button class="material-symbols-outlined text-text-muted hover:text-white transition-colors">terminal</button>
+<button class="material-symbols-outlined text-text-muted hover:text-white transition-colors">notifications</button>
+</nav>
+<div class="absolute top-0 right-0 p-4 font-mono text-[8px] text-text-muted pointer-events-none opacity-50 text-right">
+            SYSTEM_v4.0.12<br/>
+            CORE_TEMP: 32C
+        </div>
+<div class="absolute bottom-24 left-6 flex gap-1 pointer-events-none">
+<div class="w-1 h-1 bg-primary"></div>
+<div class="w-1 h-1 bg-border-void"></div>
+<div class="w-1 h-1 bg-border-void"></div>
+</div>
+</div>
+
+</body></html>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { useMobile } from '../hooks/useMobile';
+import TheFeedMobile from './TheFeedMobile';
 
 /**
  * TheFeed – exact clone of the_airlock_3/code.html
@@ -7,6 +9,10 @@ import React from 'react';
  * Template main:   pl-[120px] → we need pl-[60px]
  */
 const TheFeed = ({ items = [], onItemClick }) => {
+    const isMobile = useMobile();
+    if (isMobile) {
+        return <TheFeedMobile items={items} onItemClick={onItemClick} />;
+    }
     return (
         <>
             {/* Header – template uses pl-[180px] pt-24 pb-12 pr-12 */}
@@ -33,12 +39,12 @@ const TheFeed = ({ items = [], onItemClick }) => {
             </header>
 
             {/* Main feed – template uses pl-[120px] pb-24 */}
-            <main className="pl-[60px] pb-24">
-                <div className="flex flex-col">
+            <main className="pl-[60px] pb-32">
+                <div className="flex flex-col gap-4">
                     {items.map((item, idx) => (
                         <div
                             key={item.id || idx}
-                            className="feed-row group px-12 py-10 flex flex-col md:flex-row md:items-center justify-between"
+                            className="feed-row group px-16 py-14 flex flex-col md:flex-row md:items-center justify-between"
                             onClick={() => onItemClick && onItemClick(item)}
                         >
                             <div className="flex flex-col gap-1">

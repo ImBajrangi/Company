@@ -1,4 +1,6 @@
 import React from 'react';
+import { useMobile } from '../hooks/useMobile';
+import TheStratificationMobile from './TheStratificationMobile';
 
 /**
  * TheStratification – exact clone of the_airlock_5/code.html
@@ -9,6 +11,10 @@ import React from 'react';
  */
 
 const TheStratification = () => {
+    const isMobile = useMobile();
+    if (isMobile) {
+        return <TheStratificationMobile />;
+    }
     const operators = [
         { rank: '04', name: 'OPERATOR_772', kw: '1,240.82', uptime: '428D:12H:04M', isYou: true },
         { rank: '01', name: 'OPERATOR_NULL', kw: '4,821.11', uptime: '892D:04H:11M' },
@@ -152,7 +158,7 @@ const TheStratification = () => {
                     <p>DATA_INTEGRITY: 100%_VERIFIED</p>
                 </div>
                 <div className="text-right font-mono text-[10px] mt-4 md:mt-0">
-                    <p>© 2024 THE_VOID_RECORDS // ARCHIVAL_ACCESS_ONLY</p>
+                    <p>© 2024 THE_VRINDA_RECORDS // ARCHIVAL_ACCESS_ONLY</p>
                     <p>TERMINAL: STACK_009_NODE_4</p>
                 </div>
             </footer>

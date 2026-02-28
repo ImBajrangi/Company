@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Deep Void - Airlock</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FF3333",
+                        "void": "#050505",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#404040",
+                        "border-void": "#262626",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["EB Garamond", "serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'cursor-blink': 'blink 1.5s steps(2, start) infinite',
+                        'system-boot': 'boot 2s forwards',
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' },
+                        },
+                        boot: {
+                            '0%': { backgroundColor: 'transparent' },
+                            '5%': { backgroundColor: '#FFFFFF', opacity: '1' },
+                            '15%': { backgroundColor: '#FFFFFF', opacity: '1' },
+                            '100%': { backgroundColor: '#050505', opacity: '1' }
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .boot-sequence {
+                animation: boot 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            }
+        }.cta-button:hover ~ .manifesto-text {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-void text-text-main h-screen w-full overflow-hidden flex flex-col items-center justify-center font-display antialiased selection:bg-[#333333] selection:text-white">
+<div class="fixed inset-0 pointer-events-none z-[100] opacity-0" id="flash-overlay"></div>
+<div class="fixed inset-0 pointer-events-none opacity-[0.03]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');">
+</div>
+<main class="relative z-10 flex flex-col items-center justify-center w-full max-w-2xl px-6">
+<div class="flex flex-col items-center mb-16">
+<div class="relative">
+<h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-text-main animate-cursor-blink select-none">
+                _
+            </h1>
+</div>
+</div>
+<div class="flex flex-col items-center w-full gap-8">
+<button class="cta-button group relative w-full max-w-[320px] h-14 flex items-center justify-center border border-text-muted transition-all duration-200 hover:bg-white hover:border-white focus:outline-none" onclick="document.getElementById('flash-overlay').classList.add('boot-sequence'); setTimeout(() =&gt; { window.location.reload(); }, 1500);">
+<span class="font-display font-bold text-sm tracking-[0.2em] text-text-main group-hover:text-void uppercase">
+                [ Enter The Void ]
+            </span>
+</button>
+<div class="h-8 flex items-center justify-center">
+<p class="manifesto-text text-text-main text-sm md:text-base font-normal text-center opacity-0 transition-opacity duration-500 ease-in-out pointer-events-none tracking-wide">
+                Silence is a luxury. Read in peace.
+            </p>
+</div>
+</div>
+</main>
+<footer class="fixed bottom-8 w-full px-8 flex justify-between items-end text-[10px] md:text-xs font-mono text-text-muted uppercase tracking-widest opacity-40">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-text-muted"></span>
+<span>System Status: Ready</span>
+</div>
+<div class="text-right hidden md:block">
+<span>v.1.0.4 // Void Protocol</span>
+</div>
+</footer>
+<div class="fixed top-8 right-8 text-text-muted opacity-20 hover:opacity-100 transition-opacity duration-500 cursor-help">
+<span class="material-symbols-outlined text-2xl">
+        encrypted
+    </span>
+</div>
+
+</body></html>
