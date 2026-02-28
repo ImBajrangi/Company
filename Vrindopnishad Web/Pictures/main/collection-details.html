@@ -60,8 +60,18 @@
     <!-- Link Pop-up Checker Script -->
     <script src="/Vrindopnishad Web/js/popup-checker.js"></script>
     <script src="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/Vrindopnishad Web/Pictures/js/supabase-client.js"></script>
+    <!-- Firebase & Shared Auth -->
+    <script type="importmap">
+    {
+        "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+            "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+            "firebase/database": "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+        }
+    }
+    </script>
+    <script src="../../../js/auth.js" type="module"></script>
     <!-- <script src="/Vrindopnishad Web/js/popup-checker.js"></script> -->
     <script src="../../../js/image-helper.js"></script>
 
@@ -154,6 +164,14 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border-color);
             transition: background 0.3s;
+        }
+
+        .liked-btn {
+            color: #ff3b30 !important;
+        }
+
+        .liked-btn i {
+            color: #ff3b30 !important;
         }
 
         .header-content {
@@ -912,6 +930,12 @@
         .bag-empty p {
             color: var(--text-secondary);
             font-size: 17px;
+        }
+
+        .bag-items-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .bag-item {
@@ -1702,6 +1726,12 @@
                 <a href="/Vrindopnishad Web/about code/main/about.html">About</a>
             </nav>
             <div class="header-actions">
+                <button class="action-btn" id="user-auth-btn" title="User Account">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="action-btn" id="theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <button class="action-btn" id="purchased-toggle" title="Purchased Items">
                     <i class="fas fa-file-invoice"></i>
                 </button>
@@ -1999,8 +2029,34 @@
             return null;
         }
 
+        // Theme functionality
+        function initializeTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (!themeToggle) return;
+
+            const icon = themeToggle.querySelector('i');
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+            document.body.classList.toggle('dark-mode', isDark);
+            if (icon) {
+                icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                if (icon) {
+                    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            });
+        }
+
         // Format price
         function formatPrice(price) {
+            if (price === undefined || price === null || isNaN(price)) return '₹0';
             return new Intl.NumberFormat('en-IN', {
                 style: 'currency',
                 currency: 'INR',
@@ -2378,7 +2434,8 @@
 
                 // 3. Add Images
                 const imgFolder = zip.folder("images");
-                const imagePromises = item.images.map(async (imgUrl, index) => {
+                const downloadImages = (item.images && item.images.length > 0) ? item.images : [item.image];
+                const imagePromises = downloadImages.map(async (imgUrl, index) => {
                     try {
                         console.log(`Attempting to fetch: ${imgUrl}`);
                         const response = await fetch(imgUrl);
@@ -2510,17 +2567,32 @@
         // --- Shopping bag functions ---
         function updateBagCount() {
             const count = shoppingBag.length;
-            document.getElementById('bag-count').textContent = count;
-            document.getElementById('bag-count').style.display = count > 0 ? 'flex' : 'none';
+            const bagCount = document.getElementById('bag-count');
+            if (bagCount) {
+                bagCount.textContent = count;
+                bagCount.style.display = count > 0 ? 'flex' : 'none';
+            }
+
+            // Sync to Firebase
+            if (window.AuthService) {
+                AuthService.saveBag(shoppingBag);
+            }
             // Save to localStorage
             localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
         }
 
-        function addToBag(item) {
+        async function addToBag(item) {
+            // Check authentication
+            const user = await window.AuthService.getUser();
+            if (!user) {
+                showToast('Please login to add items to your bag', 'info');
+                AuthService.requireAuth();
+                return;
+            }
+
             // Check if already in bag or purchased
             const exists = shoppingBag.find(bagItem => bagItem.id === item.id);
-            // Ensure purchasedItems is an array before using .includes()
-            const isPurchased = Array.isArray(purchasedItems) && purchasedItems.includes(item.id);
+            const isPurchased = purchasedItems && purchasedItems[item.id];
 
             if (exists) {
                 showToast('Item is already in your bag', 'error');
@@ -2551,7 +2623,7 @@
             if (currentId === itemId) {
                 const addToBagBtn = document.getElementById('add-to-bag');
                 // Only re-enable if not purchased
-                const isPurchased = Array.isArray(purchasedItems) && purchasedItems.includes(itemId);
+                const isPurchased = purchasedItems && purchasedItems[itemId];
                 if (!isPurchased) {
                     addToBagBtn.disabled = false;
                     addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
@@ -2562,6 +2634,14 @@
         function renderBag() {
             const bagContent = document.getElementById('bag-content');
             const bagFooter = document.getElementById('bag-footer');
+
+            if (!bagContent || !bagFooter) return;
+
+            // Clean up: filter out any null/invalid items
+            shoppingBag = (Array.isArray(shoppingBag) ? shoppingBag : [])
+                .filter(item => item && typeof item === 'object' && item.id);
+
+            console.log('Rendering Bag:', shoppingBag.length, 'items');
 
             if (shoppingBag.length === 0) {
                 bagContent.innerHTML = `
@@ -2574,18 +2654,17 @@
                 return;
             }
 
-            const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
-            const tax = subtotal * 0.18; // Assuming 18% tax
+            const subtotal = shoppingBag.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+            const tax = subtotal * 0.18;
             const total = subtotal + tax;
 
             bagContent.innerHTML = `
-                <div>
+                <div class="bag-items-wrapper">
                     ${shoppingBag.map((item, index) => `
                         <div class="bag-item">
-                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
+                            <img src="${item.image || ''}" alt="${item.title || 'Item'}" class="bag-item-image">
                             <div class="bag-item-info">
-                                <div class="bag-item-title">${item.title}</div>
-                                <div class="bag-item-desc">${item.description.substring(0, 50)}...</div>
+                                <div class="bag-item-title">${item.title || 'Untitled Item'}</div>
                                 <div class="bag-item-price">${formatPrice(item.price)}</div>
                                 <div class="bag-item-actions">
                                     <button class="bag-item-remove" onclick="removeFromBag('${item.id}')">Remove</button>
@@ -2623,27 +2702,30 @@
         // --- Favorites functions ---
         function updateLikeCount() {
             const count = favorites.length;
-            const likeBtn = document.getElementById('like-toggle');
-            const likeCountEl = document.getElementById('like-count');
-            likeCountEl.textContent = count;
-            likeCountEl.style.display = count > 0 ? 'flex' : 'none';
-
-            if (likeBtn) { // Add null check for likeBtn
-                if (count > 0) {
-                    likeBtn.classList.add('liked');
-                    likeBtn.querySelector('i').className = 'fas fa-heart';
-                } else {
-                    likeBtn.classList.remove('liked');
-                    likeBtn.querySelector('i').className = 'far fa-heart';
-                }
+            const likeCount = document.getElementById('like-count');
+            if (likeCount) {
+                likeCount.textContent = count;
+                likeCount.style.display = count > 0 ? 'flex' : 'none';
             }
 
+            // Sync to Firebase
+            if (window.AuthService) {
+                AuthService.saveFavorites(favorites);
+            }
             // Save to localStorage
             localStorage.setItem('favorites', JSON.stringify(favorites));
         }
 
-        function addToFavorites(item) {
+        async function addToFavorites(item) {
+            // Check authentication
+            const user = await window.AuthService.getUser();
+            if (!user) {
+                showToast('Please login to save favorites', 'info');
+                AuthService.requireAuth();
+                return;
+            }
             if (!item) return; // Prevent errors if item is null
+
             const exists = favorites.find(fav => fav.id === item.id);
             const wishlistBtn = document.getElementById('add-to-wishlist');
 
@@ -2686,7 +2768,11 @@
 
         function renderFavorites() {
             const favContent = document.getElementById('favorites-content');
-            if (!favContent) return; // Add null check
+            if (!favContent) return;
+
+            // Clean up: filter out any null/invalid items
+            favorites = (Array.isArray(favorites) ? favorites : [])
+                .filter(item => item && typeof item === 'object' && item.id);
 
             if (favorites.length === 0) {
                 favContent.innerHTML = `
@@ -2699,13 +2785,12 @@
             }
 
             favContent.innerHTML = `
-                <div>
+                <div class="bag-items-wrapper">
                     ${favorites.map((item, index) => `
                         <div class="bag-item">
-                            <img src="${item.image}" alt="${item.title}" class="bag-item-image">
+                            <img src="${item.image || ''}" alt="${item.title || 'Item'}" class="bag-item-image">
                             <div class="bag-item-info">
-                                <div class="bag-item-title">${item.title}</div>
-                                <div class="bag-item-desc">${item.description.substring(0, 50)}...</div>
+                                <div class="bag-item-title">${item.title || 'Untitled Item'}</div>
                                 <div class="bag-item-price">${formatPrice(item.price)}</div>
                                 <div class="bag-item-actions">
                                     <button class="bag-item-remove" onclick="removeFromFavorites('${item.id}')">Remove</button>
@@ -2939,13 +3024,21 @@
         }
 
         // --- Checkout Function ---
-        function handleCheckout() {
+        async function handleCheckout() {
+            // Check authentication first
+            const user = await window.AuthService.getUser();
+            if (!user) {
+                showToast('Please login to complete your purchase', 'info');
+                AuthService.requireAuth();
+                return;
+            }
+
             if (shoppingBag.length === 0) {
                 showToast('Your bag is empty', 'error');
                 return;
             }
 
-            const subtotal = shoppingBag.reduce((sum, item) => sum + item.price, 0);
+            const subtotal = shoppingBag.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
             const tax = subtotal * 0.18;
             const total = subtotal + tax;
             const totalInPaise = Math.round(total * 100);
@@ -2957,43 +3050,82 @@
                 "name": "Vrindopnishad",
                 "description": `Purchase of ${shoppingBag.length} Collection(s)`,
                 "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
-                "handler": function (response) {
-                    console.log("Razorpay Response:", response);
-                    showToast('Payment Successful! ✅ Preparing your download(s)...', 'info');
+                "handler": async function (response) {
+                    console.log("Razorpay Response Success:", response.razorpay_payment_id);
 
-                    const purchasedIds = shoppingBag.map(item => item.id);
+                    try {
+                        // 1. Immediate UI Cleanup
+                        showToast('Payment Successful! ✅ Starting your download(s)...', 'info');
+                        const bagModal = document.getElementById('bag-modal');
+                        if (bagModal && bagModal.classList.contains('active')) {
+                            toggleBag(); // Close bag immediately
+                        }
 
-                    purchasedIds.forEach(id => {
-                        purchasedItems[id] = {
-                            date: new Date().toISOString(),
-                            paymentId: response.razorpay_payment_id
-                        };
-                    });
+                        // 2. Clone state for processing
+                        const itemsToProcess = (Array.isArray(shoppingBag) ? [...shoppingBag] : [])
+                            .filter(item => item && item.id);
+                        const purchasedIds = itemsToProcess.map(item => item.id);
 
-                    localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+                        if (itemsToProcess.length === 0) return;
 
-                    shoppingBag.forEach((item, index) => {
-                        setTimeout(async () => {
-                            try {
-                                await downloadCollection(item, response.razorpay_payment_id);
-                            } catch (downloadError) {
-                                console.error(`Error downloading ${item.title}: `, downloadError);
-                                showToast(`Error preparing download for ${item.title}.`, 'error');
+                        // 3. Update local state INSTANTLY
+                        itemsToProcess.forEach(item => {
+                            const purchaseData = {
+                                id: item.id,
+                                title: item.title || 'Untitled',
+                                price: Number(item.price) || 0,
+                                image: item.image || '',
+                                paymentId: response.razorpay_payment_id,
+                                date: new Date().toISOString()
+                            };
+                            purchasedItems[item.id] = purchaseData;
+                        });
+
+                        // Persist to local storage immediately
+                        localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+
+                        // 4. Update core UI state
+                        shoppingBag = [];
+                        updateBagCount(); // Clears bag (local & cloud)
+                        renderBag();
+
+                        // Update current product UI if applicable
+                        const currentId = getCollectionIdFromURL();
+                        if (purchasedIds.includes(currentId)) {
+                            const currentItem = findCollection(currentId);
+                            if (currentItem) renderProduct(currentItem);
+                        }
+
+                        // Re-render purchased list if the modal is open
+                        if (typeof renderPurchased === 'function') {
+                            renderPurchased();
+                        }
+
+                        // 5. Trigger Downloads Immediately
+                        itemsToProcess.forEach((item, index) => {
+                            setTimeout(async () => {
+                                try {
+                                    await downloadCollection(item, response.razorpay_payment_id);
+                                } catch (err) {
+                                    console.error(`Auto-download failed for ${item.title}:`, err);
+                                }
+                            }, index * 1000);
+                        });
+
+                        // 6. Background Cloud Sync (No await)
+                        itemsToProcess.forEach(item => {
+                            if (window.AuthService) {
+                                const sanitized = JSON.parse(JSON.stringify(purchasedItems[item.id]));
+                                window.AuthService.savePurchase(sanitized).catch(e => {
+                                    console.warn(`Sync failed for ${item.id}:`, e);
+                                });
                             }
-                        }, index * 1500);
-                    });
+                        });
 
-                    shoppingBag = [];
-                    updateBagCount();
-                    renderBag();
-
-                    const currentId = getCollectionIdFromURL();
-                    if (purchasedIds.indexOf(currentId) !== -1) {
-                        const currentItem = findCollection(currentId);
-                        if (currentItem) renderProduct(currentItem);
+                    } catch (err) {
+                        console.error("Fatal error in payment handler:", err);
+                        showToast("Payment was successful, but there was a minor UI delay. Please check 'Purchased Items'.", "info");
                     }
-
-                    setTimeout(toggleBag, 1000);
                 },
                 "prefill": {
                     "name": "Art Lover",
@@ -3111,11 +3243,86 @@
         window.navigateToCollection = navigateToCollection;
         window.subscribeNewsletter = subscribeNewsletter;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             console.log('=== Collection Details Page Initializing ===');
+
+            initializeTheme();
+
+            // Initialize Auth UI
+            const userBtn = document.getElementById('user-auth-btn');
+            if (userBtn && window.AuthService) {
+                AuthService.updateProfileUI('user-auth-btn');
+                AuthService.onAuthStateChange(() => {
+                    AuthService.updateProfileUI('user-auth-btn');
+                    // Refresh purchases when auth state changes
+                    loadFirebasePurchases();
+                });
+            }
+
             favorites = JSON.parse(localStorage.getItem('favorites')) || [];
             shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
             purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
+
+            // Helper to sync with Firebase
+            async function loadFirebasePurchases() {
+                if (window.AuthService) {
+                    try {
+                        // Load Purchases
+                        const cloudPurchases = await AuthService.getPurchases();
+                        if (cloudPurchases && Object.keys(cloudPurchases).length > 0) {
+                            purchasedItems = { ...purchasedItems, ...cloudPurchases };
+                            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+                        }
+
+                        // Load Bag
+                        let cloudBag = await AuthService.getBag();
+                        if (cloudBag) {
+                            // Firebase might return an object for indexed arrays
+                            if (!Array.isArray(cloudBag)) {
+                                cloudBag = Object.values(cloudBag);
+                            }
+                            if (cloudBag.length > 0) {
+                                shoppingBag = cloudBag;
+                                localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
+                            }
+                        }
+
+                        // Load Favorites
+                        let cloudFavorites = await AuthService.getFavorites();
+                        if (cloudFavorites) {
+                            if (!Array.isArray(cloudFavorites)) {
+                                cloudFavorites = Object.values(cloudFavorites);
+                            }
+                            if (cloudFavorites.length > 0) {
+                                favorites = cloudFavorites;
+                                localStorage.setItem('favorites', JSON.stringify(favorites));
+                            }
+                        }
+
+                        // Re-render UI
+                        const id = getCollectionIdFromURL();
+                        const item = findCollection(id);
+                        if (item) renderProduct(item);
+
+                        updateBagCount();
+                        updateLikeCount();
+                        renderBag();
+                        renderFavorites();
+
+                    } catch (err) {
+                        console.error("Error loading cloud data:", err);
+                    }
+                }
+            }
+
+            // Initial render from local state
+            updateBagCount();
+            updateLikeCount();
+            renderBag();
+            renderFavorites();
+
+            // Initial cloud load (don't block the UI)
+            loadFirebasePurchases();
 
             const id = getCollectionIdFromURL();
             if (!id) {

@@ -13,9 +13,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Supabase & Shared Auth -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../../../js/auth.js" defer></script>
+    <!-- Firebase & Shared Auth -->
+    <script type="importmap">
+    {
+        "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+            "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+            "firebase/database": "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+        }
+    }
+    </script>
+    <script src="../../../js/auth.js" type="module"></script>
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212">
@@ -604,21 +613,6 @@
         })();
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userBtn = document.getElementById('user-auth-btn');
-
-            if (userBtn && window.AuthService) {
-                // Initialize UI
-                AuthService.updateProfileUI('user-auth-btn');
-
-                // Update UI on auth state change
-                AuthService.onAuthStateChange(() => {
-                    AuthService.updateProfileUI('user-auth-btn');
-                });
-            }
-        });
-    </script>
 </body>
 
 </html>

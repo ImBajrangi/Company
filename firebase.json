@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "database.rules.json",
+      "**/.*",
+      "**/.*/**",
+      "**/.git/**",
+      "Projects/**",
+      "**/node_modules/**",
+      "**/.venv/**"
+    ]
+  }
+}

@@ -11,9 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/auth.js" defer></script>
+    <!-- Firebase Import Map for ES Modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+          "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js"
+        }
+      }
+    </script>
+    <script type="module" src="js/auth.js"></script>
 
     <style>
         :root {
@@ -327,7 +335,19 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup
+        } from 'firebase/auth';
+
+        // Wait for AuthService to initialize the global auth if needed, 
+        // but we can just get the auth instance directly since auth.js ran first.
+        import AuthService from './js/auth.js';
+
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('login-form');
             const errorEl = document.getElementById('error-message');
@@ -360,14 +380,11 @@
                 const password = document.getElementById('password').value;
 
                 try {
-                    let result;
                     if (isSignUp) {
-                        result = await window.supabaseClient.auth.signUp({ email, password });
+                        await createUserWithEmailAndPassword(AuthService.auth, email, password);
                     } else {
-                        result = await window.supabaseClient.auth.signInWithPassword({ email, password });
+                        await signInWithEmailAndPassword(AuthService.auth, email, password);
                     }
-
-                    if (result.error) throw result.error;
 
                     // Success - Redirect
                     const urlParams = new URLSearchParams(window.location.search);
@@ -384,13 +401,10 @@
             // Handle Google Login
             document.getElementById('google-btn').addEventListener('click', async () => {
                 try {
-                    const { error } = await window.supabaseClient.auth.signInWithOAuth({
-                        provider: 'google',
-                        options: {
-                            redirectTo: window.location.origin + '/index.html'
-                        }
-                    });
-                    if (error) throw error;
+                    const provider = new GoogleAuthProvider();
+                    await signInWithPopup(AuthService.auth, provider);
+                    // Success - Redirect
+                    window.location.href = '/index.html';
                 } catch (error) {
                     errorEl.textContent = error.message;
                     errorEl.style.display = 'block';

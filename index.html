@@ -21,9 +21,17 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
     <link rel="manifest" href="https://vrindopnishad.in/site.webmanifest">
 
-    <!-- Supabase & Shared Auth -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/auth.js" defer></script>
+    <!-- Firebase Import Map for ES Modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+          "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js"
+        }
+      }
+    </script>
+    <script type="module" src="js/auth.js"></script>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -232,9 +240,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting-cells.css" media="print"
         onload="this.media='all'">
 
-    <!-- Supabase & Shared Auth -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/auth.js" defer></script>
+    <!-- Firebase Import Map for ES Modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+          "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js"
+        }
+      }
+    </script>
+    <script type="module" src="js/auth.js"></script>
 
     <!-- Deferred Scripts -->
     <script src="js/image-helper.js" defer></script>
@@ -1802,21 +1818,6 @@
     <script src="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.js" defer></script>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userBtn = document.getElementById('user-auth-btn');
-
-            if (userBtn && window.AuthService) {
-                // Initialize UI
-                AuthService.updateProfileUI('user-auth-btn');
-
-                // Update UI on auth state change
-                AuthService.onAuthStateChange(() => {
-                    AuthService.updateProfileUI('user-auth-btn');
-                });
-            }
-        });
-    </script>
 </body>
 
 </html>

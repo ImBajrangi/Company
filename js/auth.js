@@ -1,48 +1,73 @@
 /**
  * Vrindopnishad Shared Authentication Service
- * Manages unified login state across all sub-domains and projects.
+ * Manages unified login state across all sub-domains and projects using Firebase.
  */
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "firebase/auth";
+import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    push,
+    child
+} from "firebase/database";
 
-const SUPABASE_URL = 'https://tilimltxgeucefxzerqi.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_0YiM-Q8itRORUDdToracaQ_vzcrjUlC';
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCxBytUXjMdhBQfSjjuaIGfcXZe8N0WkH0",
+    authDomain: "login-me-vrinda.firebaseapp.com",
+    projectId: "login-me-vrinda",
+    storageBucket: "login-me-vrinda.firebasestorage.app",
+    messagingSenderId: "1019370299171",
+    appId: "1:1019370299171:web:1a6df319b2fbfd6fcd3696",
+    measurementId: "G-NN88X7N454"
+};
 
-// Initialize Supabase client globally if not already present
-if (typeof supabase === 'undefined') {
-    console.warn('Supabase library not found. Please ensure the CDN is included.');
-} else if (!window.supabaseClient) {
-    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('Supabase client initialized');
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-// Handle OAuth callback - process tokens from URL hash after OAuth redirect
-(async function handleOAuthCallback() {
-    const hash = window.location.hash;
-    // Check if this is an OAuth callback with tokens
-    if (hash && hash.includes('access_token')) {
-        try {
-            // Supabase automatically picks up the session from URL hash
-            const { data, error } = await window.supabaseClient.auth.getSession();
-            if (error) {
-                console.error('OAuth callback error:', error);
-            } else if (data.session) {
-                console.log('OAuth login successful');
-                // Clean the URL by removing the hash fragment
-                window.history.replaceState(null, '', window.location.pathname + window.location.search);
-            }
-        } catch (err) {
-            console.error('Error processing OAuth callback:', err);
+// Keep a local cached user state to avoid async delays where possible
+let currentUser = null;
+let authStateInitialized = false;
+
+// Global listener for auth state changes
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    authStateInitialized = true;
+});
+
+// Helper to wait for the initial auth state to resolve
+const ensureAuthInitialized = () => {
+    return new Promise((resolve) => {
+        if (authStateInitialized) {
+            resolve(currentUser);
+        } else {
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+                resolve(user);
+                unsubscribe();
+            });
         }
-    }
-})();
+    });
+};
 
 const AuthService = {
+    // Expose firebase auth instance for pages that need deeper integration
+    auth,
+
     /**
      * Get current user session
      */
     async getUser() {
-        if (!window.supabaseClient) return null;
-        const { data: { session } } = await window.supabaseClient.auth.getSession();
-        return session?.user || null;
+        return await ensureAuthInitialized();
     },
 
     /**
@@ -54,20 +79,98 @@ const AuthService = {
     },
 
     /**
+     * Save a purchase to the database
+     */
+    async savePurchase(purchaseData) {
+        const user = await this.getUser();
+        if (!user) throw new Error("Authentication required to save purchase.");
+
+        const purchaseRef = ref(db, `users/${user.uid}/purchases/${purchaseData.id}`);
+        await set(purchaseRef, {
+            ...purchaseData,
+            timestamp: new Date().toISOString()
+        });
+        return true;
+    },
+
+    /**
+     * Get all purchases for the current user
+     */
+    async getPurchases() {
+        const user = await this.getUser();
+        if (!user) return {};
+
+        const userPurchasesRef = ref(db, `users/${user.uid}/purchases`);
+        const snapshot = await get(userPurchasesRef);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        }
+        return {};
+    },
+
+    /**
+     * Save favorites to the database
+     */
+    async saveFavorites(favorites) {
+        const user = await this.getUser();
+        if (!user) return false;
+        const favRef = ref(db, `users/${user.uid}/favorites`);
+        await set(favRef, favorites);
+        return true;
+    },
+
+    /**
+     * Get favorites from the database
+     */
+    async getFavorites() {
+        const user = await this.getUser();
+        if (!user) return [];
+        const favRef = ref(db, `users/${user.uid}/favorites`);
+        const snapshot = await get(favRef);
+        return snapshot.exists() ? snapshot.val() : [];
+    },
+
+    /**
+     * Save shopping bag to the database
+     */
+    async saveBag(bag) {
+        const user = await this.getUser();
+        if (!user) return false;
+        const bagRef = ref(db, `users/${user.uid}/bag`);
+        await set(bagRef, bag);
+        return true;
+    },
+
+    /**
+     * Get shopping bag from the database
+     */
+    async getBag() {
+        const user = await this.getUser();
+        if (!user) return [];
+        const bagRef = ref(db, `users/${user.uid}/bag`);
+        const snapshot = await get(bagRef);
+        return snapshot.exists() ? snapshot.val() : [];
+    },
+
+    /**
      * Logout from all sites
      */
     async logout() {
-        if (!window.supabaseClient) return;
-        await window.supabaseClient.auth.signOut();
-        window.location.href = '/';
+        try {
+            await signOut(auth);
+            window.location.href = '/';
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
     },
 
     /**
      * Redirect to login if not authenticated
      */
     async requireAuth(redirectTo = window.location.pathname) {
-        const auth = await this.isAuthenticated();
-        if (!auth) {
+        const isAuthenticated = await this.isAuthenticated();
+        if (!isAuthenticated) {
             const loginUrl = new URL('/login.html', window.location.origin);
             loginUrl.searchParams.set('redirect', redirectTo);
             window.location.href = loginUrl.toString();
@@ -80,8 +183,7 @@ const AuthService = {
     getInitials(user) {
         if (!user) return '';
 
-        const metadata = user.user_metadata || {};
-        const fullName = metadata.full_name || metadata.name || '';
+        const fullName = user.displayName || '';
 
         if (fullName) {
             const names = fullName.split(' ');
@@ -97,15 +199,11 @@ const AuthService = {
     },
 
     /**
-     * Get user avatar URL from OAuth provider or uploaded picture
+     * Get user avatar URL from OAuth provider
      */
     getAvatarUrl(user) {
         if (!user) return null;
-
-        const metadata = user.user_metadata || {};
-
-        // Check for avatar from OAuth providers (Google, GitHub, etc.)
-        return metadata.avatar_url || metadata.picture || null;
+        return user.photoURL || null;
     },
 
     /**
@@ -210,7 +308,7 @@ const AuthService = {
                     <div class="user-email">${user.email}</div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <button class="dropdown-item" onclick="AuthService.logout()">
+                <button class="dropdown-item" onclick="window.AuthService.logout()">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </button>
             `;
@@ -306,12 +404,11 @@ const AuthService = {
     },
 
     /**
-     * Monitor auth state changes
+     * Monitor auth state changes - wrapped for compatibility
      */
     onAuthStateChange(callback) {
-        if (!window.supabaseClient) return;
-        return window.supabaseClient.auth.onAuthStateChange((event, session) => {
-            callback(event, session?.user || null);
+        return onAuthStateChanged(auth, (user) => {
+            callback('SIGNED_IN_OR_OUT', user);
         });
     }
 };
@@ -319,3 +416,17 @@ const AuthService = {
 // Initial setup
 AuthService.injectStyles();
 window.AuthService = AuthService;
+
+// Auto-initialize UI if the standard button ID is found
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (document.getElementById('user-auth-btn')) {
+            AuthService.updateProfileUI('user-auth-btn');
+            AuthService.onAuthStateChange(() => {
+                AuthService.updateProfileUI('user-auth-btn');
+            });
+        }
+    });
+}
+
+export default AuthService;

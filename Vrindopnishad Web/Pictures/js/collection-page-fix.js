@@ -157,6 +157,12 @@ function toggleMyList(item) {
     }
 
     localStorage.setItem('myCollectionList', JSON.stringify(myList));
+
+    // Sync to Firebase
+    if (window.AuthService) {
+        window.AuthService.saveFavorites(myList);
+    }
+
     refreshMyListUI();
     return index === -1; // returns true if added
 }
@@ -681,6 +687,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             }, 500);
         }
     };
+
+    // --- NEW: Sync Favorites on login ---
+    if (window.AuthService) {
+        window.AuthService.onAuthStateChange(async (event, user) => {
+            if (user) {
+                console.log('User logged in, syncing favorites...');
+                try {
+                    const cloudFavs = await window.AuthService.getFavorites();
+                    if (cloudFavs && cloudFavs.length > 0) {
+                        localStorage.setItem('myCollectionList', JSON.stringify(cloudFavs));
+                        refreshMyListUI();
+                    }
+                } catch (err) {
+                    console.error('Error syncing favorites:', err);
+                }
+            }
+        });
+    }
 
     if (document.readyState === 'complete') {
         hideLoader();
