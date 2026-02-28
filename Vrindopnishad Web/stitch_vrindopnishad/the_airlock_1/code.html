@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Hierarchy - Deep Void</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void": "#050505",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#404040",
+                        "border-void": "#262626",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["EB Garamond", "serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem", 
+                        "lg": "0.25rem", 
+                        "xl": "0.5rem", 
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-pulse {
+            animation: blink 1s step-end infinite;
+        }
+        .noise-overlay {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+            opacity: 0.03;
+        }
+        .vertical-scale-line {
+            background: linear-gradient(to bottom, transparent, #404040 10%, #404040 90%, transparent);
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main h-screen w-full overflow-hidden font-display antialiased selection:bg-[#333333] selection:text-white">
+<div class="fixed inset-0 pointer-events-none noise-overlay z-0"></div>
+<nav class="fixed top-0 left-0 w-full p-8 flex justify-between items-start z-50 pointer-events-none">
+<div class="flex flex-col gap-1 pointer-events-auto">
+<span class="font-mono text-[10px] text-text-muted tracking-widest uppercase">Protocol // Archive</span>
+<h2 class="text-xl font-bold tracking-tighter uppercase">The Hierarchy</h2>
+</div>
+<div class="flex items-center gap-6 pointer-events-auto">
+<div class="text-right flex flex-col items-end">
+<span class="font-mono text-[10px] text-text-muted tracking-widest uppercase">System Load</span>
+<span class="font-mono text-xs text-primary">0.0004%</span>
+</div>
+<button class="material-symbols-outlined text-text-muted hover:text-text-main transition-colors">close</button>
+</div>
+</nav>
+<main class="relative z-10 h-full w-full flex items-center justify-center pt-24 px-12">
+<div class="grid grid-cols-12 w-full max-w-6xl gap-12 h-[70vh]">
+<div class="col-span-3 flex flex-col justify-between py-4 border-r border-border-void relative">
+<div class="absolute right-[-1px] top-0 bottom-0 w-px vertical-scale-line"></div>
+<div class="flex flex-col gap-2">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-[0.2em]">01 / Zenith</span>
+<h3 class="text-2xl font-bold tracking-tight opacity-20">COMMANDER</h3>
+</div>
+<div class="flex flex-col gap-2 relative">
+<div class="absolute -left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+<span class="font-mono text-[10px] text-primary uppercase tracking-[0.2em]">02 / Active Tier</span>
+<h3 class="text-2xl font-bold tracking-tight text-text-main">OPERATOR</h3>
+<div class="h-px w-12 bg-primary/40 mt-1"></div>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-[0.2em]">03 / Base</span>
+<h3 class="text-2xl font-bold tracking-tight opacity-20">ACOLYTE</h3>
+</div>
+</div>
+<div class="col-span-9 flex flex-col h-full">
+<div class="grid grid-cols-12 pb-4 border-b border-border-void font-mono text-[10px] text-text-muted uppercase tracking-[0.2em]">
+<div class="col-span-1">Pos</div>
+<div class="col-span-6">Identity</div>
+<div class="col-span-3">Contribution Weight</div>
+<div class="col-span-2 text-right">Status</div>
+</div>
+<div class="flex-1 overflow-y-auto font-mono text-sm py-4 scrollbar-hide">
+<div class="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 transition-opacity">
+<div class="col-span-1">001</div>
+<div class="col-span-6">V_REVENANT</div>
+<div class="col-span-3">142.880.04</div>
+<div class="col-span-2 text-right text-[10px]">[ OFFLINE ]</div>
+</div>
+<div class="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 transition-opacity">
+<div class="col-span-1">002</div>
+<div class="col-span-6">NULL_VECTOR</div>
+<div class="col-span-3">128.004.91</div>
+<div class="col-span-2 text-right text-[10px]">[ IDLE ]</div>
+</div>
+<div class="grid grid-cols-12 py-5 border-y border-primary/30 bg-primary/5 relative group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="col-span-1 text-primary">003</div>
+<div class="col-span-6 flex items-center gap-2">
+<span class="text-text-main font-bold">USER_ALPHA</span>
+<span class="w-2 h-4 bg-primary cursor-pulse inline-block"></span>
+</div>
+<div class="col-span-3 text-text-main">94.202.11</div>
+<div class="col-span-2 text-right text-[10px] text-primary">[ ACTIVE_LINK ]</div>
+</div>
+<div class="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 transition-opacity">
+<div class="col-span-1">004</div>
+<div class="col-span-6">GHOST_SIGNAL</div>
+<div class="col-span-3">82.119.00</div>
+<div class="col-span-2 text-right text-[10px]">[ OFFLINE ]</div>
+</div>
+<div class="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 transition-opacity">
+<div class="col-span-1">005</div>
+<div class="col-span-6">STARK_VOID</div>
+<div class="col-span-3">77.402.15</div>
+<div class="col-span-2 text-right text-[10px]">[ OFFLINE ]</div>
+</div>
+<div class="grid grid-cols-12 py-3 border-b border-white/5 opacity-40 hover:opacity-100 transition-opacity">
+<div class="col-span-1">006</div>
+<div class="col-span-6">MONOLITH_X</div>
+<div class="col-span-3">64.001.22</div>
+<div class="col-span-2 text-right text-[10px]">[ OFFLINE ]</div>
+</div>
+<div class="grid grid-cols-12 py-3 border-b border-white/5 opacity-20">
+<div class="col-span-1">...</div>
+<div class="col-span-6">---</div>
+<div class="col-span-3">---</div>
+<div class="col-span-2 text-right text-[10px]">---</div>
+</div>
+</div>
+<div class="mt-auto pt-8 flex justify-between border-t border-border-void">
+<div class="flex flex-col gap-1">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">Global Density</span>
+<div class="flex items-center gap-1">
+<div class="w-16 h-1 bg-border-void overflow-hidden">
+<div class="w-3/4 h-full bg-text-muted"></div>
+</div>
+<span class="font-mono text-[10px] text-text-muted">74%</span>
+</div>
+</div>
+<div class="text-right flex flex-col items-end gap-1">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">Next Evolution</span>
+<span class="font-mono text-xs text-text-main">10,000 WEIGHT REMAINING</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<aside class="fixed right-0 top-0 bottom-0 w-16 border-l border-border-void flex flex-col items-center justify-center gap-12 z-20">
+<div class="rotate-90 origin-center whitespace-nowrap font-mono text-[10px] tracking-[0.5em] text-text-muted uppercase">
+        Ascension Protocol v1.4
+    </div>
+<div class="flex flex-col gap-4">
+<div class="w-1 h-1 rounded-full bg-primary shadow-[0_0_8px_#f04242]"></div>
+<div class="w-1 h-1 rounded-full bg-border-void"></div>
+<div class="w-1 h-1 rounded-full bg-border-void"></div>
+</div>
+</aside>
+<footer class="fixed bottom-8 left-8 flex gap-8 font-mono text-[10px] text-text-muted uppercase tracking-widest z-50">
+<span>Depth: 14,000km</span>
+<span class="text-primary">Syncing...</span>
+</footer>
+
+</body></html>

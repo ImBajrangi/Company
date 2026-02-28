@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Archive Grid - Deep Void Content Showcase</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void": "#050505",
+                        "void-matte": "#0a0a0a",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#666666",
+                        "border-void": "#1a1a1a",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px", 
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-void text-text-main font-display antialiased selection:bg-primary selection:text-white overflow-x-hidden;
+            }
+        }
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            width: 100%;
+        }
+        .grid-cell {
+            aspect-ratio: 1/1;
+            @apply relative overflow-hidden bg-void-matte border-r border-b border-border-void/60 transition-all duration-300;
+        }
+        .grid-cell:hover {
+            @apply z-10;
+            box-shadow: inset 0 0 0 1px theme('colors.primary');
+        }
+        .cell-img {
+            @apply w-full h-full object-cover grayscale brightness-75 contrast-125 transition-transform duration-700 opacity-60;
+        }
+        .grid-cell:hover .cell-img {
+            @apply scale-110 brightness-100 opacity-100;
+        }
+        .noise-overlay {
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDqoRsFj5qQz9ZHt8xnfvS-V3VWlm258U8SHBnwROMiXzLhaPgTvMSKoWDhN5axrpAc8Fr2QzyNtoFctLucOOGZhgBUqayaZ-IEEMyueyALWSFKiWJo8uy-_Ke0OJEa_I7dvZI1x65-dt5RW38TDV1ZbVKYREPv67S_VYRSjgXBM5zrCXNX_eRix8TnS-oO4-6LbVHjjZpteF3tplkivCUszF6IqFFBVlH8KcrSKEoWKyuYSWUp_3afvfs7D9cbmXwVjgoUHOsk1PY);
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 2px;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            @apply bg-void;
+        }
+        ::-webkit-scrollbar-thumb {
+            @apply bg-border-void;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<nav class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-[60] bg-void/90 backdrop-blur-md border-b border-border-void">
+<div class="flex items-center gap-4">
+<div class="w-1.5 h-1.5 bg-primary"></div>
+<div class="font-mono text-[10px] tracking-[0.4em] text-text-main uppercase font-bold">
+            DEEP_VOID / ARCHIVE_ACCESS
+        </div>
+</div>
+<div class="flex gap-8">
+<a class="font-mono text-[10px] tracking-widest text-text-muted hover:text-primary transition-colors" href="#">DIRECTORY</a>
+<a class="font-mono text-[10px] tracking-widest text-text-muted hover:text-primary transition-colors" href="#">TRANSMISSIONS</a>
+<a class="font-mono text-[10px] tracking-widest text-white border-b border-primary pb-1" href="#">VISUAL_GRID</a>
+</div>
+</nav>
+<aside class="fixed left-0 top-0 h-full w-10 border-r border-border-void hidden lg:flex flex-col items-center justify-between py-24 z-40 pointer-events-none">
+<div class="rotate-90 font-mono text-[9px] text-text-muted tracking-[0.4em] whitespace-nowrap opacity-40">
+        LAT: 52.3676° N
+    </div>
+<div class="rotate-90 font-mono text-[9px] text-primary tracking-[0.4em] whitespace-nowrap uppercase font-bold">
+        Grid_Active
+    </div>
+<div class="rotate-90 font-mono text-[9px] text-text-muted tracking-[0.4em] whitespace-nowrap opacity-40">
+        LNG: 4.9041° E
+    </div>
+</aside>
+<main class="pt-16 lg:pl-10">
+<header class="px-6 py-8 border-b border-border-void flex flex-col md:flex-row justify-between items-end gap-6 bg-void-matte">
+<div class="space-y-1">
+<h1 class="font-mono text-2xl md:text-3xl font-bold tracking-tighter uppercase text-white">The_Archive_Grid</h1>
+<p class="font-mono text-[10px] text-text-muted uppercase tracking-[0.2em]">Visual Telemetry Mode // Sector: Deep_Space_Core</p>
+</div>
+<div class="flex items-center gap-12 font-mono text-[9px] text-text-muted">
+<div class="flex flex-col items-start border-l border-border-void pl-4">
+<span class="text-white opacity-40">DATA_DENSITY</span>
+<span class="text-white">ULTRA_HIGH</span>
+</div>
+<div class="flex flex-col items-start border-l border-border-void pl-4">
+<span class="text-white opacity-40">INDEXED_CELLS</span>
+<span class="text-white">2,048 UNITS</span>
+</div>
+<div class="flex flex-col items-start border-l border-primary pl-4">
+<span class="text-primary font-bold">CONNECTION</span>
+<span class="text-primary animate-pulse">ENCRYPTED</span>
+</div>
+</div>
+</header>
+<div class="archive-grid border-t border-l border-border-void">
+<script>
+            const images = [
+                "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1464802686167-b939a6910659?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1506318137071-a8e063b4bcc0?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&q=80&w=300",
+                "https://images.unsplash.com/photo-1446776899648-aa78eefe8512?auto=format&fit=crop&q=80&w=300"
+            ];
+            const grid = document.currentScript.parentElement;
+            for(let i = 1; i <= 120; i++) {
+                const id = String(i).padStart(3, '0');
+                const img = images[i % images.length];
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell group';
+                cell.innerHTML = `
+                    <img src="${img}" class="cell-img" alt="TR_${id}">
+                    <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                        <div class="w-1/2 h-1/2 border border-primary/20"></div>
+                    </div>
+                    <div class="absolute top-0 left-0 bg-void px-1 py-0.5 z-20 opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-100%] group-hover:translate-x-0">
+                        <span class="font-mono text-[8px] text-primary font-bold">TS_${id}</span>
+                    </div>
+                    <div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 transition-all scale-50 group-hover:scale-100">
+                        <span class="material-symbols-outlined text-[10px] text-primary">filter_center_focus</span>
+                    </div>
+                    <div class="absolute inset-0 border border-white/5 pointer-events-none"></div>
+                `;
+                grid.appendChild(cell);
+            }
+        </script>
+</div>
+</main>
+<footer class="lg:pl-10 border-t border-border-void bg-void p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-1 font-mono">
+<button class="text-[9px] px-3 py-1.5 border border-border-void hover:bg-white hover:text-void transition-all uppercase tracking-widest">
+            Prev_Sector
+        </button>
+<div class="px-4 text-[9px] text-text-muted tracking-widest">
+            PAGE [ 01 / 64 ]
+        </div>
+<button class="text-[9px] px-3 py-1.5 border border-border-void hover:bg-white hover:text-void transition-all uppercase tracking-widest">
+            Next_Sector
+        </button>
+</div>
+<div class="flex items-center gap-10">
+<div class="font-mono text-[9px] text-text-muted space-y-0.5 text-right hidden sm:block">
+<p>UI_OVERLAY: v.4.0.2</p>
+<p>DATA_STREAM: STABLE</p>
+</div>
+<div class="h-6 w-px bg-border-void"></div>
+<div class="text-right font-mono text-[9px] text-text-muted uppercase">
+<p>© DEEP_VOID_ARCHIVE</p>
+<p class="text-primary font-bold">TERMINAL_SECURE</p>
+</div>
+</div>
+</footer>
+<div class="fixed inset-0 pointer-events-none opacity-[0.04] noise-overlay z-[100]"></div>
+<div class="fixed inset-0 pointer-events-none opacity-[0.05] scanline z-[99]"></div>
+<div class="fixed top-0 left-0 p-2 lg:p-4 pointer-events-none z-[70]">
+<div class="w-8 h-8 border-t border-l border-primary/40"></div>
+</div>
+<div class="fixed top-0 right-0 p-2 lg:p-4 pointer-events-none z-[70]">
+<div class="w-8 h-8 border-t border-r border-primary/40"></div>
+</div>
+<div class="fixed bottom-0 left-0 p-2 lg:p-4 pointer-events-none z-[70]">
+<div class="w-8 h-8 border-b border-l border-primary/40"></div>
+</div>
+<div class="fixed bottom-0 right-0 p-2 lg:p-4 pointer-events-none z-[70]">
+<div class="w-8 h-8 border-b border-r border-primary/40"></div>
+</div>
+<div class="fixed bottom-4 left-1/2 -translate-x-1/2 font-mono text-[8px] text-text-muted tracking-[1em] uppercase opacity-20 pointer-events-none z-50">
+    Sector_Zero_Transmitting...
+</div>
+
+</body></html>

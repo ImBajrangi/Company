@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hierarchy Mobile Rankings - Deep Void</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FF3333",
+                        "void": "#050505",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#525252",
+                        "border-void": "#1A1A1A",
+                    },
+                    fontFamily: {
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+        .noise-overlay {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+            opacity: 0.04;
+            pointer-events: none;
+        }
+        .vertical-ruler {
+            background-image: linear-gradient(to bottom, 
+                #525252 1px, transparent 1px);
+            background-size: 100% 20px;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 51, 51, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .rank-indicator-line {
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-void text-text-main font-mono antialiased overflow-hidden selection:bg-primary selection:text-white">
+<div class="fixed inset-0 z-50 noise-overlay"></div>
+<div class="flex items-center justify-center min-h-screen w-full bg-[#000]">
+<main class="relative w-full max-w-[420px] h-[100vh] bg-void border-x border-border-void flex flex-col overflow-hidden shadow-2xl">
+<header class="p-6 border-b border-border-void bg-void/80 backdrop-blur-md z-40">
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="text-[10px] text-text-muted tracking-[0.3em] uppercase mb-1">System // Rank</div>
+<h1 class="text-xl font-bold tracking-tighter uppercase">The Hierarchy</h1>
+</div>
+<button class="material-symbols-outlined text-text-muted">more_vert</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex-1">
+<div class="text-[9px] text-text-muted uppercase mb-1">Current Tier</div>
+<div class="text-sm font-bold tracking-widest text-primary">OPERATOR [02]</div>
+</div>
+<div class="text-right">
+<div class="text-[9px] text-text-muted uppercase mb-1">Global Weight</div>
+<div class="text-sm">94,202.11</div>
+</div>
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<aside class="w-20 relative border-r border-border-void flex flex-col items-center py-8">
+<div class="absolute inset-y-8 left-1/2 -translate-x-1/2 w-[1px] vertical-ruler opacity-30"></div>
+<div class="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-32">
+<div class="rotate-90 origin-left translate-x-3 text-[10px] text-text-muted/40 uppercase tracking-widest">Commander</div>
+<div class="relative flex items-center justify-center">
+<div class="w-10 h-10 border border-primary/30 flex items-center justify-center bg-void">
+<div class="w-4 h-0.5 bg-primary rank-indicator-line"></div>
+</div>
+<div class="absolute left-12 whitespace-nowrap text-[10px] font-bold text-primary tracking-widest">LEVEL_02</div>
+</div>
+<div class="rotate-90 origin-left translate-x-3 text-[10px] text-text-muted/40 uppercase tracking-widest">Acolyte</div>
+</div>
+</aside>
+<section class="flex-1 overflow-y-auto scrollbar-hide">
+<div class="sticky top-0 bg-void border-b border-border-void px-4 py-3 z-20 flex justify-between items-center">
+<span class="text-[9px] text-text-muted tracking-widest uppercase">Stratification List</span>
+<span class="text-[9px] text-text-muted uppercase">T-34 Nodes</span>
+</div>
+<div class="divide-y divide-border-void">
+<div class="p-4 flex flex-col gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-tight">V_REVENANT</span>
+<span class="text-[9px] text-text-muted">#001</span>
+</div>
+<div class="flex justify-between items-center font-mono text-[10px]">
+<span class="text-text-muted uppercase tracking-tighter">Weight: 142,880.04</span>
+<span class="text-text-muted">[OFFLINE]</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-tight">NULL_VECTOR</span>
+<span class="text-[9px] text-text-muted">#002</span>
+</div>
+<div class="flex justify-between items-center font-mono text-[10px]">
+<span class="text-text-muted uppercase tracking-tighter">Weight: 128,004.91</span>
+<span class="text-text-muted">[IDLE]</span>
+</div>
+</div>
+<div class="p-4 bg-primary/5 border-l-2 border-primary relative overflow-hidden">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold tracking-tight text-white">USER_ALPHA</span>
+<span class="w-1.5 h-3 bg-primary animate-[pulse_1s_infinite]"></span>
+</div>
+<span class="text-[9px] text-primary font-bold">#003</span>
+</div>
+<div class="flex justify-between items-center font-mono text-[10px]">
+<span class="text-text-main uppercase tracking-tighter font-medium">Weight: 94,202.11</span>
+<span class="text-primary font-bold tracking-widest">[LINKED]</span>
+</div>
+</div>
+<div class="absolute right-0 bottom-0 opacity-10">
+<span class="material-symbols-outlined text-4xl">sensors</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-tight">GHOST_SIGNAL</span>
+<span class="text-[9px] text-text-muted">#004</span>
+</div>
+<div class="flex justify-between items-center font-mono text-[10px]">
+<span class="text-text-muted uppercase tracking-tighter">Weight: 82,119.00</span>
+<span class="text-text-muted">[OFFLINE]</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-tight">STARK_VOID</span>
+<span class="text-[9px] text-text-muted">#005</span>
+</div>
+<div class="flex justify-between items-center font-mono text-[10px]">
+<span class="text-text-muted uppercase tracking-tighter">Weight: 77,402.15</span>
+<span class="text-text-muted">[OFFLINE]</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-tight">MONOLITH_X</span>
+<span class="text-[9px] text-text-muted">#006</span>
+</div>
+<div class="flex justify-between items-center font-mono text-[10px]">
+<span class="text-text-muted uppercase tracking-tighter">Weight: 64,001.22</span>
+<span class="text-text-muted">[OFFLINE]</span>
+</div>
+</div>
+<div class="h-32"></div>
+</div>
+</section>
+</div>
+<footer class="p-6 border-t border-border-void bg-void z-40">
+<div class="flex justify-between items-end mb-4">
+<div class="flex flex-col gap-1">
+<span class="text-[9px] text-text-muted uppercase tracking-widest">Ascension Progress</span>
+<div class="w-32 h-1 bg-border-void">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[9px] text-text-muted uppercase block">Next Tier Evolution</span>
+<span class="text-[10px] text-text-main font-bold">+5,797.89</span>
+</div>
+</div>
+<nav class="flex justify-between items-center pt-4 border-t border-border-void/50">
+<button class="material-symbols-outlined text-primary text-xl">grid_view</button>
+<button class="material-symbols-outlined text-text-muted text-xl hover:text-text-main">search</button>
+<button class="material-symbols-outlined text-text-muted text-xl hover:text-text-main">account_circle</button>
+<button class="material-symbols-outlined text-text-muted text-xl hover:text-text-main">settings</button>
+</nav>
+</footer>
+<div class="absolute bottom-24 left-4 z-50">
+<div class="flex flex-col gap-1 opacity-20">
+<div class="w-1 h-1 bg-text-muted"></div>
+<div class="w-1 h-1 bg-text-muted"></div>
+<div class="w-1 h-1 bg-primary"></div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

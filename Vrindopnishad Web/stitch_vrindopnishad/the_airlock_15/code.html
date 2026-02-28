@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Feed - Deep Void</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "void": "#050505",
+                        "text-main": "#E5E5E5",
+                        "text-muted": "#666666",
+                        "border-void": "#262626",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .noise-overlay {
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+                opacity: 0.02;
+            }
+            .feed-item {
+                @apply border-b border-white transition-colors duration-300;
+            }
+            .feed-item:active {
+                @apply bg-white text-black;
+            }
+            .feed-item:active .meta-text {
+                @apply text-black/60;
+            }
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-void text-text-main font-display antialiased selection:bg-white selection:text-black min-h-screen flex flex-col items-center">
+<div class="fixed inset-0 pointer-events-none noise-overlay z-50"></div>
+<header class="w-full max-w-[430px] p-6 pt-12 flex justify-between items-end sticky top-0 bg-void/80 backdrop-blur-md z-40 border-b border-white/10">
+<div class="flex flex-col">
+<span class="font-mono text-[10px] text-text-muted tracking-widest uppercase mb-1">Transmission // Stream</span>
+<h1 class="text-3xl font-bold tracking-tighter uppercase leading-none">The Feed</h1>
+</div>
+<div class="font-mono text-[10px] text-text-muted mb-1">
+            v4.0.2
+        </div>
+</header>
+<main class="w-full max-w-[430px] flex-1 pb-32">
+<article class="feed-item p-6 cursor-pointer group">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-start font-mono text-[9px] uppercase tracking-widest meta-text text-text-muted">
+<span>Trans. // 0882-X</span>
+<span>14.02.24</span>
+</div>
+<h2 class="text-4xl font-semibold leading-[0.95] tracking-tight pr-8 uppercase">
+                    Architectural Collapse in the Fourth Quadrant
+                </h2>
+<div class="flex gap-6 font-mono text-[10px] uppercase meta-text text-text-muted">
+<div class="flex flex-col">
+<span class="opacity-50">Source</span>
+<span class="text-text-main group-active:text-black">Null_Vector</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-50">Clarity</span>
+<span class="text-text-main group-active:text-black">98.4%</span>
+</div>
+</div>
+</div>
+</article>
+<article class="feed-item p-6 cursor-pointer group">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-start font-mono text-[9px] uppercase tracking-widest meta-text text-text-muted">
+<span>Trans. // 0881-X</span>
+<span>13.02.24</span>
+</div>
+<h2 class="text-4xl font-semibold leading-[0.95] tracking-tight pr-8 uppercase">
+                    Silencing the Echoes of the Void
+                </h2>
+<div class="flex gap-6 font-mono text-[10px] uppercase meta-text text-text-muted">
+<div class="flex flex-col">
+<span class="opacity-50">Source</span>
+<span class="text-text-main group-active:text-black">Sentinel_Prime</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-50">Clarity</span>
+<span class="text-text-main group-active:text-black">41.2%</span>
+</div>
+</div>
+</div>
+</article>
+<article class="feed-item p-6 cursor-pointer group">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-start font-mono text-[9px] uppercase tracking-widest meta-text text-text-muted">
+<span>Trans. // 0880-X</span>
+<span>11.02.24</span>
+</div>
+<h2 class="text-4xl font-semibold leading-[0.95] tracking-tight pr-8 uppercase">
+                    New Protocols for Data Ascension
+                </h2>
+<div class="flex gap-6 font-mono text-[10px] uppercase meta-text text-text-muted">
+<div class="flex flex-col">
+<span class="opacity-50">Source</span>
+<span class="text-text-main group-active:text-black">The_Oracle</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-50">Clarity</span>
+<span class="text-text-main group-active:text-black">100.0%</span>
+</div>
+</div>
+</div>
+</article>
+<article class="feed-item p-6 cursor-pointer group">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-start font-mono text-[9px] uppercase tracking-widest meta-text text-text-muted">
+<span>Trans. // 0879-X</span>
+<span>09.02.24</span>
+</div>
+<h2 class="text-4xl font-semibold leading-[0.95] tracking-tight pr-8 uppercase">
+                    The Geometry of Permanent Darkness
+                </h2>
+<div class="flex gap-6 font-mono text-[10px] uppercase meta-text text-text-muted">
+<div class="flex flex-col">
+<span class="opacity-50">Source</span>
+<span class="text-text-main group-active:text-black">V_Revenant</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-50">Clarity</span>
+<span class="text-text-main group-active:text-black">76.8%</span>
+</div>
+</div>
+</div>
+</article>
+<article class="feed-item p-6 cursor-pointer group">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-start font-mono text-[9px] uppercase tracking-widest meta-text text-text-muted">
+<span>Trans. // 0878-X</span>
+<span>08.02.24</span>
+</div>
+<h2 class="text-4xl font-semibold leading-[0.95] tracking-tight pr-8 uppercase">
+                    Unlinked: The Ghost in the Buffer
+                </h2>
+<div class="flex gap-6 font-mono text-[10px] uppercase meta-text text-text-muted">
+<div class="flex flex-col">
+<span class="opacity-50">Source</span>
+<span class="text-text-main group-active:text-black">Unknown</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-50">Clarity</span>
+<span class="text-text-main group-active:text-black">12.0%</span>
+</div>
+</div>
+</div>
+</article>
+</main>
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-void border-t border-white/20 px-8 py-6 flex justify-between items-center z-50">
+<button class="material-symbols-outlined text-text-main">
+            dynamic_feed
+        </button>
+<button class="material-symbols-outlined text-text-muted hover:text-text-main">
+            layers
+        </button>
+<button class="material-symbols-outlined text-text-muted hover:text-text-main">
+            terminal
+        </button>
+<button class="material-symbols-outlined text-text-muted hover:text-text-main">
+            account_tree
+        </button>
+<button class="material-symbols-outlined text-text-muted hover:text-text-main">
+            settings_input_component
+        </button>
+</nav>
+<aside class="fixed right-4 top-1/2 -translate-y-1/2 hidden lg:block opacity-20 rotate-90 origin-right pointer-events-none">
+<span class="font-mono text-[10px] tracking-[1em] uppercase whitespace-nowrap text-white">DEEP VOID MOBILE INTERFACE // SECURED</span>
+</aside>
+
+</body></html>

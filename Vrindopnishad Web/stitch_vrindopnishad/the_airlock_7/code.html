@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Nexus - Deep Void Mobile</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f04242",
+                        "void-black": "#050505",
+                        "void-gray": "#121212",
+                        "text-main": "#FFFFFF",
+                        "text-muted": "#666666",
+                        "border-void": "#262626",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-void-black text-text-main font-display antialiased;
+            }
+        }
+        .noise-overlay {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgyjEX08k7rB7INFaC2eR0OFlcunjJch52-aMNk4W7Tf9Y1XQXxbWjcXDHYPyd8Huv-rsCrxgv-cLYQ0lTbbS3Q7uPwwHslf25wEUQHXcBdWj4ndec1fLaZfyG9qmNAMz1hkrPBayyQfsCnPxE7tmf28BIVdmUk9xzEQK49q8eHkV_6CY4Id2Tw3VmsLSzX-23smiTJOyAFBCl0IMzdTnA0dbyTjR2hMGLshbq9THOKlt7MBxI8diKfI1Ry6L_cOGPTRY-xugXHH0');
+            opacity: 0.02;
+            pointer-events: none;
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 5;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0) 100%);
+            position: absolute;
+            pointer-events: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24">
+<div class="fixed inset-0 noise-overlay z-0"></div>
+<div class="scanline top-0"></div>
+<header class="relative z-10 px-6 pt-12 pb-8 border-b border-white/10">
+<div class="flex flex-col gap-1">
+<span class="font-mono text-[10px] text-primary tracking-[0.3em] uppercase">Status: Connected</span>
+<h1 class="text-4xl font-bold tracking-tighter leading-none">THE_VOID</h1>
+</div>
+<div class="absolute top-12 right-6">
+<span class="material-symbols-outlined text-white text-2xl">sensors</span>
+</div>
+</header>
+<main class="relative z-10 flex flex-col divide-y divide-white/10">
+<section class="px-6 py-10">
+<div class="flex items-center justify-between mb-6">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">Core_Metrics</span>
+<span class="font-mono text-[10px] text-primary">v0.9.4</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 border border-white/10 bg-void-gray/30">
+<p class="font-mono text-[10px] text-text-muted uppercase mb-1">Depth</p>
+<p class="text-3xl font-bold font-mono tracking-tighter">14.2k</p>
+</div>
+<div class="p-4 border border-white/10 bg-void-gray/30">
+<p class="font-mono text-[10px] text-text-muted uppercase mb-1">Latency</p>
+<p class="text-3xl font-bold font-mono tracking-tighter text-primary">04ms</p>
+</div>
+<div class="col-span-2 p-4 border border-white/10 bg-void-gray/30 flex justify-between items-end">
+<div>
+<p class="font-mono text-[10px] text-text-muted uppercase mb-1">Sync_Ratio</p>
+<p class="text-4xl font-bold font-mono tracking-tighter">98.42%</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="w-12 h-1 bg-white/10">
+<div class="w-4/5 h-full bg-primary"></div>
+</div>
+<span class="font-mono text-[8px] text-text-muted">BUFFERING...</span>
+</div>
+</div>
+</div>
+</section>
+<section class="px-6 py-10">
+<div class="flex items-center justify-between mb-8">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">Latest_Signals</span>
+<span class="material-symbols-outlined text-text-muted text-sm">filter_list</span>
+</div>
+<div class="flex flex-col gap-10">
+<div class="group">
+<span class="font-mono text-[10px] text-text-muted mb-2 block">12:04 // SYSTEM</span>
+<h3 class="text-2xl font-bold tracking-tight leading-tight group-hover:text-primary transition-colors cursor-pointer">THE HIERARCHY SHIFT DETECTED IN SECTOR 7</h3>
+</div>
+<div class="group">
+<span class="font-mono text-[10px] text-text-muted mb-2 block">11:58 // ENCRYPTED</span>
+<h3 class="text-2xl font-bold tracking-tight leading-tight group-hover:text-primary transition-colors cursor-pointer">NEW CONTRIBUTION WEIGHT RECORD BY USER_ALPHA</h3>
+</div>
+<div class="group opacity-40">
+<span class="font-mono text-[10px] text-text-muted mb-2 block">11:42 // ARCHIVE</span>
+<h3 class="text-2xl font-bold tracking-tight leading-tight group-hover:text-primary transition-colors cursor-pointer">VOID BRUTALISM: A NEW ARCHITECTURAL PARADIGM</h3>
+</div>
+</div>
+</section>
+<section class="px-6 py-10 bg-white/[0.02]">
+<div class="flex items-center justify-between mb-6">
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">Active_Channels</span>
+</div>
+<div class="flex flex-col gap-px bg-white/10 border border-white/10">
+<div class="bg-void-black p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-mono text-sm uppercase">#general-void</span>
+</div>
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">1.4k Users</span>
+</div>
+<div class="bg-void-black p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+<span class="font-mono text-sm uppercase text-text-muted">#dev-logs</span>
+</div>
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">24 Users</span>
+</div>
+<div class="bg-void-black p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-mono text-sm uppercase">#terminal-feed</span>
+</div>
+<span class="font-mono text-[10px] text-text-muted uppercase tracking-widest">804 Users</span>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-void-black border-t border-white/10 px-6 py-4">
+<div class="flex items-center justify-between">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-white text-2xl group-hover:text-primary transition-colors">home</span>
+<span class="font-mono text-[8px] uppercase text-white tracking-widest">Nexus</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-text-muted text-2xl group-hover:text-primary transition-colors">signal_cellular_alt</span>
+<span class="font-mono text-[8px] uppercase text-text-muted tracking-widest">Hierarchy</span>
+</button>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 bg-primary flex items-center justify-center -mt-10 rounded-sm border-4 border-void-black">
+<span class="material-symbols-outlined text-white">add</span>
+</div>
+</div>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-text-muted text-2xl group-hover:text-primary transition-colors">grid_view</span>
+<span class="font-mono text-[8px] uppercase text-text-muted tracking-widest">Channels</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-text-muted text-2xl group-hover:text-primary transition-colors">person</span>
+<span class="font-mono text-[8px] uppercase text-text-muted tracking-widest">Profile</span>
+</button>
+</div>
+</nav>
+<div class="fixed top-0 left-0 w-px h-full bg-white/5 pointer-events-none"></div>
+<div class="fixed top-0 right-0 w-px h-full bg-white/5 pointer-events-none"></div>
+<footer class="fixed bottom-24 right-6 pointer-events-none opacity-20">
+<span class="font-mono text-[8px] uppercase tracking-[0.4em] rotate-90 origin-right whitespace-nowrap">Protocol_v1.4</span>
+</footer>
+
+</body></html>
