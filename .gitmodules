@@ -16,3 +16,6 @@
 [submodule "Projects/skillTadka"]
 	path = Projects/skillTadka
 	url = https://github.com/ImBajrangi/skillTadka.git
+[submodule "Vrindopnishad%20Web/DevDashboard"]
+	path = Vrindopnishad%20Web/DevDashboard
+	url = https://github.com/ImBajrangi/DevDashboard.git
