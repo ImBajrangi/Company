@@ -13,11 +13,13 @@
 
 :root {
     /* Light Theme - Modern & Futuristic */
-    --primary-color: #6366f1; /* Indigo */
+    --primary-color: #6366f1;
+    /* Indigo */
     --primary-light: #818cf8;
     --primary-dark: #4f46e5;
     --secondary-color: #334155;
-    --accent-color: #f43f5e; /* Rose */
+    --accent-color: #f43f5e;
+    /* Rose */
     --text-color: #1e293b;
     --text-light: #64748b;
     --background-color: #f8fafc;
@@ -33,26 +35,27 @@
     --constellation-color: rgba(99, 102, 241, 0.3);
 }
 
-/* Dark Theme Variables - Futuristic */
-.dark-theme {
-    --primary-color: #818cf8;
-    --primary-light: #a5b4fc;
-    --primary-dark: #6366f1;
-    --secondary-color: #e2e8f0;
-    --accent-color: #fb7185;
-    --text-color: #f8fafc;
-    --text-light: #cbd5e1;
-    --background-color: #0f172a;
-    --border-color: #334155;
-    --card-bg: #1e293b;
-    --dark-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-    --light-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
-    --particle-color: rgba(129, 140, 248, 0.3);
-    --pdf-bg: #0f172a;
-    --loader-bg: rgba(15, 23, 42, 0.9);
-    --drop-area-bg: rgba(15, 23, 42, 0.98);
-    --modal-overlay: rgba(0, 0, 0, 0.8);
-    --constellation-color: rgba(129, 140, 248, 0.4);
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #818cf8;
+        --primary-light: #a5b4fc;
+        --primary-dark: #6366f1;
+        --secondary-color: #e2e8f0;
+        --accent-color: #fb7185;
+        --text-color: #f8fafc;
+        --text-light: #cbd5e1;
+        --background-color: #0f172a;
+        --border-color: #334155;
+        --card-bg: #1e293b;
+        --dark-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        --light-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+        --particle-color: rgba(129, 140, 248, 0.3);
+        --pdf-bg: #0f172a;
+        --loader-bg: rgba(15, 23, 42, 0.9);
+        --drop-area-bg: rgba(15, 23, 42, 0.98);
+        --modal-overlay: rgba(0, 0, 0, 0.8);
+        --constellation-color: rgba(129, 140, 248, 0.4);
+    }
 }
 
 body {
@@ -96,14 +99,27 @@ body {
 }
 
 @keyframes twinkle {
-    0% { opacity: 0.2; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes lineOpacity {
-    0% { opacity: 0.1; }
-    50% { opacity: 0.3; }
-    100% { opacity: 0.1; }
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
 }
 
 .constellation-lines {
@@ -141,12 +157,15 @@ body {
         transform: translate(0, 0);
         opacity: 0;
     }
+
     25% {
         opacity: var(--opacity);
     }
+
     75% {
         opacity: var(--opacity);
     }
+
     100% {
         transform: translate(var(--distance-x), var(--distance-y));
         opacity: 0;
@@ -174,7 +193,8 @@ header {
     border-bottom: 1px solid var(--border-color);
 }
 
-.header-left, .header-right {
+.header-left,
+.header-right {
     display: flex;
     align-items: center;
     gap: 1.25rem;
@@ -295,7 +315,8 @@ header {
 }
 
 .tool-btn i {
-    font-size: 1.4rem; /* Increased icon size */
+    font-size: 1.4rem;
+    /* Increased icon size */
 }
 
 .tool-btn:hover {
@@ -314,7 +335,8 @@ header {
 }
 
 .icon-btn i {
-    font-size: 1.4rem; /* Increased icon size */
+    font-size: 1.4rem;
+    /* Increased icon size */
     transition: all 0.3s ease;
 }
 
@@ -386,7 +408,9 @@ main {
     -webkit-backdrop-filter: blur(10px);
 }
 
-.zoom-controls, .page-controls, .view-controls {
+.zoom-controls,
+.page-controls,
+.view-controls {
     display: flex;
     align-items: center;
     gap: 0.85rem;
@@ -547,7 +571,8 @@ main {
 }
 
 .drop-message i {
-    font-size: 5rem; /* Increased icon size */
+    font-size: 5rem;
+    /* Increased icon size */
     color: var(--primary-color);
     margin-bottom: 1.5rem;
     filter: drop-shadow(0 5px 15px rgba(99, 102, 241, 0.4));
@@ -558,9 +583,11 @@ main {
     0% {
         transform: translateY(0px);
     }
+
     50% {
         transform: translateY(-10px);
     }
+
     100% {
         transform: translateY(0px);
     }
@@ -694,7 +721,8 @@ main {
     box-shadow: 0 6px 14px rgba(99, 102, 241, 0.25);
 }
 
-.thumbnail canvas, .thumbnail-placeholder {
+.thumbnail canvas,
+.thumbnail-placeholder {
     width: 100%;
     height: auto;
     display: block;
@@ -753,10 +781,11 @@ main {
 .sidebar-toggle i {
     color: var(--text-light);
     transition: transform 0.3s ease;
-    font-size: 1.3rem; /* Increased icon size */
+    font-size: 1.3rem;
+    /* Increased icon size */
 }
 
-.sidebar.open + .sidebar-toggle i {
+.sidebar.open+.sidebar-toggle i {
     transform: rotate(180deg);
 }
 
@@ -811,8 +840,13 @@ main {
 }
 
 @keyframes loadingBar {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 200% 0%; }
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 200% 0%;
+    }
 }
 
 .pdf-viewer-loader-text {
@@ -829,7 +863,8 @@ main {
     position: relative;
 }
 
-.spinner:before, .spinner:after {
+.spinner:before,
+.spinner:after {
     content: '';
     position: absolute;
     top: 0;
@@ -853,8 +888,13 @@ main {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .hidden {
@@ -964,14 +1004,27 @@ main {
 }
 
 @keyframes twinkle {
-    0% { opacity: 0.2; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes lineOpacity {
-    0% { opacity: 0.1; }
-    50% { opacity: 0.3; }
-    100% { opacity: 0.1; }
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
 }
 
 /* Three.js container */
@@ -1002,94 +1055,97 @@ main {
     .header-right {
         gap: 0.75rem;
     }
-    
+
     .btn {
         padding: 0.5rem 0.8rem;
         font-size: 0.95rem;
     }
-    
-    .icon-btn, .tool-btn {
+
+    .icon-btn,
+    .tool-btn {
         padding: 0.5rem;
     }
-    
-    .tool-btn i, .icon-btn i {
-        font-size: 1.6rem; /* Even bigger icons on mobile */
+
+    .tool-btn i,
+    .icon-btn i {
+        font-size: 1.6rem;
+        /* Even bigger icons on mobile */
     }
-    
+
     #theme-toggle {
         width: 38px;
         height: 38px;
     }
-    
+
     #theme-toggle i {
         font-size: 1.5rem;
     }
-    
+
     .primary-btn {
         padding: 0.6rem 1.2rem;
     }
-    
+
     .primary-btn i {
         font-size: 1.5rem;
     }
-    
+
     .header-left {
         max-width: 60%;
     }
-    
+
     .logo h1 {
         font-size: 1.3rem;
     }
-    
+
     .logo i {
         font-size: 1.8rem;
     }
-    
+
     .file-name {
         max-width: 130px;
         font-size: 0.9rem;
     }
-    
+
     .toolbar {
         flex-wrap: wrap;
         gap: 0.6rem;
         padding: 0.6rem 1rem;
         justify-content: center;
     }
-    
+
     .page-info {
         font-size: 0.9rem;
     }
-    
+
     #zoom-level {
         font-size: 0.9rem;
         min-width: 50px;
     }
-    
+
     .sidebar {
         width: 85%;
         max-width: 300px;
         left: -100%;
     }
-    
+
     .sidebar.open {
         transform: translateX(100%);
     }
-    
+
     .pdf-container {
         padding: 0 10px;
     }
-    
+
     #pdf-canvas {
         max-width: 100% !important;
         height: auto !important;
         margin: 10px auto;
     }
-    
+
     .keyboard-hint {
         display: none;
     }
-    
+
     /* Improved navigation arrows for mobile */
     .nav-arrows {
         bottom: 25px;
@@ -1099,7 +1155,7 @@ main {
         justify-content: center;
         gap: 30px;
     }
-    
+
     .nav-arrow {
         width: 50px;
         height: 50px;
@@ -1107,65 +1163,65 @@ main {
         left: auto;
         right: auto;
         bottom: 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
-    
+
     .nav-arrow i {
         font-size: 1.4rem;
     }
-    
+
     .nav-arrow.prev {
         left: 0;
     }
-    
+
     .nav-arrow.next {
         right: 0;
     }
-    
+
     .nav-arrow:hover {
         transform: scale(1.05);
     }
-    
+
     /* Loader adjustments */
     .pdf-viewer-loader-content {
         padding: 1.8rem;
         width: 85%;
         max-width: 320px;
     }
-    
+
     .spinner {
         width: 60px;
         height: 60px;
     }
-    
+
     .pdf-viewer-loader-text {
         font-size: 1rem;
     }
-    
+
     /* Drop area adjustments */
     .drop-message {
         padding: 2rem;
         width: 90%;
         max-width: 350px;
     }
-    
+
     .drop-message i {
         font-size: 3.5rem;
     }
-    
+
     .drop-message h2 {
         font-size: 1.6rem;
     }
-    
+
     .drop-message p {
         font-size: 1rem;
     }
-    
+
     .file-input-label {
         padding: 0.6rem 1.4rem;
         font-size: 1rem;
     }
-    
+
     /* Thumbnail improvements */
     .thumbnails-container {
         flex-direction: row;
@@ -1185,21 +1241,21 @@ main {
         scrollbar-width: thin;
         scrollbar-color: rgba(99, 102, 241, 0.5) rgba(15, 23, 42, 0.5);
     }
-    
+
     .thumbnails-container::-webkit-scrollbar {
         height: 6px;
     }
-    
+
     .thumbnails-container::-webkit-scrollbar-track {
         background: rgba(15, 23, 42, 0.5);
         border-radius: 3px;
     }
-    
+
     .thumbnails-container::-webkit-scrollbar-thumb {
         background: rgba(99, 102, 241, 0.5);
         border-radius: 3px;
     }
-    
+
     .thumbnail {
         flex: 0 0 auto;
         width: 80px;
@@ -1209,30 +1265,30 @@ main {
         transition: all 0.3s ease;
         transform-origin: bottom center;
     }
-    
+
     .thumbnail:last-child {
         margin-right: 0;
     }
-    
+
     .thumbnail:hover {
         transform: translateY(-5px) scale(1.05);
     }
-    
+
     .thumbnail.active {
         transform: translateY(-8px) scale(1.1);
         box-shadow: 0 8px 15px rgba(99, 102, 241, 0.5);
     }
-    
+
     .thumbnail-placeholder {
         min-height: unset;
         height: 100%;
     }
-    
+
     .thumbnail-number {
         font-size: 0.65rem;
         padding: 1px 6px;
     }
-    
+
     /* Add a scroll indicator for mobile */
     .thumbnails-container::after {
         content: '';
@@ -1245,14 +1301,25 @@ main {
         pointer-events: none;
         z-index: 2;
     }
-    
+
     /* Show scrolling hint animation */
     @keyframes scrollHint {
-        0% { transform: translateX(0); opacity: 0.7; }
-        50% { transform: translateX(10px); opacity: 1; }
-        100% { transform: translateX(0); opacity: 0.7; }
+        0% {
+            transform: translateX(0);
+            opacity: 0.7;
+        }
+
+        50% {
+            transform: translateX(10px);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(0);
+            opacity: 0.7;
+        }
     }
-    
+
     .thumbnails-container::before {
         content: '→';
         position: absolute;
@@ -1265,7 +1332,7 @@ main {
         z-index: 3;
         pointer-events: none;
     }
-    
+
     /* Mobile landscape orientation improvements */
     @media (orientation: landscape) {
         .nav-arrows {
@@ -1276,25 +1343,25 @@ main {
             padding: 0 20px;
             width: 100%;
         }
-        
+
         .nav-arrow.prev {
             left: 20px;
         }
-        
+
         .nav-arrow.next {
             right: 20px;
         }
-        
+
         .pdf-container {
             padding: 0 50px;
         }
-        
+
         .toolbar {
             padding: 0.5rem 1rem;
         }
-        
+
         header {
             padding: 0.6rem 1.2rem;
         }
     }
-} 
+}

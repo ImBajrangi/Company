@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dataLoaded = await loadCollectionsData();
 
     initializeSearch();
-    initializeTheme();
     initializeHeaderScroll();
     initializeSliders();
     initPopup(); // Make sure popup is initialized
@@ -68,25 +67,6 @@ function initializeSearch() {
     searchInput.addEventListener('input', handleSearch);
 }
 
-// Theme functionality
-function initializeTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle) return;
-
-    const icon = themeToggle.querySelector('i');
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-
-    document.body.classList.toggle('dark-mode', isDark);
-    if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-
-    themeToggle.addEventListener('click', () => {
-        const isDarkNow = document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
-        if (icon) icon.className = isDarkNow ? 'fas fa-sun' : 'fas fa-moon';
-    });
-}
 
 // Collection generation
 function initializeCollections() {

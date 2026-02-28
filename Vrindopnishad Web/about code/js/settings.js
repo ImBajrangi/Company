@@ -6,7 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize settings functionality
     initSettings();
-    
+
     // Setup keyboard shortcuts
     setupKeyboardShortcuts();
 });
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initSettings() {
     // Create settings modal if it doesn't exist
     createSettingsModal();
-    
+
     // Get settings button and add click handler
     const settingsItem = document.querySelector('.tool-item[data-bg-color="#4A4A4A"]:last-child');
     if (settingsItem) {
@@ -29,18 +29,18 @@ function initSettings() {
                 openSettingsModal();
             });
         }
-        
+
         // Make the entire item clickable
         settingsItem.addEventListener('click', (e) => {
             e.preventDefault();
             openSettingsModal();
         });
-        
+
         // Add tooltip with keyboard shortcut
         settingsItem.setAttribute('title', 'Settings (Ctrl+, or Cmd+,)');
         settingsItem.classList.add('has-tooltip');
     }
-    
+
     // Set initial settings from localStorage
     loadSettings();
 }
@@ -53,12 +53,12 @@ function createSettingsModal() {
     if (document.getElementById('settings-modal')) {
         return;
     }
-    
+
     // Create modal structure
     const modal = document.createElement('div');
     modal.id = 'settings-modal';
     modal.className = 'settings-modal';
-    
+
     // Modal content
     modal.innerHTML = `
         <div class="settings-modal-content">
@@ -72,17 +72,6 @@ function createSettingsModal() {
             </div>
             
             <div class="settings-modal-body">
-                <!-- Theme Setting -->
-                <div class="settings-section">
-                    <h3>थीम सेटिंग्स</h3>
-                    <div class="settings-option">
-                        <span>डार्क मोड</span>
-                        <label class="switch">
-                            <input type="checkbox" id="theme-toggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
                 
                 <!-- Font Size Setting -->
                 <div class="settings-section">
@@ -139,13 +128,13 @@ function createSettingsModal() {
             </div>
         </div>
     `;
-    
+
     // Add modal to body
     document.body.appendChild(modal);
-    
+
     // Add event listeners
     setupSettingsEventListeners();
-    
+
     // Add modal styles
     addSettingsStyles();
 }
@@ -159,7 +148,7 @@ function setupSettingsEventListeners() {
     if (closeBtn) {
         closeBtn.addEventListener('click', closeSettingsModal);
     }
-    
+
     // Close on click outside
     const modal = document.getElementById('settings-modal');
     if (modal) {
@@ -169,34 +158,26 @@ function setupSettingsEventListeners() {
             }
         });
     }
-    
-    // Theme toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('change', () => {
-            toggleDarkMode(themeToggle.checked);
-            saveSettings();
-        });
-    }
-    
+
+
     // Font size controls
     const decreaseBtn = document.getElementById('font-size-decrease');
     const increaseBtn = document.getElementById('font-size-increase');
-    
+
     if (decreaseBtn) {
         decreaseBtn.addEventListener('click', () => {
             changeFontSize(-10);
             saveSettings();
         });
     }
-    
+
     if (increaseBtn) {
         increaseBtn.addEventListener('click', () => {
             changeFontSize(10);
             saveSettings();
         });
     }
-    
+
     // Animations toggle
     const animationsToggle = document.getElementById('animations-toggle');
     if (animationsToggle) {
@@ -205,7 +186,7 @@ function setupSettingsEventListeners() {
             saveSettings();
         });
     }
-    
+
     // Shadow effects toggle
     const shadowToggle = document.getElementById('shadow-effects-toggle');
     if (shadowToggle) {
@@ -214,7 +195,7 @@ function setupSettingsEventListeners() {
             saveSettings();
         });
     }
-    
+
     // Magnetic effects toggle
     const magneticToggle = document.getElementById('magnetic-effects-toggle');
     if (magneticToggle) {
@@ -223,13 +204,13 @@ function setupSettingsEventListeners() {
             saveSettings();
         });
     }
-    
+
     // Reset settings button
     const resetBtn = document.getElementById('reset-settings');
     if (resetBtn) {
         resetBtn.addEventListener('click', resetSettings);
     }
-    
+
     // Close on escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -246,7 +227,7 @@ function openSettingsModal() {
     if (modal) {
         modal.classList.add('active');
         document.body.classList.add('modal-open');
-        
+
         // Close tools menu if open
         closeToolsMenu();
     }
@@ -270,15 +251,15 @@ function closeToolsMenu() {
     const toolsMenu = document.querySelector('.tools-menu');
     const menuOverlay = document.querySelector('.menu-overlay');
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    
+
     if (toolsMenu && toolsMenu.classList.contains('active')) {
         toolsMenu.classList.remove('active');
         document.body.classList.remove('menu-open');
-        
+
         if (mobileMenuBtn) {
             mobileMenuBtn.classList.remove('active');
         }
-        
+
         if (menuOverlay) {
             menuOverlay.style.opacity = '0';
             setTimeout(() => {
@@ -288,18 +269,6 @@ function closeToolsMenu() {
     }
 }
 
-/**
- * Toggle dark mode
- */
-function toggleDarkMode(isDark) {
-    document.body.classList.toggle('dark-theme', isDark);
-    
-    // Update metadata
-    const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) {
-        metaTheme.setAttribute('content', isDark ? '#121212' : '#8E7F7F');
-    }
-}
 
 /**
  * Change font size
@@ -307,19 +276,19 @@ function toggleDarkMode(isDark) {
 function changeFontSize(delta) {
     // Get current font size
     const currentSize = parseInt(localStorage.getItem('fontSizePercent') || '100');
-    
+
     // Calculate new size (within limits)
     const newSize = Math.min(Math.max(currentSize + delta, 80), 150);
-    
+
     // Update UI
     const fontSizeValueEl = document.getElementById('font-size-value');
     if (fontSizeValueEl) {
         fontSizeValueEl.textContent = `${newSize}%`;
     }
-    
+
     // Apply to root element
     document.documentElement.style.fontSize = `${newSize}%`;
-    
+
     // Save to localStorage
     localStorage.setItem('fontSizePercent', newSize);
 }
@@ -350,13 +319,12 @@ function toggleMagneticEffects(enable) {
  */
 function saveSettings() {
     const settings = {
-        darkMode: document.getElementById('theme-toggle')?.checked || false,
         fontSizePercent: parseInt(localStorage.getItem('fontSizePercent') || '100'),
-        animations: document.getElementById('animations-toggle')?.checked || true,
-        shadowEffects: document.getElementById('shadow-effects-toggle')?.checked || true,
-        magneticEffects: document.getElementById('magnetic-effects-toggle')?.checked || true
+        animations: document.getElementById('animations-toggle')?.checked ?? true,
+        shadowEffects: document.getElementById('shadow-effects-toggle')?.checked ?? true,
+        magneticEffects: document.getElementById('magnetic-effects-toggle')?.checked ?? true
     };
-    
+
     localStorage.setItem('siteSettings', JSON.stringify(settings));
 }
 
@@ -366,13 +334,12 @@ function saveSettings() {
 function loadSettings() {
     // Get settings from localStorage or use defaults
     let settings = {
-        darkMode: false,
         fontSizePercent: 100,
         animations: true,
         shadowEffects: true,
         magneticEffects: true
     };
-    
+
     try {
         const savedSettings = localStorage.getItem('siteSettings');
         if (savedSettings) {
@@ -381,37 +348,31 @@ function loadSettings() {
     } catch (e) {
         console.error('Error loading settings:', e);
     }
-    
+
     // Apply settings
-    
-    // 1. Dark mode
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.checked = settings.darkMode;
-    }
-    toggleDarkMode(settings.darkMode);
-    
+
+
     // 2. Font size
     document.documentElement.style.fontSize = `${settings.fontSizePercent}%`;
     const fontSizeValueEl = document.getElementById('font-size-value');
     if (fontSizeValueEl) {
         fontSizeValueEl.textContent = `${settings.fontSizePercent}%`;
     }
-    
+
     // 3. Animations
     const animationsToggle = document.getElementById('animations-toggle');
     if (animationsToggle) {
         animationsToggle.checked = settings.animations;
     }
     toggleAnimations(settings.animations);
-    
+
     // 4. Shadow effects
     const shadowToggle = document.getElementById('shadow-effects-toggle');
     if (shadowToggle) {
         shadowToggle.checked = settings.shadowEffects;
     }
     toggleShadowEffects(settings.shadowEffects);
-    
+
     // 5. Magnetic effects
     const magneticToggle = document.getElementById('magnetic-effects-toggle');
     if (magneticToggle) {
@@ -426,41 +387,35 @@ function loadSettings() {
 function resetSettings() {
     // Default settings
     const defaults = {
-        darkMode: false,
         fontSizePercent: 100,
         animations: true,
         shadowEffects: true,
         magneticEffects: true
     };
-    
+
     // Save defaults
     localStorage.setItem('siteSettings', JSON.stringify(defaults));
-    
+
     // Apply defaults
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.checked = defaults.darkMode;
-    }
-    toggleDarkMode(defaults.darkMode);
-    
+
     document.documentElement.style.fontSize = `${defaults.fontSizePercent}%`;
     const fontSizeValueEl = document.getElementById('font-size-value');
     if (fontSizeValueEl) {
         fontSizeValueEl.textContent = `${defaults.fontSizePercent}%`;
     }
-    
+
     const animationsToggle = document.getElementById('animations-toggle');
     if (animationsToggle) {
         animationsToggle.checked = defaults.animations;
     }
     toggleAnimations(defaults.animations);
-    
+
     const shadowToggle = document.getElementById('shadow-effects-toggle');
     if (shadowToggle) {
         shadowToggle.checked = defaults.shadowEffects;
     }
     toggleShadowEffects(defaults.shadowEffects);
-    
+
     const magneticToggle = document.getElementById('magnetic-effects-toggle');
     if (magneticToggle) {
         magneticToggle.checked = defaults.magneticEffects;
@@ -725,21 +680,19 @@ function addSettingsStyles() {
         }
         
         /* Theme classes */
-        body.dark-theme {
-            background-color: #121212;
-            color: #f5f5f5;
-        }
-        
-        body.dark-theme .hero,
-        body.dark-theme .about,
-        body.dark-theme .projects {
-            background-color: #121212;
-        }
-        
-        body.dark-theme .card,
-        body.dark-theme .project-item,
-        body.dark-theme .tool-item {
-            background-color: rgba(255, 255, 255, 0.05);
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #f5f5f5;
+            }
+            
+            .hero, .about, .projects {
+                background-color: #121212;
+            }
+            
+            .card, .project-item, .tool-item {
+                background-color: rgba(255, 255, 255, 0.05);
+            }
         }
         
         /* Animation classes */
@@ -785,7 +738,7 @@ function addSettingsStyles() {
             }
         }
     `;
-    
+
     // Create style element
     const styleElement = document.createElement('style');
     styleElement.textContent = styles;

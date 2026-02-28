@@ -8,7 +8,7 @@ let pageNumPending = null;
 let scale = 1.0;
 let rotation = 0;
 let pdfData = null; // Store PDF data for download/print
-let isDarkTheme = document.body.classList.contains('dark-theme');
+let isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 let thumbnailSwiper = null;
 let isMobile = window.innerWidth <= 768;
 
@@ -107,7 +107,6 @@ async function init() {
     closeModalBtns.forEach(btn => {
         btn.addEventListener('click', () => errorModal.classList.remove('show'));
     });
-    themeToggle.addEventListener('click', toggleTheme);
 
     // Track mouse for space background effect
     document.addEventListener('mousemove', animateStars);
@@ -609,26 +608,6 @@ function animateStars(e) {
     camera.lookAt(scene.position);
 }
 
-// Toggle between light and dark theme
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-    isDarkTheme = document.body.classList.contains('dark-theme');
-
-    // Update theme toggle icon
-    const themeIcon = themeToggle.querySelector('i');
-    themeIcon.className = isDarkTheme ? 'fas fa-sun' : 'fas fa-moon';
-
-    // Redraw constellation lines with new theme colors
-    drawConstellationLines();
-
-    // Update button glow effects
-    addButtonGlowEffect();
-
-    // If PDF is loaded, re-render current page for better contrast
-    if (pdfDoc) {
-        queueRenderPage(pageNum);
-    }
-}
 
 // Resize canvas when window size changes
 function resizeCanvas() {
@@ -672,10 +651,6 @@ function handleKeyDown(e) {
         case 'f':
         case 'F':
             toggleFullscreen();
-            break;
-        case 't':
-        case 'T':
-            toggleTheme();
             break;
     }
 }

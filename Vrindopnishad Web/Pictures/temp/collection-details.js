@@ -177,40 +177,6 @@ function initializeSearch() {
     searchInput.addEventListener('input', handleSearch);
 }
 
-// Theme functionality
-function initializeTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle) {
-        console.error('Theme toggle not found');
-        return;
-    }
-
-    const icon = themeToggle.querySelector('i');
-    const root = document.documentElement;
-
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-
-    document.body.classList.toggle('dark-mode', isDark);
-    if (icon) {
-        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-    }
-
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        if (icon) {
-            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        }
-
-        root.style.setProperty('--transition', 'all 0.3s ease');
-        setTimeout(() => {
-            root.style.removeProperty('--transition');
-        }, 300);
-    });
-}
 
 // Collection generation
 function initializeCollections() {
@@ -487,7 +453,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dataLoaded = await loadCollectionsData();
 
     initializeSearch();
-    initializeTheme();
     initializeHeaderScroll();
     initializeHeaderBackground();
     initializeSliders();

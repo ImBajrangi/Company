@@ -170,7 +170,6 @@ function initializeAllFeatures() {
 
     initializeFilters();
     initializeLightbox();
-    initializeThemeToggle();
 
     initializeSearch();
     initializeAllActionButtons();
@@ -1149,64 +1148,6 @@ function downloadCurrentLightboxImage() {
 }
 
 // Theme toggle functionality
-function initializeThemeToggle() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const themeIcon = themeToggle?.querySelector('i');
-
-    if (!themeToggle || !themeIcon) return;
-
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-    }
-
-    // Toggle theme with animation
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-
-        // Animate theme transition
-        gsap.fromTo('body',
-            { filter: 'brightness(1)' },
-            {
-                filter: 'brightness(0.8)',
-                duration: 0.1,
-                yoyo: true,
-                repeat: 1,
-                ease: "power2.inOut"
-            }
-        );
-
-        // Toggle icon with rotation
-        if (document.body.classList.contains('dark-mode')) {
-            gsap.to(themeIcon, {
-                rotation: 180,
-                duration: 0.3,
-                ease: "back.out(1.7)",
-                onComplete: () => {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                    gsap.set(themeIcon, { rotation: 0 });
-                }
-            });
-            localStorage.setItem('theme', 'dark');
-        } else {
-            gsap.to(themeIcon, {
-                rotation: 180,
-                duration: 0.3,
-                ease: "back.out(1.7)",
-                onComplete: () => {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                    gsap.set(themeIcon, { rotation: 0 });
-                }
-            });
-            localStorage.setItem('theme', 'light');
-        }
-    });
-}
 
 // Search functionality with live filtering
 function initializeSearch() {
