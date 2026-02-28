@@ -27,8 +27,61 @@ body {
   color: var(--color-text-main);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  min-height: 100dvh;
+  /* dynamic viewport height for mobile */
   line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
+
+/* Mobile-safe inputs */
+input,
+textarea,
+select {
+  font-size: 16px;
+  /* prevents iOS zoom on focus */
+}
+
+/* Safe area padding for notched phones */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Prevent horizontal overflow on mobile */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Word wrapping for long text */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Touch targets — minimum 44px */
+@media (pointer: coarse) {
+
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 
 ::selection {
   background: white;
