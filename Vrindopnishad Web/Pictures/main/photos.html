@@ -52,11 +52,19 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/Vrindopnishad Web/Pictures/css/pic-collection.css">
 
-    <!-- <link rel="stylesheet" href="/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.css"> -->
-    <!-- <script src="../../../js/image-helper.js"></script> -->
-
-    <!-- <script src="../../../js/image-helper.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Firebase & Shared Auth -->
+    <script type="importmap">
+    {
+        "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+            "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+            "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+            "firebase/database": "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+        }
+    }
+    </script>
+    <script src="../../../js/auth.js" type="module"></script>
+    <meta name="color-scheme" content="light dark">
 </head>
 
 <body>
@@ -73,6 +81,14 @@
                 <h1>Vrindopnishad</h1>
             </a>
             <div class="header-right">
+                <!-- User Profile / Auth Button -->
+                <div id="user-auth-btn" class="magnetic" data-magnetic-strength="0.4">
+                    <!-- Progress circle for auth loading -->
+                    <div class="auth-loading-ring"></div>
+                    <div class="user-avatar-container">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
                 <!-- Tools shortcut icon -->
                 <div class="tools-icon magnetic" data-magnetic-strength="0.5" aria-label="Open tools menu" role="button"
                     tabindex="0">
@@ -218,7 +234,6 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="/Vrindopnishad Web/Pictures/js/immediate-loader.js"></script>
     <script src="/Vrindopnishad Web/Pictures/js/notifications.js"></script>
-    <script src="/Vrindopnishad Web/Pictures/js/supabase-client.js"></script>
     <script src="/Vrindopnishad Web/Pictures/js/pic-simple.js"></script>
     <script src="/Vrindopnishad Web/web-extentions/links/link-handler.js"></script>
     <script src="/Vrindopnishad Web/Security/disable-right-click.js"></script>
