@@ -1961,6 +1961,7 @@
     </footer>
 
     <script>
+        let isUserLoggedIn = false;
         // Shopping bag and favorites state
         let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -2542,9 +2543,9 @@
         async function addToBag(item) {
             // Check authentication
             const user = await window.AuthService.getUser();
-            if (!user) {
+            if (!user || !user.uid) {
                 showToast('Please login to add items to your bag', 'info');
-                AuthService.requireAuth();
+                if (window.AuthService) window.AuthService.requireAuth();
                 return;
             }
 
@@ -2649,10 +2650,11 @@
                     </div>
                 </div>
                 <div class="bag-checkout">
-                    <button class="btn btn-primary" id="checkout-btn" style="width: 100%;">
-                        <i class="fas fa-lock"></i>
-                        Check Out (${formatPrice(total)})
+                    <button class="btn btn-primary" id="checkout-btn" style="width: 100%; ${!isUserLoggedIn ? 'opacity: 0.6; cursor: not-allowed;' : ''}" ${!isUserLoggedIn ? 'title="Please login to checkout"' : ''}>
+                        <i class="fas fa-${isUserLoggedIn ? 'lock' : 'user-lock'}"></i>
+                        ${isUserLoggedIn ? `Check Out (${formatPrice(total)})` : 'Login to Check Out'}
                     </button>
+                    ${!isUserLoggedIn ? '<p style="font-size: 11px; text-align: center; margin-top: 8px; color: var(--text-secondary);">Authentication required for purchase</p>' : ''}
                 </div>
             `;
         }
@@ -2985,9 +2987,9 @@
         async function handleCheckout() {
             // Check authentication first
             const user = await window.AuthService.getUser();
-            if (!user) {
+            if (!user || !user.uid) {
                 showToast('Please login to complete your purchase', 'info');
-                AuthService.requireAuth();
+                if (window.AuthService) window.AuthService.requireAuth();
                 return;
             }
 
@@ -3207,12 +3209,17 @@
 
             // Initialize Auth UI
             const userBtn = document.getElementById('user-auth-btn');
-            if (userBtn && window.AuthService) {
-                AuthService.updateProfileUI('user-auth-btn');
-                AuthService.onAuthStateChange(() => {
-                    AuthService.updateProfileUI('user-auth-btn');
+            if (window.AuthService) {
+                if (userBtn) window.AuthService.updateProfileUI('user-auth-btn');
+
+                window.AuthService.onAuthStateChange((user) => {
+                    isUserLoggedIn = !!user;
+                    if (userBtn) window.AuthService.updateProfileUI('user-auth-btn');
                     // Refresh purchases when auth state changes
                     loadFirebasePurchases();
+                    // Re-render bag to update checkout button state
+                    renderBag();
+                    renderProduct(findCollection(getCollectionIdFromURL()));
                 });
             }
 
