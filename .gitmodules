@@ -13,8 +13,8 @@
 [submodule "Projects/Cloud-Kitchen"]
 	path = Projects/Cloud-Kitchen
 	url = https://github.com/ImBajrangi/Foody-Vrinda.git
-[submodule "Projects/skillTadka"]
-	path = Projects/skillTadka
+[submodule "Projects/SkillTadka"]
+	path = Projects/SkillTadka
 	url = https://github.com/ImBajrangi/skillTadka.git
 [submodule "Projects/DevDashboard"]
 	path = Projects/DevDashboard
