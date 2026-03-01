@@ -2171,8 +2171,16 @@
                 if (inBag) {
                     addToBagBtn.disabled = true;
                     addToBagBtn.innerHTML = '<i class="fas fa-check-circle"></i> Already in Bag';
+                } else if (!isUserLoggedIn) {
+                    // Guest: show lock button — clicking it triggers login
+                    addToBagBtn.disabled = false;
+                    addToBagBtn.innerHTML = '<i class="fas fa-user-lock"></i> Login to Add to Bag';
+                    addToBagBtn.title = 'Please login to add items to your bag';
+                    addToBagBtn.style.opacity = '0.8';
                 } else {
                     addToBagBtn.disabled = false;
+                    addToBagBtn.style.opacity = '1';
+                    addToBagBtn.title = '';
                     addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
                 }
 
@@ -2525,27 +2533,31 @@
 
         // --- Shopping bag functions ---
         function updateBagCount() {
-            const count = shoppingBag.length;
+            const count = Array.isArray(shoppingBag) ? shoppingBag.filter(i => i && i.id).length : 0;
             const bagCount = document.getElementById('bag-count');
             if (bagCount) {
                 bagCount.textContent = count;
                 bagCount.style.display = count > 0 ? 'flex' : 'none';
             }
 
-            // Sync to Firebase
-            if (window.AuthService) {
-                AuthService.saveBag(shoppingBag);
-            }
-            // Save to localStorage
             localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
+
+            // Sync bag to Firebase for logged-in users
+            if (window.AuthService && isUserLoggedIn) {
+                window.AuthService.saveBag(shoppingBag).catch(e =>
+                    console.warn('Bag cloud sync failed:', e)
+                );
+            }
         }
 
         async function addToBag(item) {
-            // Check authentication
+            // Strict authentication check — guests cannot add items
             const user = await window.AuthService.getUser();
             if (!user || !user.uid) {
-                showToast('Please login to add items to your bag', 'info');
-                if (window.AuthService) window.AuthService.requireAuth();
+                showToast('🔒 Please login first to add items to your bag', 'info');
+                setTimeout(() => {
+                    if (window.AuthService) window.AuthService.requireAuth();
+                }, 1500);
                 return;
             }
 
@@ -2563,29 +2575,39 @@
             }
 
             shoppingBag.push(item);
-            updateBagCount();
+            updateBagCount(); // Also syncs to Firebase
             renderBag();
-            showToast('Added to bag');
+            showToast('✅ Added to bag');
 
-            // Disable button
-            document.getElementById('add-to-bag').disabled = true;
-            document.getElementById('add-to-bag').innerHTML = '<i class="fas fa-check-circle"></i> In Bag';
+            // Update button state
+            const addBtn = document.getElementById('add-to-bag');
+            if (addBtn) {
+                addBtn.disabled = true;
+                addBtn.style.opacity = '1';
+                addBtn.innerHTML = '<i class="fas fa-check-circle"></i> In Bag';
+            }
         }
 
         function removeFromBag(itemId) {
             shoppingBag = shoppingBag.filter(item => item.id !== itemId);
-            updateBagCount();
+            updateBagCount(); // Also syncs to Firebase
             renderBag();
 
             // Re-enable "Add to Bag" button if we are on that item's page
             const currentId = getCollectionIdFromURL();
             if (currentId === itemId) {
                 const addToBagBtn = document.getElementById('add-to-bag');
-                // Only re-enable if not purchased
                 const isPurchased = purchasedItems && purchasedItems[itemId];
                 if (!isPurchased) {
-                    addToBagBtn.disabled = false;
-                    addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
+                    if (isUserLoggedIn) {
+                        addToBagBtn.disabled = false;
+                        addToBagBtn.style.opacity = '1';
+                        addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
+                    } else {
+                        addToBagBtn.disabled = false;
+                        addToBagBtn.style.opacity = '0.8';
+                        addToBagBtn.innerHTML = '<i class="fas fa-user-lock"></i> Login to Add to Bag';
+                    }
                 }
             }
         }
@@ -3088,9 +3110,9 @@
                     }
                 },
                 "prefill": {
-                    "name": "Art Lover",
-                    "email": "customer@example.com",
-                    "contact": "9999999999"
+                    "name": user.displayName || user.email || 'Art Lover',
+                    "email": user.email || '',
+                    "contact": user.phoneNumber || ''
                 },
                 "notes": {
                     "item_ids": shoppingBag.map(item => item.id).join(',')
