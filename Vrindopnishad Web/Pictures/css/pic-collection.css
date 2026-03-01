@@ -32,25 +32,20 @@ body {
     overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #001b2b;
-        --secondary-color: #faf861;
-        --tertiary-color: #c0c0c0;
-        --bg-light: #000000;
-        --text-light: #f5f5f5;
-        --action-icon: rgba(0, 32, 34, 0.9);
-        --action-bg: rgba(255, 255, 255, 0.9);
-        --action-bg-hover: #625e66;
-        --action-icon-hover: #ffffff;
-        --bg-dark: #121212;
-        --light-download-btn: #fff;
-    }
-
-    body {
-        background-color: var(--bg-dark);
-        color: var(--text-dark);
-    }
+.dark-mode {
+    --primary-color: #001b2b;
+    --secondary-color: #faf861;
+    --tertiary-color: #c0c0c0;
+    --bg-light: #000000;
+    --text-light: #f5f5f5;
+    --action-icon: rgba(0, 32, 34, 0.9);
+    --action-bg: rgba(255, 255, 255, 0.9);
+    --action-bg-hover: #625e66;
+    --action-icon-hover: #ffffff;
+    --bg-dark: #121212;
+    --light-download-btn: #fff;
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
 }
 
 .app-container {
@@ -105,11 +100,9 @@ img.lazy:not([src*="data:image"]) {
     height: var(--header-height);
 }
 
-@media (prefers-color-scheme: dark) {
-    .header {
-        background-color: #000000;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
+.dark-mode .header {
+    background-color: #000000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .logo {
@@ -203,22 +196,20 @@ img.lazy:not([src*="data:image"]) {
     box-shadow: 0 0 0 3px rgba(250, 232, 97, 0.25);
 }
 
-@media (prefers-color-scheme: dark) {
-    .search-box {
-        background-color: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.1);
-    }
+.dark-mode .search-box {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+}
 
-    .search-box:hover {
-        background-color: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.2);
-    }
+.dark-mode .search-box:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
 
-    .search-box:focus-within {
-        background-color: rgba(255, 255, 255, 0.15);
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(250, 232, 97, 0.15);
-    }
+.dark-mode .search-box:focus-within {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(250, 232, 97, 0.15);
 }
 
 .search-box i {
@@ -236,14 +227,12 @@ img.lazy:not([src*="data:image"]) {
     color: var(--text-light);
 }
 
-@media (prefers-color-scheme: dark) {
-    .search-box i {
-        color: rgba(255, 255, 255, 0.5);
-    }
+.dark-mode .search-box i {
+    color: rgba(255, 255, 255, 0.5);
+}
 
-    .search-box:focus-within i {
-        color: rgba(255, 255, 255, 0.9);
-    }
+.dark-mode .search-box:focus-within i {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .search-box input {
@@ -263,14 +252,12 @@ img.lazy:not([src*="data:image"]) {
     font-weight: 400;
 }
 
-@media (prefers-color-scheme: dark) {
-    .search-box input {
-        color: var(--text-dark);
-    }
+.dark-mode .search-box input {
+    color: var(--text-dark);
+}
 
-    .search-box input::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-    }
+.dark-mode .search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .filter-buttons {
@@ -300,17 +287,15 @@ img.lazy:not([src*="data:image"]) {
     color: var(--text-light);
 }
 
-@media (prefers-color-scheme: dark) {
-    .filter-btn {
-        border-color: var(--primary-color);
-        color: var(--text-dark);
-    }
+.dark-mode .filter-btn {
+    border-color: var(--primary-color);
+    color: var(--text-dark);
+}
 
-    .filter-btn:hover,
-    .filter-btn.active {
-        background-color: var(--primary-color);
-        color: var(--text-dark);
-    }
+.dark-mode .filter-btn:hover,
+.dark-mode .filter-btn.active {
+    background-color: var(--primary-color);
+    color: var(--text-dark);
 }
 
 /* Main Content */
@@ -660,10 +645,8 @@ img.lazy:not([src*="data:image"]) {
     transition: var(--transition);
 }
 
-@media (prefers-color-scheme: dark) {
-    .footer {
-        background-color: #101010;
-    }
+.dark-mode .footer {
+    background-color: #101010;
 }
 
 .social-links {
@@ -693,10 +676,8 @@ img.lazy:not([src*="data:image"]) {
     height: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-    .social-link {
-        color: var(--text-dark);
-    }
+.dark-mode .social-link {
+    color: var(--text-dark);
 }
 
 .social-link:hover {
@@ -871,12 +852,10 @@ img.lazy:not([src*="data:image"]) {
 }
 
 /* Dark mode styles for notifications */
-@media (prefers-color-scheme: dark) {
-    .notification {
-        background: rgba(10, 12, 24, 0.9);
-        color: #e0e6ff;
-        border: 1px solid rgba(100, 140, 255, 0.15);
-    }
+.dark-mode .notification {
+    background: rgba(10, 12, 24, 0.9);
+    color: #e0e6ff;
+    border: 1px solid rgba(100, 140, 255, 0.15);
 }
 
 /* Media Queries */
@@ -891,10 +870,8 @@ img.lazy:not([src*="data:image"]) {
         background-color: rgba(250, 232, 97, 0.95);
     }
 
-    @media (prefers-color-scheme: dark) {
-        .header {
-            background-color: rgba(0, 0, 0, 0.95);
-        }
+    .dark-mode .header {
+        background-color: rgba(0, 0, 0, 0.95);
     }
 
     .logo h1 {
@@ -935,10 +912,8 @@ img.lazy:not([src*="data:image"]) {
         -webkit-backdrop-filter: blur(10px);
     }
 
-    @media (prefers-color-scheme: dark) {
-        .filter-container {
-            background-color: rgba(0, 0, 0, 0.95);
-        }
+    .dark-mode .filter-container {
+        background-color: rgba(0, 0, 0, 0.95);
     }
 
     .search-box {
@@ -950,11 +925,9 @@ img.lazy:not([src*="data:image"]) {
         border: 1.5px solid rgba(255, 255, 255, 0.1);
     }
 
-    @media (prefers-color-scheme: dark) {
-        .search-box {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
+    .dark-mode .search-box {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .search-box:focus-within {
@@ -1016,10 +989,8 @@ img.lazy:not([src*="data:image"]) {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
-    @media (prefers-color-scheme: dark) {
-        .image-card {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
+    .dark-mode .image-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* Always show overlay on mobile for better UX */
@@ -1280,10 +1251,8 @@ img.lazy:not([src*="data:image"]) {
         background-color: #fafafa;
     }
 
-    @media (prefers-color-scheme: dark) {
-        .home-page {
-            background-color: #0a0a0a;
-        }
+    .dark-mode .home-page {
+        background-color: #0a0a0a;
     }
 
     /* Softer shadows for light mode */

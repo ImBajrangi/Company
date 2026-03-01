@@ -2,7 +2,7 @@
 let collectionsData = {};
 // Using relative path to avoid CORS issues when accessed from custom domain (vrindopnishad.in)
 // const dataUrl = "https://imbajrangi.github.io/Company/Vrindopnishad Web/class/json/collections_data.json";
-const dataUrl = "/Vrindopnishad Web/class/json/collection_data_price.json";
+const dataUrl = "../../class/json/collection_data_price.json";
 
 // Search functionality
 function initializeSearch() {
