@@ -21,7 +21,7 @@
         }
       }
     </script>
-    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/auth.js?v=1.0.1"></script>
 
     <style>
         :root {
@@ -366,7 +366,7 @@
 
         // Wait for AuthService to initialize the global auth if needed, 
         // but we can just get the auth instance directly since auth.js ran first.
-        import AuthService from './js/auth.js';
+        import AuthService from './js/auth.js?v=1.0.1';
 
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('login-form');
