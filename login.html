@@ -270,6 +270,23 @@
             }
         }
 
+        /* Forgot password link */
+        .forgot-password {
+            display: block;
+            text-align: right;
+            font-size: 0.8rem;
+            margin-top: -0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.6;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .forgot-password:hover {
+            opacity: 1;
+        }
+
         /* Page entry animation */
         .fade-in {
             animation: fadeIn 0.8s var(--transition-smooth) forwards;
@@ -316,6 +333,8 @@
                 </div>
             </div>
 
+            <a href="#" class="forgot-password" id="forgot-password">Forgot Password?</a>
+
             <button type="submit" class="btn btn-primary" id="login-btn">
                 <span class="btn-text">Sign In</span>
                 <div class="loading-spinner"></div>
@@ -340,6 +359,7 @@
             getAuth,
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
+            sendPasswordResetEmail,
             GoogleAuthProvider,
             signInWithPopup
         } from 'firebase/auth';
@@ -366,6 +386,7 @@
                 subtitle.textContent = isSignUp ? 'Create your spiritual profile' : 'Enter your sanctuary of wisdom';
                 btnText.textContent = isSignUp ? 'Join Now' : 'Sign In';
                 toggleSignup.textContent = isSignUp ? 'Sign In' : 'Create one';
+                document.getElementById('forgot-password').style.display = isSignUp ? 'none' : 'block';
                 errorEl.style.display = 'none';
             });
 
@@ -391,10 +412,74 @@
                     window.location.href = urlParams.get('redirect') || '/index.html';
 
                 } catch (error) {
-                    errorEl.textContent = error.message;
+                    console.error("Auth Error:", error.code, error.message);
+
+                    let friendlyMessage = error.message;
+
+                    // Map Firebase error codes to user-friendly messages
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            friendlyMessage = "Please enter a valid email address.";
+                            break;
+                        case 'auth/user-disabled':
+                            friendlyMessage = "This account has been disabled. Please contact support.";
+                            break;
+                        case 'auth/user-not-found':
+                            friendlyMessage = "No account found with this email. Create one instead!";
+                            break;
+                        case 'auth/wrong-password':
+                            friendlyMessage = "Incorrect password. Please try again or reset it.";
+                            break;
+                        case 'auth/email-already-in-use':
+                            friendlyMessage = "An account already exists with this email.";
+                            break;
+                        case 'auth/weak-password':
+                            friendlyMessage = "Password should be at least 6 characters.";
+                            break;
+                        case 'auth/invalid-login-credentials':
+                            friendlyMessage = "Invalid email or password. Please check your details.";
+                            break;
+                        case 'auth/too-many-requests':
+                            friendlyMessage = "Too many failed attempts. Try again in a few minutes.";
+                            break;
+                        case 'auth/network-request-failed':
+                            friendlyMessage = "Network error. Please check your internet connection.";
+                            break;
+                    }
+
+                    errorEl.textContent = friendlyMessage;
                     errorEl.style.display = 'block';
+                    errorEl.style.background = 'rgba(255, 0, 0, 0.1)';
+                    errorEl.style.color = '#ff4444';
                     btnText.style.display = 'block';
                     spinner.style.display = 'none';
+                }
+            });
+
+            // Handle Forgot Password
+            document.getElementById('forgot-password').addEventListener('click', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+
+                if (!email) {
+                    errorEl.textContent = "Please enter your email address first.";
+                    errorEl.style.display = 'block';
+                    errorEl.style.background = 'rgba(212, 160, 0, 0.1)';
+                    errorEl.style.color = '#d4a000';
+                    return;
+                }
+
+                try {
+                    await sendPasswordResetEmail(AuthService.auth, email);
+                    errorEl.textContent = "Password reset email sent! Check your inbox.";
+                    errorEl.style.display = 'block';
+                    errorEl.style.background = 'rgba(0, 255, 0, 0.1)';
+                    errorEl.style.color = '#00c851';
+                } catch (error) {
+                    errorEl.textContent = "Error: " + error.message;
+                    errorEl.style.display = 'block';
+                    errorEl.style.background = 'rgba(255, 0, 0, 0.1)';
+                    errorEl.style.color = '#ff4444';
                 }
             });
 
