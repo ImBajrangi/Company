@@ -19,3 +19,27 @@
 [submodule "Projects/DevDashboard"]
 	path = Projects/DevDashboard
 	url = https://github.com/ImBajrangi/DevDashboard.git
+[submodule "Vrindopnishad Web"]
+	path = Vrindopnishad Web
+	url = https://github.com/ImBajrangi/Vrindopnishad-Web.git
+	branch = main
+[submodule "Projects/WATERMARK ADDER"]
+	path = Projects/WATERMARK ADDER
+	url = https://github.com/ImBajrangi/Company-WATERMARK-ADDER.git
+	branch = main
+[submodule "Projects/NPMDevRun"]
+	path = Projects/NPMDevRun
+	url = https://github.com/ImBajrangi/Company-NPMDevRun.git
+	branch = main
+[submodule "Projects/Trials"]
+	path = Projects/Trials
+	url = https://github.com/ImBajrangi/Company-Trials.git
+	branch = main
+[submodule "Projects/Video"]
+	path = Projects/Video
+	url = https://github.com/ImBajrangi/Company-Video.git
+	branch = main
+[submodule "Projects/Vrinda Chat"]
+	path = Projects/Vrinda Chat
+	url = https://github.com/ImBajrangi/Company-Vrinda-Chat.git
+	branch = main
