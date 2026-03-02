@@ -83,3 +83,11 @@
 	path = Projects/getMe
 	url = https://github.com/ImBajrangi/Company-getMe.git
 	branch = main
+[submodule "Projects/3dWeb"]
+	path = Projects/3dWeb
+	url = https://github.com/ImBajrangi/Company-3DWeb.git
+	branch = main
+[submodule "Projects/VrindopnishadApps"]
+	path = Projects/VrindopnishadApps
+	url = https://github.com/ImBajrangi/Company-VrindopnishadApps.git
+	branch = main
