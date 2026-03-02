@@ -43,3 +43,27 @@
 	path = Projects/Vrinda Chat
 	url = https://github.com/ImBajrangi/Company-Vrinda-Chat.git
 	branch = main
+[submodule "Projects/LoginPage"]
+	path = Projects/LoginPage
+	url = https://github.com/ImBajrangi/Company-LoginPage.git
+	branch = main
+[submodule "Projects/offline web"]
+	path = Projects/offline web
+	url = https://github.com/ImBajrangi/Company-offline-web.git
+	branch = main
+[submodule "Projects/showcase"]
+	path = Projects/showcase
+	url = https://github.com/ImBajrangi/Company-showcase.git
+	branch = main
+[submodule "Projects/telegramBot"]
+	path = Projects/telegramBot
+	url = https://github.com/ImBajrangi/Company-telegramBot.git
+	branch = main
+[submodule "Projects/timePass"]
+	path = Projects/timePass
+	url = https://github.com/ImBajrangi/Company-timePass.git
+	branch = main
+[submodule "Projects/Usable Cloned Code"]
+	path = Projects/Usable Cloned Code
+	url = https://github.com/ImBajrangi/Company-Usable-Cloned-Code.git
+	branch = main
