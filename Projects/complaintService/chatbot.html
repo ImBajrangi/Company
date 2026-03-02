@@ -201,11 +201,9 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // --- Configuration ---
-        const MODEL_NAME = "gemini-2.5-flash-preview-05-20";
-        const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
-        const API_KEY = "eeAIzaSyBB7W-dCdNUWvMlaYeviMNFsoXK5sdZOMwee"; // Canvas will provide this key at runtime
-        const VRINDOPNISHAD_SUPPORT_EMAIL = "vrinda.connect.us@gmail.com"; // **UPDATED: Using the user-provided email for consistency**
+        const VRINDOPNISHAD_SUPPORT_EMAIL = "vrinda.connect.us@gmail.com";
+        const SAKHA_API_BASE = "http://localhost:7860/ask";
+        const HF_API_BASE = "https://mdark4025-vrindabot.hf.space/ask";
 
         let chatHistory = [];
         let systemPrompt = ""; // This will be set dynamically after intake
@@ -407,41 +405,32 @@
             return { text, sources: [] }; // Sources array is always empty now
         }
 
-        /**
-         * Performs the API call with exponential backoff for retries.
-         */
-        async function fetchWithBackoff(payload, attempt = 1, useGrounding = true) {
-            const apiUrl = `${API_BASE_URL}${MODEL_NAME}:generateContent?key=${API_KEY}`;
-
-            if (useGrounding) {
-                payload.tools = [{ "google_search": {} }];
-            }
+        async function fetchSakha(query, history, style = null) {
+            const fullQuery = style ? `${style}: ${query}` : query;
+            const payload = {
+                query: fullQuery,
+                history: history.map(item => ({
+                    role: item.role === 'user' ? 'user' : 'model',
+                    content: item.parts ? item.parts[0].text : item.content
+                }))
+            };
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(SAKHA_API_BASE, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
-                });
+                }).catch(() => fetch(HF_API_BASE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }));
 
-                if (!response.ok) {
-                    const errorBody = await response.json();
-                    console.error("API Error Response:", errorBody);
-                    throw new Error(`HTTP error! status: ${response.status} - ${errorBody.error?.message || 'Unknown error'}`);
-                }
-
+                if (!response.ok) throw new Error('API failed');
                 return await response.json();
-
             } catch (error) {
-                console.error(`Attempt ${attempt} failed: ${error.message}`);
-
-                if (attempt < 4) { // Max 4 attempts (1 original + 3 retries)
-                    const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000; // Exponential backoff + jitter
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    return fetchWithBackoff(payload, attempt + 1, useGrounding);
-                } else {
-                    throw new Error("API request failed after multiple retries.");
-                }
+                console.error("Sakha fetch failed:", error);
+                throw error;
             }
         }
 
@@ -547,34 +536,18 @@ I have logged these details. To start, could you please provide a specific order
             };
 
             try {
-                // MODIFIED: Fetching from local Sakha Assistant Backend
-                const response = await fetch('http://localhost:8000/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        query: userQuery,
-                        history: chatHistory.map(item => ({
-                            role: item.role === 'user' ? 'user' : 'model',
-                            content: item.parts[0].text
-                        }))
-                    })
-                });
-
-                if (!response.ok) throw new Error('Backend failed');
-                const data = await response.json();
+                const data = await fetchSakha(userQuery, chatHistory);
                 const text = data.response;
                 const navigate = data.navigate;
 
                 appendMessage(text, 'bot');
 
-                // If navigation URL is provided, redirect after a short delay
                 if (navigate) {
                     setTimeout(() => {
                         window.location.href = navigate;
                     }, 2500);
                 }
 
-                // Keep local history
                 chatHistory.push({ role: "model", parts: [{ text: text }] });
 
             } catch (error) {
@@ -626,31 +599,22 @@ I have logged these details. To start, could you please provide a specific order
                 SUMMARY FORMAT: Provide a concise summary listing the Customer Name, Initial Issue Category, the Core Problem discussed, and the key outcome or last unresolved question. Ensure the output is clean text, suitable for a summary report.
             `.trim();
 
-            const payload = {
-                contents: [{ role: "user", parts: [{ text: summaryPrompt }] }], // Send as a single user instruction
-                systemInstruction: {
-                    parts: [{ text: "You are a professional Vrindopnishad support analyst. Generate the requested summary based ONLY on the provided data." }]
-                },
-            };
-
             try {
-                // Call API without grounding
-                const result = await fetchWithBackoff(payload, 1, false);
-                const { text } = parseResponse(result);
+                const data = await fetchSakha("Summarize our interaction", chatHistory, "summarize");
+                const text = data.response;
 
                 showModal(
                     "Conversation Summary",
-                    "A concise summary generated by vrinda for quick review:",
+                    "A concise summary generated by Sakha for quick review:",
                     text
                 );
 
             } catch (error) {
                 console.error("Summarization failed:", error);
-                // Display a specific error message for tool failures
                 showModal(
                     "Error",
-                    "Sorry, We failed to generate a summary.",
-                    "Please ensure the conversation is long enough to summarize, or try again. Error details logged to console."
+                    "Sorry, Sakha failed to generate a summary.",
+                    "Please ensure the conversation is long enough to summarize, or try again."
                 );
             } finally {
                 summarizeBtn.textContent = originalText;
@@ -702,18 +666,10 @@ I have logged these details. To start, could you please provide a specific order
                 8. End with a signature (e.g., "Thanks, Vrindopnishad Bot").
             `.trim();
 
-            const payload = {
-                contents: [{ role: "user", parts: [{ text: escalationPrompt }] }],
-                systemInstruction: {
-                    parts: [{ text: "You are a Vrindopnishad support automation tool. Generate the requested internal email draft in the specified SUBJECT/BODY format based ONLY on the provided data. DO NOT USE MARKDOWN BULLETS (*)." }]
-                },
-            };
-
             try {
-                const result = await fetchWithBackoff(payload, 1, false);
-                const { text } = parseResponse(result);
+                const data = await fetchSakha("Draft an escalation email", chatHistory, "escalate");
+                const text = data.response;
 
-                // --- NEW PARSING AND CLEANING LOGIC ---
                 const subjectMatch = text.match(/SUBJECT:\s*(.*?)(\n|$)/i);
                 const bodyMatch = text.match(/BODY:\s*([\s\S]*)/i);
 
@@ -723,18 +679,13 @@ I have logged these details. To start, could you please provide a specific order
                 if (subjectMatch && bodyMatch) {
                     subject = subjectMatch[1].trim();
                     body = bodyMatch[1].trim();
-                } else if (text.length > 50) {
-                    body = text;
                 }
 
-                // FINAL CLEANUP: Strip remaining markdown from the body
                 const cleanedBody = stripMarkdown(body);
-                // --- END NEW PARSING AND CLEANING LOGIC ---
 
-                // Show modal with new 'escalation' action type
                 showModal(
                     "Escalation Email Draft",
-                    null, // Description is handled dynamically inside showModal
+                    null,
                     cleanedBody,
                     'escalation',
                     subject
@@ -742,11 +693,10 @@ I have logged these details. To start, could you please provide a specific order
 
             } catch (error) {
                 console.error("Escalation draft failed:", error);
-                // Display a specific error message for tool failures
                 showModal(
                     "Error",
-                    "Sorry, We failed to generate the email draft.",
-                    "Please ensure the conversation is long enough to escalate, or try again. Error details logged to console."
+                    "Sorry, Sakha failed to generate the email draft.",
+                    "Please ensure the conversation is long enough to escalate, or try again."
                 );
             } finally {
                 escalateBtn.textContent = originalText;
