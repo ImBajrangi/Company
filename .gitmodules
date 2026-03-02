@@ -75,3 +75,11 @@
 	path = Projects/chatbot
 	url = https://github.com/ImBajrangi/Company-chatbot.git
 	branch = main
+[submodule "Projects/complaintService"]
+	path = Projects/complaintService
+	url = https://github.com/ImBajrangi/Company-complaintService.git
+	branch = main
+[submodule "Projects/getMe"]
+	path = Projects/getMe
+	url = https://github.com/ImBajrangi/Company-getMe.git
+	branch = main
