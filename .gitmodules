@@ -67,3 +67,7 @@
 	path = Projects/Usable Cloned Code
 	url = https://github.com/ImBajrangi/Company-Usable-Cloned-Code.git
 	branch = main
+[submodule "Projects/Web dev"]
+	path = Projects/Web dev
+	url = https://github.com/ImBajrangi/Company-Web-dev.git
+	branch = main
