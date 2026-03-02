@@ -71,3 +71,7 @@
 	path = Projects/Web dev
 	url = https://github.com/ImBajrangi/Company-Web-dev.git
 	branch = main
+[submodule "Projects/chatbot"]
+	path = Projects/chatbot
+	url = https://github.com/ImBajrangi/Company-chatbot.git
+	branch = main
