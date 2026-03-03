@@ -19,8 +19,8 @@
 [submodule "Projects/DevDashboard"]
 	path = Projects/DevDashboard
 	url = https://github.com/ImBajrangi/DevDashboard.git
-[submodule "Vrindopnishad Web"]
-	path = Vrindopnishad Web
+[submodule "Vrindopnishad-Web"]
+	path = Vrindopnishad-Web
 	url = https://github.com/ImBajrangi/Vrindopnishad-Web.git
 	branch = main
 [submodule "Projects/WATERMARK ADDER"]
@@ -83,8 +83,8 @@
 	path = Projects/getMe
 	url = https://github.com/ImBajrangi/Company-getMe.git
 	branch = main
-[submodule "Projects/3dWeb"]
-	path = Projects/3dWeb
+[submodule "Projects/3DWeb"]
+	path = Projects/3DWeb
 	url = https://github.com/ImBajrangi/Company-3DWeb.git
 	branch = main
 [submodule "Projects/VrindopnishadApps"]
