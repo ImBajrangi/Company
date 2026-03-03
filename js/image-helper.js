@@ -64,6 +64,42 @@
     }
 
     /**
+     * Sanitize image source values before applying them to the DOM.
+     * Allows only blob:, http:, https: schemes or safe relative paths.
+     */
+    function sanitizeImageSrc(src) {
+        if (!src) return null;
+
+        const value = String(src).trim();
+
+        // Disallow obvious HTML injection
+        if (value.includes('<') || value.includes('>')) {
+            return null;
+        }
+
+        // Explicitly allow blob and http(s) URLs
+        if (value.startsWith('blob:') ||
+            value.startsWith('http://') ||
+            value.startsWith('https://')) {
+            return value;
+        }
+
+        // Disallow javascript:, data:, and other executable schemes
+        const lower = value.toLowerCase();
+        if (lower.startsWith('javascript:') || lower.startsWith('data:')) {
+            return null;
+        }
+
+        // For any other value, allow only if it looks like a relative path or filename
+        // and does not contain a colon that might introduce a custom scheme.
+        if (value.includes(':')) {
+            return null;
+        }
+
+        return value;
+    }
+
+    /**
      * UI Lockdown: Blocks common inspection shortcuts
      */
     function lockUI() {
@@ -115,12 +151,16 @@
 
             const processElement = async () => {
                 const secureUrl = await getSecureBlobUrl(ref);
+                const safeUrl = sanitizeImageSrc(secureUrl);
+                if (!safeUrl) {
+                    return;
+                }
                 if (el.tagName === 'IMG') {
-                    el.src = secureUrl;
+                    el.src = safeUrl;
                     el.style.pointerEvents = 'none';
                     shieldElement(el.parentElement);
                 } else {
-                    el.style.backgroundImage = `url('${secureUrl}')`;
+                    el.style.backgroundImage = `url('${safeUrl}')`;
                     shieldElement(el);
                 }
             };
