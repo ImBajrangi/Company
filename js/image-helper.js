@@ -65,7 +65,8 @@
 
     /**
      * Sanitize image source values before applying them to the DOM.
-     * Allows only blob:, http:, https: schemes or safe relative paths.
+     * Allows only blob: URLs or safe relative/local paths that cannot break out of
+     * attribute/CSS URL contexts.
      */
     function sanitizeImageSrc(src) {
         if (!src) return null;
@@ -77,16 +78,23 @@
             return null;
         }
 
-        // Explicitly allow blob and http(s) URLs
-        if (value.startsWith('blob:') ||
-            value.startsWith('http://') ||
-            value.startsWith('https://')) {
+        // Disallow characters that could easily break out of url('...') CSS contexts
+        if (value.includes('"') || value.includes("'") || value.includes(')')) {
+            return null;
+        }
+
+        // Explicitly allow blob: URLs (these are generated via URL.createObjectURL)
+        if (value.startsWith('blob:')) {
             return value;
         }
 
-        // Disallow javascript:, data:, and other executable schemes
         const lower = value.toLowerCase();
-        if (lower.startsWith('javascript:') || lower.startsWith('data:')) {
+
+        // Disallow javascript:, data:, and other executable or remote schemes
+        if (lower.startsWith('javascript:') ||
+            lower.startsWith('data:') ||
+            lower.startsWith('http://') ||
+            lower.startsWith('https://')) {
             return null;
         }
 
