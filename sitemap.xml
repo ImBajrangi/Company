@@ -54,10 +54,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
+</urlset>
+  <!-- <url>
     <loc>https://shop.vrindopnishad.in/</loc>
     <lastmod>2026-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-</urlset>
+  </url> -->
