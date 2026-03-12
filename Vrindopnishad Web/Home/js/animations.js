@@ -558,7 +558,7 @@
         initTextMaskReveal();
 
         // Fade up animations
-        initFadeUpAnimations();
+        // initFadeUpAnimations();
 
         // Initialize notifications
         initNotifications();
