@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize typography animations after fonts and GSAP load
     // Note: TypeKit removed, using Google Fonts which load via CSS
-    // setTimeout(() => initTypography(), 500);
+    setTimeout(() => initTypography(), 500);
 });
 
 // Typography Animations
