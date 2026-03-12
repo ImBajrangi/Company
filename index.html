@@ -232,14 +232,19 @@
     <link rel="icon" href="https://vrindopnishad.in/favicon.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
-    <!-- Selective Animation Disabling: Force .fade-up-off to be static and visible -->
+    <!-- Selective Animation Disabling: Force all scroll-triggered elements to be static and visible -->
     <style>
-        .fade-up-off {
+        .fade-up-off,
+        .staggered-item,
+        .reveal-element,
+        .text-mask span,
+        .for-you-card.staggered-item {
             transform: none !important;
             opacity: 1 !important;
             transition: none !important;
             animation: none !important;
             visibility: visible !important;
+            filter: none !important;
         }
     </style>
 </head>
@@ -359,7 +364,7 @@
                 </div>
 
                 <!-- Hero Badge -->
-                <div class="hero-badge fade-up-off">
+                <div class="hero-badge">
                     <span class="badge-dot"></span>
                     <span>Digital Sanctuary • Est. 2026</span>
                 </div>
@@ -367,7 +372,7 @@
                 <!-- Main Title -->
                 <h1 class="hero-title">
                     <div class="title-row">
-                        <span class="title-small fade-up-off">Welcome to</span>
+                        <span class="title-small">Welcome to</span>
                     </div>
                     <div class="title-row">
                         <span class="title-main content__title" data-splitting data-effect1>Vrindopnishad</span>
@@ -375,7 +380,7 @@
                 </h1>
 
                 <!-- Tagline -->
-                <div class="hero-tagline fade-up-off">
+                <div class="hero-tagline">
                     <p>Where <strong>ancient wisdom</strong> meets <strong>modern innovation</strong></p>
                 </div>
 
@@ -386,7 +391,7 @@
                 </div>
 
                 <!-- CTA Group -->
-                <div class="hero-cta-group fade-up-off">
+                <div class="hero-cta-group">
                     <a href="#our-story" class="hero-btn hero-btn-primary">
                         <span>Discover Our Story</span>
                         <span class="btn-arrow">→</span>
@@ -397,7 +402,7 @@
                 </div>
 
                 <!-- Stats Strip -->
-                <div class="hero-stats fade-up-off">
+                <div class="hero-stats">
                     <div class="stat">
                         <span class="stat-num">4+</span>
                         <span class="stat-text">Projects</span>
@@ -440,11 +445,11 @@
 
                 <!-- Right: Content -->
                 <div class="story-content">
-                    <span class="story-label fade-up-off">THE JOURNEY</span>
+                    <span class="story-label">THE JOURNEY</span>
                     <h2 class="story-title content__title" data-splitting data-effect6>Our Story</h2>
 
                     <div class="story-blocks">
-                        <div class="story-block fade-up-off">
+                        <div class="story-block">
                             <span class="block-marker">01</span>
                             <div class="block-text">
                                 <h4>The Beginning</h4>
@@ -453,7 +458,7 @@
                             </div>
                         </div>
 
-                        <div class="story-block fade-up-off">
+                        <div class="story-blocks">
                             <span class="block-marker">02</span>
                             <div class="block-text">
                                 <h4>The Vision</h4>
@@ -462,7 +467,7 @@
                             </div>
                         </div>
 
-                        <div class="story-block fade-up-off">
+                        <div class="story-block">
                             <span class="block-marker">03</span>
                             <div class="block-text">
                                 <h4>Today</h4>
@@ -473,7 +478,7 @@
                         </div>
                     </div>
 
-                    <a href="#projects" class="story-cta fade-up-off">
+                    <a href="#projects" class="story-cta">
                         <span>Explore Our Work</span>
                         <span class="cta-arrow">→</span>
                     </a>
@@ -1244,6 +1249,7 @@
             });
             */
 
+            /*
             // Handle staggered animations
             const staggeredLists = document.querySelectorAll('.staggered-list');
             staggeredLists.forEach(list => {
@@ -1280,6 +1286,7 @@
             revealElements.forEach(element => {
                 revealObserver.observe(element);
             });
+            */
         });
     </script>
 
