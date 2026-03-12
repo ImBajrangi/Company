@@ -28,11 +28,15 @@
     </script>
 
     <style>
-        /* Disable "fade-up" animations for a more stable experience */
-        .fade-up {
+        /* Disable "fade-up" and visibility animations for a more stable experience */
+        .fade-up, 
+        .staggered-item, 
+        .reveal-element, 
+        .text-mask span {
             transform: none !important;
             opacity: 1 !important;
             transition: none !important;
+            animation: none !important;
         }
     </style>
 

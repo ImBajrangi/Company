@@ -543,10 +543,10 @@
         initProjectHover();
 
         // Staggered animations
-        initStaggeredAnimations();
+        // initStaggeredAnimations();
 
         // Text reveal animations
-        initRevealAnimations();
+        // initRevealAnimations();
 
         // Horizontal scroll
         initHorizontalScroll();
@@ -555,7 +555,7 @@
         initMobileMenu();
 
         // Text mask reveal
-        initTextMaskReveal();
+        // initTextMaskReveal();
 
         // Fade up animations
         // initFadeUpAnimations();
