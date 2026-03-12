@@ -26,17 +26,6 @@
         }
       }
     </script>
-
-    <style>
-        /* Disable ONLY "fade-up" animations for a more stable experience */
-        .fade-up {
-            transform: none !important;
-            opacity: 1 !important;
-            transition: none !important;
-            animation: none !important;
-        }
-    </style>
-
     <script type="module" src="js/auth.js?v=1.0.1"></script>
 
     <!-- Open Graph / Facebook -->
@@ -1228,7 +1217,8 @@
     <script>
         // Add IntersectionObserver for animations
         document.addEventListener('DOMContentLoaded', () => {
-            // Handle fade-up animations
+            // Handle fade-up animations - DISABLED as per user request
+            /*
             const fadeElements = document.querySelectorAll('.fade-up');
             const fadeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1242,6 +1232,7 @@
             fadeElements.forEach(element => {
                 fadeObserver.observe(element);
             });
+            */
 
             // Handle staggered animations
             const staggeredLists = document.querySelectorAll('.staggered-list');
