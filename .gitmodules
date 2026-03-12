@@ -1,89 +1,89 @@
 [submodule "Projects/VrindaVaani"]
 	path = Projects/VrindaVaani
-	url = https://github.com/ImBajrangi/Sant-Vaani.git
+	url = ../Sant-Vaani.git
 [submodule "Projects/Sakha"]
 	path = Projects/Sakha
-	url = https://github.com/ImBajrangi/Sakha.git
+	url = ../Sakha.git
 [submodule "Projects/HitSoochi"]
 	path = Projects/HitSoochi
-	url = https://github.com/ImBajrangi/Hit-Soochi.git
+	url = ../Hit-Soochi.git
 [submodule "Projects/Vrinda-Tours"]
 	path = Projects/Vrinda-Tours
-	url = https://github.com/ImBajrangi/Vrinda-Tours.git
+	url = ../Vrinda-Tours.git
 [submodule "Projects/Cloud-Kitchen"]
 	path = Projects/Cloud-Kitchen
-	url = https://github.com/ImBajrangi/Foody-Vrinda.git
+	url = ../Foody-Vrinda.git
 [submodule "Projects/SkillTadka"]
 	path = Projects/SkillTadka
-	url = https://github.com/ImBajrangi/skillTadka.git
+	url = ../skillTadka.git
 [submodule "Projects/DevDashboard"]
 	path = Projects/DevDashboard
-	url = https://github.com/ImBajrangi/DevDashboard.git
+	url = ../DevDashboard.git
 [submodule "Projects/WATERMARK ADDER"]
 	path = Projects/WATERMARK ADDER
-	url = https://github.com/ImBajrangi/Company-WATERMARK-ADDER.git
+	url = ../Company-WATERMARK-ADDER.git
 	branch = main
 [submodule "Projects/NPMDevRun"]
 	path = Projects/NPMDevRun
-	url = https://github.com/ImBajrangi/Company-NPMDevRun.git
+	url = ../Company-NPMDevRun.git
 	branch = main
 [submodule "Projects/Trials"]
 	path = Projects/Trials
-	url = https://github.com/ImBajrangi/Company-Trials.git
+	url = ../Company-Trials.git
 	branch = main
 [submodule "Projects/Video"]
 	path = Projects/Video
-	url = https://github.com/ImBajrangi/Company-Video.git
+	url = ../Company-Video.git
 	branch = main
 [submodule "Projects/Vrinda Chat"]
 	path = Projects/Vrinda Chat
-	url = https://github.com/ImBajrangi/Company-Vrinda-Chat.git
+	url = ../Company-Vrinda-Chat.git
 	branch = main
 [submodule "Projects/LoginPage"]
 	path = Projects/LoginPage
-	url = https://github.com/ImBajrangi/Company-LoginPage.git
+	url = ../Company-LoginPage.git
 	branch = main
 [submodule "Projects/offline web"]
 	path = Projects/offline web
-	url = https://github.com/ImBajrangi/Company-offline-web.git
+	url = ../Company-offline-web.git
 	branch = main
 [submodule "Projects/showcase"]
 	path = Projects/showcase
-	url = https://github.com/ImBajrangi/Company-showcase.git
+	url = ../Company-showcase.git
 	branch = main
 [submodule "Projects/telegramBot"]
 	path = Projects/telegramBot
-	url = https://github.com/ImBajrangi/Company-telegramBot.git
+	url = ../Company-telegramBot.git
 	branch = main
 [submodule "Projects/timePass"]
 	path = Projects/timePass
-	url = https://github.com/ImBajrangi/Company-timePass.git
+	url = ../Company-timePass.git
 	branch = main
 [submodule "Projects/Usable Cloned Code"]
 	path = Projects/Usable Cloned Code
-	url = https://github.com/ImBajrangi/Company-Usable-Cloned-Code.git
+	url = ../Company-Usable-Cloned-Code.git
 	branch = main
 [submodule "Projects/Web dev"]
 	path = Projects/Web dev
-	url = https://github.com/ImBajrangi/Company-Web-dev.git
+	url = ../Company-Web-dev.git
 	branch = main
 [submodule "Projects/chatbot"]
 	path = Projects/chatbot
-	url = https://github.com/ImBajrangi/Company-chatbot.git
+	url = ../Company-chatbot.git
 	branch = main
 [submodule "Projects/complaintService"]
 	path = Projects/complaintService
-	url = https://github.com/ImBajrangi/Company-complaintService.git
+	url = ../Company-complaintService.git
 	branch = main
 [submodule "Projects/getMe"]
 	path = Projects/getMe
-	url = https://github.com/ImBajrangi/Company-getMe.git
+	url = ../Company-getMe.git
 	branch = main
 [submodule "Projects/3DWeb"]
 	path = Projects/3DWeb
-	url = https://github.com/ImBajrangi/Company-3DWeb.git
+	url = ../Company-3DWeb.git
 	branch = main
 [submodule "Projects/VrindopnishadApps"]
 	path = Projects/VrindopnishadApps
-	url = https://github.com/ImBajrangi/Company-VrindopnishadApps.git
+	url = ../Company-VrindopnishadApps.git
 	branch = main
