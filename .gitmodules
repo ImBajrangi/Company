@@ -39,10 +39,6 @@
 	path = Projects/Vrinda Chat
 	url = ../Company-Vrinda-Chat.git
 	branch = main
-[submodule "Projects/LoginPage"]
-	path = Projects/LoginPage
-	url = ../Company-LoginPage.git
-	branch = main
 [submodule "Projects/offline web"]
 	path = Projects/offline web
 	url = ../Company-offline-web.git
