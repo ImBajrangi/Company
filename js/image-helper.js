@@ -5,7 +5,17 @@
 (function () {
     'use strict';
 
-    const VAULT_PATH = './Vrindopnishad%20Web/class/image/KRSHN/';
+    const getRootPath = () => {
+        const path = window.location.pathname;
+        const searchTerms = ['/Vrindopnishad%20Web/', '/Vrindopnishad Web/'];
+        for (const term of searchTerms) {
+            const index = path.indexOf(term);
+            if (index !== -1) return path.substring(0, index + term.length);
+        }
+        return './';
+    };
+
+    const VAULT_PATH = getRootPath() + 'class/image/KRSHN/';
     const DEFAULT_EXT = '.png';
     const KNOWN_AVIF = ['62', 'tempImageN7Ynt8', 'tempImage0MZ1Qo', 'tempImagepeTFpY', 'tempImageEpdAxY', 'tempImageXR0Khf', 'tempImageQAFHVQ', 'temp-Image-DVx-VWQ', 'temp-Image0m4o-HY', 'temp-Image-Y61d7-W', '32', 'temp-Imageq2-Af-Gz', 'temp-Image-Qu2-Bi-Z', 'temp-Image-KVsh-Fy', 'temp-Image-PRh2-Km'];
 

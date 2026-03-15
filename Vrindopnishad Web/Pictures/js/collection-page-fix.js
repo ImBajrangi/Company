@@ -283,60 +283,95 @@ async function loadCollectionsData() {
     console.log('loadCollectionsData called');
     let loadedFromSupabase = false;
     try {
-        // --- NEW: Try fetching from Supabase first ---
-        if (window.supabaseClient && typeof window.supabaseClient.from === 'function') {
-            console.log('Fetching collections data from Supabase...');
-            try {
-                const { data, error } = await window.supabaseClient
-                    .from('collections')
-                    .select('*');
+        console.log('Fetching collections data via database bridge...');
+        
+        // Ensure bridge is available
+        const fetchFunc = window.fetchFromDatabase || (typeof fetchFromDatabase !== 'undefined' ? fetchFromDatabase : null);
+        
+        if (!fetchFunc) {
+            console.warn('Database bridge (fetchFromDatabase) not found! Retrying in 1s...');
+            // Simple retry once
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
 
-                if (error) throw error;
+        const data = await window.fetchFromDatabase('collections');
 
-                if (data && data.length > 0) {
-                    console.log(`Loaded ${data.length} collections from Supabase`);
-
-                    // Group the flat Supabase data into the structured format the UI expects
-                    const structuredData = {
-                        featured: { title: "Featured Collections", items: [] },
-                        popular: { title: "Popular Right Now", items: [] },
-                        rapper: { title: "Rapper Style", items: [] },
-                        anime: { title: "Anime Style", items: [] },
-                        dark: { title: "Dark Aesthetic", items: [] },
-                        warrior: { title: "Warrior Styles", items: [] },
-                        chhibi: { title: "Chhibi Styles", items: [] }
-                    };
-
-                    data.forEach(item => {
-                        const section = item.cat_section || 'featured';
-                        if (structuredData[section]) {
-                            structuredData[section].items.push(item);
-                        } else {
-                            if (!structuredData[section]) {
-                                structuredData[section] = { title: item.cat_section || section, items: [] };
-                            }
-                            structuredData[section].items.push(item);
-                        }
-                    });
-
-                    collectionsData = structuredData;
-                    sessionStorage.setItem('allCollectionsData', JSON.stringify(structuredData));
-
-                    // Trigger rendering
-                    if (typeof renderCollections === 'function') {
-                        renderCollections(collectionsData);
+        if (data && data.length > 0) {
+            console.log(`Loaded ${data.length} collections via bridge`);
+            processAndRenderData(data);
+            loadedFromSupabase = true;
+        } else {
+            console.warn('Bridge returned no data. Trying inlined fallback...');
+            
+            // 1. Try inlined data (bypass CORS)
+            if (window.galleryFallbackData) {
+                const collections = window.galleryFallbackData.collections || window.galleryFallbackData;
+                processAndRenderData(collections);
+                loadedFromSupabase = true;
+                console.log('Loaded collections from inlined script fallback');
+            } else {
+                // 2. Fallback to fetch (original method)
+                try {
+                    const response = await fetch('../js/gallery-data.js').catch(() => null); // Try to fetch the JS file if script load failed
+                    const responseJson = await fetch('../../class/json/collections_data.json').catch(() => null);
+                    
+                    if (responseJson && responseJson.ok) {
+                        const jsonData = await responseJson.json();
+                        const collections = jsonData.collections || jsonData;
+                        processAndRenderData(collections);
+                        loadedFromSupabase = true;
+                        console.log('Loaded collections from local JSON fetch');
                     }
-                    loadedFromSupabase = true;
-                } else {
-                    console.log('Supabase returned empty data, falling back to JSON');
+                } catch (jsonErr) {
+                    console.error('All fallbacks failed:', jsonErr);
                 }
-            } catch (err) {
-                console.warn('Supabase fetch failed:', err.message, err);
-                console.log('Falling back to local collections JSON...');
             }
         }
 
-        // --- FALLBACK REMOVED: Load ONLY from Supabase ---
+        function processAndRenderData(inputData) {
+            // Group the flat data (from Supabase/Bridge) or use the structured data (from JSON)
+            let structuredData;
+            
+            if (Array.isArray(inputData)) {
+                // It's flat data from Supabase
+                structuredData = {
+                    featured: { title: "Featured Collections", items: [] },
+                    popular: { title: "Popular Right Now", items: [] },
+                    rapper: { title: "Rapper Style", items: [] },
+                    anime: { title: "Anime Style", items: [] },
+                    dark: { title: "Dark Aesthetic", items: [] },
+                    warrior: { title: "Warrior Styles", items: [] },
+                    chhibi: { title: "Chhibi Styles", items: [] }
+                };
+
+                inputData.forEach(item => {
+                    const section = item.cat_section || 'featured';
+                    if (structuredData[section]) {
+                        structuredData[section].items.push(item);
+                    } else {
+                        if (!structuredData[section]) {
+                            structuredData[section] = { title: item.cat_section || section, items: [] };
+                        }
+                        structuredData[section].items.push(item);
+                    }
+                });
+            } else {
+                // It's already structured (from JSON)
+                structuredData = inputData;
+            }
+
+            collectionsData = structuredData;
+            sessionStorage.setItem('allCollectionsData', JSON.stringify(structuredData));
+
+            // Trigger rendering
+            if (typeof renderCollections === 'function') {
+                renderCollections(collectionsData);
+            } else if (typeof initializeCollections === 'function') {
+                initializeCollections();
+            }
+        }
+
+        // --- FALLBACK REMOVED: Load ONLY from Supabase/Firebase Bridge ---
         if (!loadedFromSupabase) {
             console.warn('Gallery failed to load from Supabase and JSON fallback is disabled.');
             // Display an error message to the user in the UI

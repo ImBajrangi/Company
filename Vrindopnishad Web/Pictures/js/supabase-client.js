@@ -1,12 +1,33 @@
-// Initialize Supabase Client (Deprecated - Moving to Firebase)
-const SUPABASE_URL = 'https://tilimltxgeucefxzerqi.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpbGltbHR4Z2V1Y2VmeHplcnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MjQyNTQsImV4cCI6MjA4MzIwMDI1NH0.lwaCJyTRW6jNsfQJ32R_wAwp11yj6bvsJ4fzC0EX_00';
+// Project A: Shlokas/Text (Original Project)
+const SUPABASE_URL_SHLOKA = 'https://tilimltxgeucefxzerqi.supabase.co';
+const SUPABASE_KEY_SHLOKA = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpbGltbHR4Z2V1Y2VmeHplcnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MjQyNTQsImV4cCI6MjA4MzIwMDI1NH0.lwaCJyTRW6jNsfQJ32R_wAwp11yj6bvsJ4fzC0EX_00';
 
-// Check if supabase is loaded (via CDN in the HTML)
-if (typeof supabase !== 'undefined' && !window.supabaseClient) {
-    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('Supabase client initialized (Legacy Bridge)');
+// Project B: Gallery/Collections (Newer Project)
+const SUPABASE_URL_GALLERY = 'https://lnsibpzjylkxhqsecxcg.supabase.co';
+const SUPABASE_KEY_GALLERY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxuc2licHpqeWxreGhxc2VjeGNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgzOTY2MjksImV4cCI6MjA4Mzk3MjYyOX0.bNyBQrvBWk4-VAomg_5rZObHJUmSbdkh9CwDKV7aOO8';
+
+function initSupabase() {
+    if (typeof supabase !== 'undefined') {
+        try {
+            if (!window.supabaseShloka) {
+                window.supabaseShloka = supabase.createClient(SUPABASE_URL_SHLOKA, SUPABASE_KEY_SHLOKA);
+            }
+            if (!window.supabaseGallery) {
+                window.supabaseGallery = supabase.createClient(SUPABASE_URL_GALLERY, SUPABASE_KEY_GALLERY);
+            }
+            // For backward compatibility
+            window.supabaseClient = window.supabaseGallery; 
+            console.log('Supabase clients (Shloka & Gallery) initialized successfully.');
+        } catch (e) {
+            console.error('Failed to initialize Supabase clients:', e);
+        }
+    }
 }
+
+// Immediate attempt
+initSupabase();
+// Backup attempt in case direct script load is late
+window.addEventListener('load', initSupabase);
 
 /**
  * BRIDGE: Fetch any table from Firebase instead of Supabase
@@ -43,20 +64,32 @@ async function fetchFromFirebase(tableName) {
  * Generalized fetch function that tries Firebase first, falls back to Supabase.
  */
 async function fetchFromDatabase(tableName, options = {}) {
-    console.log(`Attempting to fetch ${tableName}...`);
+    // Standardize 'images' to 'collections'
+    const internalTableName = tableName === 'images' ? 'collections' : tableName;
+    console.log(`Bridge: Attempting to fetch "${tableName}" -> internal: "${internalTableName}"...`);
     
     // 1. Try Firebase first
-    const firebaseData = await fetchFromFirebase(tableName);
+    const firebaseData = await fetchFromFirebase(internalTableName);
     if (firebaseData) {
-        console.log(`Successfully fetched ${tableName} from Firebase`);
+        console.log(`Bridge: Successfully fetched "${internalTableName}" from Firebase`);
         return firebaseData;
     }
 
     // 2. Fallback to Supabase
     try {
-        if (!window.supabaseClient) throw new Error('Supabase client not initialized');
+        initSupabase(); // Ensure initialization
         
-        let query = window.supabaseClient.from(tableName).select('*');
+        // SELECT THE CORRECT CLIENT
+        // 'content' belongs to the Shloka project, 'collections' to the Gallery project
+        let client = window.supabaseGallery;
+        if (internalTableName === 'content') {
+            client = window.supabaseShloka;
+        }
+
+        if (!client) throw new Error(`Supabase client for ${internalTableName} failed to initialize`);
+        
+        console.log(`Bridge: Falling back to Supabase (${client.restUrl}) table "${internalTableName}"...`);
+        let query = client.from(internalTableName).select('*');
         
         // Basic sort support for 'content' table or others
         if (options.orderBy) {
@@ -66,9 +99,10 @@ async function fetchFromDatabase(tableName, options = {}) {
         const { data, error } = await query;
 
         if (error) throw error;
+        console.log(`Bridge: Successfully fetched "${internalTableName}" from Supabase`);
         return data;
     } catch (error) {
-        console.error(`Supabase fetch failed for ${tableName}, and no Firebase data found:`, error.message);
+        console.error(`Bridge: All sources failed for "${internalTableName}":`, error.message);
         return null;
     }
 }

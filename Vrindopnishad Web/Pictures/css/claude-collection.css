@@ -494,14 +494,14 @@ body.dark-mode .dropdown-menu {
 .hero-image {
     width: 100%;
     height: 100%;
-    background-image: url('/Vrindopnishad Web/class/image/KRSHN/Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors.png');
+    background-image: url('../../class/image/KRSHN/Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 body:not(.dark-mode) .hero-image {
-    background-image: url('/Vrindopnishad Web/class/image/KRSHN/Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors.png');
+    background-image: url('../../class/image/KRSHN/Blue_Krishna_personified_as_living_aurora_borealis_with_cosmic_celestial_colors.png');
 }
 
 .hero-image-overlay {
