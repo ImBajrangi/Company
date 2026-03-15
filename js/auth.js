@@ -2,8 +2,8 @@
  * Vrindopnishad Shared Authentication Service
  * Manages unified login state across all sub-domains and projects using Firebase.
  */
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import initializeApp from "firebase/app";
+import getAnalytics from "firebase/analytics";
 import {
     getAuth,
     onAuthStateChanged,

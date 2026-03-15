@@ -310,11 +310,9 @@ async function loadCollectionsData() {
                 loadedFromSupabase = true;
                 console.log('Loaded collections from inlined script fallback');
             } else {
-                // 2. Fallback to fetch (original method)
+                // 2. Fetch local JSON if bridge and inlined both failed
                 try {
-                    const response = await fetch('../js/gallery-data.js').catch(() => null); // Try to fetch the JS file if script load failed
                     const responseJson = await fetch('../../class/json/collections_data.json').catch(() => null);
-                    
                     if (responseJson && responseJson.ok) {
                         const jsonData = await responseJson.json();
                         const collections = jsonData.collections || jsonData;
@@ -323,7 +321,7 @@ async function loadCollectionsData() {
                         console.log('Loaded collections from local JSON fetch');
                     }
                 } catch (jsonErr) {
-                    console.error('All fallbacks failed:', jsonErr);
+                    console.error('All data sources failed:', jsonErr);
                 }
             }
         }
