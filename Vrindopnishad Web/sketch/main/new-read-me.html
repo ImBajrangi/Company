@@ -445,7 +445,7 @@
         }
 
         .content-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-1px);
             box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(167, 139, 250, 0.4);
@@ -709,7 +709,7 @@
         .sacred-link:hover {
             background: rgba(139, 92, 246, 0.4);
             border-color: rgba(167, 139, 250, 0.5);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
         }
 
@@ -761,7 +761,7 @@
 
         .nav-btn:hover:not(:disabled) {
             background: rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
@@ -911,9 +911,10 @@
             height: auto;
         }
 
-        .control-btn:hover {
+        .control-btn:hover,
+        .control-btn:active {
             background: rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
+            transform: translateY(-1px) scale(1.05);
             box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
