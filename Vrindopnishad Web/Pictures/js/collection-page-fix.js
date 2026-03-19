@@ -659,11 +659,60 @@ function initPopup() {
     document.addEventListener('keydown', (e) => e.key === 'Escape' && closePopup());
 }
 
+// Theme system implementation
+function initializeTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+
+    const icon = themeToggle.querySelector('i');
+    
+    // Update icon to match current theme
+    const updateIcon = (theme) => {
+        if (theme === 'dark') {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    };
+
+    // Initial icon state based on class applied by inline script
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    updateIcon(currentTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        const newTheme = isDark ? 'light' : 'dark';
+        
+        document.body.classList.remove('light-mode', 'dark-mode');
+        document.body.classList.add(newTheme + '-mode');
+        localStorage.setItem('theme', newTheme);
+        updateIcon(newTheme);
+
+        // Optional: show notification if the helper exists
+        if (window.showNotification) {
+            showNotification(`${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} mode activated`, 'info');
+        }
+    });
+
+    // Listen for system changes and update if no manual override exists
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.body.classList.remove('light-mode', 'dark-mode');
+            document.body.classList.add(newTheme + '-mode');
+            updateIcon(newTheme);
+        }
+    });
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Initializing collection page...');
 
-    // Initialize UI components immediately so they work without waiting for data
+    // Initialize UI components immediately
+    initializeTheme();
     initializeSearch();
     initializeHeaderScroll();
     initializeHeaderBackground();
