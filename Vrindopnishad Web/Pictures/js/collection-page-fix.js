@@ -190,18 +190,26 @@ function generateCollectionItems(containerId, items) {
         itemElement.setAttribute('data-vault', item.image);
 
         itemElement.innerHTML = `
-            <div class="item-content">
-                <h3 class="item-title">${item.title || 'Untitled'}</h3>
-                <p class="item-description">${item.description || ''}</p>
+            <div class="item-content" itemscope itemtype="https://schema.org/VisualArtsWork">
+                <meta itemprop="image" content="${item.image}">
+                <meta itemprop="url" content="${window.location.origin}/Vrindopnishad%20Web/Pictures/main/collection-details.html?id=${item.id}">
+                
+                <h3 class="item-title" itemprop="name">${item.title || 'Untitled'}</h3>
+                <p class="item-description" itemprop="description">${item.description || ''}</p>
+                
                 <div class="item-stats">
                     <span class="item-count">
                         <i class="fas fa-images"></i>
-                        ${item.count || item.itemCount || 0} images
+                        <span itemprop="artform">${item.count || item.itemCount || 0} images</span>
                     </span>
-                    ${item.rating ? `<span class="item-rating"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
+                    ${item.rating ? `<span class="item-rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="ratingValue" content="${item.rating}"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
                     ${item.views ? `<span class="item-views"><i class="fas fa-eye"></i> ${item.views.toLocaleString()}</span>` : ''}
                 </div>
                 ${containerId === 'featured-slider' && item.category ? `<span class="category-tag">${item.category}</span>` : ''}
+                
+                <!-- Hidden Image for SEO Indexing -->
+                <img src="${item.image}" alt="${item.title || 'Spiritual Art'}" title="${item.title || 'Divine Collection'}" 
+                     style="display:none;" loading="lazy" width="300" height="200">
             </div>
         `;
 
