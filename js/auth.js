@@ -2,8 +2,10 @@
  * Vrindopnishad Shared Authentication Service
  * Manages unified login state across all sub-domains and projects using Firebase.
  */
-import initializeApp from "firebase/app";
-import getAnalytics from "firebase/analytics";
+// Define base URL for the project root (one level up from this script in js/)
+const LOGIN_URL = new URL('../login.html', import.meta.url).href;
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import {
     getAuth,
     onAuthStateChanged,
@@ -171,7 +173,7 @@ const AuthService = {
     async requireAuth(redirectTo = window.location.pathname) {
         const isAuthenticated = await this.isAuthenticated();
         if (!isAuthenticated) {
-            const loginUrl = new URL('/login.html', window.location.origin);
+            const loginUrl = new URL(LOGIN_URL);
             loginUrl.searchParams.set('redirect', redirectTo);
             window.location.href = loginUrl.toString();
         }
@@ -277,7 +279,7 @@ const AuthService = {
                 if (isGuest) {
                     // Redirect to login
                     const currentPath = window.location.pathname;
-                    const loginUrl = new URL('/login.html', window.location.origin);
+                    const loginUrl = new URL(LOGIN_URL);
                     loginUrl.searchParams.set('redirect', currentPath);
                     window.location.href = loginUrl.toString();
                     return;
