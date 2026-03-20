@@ -4,3 +4,4 @@ Allow: /
 Sitemap: https://vrindopnishad.in/sitemap.xml
 Sitemap: https://vrindopnishad.in/sitemap-images.xml
 Sitemap: https://vrindopnishad.in/google-shopping-feed.xml
+Sitemap: https://path.vrindopnishad.in/sitemap.xml
