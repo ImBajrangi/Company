@@ -202,7 +202,7 @@ function generateCollectionItems(containerId, items) {
                         <i class="fas fa-images"></i>
                         <span itemprop="artform">${item.count || item.itemCount || 0} images</span>
                     </span>
-                    ${item.rating ? `<span class="item-rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="ratingValue" content="${item.rating}"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
+                    ${item.rating ? `<span class="item-rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="ratingValue" content="${item.rating}"><meta itemprop="ratingCount" content="${item.ratingCount || 1}"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
                     ${item.views ? `<span class="item-views"><i class="fas fa-eye"></i> ${item.views.toLocaleString()}</span>` : ''}
                 </div>
                 ${containerId === 'featured-slider' && item.category ? `<span class="category-tag">${item.category}</span>` : ''}
