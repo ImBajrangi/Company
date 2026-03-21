@@ -83,3 +83,6 @@
 	path = Projects/VrindopnishadApps
 	url = ../Company-VrindopnishadApps.git
 	branch = main
+[submodule "Projects/bakery"]
+	path = Projects/bakery
+	url = https://github.com/ImBajrangi/bakery.git
