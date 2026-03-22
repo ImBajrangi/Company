@@ -110,16 +110,25 @@ const CollectionDetails = ({ data, onBack, onToggleMyList, isInList }) => {
 
                         <div className="product-description">
                             <h3 className="description-title">About this Collection</h3>
-                            <p className="description-text">{data.description || 'Experience the transcendental beauty of Vrindavan through this curated art collection.'}</p>
+                            <p className="description-text">
+                                {data.description || 'Experience the transcendental beauty through this curated art collection.'}
+                                {data.count > 0 && ` This exquisite collection features ${data.count} hand-picked items, celebrating the essence of timeless artistry and spiritual significance.`}
+                            </p>
 
-                            <ul className="features-list">
+                            <div className="tags-container" style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                                 {Array.isArray(data.tags) && data.tags.map((tag, i) => (
-                                    <li key={i}>
-                                        <ChevronRight size={16} className="feature-icon" />
-                                        <span>{tag}</span>
-                                    </li>
+                                    <span key={i} className="sacred-tag" style={{ 
+                                        color: 'var(--accent-blue)', 
+                                        background: 'rgba(0, 113, 227, 0.1)',
+                                        padding: '4px 12px',
+                                        borderRadius: '20px',
+                                        fontSize: '12px',
+                                        fontWeight: '500'
+                                    }}>
+                                        #{tag}
+                                    </span>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

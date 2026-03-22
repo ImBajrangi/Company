@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Search, Menu, ChevronDown, X } from 'lucide-react';
 
-const Navbar = ({ onSearchClick, myListCount }) => {
+const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -33,8 +33,8 @@ const Navbar = ({ onSearchClick, myListCount }) => {
         <>
             <header className={`header ${isScrolled ? 'scrolled' : ''}`} id="header">
                 <a href="/" className="logo">
-                    <img src="https://vrindopnishad.in/class/logo/v-logo-transparent.png" alt="Chitra Vrinda" className="logo-img" />
-                    <span className="logo-text">Chitra Vrinda</span>
+                    <img src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png" alt={siteConfig?.siteName || "Chitra Vrinda"} className="logo-img" />
+                    <span className="logo-text">{siteConfig?.siteName || "Chitra Vrinda"}</span>
                 </a>
 
                 <nav className="nav-menu">

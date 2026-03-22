@@ -108,7 +108,7 @@ function initializeEcommerceUI() {
     if (bagClose) bagClose.addEventListener('click', () => window.V_Cart?.toggleBag());
     if (favClose) favClose.addEventListener('click', () => window.V_Cart?.toggleFavorites());
     if (purClose) purClose.addEventListener('click', () => window.V_Cart?.togglePurchased());
-    
+
     if (bagOverlay) {
         bagOverlay.addEventListener('click', () => {
             if (window.V_Cart) window.V_Cart.closeAllModals();
@@ -155,9 +155,9 @@ async function toggleMyList(item) {
         else favs.splice(index, 1);
         localStorage.setItem('favorites', JSON.stringify(favs));
     }
-    
+
     refreshMyListUI();
-    return true; 
+    return true;
 }
 
 function refreshMyListUI() {
@@ -237,6 +237,7 @@ function generateCollectionItems(containerId, items) {
                 </div>
                 <!-- Quick Add Action -->
                 <button class="quick-add-btn" title="Add to Bag">
+                    <span class="btn-text">COLLECT DIVINE</span>
                     <i class="fas fa-shopping-bag"></i>
                 </button>
             </div>
@@ -769,8 +770,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeSearch();
     initializeHeaderScroll();
     initializeHeaderBackground();
-    initializeHeroButtons(); 
-    initPopup(); 
+    initializeHeroButtons();
+    initPopup();
     initializeEcommerceUI();
 
     // Load data

@@ -16,15 +16,33 @@ class CartSystem {
     async init() {
         console.log('🛒 Cart System Initializing...');
         
-        // Setup Auth Listener if AuthService exists
-        if (window.AuthService) {
-            window.AuthService.onAuthStateChange(async (status, user) => {
-                this.isLoggedIn = !!user;
-                if (this.isLoggedIn) {
-                    await this.syncWithCloud();
+        // Setup Auth Listener with Retry/Wait for Module Load
+        const setupAuth = async () => {
+            if (window.AuthService) {
+                console.log('✅ AuthService found, connecting...');
+                window.AuthService.onAuthStateChange(async (status, user) => {
+                    this.isLoggedIn = !!user;
+                    console.log(`👤 Auth State Change: ${this.isLoggedIn ? 'Logged In' : 'Logged Out'}`);
+                    if (this.isLoggedIn) {
+                        await this.syncWithCloud();
+                    }
+                    this.updateUI();
+                });
+                return true;
+            }
+            return false;
+        };
+
+        // Immediate attempt
+        if (!await setupAuth()) {
+            // Backup: Poll for it (since auth.js is a module and might load later)
+            let attempts = 0;
+            const authInterval = setInterval(async () => {
+                attempts++;
+                if (await setupAuth() || attempts > 20) {
+                    clearInterval(authInterval);
                 }
-                this.updateUI();
-            });
+            }, 250);
         }
 
         // Global Event Listeners for UI

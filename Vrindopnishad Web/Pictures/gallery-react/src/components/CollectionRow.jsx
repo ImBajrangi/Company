@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Images, Star, Eye } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Images, Star, ShoppingBag } from 'lucide-react';
 
 const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
     const sliderRef = useRef(null);
@@ -45,6 +45,9 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
                             onClick={() => onItemClick(item)}
                             style={{ backgroundImage: `url(${item.image})` }}
                         >
+                            {/* Price Tag (Repositioned to Top Corner in V12) */}
+                            <div className="price-tag">₹{item.price || 501}</div>
+
                             <div className="item-content">
                                 <h3 className="item-title">{item.title}</h3>
                                 <p className="item-description">{item.description}</p>
@@ -60,6 +63,15 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
                                         </span>
                                     )}
                                 </div>
+                                {/* Unified Quick Add (V12) */}
+                                <button className="quick-add-btn" onClick={(e) => {
+                                    e.stopPropagation();
+                                    // If App.jsx has a bag handler, we'd call it here
+                                    // For now, it matches the UI structure
+                                }}>
+                                    <span className="btn-text">COLLECT DIVINE</span>
+                                    <ShoppingBag size={16} />
+                                </button>
                             </div>
                         </div>
                     ))}

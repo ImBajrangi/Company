@@ -7,10 +7,10 @@ const Footer = () => {
             <div className="footer-content">
                 <div className="footer-brand">
                     <div className="logo">
-                        <img src="https://vrindopnishad.in/class/logo/v-logo-transparent.png" alt="Chitra Vrinda" className="logo-img" />
+                        <img src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png" alt="Chitra Vrinda" className="logo-img" />
                         <span className="logo-text">Chitra Vrinda</span>
                     </div>
-                    <p className="footer-tagline">Preserving the divine beauty of Vrindavan through sacred art and photography.</p>
+                    <p className="footer-tagline">Preserving the divine beauty through sacred art and photography.</p>
                     <div className="social-links">
                         <a href="#" className="social-icon"><Facebook size={18} /></a>
                         <a href="#" className="social-icon"><Twitter size={18} /></a>

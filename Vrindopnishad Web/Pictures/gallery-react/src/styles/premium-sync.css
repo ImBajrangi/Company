@@ -334,3 +334,189 @@
         font-size: 2.5rem;
     }
 }
+
+/* ========================================
+   V12 UNIFIED RESET - OBSIDIAN GLASS PORT
+   ======================================== */
+
+.items-slider {
+    padding: 60px 40px !important; /* Extra room for 1.1x expansion */
+    display: flex !important;
+    gap: 30px !important;
+    overflow-x: auto !important;
+}
+
+.collection-item {
+    position: relative !important;
+    flex: 0 0 280px !important;
+    height: 400px !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer !important;
+    z-index: 1 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.collection-item:hover {
+    transform: scale(1.1) !important;
+    z-index: 500 !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* THE SACRED BLOCK - OBSIDIAN GLASS (V12) */
+.item-content {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 75% !important;
+    background: rgba(0, 0, 0, 0.85) !important; /* Deep Obsidian */
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 25px !important;
+    text-align: center !important;
+    transform: translateY(105%) !important;
+    transition: transform 0.65s cubic-bezier(0.2, 1, 0.3, 1) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.collection-item:hover .item-content {
+    transform: translateY(0) !important;
+}
+
+/* Typography Sync */
+.item-title {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.5rem !important;
+    color: #ffffff !important;
+    margin-bottom: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.5px !important;
+}
+
+.item-description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin-bottom: 20px !important;
+    line-height: 1.5 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.item-stats {
+    display: flex !important;
+    gap: 15px !important;
+    justify-content: center !important;
+    margin-bottom: 25px !important;
+}
+
+.item-count, .item-rating {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    padding: 4px 12px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* PRICE TAG - FLOATING (REPOSITIONED V12) */
+.price-tag {
+    position: absolute !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #ffffff !important;
+    padding: 6px 14px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+
+/* QUICK ADD - CENTERED ACTION (V12) */
+.quick-add-btn {
+    background: #ffffff !important;
+    color: #000000 !important;
+    width: 90% !important;
+    height: 48px !important;
+    border-radius: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    cursor: pointer !important;
+    margin-top: auto !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.quick-add-btn:hover {
+    background: #f0f0f0 !important;
+    transform: translateY(-3px) !important;
+}
+
+.quick-add-btn .btn-text {
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 1px !important;
+}
+
+/* Light Mode Overrides for Consistency if needed */
+body:not(.dark-mode) .item-content {
+    background: rgba(0, 0, 0, 0.8) !important; /* Stay dark for premium contrast */
+}
+
+/* Disable old overlays */
+.collection-item::before {
+    display: none !important;
+}
+/* ========================================
+   V17 SACRED SYNC - NEW ELEMENTS
+   ======================================== */
+.sacred-tag {
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(0, 113, 227, 0.2) !important;
+    cursor: default !important;
+}
+
+.sacred-tag:hover {
+    background: rgba(0, 113, 227, 0.2) !important;
+    transform: translateY(-2px) !important;
+}
+
+.popup-description {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 25px !important;
+    max-height: 150px !important;
+    overflow-y: auto !important;
+    padding-right: 10px !important;
+}
+
+.popup-description::-webkit-scrollbar {
+    width: 4px;
+}
+
+.popup-description::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}

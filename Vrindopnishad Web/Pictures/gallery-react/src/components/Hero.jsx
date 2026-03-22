@@ -2,20 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 
-const Hero = () => {
+const Hero = ({ heroSection, siteConfig }) => {
     const { showNotification } = useNotifications();
     const [currentBg, setCurrentBg] = useState(0);
-    const backgrounds = [
-        '/Pictures/gallery-react/public/class/v-logo-rounded/android-chrome-512x512.png', // Placeholder for actual hero backgrounds
-        '/Pictures/gallery-react/src/assets/react.svg'
-    ];
+    
+    // Default backgrounds if none provided
+    const backgrounds = heroSection && heroSection.backgroundImage 
+        ? [heroSection.backgroundImage] 
+        : ['https://vrindopnishad.in/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png'];
+
+    const title = heroSection?.title || siteConfig?.siteName || "Chitra Vrinda";
+    const description = heroSection?.description || siteConfig?.description || "A carefully curated collection of spiritual photography and sacred artworks.";
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentBg(prev => (prev + 1) % backgrounds.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
+        if (backgrounds.length > 1) {
+            const interval = setInterval(() => {
+                setCurrentBg(prev => (prev + 1) % backgrounds.length);
+            }, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [backgrounds]);
 
     const handleExplore = () => {
         showNotification('Exploring divine collections...', 'info');
@@ -25,13 +31,17 @@ const Hero = () => {
     return (
         <section className="hero">
             <div className="hero-content">
-                <span className="hero-label">Curated Gallery</span>
+                <span className="hero-label">{siteConfig?.tagline || "Curated Gallery"}</span>
                 <h1 className="hero-heading">
-                    Chitra Vrinda:<br />
-                    <span className="hero-accent">Divine art that inspires</span>
+                    {title.split(':').map((part, index) => (
+                        <React.Fragment key={index}>
+                            {index === 1 ? <><br /><span className="hero-accent">{part}</span></> : part}
+                        </React.Fragment>
+                    ))}
+                    {!title.includes(':') && title}
                 </h1>
                 <p className="hero-text">
-                    A carefully curated collection of spiritual photography and sacred artworks from Vrindavan.
+                    {description}
                 </p>
                 <button
                     className="ripple-btn orange hero-cta-btn"
@@ -47,13 +57,18 @@ const Hero = () => {
                 <div className="hero-image-wrapper">
                     <div
                         className="hero-image active"
-                        style={{ backgroundImage: `url(${backgrounds[currentBg]})`, transition: 'background-image 1s ease-in-out' }}
+                        style={{ 
+                            backgroundImage: `url(${backgrounds[currentBg]})`, 
+                            transition: 'background-image 1s ease-in-out',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover'
+                        }}
                     ></div>
                     <div className="hero-image-overlay"></div>
                 </div>
                 <div className="hero-image-label">
                     <span className="label-category">Featured</span>
-                    <span className="label-title">Sacred Vrindavan</span>
+                    <span className="label-title">{siteConfig?.siteName || "Sacred Vrindavan"}</span>
                 </div>
             </div>
         </section>

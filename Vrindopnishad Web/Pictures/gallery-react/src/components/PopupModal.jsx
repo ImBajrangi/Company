@@ -25,9 +25,12 @@ const PopupModal = ({ item, onClose, onToggleMyList, isInList, onViewDetails }) 
                     <div className="popup-meta">
                         <span className="popup-year">{item.year || '2026'}</span>
                         <span className="popup-count">{item.count || item.itemCount || 0} items</span>
-                        <span className="popup-category">{item.category || 'Collection'}</span>
+                        <span className="popup-category">{item.category || siteConfig?.siteName || 'Sacred Collection'}</span>
                     </div>
-                    <p className="popup-description">{item.description || 'No description available.'}</p>
+                    <p className="popup-description">
+                        {item.description || 'No description available.'}
+                        {item.tags && item.tags.length > 0 && ` • #${item.tags.join(' #')}`}
+                    </p>
                     <div className="popup-actions">
                         <button
                             className="popup-btn popup-btn-primary"

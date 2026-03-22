@@ -9,7 +9,7 @@ import CollectionDetails from './components/CollectionDetails';
 import CustomCursor from './components/CustomCursor';
 import CookieConsent from './components/CookieConsent';
 import { NotificationProvider } from './context/NotificationContext';
-import { supabase } from './lib/supabaseClient';
+import { fetchSacredCollections, fetchSacredConfig } from './lib/databaseBridge';
 import './index.css';
 import './styles/premium-sync.css';
 
@@ -24,6 +24,8 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentView, setCurrentView] = useState('gallery'); // 'gallery' or 'details'
   const [detailsData, setDetailsData] = useState(null);
+  const [siteConfig, setSiteConfig] = useState(null);
+  const [heroSection, setHeroSection] = useState(null);
 
   useEffect(() => {
     fetchCollections();
@@ -40,46 +42,46 @@ function App() {
 
   const fixPath = (path) => {
     if (!path) return '';
+    if (path.startsWith('http')) return path;
+    // Handle paths starting with .. by prepending production domain
+    if (path.startsWith('..')) {
+      return `https://vrindopnishad.in/Vrindopnishad%20Web/${path.replace(/^\.\.\//, '').replace(/^\.\.\//, '')}`;
+    }
     return path.replace(/^\/Vrindopnishad Web\//, '/');
   };
 
   const fetchCollections = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('collections')
-        .select('*');
+      
+      // Fetch Config and Hero
+      const config = await fetchSacredConfig();
+      if (config) {
+        setSiteConfig(config.siteConfig);
+        setHeroSection(config.heroSection);
+      }
 
-      if (error) throw error;
+      // Fetch Sacred Collections via Bridge (Priority: Firebase -> JSON -> Supabase)
+      const data = await fetchSacredCollections();
 
       if (data) {
-        const structuredData = {
-          featured: { title: "Featured Collections", items: [] },
-          popular: { title: "Popular Right Now", items: [] },
-          rapper: { title: "Rapper Style", items: [] },
-          anime: { title: "Anime Style", items: [] },
-          dark: { title: "Dark Aesthetic", items: [] },
-          warrior: { title: "Warrior Styles", items: [] },
-          chhibi: { title: "Chhibi Styles", items: [] }
-        };
-
-        data.forEach(item => {
-          const section = item.cat_section || 'featured';
-          const fixedItem = {
-            ...item,
-            image: fixPath(item.image),
-            images: Array.isArray(item.images) ? item.images.map(img => fixPath(img)) : []
-          };
-
-          if (structuredData[section]) {
-            structuredData[section].items.push(fixedItem);
-          } else {
-            if (!structuredData[section]) {
-              structuredData[section] = { title: item.cat_section || section, items: [] };
-            }
-            structuredData[section].items.push(fixedItem);
+        // Data is already structured by the bridge or comes from the JSON tree
+        const structuredData = {};
+        
+        // Handle both object-based (JSON) and flat-array data
+        Object.entries(data).forEach(([key, section]) => {
+          if (section && section.items) {
+            structuredData[key] = {
+              ...section,
+              items: section.items.map(item => ({
+                ...item,
+                image: fixPath(item.image),
+                images: Array.isArray(item.images) ? item.images.map(img => fixPath(img)) : []
+              }))
+            };
           }
         });
+
         setCollectionsData(structuredData);
       }
     } catch (err) {
@@ -122,6 +124,7 @@ function App() {
         <Navbar
           onSearchClick={() => setSearchActive(true)}
           myListCount={myList.length}
+          siteConfig={siteConfig}
         />
 
         <SearchOverlay
@@ -136,7 +139,7 @@ function App() {
 
         {currentView === 'gallery' ? (
           <main className="main-content">
-            <Hero />
+            <Hero heroSection={heroSection} siteConfig={siteConfig} />
 
             {myList.length > 0 && (
               <CollectionRow
