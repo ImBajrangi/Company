@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { Cookie, X } from 'lucide-react';
 
 const CookieConsent = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const consent = localStorage.getItem('cookie-consent');
+        const consent = localStorage.getItem('divine-cookie-consent');
         if (!consent) {
-            setTimeout(() => setIsVisible(true), 2000);
+            const timer = setTimeout(() => setIsVisible(true), 2000);
+            return () => clearTimeout(timer);
         }
     }, []);
 
     const handleAccept = () => {
-        localStorage.setItem('cookie-consent', 'accepted');
+        localStorage.setItem('divine-cookie-consent', 'accepted');
         setIsVisible(false);
     };
 
     const handleDecline = () => {
-        localStorage.setItem('cookie-consent', 'declined');
+        localStorage.setItem('divine-cookie-consent', 'declined');
         setIsVisible(false);
     };
 
@@ -26,10 +28,10 @@ const CookieConsent = () => {
         <div className="cookie-consent active">
             <div className="cookie-content">
                 <div className="cookie-icon">
-                    <i className="fas fa-cookie-bite"></i>
+                    <Cookie size={24} />
                 </div>
                 <div className="cookie-text">
-                    <h3>Cookie Policy</h3>
+                    <h3>Divine Cookie Policy</h3>
                     <p>We use divine cookies to enhance your spiritual browsing experience on Chitra Vrinda.</p>
                 </div>
                 <div className="cookie-actions">
@@ -37,6 +39,9 @@ const CookieConsent = () => {
                     <button className="cookie-btn decline" onClick={handleDecline}>Decline</button>
                 </div>
             </div>
+            <button className="cookie-close" onClick={() => setIsVisible(false)}>
+                <X size={14} />
+            </button>
         </div>
     );
 };

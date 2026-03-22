@@ -33,8 +33,8 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
         <>
             <header className={`header ${isScrolled ? 'scrolled' : ''}`} id="header">
                 <a href="/" className="logo">
-                    <img src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png" alt={siteConfig?.siteName || "Chitra Vrinda"} className="logo-img" />
-                    <span className="logo-text">{siteConfig?.siteName || "Chitra Vrinda"}</span>
+                    <img src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" alt="Chitra Vrinda" className="logo-img" />
+                    <span className="logo-text">Chitra Vrinda</span>
                 </a>
 
                 <nav className="nav-menu">
@@ -81,6 +81,13 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
 
             {/* Mobile Menu Overlay */}
             <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`} id="mobile-nav-overlay">
+                <button 
+                    className="mobile-close-btn" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    aria-label="Close Menu"
+                >
+                    <X size={32} />
+                </button>
                 <nav className="mobile-nav">
                     {navLinks.map((link) => (
                         <a

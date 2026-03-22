@@ -1,49 +1,57 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Youtube, MessageCircle, ExternalLink } from 'lucide-react';
 
 const Footer = () => {
     return (
         <footer className="footer" id="contact">
             <div className="footer-content">
-                <div className="footer-brand">
-                    <div className="logo">
-                        <img src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png" alt="Chitra Vrinda" className="logo-img" />
-                        <span className="logo-text">Chitra Vrinda</span>
-                    </div>
-                    <p className="footer-tagline">Preserving the divine beauty through sacred art and photography.</p>
+                <div className="footer-info">
+                    <h3 className="footer-logo">Chitra Vrinda</h3>
+                    <p className="footer-text">Exploring spirituality through divine art and photography.</p>
                     <div className="social-links">
-                        <a href="#" className="social-icon"><Facebook size={18} /></a>
-                        <a href="#" className="social-icon"><Twitter size={18} /></a>
-                        <a href="#" className="social-icon"><Instagram size={18} /></a>
-                        <a href="#" className="social-icon"><Youtube size={18} /></a>
+                        <a href="https://www.facebook.com/vrindopnishad" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <Facebook size={20} />
+                        </a>
+                        <a href="https://www.instagram.com/vrindopnishad" className="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                            <Instagram size={20} />
+                        </a>
+                        <a href="https://www.youtube.com/@vrindopnishad" className="social-link" aria-label="Youtube" target="_blank" rel="noopener noreferrer">
+                            <Youtube size={20} />
+                        </a>
                     </div>
                 </div>
 
                 <div className="footer-links">
-                    <h4 className="footer-title">Explore</h4>
+                    <h3 className="footer-logo">Explore</h3>
                     <ul>
-                        <li><a href="../../Home/main/home.html">Home</a></li>
-                        <li><a href="Gallery.html">Gallery</a></li>
-                        <li><a href="../../Stack/main/stack.html">Collections</a></li>
-                        <li><a href="../../about code/main/about.html">About Us</a></li>
+                        <li><a href="../../Home/main/home.html" className="footer-link">Home</a></li>
+                        <li><a href="../../Stack/main/stack.html" className="footer-link">Collections</a></li>
+                        <li><a href="Gallery.html" className="footer-link">Gallery</a></li>
+                        <li><a href="../../about code/main/about.html" className="footer-link">About Us</a></li>
                     </ul>
                 </div>
 
-                <div className="footer-contact">
-                    <h4 className="footer-title">Contact</h4>
+                <div className="footer-links">
+                    <h3 className="footer-logo">Privacy Policy</h3>
                     <ul>
-                        <li><MapPin size={16} /> Vrindavan, Uttar Pradesh</li>
-                        <li><Phone size={16} /> +91 123 456 7890</li>
-                        <li><Mail size={16} /> info@chitra-vrinda.com</li>
+                        <li><a href="#" className="footer-link">Terms & Conditions</a></li>
+                        <li><a href="#" className="footer-link">Articles</a></li>
+                        <li><a href="#" className="footer-link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div className="footer-links">
+                    <h3 className="footer-logo">Connect</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/vrindopnishad" className="footer-link" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/vrindopnishad" className="footer-link" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                        <li><a href="https://www.youtube.com/@vrindopnishad" className="footer-link" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+                        <li><a href="https://whatsapp.com/channel/0029Vb6UR3Z9mrGcDXbHzA1Q" className="footer-link" target="_blank" rel="noopener noreferrer">WhatsApp <MessageCircle size={14} style={{ display: 'inline', marginLeft: '4px' }} /></a></li>
                     </ul>
                 </div>
             </div>
             <div className="footer-bottom">
-                <p>© 2026 Chitra Vrinda. All rights reserved.</p>
-                <div className="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
+                <p>&copy; 2026 Vrindopnishad Collection. All images are property of their respective owners.</p>
             </div>
         </footer>
     );

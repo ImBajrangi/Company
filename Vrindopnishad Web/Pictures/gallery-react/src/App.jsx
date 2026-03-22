@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import CollectionDetails from './components/CollectionDetails';
 import CustomCursor from './components/CustomCursor';
 import CookieConsent from './components/CookieConsent';
+import { gsap } from 'gsap';
 import { NotificationProvider } from './context/NotificationContext';
 import { fetchSacredCollections, fetchSacredConfig } from './lib/databaseBridge';
 import './index.css';
@@ -24,7 +25,11 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentView, setCurrentView] = useState('gallery'); // 'gallery' or 'details'
   const [detailsData, setDetailsData] = useState(null);
-  const [siteConfig, setSiteConfig] = useState(null);
+  const [siteConfig, setSiteConfig] = useState({
+    siteName: "Chitra Vrinda",
+    tagline: "Divine art that inspires",
+    description: "A carefully curated collection of spiritual photography and sacred artworks from Vrindavan."
+  });
   const [heroSection, setHeroSection] = useState(null);
 
   useEffect(() => {
@@ -121,6 +126,7 @@ function App() {
     <NotificationProvider>
       <div className="app-container">
         <CustomCursor />
+        <CookieConsent />
         <Navbar
           onSearchClick={() => setSearchActive(true)}
           myListCount={myList.length}
