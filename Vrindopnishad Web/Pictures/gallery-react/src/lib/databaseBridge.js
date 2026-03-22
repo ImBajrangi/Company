@@ -35,9 +35,19 @@ async function getFirebaseDB() {
  * Fetch collections from multiple sources with priority
  */
 export async function fetchSacredCollections() {
-    console.log("Bridge: Attempting to fetch Sacred Collections...");
+    console.log("Bridge: Fetching Sacred Collections (Priority: Local -> Firebase -> Supabase)");
 
-    // 1. Try Firebase Primary Source
+    // 1. Try Localized Data FIRST (Instant, Zero CORS, Production Standard)
+    try {
+        if (localizedData) {
+            console.log("Bridge: Successfully synchronized with Localized Production Data");
+            return localizedData.collections;
+        }
+    } catch (error) {
+        console.warn("Bridge: Local data access issue:", error.message);
+    }
+
+    // 2. Fallback to Firebase (External Sync)
     try {
         const firebase = await getFirebaseDB();
         if (firebase) {
@@ -47,38 +57,23 @@ export async function fetchSacredCollections() {
             
             if (snapshot.exists()) {
                 const data = snapshot.val();
-                console.log("Bridge: Successfully fetched from Firebase Santvaanig");
+                console.log("Bridge: Successfully fetched from Firebase Sync");
                 return processData(data);
             }
         }
     } catch (error) {
-        // Silencing "Permission denied" warnings to keep console clean for the user
-        // The bridge will automatically use the high-quality Localized Fallback
-        if (!error.message.includes("Permission denied")) {
-            console.warn("Bridge: Firebase fetch issue:", error.message);
-        }
-    }
-
-    // 2. Fallback to Localized Data (Prevents CORS/301 issues)
-    try {
-        if (localizedData) {
-            console.log("Bridge: Successfully used Localized Fallback");
-            return localizedData.collections;
-        }
-    } catch (error) {
-        console.warn("Bridge: Local fallback failed:", error.message);
+        // Silencing "Permission denied" or other SDK noise
+        console.debug("Bridge: Firebase sync unavailable");
     }
 
     // 3. Last Resort: Supabase (Legacy/Placeholder)
     try {
-        console.log("Bridge: Last resort Supabase fetch...");
         const { data, error } = await supabase.from('collections').select('*');
         if (!error && data) {
-            console.log("Bridge: Fetched from Supabase fallback");
             return { featured: { title: "Featured Collections", items: data } };
         }
     } catch (error) {
-        console.error("Bridge: All sources failed:", error.message);
+        console.error("Bridge: All sources failed");
     }
 
     return null;
