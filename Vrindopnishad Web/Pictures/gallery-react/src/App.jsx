@@ -187,7 +187,6 @@ function App() {
           onViewDetails={handleViewDetails}
         />
 
-        <CookieConsent />
         <Footer />
       </div>
     </NotificationProvider>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { ChevronLeft, ChevronRight, Images, Star, ShoppingBag } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
     const sliderRef = useRef(null);
+    const rowRef = useRef(null);
     const [showLeftBtn, setShowLeftBtn] = useState(false);
     const [showRightBtn, setShowRightBtn] = useState(true);
 
@@ -21,33 +22,31 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
     useEffect(() => {
         updateButtonStates();
         window.addEventListener('resize', updateButtonStates);
-        
-        // GSAP Entrance Animation - "Premium Reveal"
-        if (sliderRef.current) {
-            const items = sliderRef.current.querySelectorAll('.collection-item');
-            gsap.fromTo(items, 
-                { 
-                    opacity: 0, 
-                    scale: 0.95,
-                    y: 20 
-                },
-                { 
-                    opacity: 1, 
-                    scale: 1,
-                    y: 0, 
-                    duration: 0.6, 
-                    stagger: 0.05, 
-                    ease: "power4.out",
+        return () => window.removeEventListener('resize', updateButtonStates);
+    }, [items]);
+
+    // --- Premium Entrance Animation ---
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.fromTo(".collection-item", 
+                { y: 40, opacity: 0, scale: 0.95 },
+                {
                     scrollTrigger: {
-                        trigger: sliderRef.current,
-                        start: "top 90%",
-                        once: true
-                    }
+                        trigger: rowRef.current,
+                        start: "top bottom-=100",
+                        toggleActions: "play none none none"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power2.out"
                 }
             );
-        }
+        }, rowRef);
 
-        return () => window.removeEventListener('resize', updateButtonStates);
+        return () => ctx.revert();
     }, [items]);
 
     const scroll = (direction) => {
@@ -58,7 +57,7 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
     };
 
     return (
-        <div className={`content-row ${isMyList ? 'my-list-row active' : ''}`}>
+        <div className={`content-row ${isMyList ? 'my-list-row active' : ''}`} ref={rowRef}>
             <div className="row-header">
                 <h2 className="row-title">{title}</h2>
             </div>
@@ -75,6 +74,9 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
                             onClick={() => onItemClick(item)}
                             style={{ backgroundImage: `url(${item.image})` }}
                         >
+                            {item.category && (
+                                <div className="item-category-badge">{item.category}</div>
+                            )}
                             <div className="price-tag">₹{item.price || 501}</div>
                             
                             <div className="item-content">
@@ -98,7 +100,6 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
                                     className="quick-add-btn" 
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        // Trigger bag notification/logic if needed
                                     }}
                                 >
                                     <span className="btn-text">COLLECT DIVINE</span>

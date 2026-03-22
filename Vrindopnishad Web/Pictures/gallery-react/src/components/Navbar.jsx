@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { User, Search, Menu, ChevronDown, X } from 'lucide-react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { User, Search, Menu, ChevronDown, X, Heart, Settings } from 'lucide-react';
+import { gsap } from 'gsap';
 
 const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const navRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -13,11 +15,16 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useLayoutEffect(() => {
+        gsap.fromTo(navRef.current, 
+            { y: -20, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 1, ease: 'expo.out', delay: 0.1 }
+        );
+    }, []);
+
     const navLinks = [
         { name: 'Home', href: '../../Home/main/home.html' },
         { name: 'Gallery', href: 'Gallery.html', active: true },
-        { name: 'Collections', href: '../../Stack/main/stack.html' },
-        { name: 'About', href: '../../about code/main/about.html' },
     ];
 
     const categories = [
@@ -31,24 +38,23 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
 
     return (
         <>
-            <header className={`header ${isScrolled ? 'scrolled' : ''}`} id="header">
+            <header 
+                className={`header ${isScrolled ? 'scrolled' : ''} dark`} 
+                id="header"
+                ref={navRef}
+                style={{ opacity: 0 }}
+            >
                 <a href="/" className="logo">
                     <img src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" alt="Chitra Vrinda" className="logo-img" />
                     <span className="logo-text">Chitra Vrinda</span>
                 </a>
 
                 <nav className="nav-menu">
-                    {navLinks.map((link) => (
-                        <a
-                            key={link.name}
-                            href={link.href}
-                            className={`nav-link ${link.active ? 'active' : ''}`}
-                        >
-                            {link.name}
-                        </a>
-                    ))}
+                    <a href="../../Home/main/home.html" className="nav-link">Home</a>
+                    <a href="Gallery.html" className="nav-link active">Gallery</a>
+                    
                     <div className="nav-dropdown">
-                        <button className="nav-link dropdown-trigger">
+                        <button className="nav-link dropdown-trigger" style={{ color: '#fff' }}>
                             Browse <ChevronDown size={14} />
                         </button>
                         <div className="dropdown-menu">
@@ -59,14 +65,24 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
                             ))}
                         </div>
                     </div>
+
+                    <a href="../../Stack/main/stack.html" className="nav-link">Collections</a>
+                    <a href="../../about code/main/about.html" className="nav-link">About</a>
                 </nav>
 
                 <div className="header-actions">
-                    <button className="icon-btn" id="user-auth-btn" aria-label="User Account">
-                        <User size={20} />
+                    <button className="action-btn" title="Settings">
+                        <Settings size={20} />
                     </button>
-                    <button className="icon-btn" onClick={onSearchClick} aria-label="Search">
-                        <Search size={20} />
+                    <div className="user-avatar-wrapper">
+                        <img 
+                            src="https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo-transparent.png" 
+                            alt="User Profile" 
+                            className="nav-avatar"
+                        />
+                    </div>
+                    <button className="action-btn" onClick={onSearchClick} title="Search">
+                        <Search size={22} />
                     </button>
                     <button
                         className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
