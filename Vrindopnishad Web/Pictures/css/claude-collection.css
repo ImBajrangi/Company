@@ -1091,6 +1091,8 @@ body.dark-mode .hero-scroll-indicator i {
     -ms-overflow-style: none;
     transition: transform 0.3s ease;
     will-change: transform;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
 }
 
 .items-slider::-webkit-scrollbar {
@@ -1126,6 +1128,7 @@ body.dark-mode .hero-scroll-indicator i {
     flex-shrink: 0;
     border: 1px solid rgba(128, 128, 128, 0.1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
 }
 
 /* Collection item gradients for dark mode */
@@ -1134,10 +1137,10 @@ body.dark-mode .collection-item::before {
     position: absolute;
     inset: 0;
     background: linear-gradient(0deg,
-            rgb(0, 0, 0) 0%,
-            rgba(0, 0, 0, 0.95) 20%,
-            rgba(0, 0, 0, 0.7) 40%,
-            transparent 70%);
+            #000 0%,
+            rgba(0, 0, 0, 0.95) 30%,
+            rgba(0, 0, 0, 0.8) 60%,
+            transparent 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1148,10 +1151,10 @@ body:not(.dark-mode) .collection-item::before {
     position: absolute;
     inset: 0;
     background: linear-gradient(0deg,
-            rgb(255, 255, 255) 0%,
-            rgba(255, 255, 255, 0.95) 20%,
-            rgba(255, 255, 255, 0.7) 40%,
-            transparent 70%);
+            #fff 0%,
+            rgba(255, 255, 255, 0.95) 30%,
+            rgba(255, 255, 255, 0.8) 60%,
+            transparent 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1197,7 +1200,7 @@ body:not(.dark-mode) .collection-item::before {
 /* Item content gradients for dark mode */
 body.dark-mode .item-content {
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     left: 0;
     right: 0;
     padding: 16px;
@@ -1207,15 +1210,16 @@ body.dark-mode .item-content {
     opacity: 0;
     transition: all 0.3s ease;
     background: linear-gradient(to top,
-            rgba(0, 0, 0, 0.95) 0%,
-            rgba(0, 0, 0, 0.75) 50%,
+            #000 0%,
+            rgba(0, 0, 0, 0.9) 20%,
+            rgba(0, 0, 0, 0.6) 60%,
             transparent 100%);
 }
 
 /* Item content gradients for light mode */
 body:not(.dark-mode) .item-content {
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     left: 0;
     right: 0;
     padding: 16px;
@@ -1363,8 +1367,9 @@ body:not(.dark-mode) .category-tag:hover {
     font-size: 1.5rem;
     cursor: pointer;
     z-index: 5;
-    opacity: 0;
-    transition: var(--transition);
+    opacity: 0 !important;
+    visibility: hidden;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1416,13 +1421,18 @@ body:not(.dark-mode) .scroll-btn.right {
             transparent 100%);
 }
 
-.slider-container:hover .scroll-btn {
-    opacity: 0.9;
+/* Show arrows ONLY on row hover on hover-capable devices */
+@media (hover: hover) {
+    .content-row:hover .scroll-btn {
+        opacity: 1 !important;
+        visibility: visible;
+    }
 }
 
+/* Definitively hide on touch-only devices */
 @media (hover: none) {
     .scroll-btn {
-        display: none;
+        display: none !important;
     }
 }
 
@@ -2062,6 +2072,11 @@ footer {
         padding: 0 2%;
     }
 
+    .items-slider {
+        padding: 2.5rem 0;
+        margin: -2.5rem 0;
+    }
+
     .collection-item {
         min-width: 180px;
     }
@@ -2083,16 +2098,18 @@ footer {
 
     body.dark-mode .item-content {
         background: linear-gradient(to top,
-                rgba(0, 0, 0, 0.9) 0%,
-                rgba(0, 0, 0, 0.5) 40%,
-                transparent 80%);
+                #000 0%,
+                rgba(0, 0, 0, 0.9) 20%,
+                rgba(0, 0, 0, 0.8) 60%,
+                transparent 100%);
     }
 
     body:not(.dark-mode) .item-content {
         background: linear-gradient(to top,
-                rgba(255, 255, 255, 0.95) 0%,
-                rgba(255, 255, 255, 0.7) 40%,
-                transparent 80%);
+                #fff 0%,
+                rgba(255, 255, 255, 0.9) 20%,
+                rgba(255, 255, 255, 0.8) 60%,
+                transparent 100%);
     }
 
     .header-actions {
@@ -2110,6 +2127,11 @@ footer {
 }
 
 @media (max-width: 480px) {
+    .items-slider {
+        padding: 2rem 0;
+        margin: -2rem 0;
+    }
+
     .hero-buttons {
         flex-direction: column;
     }
@@ -2120,8 +2142,13 @@ footer {
     }
 
     .collection-item {
-        min-width: 160px;
-        height: 90px;
+        min-width: 280px;
+        height: 180px;
+    }
+
+    .featured-collections .collection-item {
+        min-width: 320px;
+        height: 200px;
     }
 }
 
