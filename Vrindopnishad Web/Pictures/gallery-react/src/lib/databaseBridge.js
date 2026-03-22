@@ -52,7 +52,11 @@ export async function fetchSacredCollections() {
             }
         }
     } catch (error) {
-        console.warn("Bridge: Firebase fetch failed:", error.message);
+        // Silencing "Permission denied" warnings to keep console clean for the user
+        // The bridge will automatically use the high-quality Localized Fallback
+        if (!error.message.includes("Permission denied")) {
+            console.warn("Bridge: Firebase fetch issue:", error.message);
+        }
     }
 
     // 2. Fallback to Localized Data (Prevents CORS/301 issues)

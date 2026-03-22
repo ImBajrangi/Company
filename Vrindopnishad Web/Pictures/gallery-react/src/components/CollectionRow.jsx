@@ -40,7 +40,7 @@ const CollectionRow = ({ title, items, onItemClick, isMyList = false }) => {
                 >
                     {items.map((item, index) => (
                         <div
-                            key={item.id || index}
+                            key={`${item.id || 'item'}-${index}`}
                             className="collection-item"
                             onClick={() => onItemClick(item)}
                             style={{ backgroundImage: `url(${item.image})` }}

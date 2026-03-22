@@ -48,7 +48,7 @@ const SearchOverlay = ({ active, onClose, collectionsData, onItemClick }) => {
                     {results.length > 0 ? (
                         results.map((item, index) => (
                             <div
-                                key={item.id || index}
+                                key={`${item.id || 'item'}-${index}`}
                                 className="search-result-item"
                                 onClick={() => onItemClick(item)}
                             >
