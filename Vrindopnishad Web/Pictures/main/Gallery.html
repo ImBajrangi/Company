@@ -119,6 +119,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/supabase-client.js"></script>
 
+    <!-- Razorpay & Unified Cart System -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="../js/cart-logic.js"></script>
+
     <!-- MAIN SCRIPT FOR COLLECTIONS LOGIC -->
     <script src="../js/gallery-data.js"></script>
     <script src="../js/collection-page-fix.js?v=1.0.1"></script>
@@ -188,6 +192,10 @@
             <div class="header-actions">
                 <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
                     <i class="fas fa-moon"></i>
+                </button>
+                <button class="icon-btn" id="bag-toggle" aria-label="Shopping Bag">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="bag-count" id="bag-count" style="display: none;">0</span>
                 </button>
                 <button class="icon-btn" id="user-auth-btn" aria-label="User Account">
                     <i class="fas fa-user"></i>
@@ -300,6 +308,50 @@
                 </div>
             </div>
         </div>
+        <!-- Shopping Bag Modal -->
+        <div class="bag-overlay" id="bag-overlay"></div>
+        <div class="bag-modal" id="bag-modal">
+            <div class="bag-header">
+                <h2 class="bag-title">Bag</h2>
+                <button class="bag-close" id="bag-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="bag-content" id="bag-content">
+                <!-- Bag items render here -->
+            </div>
+            <div class="bag-footer" id="bag-footer">
+                <!-- Bag summary and checkout render here -->
+            </div>
+        </div>
+
+        <!-- Favorites Modal -->
+        <div class="favorites-modal" id="favorites-modal">
+            <div class="bag-header">
+                <h2 class="bag-title">Favorites</h2>
+                <button class="bag-close" id="favorites-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="bag-content" id="favorites-content">
+                <!-- Favorites items render here -->
+            </div>
+        </div>
+
+        <!-- Purchased Items Modal -->
+        <div class="purchased-modal" id="purchased-modal">
+            <div class="bag-header">
+                <h2 class="bag-title">Purchased Items</h2>
+                <button class="bag-close" id="purchased-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="bag-content" id="purchased-content">
+                <!-- Purchased items render here -->
+            </div>
+        </div>
+
+
         <!-- Category Pills -->
         <!-- <div class="category-pills-container">
             <div class="category-pills">

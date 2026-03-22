@@ -80,11 +80,48 @@ function initializeSearch() {
         }
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+        if (e.key === 'Escape') {
+            if (searchOverlay.classList.contains('active')) toggleSearch();
+            if (document.getElementById('bag-modal')?.classList.contains('active')) toggleBag();
+            if (document.getElementById('favorites-modal')?.classList.contains('active')) toggleFavorites();
+            if (document.getElementById('purchased-modal')?.classList.contains('active')) togglePurchased();
+        }
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
             toggleSearch();
         }
     });
     searchInput.addEventListener('input', handleSearch);
+}
+
+// --- UI Toggles and Notifications are now provided by V_Cart ---
+
+function initializeEcommerceUI() {
+    const bagToggle = document.getElementById('bag-toggle');
+    const bagClose = document.getElementById('bag-close');
+    const favClose = document.getElementById('favorites-close');
+    const purClose = document.getElementById('purchased-close');
+    const bagOverlay = document.getElementById('bag-overlay');
+    const bagFooter = document.getElementById('bag-footer');
+
+    if (bagToggle) bagToggle.addEventListener('click', () => window.V_Cart?.toggleBag());
+    if (bagClose) bagClose.addEventListener('click', () => window.V_Cart?.toggleBag());
+    if (favClose) favClose.addEventListener('click', () => window.V_Cart?.toggleFavorites());
+    if (purClose) purClose.addEventListener('click', () => window.V_Cart?.togglePurchased());
+    
+    if (bagOverlay) {
+        bagOverlay.addEventListener('click', () => {
+            if (window.V_Cart) window.V_Cart.closeAllModals();
+        });
+    }
+
+    if (bagFooter) {
+        bagFooter.addEventListener('click', (e) => {
+            if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
+                if (window.V_Cart) window.V_Cart.handleCheckout();
+            }
+        });
+    }
 }
 
 
@@ -102,32 +139,25 @@ function initializeCollections() {
     if (collectionsData.chhibi) generateCollectionItems('chhibi-slider', collectionsData.chhibi.items || collectionsData.chhibi);
 }
 
-// My List Functionality
+// My List Functionality - Unified with V_Cart Favorites
 function getMyList() {
-    return JSON.parse(localStorage.getItem('myCollectionList') || '[]');
+    return (window.V_Cart && window.V_Cart.favorites) || JSON.parse(localStorage.getItem('favorites') || '[]');
 }
 
-function toggleMyList(item) {
-    let myList = getMyList();
-    const index = myList.findIndex(i => i.id === item.id);
-
-    if (index === -1) {
-        myList.push(item);
-        if (window.showNotification) showNotification(`Added ${item.title} to My List`, 'success');
+async function toggleMyList(item) {
+    if (window.V_Cart) {
+        await window.V_Cart.addToFavorites(item);
     } else {
-        myList.splice(index, 1);
-        if (window.showNotification) showNotification(`Removed ${item.title} from My List`, 'info');
+        // Fallback if V_Cart is not initialized
+        let favs = getMyList();
+        const index = favs.findIndex(i => i.id === item.id);
+        if (index === -1) favs.push(item);
+        else favs.splice(index, 1);
+        localStorage.setItem('favorites', JSON.stringify(favs));
     }
-
-    localStorage.setItem('myCollectionList', JSON.stringify(myList));
-
-    // Sync to Firebase
-    if (window.AuthService) {
-        window.AuthService.saveFavorites(myList);
-    }
-
+    
     refreshMyListUI();
-    return index === -1; // returns true if added
+    return true; 
 }
 
 function refreshMyListUI() {
@@ -203,15 +233,30 @@ function generateCollectionItems(containerId, items) {
                         <span itemprop="artform">${item.count || item.itemCount || 0} images</span>
                     </span>
                     ${item.rating ? `<span class="item-rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="ratingValue" content="${item.rating}"><meta itemprop="ratingCount" content="${item.ratingCount || 1}"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
-                    ${item.views ? `<span class="item-views"><i class="fas fa-eye"></i> ${item.views.toLocaleString()}</span>` : ''}
+                    <span class="price-tag">₹${item.price || 501}</span>
                 </div>
-                ${containerId === 'featured-slider' && item.category ? `<span class="category-tag">${item.category}</span>` : ''}
-                
-                <!-- Hidden Image for SEO Indexing -->
-                <img src="${item.image}" alt="${item.title || 'Spiritual Art'}" title="${item.title || 'Divine Collection'}" 
-                     style="display:none;" loading="lazy" width="300" height="200">
+                <!-- Quick Add Action -->
+                <button class="quick-add-btn" title="Add to Bag">
+                    <i class="fas fa-shopping-bag"></i>
+                </button>
             </div>
         `;
+
+        const quickAdd = itemElement.querySelector('.quick-add-btn');
+        if (quickAdd) {
+            quickAdd.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.V_Cart) {
+                    window.V_Cart.addToBag({
+                        id: item.id,
+                        title: item.title,
+                        price: item.price || 501,
+                        image: item.image
+                    });
+                }
+            });
+        }
 
         itemElement.addEventListener('click', () => {
             openPopup(item);
@@ -292,10 +337,10 @@ async function loadCollectionsData() {
     let loadedFromSupabase = false;
     try {
         console.log('Fetching collections data via database bridge...');
-        
+
         // Ensure bridge is available
         const fetchFunc = window.fetchFromDatabase || (typeof fetchFromDatabase !== 'undefined' ? fetchFromDatabase : null);
-        
+
         if (!fetchFunc) {
             console.warn('Database bridge (fetchFromDatabase) not found! Retrying in 1s...');
             // Simple retry once
@@ -310,7 +355,7 @@ async function loadCollectionsData() {
             loadedFromSupabase = true;
         } else {
             console.warn('Bridge returned no data. Trying inlined fallback...');
-            
+
             // 1. Try inlined data (bypass CORS)
             if (window.galleryFallbackData) {
                 const collections = window.galleryFallbackData.collections || window.galleryFallbackData;
@@ -337,7 +382,7 @@ async function loadCollectionsData() {
         function processAndRenderData(inputData) {
             // Group the flat data (from Supabase/Bridge) or use the structured data (from JSON)
             let structuredData;
-            
+
             if (Array.isArray(inputData)) {
                 // It's flat data from Supabase
                 structuredData = {
@@ -673,7 +718,7 @@ function initializeTheme() {
     if (!themeToggle) return;
 
     const icon = themeToggle.querySelector('i');
-    
+
     // Update icon to match current theme
     const updateIcon = (theme) => {
         if (theme === 'dark') {
@@ -692,7 +737,7 @@ function initializeTheme() {
     themeToggle.addEventListener('click', () => {
         const isDark = document.body.classList.contains('dark-mode');
         const newTheme = isDark ? 'light' : 'dark';
-        
+
         document.body.classList.remove('light-mode', 'dark-mode');
         document.body.classList.add(newTheme + '-mode');
         localStorage.setItem('theme', newTheme);
@@ -724,8 +769,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeSearch();
     initializeHeaderScroll();
     initializeHeaderBackground();
-    initializeHeroButtons(); // Fix: Initialize hero buttons immediately
-    initPopup(); // Fix: Initialize popup events immediately
+    initializeHeroButtons(); 
+    initPopup(); 
+    initializeEcommerceUI();
 
     // Load data
     const dataLoaded = await loadCollectionsData();
@@ -756,21 +802,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // --- NEW: Sync Favorites on login ---
     if (window.AuthService) {
-        window.AuthService.onAuthStateChange(async (event, user) => {
-            if (user) {
-                console.log('User logged in, syncing favorites...');
-                try {
-                    const cloudFavs = await window.AuthService.getFavorites();
-                    if (cloudFavs && cloudFavs.length > 0) {
-                        localStorage.setItem('myCollectionList', JSON.stringify(cloudFavs));
-                        refreshMyListUI();
-                    }
-                } catch (err) {
-                    console.error('Error syncing favorites:', err);
-                }
+        window.AuthService.onAuthStateChange(async (user) => {
+            console.log('User status changed, updating cart UI...');
+            if (window.V_Cart) {
+                // V_Cart handles its own internal cloud sync, we just trigger UI update
+                window.V_Cart.updateUI();
             }
+            refreshMyListUI();
         });
     }
 

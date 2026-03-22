@@ -60,6 +60,7 @@
     <!-- Link Pop-up Checker Script -->
     <script src="../../js/popup-checker.js?v=1.0.1"></script>
     <script src="../../web-extentions/Cookie Consent/cookie-consent.js?v=1.0.1"></script>
+    <script src="../js/cart-logic.js"></script>
     <!-- Firebase & Shared Auth -->
     <script type="importmap">
     {
@@ -1018,34 +1019,6 @@
             border-top: 1px solid var(--border-color);
         }
 
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 70px;
-            right: 24px;
-            background: var(--success-green);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 3000;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s;
-        }
-
-        .toast.error {
-            background: #ff3b30;
-        }
-
-        .toast.info {
-            background: #0071e3;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
 
         /* Pop-up Warning Banner */
         .popup-warning {
@@ -1885,9 +1858,6 @@
     </div>
 
     <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i> Added to bag
-    </div>
 
     <!-- Mobile Bottom Action Bar -->
     <div class="mobile-bottom-bar" id="mobile-bottom-bar">
@@ -1961,20 +1931,8 @@
     </footer>
 
     <script>
-        let isUserLoggedIn = false;
-        // Shopping bag and favorites state
-        let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        // Purchased items state - standardizing as an object mapping id -> purchaseData
-        let purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
-        // If it was an array (from previous version), convert it to object
-        if (Array.isArray(purchasedItems)) {
-            const tempObj = {};
-            purchasedItems.forEach(id => { tempObj[id] = { date: new Date().toISOString(), paymentId: 'legacy' }; });
-            purchasedItems = tempObj;
-            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
-        }
-
+        // The page now uses window.V_Cart (cart-logic.js) for all e-commerce state.
+        
         // --- *** REMOVED hardcoded collectionsData. It will now be loaded from sessionStorage. *** ---
 
         // Get collection ID from URL
@@ -2054,8 +2012,8 @@
             const collectionImages = item.images && item.images.length > 0 ? item.images : [item.image];
             console.log('Collection images:', collectionImages.length);
 
-            // Check purchase status *before* rendering thumbnails
-            const isPurchased = purchasedItems && purchasedItems[item.id];
+            // Check purchase status *before* rendering thumbnails from Unified Cart
+            const isPurchased = window.V_Cart && window.V_Cart.purchased[item.id];
 
             // Set main image with loading state
             const mainImg = document.getElementById('main-image');
@@ -2159,24 +2117,18 @@
                 downloadBtn.id = 'download-collection';
                 downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download Collection';
                 downloadBtn.onclick = () => {
-                    // Pass the payment ID if available from localStorage, otherwise 'N/A'
-                    const paymentId = purchasedItems[item.id]?.paymentId || 'N/A (Already Owned)';
-                    downloadCollection(item, paymentId); // Use async download
+                    const purchaseData = window.V_Cart.purchased[item.id];
+                    const paymentId = purchaseData ? purchaseData.paymentId : 'N/A (Already Owned)';
+                    downloadCollection(item, paymentId); 
                 };
                 actionButtons.appendChild(downloadBtn);
 
             } else {
                 // Item is NOT purchased
-                const inBag = shoppingBag.find(bagItem => bagItem.id === item.id);
+                const inBag = window.V_Cart ? window.V_Cart.bag.find(bagItem => bagItem.id === item.id) : false;
                 if (inBag) {
                     addToBagBtn.disabled = true;
                     addToBagBtn.innerHTML = '<i class="fas fa-check-circle"></i> Already in Bag';
-                } else if (!isUserLoggedIn) {
-                    // Guest: show lock button — clicking it triggers login
-                    addToBagBtn.disabled = false;
-                    addToBagBtn.innerHTML = '<i class="fas fa-user-lock"></i> Login to Add to Bag';
-                    addToBagBtn.title = 'Please login to add items to your bag';
-                    addToBagBtn.style.opacity = '0.8';
                 } else {
                     addToBagBtn.disabled = false;
                     addToBagBtn.style.opacity = '1';
@@ -2191,11 +2143,11 @@
 
             // Update wishlist button state
             const wishlistBtn = document.getElementById('add-to-wishlist');
-            const isFavorite = favorites.find(fav => fav.id === item.id);
+            const isFavorite = window.V_Cart ? window.V_Cart.favorites.find(fav => fav.id === item.id) : false;
             if (wishlistBtn) {
                 if (isFavorite) {
                     wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
-                    wishlistBtn.classList.add('liked-btn'); // You can style this class if needed
+                    wishlistBtn.classList.add('liked-btn'); 
                 } else {
                     wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
                     wishlistBtn.classList.remove('liked-btn');
@@ -2532,293 +2484,12 @@
         }
 
         // --- Shopping bag functions ---
-        function updateBagCount() {
-            const count = Array.isArray(shoppingBag) ? shoppingBag.filter(i => i && i.id).length : 0;
-            const bagCount = document.getElementById('bag-count');
-            if (bagCount) {
-                bagCount.textContent = count;
-                bagCount.style.display = count > 0 ? 'flex' : 'none';
-            }
-
-            localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
-
-            // Sync bag to Firebase for logged-in users
-            if (window.AuthService && isUserLoggedIn) {
-                window.AuthService.saveBag(shoppingBag).catch(e =>
-                    console.warn('Bag cloud sync failed:', e)
-                );
-            }
-        }
-
-        async function addToBag(item) {
-            // Strict authentication check — guests cannot add items
-            const user = await window.AuthService.getUser();
-            if (!user || !user.uid) {
-                showToast('🔒 Please login first to add items to your bag', 'info');
-                setTimeout(() => {
-                    if (window.AuthService) window.AuthService.requireAuth();
-                }, 1500);
-                return;
-            }
-
-            // Check if already in bag or purchased
-            const exists = shoppingBag.find(bagItem => bagItem.id === item.id);
-            const isPurchased = purchasedItems && purchasedItems[item.id];
-
-            if (exists) {
-                showToast('Item is already in your bag', 'error');
-                return;
-            }
-            if (isPurchased) {
-                showToast('You have already purchased this item', 'error');
-                return;
-            }
-
-            shoppingBag.push(item);
-            updateBagCount(); // Also syncs to Firebase
-            renderBag();
-            showToast(' Added to bag');
-
-            // Update button state
-            const addBtn = document.getElementById('add-to-bag');
-            if (addBtn) {
-                addBtn.disabled = true;
-                addBtn.style.opacity = '1';
-                addBtn.innerHTML = '<i class="fas fa-check-circle"></i> In Bag';
-            }
-        }
-
-        function removeFromBag(itemId) {
-            shoppingBag = shoppingBag.filter(item => item.id !== itemId);
-            updateBagCount(); // Also syncs to Firebase
-            renderBag();
-
-            // Re-enable "Add to Bag" button if we are on that item's page
-            const currentId = getCollectionIdFromURL();
-            if (currentId === itemId) {
-                const addToBagBtn = document.getElementById('add-to-bag');
-                const isPurchased = purchasedItems && purchasedItems[itemId];
-                if (!isPurchased) {
-                    if (isUserLoggedIn) {
-                        addToBagBtn.disabled = false;
-                        addToBagBtn.style.opacity = '1';
-                        addToBagBtn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Bag';
-                    } else {
-                        addToBagBtn.disabled = false;
-                        addToBagBtn.style.opacity = '0.8';
-                        addToBagBtn.innerHTML = '<i class="fas fa-user-lock"></i> Login to Add to Bag';
-                    }
-                }
-            }
-        }
-
-        function renderBag() {
-            const bagContent = document.getElementById('bag-content');
-            const bagFooter = document.getElementById('bag-footer');
-
-            if (!bagContent || !bagFooter) return;
-
-            // Clean up: filter out any null/invalid items
-            shoppingBag = (Array.isArray(shoppingBag) ? shoppingBag : [])
-                .filter(item => item && typeof item === 'object' && item.id);
-
-            console.log('Rendering Bag:', shoppingBag.length, 'items');
-
-            if (shoppingBag.length === 0) {
-                bagContent.innerHTML = `
-                    <div class="bag-empty">
-                        <i class="fas fa-shopping-bag"></i>
-                        <p>Your bag is empty</p>
-                    </div>
-                `;
-                bagFooter.innerHTML = '';
-                return;
-            }
-
-            const subtotal = shoppingBag.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
-            const tax = subtotal * 0.18;
-            const total = subtotal + tax;
-
-            bagContent.innerHTML = `
-                <div class="bag-items-wrapper">
-                    ${shoppingBag.map((item, index) => `
-                        <div class="bag-item">
-                            <img src="${item.image || ''}" alt="${item.title || 'Item'}" class="bag-item-image">
-                            <div class="bag-item-info">
-                                <div class="bag-item-title">${item.title || 'Untitled Item'}</div>
-                                <div class="bag-item-price">${formatPrice(item.price)}</div>
-                                <div class="bag-item-actions">
-                                    <button class="bag-item-remove" onclick="removeFromBag('${item.id}')">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-
-            bagFooter.innerHTML = `
-                <div class="bag-summary">
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span>${formatPrice(subtotal)}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax (18%)</span>
-                        <span>${formatPrice(tax)}</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total</span>
-                        <span>${formatPrice(total)}</span>
-                    </div>
-                </div>
-                <div class="bag-checkout">
-                    <button class="btn btn-primary" id="checkout-btn" style="width: 100%; ${!isUserLoggedIn ? 'opacity: 0.6; cursor: not-allowed;' : ''}" ${!isUserLoggedIn ? 'title="Please login to checkout"' : ''}>
-                        <i class="fas fa-${isUserLoggedIn ? 'lock' : 'user-lock'}"></i>
-                        ${isUserLoggedIn ? `Check Out (${formatPrice(total)})` : 'Login to Check Out'}
-                    </button>
-                    ${!isUserLoggedIn ? '<p style="font-size: 11px; text-align: center; margin-top: 8px; color: var(--text-secondary);">Authentication required for purchase</p>' : ''}
-                </div>
-            `;
-        }
+        // --- Unified E-commerce Functions (Replaced by cart-logic.js) ---
 
         // --- Favorites functions ---
-        function updateLikeCount() {
-            const count = favorites.length;
-            const likeCount = document.getElementById('like-count');
-            if (likeCount) {
-                likeCount.textContent = count;
-                likeCount.style.display = count > 0 ? 'flex' : 'none';
-            }
 
-            // Sync to Firebase
-            if (window.AuthService) {
-                AuthService.saveFavorites(favorites);
-            }
-            // Save to localStorage
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        }
-
-        async function addToFavorites(item) {
-            // Check authentication
-            const user = await window.AuthService.getUser();
-            if (!user) {
-                showToast('Please login to save favorites', 'info');
-                AuthService.requireAuth();
-                return;
-            }
-            if (!item) return; // Prevent errors if item is null
-
-            const exists = favorites.find(fav => fav.id === item.id);
-            const wishlistBtn = document.getElementById('add-to-wishlist');
-
-            if (!exists) {
-                favorites.push(item);
-                updateLikeCount();
-                renderFavorites();
-                showToast('Added to favorites ❤️');
-                if (wishlistBtn) {
-                    wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
-                    wishlistBtn.classList.add('liked-btn');
-                }
-            } else {
-                favorites = favorites.filter(fav => fav.id !== item.id);
-                updateLikeCount();
-                renderFavorites();
-                showToast('Removed from favorites');
-                if (wishlistBtn) {
-                    wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
-                    wishlistBtn.classList.remove('liked-btn');
-                }
-            }
-        }
-
-        function removeFromFavorites(itemId) {
-            favorites = favorites.filter(item => item.id !== itemId);
-            updateLikeCount();
-            renderFavorites();
-
-            // Re-enable "Add to Favorites" button if we are on that item's page
-            const currentId = getCollectionIdFromURL();
-            if (currentId === itemId) {
-                const wishlistBtn = document.getElementById('add-to-wishlist');
-                if (wishlistBtn) {
-                    wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
-                    wishlistBtn.classList.remove('liked-btn');
-                }
-            }
-        }
-
-        function renderFavorites() {
-            const favContent = document.getElementById('favorites-content');
-            if (!favContent) return;
-
-            // Clean up: filter out any null/invalid items
-            favorites = (Array.isArray(favorites) ? favorites : [])
-                .filter(item => item && typeof item === 'object' && item.id);
-
-            if (favorites.length === 0) {
-                favContent.innerHTML = `
-                    <div class="bag-empty">
-                        <i class="fas fa-heart-broken"></i>
-                        <p>Your favorites list is empty</p>
-                    </div>
-                `;
-                return;
-            }
-
-            favContent.innerHTML = `
-                <div class="bag-items-wrapper">
-                    ${favorites.map((item, index) => `
-                        <div class="bag-item">
-                            <img src="${item.image || ''}" alt="${item.title || 'Item'}" class="bag-item-image">
-                            <div class="bag-item-info">
-                                <div class="bag-item-title">${item.title || 'Untitled Item'}</div>
-                                <div class="bag-item-price">${formatPrice(item.price)}</div>
-                                <div class="bag-item-actions">
-                                    <button class="bag-item-remove" onclick="removeFromFavorites('${item.id}')">Remove</button>
-                                    <button class="bag-item-remove" onclick="viewCollection('${item.id}')">View</button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        // UPDATED to use navigateToCollection
         function viewCollection(id) {
-            navigateToCollection(null, id); // Pass null for the event
-        }
-
-
-        // --- Modals and UI functions ---
-        function toggleBag() {
-            document.getElementById('bag-modal').classList.toggle('active');
-            document.getElementById('bag-overlay').classList.toggle('active');
-        }
-
-        function toggleFavorites() {
-            renderFavorites(); // Always re-render when opening
-            document.getElementById('favorites-modal').classList.toggle('active');
-            document.getElementById('bag-overlay').classList.toggle('active');
-        }
-
-        function togglePurchased() {
-            const purchasedModal = document.getElementById('purchased-modal');
-            const overlay = document.getElementById('bag-overlay');
-            if (!purchasedModal || !overlay) return;
-
-            // Close other modals
-            document.getElementById('bag-modal').classList.remove('active');
-            document.getElementById('favorites-modal').classList.remove('active');
-
-            const isActive = purchasedModal.classList.toggle('active');
-            if (isActive) {
-                overlay.classList.add('active');
-                renderPurchased();
-            } else {
-                overlay.classList.remove('active');
-            }
+            navigateToCollection(null, id);
         }
 
         function toggleSearch() {
@@ -2933,23 +2604,6 @@
             return false;
         }
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> ${message}`;
-
-            toast.classList.remove('error', 'info');
-            if (type === 'error') {
-                toast.classList.add('error');
-            } else if (type === 'info') {
-                toast.classList.add('info');
-            }
-
-            toast.classList.add('show');
-            const duration = type === 'success' ? 3000 : 5000;
-            setTimeout(() => toast.classList.remove('show'), duration);
-        }
 
         function renderPurchased() {
             const purchasedContent = document.getElementById('purchased-content');
@@ -3005,156 +2659,39 @@
             purchasedContent.innerHTML = html;
         }
 
-        // --- Checkout Function ---
-        async function handleCheckout() {
-            // Check authentication first
-            const user = await window.AuthService.getUser();
-            if (!user || !user.uid) {
-                showToast('Please login to complete your purchase', 'info');
-                if (window.AuthService) window.AuthService.requireAuth();
-                return;
-            }
+        // --- Checkout is now handled by Unified Cart System (cart-logic.js) ---
 
-            if (shoppingBag.length === 0) {
-                showToast('Your bag is empty', 'error');
-                return;
-            }
+        // --- Toggles are now consolidated below ---
 
-            const subtotal = shoppingBag.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
-            const tax = subtotal * 0.18;
-            const total = subtotal + tax;
-            const totalInPaise = Math.round(total * 100);
-
-            const options = {
-                "key": "rzp_test_RU9lPJQl5wqQFM",
-                "amount": totalInPaise,
-                "currency": "INR",
-                "name": "Vrindopnishad",
-                "description": `Purchase of ${shoppingBag.length} Collection(s)`,
-                "image": "/Vrindopnishad%20Web/class/image/Home%20Pics/img_sn01.png",
-                "handler": async function (response) {
-                    console.log("Razorpay Response Success:", response.razorpay_payment_id);
-
-                    try {
-                        // 1. Immediate UI Cleanup
-                        showToast('Payment Successful! ✅ Starting your download(s)...', 'info');
-                        const bagModal = document.getElementById('bag-modal');
-                        if (bagModal && bagModal.classList.contains('active')) {
-                            toggleBag(); // Close bag immediately
-                        }
-
-                        // 2. Clone state for processing
-                        const itemsToProcess = (Array.isArray(shoppingBag) ? [...shoppingBag] : [])
-                            .filter(item => item && item.id);
-                        const purchasedIds = itemsToProcess.map(item => item.id);
-
-                        if (itemsToProcess.length === 0) return;
-
-                        // 3. Update local state INSTANTLY
-                        itemsToProcess.forEach(item => {
-                            const purchaseData = {
-                                id: item.id,
-                                title: item.title || 'Untitled',
-                                price: Number(item.price) || 0,
-                                image: item.image || '',
-                                paymentId: response.razorpay_payment_id,
-                                date: new Date().toISOString()
-                            };
-                            purchasedItems[item.id] = purchaseData;
-                        });
-
-                        // Persist to local storage immediately
-                        localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
-
-                        // 4. Update core UI state
-                        shoppingBag = [];
-                        updateBagCount(); // Clears bag (local & cloud)
-                        renderBag();
-
-                        // Update current product UI if applicable
-                        const currentId = getCollectionIdFromURL();
-                        if (purchasedIds.includes(currentId)) {
-                            const currentItem = findCollection(currentId);
-                            if (currentItem) renderProduct(currentItem);
-                        }
-
-                        // Re-render purchased list if the modal is open
-                        if (typeof renderPurchased === 'function') {
-                            renderPurchased();
-                        }
-
-                        // 5. Trigger Downloads Immediately
-                        itemsToProcess.forEach((item, index) => {
-                            setTimeout(async () => {
-                                try {
-                                    await downloadCollection(item, response.razorpay_payment_id);
-                                } catch (err) {
-                                    console.error(`Auto-download failed for ${item.title}:`, err);
-                                }
-                            }, index * 1000);
-                        });
-
-                        // 6. Background Cloud Sync (No await)
-                        itemsToProcess.forEach(item => {
-                            if (window.AuthService) {
-                                const sanitized = JSON.parse(JSON.stringify(purchasedItems[item.id]));
-                                window.AuthService.savePurchase(sanitized).catch(e => {
-                                    console.warn(`Sync failed for ${item.id}:`, e);
-                                });
-                            }
-                        });
-
-                    } catch (err) {
-                        console.error("Fatal error in payment handler:", err);
-                        showToast("Payment was successful, but there was a minor UI delay. Please check 'Purchased Items'.", "info");
-                    }
-                },
-                "prefill": {
-                    "name": user.displayName || user.email || 'Art Lover',
-                    "email": user.email || '',
-                    "contact": user.phoneNumber || ''
-                },
-                "notes": {
-                    "item_ids": shoppingBag.map(item => item.id).join(',')
-                },
-                "theme": {
-                    "color": "#0071e3"
-                }
-            };
-
-            try {
-                const rzp1 = new Razorpay(options);
-                rzp1.on('payment.failed', function (response) {
-                    console.error("Razorpay Payment Failed:", response);
-                    let message = 'Payment failed. Please try again.';
-                    if (response.error && response.error.description) {
-                        message = `Payment failed: ${response.error.description}`;
-                    }
-                    showToast(message, 'error');
-                });
-                rzp1.open();
-            } catch (rzpError) {
-                console.error("Razorpay Initialization Error:", rzpError);
-                showToast('Could not initiate payment. Please check console.', 'error');
-            }
-        }
-
-        // --- Event listeners ---
+        // Update action buttons to use Unified Cart System
         document.querySelector('.action-buttons').addEventListener('click', (e) => {
             const target = e.target.closest('button');
             if (!target) return;
 
             const id = getCollectionIdFromURL();
             const item = findCollection(id);
+            if (!item) return;
 
             if (target.id === 'add-to-bag') {
-                if (item) addToBag(item);
+                window.V_Cart.addToBag({
+                    id: item.id,
+                    title: item.title,
+                    price: item.price || 501,
+                    image: item.image
+                });
             } else if (target.id === 'add-to-wishlist') {
-                if (item) addToFavorites(item);
+                window.V_Cart.addToFavorites({
+                    id: item.id,
+                    title: item.title,
+                    price: item.price || 501,
+                    image: item.image
+                });
             } else if (target.id === 'download-collection') {
-                if (item) {
-                    const paymentId = purchasedItems[item.id]?.paymentId || 'N/A (Previously Owned)';
-                    downloadCollection(item, paymentId);
+                const isPurchased = window.V_Cart.purchased[item.id];
+                if (isPurchased) {
+                    downloadCollection(item, isPurchased.paymentId || 'N/A');
+                } else {
+                    showToast('Please purchase this collection to download', 'info');
                 }
             }
         });
@@ -3177,7 +2714,7 @@
         if (bagFooter) {
             bagFooter.addEventListener('click', (e) => {
                 if (e.target.id === 'checkout-btn' || e.target.closest('#checkout-btn')) {
-                    handleCheckout();
+                    if (window.V_Cart) window.V_Cart.handleCheckout();
                 }
             });
         }
@@ -3191,6 +2728,8 @@
         const purchasedClose = document.getElementById('purchased-close');
         if (purchasedToggle) purchasedToggle.addEventListener('click', togglePurchased);
         if (purchasedClose) purchasedClose.addEventListener('click', togglePurchased);
+                                  
+        // --- End of consolidated toggles ---
 
         const searchToggle = document.getElementById('search-toggle');
         const searchClose = document.getElementById('search-close');
@@ -3224,6 +2763,9 @@
         window.viewCollection = viewCollection;
         window.navigateToCollection = navigateToCollection;
         window.subscribeNewsletter = subscribeNewsletter;
+        window.toggleBag = toggleBag;
+        window.toggleFavorites = toggleFavorites;
+        window.togglePurchased = togglePurchased;
 
         document.addEventListener('DOMContentLoaded', async () => {
             console.log('=== Collection Details Page Initializing ===');
@@ -3237,78 +2779,13 @@
                 window.AuthService.onAuthStateChange((user) => {
                     isUserLoggedIn = !!user;
                     if (userBtn) window.AuthService.updateProfileUI('user-auth-btn');
-                    // Refresh purchases when auth state changes
-                    loadFirebasePurchases();
-                    // Re-render bag to update checkout button state
-                    renderBag();
+                    // Page specific renders
                     renderProduct(findCollection(getCollectionIdFromURL()));
                 });
             }
 
-            favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            shoppingBag = JSON.parse(localStorage.getItem('shoppingBag')) || [];
-            purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
-
-            // Helper to sync with Firebase
-            async function loadFirebasePurchases() {
-                if (window.AuthService) {
-                    try {
-                        // Load Purchases
-                        const cloudPurchases = await AuthService.getPurchases();
-                        if (cloudPurchases && Object.keys(cloudPurchases).length > 0) {
-                            purchasedItems = { ...purchasedItems, ...cloudPurchases };
-                            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
-                        }
-
-                        // Load Bag
-                        let cloudBag = await AuthService.getBag();
-                        if (cloudBag) {
-                            // Firebase might return an object for indexed arrays
-                            if (!Array.isArray(cloudBag)) {
-                                cloudBag = Object.values(cloudBag);
-                            }
-                            if (cloudBag.length > 0) {
-                                shoppingBag = cloudBag;
-                                localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
-                            }
-                        }
-
-                        // Load Favorites
-                        let cloudFavorites = await AuthService.getFavorites();
-                        if (cloudFavorites) {
-                            if (!Array.isArray(cloudFavorites)) {
-                                cloudFavorites = Object.values(cloudFavorites);
-                            }
-                            if (cloudFavorites.length > 0) {
-                                favorites = cloudFavorites;
-                                localStorage.setItem('favorites', JSON.stringify(favorites));
-                            }
-                        }
-
-                        // Re-render UI
-                        const id = getCollectionIdFromURL();
-                        const item = findCollection(id);
-                        if (item) renderProduct(item);
-
-                        updateBagCount();
-                        updateLikeCount();
-                        renderBag();
-                        renderFavorites();
-
-                    } catch (err) {
-                        console.error("Error loading cloud data:", err);
-                    }
-                }
-            }
-
-            // Initial render from local state
-            updateBagCount();
-            updateLikeCount();
-            renderBag();
-            renderFavorites();
-
-            // Initial cloud load (don't block the UI)
-            loadFirebasePurchases();
+            // Sync UI initial state
+            if (window.V_Cart) window.V_Cart.updateUI();
 
             const id = getCollectionIdFromURL();
             if (!id) {
@@ -3348,10 +2825,7 @@
                 if (relatedGrid) relatedGrid.innerHTML = '';
             }
 
-            updateBagCount();
-            updateLikeCount();
-            renderBag();
-            renderFavorites();
+            if (window.V_Cart) window.V_Cart.updateUI();
 
             const thumbnailGrid = document.getElementById('thumbnail-grid');
             if (thumbnailGrid) {
