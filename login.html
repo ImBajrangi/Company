@@ -495,7 +495,8 @@
                     const provider = new GoogleAuthProvider();
                     await signInWithPopup(AuthService.auth, provider);
                     // Success - Redirect
-                    window.location.href = '/index.html';
+                    const urlParams = new URLSearchParams(window.location.search);
+                    window.location.href = urlParams.get('redirect') || '/index.html';
                 } catch (error) {
                     errorEl.textContent = error.message;
                     errorEl.style.display = 'block';

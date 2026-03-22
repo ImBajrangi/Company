@@ -161,7 +161,7 @@ const AuthService = {
     async logout() {
         try {
             await signOut(auth);
-            window.location.href = '/';
+            window.location.reload();
         } catch (error) {
             console.error("Logout error:", error);
         }
@@ -170,7 +170,7 @@ const AuthService = {
     /**
      * Redirect to login if not authenticated
      */
-    async requireAuth(redirectTo = window.location.pathname) {
+    async requireAuth(redirectTo = window.location.pathname + window.location.search) {
         const isAuthenticated = await this.isAuthenticated();
         if (!isAuthenticated) {
             const loginUrl = new URL(LOGIN_URL);
@@ -278,7 +278,7 @@ const AuthService = {
 
                 if (isGuest) {
                     // Redirect to login
-                    const currentPath = window.location.pathname;
+                    const currentPath = window.location.pathname + window.location.search;
                     const loginUrl = new URL(LOGIN_URL);
                     loginUrl.searchParams.set('redirect', currentPath);
                     window.location.href = loginUrl.toString();
