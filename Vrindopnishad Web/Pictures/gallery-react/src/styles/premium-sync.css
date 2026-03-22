@@ -577,6 +577,111 @@
 }
 
 /* ========================================
+   SACRED PREMIUM UI (Obsidian Glass)
+   ======================================== */
+.sacred-tags {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sacred-tag {
+    color: #f39c12;
+    background: rgba(243, 156, 18, 0.1);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba(243, 156, 18, 0.2);
+    transition: all 0.3s ease;
+}
+
+.sacred-tag:hover {
+    background: rgba(243, 156, 18, 0.2);
+    transform: scale(1.05);
+}
+
+.collection-details-view {
+    background: linear-gradient(135deg, #050505 0%, #111 100%);
+    color: #fff;
+    padding-top: 120px;
+    padding-bottom: 80px;
+}
+
+.product-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.back-btn {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.8rem !important;
+    margin-bottom: 40px !important;
+}
+
+.back-btn:hover {
+    color: #f39c12 !important;
+}
+
+.product-info .product-title {
+    color: #fff !important;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.product-info .product-subtitle {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-style: italic;
+}
+
+.price-section {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 16px;
+    padding: 30px !important;
+    margin: 30px 0 !important;
+}
+
+.price {
+    color: #f39c12 !important;
+}
+
+.btn-primary {
+    background: #f39c12 !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    background: #fff !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 15px 35px rgba(243, 156, 18, 0.3) !important;
+}
+
+.btn-secondary, .btn-outline {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+.btn-secondary:hover, .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.thumbnail.active {
+    border-color: #f39c12 !important;
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+}
+
+/* ========================================
    V12 UNIFIED RESET - OBSIDIAN GLASS PORT
    ======================================== */
 

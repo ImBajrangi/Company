@@ -2,6 +2,36 @@
 import { supabase } from './supabaseClient';
 import localizedData from '../../../../class/json/collections_data.json';
 
+// --- Sacred Cache Logic ---
+const CACHE_KEY = 'sacred_gallery_cache';
+const CACHE_TTL = 3600000; // 1 hour
+
+const SacredCache = {
+    get: (key) => {
+        try {
+            const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+            const item = cache[key];
+            if (item && Date.now() - item.timestamp < CACHE_TTL) {
+                console.log(`SacredCache: Hit for ${key}`);
+                return item.data;
+            }
+            return null;
+        } catch (e) {
+            return null;
+        }
+    },
+    set: (key, data) => {
+        try {
+            const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+            cache[key] = { data, timestamp: Date.now() };
+            localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+            console.log(`SacredCache: Saved ${key}`);
+        } catch (e) {
+            console.warn('SacredCache: Storage full or unavailable');
+        }
+    }
+};
+
 const FIREBASE_CONFIG = {
     databaseURL: "https://santvaanig-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "santvaanig"
@@ -35,12 +65,15 @@ async function getFirebaseDB() {
  * Fetch collections from multiple sources with priority
  */
 export async function fetchSacredCollections() {
-    console.log("Bridge: Fetching Sacred Collections (Priority: Local -> Firebase -> Supabase)");
+    // 0. Try Cache FIRST
+    const cached = SacredCache.get('collections');
+    if (cached) return cached;
 
     // 1. Try Localized Data FIRST (Instant, Zero CORS, Production Standard)
     try {
         if (localizedData) {
             console.log("Bridge: Successfully synchronized with Localized Production Data");
+            SacredCache.set('collections', localizedData.collections);
             return localizedData.collections;
         }
     } catch (error) {
@@ -105,12 +138,18 @@ function processData(data) {
  * Fetch site configuration and hero details
  */
 export async function fetchSacredConfig() {
+    // 0. Try Cache FIRST
+    const cached = SacredCache.get('config');
+    if (cached) return cached;
+
     try {
         if (localizedData) {
-            return {
+            const config = {
                 siteConfig: localizedData.siteConfig,
                 heroSection: localizedData.heroSection
             };
+            SacredCache.set('config', config);
+            return config;
         }
     } catch (error) {
         console.warn("Bridge: Config fallback failed:", error);

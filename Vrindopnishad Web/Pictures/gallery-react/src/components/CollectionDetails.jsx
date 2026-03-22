@@ -115,16 +115,9 @@ const CollectionDetails = ({ data, onBack, onToggleMyList, isInList }) => {
                                 {data.count > 0 && ` This exquisite collection features ${data.count} hand-picked items, celebrating the essence of timeless artistry and spiritual significance.`}
                             </p>
 
-                            <div className="tags-container" style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                            <div className="sacred-tags">
                                 {Array.isArray(data.tags) && data.tags.map((tag, i) => (
-                                    <span key={i} className="sacred-tag" style={{ 
-                                        color: 'var(--accent-blue)', 
-                                        background: 'rgba(0, 113, 227, 0.1)',
-                                        padding: '4px 12px',
-                                        borderRadius: '20px',
-                                        fontSize: '12px',
-                                        fontWeight: '500'
-                                    }}>
+                                    <span key={i} className="sacred-tag">
                                         #{tag}
                                     </span>
                                 ))}
