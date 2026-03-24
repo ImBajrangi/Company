@@ -1,20 +1,33 @@
 import { useState, useEffect } from 'react';
-import { blogPosts } from '../data/wisdom-data';
+import { api } from '../services/api';
 
 export const useWisdom = () => {
     const [posts, setPosts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setPosts(blogPosts);
+        const loadWisdom = async () => {
+            setLoading(true);
+            const [postsData, catsData] = await Promise.all([
+                api.fetchPosts(),
+                api.fetchCategories()
+            ]);
+            setPosts(postsData);
+            setCategories(catsData);
             setLoading(false);
-        }, 300);
-        return () => clearTimeout(timer);
+        };
+        loadWisdom();
     }, []);
 
-    const getPostById = (id) => posts.find(p => p.id === id);
-    const getPostsByTopic = (topic) => posts.filter(p => p.topic === topic);
+    const getPostById = (id) => {
+        return posts.find(post => post.id === id);
+    };
 
-    return { posts, loading, getPostById, getPostsByTopic };
+    return {
+        posts,
+        categories,
+        loading,
+        getPostById
+    };
 };

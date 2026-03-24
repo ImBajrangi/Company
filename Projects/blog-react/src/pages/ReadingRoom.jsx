@@ -67,26 +67,22 @@ const ReadingRoom = () => {
 
             {/* Transcript / Context Area */}
             <section className="relative z-20 bg-surface-light pt-32 pb-24 px-6 md:px-12">
-                <article className="max-w-[680px] mx-auto text-lg leading-[1.8] text-text-main space-y-8">
-                    <p className="text-xl md:text-2xl leading-relaxed text-text-muted first-letter:text-5xl first-letter:font-display first-letter:mr-2 first-letter:float-left first-letter:text-cinema-dark">
+                <article className="max-w-[760px] mx-auto text-lg leading-[1.8] text-text-main space-y-12">
+                    <p className="text-xl md:text-2xl leading-relaxed text-text-muted first-letter:text-6xl first-letter:font-display first-letter:mr-3 first-letter:float-left first-letter:text-cinema-dark font-light italic">
                         {post.excerpt}
                     </p>
-                    <p>
-                        Trace the patterns of the mind as they dissolve into the infinite. In the quiet spaces that emerge when the mind finally ceases its endless chatter, we find not emptiness, but a profound presence. 
-                    </p>
-                    <blockquote className="w-full md:w-[800px] md:-ml-[60px] my-16 py-8 border-l-2 border-primary pl-8 text-3xl md:text-4xl font-display italic leading-snug text-cinema-dark">
-                        "Do not seek to stop the thoughts. Seek only to recognize the space in which they appear. The space is who you are."
-                    </blockquote>
-                    <p>
-                        As we cultivate the ability to rest in this silence, we begin to realize that peace is not something we must acquire from the outside world. It is our inherent state, temporarily obscured by the busy mind.
-                    </p>
-                    <figure className="my-16 w-full md:w-[1000px] md:-ml-[160px]">
+                    
+                    <div className="prose-wisdom rich-text whitespace-pre-line text-text-main text-lg md:text-xl font-light leading-relaxed">
+                        {post.content || "Silence is the language of the soul..."}
+                    </div>
+
+                    <figure className="my-24 w-full md:w-[1000px] md:-ml-[120px]">
                         <img 
                             src={post.image} 
-                            className="w-full h-auto rounded-[32px] grayscale hover:grayscale-0 transition-all duration-700 object-cover" 
+                            className="w-full h-auto rounded-[48px] grayscale hover:grayscale-0 transition-all duration-1000 object-cover shadow-2xl" 
                             alt={post.title} 
                         />
-                        <figcaption className="mt-4 text-center text-[13px] uppercase tracking-[2px] text-text-muted">The observer and the observed merge into one.</figcaption>
+                        <figcaption className="mt-8 text-center text-[13px] uppercase tracking-[4px] text-text-muted font-medium italic opacity-60">The observer and the observed merge into one.</figcaption>
                     </figure>
                 </article>
             </section>

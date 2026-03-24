@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@supabase/supabase-js": "^2.100.0",
     "axios": "^1.13.6",
     "daisyui": "^5.5.19",
     "framer-motion": "^12.38.0",

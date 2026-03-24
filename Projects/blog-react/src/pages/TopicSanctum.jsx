@@ -6,12 +6,12 @@ import { Helmet } from 'react-helmet-async'
 
 const TopicSanctum = () => {
     const { category } = useParams();
-    const { posts, loading } = useWisdom();
+    const { posts, categories, loading } = useWisdom();
 
-    if (loading) return <div className="p-20 text-center font-display italic">Seeking topics...</div>;
+    if (loading) return <div className="p-20 text-center font-display italic animate-pulse">Seeking topics in the silence...</div>;
 
-    const topics = ["Meditation", "Non-Duality", "Dharma", "Devotion", "Karma"];
-    const currentTopic = category || "Meditation";
+    const topics = categories.length > 0 ? categories.map(c => c.name) : ["Meditation", "Non-Duality", "Dharma"];
+    const currentTopic = category || (topics.length > 0 ? topics[0] : "Meditation");
     const filteredPosts = posts.filter(p => p.topic.toLowerCase() === currentTopic.toLowerCase());
 
     return (
