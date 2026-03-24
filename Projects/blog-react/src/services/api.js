@@ -32,7 +32,7 @@ export const api = {
     async fetchPosts() {
         try {
             const { data, error } = await supabase
-                .from('content')
+                .from('blogs')
                 .select('*')
                 .order('created_at', { ascending: false });
 
@@ -47,7 +47,7 @@ export const api = {
     async fetchCategories() {
         try {
             const { data, error } = await supabase
-                .from('content')
+                .from('blogs')
                 .select('category')
                 .not('category', 'is', null);
 
