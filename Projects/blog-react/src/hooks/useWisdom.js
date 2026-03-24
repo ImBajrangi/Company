@@ -20,6 +20,10 @@ export const useWisdom = () => {
         loadWisdom();
     }, []);
 
+    const getPostById = (id) => {
+        return posts.find(post => post.id === id);
+    };
+
     const getPostBySlug = (slug) => {
         return posts.find(post => post.slug === slug);
     };
