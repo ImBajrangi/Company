@@ -22,7 +22,8 @@ const mapContentToPost = (item) => {
         image: mainImage,
         featured: item.tags?.includes('featured') || false, // Use a tag heuristic for featured status
         aspectRatio: item.tags?.includes('portrait') ? 'aspect-[3/4]' : (item.tags?.includes('square') ? 'aspect-square' : 'aspect-[4/3]'),
-        content: item.english_translation || item.hindi_text || '' // Main reading content
+        content: item.english_translation || item.hindi_text || '', // Main reading content
+        sanskrit: item.sanskrit_text || ''
     };
 };
 

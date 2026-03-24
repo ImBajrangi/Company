@@ -71,6 +71,15 @@ const ReadingRoom = () => {
                     <p className="text-xl md:text-2xl leading-relaxed text-text-muted first-letter:text-6xl first-letter:font-display first-letter:mr-3 first-letter:float-left first-letter:text-cinema-dark font-light italic">
                         {post.excerpt}
                     </p>
+
+                    {post.sanskrit && (
+                        <div className="my-16 py-12 px-8 border-y border-cinema-dark/10 relative group">
+                            <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-surface-light px-4 font-display text-[11px] uppercase tracking-[4px] text-primary">Sanskrit Shloka</span>
+                            <div className="text-2xl md:text-3xl lg:text-4xl text-center font-serif italic leading-relaxed text-cinema-dark selection:bg-primary/20">
+                                {post.sanskrit}
+                            </div>
+                        </div>
+                    )}
                     
                     <div className="prose-wisdom rich-text whitespace-pre-line text-text-main text-lg md:text-xl font-light leading-relaxed">
                         {post.content || "Silence is the language of the soul..."}
