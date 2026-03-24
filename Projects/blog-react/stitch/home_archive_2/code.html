@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vrindopnishad - Home Archive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1717cf",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                        "text-main": "#0A0A0A",
+                        "text-muted": "#8C8C8C",
+                        "surface": "#FFFFFF",
+                        "border-light": "#E0E0E0"
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "body": ["Newsreader", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "section": "120px"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Newsreader', serif;
+            background-color: #FAFAFA;
+            color: #0A0A0A;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Grayscale to color transition for images */
+        .group:hover .article-img {
+            filter: grayscale(0%);
+        }
+        .article-img {
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+
+        /* Title italic transition */
+        .group:hover .article-title {
+            font-style: italic;
+            color: #1717cf;
+        }
+        .article-title {
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-primary selection:text-white">
+<!-- Shared TopNavBar -->
+<div class="relative flex h-auto w-full flex-col bg-transparent group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap px-4 py-6 border-b border-border-light h-[80px]">
+<div class="flex items-center gap-4 text-text-main cursor-pointer hover:text-primary transition-colors duration-300">
+<div class="size-5">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-text-main text-xl font-bold leading-tight tracking-[-0.015em] uppercase hover:text-primary transition-colors">Vrindopnishad</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-text-main text-sm font-medium leading-normal uppercase tracking-widest hover:text-primary transition-colors" href="#">[Seek]</a>
+<a class="text-text-main text-sm font-medium leading-normal uppercase tracking-widest hover:text-primary transition-colors" href="#">[Topics]</a>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- Featured Marquee Section (Top 50vh approx) -->
+<section class="mt-16 mb-section w-full">
+<a class="group block w-full" href="#">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center min-h-[600px]">
+<!-- Text Column (4 cols) -->
+<div class="md:col-span-5 flex flex-col justify-center space-y-6 order-2 md:order-1 px-4 md:px-0">
+<div class="text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
+                                            [FEATURED JOURNEY]
+                                        </div>
+<h1 class="article-title text-5xl md:text-7xl font-normal leading-tight tracking-[-0.02em] text-text-main">
+                                            The Architecture of Silence
+                                        </h1>
+<p class="text-lg text-text-muted leading-relaxed max-w-md">
+                                            Exploring the structural necessity of empty space in both physical design and internal consciousness. A study in sacred minimalism.
+                                        </p>
+<div class="text-sm font-medium uppercase tracking-widest text-text-main pt-4 flex items-center gap-2 group-hover:text-primary transition-colors">
+                                            Enter Journey <span class="material-symbols-outlined text-sm" data-icon="arrow_right_alt">arrow_right_alt</span>
+</div>
+</div>
+<!-- Image Column (8 cols) -->
+<div class="md:col-span-7 h-full w-full order-1 md:order-2">
+<div class="w-full h-[400px] md:h-[600px] rounded-full overflow-hidden relative">
+<img alt="Minimalist architectural archway in stark desert landscape with high contrast lighting" class="article-img w-full h-full object-cover" data-alt="Minimalist architectural archway in stark desert landscape with high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-WagFEfFAQ7ehcvwwmoVEZprkq1T8mRbfeYIxcwM-UiMtJPCGvsgpDzCfSUELh8vdnMSfqQlYQ7j2kpm7tJuNTLDVG1AY-hoEWQsXvxWphVRttyuq73kAp0OywdqE464hr6SGf1rreHsjJZArsSSi2xu1ywFe_knsnjjwfgGOoJZL20mOjHO3B6uEcIpzdZjwFz--d4aJbvK_6Xnl6KyuRZkhfo-Uz3XV7o4vBlO2IpnxQGagCxaBsQp8c8l2WQCRxXDACjB3hneo"/>
+</div>
+</div>
+</div>
+</a>
+</section>
+<!-- Divider -->
+<div class="w-full h-px bg-border-light my-12"></div>
+<!-- Archive Grid Section -->
+<section class="mb-section px-4 md:px-0">
+<div class="flex items-center justify-between mb-16">
+<h2 class="text-2xl font-normal italic text-text-main">The Archive</h2>
+<span class="text-xs uppercase tracking-[0.2em] text-text-muted">Chronological</span>
+</div>
+<!-- 2-Column Masonry (simulated with grid for simplicity in plain HTML/Tailwind) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24 items-start">
+<!-- Article Card 1 -->
+<a class="group flex flex-col gap-6" href="#">
+<div class="w-full aspect-[4/3] rounded-full overflow-hidden bg-surface border border-border-light">
+<img alt="Close up of rippling water surface with deep shadows and bright highlights" class="article-img w-full h-full object-cover" data-alt="Close up of rippling water surface with deep shadows and bright highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgEUMysElk9Gr9clrDWNgZxPAjdWEVpCljXvHRxrcOhh4Xb2QwqfcYNJMmBEBzDjeKgLpAHG1BGDXD2-hQahtlQNxKl-yzsZa3nNw4q1I8xjS50WABVd723cuc_j-OXEX9VxMeJMzEPujkLb0WKReBHtSHBMioT4mOra_JTHFhxVLLeLVUfYPrIDffp9PkL26BoCE6Nd9GMGYT1FVMZF25Ca_hjShL_wiMX0J2G9BA4Ppdbz3H166_zCZLx9qtaz5DQKzn0NjVwznX"/>
+</div>
+<div class="flex flex-col gap-3">
+<div class="text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                                            [OCT 12] · [MEDITATION]
+                                        </div>
+<h3 class="article-title text-3xl md:text-4xl font-normal leading-tight text-text-main">
+                                            Currents of Thought
+                                        </h3>
+</div>
+</a>
+<!-- Article Card 2 (Offset structurally by margin in masonry design, simulated here) -->
+<a class="group flex flex-col gap-6 md:mt-16" href="#">
+<div class="w-full aspect-square rounded-full overflow-hidden bg-surface border border-border-light">
+<img alt="Single smooth stone resting on textured white sand with sharp cast shadow" class="article-img w-full h-full object-cover" data-alt="Single smooth stone resting on textured white sand with sharp cast shadow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMweequIvXiabIGl8UFQrx_pwGv5Xz7TGjpzJx5OijggsoOf4r0CLlFnKIFlv45TTgxmq86UVjvHIbzzUpZQaTz4YRBGmvZIi85SNgVcPOlZ1R7o7C4kPCnwMlJESPfSGqNhM_6-tB9k7vftXmacwGKKGHMWEAhSoV8oOACtGKCPt-GPlMcm1YXkNeHBJb-muUwaMU2gNJ6xbpCL79qCuH1-b9TVDfot8gmubLwW6LZ1cVR2XSUqJol6c-bAKjG1fEMS-tlcEMTn2j"/>
+</div>
+<div class="flex flex-col gap-3">
+<div class="text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                                            [SEP 28] · [FOUNDATIONS]
+                                        </div>
+<h3 class="article-title text-3xl md:text-4xl font-normal leading-tight text-text-main">
+                                            The Weight of Stillness
+                                        </h3>
+</div>
+</a>
+<!-- Article Card 3 -->
+<a class="group flex flex-col gap-6" href="#">
+<div class="w-full aspect-square rounded-full overflow-hidden bg-surface border border-border-light">
+<img alt="Abstract blurred lines of light moving through darkness" class="article-img w-full h-full object-cover" data-alt="Abstract blurred lines of light moving through darkness" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvLbCTrvcmbkPpK8fivOrgVjQGCMiCIf7QesmXNT7TbKSnetu9oIuCtnxv1k1aaaLnSnPHMAlyLv05828e59EvBF70z7vSovSuMzI8UzTqB2icbuaFdTpWf70nbw_h8UAfLSMwvPrRjPkq6rdu1bEsWHmr8Y2No9aBvJnCencIWiCgfzVWRKtxMbU4yWJtgxLZaFJmwnA7_PWaY4mWdHIM1GwRG8QbL0BLS-msf2ffKMnWFyJWMd8XRrp5qle5SPgE6cwvZqZRU8-b"/>
+</div>
+<div class="flex flex-col gap-3">
+<div class="text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                                            [SEP 14] · [PERCEPTION]
+                                        </div>
+<h3 class="article-title text-3xl md:text-4xl font-normal leading-tight text-text-main">
+                                            Velocity of the Mind
+                                        </h3>
+</div>
+</a>
+<!-- Article Card 4 -->
+<a class="group flex flex-col gap-6 md:mt-16" href="#">
+<div class="w-full aspect-[4/3] rounded-full overflow-hidden bg-surface border border-border-light">
+<img alt="Minimalist empty room with single window casting geometric light on floor" class="article-img w-full h-full object-cover" data-alt="Minimalist empty room with single window casting geometric light on floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlsFdWQQfZ6bIrFa6HoHfJL_kb1adjvb32LGgZjhCA0xXtZ7imYfqQXp-MJpBPX0bc1uISSNo4oIAkoUyBBm1GSn1O1ssWKyrZPVe6UR07Bhcf_LZg0B0GZyu6tNeqGrUwd6Vzm7PO_EsCAS-D6bjokp-gAgytwCbSd9zzLS_KpO7UhVwT6KLyobYCMoBK1YyCkWrY0k_Cl4W1SsbaFiEKqpb6blsyhK9P8IXrS7YZ1X3b7LzynBlEOs7NtNgKiLkxVDnRYMkWwEx1"/>
+</div>
+<div class="flex flex-col gap-3">
+<div class="text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                                            [AUG 30] · [SPACE]
+                                        </div>
+<h3 class="article-title text-3xl md:text-4xl font-normal leading-tight text-text-main">
+                                            Defining Boundaries
+                                        </h3>
+</div>
+</a>
+</div>
+<!-- End of Archive Indicator -->
+<div class="w-full flex justify-center mt-32 mb-16">
+<span class="text-xs uppercase tracking-[0.3em] text-text-muted italic">End of the Path</span>
+</div>
+</section>
+</main>
+</div>
+</div>
+</div>
+</div>
+</body></html>

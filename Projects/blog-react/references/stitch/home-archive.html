@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vrindopnishad - Home Archive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1717cf",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Newsreader', serif;
+            background-color: #FAFAFA;
+            color: #0A0A0A;
+        }
+        
+        .grayscale-img {
+            filter: grayscale(100%);
+            transition: filter 0.5s ease-in-out;
+        }
+        
+        .group:hover .grayscale-img {
+            filter: grayscale(0%);
+        }
+
+        .title-hover-italic {
+            transition: font-style 0.3s ease;
+        }
+
+        .group:hover .title-hover-italic {
+            font-style: italic;
+        }
+        
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+                column-gap: 4rem;
+            }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 4rem;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<div class="relative flex h-auto w-full flex-col bg-transparent group/design-root overflow-x-hidden" style='font-family: Newsreader, "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-6 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap h-[80px]">
+<div class="flex items-center gap-4 text-[#0A0A0A]">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-[#0A0A0A] text-2xl font-bold leading-tight tracking-[-0.015em] hover:text-primary transition-colors cursor-pointer">Vrindopnishad</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<button class="text-[#0A0A0A] text-sm font-medium tracking-[0.1em] uppercase hover:text-primary transition-colors group flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300">search</span>
+                                    [Seek]
+                                </button>
+<button class="text-[#0A0A0A] text-sm font-medium tracking-[0.1em] uppercase hover:text-primary transition-colors group flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300">menu</span>
+                                    [Topics]
+                                </button>
+</div>
+</div>
+</header>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<main class="w-full max-w-[1200px] mx-auto px-6 md:px-10 lg:px-[120px] pb-32">
+<!-- Featured Marquee -->
+<section class="mb-32 cursor-pointer group">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-auto lg:h-[600px]">
+<div class="lg:col-span-8 h-[400px] lg:h-full w-full overflow-hidden rounded-full order-2 lg:order-1">
+<img alt="Featured Article Image" class="w-full h-full object-cover grayscale-img transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-in-out" data-alt="Monochrome photograph of rain falling gently on calm lake water with rippling circles reflecting soft grey diffused light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAFyTPuwP1_OHMpcKg7-qAHWKt-ql_zIhI2ZvPd8bNSp8s-EwfVfuufcCp8MwJs1DiYEfg2YY6lAfF3A8cmdgJHtGiAVOry31wtkvj_IxzsJkHpmIdg9tw_xKwRubsf9W5fDxgN6xczK1YZGhH3ivDdLccVN8zT9_BGChVEX4uMV-dXk-ZcV2p2tgoARsK1YLlkcmM59TzM11xV94EXai8lAMsxfEA0EACizuHSufYDxlo1YJ_a0dsSL8udwWRdh8bGtVMsVt_lHGo"/>
+</div>
+<div class="lg:col-span-4 flex flex-col justify-center order-1 lg:order-2 pl-0 lg:pl-8">
+<p class="text-primary text-[13px] font-medium tracking-[0.2em] uppercase mb-6 flex items-center gap-2">
+<span class="w-8 h-[1px] bg-primary"></span>
+                        OCTOBER 12 · STILLNESS
+                    </p>
+<h1 class="text-5xl md:text-[72px] font-normal leading-[1.1] text-[#0A0A0A] mb-8 title-hover-italic">The Architecture of Silence</h1>
+<p class="text-[#8C8C8C] text-lg leading-[1.8] mb-8 line-clamp-3">
+                        A deep dive into the spiritual depth of expansive whitespace and the profound realization that occurs when the mind stops constructing.
+                    </p>
+<div class="flex items-center gap-3 text-sm font-medium text-[#0A0A0A] group-hover:text-primary transition-colors">
+<span>Begin Journey</span>
+<span class="material-symbols-outlined text-sm transform group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Divider -->
+<div class="w-full h-[1px] bg-[#E0E0E0] mb-24 relative">
+<div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#FAFAFA] px-4 text-[#8C8C8C] text-[13px] tracking-[0.2em] uppercase">
+                The Archive
+            </div>
+</div>
+<!-- Masonry Archive Grid -->
+<section class="masonry-grid">
+<!-- Article 1 -->
+<article class="masonry-item group cursor-pointer bg-white p-6 rounded-3xl border border-[#E0E0E0] hover:border-primary transition-colors duration-300">
+<div class="w-full aspect-[4/3] overflow-hidden rounded-full mb-6">
+<img alt="Archive Image 1" class="w-full h-full object-cover grayscale-img" data-alt="Minimalist abstract photograph of white sand dunes casting deep shadows under bright harsh sunlight creating stark geometric shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHWlvb8PN12uAEFZB8lBdbkDEAOUYzaEpob_QKKXXNAvxT67HD6wb3hbJvu41MHi2GY57XL34yXU5inJ_AO5TBbFzVlBfU2-gh2l2s97SxATdYFOWGiOaEsfMk_ZY56GGYVwBFRncfR2BqyPVCb4dnENucAu6Jm05mJuJgrAt37gUafzPYV7iRGk207tQTUmNV1oHJLnRlpVe6ewd3to_rvVZALvit9ySEfR2Xq20jvsD6FOhj4VMYNUz8ArXr3SXHgcnM_mJA_z6O"/>
+</div>
+<div class="flex flex-col gap-3 px-2">
+<p class="text-[#8C8C8C] text-[13px] font-medium tracking-[0.1em] uppercase">SEPTEMBER 28 · ETERNITY</p>
+<h3 class="text-3xl font-normal leading-[1.2] text-[#0A0A0A] title-hover-italic">Geometry of the Soul</h3>
+<p class="text-[#8C8C8C] text-base leading-relaxed mt-2 line-clamp-2">Tracing the universal patterns that govern both the cosmos and inner consciousness through sacred mathematics.</p>
+</div>
+</article>
+<!-- Article 2 -->
+<article class="masonry-item group cursor-pointer bg-white p-6 rounded-3xl border border-[#E0E0E0] hover:border-primary transition-colors duration-300">
+<div class="w-full aspect-[3/4] overflow-hidden rounded-full mb-6">
+<img alt="Archive Image 2" class="w-full h-full object-cover grayscale-img" data-alt="Close up of a single dried bodhi leaf resting on textured grey concrete floor illuminated by a thin sliver of sharp light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-wxc4Fw38NQr1Fy_UQZiwS7McvcwhMMWjQhClhfrxG5mX7bnLabFLteKt6LdsaenVgjFqO5xq8SC9N3x4YTCVty5iuZv3cJiQTf7e79_-i1ppwPU-1v4mYBNPZfSS4AmuSB0Hletfzv-8n4qmcx_fetJvTZOIf5HFW5Awg36DgwxndU4eRpKmX9CSmatLlD-APiceTPG0kumm179VcBILyh2AHiIA_DYfWpdt6ZxdYPhWPzO686v0vnGh6igaGroBIBmWWc7y0xSF"/>
+</div>
+<div class="flex flex-col gap-3 px-2">
+<p class="text-[#8C8C8C] text-[13px] font-medium tracking-[0.1em] uppercase">SEPTEMBER 15 · DETACHMENT</p>
+<h3 class="text-3xl font-normal leading-[1.2] text-[#0A0A0A] title-hover-italic">The Art of Letting Fall</h3>
+<p class="text-[#8C8C8C] text-base leading-relaxed mt-2 line-clamp-2">Understanding the autumnal nature of the mind and the beauty inherent in releasing attachments gracefully.</p>
+</div>
+</article>
+<!-- Article 3 -->
+<article class="masonry-item group cursor-pointer bg-white p-6 rounded-3xl border border-[#E0E0E0] hover:border-primary transition-colors duration-300">
+<div class="w-full aspect-square overflow-hidden rounded-full mb-6">
+<img alt="Archive Image 3" class="w-full h-full object-cover grayscale-img" data-alt="Minimal architectural detail showing sharp contrast between bright white curved wall and deep black shadow in a modernist spiritual space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY52STRLDbDDORfHyPDv7G9qhjX221Wj9htuOzLsadSqhEgzMnMxKMzo76u0RFBBTTiNIyTCNu_9lrvh-goVx2MMOzhHHW-xsQK3iiyKG-p1XG84sq0Rvw_OEL-0A0XqLZ2XZOXFQoimyhg5jTcu2H4Nd5bOO5a9RntUfRyCJMjKAqYV9LTDz_9ZDpFB99AESENss9PbIFdOxKDmRKgHFymcikjg3tC7qu6L1gmekbJFfXDr29TYgXNovAJ50NYWkp2Z-Ivgo3RVcn"/>
+</div>
+<div class="flex flex-col gap-3 px-2">
+<p class="text-[#8C8C8C] text-[13px] font-medium tracking-[0.1em] uppercase">AUGUST 30 · PRESENCE</p>
+<h3 class="text-3xl font-normal leading-[1.2] text-[#0A0A0A] title-hover-italic">Form and Void</h3>
+<p class="text-[#8C8C8C] text-base leading-relaxed mt-2 line-clamp-2">How physical boundaries create the necessary conditions to experience the boundless nature of existence.</p>
+</div>
+</article>
+<!-- Article 4 -->
+<article class="masonry-item group cursor-pointer bg-white p-6 rounded-3xl border border-[#E0E0E0] hover:border-primary transition-colors duration-300">
+<div class="w-full aspect-[16/9] overflow-hidden rounded-full mb-6">
+<img alt="Archive Image 4" class="w-full h-full object-cover grayscale-img" data-alt="Vast empty expanse of a salt flat merging with an overcast sky creating a seamless minimal horizon line in black and white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChEVZsukAE2RzNeQEZcujyjZTdhmuwmE0JBSGkXHS5J7wprAl6_uN3D3aHBxoKkKzf1yiDA6AuuZyNubdLZAnHvKQnkPkBz8n0VsOGcIo5uSrMji-YizbbDFykaceKezqihtweRDb0V3-wBFTDdR5d744s-XXq4122h8CE_wJbuD5gFmq-0d7iZRi9H0_zA85pplTcVJn_ejjxecasMOBXPqyW9KPiENPTfUlCy68IAeDBSy-Z5SeTPBx0nCpt-gCnQ8fplkFx28ca"/>
+</div>
+<div class="flex flex-col gap-3 px-2">
+<p class="text-[#8C8C8C] text-[13px] font-medium tracking-[0.1em] uppercase">AUGUST 12 · INFINITY</p>
+<h3 class="text-3xl font-normal leading-[1.2] text-[#0A0A0A] title-hover-italic">The Horizon Within</h3>
+<p class="text-[#8C8C8C] text-base leading-relaxed mt-2 line-clamp-2">Seeking the distant edge where the conceptual mind dissolves into the pure experiencing awareness.</p>
+</div>
+</article>
+</section>
+<!-- Load More (Implicit end of scroll) -->
+<div class="mt-24 flex justify-center">
+<button class="w-16 h-16 rounded-full border border-[#E0E0E0] flex items-center justify-center text-[#0A0A0A] hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 group">
+<span class="material-symbols-outlined text-2xl group-hover:animate-bounce">arrow_downward</span>
+</button>
+</div>
+</main>
+</body></html>

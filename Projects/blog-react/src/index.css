@@ -1,0 +1,202 @@
+/* 
+ * Vrindopnishad Premium Blog - Market Ready 'Obsidian Glass' & 'Sacred Minimalism'
+ */
+
+:root {
+    --primary: #1717cf;
+    --divine-gold: #d4af37;
+    --obsidian-bg: #0A0A0A;
+    --obsidian-glass: rgba(255, 255, 255, 0.03);
+    --obsidian-border: rgba(255, 255, 255, 0.08);
+    --text-main: #FFFFFF;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --font-serif: 'Newsreader', serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+    background: var(--obsidian-bg);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    margin: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Grainy Texture Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Global Typography */
+h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--obsidian-bg); }
+::-webkit-scrollbar-thumb { background: var(--obsidian-border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--divine-gold); }
+
+/* Premium Glass Navbar */
+.glass-nav {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    height: 70px;
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--obsidian-border);
+    border-radius: 99px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    transition: var(--transition);
+}
+
+.glass-nav:hover {
+    border-color: var(--divine-gold);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Typography Enhancements */
+.italic-hover {
+    transition: var(--transition);
+}
+
+.group:hover .italic-hover {
+    font-style: italic;
+    color: var(--divine-gold);
+}
+
+/* Featured Hero */
+.featured-hero-premium {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    overflow: hidden;
+}
+
+.hero-visual {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+.hero-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6) grayscale(0.8);
+    transition: 2s ease;
+}
+
+.featured-hero-premium:hover .hero-visual img {
+    filter: brightness(0.7) grayscale(0.2);
+    transform: scale(1.05);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, var(--obsidian-bg) 95%);
+}
+
+.hero-text h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin: 2rem 0;
+}
+
+.gold-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--divine-gold);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+.gold-pill::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: var(--divine-gold);
+}
+
+/* Post Cards */
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 5rem;
+    padding: 10rem 10%;
+}
+
+.premium-card {
+    position: relative;
+}
+
+.card-frame {
+    position: relative;
+    border-radius: 2.5rem;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    margin-bottom: 2.5rem;
+}
+
+.card-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1);
+    transition: var(--transition);
+}
+
+.premium-card:hover .card-frame img {
+    filter: grayscale(0);
+    transform: scale(1.05);
+}
+
+.card-content h3 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.card-content p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* Animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}

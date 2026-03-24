@@ -12,6 +12,7 @@
 node_modules/
 dist/
 build/
+.npm-cache/
 
 # Large model files and outputs
 Projects/CustomerAssistantBot/model_output/

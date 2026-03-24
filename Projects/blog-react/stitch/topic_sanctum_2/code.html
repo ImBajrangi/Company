@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vrindopnishad.in - Topic Sanctum</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400;1,9..40,500&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;1,6..72,400;1,6..72,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1717cf",
+                        "background-light": "#FAFAFA",
+                        "background-dark": "#111121",
+                        "surface": "#FFFFFF",
+                        "text-main": "#1A1A1A",
+                        "text-muted": "#8C8C8C",
+                        "accent": "#000000",
+                        "border-light": "#E0E0E0"
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "body": ["DM Sans", "sans-serif"],
+                        "heading": ["EB Garamond", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        'section': '120px',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background-light');
+            color: theme('colors.text-main');
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Smooth fade transition for right column content */
+        .content-fade-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .content-fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        /* Grayscale image transition */
+        .img-hover-color {
+            filter: grayscale(100%);
+            transition: filter 0.5s ease-in-out;
+        }
+        .group:hover .img-hover-color {
+            filter: grayscale(0%);
+        }
+    </style>
+</head>
+<body class="font-body min-h-screen selection:bg-primary selection:text-white">
+<!-- Top Navigation (Shared Component Integration) -->
+<header class="sticky top-0 z-50 bg-background-light/90 backdrop-blur-md border-b border-border-light px-6 md:px-10 py-4 flex items-center justify-between transition-all duration-300">
+<div class="flex items-center gap-4 text-text-main">
+<a class="flex items-center gap-3 group" href="#">
+<div class="size-6 text-primary group-hover:rotate-12 transition-transform duration-500">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="font-display text-xl font-bold tracking-tight">Vrindopnishad.in</h2>
+</a>
+</div>
+<nav class="flex items-center gap-8">
+<button class="text-text-main hover:text-primary font-medium text-sm uppercase tracking-widest transition-colors flex items-center gap-2 group">
+<span class="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform">search</span>
+                Seek
+            </button>
+<a class="text-primary font-medium text-sm uppercase tracking-widest border-b border-primary pb-1" href="#">Topics</a>
+</nav>
+</header>
+<!-- Main Layout -->
+<main class="max-w-[1440px] mx-auto flex flex-col md:flex-row relative">
+<!-- Sticky Sidebar (Topics) -->
+<aside class="w-full md:w-[300px] shrink-0 md:sticky md:top-[80px] md:h-[calc(100vh-80px)] overflow-y-auto px-6 md:px-10 py-10 md:py-20 border-r border-border-light hide-scrollbar">
+<h3 class="font-body text-xs font-medium text-text-muted uppercase tracking-[0.2em] mb-10">Spiritual Domains</h3>
+<ul class="flex flex-col gap-6">
+<li>
+<a class="text-text-muted hover:text-text-main font-display text-2xl transition-colors duration-300 flex items-center gap-3" href="#">
+                        Meditation
+                    </a>
+</li>
+<li>
+<a class="text-primary font-display text-2xl font-bold transition-colors duration-300 flex items-center gap-3" href="#">
+<span class="w-6 h-[2px] bg-primary rounded-full inline-block"></span>
+                        Dharma
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-text-main font-display text-2xl transition-colors duration-300 flex items-center gap-3" href="#">
+                        Karma
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-text-main font-display text-2xl transition-colors duration-300 flex items-center gap-3" href="#">
+                        Non-duality
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-text-main font-display text-2xl transition-colors duration-300 flex items-center gap-3" href="#">
+                        Devotion
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-text-main font-display text-2xl transition-colors duration-300 flex items-center gap-3" href="#">
+                        Stillness
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-text-main font-display text-2xl transition-colors duration-300 flex items-center gap-3" href="#">
+                        Self-Inquiry
+                    </a>
+</li>
+</ul>
+</aside>
+<!-- Right Content Column (Results) -->
+<section class="flex-1 px-6 md:px-20 py-10 md:py-20 min-h-screen pb-section" id="results-container">
+<!-- Header -->
+<header class="mb-20 max-w-3xl">
+<p class="font-body text-sm font-medium text-text-muted uppercase tracking-[0.15em] mb-4">Exploring teachings on</p>
+<h1 class="font-display text-5xl md:text-[64px] leading-tight text-text-main font-medium">Dharma</h1>
+<p class="mt-6 font-body text-lg text-text-muted max-w-2xl leading-relaxed">
+                    The path of righteous duty, universal law, and aligning oneself with the cosmic order. Explore ancient wisdom applied to modern existence.
+                </p>
+</header>
+<!-- Results List -->
+<div class="flex flex-col">
+<!-- Article Card 1 -->
+<article class="group flex flex-col sm:flex-row items-center sm:items-start gap-8 py-12 border-b border-border-light hover:bg-surface transition-colors duration-500 rounded-lg px-6 -mx-6 cursor-pointer">
+<div class="w-full sm:w-[200px] shrink-0 aspect-square rounded-full overflow-hidden shadow-sm">
+<img alt="A serene yogi meditating on a rocky cliff overlooking a misty mountain valley at dawn" class="w-full h-full object-cover img-hover-color" data-alt="A serene yogi meditating on a rocky cliff overlooking a misty mountain valley at dawn, minimalist composition, soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9YDbXsUZCReUP-ECEaiyUkkGBhL275S5QDYLpInmZN2QwriL5PMAg3QjU-v4hUAFP2UACBIDhZT3sSDXa1YwsT-hXD51x6pmQS1GrOMu1Rzl-S2UUoPpSWNZcQ_rOr1eTWN8q8nQ55amDpZxBjHniywsXqokO_hpR7EKMzNNBrs89B9N3Pof54K4PFvNDPOzndZv3-5ewCQvww9_ogqsOntgSRULEW5zQe0cemJRpo4eQjbxPtZENmKLpeJ_LtOmYV3REAKkgK6qM"/>
+</div>
+<div class="flex flex-col flex-1 justify-center h-full sm:min-h-[200px]">
+<div class="flex items-center gap-3 mb-4">
+<span class="font-body text-[11px] font-bold text-text-muted uppercase tracking-[0.2em]">OCT 12, 2023</span>
+<span class="w-1 h-1 bg-border-light rounded-full"></span>
+<span class="font-body text-[11px] font-bold text-primary uppercase tracking-[0.2em]">DHARMA</span>
+</div>
+<h2 class="font-display text-3xl md:text-4xl leading-tight text-text-main mb-4 group-hover:text-primary transition-colors">
+                            The Architecture of Right Action
+                        </h2>
+<p class="font-body text-text-muted text-base leading-relaxed line-clamp-2 max-w-2xl">
+                            Understanding dharma not as a rigid set of rules, but as an fluid, context-aware responsiveness to the present moment's deepest needs.
+                        </p>
+<div class="mt-6 flex items-center gap-2 text-sm font-medium text-text-main group-hover:text-primary transition-colors">
+<span>Read Journey</span>
+<span class="material-symbols-outlined text-[16px] transform group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Article Card 2 -->
+<article class="group flex flex-col sm:flex-row items-center sm:items-start gap-8 py-12 border-b border-border-light hover:bg-surface transition-colors duration-500 rounded-lg px-6 -mx-6 cursor-pointer">
+<div class="w-full sm:w-[200px] shrink-0 aspect-square rounded-full overflow-hidden shadow-sm">
+<img alt="Close up of incense smoke curling elegantly against a stark black background" class="w-full h-full object-cover img-hover-color" data-alt="Close up of delicate white incense smoke curling elegantly against a stark dark background, high contrast, minimalist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkCu0aBwnqYFluIUcBlbwINrk4yMoUBtyzeWq-UdnotmHYuT9514u_yWcefE7FidqQFFjkYFByedqKJO1Wsay-P4tc940B_vLoGP_iIiMfyCl6xrM9rYy9uAEXWC1C7nHQDj_1lqYo5MV7mKNWUuEXIrXu_n-7VjmbP_68wQ3ZNMRL4vtqzwfLvBVAXngOnpmgzIvcp2h-O-JwChL957hD_PR_nDPOymtAEHP-VgMrbsHxghqvhkuou2wsnhPMOy9nxI3x_PvNJtVY"/>
+</div>
+<div class="flex flex-col flex-1 justify-center h-full sm:min-h-[200px]">
+<div class="flex items-center gap-3 mb-4">
+<span class="font-body text-[11px] font-bold text-text-muted uppercase tracking-[0.2em]">SEP 28, 2023</span>
+<span class="w-1 h-1 bg-border-light rounded-full"></span>
+<span class="font-body text-[11px] font-bold text-primary uppercase tracking-[0.2em]">DHARMA</span>
+</div>
+<h2 class="font-display text-3xl md:text-4xl leading-tight text-text-main mb-4 group-hover:text-primary transition-colors">
+                            Duty Divorced from Desire
+                        </h2>
+<p class="font-body text-text-muted text-base leading-relaxed line-clamp-2 max-w-2xl">
+                            An examination of the Bhagavad Gita's core thesis: performing one's inherent duty without attachment to the fruits of the action.
+                        </p>
+<div class="mt-6 flex items-center gap-2 text-sm font-medium text-text-main group-hover:text-primary transition-colors">
+<span>Read Journey</span>
+<span class="material-symbols-outlined text-[16px] transform group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Article Card 3 -->
+<article class="group flex flex-col sm:flex-row items-center sm:items-start gap-8 py-12 border-b border-border-light hover:bg-surface transition-colors duration-500 rounded-lg px-6 -mx-6 cursor-pointer">
+<div class="w-full sm:w-[200px] shrink-0 aspect-square rounded-full overflow-hidden shadow-sm">
+<img alt="Minimalist view of calm water ripples leading towards a distant horizon line" class="w-full h-full object-cover img-hover-color" data-alt="Minimalist view of calm water ripples leading towards a distant horizon line, monochromatic, peaceful, stark contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1NA8VaohiOWTu-qIMeklh4A7xlBIz-13MCTpafuIuaA-7N9pFjyjpxsYOirnnKb1zwqEk-R5h0Uh_7hcHEXJ-Uf-4tPy0PIGmxtpZoa3VMOKvIeGejyRSw6rxcv8hDWzs7JHg87i203kf33G7WZa2r3Msbcjkeaq1WB0r2p5_t6iScI9y-EurTRnbLZaVtvrKQ0lIiLbQo1ZE49X_GfgFx5G6CzE7vH5SeJe6uFHCBrX-6Y8sXSf6NT_ZTs7ioEyml6zSBWZqOMQB"/>
+</div>
+<div class="flex flex-col flex-1 justify-center h-full sm:min-h-[200px]">
+<div class="flex items-center gap-3 mb-4">
+<span class="font-body text-[11px] font-bold text-text-muted uppercase tracking-[0.2em]">AUG 04, 2023</span>
+<span class="w-1 h-1 bg-border-light rounded-full"></span>
+<span class="font-body text-[11px] font-bold text-primary uppercase tracking-[0.2em]">DHARMA</span>
+</div>
+<h2 class="font-display text-3xl md:text-4xl leading-tight text-text-main mb-4 group-hover:text-primary transition-colors">
+                            The Illusion of Choice
+                        </h2>
+<p class="font-body text-text-muted text-base leading-relaxed line-clamp-2 max-w-2xl">
+                            When alignment with cosmic law is complete, decision-making ceases to be a burden and becomes a spontaneous flowering of necessity.
+                        </p>
+<div class="mt-6 flex items-center gap-2 text-sm font-medium text-text-main group-hover:text-primary transition-colors">
+<span>Read Journey</span>
+<span class="material-symbols-outlined text-[16px] transform group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Pagination / Load More (Minimalist) -->
+<div class="py-16 flex justify-center">
+<button class="font-body text-sm font-medium text-text-main uppercase tracking-[0.2em] hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1">
+                        Load More Journeys
+                    </button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

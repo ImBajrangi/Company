@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sacred Minimalism - Seek</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1717cf",
+            "background-light": "#f6f6f8",
+            "background-dark": "#111121",
+            "brand-black": "#0A0A0A",
+            "brand-white": "#FAFAFA",
+            "brand-surface": "#FFFFFF",
+            "brand-text": "#1A1A1A",
+            "brand-muted": "#8C8C8C",
+          },
+          fontFamily: {
+            "display": ["EB Garamond", "serif"],
+            "body": ["DM Sans", "sans-serif"],
+            "serif": ["Newsreader", "serif"]
+          },
+          borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    /* Custom styles that aren't easily achieved with standard tailwind utilities */
+    .seek-input::placeholder {
+      color: #8C8C8C;
+      opacity: 0.5;
+    }
+    
+    .seek-input:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Simulate the fade-in animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    
+    /* Staggered animation for results */
+    .result-item {
+      opacity: 0;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+    .result-item:nth-child(1) { animation-delay: 0.1s; }
+    .result-item:nth-child(2) { animation-delay: 0.2s; }
+    .result-item:nth-child(3) { animation-delay: 0.3s; }
+    .result-item:nth-child(4) { animation-delay: 0.4s; }
+  </style>
+</head>
+<body class="bg-brand-white text-brand-black antialiased overflow-hidden font-body">
+<!-- Background content to show behind the overlay -->
+<div aria-hidden="true" class="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-20">
+<div class="h-full w-full bg-cover bg-center" data-alt="abstract minimalist architectural details in black and white with soft light and deep shadows" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDj8Lrd-EE77bcIpic4-rDCUxwJvI8aaLy-oWMj3rhqwHtyB5XGLa-fVoJ3OtAKuMpF0PGrK5_1_PBy1BOr2pvFPrCzNeINlgJRiOnCS0gBzWZkGoF8wX3oFtkol1GZb2kNibRrBe_8YLeho3I9-Mn2fdtEururj_CBuM328mHjGlkY398eLK4nyNExLhF7dCaojclJsrARqlqZMlJw-1Hixm7tjkYSx75vWRBxeI31eqlMFbhBlrmqRxC1L-iZHZfp7-NX0eOO9lhh');"></div>
+</div>
+<!-- Main Search Overlay -->
+<div class="fixed inset-0 z-50 flex flex-col bg-brand-white/98 backdrop-blur-md animate-fade-in transition-all duration-300">
+<!-- Top Action Bar -->
+<div class="w-full flex justify-end p-8 md:p-12 lg:p-16">
+<button aria-label="Close search" class="group flex h-12 w-12 items-center justify-center rounded-full bg-transparent hover:bg-brand-black transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-black focus:ring-offset-2">
+<span class="material-symbols-outlined text-brand-black group-hover:text-brand-white transition-colors duration-300 text-3xl" data-icon="close">close</span>
+</button>
+</div>
+<!-- Search Container -->
+<div class="flex-1 w-full max-w-5xl mx-auto px-6 md:px-12 flex flex-col pt-10 md:pt-20">
+<!-- Input Area -->
+<div class="relative w-full mb-8">
+<input autofocus="" class="seek-input w-full bg-transparent border-none text-4xl md:text-5xl lg:text-7xl font-display text-brand-black p-0 focus:ring-0 placeholder:font-display placeholder:italic" placeholder="What do you seek?" type="text" value="the nature of"/>
+<!-- Blinking cursor effect (simulated via standard input, but styled minimally) -->
+<div class="absolute bottom-0 left-0 w-full h-px bg-brand-muted/20"></div>
+</div>
+<!-- Meta Status -->
+<div class="mb-12 h-6">
+<!-- Currently showing 'Seeking...' state, normally this would toggle -->
+<p class="text-brand-muted text-[13px] uppercase tracking-[2px] font-medium font-body animate-pulse">Seeking...</p>
+<!-- <p class="text-brand-muted text-[13px] uppercase tracking-[2px] font-medium font-body hidden">No paths found.</p> -->
+</div>
+<!-- Results List -->
+<div class="flex-1 overflow-y-auto pb-20 no-scrollbar">
+<ul class="flex flex-col space-y-8 md:space-y-10">
+<li class="result-item group">
+<a class="block focus:outline-none" href="#">
+<span class="block text-brand-muted text-[13px] uppercase tracking-[2px] font-medium mb-2 group-hover:text-brand-black transition-colors">Discourse</span>
+<h3 class="text-2xl md:text-3xl font-display text-brand-black group-hover:italic group-hover:text-primary transition-all duration-300">The Nature of Silence in Chaos</h3>
+</a>
+</li>
+<li class="result-item group">
+<a class="block focus:outline-none" href="#">
+<span class="block text-brand-muted text-[13px] uppercase tracking-[2px] font-medium mb-2 group-hover:text-brand-black transition-colors">Meditation</span>
+<h3 class="text-2xl md:text-3xl font-display text-brand-black group-hover:italic group-hover:text-primary transition-all duration-300">Understanding the Nature of the Self</h3>
+</a>
+</li>
+<li class="result-item group">
+<a class="block focus:outline-none" href="#">
+<span class="block text-brand-muted text-[13px] uppercase tracking-[2px] font-medium mb-2 group-hover:text-brand-black transition-colors">Philosophy</span>
+<h3 class="text-2xl md:text-3xl font-display text-brand-black group-hover:italic group-hover:text-primary transition-all duration-300">On the True Nature of Detachment</h3>
+</a>
+</li>
+<li class="result-item group">
+<a class="block focus:outline-none" href="#">
+<span class="block text-brand-muted text-[13px] uppercase tracking-[2px] font-medium mb-2 group-hover:text-brand-black transition-colors">Practice</span>
+<h3 class="text-2xl md:text-3xl font-display text-brand-black group-hover:italic group-hover:text-primary transition-all duration-300">Returning to the Nature of Breath</h3>
+</a>
+</li>
+</ul>
+</div>
+</div>
+<!-- Keyboard Hint (Desktop only) -->
+<div class="hidden md:flex absolute bottom-8 right-12 items-center space-x-2 text-brand-muted">
+<span class="text-[13px] uppercase tracking-[1px] font-medium">Press</span>
+<kbd class="px-2 py-1 bg-brand-muted/10 rounded font-body text-xs text-brand-black border border-brand-muted/20 shadow-sm">Esc</kbd>
+<span class="text-[13px] uppercase tracking-[1px] font-medium">to close</span>
+</div>
+</div>
+</body></html>
