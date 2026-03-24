@@ -86,3 +86,6 @@
 [submodule "Projects/bakery"]
 	path = Projects/bakery
 	url = https://github.com/ImBajrangi/bakery.git
+[submodule "Projects/blog-react"]
+	path = Projects/blog-react
+	url = https://github.com/ImBajrangi/blog-react.git

@@ -69,7 +69,7 @@ const TopicSanctum = () => {
                                         <div className="flex flex-col">
                                             {filteredPosts.map((post) => (
                                                 <article key={post.id} className="group flex flex-col md:flex-row gap-8 items-center md:items-start w-full border-b border-[#E0E0E0] py-10 hover:bg-[#FFFFFF] transition-colors duration-300 px-4 md:-mx-4 md:px-4 rounded-xl cursor-pointer">
-                                                    <Link to={`/post/${post.id}`} className="flex flex-col md:flex-row gap-8 w-full">
+                                                    <Link to={`/post/${post.slug}`} className="flex flex-col md:flex-row gap-8 w-full">
                                                         <div className="shrink-0">
                                                             <div className="w-40 h-40 md:w-[200px] md:h-[200px] rounded-full overflow-hidden bg-[#E0E0E0] relative grayscale group-hover:grayscale-0 transition-all duration-500">
                                                                 <img src={post.image} alt={post.title} className="object-cover w-full h-full" />

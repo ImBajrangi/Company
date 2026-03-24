@@ -15,6 +15,7 @@ const mapContentToPost = (item) => {
     return {
         id: item.id,
         title: item.title,
+        slug: item.title.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-'),
         date: formattedDate,
         topic: item.category || 'Meditation',
         excerpt: item.description || (item.english_translation ? item.english_translation.substring(0, 150) + '...' : 'Peace in the silence...'),

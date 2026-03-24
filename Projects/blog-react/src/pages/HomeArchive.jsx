@@ -21,7 +21,7 @@ const HomeArchive = () => {
             {/* Featured Marquee */}
             {featuredPost && (
                 <section className="mb-32 cursor-pointer group">
-                    <Link to={`/post/${featuredPost.id}`} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-auto lg:h-[600px]">
+                    <Link to={`/post/${featuredPost.slug}`} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-auto lg:h-[600px]">
                         <div className="lg:col-span-8 h-[400px] lg:h-full w-full overflow-hidden rounded-full order-2 lg:order-1">
                             <img 
                                 alt={featuredPost.title} 
@@ -60,7 +60,7 @@ const HomeArchive = () => {
             <section className="masonry-grid">
                 {archivePosts.map((post) => (
                     <article key={post.id} className="masonry-item group cursor-pointer bg-white p-6 rounded-3xl border border-[#E0E0E0] hover:border-primary transition-colors duration-300">
-                        <Link to={`/post/${post.id}`}>
+                        <Link to={`/post/${post.slug}`}>
                             <div className={`w-full ${post.aspectRatio} overflow-hidden rounded-full mb-6`}>
                                 <img src={post.image} alt={post.title} className="w-full h-full object-cover grayscale-img" />
                             </div>

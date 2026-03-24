@@ -37,7 +37,7 @@ function App() {
           <Navbar onSearchOpen={() => setIsSearchOpen(true)} />
           <Routes>
             <Route path="/" element={<HomeArchive />} />
-            <Route path="/post/:id" element={<ReadingRoom />} />
+            <Route path="/post/:slug" element={<ReadingRoom />} />
             <Route path="/topics/:category" element={<TopicSanctum />} />
             <Route path="/topics" element={<TopicSanctum />} />
           </Routes>

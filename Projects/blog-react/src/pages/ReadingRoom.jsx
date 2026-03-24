@@ -5,26 +5,50 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 
 const ReadingRoom = () => {
-    const { id } = useParams();
-    const { getPostById, loading, posts } = useWisdom();
-    const post = getPostById(id);
+    const { slug } = useParams();
+    const { getPostBySlug, loading, posts } = useWisdom();
+    const post = getPostBySlug(slug);
 
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [id]);
+    }, [slug]);
 
     if (loading) return <div className="p-20 text-center font-display">Opening Wisdom...</div>;
     if (!post) return <div className="p-20 text-center font-display">Not Found.</div>;
 
-    const nextPost = posts.find(p => p.id !== post.id);
+    const nextPost = posts.find(p => p.slug !== post.slug);
+
+    // Schema.org Structured Data
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "image": post.image,
+        "datePublished": post.created_at || new Date().toISOString(),
+        "author": {
+            "@type": "Person",
+            "name": post.author
+        },
+        "description": post.excerpt,
+        "articleBody": post.content
+    };
 
     return (
         <main className="selection:bg-primary selection:text-white">
             <Helmet>
                 <title>{post.title} — Vrindopnishad</title>
+                <meta name="description" content={post.excerpt} />
+                <meta property="og:title" content={post.title} />
+                <meta property="og:description" content={post.excerpt} />
+                <meta property="og:image" content={post.image} />
+                <meta property="og:type" content="article" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <script type="application/ld+json">
+                    {JSON.stringify(jsonLd)}
+                </script>
             </Helmet>
 
             {/* Progress Bar */}
@@ -98,7 +122,7 @@ const ReadingRoom = () => {
 
             {/* Next Journey Block */}
             {nextPost && (
-                <Link to={`/post/${nextPost.id}`} className="block bg-cinema-dark text-surface-light py-24 px-6 md:px-12 text-center group cursor-pointer border-t border-white/10">
+                <Link to={`/post/${nextPost.slug}`} className="block bg-cinema-dark text-surface-light py-24 px-6 md:px-12 text-center group cursor-pointer border-t border-white/10">
                     <div className="max-w-[680px] mx-auto">
                         <p className="text-[13px] uppercase tracking-[2px] text-surface-light/50 mb-6">Next Journey</p>
                         <h2 className="font-display text-4xl md:text-5xl italic group-hover:text-primary transition-colors duration-300">{nextPost.title}</h2>
