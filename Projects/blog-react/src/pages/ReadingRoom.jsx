@@ -37,7 +37,7 @@ const ReadingRoom = () => {
     };
 
     return (
-        <main className="selection:bg-primary selection:text-white">
+        <main>
             <Helmet>
                 <title>{post.title} — Vrindopnishad</title>
                 <meta name="description" content={post.excerpt} />
@@ -105,9 +105,24 @@ const ReadingRoom = () => {
                         </div>
                     )}
                     
-                    <div className="prose-wisdom rich-text whitespace-pre-line text-text-main text-lg md:text-xl font-light leading-relaxed">
-                        {post.content || "Silence is the language of the soul..."}
-                    </div>
+                    {/* Bilingual Toggle Logic (Simpler: Render both with clear distinction) */}
+                    {post.hindi && (
+                        <div className="hindi-content font-hindi text-2xl md:text-3xl leading-[1.6] text-text-main/90 mb-16 border-l-2 border-primary/30 pl-8 py-4">
+                            {post.hindi}
+                        </div>
+                    )}
+
+                    {post.english && (
+                        <div className="prose-wisdom rich-text whitespace-pre-line text-text-main text-lg md:text-xl font-light leading-relaxed">
+                            {post.english}
+                        </div>
+                    )}
+
+                    {!post.hindi && !post.english && (
+                        <div className="prose-wisdom rich-text whitespace-pre-line text-text-main text-lg md:text-xl font-light leading-relaxed">
+                            {post.content || "Silence is the language of the soul..."}
+                        </div>
+                    )}
 
                     <figure className="my-24 w-full md:w-[1000px] md:-ml-[120px]">
                         <img 

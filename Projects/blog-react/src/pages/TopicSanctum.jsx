@@ -14,6 +14,8 @@ const TopicSanctum = () => {
     const currentTopic = category || (topics.length > 0 ? topics[0] : "Meditation");
     const filteredPosts = posts.filter(p => p.topic.toLowerCase() === currentTopic.toLowerCase());
 
+    const isHindi = (text) => /[ \u0900-\u097F]/.test(text);
+
     return (
         <div className="relative flex h-auto w-full flex-col bg-[#FAFAFA] group/design-root overflow-x-hidden font-display pt-10">
             <Helmet>
@@ -79,10 +81,10 @@ const TopicSanctum = () => {
                                                             <div className="text-[13px] uppercase tracking-[2px] text-[#8C8C8C] font-sans font-medium mb-3">
                                                                 {post.date} · 8 min read
                                                             </div>
-                                                            <h3 className="text-3xl md:text-4xl text-[#0A0A0A] font-medium leading-tight mb-4 group-hover:text-primary transition-colors">
+                                                            <h3 className={`text-3xl md:text-4xl text-[#0A0A0A] font-medium leading-tight mb-4 group-hover:text-primary transition-colors ${isHindi(post.title) ? 'font-hindi' : ''}`}>
                                                                 {post.title}
                                                             </h3>
-                                                            <p className="text-lg text-[#1A1A1A] leading-[1.8] font-sans line-clamp-2">
+                                                            <p className={`text-lg text-[#1A1A1A] leading-[1.8] font-sans line-clamp-2 ${isHindi(post.excerpt) ? 'font-hindi' : ''}`}>
                                                                 {post.excerpt}
                                                             </p>
                                                         </div>

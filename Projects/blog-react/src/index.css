@@ -2,6 +2,8 @@
  * Vrindopnishad Premium Blog - Market Ready 'Obsidian Glass' & 'Sacred Minimalism'
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Mukta:wght@200;300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@100..900&family=Laila:wght@300;400;500;600;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Teko:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&display=swap');
+
 :root {
     --primary: #1717cf;
     --divine-gold: #d4af37;
@@ -11,7 +13,12 @@
     --text-main: #FFFFFF;
     --text-muted: rgba(255, 255, 255, 0.6);
     --font-serif: 'Newsreader', serif;
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-sans: 'Poppins', 'Inter', system-ui, sans-serif;
+    --font-hindi: 'Mukta', sans-serif;
+    --font-hindi-display: 'Laila', serif;
+    --font-hindi-modern: 'Poppins', sans-serif;
+    --font-hindi-sacred: 'Teko', sans-serif;
+    --font-hindi-handwritten: 'Kalam', cursive;
     --transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -22,6 +29,17 @@ body {
     margin: 0;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+/* For potential light mode future-proofing */
+.light-mode ::selection {
+    background-color: #000000;
+    color: #FFFFFF;
 }
 
 /* Grainy Texture Overlay */
@@ -76,12 +94,22 @@ h1, h2, h3, h4 {
 
 /* Typography Enhancements */
 .italic-hover {
-    transition: var(--transition);
+    font-variation-settings: 'ital' 0;
+    transition: font-variation-settings 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .group:hover .italic-hover {
-    font-style: italic;
+    font-variation-settings: 'ital' 1;
     color: var(--divine-gold);
+}
+
+.title-hover-italic {
+    font-variation-settings: 'ital' 0;
+    transition: font-variation-settings 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .title-hover-italic {
+    font-variation-settings: 'ital' 1;
 }
 
 /* Featured Hero */

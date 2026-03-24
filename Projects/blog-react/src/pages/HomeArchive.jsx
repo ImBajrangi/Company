@@ -12,6 +12,8 @@ const HomeArchive = () => {
     const featuredPost = posts.find(p => p.featured);
     const archivePosts = posts.filter(p => !p.featured);
 
+    const isHindi = (text) => /[ \u0900-\u097F]/.test(text);
+
     return (
         <main className="w-full max-w-[1200px] mx-auto px-6 md:px-10 lg:px-[120px] pb-32 pt-10">
             <Helmet>
@@ -34,10 +36,10 @@ const HomeArchive = () => {
                                 <span className="w-8 h-[1px] bg-primary"></span>
                                 {featuredPost.date} · {featuredPost.topic}
                             </p>
-                            <h1 className="text-5xl md:text-[72px] font-normal leading-[1.1] text-[#0A0A0A] mb-8 title-hover-italic font-display">
+                            <h1 className={`text-5xl md:text-[72px] font-normal leading-[1.1] text-[#0A0A0A] mb-8 title-hover-italic ${isHindi(featuredPost.title) ? 'font-hindi' : 'font-display'}`}>
                                 {featuredPost.title}
                             </h1>
-                            <p className="text-[#8C8C8C] text-lg leading-[1.8] mb-8 line-clamp-3">
+                            <p className={`text-[#8C8C8C] text-lg leading-[1.8] mb-8 line-clamp-3 ${isHindi(featuredPost.excerpt) ? 'font-hindi' : 'font-light'}`}>
                                 {featuredPost.excerpt}
                             </p>
                             <div className="flex items-center gap-3 text-sm font-medium text-[#0A0A0A] group-hover:text-primary transition-colors">
@@ -68,10 +70,10 @@ const HomeArchive = () => {
                                 <p className="text-[#8C8C8C] text-[13px] font-medium tracking-[0.1em] uppercase">
                                     {post.date} · {post.topic}
                                 </p>
-                                <h3 className="text-3xl font-normal leading-[1.2] text-[#0A0A0A] title-hover-italic font-display">
+                                <h3 className={`text-3xl font-normal leading-[1.2] text-[#0A0A0A] title-hover-italic ${isHindi(post.title) ? 'font-hindi' : 'font-display'}`}>
                                     {post.title}
                                 </h3>
-                                <p className="text-[#8C8C8C] text-base leading-relaxed mt-2 line-clamp-2">
+                                <p className={`text-[#8C8C8C] text-base leading-relaxed mt-2 line-clamp-2 ${isHindi(post.excerpt) ? 'font-hindi' : ''}`}>
                                     {post.excerpt}
                                 </p>
                             </div>
