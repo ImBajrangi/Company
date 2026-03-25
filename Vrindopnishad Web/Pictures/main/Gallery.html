@@ -61,11 +61,12 @@
         "@context": "https://schema.org",
         "@graph": [
             {
-                "@type": "Organization",
-                "@id": "https://vrindopnishad.in/#organization",
-                "name": "Vrindopnishad",
-                "url": "https://vrindopnishad.in/",
-                "logo": "https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png"
+                "@type": "WebSite",
+                "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html#website",
+                "name": "Chitra Vrinda",
+                "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html",
+                "publisher": { "@id": "https://vrindopnishad.in/#organization" },
+                "description": "Divine spiritual art gallery showcasing sacred photography and Vedic imagery from Vrindavan."
             },
             {
                 "@type": "ArtGallery",
@@ -73,16 +74,6 @@
                 "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html",
                 "image": "https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png",
                 "description": "A digital gallery showcasing spiritual and Vedic art.",
-                "telephone": "+91-000-0000000",
-                "priceRange": "$$",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Vrindavan",
-                    "addressLocality": "Mathura",
-                    "addressRegion": "UP",
-                    "postalCode": "281121",
-                    "addressCountry": "IN"
-                },
                 "parentOrganization": { "@id": "https://vrindopnishad.in/#organization" }
             },
             {
@@ -90,7 +81,61 @@
                 "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html#webpage",
                 "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html",
                 "name": "Chitra Vrinda | Spiritual Art Gallery",
-                "isPartOf": { "@id": "https://vrindopnishad.in/#website" }
+                "isPartOf": { "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html#website" }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://vrindopnishad.in/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Gallery",
+                        "item": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html"
+                    }
+                ]
+            },
+            {
+                "@type": "SiteNavigationElement",
+                "name": "Chitra Vrinda Navigation",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Featured Collections",
+                        "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html#featured-slider"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Popular Now",
+                        "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html#popular-slider"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Photos",
+                        "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/photos.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "About",
+                        "url": "https://vrindopnishad.in/Vrindopnishad%20Web/about%20code/main/about.html"
+                    }
+                ]
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://vrindopnishad.in/#organization",
+                "name": "Vrindopnishad",
+                "url": "https://vrindopnishad.in/",
+                "logo": "https://vrindopnishad.in/Vrindopnishad%20Web/class/logo/v-logo.png"
             }
         ]
     }
