@@ -86,3 +86,6 @@
 [submodule "Projects/bakery"]
 	path = Projects/bakery
 	url = https://github.com/ImBajrangi/bakery.git
+[submodule "Projects/blogVrinda"]
+	path = Projects/blogVrinda
+	url = ../blogVrinda.git
