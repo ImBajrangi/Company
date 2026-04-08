@@ -5,7 +5,7 @@
     <link rel="icon" href="../../class/logo/v-logo-transparent.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vrindopnishad - Sacred Content & Spiritual Wisdom</title>
+    <title>वृंदोपनिषद् - Vrindopnishad | Sacred Content & Spiritual Wisdom</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description"
@@ -13,19 +13,20 @@
     <meta name="keywords"
         content="Vrindopnishad, Harivansh Mahaprabhu, Radha Vallabh, Braj, Vrindavan, Sacred Poetry, Spiritual Wisdom, Bhakti, Devotion">
     <meta name="author" content="Vrindopnishad">
-    <link rel="canonical" href="https://vrindopnishad.web.app/sketch/main/new-read-me.html">
+    <link rel="canonical" href="https://vrindopnishad.in/sketch/main/new-read-me.html">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vrindopnishad.web.app/">
-    <meta property="og:title" content="Vrindopnishad - Sacred Content & Spiritual Wisdom">
+    <meta property="og:url" content="https://vrindopnishad.in/">
+    <meta property="og:title" content="वृंदोपनिषद् - Vrindopnishad | Sacred Content & Spiritual Wisdom">
     <meta property="og:description" content="A sacred digital sanctuary for devotional poetry and spiritual wisdom.">
     <meta property="og:image" content="../../class/logo/v-logo-transparent.png">
+    <meta property="og:site_name" content="वृंदोपनिषद् - Vrindopnishad">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://vrindopnishad.web.app/">
-    <meta property="twitter:title" content="Vrindopnishad - Sacred Content & Spiritual Wisdom">
+    <meta property="twitter:url" content="https://vrindopnishad.in/">
+    <meta property="twitter:title" content="वृंदोपनिषद् - Vrindopnishad | Sacred Content & Spiritual Wisdom">
     <meta property="twitter:description"
         content="A sacred digital sanctuary for devotional poetry and spiritual wisdom.">
     <meta property="twitter:image" content="../../class/logo/v-logo-transparent.png">
@@ -35,11 +36,11 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Vrindopnishad",
-      "url": "https://vrindopnishad.web.app/",
+      "name": "वृंदोपनिषद् - Vrindopnishad",
+      "url": "https://vrindopnishad.in/",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://vrindopnishad.web.app/sketch/main/new-read-me.html?q={search_term_string}",
+        "target": "https://vrindopnishad.in/sketch/main/new-read-me.html?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }
@@ -2096,7 +2097,7 @@
                 authorDisplay.style.opacity = '1';
 
                 // Set page title for better UX/SEO
-                document.title = `${dynamicTitle.textContent} - Vrindopnishad`;
+                document.title = `${dynamicTitle.textContent} | वृंदोपनिषद्`;
             }, 250);
 
             if (currentEntry.audio_url) {
@@ -2391,10 +2392,14 @@
 
             // Update Open Graph Tags
             let ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', `${title} - Vrindopnishad`);
+            if (ogTitle) ogTitle.setAttribute('content', `${title} | वृंदोपनिषद्`);
 
             let ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.setAttribute('content', description);
+
+            // Twitter Title
+            let twitterTitle = document.querySelector('meta[property="twitter:title"]');
+            if (twitterTitle) twitterTitle.setAttribute('content', `${title} | वृंदोपनिषद्`);
         }
 
         // Deep Linking Support
@@ -2486,7 +2491,7 @@
             backBtn.style.display = 'none';
             dynamicTitle.textContent = '';
             authorDisplay.textContent = '';
-            document.title = 'Vrindopnishad - Sacred Content & Spiritual Wisdom';
+            document.title = 'वृंदोपनिषद् - Vrindopnishad | Sacred Content & Spiritual Wisdom';
 
             // Zen Mode cleanup
             if (zenMode) document.getElementById('zenToggle').click();
