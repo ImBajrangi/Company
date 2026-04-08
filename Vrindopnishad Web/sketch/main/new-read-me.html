@@ -2202,7 +2202,7 @@
                     const title = (entry.images && entry.images[idx] && entry.images[idx].title) || 'Sacred Darshan';
                     return `
                                 <div class="media-item">
-                                    <img src="${fullUrl}" alt="${title}" loading="lazy" onclick="openImageModal('${url}', '${title}')">
+                                    <img src="${fullUrl}" alt="${title} - वृंदोपनिषद् - Vrindopnishad" loading="lazy" onclick="openImageModal('${url}', '${title}')">
                                     <p class="media-caption">${title}</p>
                                 </div>
                             `;
@@ -2254,7 +2254,7 @@
                 <div class="modal-backdrop" onclick="closeImageModal()"></div>
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeImageModal()">×</button>
-                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${src}" alt="${title}" class="modal-image">
+                    <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/sketch/main/${src}" alt="${title} - वृंदोपनिषद् - Vrindopnishad" class="modal-image">
                     <p class="modal-title">${title}</p>
                 </div>
             `;
