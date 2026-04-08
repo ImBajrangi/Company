@@ -45,6 +45,8 @@
       }
     }
     </script>
+    <!-- Breadcrumb Structured Data -->
+    <script id="breadcrumb-schema" type="application/ld+json">{}</script>
 
     <!-- Professional Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Laila:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -2097,7 +2099,8 @@
                 authorDisplay.style.opacity = '1';
 
                 // Set page title for better UX/SEO
-                document.title = `${dynamicTitle.textContent} | वृंदोपनिषद्`;
+                const fullTitle = `${dynamicTitle.textContent} - ${currentEntry.author || currentEntry.description || 'श्री हरिवंश'}`;
+                document.title = `${fullTitle} | वृंदोपनिषद्`;
             }, 250);
 
             if (currentEntry.audio_url) {
@@ -2384,22 +2387,56 @@
         // Dynamic SEO Update
         function updateSEOForEntry(entry) {
             const title = entry.title || 'Sacred Content';
-            const description = entry.description || entry.content?.excerpt || 'Discover sacred teachings and devotional poetry.';
+            const author = entry.author || entry.description || 'श्री हरिवंश';
+            const fullTitleWithAuthor = `${title} - ${author}`;
+            
+            // Format dynamic verse-specific snippet from actual content
+            let contentBody = entry.content_text || entry.content?.content || '';
+            let snippet = contentBody.replace(/[\r\n]+/g, ' ').substring(0, 160).trim();
+            const finalDescription = snippet || entry.description || 'Devotional poetry and sacred spiritual wisdom.';
 
             // Update Meta Description
             let metaDesc = document.querySelector('meta[name="description"]');
-            if (metaDesc) metaDesc.setAttribute('content', description);
+            if (metaDesc) metaDesc.setAttribute('content', finalDescription);
 
             // Update Open Graph Tags
             let ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', `${title} | वृंदोपनिषद्`);
+            if (ogTitle) ogTitle.setAttribute('content', `${fullTitleWithAuthor} | वृंदोपनिषद्`);
 
             let ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.setAttribute('content', description);
+            if (ogDesc) ogDesc.setAttribute('content', finalDescription);
 
             // Twitter Title
             let twitterTitle = document.querySelector('meta[property="twitter:title"]');
-            if (twitterTitle) twitterTitle.setAttribute('content', `${title} | वृंदोपनिषद्`);
+            if (twitterTitle) twitterTitle.setAttribute('content', `${fullTitleWithAuthor} | वृंदोपनिषद्`);
+
+            // Update Breadcrumb Schema
+            const breadcrumb = {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://vrindopnishad.in/sketch/main/new-read-me.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": entry.category || "Sacred Content",
+                        "item": `https://vrindopnishad.in/sketch/main/new-read-me.html`
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": title,
+                        "item": window.location.href
+                    }
+                ]
+            };
+            const bcSchema = document.getElementById('breadcrumb-schema');
+            if (bcSchema) bcSchema.textContent = JSON.stringify(breadcrumb);
         }
 
         // Deep Linking Support
@@ -2504,6 +2541,19 @@
 
             // Reset URL params (removes hash)
             history.pushState("", document.title, window.location.pathname + window.location.search);
+
+            // Reset Breadcrumb Schema
+            const bcSchema = document.getElementById('breadcrumb-schema');
+            if (bcSchema) bcSchema.textContent = '{}';
+
+            // Reset Meta Descriptions
+            const defaultDesc = "Vrindopnishad - Vrindopnishad | Sacred Content & Spiritual Wisdom";
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', defaultDesc);
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.setAttribute('content', defaultDesc);
+            const twitterDesc = document.querySelector('meta[property="twitter:description"]');
+            if (twitterDesc) twitterDesc.setAttribute('content', defaultDesc);
         });
 
         const menuCheckbox = document.getElementById('menuCheckbox');
