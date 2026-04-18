@@ -233,7 +233,6 @@ function generateCollectionItems(containerId, items) {
                         <span itemprop="artform">${item.count || item.itemCount || 0} images</span>
                     </span>
                     ${item.rating ? `<span class="item-rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="ratingValue" content="${item.rating}"><meta itemprop="ratingCount" content="${item.ratingCount || 1}"><i class="fas fa-star"></i> ${item.rating.toFixed(1)}</span>` : ''}
-                    <span class="price-tag">₹${item.price || 501}</span>
                 </div>
                 <!-- Quick Add Action -->
                 <button class="quick-add-btn" title="Add to Bag">
@@ -654,7 +653,7 @@ function openPopup(item) {
 
         newBtn.addEventListener('click', () => {
             if (item && item.id) {
-                // *** FIXED: Prepare complete collection data directly from the 'item' (from JSON)
+                // Prepare complete collection data from the item
                 const detailsData = {
                     id: item.id,
                     title: item.title,
@@ -665,10 +664,10 @@ function openPopup(item) {
                     views: item.views || 0,
                     year: item.year || '2024',
                     image: item.image,
-                    // *** Use data from the 'item' object (from JSON)
                     images: item.images || [item.image],
-                    price: item.price, // <-- *** USING item.price DIRECTLY FROM JSON
-                    tags: item.tags || []
+                    price: item.price || 501,
+                    tags: item.tags || [],
+                    cat_section: item.cat_section || ''
                 };
 
                 // Store in sessionStorage for the details page

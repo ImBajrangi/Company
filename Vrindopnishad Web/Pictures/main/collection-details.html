@@ -61,6 +61,8 @@
     <script src="../../js/popup-checker.js?v=1.0.1"></script>
     <script src="../../web-extentions/Cookie Consent/cookie-consent.js?v=1.0.1"></script>
     <script src="../js/cart-logic.js"></script>
+    <!-- Gallery Fallback Data (enables direct URL access & refresh) -->
+    <script src="../js/gallery-data.js"></script>
     <!-- Firebase & Shared Auth -->
     <script type="importmap">
     {
@@ -1665,7 +1667,7 @@
 
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobile-menu">
-        <a href="/" class="mobile-menu-link">Home</a>
+        <a href="#" class="mobile-menu-link">Home</a>
         <a href="Gallery.html" class="mobile-menu-link">Gallery</a>
         <a href="photos.html" class="mobile-menu-link">Collections</a>
         <a href="../../about code/main/about.html" class="mobile-menu-link">About</a>
@@ -1677,7 +1679,7 @@
     <!-- Header -->
     <header class="main-header">
         <div class="header-content">
-            <a href="/" class="logo">Vrindopnishad</a>
+            <a href="Gallery.html" class="logo">Vrindopnishad</a>
             <nav class="main-nav">
                 <a href="Gallery.html">Gallery</a>
                 <a href="photos.html">Collections</a>
@@ -1743,7 +1745,7 @@
                 <div class="price-section">
                     <p class="price-label">From</p>
                     <p class="price" id="product-price">₹2,999</p>
-                    <p class="price-note">Or ₹249/mo. for 12 months</p>
+                    <p class="price-note" id="price-emi-note">Or ₹249/mo. for 12 months</p>
                 </div>
 
                 <div class="action-buttons">
@@ -1931,42 +1933,98 @@
     </footer>
 
     <script>
-        // The page now uses window.V_Cart (cart-logic.js) for all e-commerce state.
-        
-        // --- *** REMOVED hardcoded collectionsData. It will now be loaded from sessionStorage. *** ---
+        // The page uses window.V_Cart (cart-logic.js) for all e-commerce state.
+        // Declare globals used throughout
+        let isUserLoggedIn = false;
+        let purchasedItems = {};
+
+        // Sync purchasedItems from V_Cart when available
+        if (window.V_Cart) purchasedItems = window.V_Cart.purchased || {};
+
+        // Helper: showToast via V_Cart or fallback
+        function showToast(message, type) {
+            if (window.V_Cart && window.V_Cart.showToast) {
+                window.V_Cart.showToast(message, type);
+            } else {
+                console.log('[Toast]', type, message);
+            }
+        }
+
+        // Helper: toggleBag via V_Cart
+        function toggleBag() {
+            if (window.V_Cart) window.V_Cart.toggleBag();
+        }
+        function toggleFavorites() {
+            if (window.V_Cart) window.V_Cart.toggleFavorites();
+        }
+        function togglePurchased() {
+            if (window.V_Cart) window.V_Cart.togglePurchased();
+        }
+        function removeFromBag(id) {
+            if (window.V_Cart) window.V_Cart.removeFromBag(id);
+        }
+        function removeFromFavorites(item) {
+            if (window.V_Cart) window.V_Cart.addToFavorites(item);
+        }
 
         // Get collection ID from URL
         function getCollectionIdFromURL() {
             const params = new URLSearchParams(window.location.search);
-            return params.get('id'); // *** REMOVED fallback 'sacred-temples'
+            return params.get('id');
         }
 
-        // --- *** UPDATED: findCollection Function *** ---
-        // This function now *only* gets the specific item's data from sessionStorage.
+        // findCollection: Check sessionStorage first, then fallback to galleryFallbackData
         function findCollection(id) {
+            if (!id) return null;
             console.log('Looking for collection:', id);
 
-            // 1. Check sessionStorage for 'collectionData'
+            // 1. Check sessionStorage for exact item
             const sessionData = sessionStorage.getItem('collectionData');
             if (sessionData) {
                 try {
                     const data = JSON.parse(sessionData);
-                    // IMPORTANT: Check if the ID from sessionStorage MATCHES the ID from the URL.
                     if (data.id === id) {
-                        console.log('✓ Using data from sessionStorage.');
+                        console.log('✓ Found in sessionStorage (collectionData)');
                         return data;
-                    } else {
-                        console.warn('Session data ID does not match URL ID.');
-                        return null; // Mismatch, return null
                     }
                 } catch (e) {
-                    console.error('Error parsing sessionStorage data:', e);
-                    return null; // Error, return null
+                    console.error('Error parsing sessionStorage collectionData:', e);
                 }
             }
 
-            // 2. Return null if nothing found
-            console.warn('⚠ No data found in sessionStorage for ID:', id);
+            // 2. Check allCollectionsData in sessionStorage
+            const allJson = sessionStorage.getItem('allCollectionsData');
+            if (allJson) {
+                try {
+                    const allCollections = JSON.parse(allJson);
+                    const allItems = Object.values(allCollections).flatMap(cat => cat.items || []);
+                    const found = allItems.find(item => item.id === id);
+                    if (found) {
+                        console.log('✓ Found in sessionStorage (allCollectionsData)');
+                        // Cache it for future use
+                        sessionStorage.setItem('collectionData', JSON.stringify(found));
+                        return found;
+                    }
+                } catch (e) {
+                    console.error('Error parsing allCollectionsData:', e);
+                }
+            }
+
+            // 3. Fallback to galleryFallbackData (loaded from gallery-data.js)
+            if (window.galleryFallbackData) {
+                const collections = window.galleryFallbackData.collections || window.galleryFallbackData;
+                const allItems = Object.values(collections).flatMap(cat => cat.items || []);
+                const found = allItems.find(item => item.id === id);
+                if (found) {
+                    console.log('✓ Found in galleryFallbackData (direct URL/refresh)');
+                    // Populate session so recommendations and search work
+                    sessionStorage.setItem('collectionData', JSON.stringify(found));
+                    sessionStorage.setItem('allCollectionsData', JSON.stringify(collections));
+                    return found;
+                }
+            }
+
+            console.warn('⚠ Collection not found for ID:', id);
             return null;
         }
 
@@ -2003,9 +2061,16 @@
             // *** FIXED: Now correctly uses the price from the sessionData item
             document.getElementById('product-title').textContent = item.title;
             document.getElementById('product-subtitle').textContent = item.description;
-            document.getElementById('product-price').textContent = formatPrice(item.price);
-            document.getElementById('product-stars').innerHTML = renderStars(item.rating);
-            document.getElementById('rating-text').textContent = `(${item.rating.toFixed(1)})`;
+            const itemPrice = item.price || 501;
+            document.getElementById('product-price').textContent = formatPrice(itemPrice);
+            // Dynamic EMI calculation
+            const emiNote = document.getElementById('price-emi-note');
+            if (emiNote) {
+                const emi = Math.ceil(itemPrice / 12);
+                emiNote.textContent = `Or ${formatPrice(emi)}/mo. for 12 months`;
+            }
+            document.getElementById('product-stars').innerHTML = renderStars(item.rating || 4.5);
+            document.getElementById('rating-text').textContent = `(${(item.rating || 4.5).toFixed(1)})`;
             document.title = `${item.title} - Vrindopnishad`;
 
             // Get actual images from collection or use main image as fallback
@@ -2119,7 +2184,7 @@
                 downloadBtn.onclick = () => {
                     const purchaseData = window.V_Cart.purchased[item.id];
                     const paymentId = purchaseData ? purchaseData.paymentId : 'N/A (Already Owned)';
-                    downloadCollection(item, paymentId); 
+                    downloadCollection(item, paymentId);
                 };
                 actionButtons.appendChild(downloadBtn);
 
@@ -2147,7 +2212,7 @@
             if (wishlistBtn) {
                 if (isFavorite) {
                     wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
-                    wishlistBtn.classList.add('liked-btn'); 
+                    wishlistBtn.classList.add('liked-btn');
                 } else {
                     wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Add to Favorites';
                     wishlistBtn.classList.remove('liked-btn');
@@ -2728,7 +2793,7 @@
         const purchasedClose = document.getElementById('purchased-close');
         if (purchasedToggle) purchasedToggle.addEventListener('click', togglePurchased);
         if (purchasedClose) purchasedClose.addEventListener('click', togglePurchased);
-                                  
+
         // --- End of consolidated toggles ---
 
         const searchToggle = document.getElementById('search-toggle');
@@ -2758,6 +2823,7 @@
             }
         });
 
+        // Export functions to window for onclick handlers
         window.removeFromBag = removeFromBag;
         window.removeFromFavorites = removeFromFavorites;
         window.viewCollection = viewCollection;
@@ -2766,6 +2832,8 @@
         window.toggleBag = toggleBag;
         window.toggleFavorites = toggleFavorites;
         window.togglePurchased = togglePurchased;
+        window.showToast = showToast;
+        window.downloadCollection = downloadCollection;
 
         document.addEventListener('DOMContentLoaded', async () => {
             console.log('=== Collection Details Page Initializing ===');
@@ -2794,7 +2862,7 @@
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>No Collection Specified</h2>
                         <p>Please return to the gallery and select a collection.</p>
-                        <a href="/Vrindopnishad%20Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                        <a href="Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                     </div>
@@ -2816,7 +2884,7 @@
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <h2>Collection Not Found</h2>
                         <p>Sorry, we couldn't find the details for this collection. Please return to the gallery.</p>
-                        <a href="/Vrindopnishad Web/Pictures/main/Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
+                        <a href="Gallery.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                     </div>
