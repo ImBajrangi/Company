@@ -21,6 +21,21 @@ import {
     onValue,
     remove
 } from "firebase/database";
+import {
+    getFirestore,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    setDoc,
+    addDoc,
+    deleteDoc,
+    updateDoc,
+    onSnapshot,
+    query,
+    where,
+    orderBy
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -44,6 +59,13 @@ try {
 } catch (err) {
     console.warn("Firebase Database could not be initialized:", err);
     db = null;
+}
+let firestore;
+try {
+    firestore = getFirestore(app);
+} catch (err) {
+    console.warn("Firestore could not be initialized:", err);
+    firestore = null;
 }
 
 // Keep a local cached user state to avoid async delays where possible
@@ -434,11 +456,27 @@ const AuthService = {
         return onAuthStateChanged(auth, (user) => {
             callback('SIGNED_IN_OR_OUT', user);
         });
-    }
+    },
+
+    // ========== FIRESTORE METHODS ==========
+    firestore: null, // set after init
+    fsCollection(path) { return collection(firestore, path); },
+    fsDoc(path, id) { return id ? doc(firestore, path, id) : doc(firestore, path); },
+    fsGet(docRef) { return getDoc(docRef); },
+    fsGetAll(colRef) { return getDocs(colRef); },
+    fsSet(docRef, data, opts) { return setDoc(docRef, data, opts || {}); },
+    fsAdd(colRef, data) { return addDoc(colRef, data); },
+    fsDelete(docRef) { return deleteDoc(docRef); },
+    fsUpdate(docRef, data) { return updateDoc(docRef, data); },
+    fsOnSnapshot(ref, callback) { return onSnapshot(ref, callback); },
+    fsQuery(colRef, ...constraints) { return query(colRef, ...constraints); },
+    fsWhere: where,
+    fsOrderBy: orderBy
 };
 
 // Initial setup
 AuthService.injectStyles();
+AuthService.firestore = firestore;
 window.AuthService = AuthService;
 
 // Auto-initialize UI if the standard button ID is found
