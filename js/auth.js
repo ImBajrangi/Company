@@ -2,7 +2,7 @@
  * Vrindopnishad Shared Authentication Service
  * Manages unified login state across all sub-domains and projects using Firebase.
  */
-// Define base URL for the project root (one level up from this script in js/)
+// Compute login URL: auth.js lives at /js/auth.js, so ../login.html → /login.html
 const LOGIN_URL = new URL('../login.html', import.meta.url).href;
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -17,13 +17,16 @@ import {
     set,
     get,
     push,
-    child
+    child,
+    onValue,
+    remove
 } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCxBytUXjMdhBQfSjjuaIGfcXZe8N0WkH0",
     authDomain: "login-me-vrinda.firebaseapp.com",
+    databaseURL: "https://login-me-vrinda-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "login-me-vrinda",
     storageBucket: "login-me-vrinda.firebasestorage.app",
     messagingSenderId: "1019370299171",
@@ -35,7 +38,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-const db = getDatabase(app);
+let db;
+try {
+    db = getDatabase(app);
+} catch (err) {
+    console.warn("Firebase Database could not be initialized:", err);
+    db = null;
+}
 
 // Keep a local cached user state to avoid async delays where possible
 let currentUser = null;
@@ -62,8 +71,20 @@ const ensureAuthInitialized = () => {
 };
 
 const AuthService = {
-    // Expose firebase auth instance for pages that need deeper integration
+    // Expose firebase auth and db instances for pages that need deeper integration
     auth,
+    db,
+
+    /**
+     * Database utility methods — allows any page to use Firebase DB
+     * without needing ES module imports.
+     */
+    dbRef(path) { return ref(db, path); },
+    dbGet(dbRef) { return get(dbRef); },
+    dbSet(dbRef, data) { return set(dbRef, data); },
+    dbPush(dbRef, data) { return push(dbRef, data); },
+    dbRemove(dbRef) { return remove(dbRef); },
+    dbOnValue(dbRef, callback) { return onValue(dbRef, callback); },
 
     /**
      * Get current user session
@@ -224,8 +245,9 @@ const AuthService = {
             const avatarUrl = this.getAvatarUrl(user);
 
             if (avatarUrl) {
-                // Show profile picture
-                button.innerHTML = `<img class="auth-avatar" src="${avatarUrl}" alt="Profile" onerror="this.parentElement.innerHTML='<div class=\'auth-initials\'>${this.getInitials(user)}</div>'" />`;
+                // Show profile picture — pre-compute initials for onerror fallback
+                const initials = this.getInitials(user);
+                button.innerHTML = `<img class="auth-avatar" src="${avatarUrl}" alt="Profile" onerror="this.parentElement.innerHTML='<div class=\'auth-initials\'>${initials}</div>'" />`;
             } else {
                 // Show initials
                 const initials = this.getInitials(user);
