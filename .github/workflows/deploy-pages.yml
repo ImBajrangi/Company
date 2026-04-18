@@ -22,11 +22,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout with submodules
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
+
+      - name: Checkout submodules
+        run: |
+          git submodule init
+          # Only update submodules that are public / accessible
+          git submodule update --depth 1 --jobs 4 || true
+          # Force update Vrinda-Tours specifically
+          git submodule update --depth 1 Projects/Vrinda-Tours || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
