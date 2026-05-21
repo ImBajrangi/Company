@@ -343,6 +343,37 @@ header.scrolled {
     transform: scale(1.1);
 }
 
+/* Dynamic theme logo swapping support */
+.logo-dark-theme {
+    display: none !important;
+}
+.logo-light-theme {
+    display: inline-block !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    .logo-dark-theme {
+        display: inline-block !important;
+    }
+    .logo-light-theme {
+        display: none !important;
+    }
+}
+
+body.dark-mode .logo-dark-theme {
+    display: inline-block !important;
+}
+body.dark-mode .logo-light-theme {
+    display: none !important;
+}
+
+body.light-mode .logo-dark-theme {
+    display: none !important;
+}
+body.light-mode .logo-light-theme {
+    display: inline-block !important;
+}
+
 .header-right {
     display: flex;
     align-items: center;

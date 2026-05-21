@@ -7,12 +7,23 @@
     <title>404 - Page Not Found | Vrindopnishad</title>
     <!-- Modern Rounded Vrindopnishad Favicon -->
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Light Theme Favicon (Dark Pixels) -->
+    <link rel="icon" href="/favicon-light-theme.ico" sizes="48x48" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32-light-theme.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16-light-theme.png" media="(prefers-color-scheme: light)">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-light-theme.png" media="(prefers-color-scheme: light)">
+    
+    <!-- Dark Theme Favicon (Light Pixels) -->
+    <link rel="icon" href="/favicon-dark-theme.ico" sizes="48x48" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32-dark-theme.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16-dark-theme.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-dark-theme.png" media="(prefers-color-scheme: dark)">
+    
     <link rel="manifest" href="/site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Laila:wght@400;600&display=swap"
         rel="stylesheet">
@@ -104,6 +115,23 @@
             animation: fadeInUp 0.8s ease forwards;
         }
 
+        /* Dynamic theme logo swapping support */
+        .logo-light-theme {
+            display: none !important;
+        }
+        .logo-dark-theme {
+            display: inline-block !important;
+        }
+
+        @media (prefers-color-scheme: light) {
+            .logo-light-theme {
+                display: inline-block !important;
+            }
+            .logo-dark-theme {
+                display: none !important;
+            }
+        }
+
         h1 {
             font-size: clamp(4rem, 15vw, 8rem);
             font-weight: 800;
@@ -188,8 +216,10 @@
     <div class="overlay"></div>
 
     <div class="container">
-        <img src="https://imbajrangi.github.io/Company/Vrindopnishad%20Web/class/logo/v-logo.png"
-            alt="Vrindopnishad Logo" class="logo">
+        <img src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg"
+            alt="Vrindopnishad Logo" class="logo logo-light-theme">
+        <img src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo-dark.svg"
+            alt="Vrindopnishad Logo" class="logo logo-dark-theme">
         <h1>404</h1>
         <div class="hindi-text">यह मार्ग उपलब्ध नहीं है</div>
         <p>The sanctuary you're looking for seems to have moved. Enjoy this random visual experiment while we guide you

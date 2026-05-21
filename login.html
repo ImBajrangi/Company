@@ -106,6 +106,23 @@
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
+        /* Dynamic theme logo swapping support */
+        .logo-dark-theme {
+            display: none !important;
+        }
+        .logo-light-theme {
+            display: inline-block !important;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .logo-dark-theme {
+                display: inline-block !important;
+            }
+            .logo-light-theme {
+                display: none !important;
+            }
+        }
+
         h1 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -309,14 +326,26 @@
   <!-- Global Vrindopnishad Favicon -->
   <link rel="icon" href="https://vrindopnishad.in/favicon.ico" sizes="48x48">
   <link rel="icon" href="https://vrindopnishad.in/favicon.svg" type="image/svg+xml">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png">
+  
+  <!-- Light Theme Favicon (Dark Pixels) -->
+  <link rel="icon" href="https://vrindopnishad.in/favicon-light-theme.ico" sizes="48x48" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon-32x32-light-theme.png" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://vrindopnishad.in/favicon-16x16-light-theme.png" media="(prefers-color-scheme: light)">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon-light-theme.png" media="(prefers-color-scheme: light)">
+  
+  <!-- Dark Theme Favicon (Light Pixels) -->
+  <link rel="icon" href="https://vrindopnishad.in/favicon-dark-theme.ico" sizes="48x48" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon-32x32-dark-theme.png" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://vrindopnishad.in/favicon-16x16-dark-theme.png" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon-dark-theme.png" media="(prefers-color-scheme: dark)">
 </head>
 
 <body class="fade-in">
     <div class="login-container">
         <div class="header">
-            <img src="Vrindopnishad Web/class/v-logo-rounded/android-chrome-192x192.png" alt="Logo" class="logo">
+            <img src="Vrindopnishad Web/class/v-logo-rounded/official-logo.svg" alt="Logo" class="logo logo-light-theme">
+            <img src="Vrindopnishad Web/class/v-logo-rounded/official-logo-dark.svg" alt="Logo" class="logo logo-dark-theme">
             <h1>Welcome Back</h1>
             <p class="subtitle">Enter your sanctuary of wisdom</p>
         </div>
