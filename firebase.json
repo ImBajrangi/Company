@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": ".",
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
       "database.rules.json",
@@ -10,6 +11,64 @@
       "Projects/**",
       "**/node_modules/**",
       "**/.venv/**"
+    ],
+    "redirects": [
+      {
+        "source": "/Vrindopnishad Web/about code/main/about.html",
+        "destination": "/about",
+        "type": 301
+      },
+      {
+        "source": "/Vrindopnishad Web/Pictures/main/Gallery.html",
+        "destination": "/gallery",
+        "type": 301
+      },
+      {
+        "source": "/Vrindopnishad Web/Pictures/main/photos.html",
+        "destination": "/photos",
+        "type": 301
+      },
+      {
+        "source": "/Vrindopnishad Web/pdf/main/pdf-viewer.html",
+        "destination": "/pdf",
+        "type": 301
+      },
+      {
+        "source": "/Projects/Cloud-Kitchen/kitchen.html",
+        "destination": "/kitchen",
+        "type": 301
+      },
+      {
+        "source": "/Projects/Vrinda-Tours/vrinda-tours.html",
+        "destination": "/yatra",
+        "type": 301
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/about",
+        "destination": "/Vrindopnishad Web/about code/main/about.html"
+      },
+      {
+        "source": "/gallery",
+        "destination": "/Vrindopnishad Web/Pictures/main/Gallery.html"
+      },
+      {
+        "source": "/photos",
+        "destination": "/Vrindopnishad Web/Pictures/main/photos.html"
+      },
+      {
+        "source": "/pdf",
+        "destination": "/Vrindopnishad Web/pdf/main/pdf-viewer.html"
+      },
+      {
+        "source": "/kitchen",
+        "destination": "/Projects/Cloud-Kitchen/kitchen.html"
+      },
+      {
+        "source": "/yatra",
+        "destination": "/Projects/Vrinda-Tours/vrinda-tours.html"
+      }
     ]
   }
 }
