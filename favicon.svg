@@ -11,9 +11,8 @@
             fill: rgb(128,128,128);
         }
         .shyam-shri-ellipse {
-            fill: none;
-            stroke: #000000;
-            stroke-width: 0.15px;
+            fill: #000000;
+            stroke: none;
         }
         @media (prefers-color-scheme: dark) {
             .bg {
@@ -32,7 +31,7 @@
         }
     </style>
     <circle class="bg" cx="136" cy="136" r="136" />
-    <g transform="matrix(0.78,0,0,0.78,29.92,35.0)">
+    <g transform="matrix(0.88,0,0,0.88,13.43,43.25)">
         <g transform="matrix(1,0,0,1,-418.083907,-98.227791)">
             <g id="Official-Brand-Logo">
                 <g transform="matrix(4.145086,-0.002331,0.002331,4.145086,392.989907,96.134588)">
