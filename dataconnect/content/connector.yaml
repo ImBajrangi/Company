@@ -1,0 +1,9 @@
+connectorId: content
+generate:
+  dartSdk:
+    - outputDir: ../../Projects/VrindaVaani/premium_app/lib/dataconnect_generated
+      package: dataconnect_generated/generated.dart
+      clientCache: {}
+  javascriptSdk:
+    outputDir: "../../Projects/VrindaVaani/frontend/src/lib/dataconnect"
+    package: "@vrindavaani/dataconnect"

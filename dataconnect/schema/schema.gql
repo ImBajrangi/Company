@@ -1,0 +1,29 @@
+# Vrindopnishad content schema
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+type Content @table(name: "content") {
+  id: UUID! @default(expr: "uuidV4()")
+  title: String!
+  sanskritText: String @col(name: "sanskrit_text")
+  hindiText: String @col(name: "hindi_text")
+  englishText: String @col(name: "english_text")
+  englishTranslation: String @col(name: "english_translation")
+  category: String! @index
+  description: String
+  contentText: String @col(name: "content_text")
+  tags: [String!] @default(value: [])
+  status: ContentStatus! @default(value: PUBLISHED)
+  author: String
+  mediaLinks: Any @col(name: "media_links") @default(value: [])
+  audioUrl: String @col(name: "audio_url")
+  imageUrls: [String!] @default(value: []) @col(name: "image_urls")
+  videoUrls: [String!] @default(value: []) @col(name: "video_urls")
+  slug: String! @unique
+  createdAt: Timestamp! @default(expr: "request.time") @col(name: "created_at")
+  updatedAt: Timestamp! @default(expr: "request.time") @col(name: "updated_at")
+}

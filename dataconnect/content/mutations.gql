@@ -1,0 +1,50 @@
+# Mutations for Vrindopnishad content library
+
+# Upsert a content record (Insert if not exists, otherwise update)
+mutation UpsertContent(
+  $id: UUID!
+  $title: String!
+  $sanskritText: String
+  $hindiText: String
+  $englishText: String
+  $englishTranslation: String
+  $category: String!
+  $description: String
+  $contentText: String
+  $tags: [String!]
+  $status: ContentStatus
+  $author: String
+  $mediaLinks: Any
+  $audioUrl: String
+  $imageUrls: [String!]
+  $videoUrls: [String!]
+  $slug: String!
+) @auth(level: USER, insecureReason: "Any signed-in user can update content entries as updates are publicly shared") {
+  content_upsert(
+    data: {
+      id: $id
+      title: $title
+      sanskritText: $sanskritText
+      hindiText: $hindiText
+      englishText: $englishText
+      englishTranslation: $englishTranslation
+      category: $category
+      description: $description
+      contentText: $contentText
+      tags: $tags
+      status: $status
+      author: $author
+      mediaLinks: $mediaLinks
+      audioUrl: $audioUrl
+      imageUrls: $imageUrls
+      videoUrls: $videoUrls
+      slug: $slug
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+# Delete content by ID
+mutation DeleteContent($id: UUID!) @auth(level: USER, insecureReason: "Any signed-in user can delete content entries as all changes are publicly shared and versioned") {
+  content_delete(id: $id)
+}

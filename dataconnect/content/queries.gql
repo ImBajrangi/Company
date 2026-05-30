@@ -1,0 +1,144 @@
+# Queries for Vrindopnishad content library
+
+# Get content item by ID
+query GetContentById($id: UUID!) @auth(level: PUBLIC, insecureReason: "Public content is intended to be publicly readable without auth") {
+  content(first: { where: { id: { eq: $id } } }) {
+    id
+    title
+    sanskritText
+    hindiText
+    englishText
+    englishTranslation
+    category
+    description
+    contentText
+    tags
+    status
+    author
+    mediaLinks
+    audioUrl
+    imageUrls
+    videoUrls
+    slug
+    createdAt
+    updatedAt
+  }
+}
+
+# Get content item by unique slug
+query GetContentBySlug($slug: String!) @auth(level: PUBLIC, insecureReason: "Public content is intended to be publicly readable without auth") {
+  content(first: { where: { slug: { eq: $slug } } }) {
+    id
+    title
+    sanskritText
+    hindiText
+    englishText
+    englishTranslation
+    category
+    description
+    contentText
+    tags
+    status
+    author
+    mediaLinks
+    audioUrl
+    imageUrls
+    videoUrls
+    slug
+    createdAt
+    updatedAt
+  }
+}
+
+# List content items with category filtering
+query ListContent($category: String!, $limit: Int) @auth(level: PUBLIC, insecureReason: "Public content is intended to be publicly readable without auth") {
+  contents(
+    where: {
+      category: { eq: $category }
+      status: { eq: PUBLISHED }
+    }
+    orderBy: [{ updatedAt: DESC }]
+    limit: $limit
+  ) {
+    id
+    title
+    sanskritText
+    hindiText
+    englishText
+    englishTranslation
+    category
+    description
+    contentText
+    tags
+    status
+    author
+    mediaLinks
+    audioUrl
+    imageUrls
+    videoUrls
+    slug
+    createdAt
+    updatedAt
+  }
+}
+
+# List all content items without category filtering
+query ListAllContent($limit: Int) @auth(level: PUBLIC, insecureReason: "Public content is intended to be publicly readable without auth") {
+  contents(
+    where: {
+      status: { eq: PUBLISHED }
+    }
+    orderBy: [{ updatedAt: DESC }]
+    limit: $limit
+  ) {
+    id
+    title
+    sanskritText
+    hindiText
+    englishText
+    englishTranslation
+    category
+    description
+    contentText
+    tags
+    status
+    author
+    mediaLinks
+    audioUrl
+    imageUrls
+    videoUrls
+    slug
+    createdAt
+    updatedAt
+  }
+}
+
+# Sync updates since last updated timestamp for delta sync
+query SyncContentUpdates($lastUpdated: Timestamp!) @auth(level: PUBLIC, insecureReason: "Public content is intended to be publicly readable without auth") {
+  contents(
+    where: {
+      updatedAt: { gt: $lastUpdated }
+    }
+    orderBy: [{ updatedAt: ASC }]
+  ) {
+    id
+    title
+    sanskritText
+    hindiText
+    englishText
+    englishTranslation
+    category
+    description
+    contentText
+    tags
+    status
+    author
+    mediaLinks
+    audioUrl
+    imageUrls
+    videoUrls
+    slug
+    createdAt
+    updatedAt
+  }
+}
