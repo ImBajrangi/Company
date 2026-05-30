@@ -23,8 +23,10 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig, cartCount, onCartClick
     }, []);
 
     const navLinks = [
-        { name: 'Home', href: '../../Home/main/home.html' },
-        { name: 'Gallery', href: 'Gallery.html', active: true },
+        { name: 'Home', href: 'https://vrindopnishad.in/' },
+        { name: 'Shop Gallery', href: '/', active: true },
+        { name: 'Collections', href: 'https://vrindopnishad.in/yatra' },
+        { name: 'About Us', href: 'https://vrindopnishad.in/about' }
     ];
 
     const categories = [
@@ -50,8 +52,8 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig, cartCount, onCartClick
                 </a>
 
                 <nav className="nav-menu">
-                    <a href="../../Home/main/home.html" className="nav-link">Home</a>
-                    <a href="Gallery.html" className="nav-link active">Gallery</a>
+                    <a href="https://vrindopnishad.in/" className="nav-link">Home</a>
+                    <a href="/" className="nav-link active">Shop Gallery</a>
                     
                     <div className="nav-dropdown">
                         <button className="nav-link dropdown-trigger" style={{ color: '#fff' }}>
@@ -66,8 +68,8 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig, cartCount, onCartClick
                         </div>
                     </div>
 
-                    <a href="../../Stack/main/stack.html" className="nav-link">Collections</a>
-                    <a href="../../about code/main/about.html" className="nav-link">About</a>
+                    <a href="https://vrindopnishad.in/yatra" className="nav-link">Collections</a>
+                    <a href="https://vrindopnishad.in/about" className="nav-link">About</a>
                 </nav>
 
                 <div className="header-actions">
