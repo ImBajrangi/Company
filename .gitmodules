@@ -89,3 +89,6 @@
 [submodule "Projects/blogVrinda"]
 	path = Projects/blogVrinda
 	url = ../blogVrinda.git
+[submodule "Vrindopnishad Web/Pictures"]
+	path = Vrindopnishad Web/Pictures
+	url = https://github.com/ImBajrangi/ChitraVrinda.git
