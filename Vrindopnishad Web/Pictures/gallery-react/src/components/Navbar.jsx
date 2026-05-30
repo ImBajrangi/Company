@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { User, Search, Menu, ChevronDown, X, Heart, Settings } from 'lucide-react';
+import { User, Search, Menu, ChevronDown, X, Heart, Settings, ShoppingCart } from 'lucide-react';
 import { gsap } from 'gsap';
 
-const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
+const Navbar = ({ onSearchClick, myListCount, siteConfig, cartCount, onCartClick }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navRef = useRef(null);
@@ -71,8 +71,12 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
                 </nav>
 
                 <div className="header-actions">
-                    <button className="action-btn" title="Settings">
-                        <Settings size={20} />
+                    <button className="action-btn" onClick={onSearchClick} title="Search">
+                        <Search size={22} />
+                    </button>
+                    <button className="cart-trigger-btn" onClick={onCartClick} title="Shopping Cart">
+                        <ShoppingCart size={22} />
+                        {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                     </button>
                     <div className="user-avatar-wrapper">
                         <img 
@@ -81,9 +85,6 @@ const Navbar = ({ onSearchClick, myListCount, siteConfig }) => {
                             className="nav-avatar"
                         />
                     </div>
-                    <button className="action-btn" onClick={onSearchClick} title="Search">
-                        <Search size={22} />
-                    </button>
                     <button
                         className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

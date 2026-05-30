@@ -13,6 +13,10 @@ import { NotificationProvider } from './context/NotificationContext';
 import { fetchSacredCollections, fetchSacredConfig } from './lib/databaseBridge';
 import './index.css';
 import './styles/premium-sync.css';
+import './styles/ecommerce.css';
+import CartDrawer from './components/CartDrawer';
+import CheckoutModal from './components/CheckoutModal';
+import { updateSEO } from './lib/seoHelper';
 
 function App() {
   const [collectionsData, setCollectionsData] = useState({});
@@ -31,6 +35,58 @@ function App() {
     description: "A carefully curated collection of spiritual photography and sacred artworks from Vrindavan."
   });
   const [heroSection, setHeroSection] = useState(null);
+  
+  // Local storage cached shopping cart state
+  const [cart, setCart] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('divine-cart') || '[]');
+    } catch (e) {
+      return [];
+    }
+  });
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  // Sync cart to local storage cache
+  useEffect(() => {
+    localStorage.setItem('divine-cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // Dynamic SEO structured schema injection on view changes
+  useEffect(() => {
+    if (currentView === 'gallery') {
+      updateSEO('gallery', collectionsData);
+    } else if (currentView === 'details' && detailsData) {
+      updateSEO('details', detailsData);
+    }
+  }, [currentView, detailsData, collectionsData]);
+
+  const handleAddToCart = (item) => {
+    setCart(prev => {
+      const existingIdx = prev.findIndex(
+        i => i.id === item.id && i.mediaType === item.mediaType && i.size === item.size
+      );
+      if (existingIdx > -1) {
+        const updated = [...prev];
+        updated[existingIdx].quantity += 1;
+        return updated;
+      }
+      return [...prev, { ...item, cartId: `${item.id}-${item.mediaType}-${item.size}` }];
+    });
+  };
+
+  const handleUpdateQty = (cartId, qty) => {
+    if (qty < 1) return;
+    setCart(prev => prev.map(item => item.cartId === cartId ? { ...item, quantity: qty } : item));
+  };
+
+  const handleRemoveFromCart = (cartId) => {
+    setCart(prev => prev.filter(item => item.cartId !== cartId));
+  };
+
+  const handleClearCart = () => {
+    setCart([]);
+  };
 
   useEffect(() => {
     fetchCollections();
@@ -131,6 +187,8 @@ function App() {
           onSearchClick={() => setSearchActive(true)}
           myListCount={myList.length}
           siteConfig={siteConfig}
+          cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+          onCartClick={() => setIsCartOpen(true)}
         />
 
         <SearchOverlay
@@ -176,6 +234,7 @@ function App() {
             onBack={handleGoBack}
             onToggleMyList={toggleMyList}
             isInList={detailsData ? myList.some(i => i.id === detailsData.id) : false}
+            onAddToCart={handleAddToCart}
           />
         )}
 
@@ -185,6 +244,25 @@ function App() {
           onToggleMyList={toggleMyList}
           isInList={selectedItem ? myList.some(i => i.id === selectedItem.id) : false}
           onViewDetails={handleViewDetails}
+        />
+
+        <CartDrawer
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={cart}
+          onUpdateQty={handleUpdateQty}
+          onRemove={handleRemoveFromCart}
+          onCheckout={() => {
+            setIsCartOpen(false);
+            setIsCheckoutOpen(true);
+          }}
+        />
+
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          onClose={() => setIsCheckoutOpen(false)}
+          cartItems={cart}
+          onClearCart={handleClearCart}
         />
 
         <Footer />
