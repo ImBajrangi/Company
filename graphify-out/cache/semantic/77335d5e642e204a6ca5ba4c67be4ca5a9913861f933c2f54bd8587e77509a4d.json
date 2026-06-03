@@ -1,0 +1,1 @@
+{"nodes": [{"id": "login_html", "label": "Login Page", "file_type": "code", "source_file": "login.html"}], "edges": [{"source": "login_html", "target": "auth_js", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "login.html"}], "hyperedges": []}

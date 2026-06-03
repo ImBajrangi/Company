@@ -1,0 +1,10 @@
+[debug] [2026-06-02T04:31:08.867Z] ----------------------------------------------------------------------
+[debug] [2026-06-02T04:31:08.870Z] Command:       /opt/homebrew/Cellar/node/25.8.1_1/bin/node /opt/homebrew/bin/firebase dataconnect:execute /Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/count.gql
+[debug] [2026-06-02T04:31:08.870Z] CLI Version:   15.15.0
+[debug] [2026-06-02T04:31:08.870Z] Platform:      darwin
+[debug] [2026-06-02T04:31:08.870Z] Node Version:  v25.8.1
+[debug] [2026-06-02T04:31:08.870Z] Time:          Tue Jun 02 2026 10:01:08 GMT+0530 (India Standard Time)
+[debug] [2026-06-02T04:31:08.870Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-02T04:31:09.141Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-02T04:31:09.141Z] > authorizing via signed-in user (sharmagharsh1@gmail.com)

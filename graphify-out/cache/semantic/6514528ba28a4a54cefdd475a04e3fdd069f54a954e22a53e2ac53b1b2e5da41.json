@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "vrindavaani_backend", "target": "supabase_platform", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "Projects/VrindaVaani/SUPABASE_SETUP.md"}], "hyperedges": []}

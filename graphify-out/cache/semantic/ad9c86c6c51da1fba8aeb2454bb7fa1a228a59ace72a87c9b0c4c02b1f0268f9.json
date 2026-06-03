@@ -1,0 +1,1 @@
+{"nodes": [{"id": "driver_app_html", "label": "Vrinda Tours Driver App", "file_type": "code", "source_file": "Projects/Vrinda-Tours/driver-app.html"}], "edges": [{"source": "driver_app_html", "target": "firebase_platform", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "Projects/Vrinda-Tours/driver-app.html"}], "hyperedges": []}

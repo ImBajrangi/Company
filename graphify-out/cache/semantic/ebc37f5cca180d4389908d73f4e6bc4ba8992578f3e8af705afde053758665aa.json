@@ -1,0 +1,1 @@
+{"nodes": [{"id": "readme_md", "label": "Company Repository README", "file_type": "document", "source_file": "README.md"}], "edges": [{"source": "readme_md", "target": "contributing_md", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "README.md"}], "hyperedges": []}

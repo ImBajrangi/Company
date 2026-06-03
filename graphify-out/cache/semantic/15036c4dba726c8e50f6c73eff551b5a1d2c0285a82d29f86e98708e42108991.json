@@ -1,0 +1,1 @@
+{"nodes": [{"id": "vrinda_tours_html", "label": "Vrinda Tours Map Interface", "file_type": "code", "source_file": "Projects/Vrinda-Tours/vrinda-tours.html"}], "edges": [{"source": "vrinda_tours_html", "target": "auth_js", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "Projects/Vrinda-Tours/vrinda-tours.html"}], "hyperedges": []}
