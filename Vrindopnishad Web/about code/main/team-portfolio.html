@@ -435,6 +435,45 @@
         </ul>
     </nav>
 
+    <noscript>
+        <div style="padding: 6rem 2rem 4rem; text-align: center; max-width: 800px; margin: 0 auto; font-family: sans-serif; color: var(--text-color, #1d1d1f);">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Our Team Members</h1>
+            <p style="margin-bottom: 3rem; opacity: 0.8;">Please enable JavaScript to view the full interactive portfolios, or browse our team details below.</p>
+            
+            <article style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+                <h2>Yash Chaudhary</h2>
+                <p><strong>Role:</strong> Co-Founder & Lead Developer</p>
+                <p>Passionate full-stack developer with a mission to preserve and digitize spiritual heritage. Specializing in modern web technologies and creating immersive digital experiences.</p>
+                <h3>Skills & Expertise</h3>
+                <p>JavaScript, React, Node.js, Python, Web Design, UI/UX, Database Design, Cloud Deployment</p>
+            </article>
+            
+            <article style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+                <h2>Hariom</h2>
+                <p><strong>Role:</strong> Co-Founder & Creative Director</p>
+                <p>Creative visionary blending traditional art forms with modern design aesthetics. Expert in visual storytelling and brand identity for spiritual organizations.</p>
+                <h3>Skills & Expertise</h3>
+                <p>Graphic Design, Video Production, Photography, Brand Identity, Adobe Creative Suite, Motion Graphics, Art Direction</p>
+            </article>
+            
+            <article style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+                <h2>Hemraj Singh</h2>
+                <p><strong>Role:</strong> Content & Operations Manager</p>
+                <p>Skilled writer and operations specialist ensuring smooth project execution. Passionate about making ancient wisdom accessible through modern content strategies.</p>
+                <h3>Skills & Expertise</h3>
+                <p>Content Writing, Project Management, Research, Documentation, SEO, Editorial Planning, Team Coordination</p>
+            </article>
+            
+            <article style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+                <h2>Punit Khandelwal</h2>
+                <p><strong>Role:</strong> Community Lead</p>
+                <p>Community builder and engagement specialist fostering connections between seekers worldwide. Expert in social media growth and community management.</p>
+                <h3>Skills & Expertise</h3>
+                <p>Community Management, Social Media Strategy, Event Planning, Public Speaking, Outreach, Analytics, Engagement</p>
+            </article>
+        </div>
+    </noscript>
+
     <main>
         <!-- Hero -->
         <section class="portfolio-hero">
@@ -685,6 +724,29 @@
 
             // Initialize Lucide icons
             lucide.createIcons();
+
+            // Dynamically inject JSON-LD for search engine crawlers that execute JS
+            try {
+                const schema = {
+                    "@context": "https://schema.org",
+                    "@type": "ProfilePage",
+                    "mainEntity": {
+                        "@type": "Person",
+                        "name": member.name,
+                        "jobTitle": member.role,
+                        "image": member.avatar,
+                        "description": member.bio,
+                        "knowsAbout": member.skills,
+                        "sameAs": Object.values(member.social || {})
+                    }
+                };
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.text = JSON.stringify(schema);
+                document.head.appendChild(script);
+            } catch (err) {
+                console.error("Error injecting JSON-LD schema:", err);
+            }
         }
 
         // Load data on page load

@@ -1,1358 +1,1545 @@
-# Graph Report - .  (2026-06-03)
+# Graph Report - Company  (2026-06-12)
 
 ## Corpus Check
-- 11538 files · ~0 words
+- 665 files · ~797,627 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 11538 nodes · 0 edges · 383 communities (238 shown, 145 thin omitted)
-- Extraction: 0% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
+- 12271 nodes · 26440 edges · 422 communities (341 shown, 81 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 232 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
+## Graph Freshness
+- Built from commit: `cd26cdbb`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
+
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Config Firebase|Config Firebase]]
-- [[_COMMUNITY_Utils Whatsapp|Utils Whatsapp]]
-- [[_COMMUNITY_Utils Distance|Utils Distance]]
-- [[_COMMUNITY_Map Mapview|Map Mapview]]
-- [[_COMMUNITY_Projects Vrinda Tours|Projects Vrinda Tours]]
-- [[_COMMUNITY_Backend Supabase Client|Backend Supabase Client]]
-- [[_COMMUNITY_Vrinda Tours React|Vrinda Tours React]]
-- [[_COMMUNITY_Projects Vrindavaani Admin|Projects Vrindavaani Admin]]
-- [[_COMMUNITY_Scrapping Extract Dhams|Scrapping Extract Dhams]]
-- [[_COMMUNITY_Scrapping Extract Local|Scrapping Extract Local]]
-- [[_COMMUNITY_Scrapping Format Saints|Scrapping Format Saints]]
-- [[_COMMUNITY_Scrapping Run Scrape|Scrapping Run Scrape]]
-- [[_COMMUNITY_Scrapping Scrape Extra|Scrapping Scrape Extra]]
-- [[_COMMUNITY_Scrapping Scraper|Scrapping Scraper]]
-- [[_COMMUNITY_Scrapping Test Parse|Scrapping Test Parse]]
-- [[_COMMUNITY_Scrapping Uploader|Scrapping Uploader]]
-- [[_COMMUNITY_Scripts Brajrasik Scraper|Scripts Brajrasik Scraper]]
-- [[_COMMUNITY_Scripts Import All|Scripts Import All]]
-- [[_COMMUNITY_Scripts Migrate To|Scripts Migrate To]]
-- [[_COMMUNITY_Scripts Scrape Brajrasik|Scripts Scrape Brajrasik]]
-- [[_COMMUNITY_Backend Server|Backend Server]]
-- [[_COMMUNITY_Services Supabaseapi Supabaseapi|Services Supabaseapi Supabaseapi]]
-- [[_COMMUNITY_Store New Js|Store New Js]]
-- [[_COMMUNITY_Backend Server Supabase|Backend Server Supabase]]
-- [[_COMMUNITY_Backend Supabase Client|Backend Supabase Client]]
-- [[_COMMUNITY_Scripts Test Admin|Scripts Test Admin]]
-- [[_COMMUNITY_Backend Test Firebase|Backend Test Firebase]]
-- [[_COMMUNITY_Backend Test Supabase|Backend Test Supabase]]
-- [[_COMMUNITY_Content Slug|Content Slug]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Core Design System|Core Design System]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Features Journal Screen|Features Journal Screen]]
+- [[_COMMUNITY_Features Global Player|Features Global Player]]
+- [[_COMMUNITY_Features Rituals Screen|Features Rituals Screen]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Core Spirituality Provider|Core Spirituality Provider]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Core Personalized Feed|Core Personalized Feed]]
+- [[_COMMUNITY_Js Pic Simple|Js Pic Simple]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Features Content Detail|Features Content Detail]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Js Pdf Viewer|Js Pdf Viewer]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Core Mood Theme|Core Mood Theme]]
+- [[_COMMUNITY_Js About App|Js About App]]
+- [[_COMMUNITY_Js Stack|Js Stack]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Universal Resourse|Js Universal Resourse]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Features Home Screen|Features Home Screen]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
 - [[_COMMUNITY_Api Seo Handler|Api Seo Handler]]
+- [[_COMMUNITY_Services Api|Services Api]]
+- [[_COMMUNITY_Js New Js|Js New Js]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani Admin|Projects Vrindavaani Admin]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Store Complete Updated|Store Complete Updated]]
+- [[_COMMUNITY_Store New Js|Store New Js]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Js Unified Data|Js Unified Data]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Models Daily Gyaan|Models Daily Gyaan]]
+- [[_COMMUNITY_Js Complete Updated|Js Complete Updated]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Services Notification Service|Services Notification Service]]
+- [[_COMMUNITY_Backend Enhanced Dark|Backend Enhanced Dark]]
+- [[_COMMUNITY_Features Naam Jap|Features Naam Jap]]
+- [[_COMMUNITY_Core Design System|Core Design System]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Js Book|Js Book]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Features Daily Motivation|Features Daily Motivation]]
+- [[_COMMUNITY_Features Onboarding Screen|Features Onboarding Screen]]
+- [[_COMMUNITY_Js Dynamic Book|Js Dynamic Book]]
+- [[_COMMUNITY_Js Dynamic Book|Js Dynamic Book]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Backend Server|Backend Server]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Models Achievement|Models Achievement]]
+- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
+- [[_COMMUNITY_Backend Server Supabase|Backend Server Supabase]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Dataconnect Index D|Dataconnect Index D]]
+- [[_COMMUNITY_Js Unified Data|Js Unified Data]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Profile Find Friends|Profile Find Friends]]
+- [[_COMMUNITY_Core Audio Provider|Core Audio Provider]]
+- [[_COMMUNITY_Book Content Book|Book Content Book]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Models User Stats|Models User Stats]]
+- [[_COMMUNITY_Scripts Import All|Scripts Import All]]
+- [[_COMMUNITY_Js Load Json|Js Load Json]]
+- [[_COMMUNITY_Advanced Custom Cursor|Advanced Custom Cursor]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Content Connector|Js Content Connector]]
+- [[_COMMUNITY_Src App|Src App]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Unified Data|Js Unified Data]]
+- [[_COMMUNITY_Docs Ripple Documentation|Docs Ripple Documentation]]
+- [[_COMMUNITY_Cursors Hatom Cursor|Cursors Hatom Cursor]]
+- [[_COMMUNITY_Js Cart Logic|Js Cart Logic]]
+- [[_COMMUNITY_Core Ambient Audio|Core Ambient Audio]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Services Stats Service|Services Stats Service]]
+- [[_COMMUNITY_Lib Seohelper|Lib Seohelper]]
+- [[_COMMUNITY_Js Collection Page|Js Collection Page]]
+- [[_COMMUNITY_Js Read Me|Js Read Me]]
+- [[_COMMUNITY_Dataconnect Readme|Dataconnect Readme]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Backend Supabase Client|Backend Supabase Client]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Simple Stack Main|Simple Stack Main]]
+- [[_COMMUNITY_Config Firebase|Config Firebase]]
+- [[_COMMUNITY_Dataconnect Generated Generated|Dataconnect Generated Generated]]
+- [[_COMMUNITY_Book Content Book|Book Content Book]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Content Media Book|Content Media Book]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Dataconnect Index Cjs|Dataconnect Index Cjs]]
+- [[_COMMUNITY_Core Audio Service|Core Audio Service]]
+- [[_COMMUNITY_Services Journal Service|Services Journal Service]]
+- [[_COMMUNITY_Models Daily Challenge|Models Daily Challenge]]
+- [[_COMMUNITY_Js Pic Collection|Js Pic Collection]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Vrindopnishad Web Main|Vrindopnishad Web Main]]
+- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
+- [[_COMMUNITY_Ui Menubar|Ui Menubar]]
+- [[_COMMUNITY_Visual Edits Babel|Visual Edits Babel]]
+- [[_COMMUNITY_Dataconnect Generated Readme|Dataconnect Generated Readme]]
+- [[_COMMUNITY_Js Audio|Js Audio]]
+- [[_COMMUNITY_Js Collection Page|Js Collection Page]]
+- [[_COMMUNITY_Js Settings|Js Settings]]
+- [[_COMMUNITY_Temp Collection Details|Temp Collection Details]]
+- [[_COMMUNITY_Js Image Optimizer|Js Image Optimizer]]
+- [[_COMMUNITY_Page Write|Page Write]]
+- [[_COMMUNITY_Scratch Test Devanagari|Scratch Test Devanagari]]
+- [[_COMMUNITY_Scratch Test Getversebyslug|Scratch Test Getversebyslug]]
+- [[_COMMUNITY_Scripts Cursor Cursoremitter|Scripts Cursor Cursoremitter]]
+- [[_COMMUNITY_Backend Supabase Client|Backend Supabase Client]]
+- [[_COMMUNITY_Scripts Test|Scripts Test]]
+- [[_COMMUNITY_Gemini Made Gemini|Gemini Made Gemini]]
+- [[_COMMUNITY_Hooks Use Toast|Hooks Use Toast]]
+- [[_COMMUNITY_Page Content Manager|Page Content Manager]]
+- [[_COMMUNITY_Js Enhanced Audio|Js Enhanced Audio]]
+- [[_COMMUNITY_Security Watermark Watermarksystem|Security Watermark Watermarksystem]]
+- [[_COMMUNITY_Core Spirituality Engine|Core Spirituality Engine]]
+- [[_COMMUNITY_Cursors Enhanced Script|Cursors Enhanced Script]]
+- [[_COMMUNITY_Scripts Automaticallypush Autopush|Scripts Automaticallypush Autopush]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Docs Installation|Docs Installation]]
+- [[_COMMUNITY_Scratch Inspect Hindi|Scratch Inspect Hindi]]
+- [[_COMMUNITY_Scratch Search Slugs|Scratch Search Slugs]]
+- [[_COMMUNITY_Scratch Test Transliterate|Scratch Test Transliterate]]
+- [[_COMMUNITY_Scripts Migrate To|Scripts Migrate To]]
+- [[_COMMUNITY_Services Supabaseapi Supabaseapi|Services Supabaseapi Supabaseapi]]
+- [[_COMMUNITY_Js Pdf Viewer|Js Pdf Viewer]]
+- [[_COMMUNITY_Models Journal Entry|Models Journal Entry]]
+- [[_COMMUNITY_Scripts Generate Theme|Scripts Generate Theme]]
+- [[_COMMUNITY_Scratch Fetch Firebase|Scratch Fetch Firebase]]
+- [[_COMMUNITY_Security Screenshot Protection|Security Screenshot Protection]]
+- [[_COMMUNITY_Js Data Loader|Js Data Loader]]
+- [[_COMMUNITY_Ui Pagination|Ui Pagination]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Js Book Integration|Js Book Integration]]
+- [[_COMMUNITY_Notification Word Hover|Notification Word Hover]]
 - [[_COMMUNITY_Api Semantic Search|Api Semantic Search]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Hi Layout|Hi Layout]]
-- [[_COMMUNITY_App Robots|App Robots]]
-- [[_COMMUNITY_Sitemap Xml Route|Sitemap Xml Route]]
-- [[_COMMUNITY_Frontend Capacitor Config|Frontend Capacitor Config]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Scrapping Scraper|Scrapping Scraper]]
+- [[_COMMUNITY_Ui Command|Ui Command]]
+- [[_COMMUNITY_Ui Context Menu|Ui Context Menu]]
+- [[_COMMUNITY_Ui Dropdown Menu|Ui Dropdown Menu]]
+- [[_COMMUNITY_Ui Form|Ui Form]]
+- [[_COMMUNITY_Context Notificationcontext|Context Notificationcontext]]
+- [[_COMMUNITY_Ui Navigation Menu|Ui Navigation Menu]]
+- [[_COMMUNITY_Docs Loader Implementation|Docs Loader Implementation]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Scripts Migrate From|Scripts Migrate From]]
+- [[_COMMUNITY_Security Disable Right|Security Disable Right]]
+- [[_COMMUNITY_Security Image Protection|Security Image Protection]]
+- [[_COMMUNITY_Ui Alert Dialog|Ui Alert Dialog]]
+- [[_COMMUNITY_Ui Table|Ui Table]]
+- [[_COMMUNITY_Utils Whatsapp|Utils Whatsapp]]
+- [[_COMMUNITY_Ui Toast|Ui Toast]]
+- [[_COMMUNITY_Scripts Test Auth|Scripts Test Auth]]
+- [[_COMMUNITY_Ui Drawer|Ui Drawer]]
+- [[_COMMUNITY_Ui Select|Ui Select]]
+- [[_COMMUNITY_Ui Sheet|Ui Sheet]]
+- [[_COMMUNITY_Visual Edits Dev|Visual Edits Dev]]
+- [[_COMMUNITY_Js Auth|Js Auth]]
+- [[_COMMUNITY_Scratch Check Akbar|Scratch Check Akbar]]
+- [[_COMMUNITY_Scratch Search Author|Scratch Search Author]]
+- [[_COMMUNITY_Ui Card|Ui Card]]
+- [[_COMMUNITY_Ui Carousel|Ui Carousel]]
+- [[_COMMUNITY_Ui Dialog|Ui Dialog]]
+- [[_COMMUNITY_Vrinda Tours Html|Vrinda Tours Html]]
+- [[_COMMUNITY_Scripts Test Admin|Scripts Test Admin]]
+- [[_COMMUNITY_Utils Distance|Utils Distance]]
 - [[_COMMUNITY_Frontend Check Data|Frontend Check Data]]
-- [[_COMMUNITY_Frontend Next Config|Frontend Next Config]]
+- [[_COMMUNITY_Git Sync Print|Git Sync Print]]
 - [[_COMMUNITY_Health Check Health|Health Check Health]]
 - [[_COMMUNITY_Health Check Webpack|Health Check Webpack]]
-- [[_COMMUNITY_Visual Edits Babel|Visual Edits Babel]]
-- [[_COMMUNITY_Visual Edits Dev|Visual Edits Dev]]
-- [[_COMMUNITY_Frontend Postcss Config|Frontend Postcss Config]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Public Service Worker|Public Service Worker]]
+- [[_COMMUNITY_Docs Loader Update|Docs Loader Update]]
 - [[_COMMUNITY_Scratch Analyze Slugs|Scratch Analyze Slugs]]
-- [[_COMMUNITY_Scratch Check Akbar|Scratch Check Akbar]]
-- [[_COMMUNITY_Scratch Check Backup|Scratch Check Backup]]
-- [[_COMMUNITY_Scratch Check Slugs|Scratch Check Slugs]]
-- [[_COMMUNITY_Scratch Count Supabase|Scratch Count Supabase]]
-- [[_COMMUNITY_Dataconnect Index Cjs|Dataconnect Index Cjs]]
-- [[_COMMUNITY_Scratch Fetch Firebase|Scratch Fetch Firebase]]
 - [[_COMMUNITY_Scratch Find Sambhu|Scratch Find Sambhu]]
-- [[_COMMUNITY_Scratch Find Verse|Scratch Find Verse]]
 - [[_COMMUNITY_Scratch Inspect Data|Scratch Inspect Data]]
 - [[_COMMUNITY_Scratch Inspect Exact|Scratch Inspect Exact]]
-- [[_COMMUNITY_Scratch Inspect Hati|Scratch Inspect Hati]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Scratch Inspect Hindi|Scratch Inspect Hindi]]
 - [[_COMMUNITY_Scratch Inspect Processed|Scratch Inspect Processed]]
 - [[_COMMUNITY_Scratch List Authors|Scratch List Authors]]
 - [[_COMMUNITY_Scratch List Hati|Scratch List Hati]]
-- [[_COMMUNITY_Scratch Search Author|Scratch Search Author]]
-- [[_COMMUNITY_Scratch Search Slugs|Scratch Search Slugs]]
-- [[_COMMUNITY_Scratch Test Devanagari|Scratch Test Devanagari]]
-- [[_COMMUNITY_Scratch Test Getversebyslug|Scratch Test Getversebyslug]]
-- [[_COMMUNITY_Scratch Test Transliterate|Scratch Test Transliterate]]
-- [[_COMMUNITY_Scripts Generate Favicons|Scripts Generate Favicons]]
-- [[_COMMUNITY_Scripts Migrate From|Scripts Migrate From]]
-- [[_COMMUNITY_Scripts Test|Scripts Test]]
-- [[_COMMUNITY_Scripts Test Auth|Scripts Test Auth]]
-- [[_COMMUNITY_Scripts Test Auth|Scripts Test Auth]]
+- [[_COMMUNITY_Vrindavaani Supabase Setup|Vrindavaani Supabase Setup]]
 - [[_COMMUNITY_Scripts Test Register|Scripts Test Register]]
-- [[_COMMUNITY_Scripts Test Register|Scripts Test Register]]
-- [[_COMMUNITY_Scripts Test Rtdb|Scripts Test Rtdb]]
-- [[_COMMUNITY_Scripts Test Shriji|Scripts Test Shriji]]
-- [[_COMMUNITY_Src App|Src App]]
-- [[_COMMUNITY_Contexts Audiocontext|Contexts Audiocontext]]
-- [[_COMMUNITY_Components Installapp|Components Installapp]]
-- [[_COMMUNITY_Ui Navigation Menu|Ui Navigation Menu]]
-- [[_COMMUNITY_Services Api|Services Api]]
-- [[_COMMUNITY_Ui Accordion|Ui Accordion]]
-- [[_COMMUNITY_Ui Alert Dialog|Ui Alert Dialog]]
-- [[_COMMUNITY_Page Content Manager|Page Content Manager]]
-- [[_COMMUNITY_Ui Aspect Ratio|Ui Aspect Ratio]]
-- [[_COMMUNITY_Ui Avatar|Ui Avatar]]
-- [[_COMMUNITY_Ui Badge|Ui Badge]]
 - [[_COMMUNITY_Ui Breadcrumb|Ui Breadcrumb]]
-- [[_COMMUNITY_Ui Pagination|Ui Pagination]]
-- [[_COMMUNITY_Ui Card|Ui Card]]
-- [[_COMMUNITY_Ui Carousel|Ui Carousel]]
-- [[_COMMUNITY_Ui Checkbox|Ui Checkbox]]
-- [[_COMMUNITY_Ui Collapsible|Ui Collapsible]]
-- [[_COMMUNITY_Ui Command|Ui Command]]
-- [[_COMMUNITY_Ui Context Menu|Ui Context Menu]]
-- [[_COMMUNITY_Ui Dialog|Ui Dialog]]
-- [[_COMMUNITY_Ui Drawer|Ui Drawer]]
-- [[_COMMUNITY_Ui Dropdown Menu|Ui Dropdown Menu]]
-- [[_COMMUNITY_Ui Form|Ui Form]]
-- [[_COMMUNITY_Ui Hover Card|Ui Hover Card]]
+- [[_COMMUNITY_Js Image Hover|Js Image Hover]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Links Linkme|Links Linkme]]
+- [[_COMMUNITY_Scratch Inspect Hati|Scratch Inspect Hati]]
+- [[_COMMUNITY_Scripts Scrape Brajrasik|Scripts Scrape Brajrasik]]
+- [[_COMMUNITY_Cookie Consent Cookie|Cookie Consent Cookie]]
+- [[_COMMUNITY_Docs Firebase Setup|Docs Firebase Setup]]
+- [[_COMMUNITY_Js Offline Handler|Js Offline Handler]]
+- [[_COMMUNITY_Js Popup Checker|Js Popup Checker]]
+- [[_COMMUNITY_Map Mapview|Map Mapview]]
+- [[_COMMUNITY_Scrapping Scrape Extra|Scrapping Scrape Extra]]
+- [[_COMMUNITY_Scratch Check Backup|Scratch Check Backup]]
+- [[_COMMUNITY_Scratch Count Supabase|Scratch Count Supabase]]
+- [[_COMMUNITY_Scripts Brajrasik Scraper|Scripts Brajrasik Scraper]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Docs App Icon|Docs App Icon]]
+- [[_COMMUNITY_Scripts Test Auth|Scripts Test Auth]]
+- [[_COMMUNITY_Scripts Test Rtdb|Scripts Test Rtdb]]
+- [[_COMMUNITY_Vrindavaani Readme|Vrindavaani Readme]]
+- [[_COMMUNITY_Ui Accordion|Ui Accordion]]
+- [[_COMMUNITY_Ui Avatar|Ui Avatar]]
 - [[_COMMUNITY_Ui Input Otp|Ui Input Otp]]
-- [[_COMMUNITY_Ui Input|Ui Input]]
+- [[_COMMUNITY_Ui Tabs|Ui Tabs]]
+- [[_COMMUNITY_Vrindavaani Start Demo|Vrindavaani Start Demo]]
+- [[_COMMUNITY_Content Slug|Content Slug]]
+- [[_COMMUNITY_Contributing Md|Contributing Md]]
+- [[_COMMUNITY_Frontend Next Config|Frontend Next Config]]
+- [[_COMMUNITY_Hi Layout|Hi Layout]]
+- [[_COMMUNITY_Notification Modern Notifications|Notification Modern Notifications]]
+- [[_COMMUNITY_Scratch Check Slugs|Scratch Check Slugs]]
+- [[_COMMUNITY_Scratch Find Verse|Scratch Find Verse]]
+- [[_COMMUNITY_Ui Badge|Ui Badge]]
 - [[_COMMUNITY_Ui Label|Ui Label]]
-- [[_COMMUNITY_Ui Menubar|Ui Menubar]]
-- [[_COMMUNITY_Ui Popover|Ui Popover]]
-- [[_COMMUNITY_Ui Progress|Ui Progress]]
-- [[_COMMUNITY_Ui Radio Group|Ui Radio Group]]
-- [[_COMMUNITY_Ui Resizable|Ui Resizable]]
 - [[_COMMUNITY_Ui Scroll Area|Ui Scroll Area]]
-- [[_COMMUNITY_Ui Select|Ui Select]]
-- [[_COMMUNITY_Ui Separator|Ui Separator]]
-- [[_COMMUNITY_Ui Sheet|Ui Sheet]]
-- [[_COMMUNITY_Ui Skeleton|Ui Skeleton]]
+- [[_COMMUNITY_Ui Toggle|Ui Toggle]]
+- [[_COMMUNITY_Utilities Image Loader|Utilities Image Loader]]
+- [[_COMMUNITY_Vrindopnishad Web Class|Vrindopnishad Web Class]]
+- [[_COMMUNITY_Core Design System|Core Design System]]
+- [[_COMMUNITY_Frontend Capacitor Config|Frontend Capacitor Config]]
+- [[_COMMUNITY_Js Content Loader|Js Content Loader]]
+- [[_COMMUNITY_Js Hit Soochi|Js Hit Soochi]]
+- [[_COMMUNITY_Links Link Handler|Links Link Handler]]
+- [[_COMMUNITY_Public Service Worker|Public Service Worker]]
+- [[_COMMUNITY_Scrapping Run Scrape|Scrapping Run Scrape]]
+- [[_COMMUNITY_Scripts Test Shriji|Scripts Test Shriji]]
+- [[_COMMUNITY_Ui Hover Card|Ui Hover Card]]
+- [[_COMMUNITY_Ui Input|Ui Input]]
+- [[_COMMUNITY_Ui Popover|Ui Popover]]
+- [[_COMMUNITY_Ui Radio Group|Ui Radio Group]]
 - [[_COMMUNITY_Ui Slider|Ui Slider]]
 - [[_COMMUNITY_Ui Switch|Ui Switch]]
-- [[_COMMUNITY_Ui Table|Ui Table]]
-- [[_COMMUNITY_Ui Tabs|Ui Tabs]]
 - [[_COMMUNITY_Ui Textarea|Ui Textarea]]
-- [[_COMMUNITY_Ui Toast|Ui Toast]]
-- [[_COMMUNITY_Hooks Use Toast|Hooks Use Toast]]
 - [[_COMMUNITY_Ui Toggle Group|Ui Toggle Group]]
-- [[_COMMUNITY_Ui Toggle|Ui Toggle]]
 - [[_COMMUNITY_Ui Tooltip|Ui Tooltip]]
-- [[_COMMUNITY_Esm Index Esm|Esm Index Esm]]
-- [[_COMMUNITY_Dataconnect Index D|Dataconnect Index D]]
-- [[_COMMUNITY_Lib Helmet Compat|Lib Helmet Compat]]
-- [[_COMMUNITY_Lib Utils|Lib Utils]]
-- [[_COMMUNITY_Frontend Tailwind Config|Frontend Tailwind Config]]
-- [[_COMMUNITY_Features Global Player|Features Global Player]]
-- [[_COMMUNITY_Core Mood Theme|Core Mood Theme]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Models Daily Gyaan|Models Daily Gyaan]]
-- [[_COMMUNITY_Features Rituals Screen|Features Rituals Screen]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Core Spirituality Provider|Core Spirituality Provider]]
-- [[_COMMUNITY_Features Daily Motivation|Features Daily Motivation]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Services Stats Service|Services Stats Service]]
-- [[_COMMUNITY_Features Home Screen|Features Home Screen]]
-- [[_COMMUNITY_Core Audio Service|Core Audio Service]]
-- [[_COMMUNITY_Core Audio Provider|Core Audio Provider]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Features Journal Screen|Features Journal Screen]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
-- [[_COMMUNITY_Core Design System|Core Design System]]
-- [[_COMMUNITY_Projects Vrindavaani|Projects Vrindavaani]]
-- [[_COMMUNITY_Widgets Sacred Ritual|Widgets Sacred Ritual]]
-- [[_COMMUNITY_Core Ambient Audio|Core Ambient Audio]]
-- [[_COMMUNITY_None Int|None Int]]
-- [[_COMMUNITY_Services Realtime Service|Services Realtime Service]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Core Design System|Core Design System]]
-- [[_COMMUNITY_Core Design System|Core Design System]]
-- [[_COMMUNITY_Models Achievement|Models Achievement]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Services Journal Service|Services Journal Service]]
-- [[_COMMUNITY_Core Personalized Feed|Core Personalized Feed]]
-- [[_COMMUNITY_Features Content Detail|Features Content Detail]]
-- [[_COMMUNITY_Core Spirituality Engine|Core Spirituality Engine]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Dataconnect Generated Generated|Dataconnect Generated Generated]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Features Naam Jap|Features Naam Jap]]
-- [[_COMMUNITY_Features Onboarding Screen|Features Onboarding Screen]]
-- [[_COMMUNITY_Profile Find Friends|Profile Find Friends]]
-- [[_COMMUNITY_Models Daily Challenge|Models Daily Challenge]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Models Journal Entry|Models Journal Entry]]
-- [[_COMMUNITY_Models Ritual|Models Ritual]]
-- [[_COMMUNITY_Models Sacred Event|Models Sacred Event]]
-- [[_COMMUNITY_Models User Stats|Models User Stats]]
-- [[_COMMUNITY_Services Notification Service|Services Notification Service]]
-- [[_COMMUNITY_Scripts Generate Theme|Scripts Generate Theme]]
-- [[_COMMUNITY_Premium App Search|Premium App Search]]
 - [[_COMMUNITY_Users Sakhi Code|Users Sakhi Code]]
-- [[_COMMUNITY_Vrindavaani Start Backend|Vrindavaani Start Backend]]
-- [[_COMMUNITY_Vrindavaani Start Demo|Vrindavaani Start Demo]]
 - [[_COMMUNITY_Vrindavaani Start Full|Vrindavaani Start Full]]
 - [[_COMMUNITY_Vrindavaani Start Supabase|Vrindavaani Start Supabase]]
-- [[_COMMUNITY_Js About App|Js About App]]
-- [[_COMMUNITY_Js Image Hover|Js Image Hover]]
-- [[_COMMUNITY_Js Main Interactive|Js Main Interactive]]
-- [[_COMMUNITY_Js Main|Js Main]]
-- [[_COMMUNITY_Gallery React Eslint|Gallery React Eslint]]
-- [[_COMMUNITY_Lib Seohelper|Lib Seohelper]]
-- [[_COMMUNITY_Context Notificationcontext|Context Notificationcontext]]
-- [[_COMMUNITY_Cookie Consent Cookie|Cookie Consent Cookie]]
-- [[_COMMUNITY_Advanced Custom Cursor|Advanced Custom Cursor]]
-- [[_COMMUNITY_Js Auth|Js Auth]]
-- [[_COMMUNITY_Gallery React Vite|Gallery React Vite]]
-- [[_COMMUNITY_Js Cart Logic|Js Cart Logic]]
-- [[_COMMUNITY_Js Collection Page|Js Collection Page]]
-- [[_COMMUNITY_Js Collection Page|Js Collection Page]]
-- [[_COMMUNITY_Js Gallery Data|Js Gallery Data]]
-- [[_COMMUNITY_Gemini Made Gemini|Gemini Made Gemini]]
-- [[_COMMUNITY_Js Immediate Loader|Js Immediate Loader]]
-- [[_COMMUNITY_Js Pic Collection|Js Pic Collection]]
-- [[_COMMUNITY_Js Pic Simple|Js Pic Simple]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Temp Collection Details|Temp Collection Details]]
-- [[_COMMUNITY_Security Disable Right|Security Disable Right]]
-- [[_COMMUNITY_Security Image Protection|Security Image Protection]]
-- [[_COMMUNITY_Security Screenshot Protection|Security Screenshot Protection]]
-- [[_COMMUNITY_Security Watermark Watermarksystem|Security Watermark Watermarksystem]]
-- [[_COMMUNITY_Js App|Js App]]
-- [[_COMMUNITY_Js Data Loader|Js Data Loader]]
-- [[_COMMUNITY_Js Image Optimizer|Js Image Optimizer]]
-- [[_COMMUNITY_Js Init Module|Js Init Module]]
-- [[_COMMUNITY_Js Loader|Js Loader]]
-- [[_COMMUNITY_Js Stack|Js Stack]]
-- [[_COMMUNITY_Js Button Fixes|Js Button Fixes]]
-- [[_COMMUNITY_Js Settings|Js Settings]]
-- [[_COMMUNITY_Js Audio|Js Audio]]
-- [[_COMMUNITY_Js Book Integration|Js Book Integration]]
-- [[_COMMUNITY_Js Book|Js Book]]
-- [[_COMMUNITY_Notification Word Hover|Notification Word Hover]]
-- [[_COMMUNITY_Js Content Loader|Js Content Loader]]
-- [[_COMMUNITY_Js Dynamic Book|Js Dynamic Book]]
-- [[_COMMUNITY_Js Dynamic Book|Js Dynamic Book]]
-- [[_COMMUNITY_Js Enhanced Audio|Js Enhanced Audio]]
-- [[_COMMUNITY_Vrindopnishad Web Class|Vrindopnishad Web Class]]
-- [[_COMMUNITY_Book Content Book|Book Content Book]]
-- [[_COMMUNITY_Book Content Book|Book Content Book]]
-- [[_COMMUNITY_Content Media Book|Content Media Book]]
-- [[_COMMUNITY_Cursors Enhanced Script|Cursors Enhanced Script]]
-- [[_COMMUNITY_Cursors Hatom Cursor|Cursors Hatom Cursor]]
-- [[_COMMUNITY_Scripts Cursor Cursoremitter|Scripts Cursor Cursoremitter]]
-- [[_COMMUNITY_Notification Iframe Bridge|Notification Iframe Bridge]]
-- [[_COMMUNITY_Notification Modern Notifications|Notification Modern Notifications]]
-- [[_COMMUNITY_Page Content|Page Content]]
-- [[_COMMUNITY_Page Login|Page Login]]
-- [[_COMMUNITY_Page Notification Manager|Page Notification Manager]]
-- [[_COMMUNITY_Page Ui Manager|Page Ui Manager]]
-- [[_COMMUNITY_Page Write|Page Write]]
-- [[_COMMUNITY_Simple Stack Main|Simple Stack Main]]
-- [[_COMMUNITY_Store Complete Updated|Store Complete Updated]]
-- [[_COMMUNITY_Store Error Handling|Store Error Handling]]
-- [[_COMMUNITY_Store Export Fixes|Store Export Fixes]]
-- [[_COMMUNITY_Store Exporttemplate|Store Exporttemplate]]
-- [[_COMMUNITY_Store Ui Enhancements|Store Ui Enhancements]]
-- [[_COMMUNITY_Store Video Fixes|Store Video Fixes]]
-- [[_COMMUNITY_Js Hit Soochi|Js Hit Soochi]]
-- [[_COMMUNITY_Js Popup Checker|Js Popup Checker]]
-- [[_COMMUNITY_Js Theme Detector|Js Theme Detector]]
-- [[_COMMUNITY_Js Universal Resourse|Js Universal Resourse]]
-- [[_COMMUNITY_Vrindopnishad Web Main|Vrindopnishad Web Main]]
-- [[_COMMUNITY_Js Pdf Viewer|Js Pdf Viewer]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Js Three Min|Js Three Min]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Libs Pdf Min|Libs Pdf Min]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
-- [[_COMMUNITY_Js Complete Updated|Js Complete Updated]]
-- [[_COMMUNITY_Js Content Connector|Js Content Connector]]
-- [[_COMMUNITY_Js Load Json|Js Load Json]]
-- [[_COMMUNITY_Js New Js|Js New Js]]
-- [[_COMMUNITY_Js Read Me|Js Read Me]]
-- [[_COMMUNITY_Js Unified Data|Js Unified Data]]
-- [[_COMMUNITY_Utilities Image Loader|Utilities Image Loader]]
-- [[_COMMUNITY_Backend Enhanced Dark|Backend Enhanced Dark]]
-- [[_COMMUNITY_Js Exporttemplate|Js Exporttemplate]]
-- [[_COMMUNITY_Js Unified Data|Js Unified Data]]
-- [[_COMMUNITY_Js Unified Data|Js Unified Data]]
-- [[_COMMUNITY_Ripple Btn Btn|Ripple Btn Btn]]
-- [[_COMMUNITY_Links Link Handler|Links Link Handler]]
-- [[_COMMUNITY_Links Linkme|Links Linkme]]
-- [[_COMMUNITY_Loader Loader|Loader Loader]]
-- [[_COMMUNITY_Loader Random Loader|Loader Random Loader]]
-- [[_COMMUNITY_Git Sync Print|Git Sync Print]]
-- [[_COMMUNITY_Js Image Helper|Js Image Helper]]
-- [[_COMMUNITY_Js Offline Handler|Js Offline Handler]]
-- [[_COMMUNITY_Scripts Automaticallypush Autopush|Scripts Automaticallypush Autopush]]
-- [[_COMMUNITY_Scripts Fix Gmc|Scripts Fix Gmc]]
-- [[_COMMUNITY_Scripts Generate Feed|Scripts Generate Feed]]
-- [[_COMMUNITY_Github Onboarding|Github Onboarding]]
-- [[_COMMUNITY_Contributing 3 Pull|Contributing 3 Pull]]
-- [[_COMMUNITY_Vrinda Tours Readme|Vrinda Tours Readme]]
-- [[_COMMUNITY_Vrindavaani Commands|Vrindavaani Commands]]
-- [[_COMMUNITY_Vrindavaani Readme|Vrindavaani Readme]]
-- [[_COMMUNITY_Vrindavaani Supabase Setup|Vrindavaani Supabase Setup]]
-- [[_COMMUNITY_Docs App Icon|Docs App Icon]]
-- [[_COMMUNITY_Docs Connect Backend|Docs Connect Backend]]
-- [[_COMMUNITY_Docs Firebase Setup|Docs Firebase Setup]]
-- [[_COMMUNITY_Docs Installation|Docs Installation]]
-- [[_COMMUNITY_Docs Mobile Signing|Docs Mobile Signing]]
-- [[_COMMUNITY_Docs Readme|Docs Readme]]
-- [[_COMMUNITY_Docs Ux Improvements|Docs Ux Improvements]]
-- [[_COMMUNITY_Frontend Readme|Frontend Readme]]
-- [[_COMMUNITY_Docs Loader Implementation|Docs Loader Implementation]]
-- [[_COMMUNITY_Docs Loader Multi|Docs Loader Multi]]
-- [[_COMMUNITY_Docs Loader Quick|Docs Loader Quick]]
-- [[_COMMUNITY_Docs Loader Update|Docs Loader Update]]
-- [[_COMMUNITY_Docs Loader Usage|Docs Loader Usage]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
-- [[_COMMUNITY_Dataconnect Readme|Dataconnect Readme]]
-- [[_COMMUNITY_Mobile App Readme|Mobile App Readme]]
-- [[_COMMUNITY_Premium App Readme|Premium App Readme]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
-- [[_COMMUNITY_Dataconnect Generated Readme|Dataconnect Generated Readme]]
-- [[_COMMUNITY_Readme Company Repository|Readme Company Repository]]
-- [[_COMMUNITY_Gallery React Readme|Gallery React Readme]]
-- [[_COMMUNITY_Notification Readme Notifications|Notification Readme Notifications]]
-- [[_COMMUNITY_Notification Readme|Notification Readme]]
-- [[_COMMUNITY_Notification Word Hover|Notification Word Hover]]
-- [[_COMMUNITY_Docs Ripple Documentation|Docs Ripple Documentation]]
-- [[_COMMUNITY_Src App Use|Src App Use]]
-- [[_COMMUNITY_Services Api Isdemomode|Services Api Isdemomode]]
 - [[_COMMUNITY_404 Html|404 Html]]
-- [[_COMMUNITY_Contributing Md|Contributing Md]]
-- [[_COMMUNITY_Vrinda Tours Html|Vrinda Tours Html]]
+- [[_COMMUNITY_None Int|None Int]]
+- [[_COMMUNITY_Services Api Isdemomode|Services Api Isdemomode]]
+- [[_COMMUNITY_Src App Use|Src App Use]]
+- [[_COMMUNITY_Ui Checkbox|Ui Checkbox]]
+- [[_COMMUNITY_Ui Progress|Ui Progress]]
+- [[_COMMUNITY_Ui Separator|Ui Separator]]
+- [[_COMMUNITY_Vrinda Tours Readme|Vrinda Tours Readme]]
+- [[_COMMUNITY_Vrindavaani Start Backend|Vrindavaani Start Backend]]
+- [[_COMMUNITY_Js Three Min|Js Three Min]]
+- [[_COMMUNITY_Docs Loader Multi|Docs Loader Multi]]
+- [[_COMMUNITY_Docs Readme|Docs Readme]]
+- [[_COMMUNITY_Widgets Sacred Ritual|Widgets Sacred Ritual]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Docs Loader Usage|Docs Loader Usage]]
+- [[_COMMUNITY_Docs Loader Quick|Docs Loader Quick]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Docs Ux Improvements|Docs Ux Improvements]]
+- [[_COMMUNITY_Notification Readme Notifications|Notification Readme Notifications]]
+- [[_COMMUNITY_Projects Vrindavaani Mobile|Projects Vrindavaani Mobile]]
+- [[_COMMUNITY_Frontend Readme|Frontend Readme]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Notification Word Hover|Notification Word Hover]]
+- [[_COMMUNITY_Contexts Audiocontext|Contexts Audiocontext]]
+- [[_COMMUNITY_Esm Index Esm|Esm Index Esm]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Contributing 3 Pull|Contributing 3 Pull]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Models Ritual|Models Ritual]]
+- [[_COMMUNITY_Models Sacred Event|Models Sacred Event]]
+- [[_COMMUNITY_Vrindavaani Commands|Vrindavaani Commands]]
+- [[_COMMUNITY_Premium App Readme|Premium App Readme]]
+- [[_COMMUNITY_Services Realtime Service|Services Realtime Service]]
+- [[_COMMUNITY_Docs Mobile Signing|Docs Mobile Signing]]
+- [[_COMMUNITY_Github Onboarding|Github Onboarding]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Readme Company Repository|Readme Company Repository]]
+- [[_COMMUNITY_Libs Pdf Worker|Libs Pdf Worker]]
+- [[_COMMUNITY_Notification Readme|Notification Readme]]
+- [[_COMMUNITY_Docs Connect Backend|Docs Connect Backend]]
+- [[_COMMUNITY_Scripts Test Register|Scripts Test Register]]
+- [[_COMMUNITY_Gallery React Readme|Gallery React Readme]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Mobile App Readme|Mobile App Readme]]
+- [[_COMMUNITY_Projects Vrindavaani Frontend|Projects Vrindavaani Frontend]]
+- [[_COMMUNITY_Projects Vrindavaani Premium|Projects Vrindavaani Premium]]
+- [[_COMMUNITY_Community 383|Community 383]]
+- [[_COMMUNITY_Community 384|Community 384]]
+- [[_COMMUNITY_Community 385|Community 385]]
+- [[_COMMUNITY_Community 386|Community 386]]
+- [[_COMMUNITY_Community 387|Community 387]]
+- [[_COMMUNITY_Community 388|Community 388]]
+- [[_COMMUNITY_Community 390|Community 390]]
+- [[_COMMUNITY_Community 391|Community 391]]
+- [[_COMMUNITY_Community 392|Community 392]]
+- [[_COMMUNITY_Community 393|Community 393]]
+- [[_COMMUNITY_Community 394|Community 394]]
+- [[_COMMUNITY_Community 395|Community 395]]
+- [[_COMMUNITY_Community 397|Community 397]]
+- [[_COMMUNITY_Community 398|Community 398]]
+- [[_COMMUNITY_Community 399|Community 399]]
+- [[_COMMUNITY_Community 400|Community 400]]
+- [[_COMMUNITY_Community 401|Community 401]]
+- [[_COMMUNITY_Community 402|Community 402]]
+- [[_COMMUNITY_Community 403|Community 403]]
+- [[_COMMUNITY_Community 404|Community 404]]
+- [[_COMMUNITY_Community 405|Community 405]]
+- [[_COMMUNITY_Community 406|Community 406]]
+- [[_COMMUNITY_Community 407|Community 407]]
+- [[_COMMUNITY_Community 408|Community 408]]
+- [[_COMMUNITY_Community 409|Community 409]]
+- [[_COMMUNITY_Community 410|Community 410]]
+- [[_COMMUNITY_Community 412|Community 412]]
+- [[_COMMUNITY_Community 413|Community 413]]
+- [[_COMMUNITY_Community 414|Community 414]]
+- [[_COMMUNITY_Community 417|Community 417]]
 
 ## God Nodes (most connected - your core abstractions)
+1. `constructor()` - 560 edges
+2. `ConfigNamespace` - 279 edges
+3. `copy()` - 253 edges
+4. `constructor()` - 226 edges
+5. `TemplateNamespace` - 223 edges
+6. `get()` - 176 edges
+7. `CanvasGraphics` - 143 edges
+8. `Lt` - 121 edges
+9. `constructor()` - 106 edges
+10. `create()` - 103 edges
 
 ## Surprising Connections (you probably didn't know these)
-- None detected - all connections are within the same source files.
+- `Sidebar()` --calls--> `formatTime()`  [INFERRED]
+  Projects/SkillTadka/src/components/Sidebar.jsx → Vrindopnishad Web/book/js/enhanced-audio.js
+- `mi()` --calls--> `m`  [INFERRED]
+  Vrindopnishad Web/pdf/js/three.min.js → Projects/VrindaVaani/frontend/scratch/inspect_hati_text.js
+- `us()` --calls--> `m`  [INFERRED]
+  Vrindopnishad Web/pdf/js/three.min.js → Projects/VrindaVaani/frontend/scratch/inspect_hati_text.js
+- `showModernShareModal()` --calls--> `Alert`  [INFERRED]
+  Vrindopnishad Web/integrated Folders/book-content/book copy.js → Projects/VrindaVaani/frontend/src/components/ui/alert.jsx
+- `showModernShareModal()` --calls--> `Alert`  [INFERRED]
+  Vrindopnishad Web/book/js/book.js → Projects/VrindaVaani/frontend/src/components/ui/alert.jsx
 
 ## Import Cycles
 - None detected.
 
-## Communities (383 total, 145 thin omitted)
-
-### Community 121 - "Config Firebase"
-Cohesion: 0.00
-Nodes (16): App.jsx, AdminPanel.jsx, DriversPanel.jsx, CategoryPills.jsx, Header.jsx, RideStatusBanner.jsx, firebase.js, firebaseConfig (+8 more)
-
-### Community 192 - "Utils Whatsapp"
-Cohesion: 0.00
-Nodes (3): HotelBooking.jsx, RestaurantBooking.jsx, whatsapp.js
-
-### Community 207 - "Utils Distance"
-Cohesion: 0.00
-Nodes (3): RideSheet.jsx, LocationCard.jsx, distance.js
-
-### Community 147 - "Backend Supabase Client"
-Cohesion: 0.00
-Nodes (10): main.jsx, supabase_client.py, Client, bool, Supabase Database Client for Vrindopnishad Backend Replaces Firebase Firestore w, Get or create Supabase client, Test Supabase connection, supabaseClient.js (+2 more)
-
-### Community 56 - "Projects Vrindavaani Admin"
-Cohesion: 0.00
-Nodes (7): app.js, allContent, categories, importData, AUTHORIZED_ADMINS, elements, utils.js
-
-### Community 178 - "Scrapping Scraper"
-Cohesion: 0.00
-Nodes (5): scraper.py, Parses sitemap.xml to get all article URLs., Inserts a batch of articles into Supabase via REST API., Scrapes a single article page and extracts metadata from meta tags or HTML., Scrapes both Hindi and English versions of an article and merges them.
-
-### Community 241 - "Scripts Brajrasik Scraper"
-Cohesion: 0.00
-Nodes (4): brajrasik_scraper.py, import_scraped_data.py, migrate_data.py, DateTime
-
-### Community 96 - "Scripts Import All"
-Cohesion: 0.00
-Nodes (7): bulk_migrate.js, fs, path, crypto, { execSync }, items, import_all_brajrasik_data.py
-
-### Community 163 - "Scripts Migrate To"
-Cohesion: 0.00
-Nodes (8): migrate_to_dataconnect.js, fs, path, crypto, { execSync }, items, mapped, tempVarsFile
-
-### Community 82 - "Backend Server"
-Cohesion: 0.00
-Nodes (19): server.py, AdminLogin, BaseModel, TokenResponse, ContentCreate, ContentUpdate, GenerateAudioRequest, GenerateImageRequest (+11 more)
-
-### Community 164 - "Services Supabaseapi Supabaseapi"
-Cohesion: 0.00
-Nodes (3): HTTPAuthorizationCredentials, supabaseApi.js, SupabaseAPI
-
-### Community 62 - "Store New Js"
-Cohesion: 0.00
-Nodes (3): Update content (Admin only), new-js.js, ContentEditor
-
-### Community 86 - "Backend Server Supabase"
-Cohesion: 0.00
-Nodes (16): server_supabase.py, AdminLogin, ContentCreate, ContentUpdate, str, UploadFile, int, Server with Supabase Support for Vrindopnishad Backend This is an alternative se (+8 more)
-
-### Community 118 - "Backend Supabase Client"
-Cohesion: 0.00
-Nodes (11): HTTPAuthorizationCredentials, SupabaseDB, str, Any, int, bytes, Database operations using Supabase, Update existing content (+3 more)
-
-### Community 206 - "Scripts Test Admin"
-Cohesion: 0.00
-Nodes (3): test_admin_sdk.py, test_admin_sdk.js, admin
-
-### Community 48 - "Api Seo Handler"
-Cohesion: 0.00
-Nodes (29): glossaryTerms.js, GLOSSARY_TERMS, saintMetadata.js, SAINT_METADATA, seo-handler.js, fs, path, { getSaintMetadata } (+21 more)
-
-### Community 176 - "Api Semantic Search"
-Cohesion: 0.00
-Nodes (11): semantic-search.js, route.js, page.js, metadata, page.js, metadata, hinglishSearch.js, HINGLISH_MAP (+3 more)
-
-### Community 12 - "Projects Vrindavaani Frontend"
-Cohesion: 0.00
-Nodes (47): page.js, componentMap, page.js, componentMap, InternalLinks.js, ALL_SEO_PAGES, SEOFooter.js, faqData.js (+39 more)
-
-### Community 26 - "Projects Vrindavaani Frontend"
-Cohesion: 0.00
-Nodes (40): page.js, metadata, page.js, metadata, page.js, metadata, layout.js, viewport (+32 more)
-
-### Community 24 - "Projects Vrindavaani Frontend"
-Cohesion: 0.00
-Nodes (35): loading.js, loading.js, page.js, metadata, loading.js, loading.js, loading.js, loading.js (+27 more)
-
-### Community 8 - "Projects Vrindavaani Frontend"
-Cohesion: 0.00
-Nodes (45): page.js, page.js, page.js, page.js, metadata, page.js, page.js, page.js (+37 more)
-
-### Community 208 - "Frontend Check Data"
-Cohesion: 0.00
-Nodes (6): check_data.js, fs, path, dataPath, data, testItems
-
-### Community 254 - "Frontend Next Config"
-Cohesion: 0.00
-Nodes (4): next.config.mjs, __filename, __dirname, nextConfig
-
-### Community 210 - "Health Check Health"
-Cohesion: 0.00
-Nodes (3): health-endpoints.js, os, SERVER_START_TIME
-
-### Community 136 - "Visual Edits Babel"
-Cohesion: 0.00
-Nodes (11): babel-metadata-plugin.js, path, fs, EXTENSIONS, PROJECT_ROOT, SRC_ALIAS, RESOLVE_CACHE, FILE_AST_CACHE (+3 more)
-
-### Community 198 - "Visual Edits Dev"
-Cohesion: 0.00
-Nodes (6): dev-server-setup.js, fs, path, express, { execSync }, SUP_PASS
-
-### Community 65 - "Projects Vrindavaani Frontend"
-Cohesion: 0.00
-Nodes (5): app.js, allContent, categories, importData, elements
-
-### Community 63 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (39): supabaseClient, auth_provider.dart, AuthService, _auth, FirebaseAuth, _supabase, _googleSignIn, GoogleSignIn (+31 more)
-
-### Community 214 - "Scratch Analyze Slugs"
-Cohesion: 0.00
-Nodes (6): analyze_slugs.js, fs, path, dataPath, data, sampleHindiSlugs
-
-### Community 200 - "Scratch Check Akbar"
-Cohesion: 0.00
-Nodes (6): check_akbar.js, fs, path, cachePath, cacheData, item
-
-### Community 239 - "Scratch Check Backup"
-Cohesion: 0.00
-Nodes (4): check_backup_slugs.js, fs, items, matches
-
-### Community 260 - "Scratch Check Slugs"
-Cohesion: 0.00
-Nodes (3): check_slugs.js, fs, cache
-
-### Community 240 - "Scratch Count Supabase"
-Cohesion: 0.00
-Nodes (3): count_supabase.js, { createClient }, supabase
-
-### Community 127 - "Dataconnect Index Cjs"
-Cohesion: 0.00
-Nodes (11): fetch_dataconnect.js, { initializeApp }, { getDataConnect }, { listAllContent, getContentBySlug, connectorConfig }, firebaseConfig, app, dc, index.cjs.js (+3 more)
-
-### Community 168 - "Scratch Fetch Firebase"
-Cohesion: 0.00
-Nodes (8): fetch_firebase.js, { initializeApp }, { getDatabase, ref, get, child }, { getFirestore, collection, getDocs, limit, query }, firebaseConfig, app, rtdb, firestore
-
-### Community 215 - "Scratch Find Sambhu"
-Cohesion: 0.00
-Nodes (6): find_sambhu.js, fs, path, dataPath, data, matches
-
-### Community 261 - "Scratch Find Verse"
-Cohesion: 0.00
-Nodes (3): find_verse.js, fs, cache
-
-### Community 216 - "Scratch Inspect Data"
-Cohesion: 0.00
-Nodes (6): inspect_data.js, fs, path, dataPath, data, searchWords
-
-### Community 217 - "Scratch Inspect Exact"
-Cohesion: 0.00
-Nodes (6): inspect_exact_item.js, fs, path, cachePath, cacheData, item
-
-### Community 229 - "Scratch Inspect Hati"
-Cohesion: 0.00
-Nodes (5): inspect_hati_text.js, fs, path, dataPath, data
-
-### Community 75 - "Js Three Min"
-Cohesion: 0.00
-Nodes (4): m, At, fe, nc
-
-### Community 160 - "Scratch Inspect Hindi"
-Cohesion: 0.00
-Nodes (9): inspect_hindi.js, fs, path, DevanagariToHinglishMap, Consonants, Matras, dataPath, data (+1 more)
-
-### Community 218 - "Scratch Inspect Processed"
-Cohesion: 0.00
-Nodes (6): inspect_processed_cache.js, fs, path, cachePath, cacheData, testSlugs
-
-### Community 219 - "Scratch List Authors"
-Cohesion: 0.00
-Nodes (6): list_authors.js, fs, path, dataPath, data, authors
-
-### Community 220 - "Scratch List Hati"
-Cohesion: 0.00
-Nodes (6): list_hati_verses.js, fs, path, dataPath, data, matches
-
-### Community 201 - "Scratch Search Author"
-Cohesion: 0.00
-Nodes (7): search_author.js, fs, path, dataPath, data, authors, matchedAuthors
-
-### Community 161 - "Scratch Search Slugs"
-Cohesion: 0.00
-Nodes (9): search_slugs.js, fs, path, DevanagariToHinglishMap, Consonants, Matras, dataPath, data (+1 more)
-
-### Community 144 - "Scratch Test Devanagari"
-Cohesion: 0.00
-Nodes (9): test_devanagari_transliterated.js, fs, path, DevanagariToHinglishMap, Consonants, Matras, cachePath, cacheData (+1 more)
-
-### Community 145 - "Scratch Test Getversebyslug"
-Cohesion: 0.00
-Nodes (9): test_getVerseBySlug.js, fs, path, DevanagariToHinglishMap, Consonants, Matras, cachePath, cacheData (+1 more)
-
-### Community 162 - "Scratch Test Transliterate"
-Cohesion: 0.00
-Nodes (9): test_transliterate.js, fs, path, DevanagariToHinglishMap, Consonants, Matras, dataPath, data (+1 more)
-
-### Community 187 - "Scripts Migrate From"
-Cohesion: 0.00
-Nodes (6): migrate_from_supabase_to_dataconnect.js, fs, path, { execSync }, { createClient }, supabase
-
-### Community 148 - "Scripts Test"
-Cohesion: 0.00
-Nodes (11): test_auth_firestore.mjs, firebaseConfig, app, auth, db, credentials, test_firestore.mjs, firebaseConfig (+3 more)
-
-### Community 194 - "Scripts Test Auth"
-Cohesion: 0.00
-Nodes (7): test_auth_santvaanig.mjs, firebaseConfig, app, auth, rtdb, firestoreDb, credentials
-
-### Community 376 - "Scripts Test Register"
-Cohesion: 0.00
-Nodes (5): test_register_and_read.mjs, firebaseConfig, app, auth, db
-
-### Community 222 - "Scripts Test Register"
-Cohesion: 0.00
-Nodes (5): test_register_rtdb.mjs, firebaseConfig, app, auth, db
-
-### Community 101 - "Src App"
-Cohesion: 0.00
-Nodes (52): App.js, HomePage, ContentListPage, ContentDetailPage, CategoryPage, LoginPage, AdminLoginPage, AdminDashboard (+44 more)
-
-### Community 354 - "Contexts Audiocontext"
-Cohesion: 0.00
-Nodes (6): GlobalAudioPlayer.js, LatestVersesFeed.js, PreviewDrawer.js, AudioPlayButton.js, AudioContext.js, AudioContext
-
-### Community 184 - "Ui Navigation Menu"
-Cohesion: 0.00
-Nodes (14): Loader.js, navigation-menu.jsx, NavigationMenu, NavigationMenuList, navigationMenuTriggerStyle, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuViewport (+6 more)
-
-### Community 49 - "Services Api"
-Cohesion: 0.00
-Nodes (33): PookizDashboardView.js, AtmosphereCustomizer.js, THEME_SWATCHES, BrajCalendar.js, ChantSanctuary.js, DailySwadhyaya.js, LibraryShowcase.js, PilgrimageHub.js (+25 more)
-
-### Community 247 - "Ui Accordion"
-Cohesion: 0.00
-Nodes (4): accordion.jsx, AccordionItem, AccordionTrigger, AccordionContent
-
-### Community 190 - "Ui Alert Dialog"
-Cohesion: 0.00
-Nodes (7): alert-dialog.jsx, AlertDialogOverlay, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel
-
-### Community 151 - "Page Content Manager"
-Cohesion: 0.00
-Nodes (6): alert.jsx, alertVariants, Alert, AlertTitle, AlertDescription, content-manager.js
-
-### Community 248 - "Ui Avatar"
-Cohesion: 0.00
-Nodes (4): avatar.jsx, Avatar, AvatarImage, AvatarFallback
-
-### Community 223 - "Ui Breadcrumb"
-Cohesion: 0.00
-Nodes (6): breadcrumb.jsx, Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage
-
-### Community 171 - "Ui Pagination"
-Cohesion: 0.00
-Nodes (7): button.jsx, buttonVariants, Button, calendar.jsx, pagination.jsx, PaginationContent, PaginationItem
-
-### Community 202 - "Ui Card"
-Cohesion: 0.00
-Nodes (7): card.jsx, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter
-
-### Community 203 - "Ui Carousel"
-Cohesion: 0.00
-Nodes (7): carousel.jsx, CarouselContext, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
-
-### Community 179 - "Ui Command"
-Cohesion: 0.00
-Nodes (8): command.jsx, Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandSeparator, CommandItem
-
-### Community 180 - "Ui Context Menu"
-Cohesion: 0.00
-Nodes (9): context-menu.jsx, ContextMenuSubTrigger, ContextMenuSubContent, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel (+1 more)
-
-### Community 204 - "Ui Dialog"
-Cohesion: 0.00
-Nodes (5): dialog.jsx, DialogOverlay, DialogContent, DialogTitle, DialogDescription
-
-### Community 195 - "Ui Drawer"
-Cohesion: 0.00
-Nodes (5): drawer.jsx, DrawerOverlay, DrawerContent, DrawerTitle, DrawerDescription
-
-### Community 181 - "Ui Dropdown Menu"
-Cohesion: 0.00
-Nodes (9): dropdown-menu.jsx, DropdownMenuSubTrigger, DropdownMenuSubContent, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel (+1 more)
-
-### Community 182 - "Ui Form"
-Cohesion: 0.00
-Nodes (8): form.jsx, FormFieldContext, FormItemContext, FormItem, FormLabel, FormControl, FormDescription, FormMessage
-
-### Community 249 - "Ui Input Otp"
-Cohesion: 0.00
-Nodes (5): input-otp.jsx, InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator
-
-### Community 263 - "Ui Label"
-Cohesion: 0.00
-Nodes (3): label.jsx, labelVariants, Label
-
-### Community 135 - "Ui Menubar"
-Cohesion: 0.00
-Nodes (11): menubar.jsx, Menubar, MenubarTrigger, MenubarSubTrigger, MenubarSubContent, MenubarContent, MenubarItem, MenubarCheckboxItem (+3 more)
-
-### Community 292 - "Ui Radio Group"
-Cohesion: 0.00
-Nodes (3): radio-group.jsx, RadioGroup, RadioGroupItem
-
-### Community 265 - "Ui Scroll Area"
-Cohesion: 0.00
-Nodes (3): scroll-area.jsx, ScrollArea, ScrollBar
-
-### Community 196 - "Ui Select"
-Cohesion: 0.00
-Nodes (8): select.jsx, SelectTrigger, SelectScrollUpButton, SelectScrollDownButton, SelectContent, SelectLabel, SelectItem, SelectSeparator
-
-### Community 197 - "Ui Sheet"
-Cohesion: 0.00
-Nodes (6): sheet.jsx, SheetOverlay, sheetVariants, SheetContent, SheetTitle, SheetDescription
-
-### Community 191 - "Ui Table"
-Cohesion: 0.00
-Nodes (9): table.jsx, Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell (+1 more)
-
-### Community 250 - "Ui Tabs"
-Cohesion: 0.00
-Nodes (4): tabs.jsx, TabsList, TabsTrigger, TabsContent
-
-### Community 193 - "Ui Toast"
-Cohesion: 0.00
-Nodes (8): toast.jsx, ToastViewport, toastVariants, Toast, ToastAction, ToastClose, ToastTitle, ToastDescription
-
-### Community 150 - "Hooks Use Toast"
-Cohesion: 0.00
-Nodes (6): toaster.jsx, use-toast.js, actionTypes, toastTimeouts, listeners, memoryState
-
-### Community 297 - "Ui Toggle Group"
-Cohesion: 0.00
-Nodes (4): toggle-group.jsx, ToggleGroupContext, ToggleGroup, ToggleGroupItem
-
-### Community 266 - "Ui Toggle"
-Cohesion: 0.00
-Nodes (3): toggle.jsx, toggleVariants, Toggle
-
-### Community 355 - "Esm Index Esm"
-Cohesion: 0.00
-Nodes (3): index.esm.js, ContentStatus, connectorConfig
-
-### Community 88 - "Dataconnect Index D"
-Cohesion: 0.00
-Nodes (28): index.d.ts, TimestampString, UUIDString, Int64String, DateString, ContentStatus, Content_Key, DeleteContentData (+20 more)
-
-### Community 14 - "Features Global Player"
-Cohesion: 0.00
-Nodes (106): User? get, package:flutter_riverpod/flutter_riverpod.dart, package:supabase_flutter/supabase_flutter.dart, package:flutter_svg/flutter_svg.dart, favorites_provider.dart, _supabase, _currentUser, favoriteIds (+98 more)
-
-### Community 38 - "Core Mood Theme"
-Cohesion: 0.00
-Nodes (111): package:firebase_auth/firebase_auth.dart, _SettingsScreenState, themeProvider, main.dart, SantVaaniApp, main, initializeApp, build (+103 more)
-
-### Community 350 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (14): package:flutter/foundation.dart, notification_service.dart, NotificationService, _instance, static final NotificationService, _notifications, FlutterLocalNotificationsPlugin, init (+6 more)
-
-### Community 186 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (26): cache_service.dart, CacheService, _instance, static CacheService?, static CacheService get, _prefs, SharedPreferences, _contentCache (+18 more)
-
-### Community 54 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (77): List, ContentNotifier, StateNotifier, bool get, FavoritesNotifier, Set, AppLanguage, providers.dart (+69 more)
-
-### Community 87 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (39): static const String, content_provider.dart, database_helper.dart, database_helper.dart, DatabaseHelper, instance, static final DatabaseHelper, _database (+31 more)
-
-### Community 126 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (19): package:shared_preferences/shared_preferences.dart, favorites_provider.dart, _storageKey, _currentUser, favoriteIds, favoritesProvider, isFavoriteProvider, favorites (+11 more)
-
-### Community 73 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (34): content_provider.dart, SacredContent, id, title, category, sanskritText, translation, hindiMeaning (+26 more)
-
-### Community 66 - "Models Daily Gyaan"
-Cohesion: 0.00
-Nodes (13): String?, daily_gyaan.dart, DailyGyaan, id, title, content, mediaUrl, mediaType (+5 more)
-
-### Community 15 - "Features Rituals Screen"
-Cohesion: 0.00
-Nodes (38): cache_service.dart, ../widgets/sacred_ritual_alert.dart, navigationIndexProvider, rituals_provider.dart, ritualsProvider, _storageKey, build, toggleRitual (+30 more)
-
-### Community 116 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (23): design_system.dart, PremiumTokens, PremiumUI, charcoal, static const Color, deepGold, saffronGlow, divineTeal (+15 more)
-
-### Community 23 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (85): StatelessWidget, _SacredGeometry, GlassCard, ShimmerLoading, GradientCategoryCard, AnimatedGreeting, PulsingOmButton, QuoteCard (+77 more)
-
-### Community 34 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (157): package:flutter/material.dart, localization.dart, AppLocalization, languageProvider, language, of, translate, providers.dart (+149 more)
-
-### Community 52 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (68): dart:ui, ../widgets/animated_effects.dart, auth_screen.dart, AuthScreen, _AuthScreenState, AuthScreen, authServiceProvider, _isLogin (+60 more)
-
-### Community 41 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (54): package:google_fonts/google_fonts.dart, ../core/content_provider.dart, content_detail_screen.dart, content, SacredContent, title, category, _fontSize (+46 more)
-
-### Community 18 - "Core Spirituality Provider"
-Cohesion: 0.00
-Nodes (103): package:flutter_animate/flutter_animate.dart, package:flutter/services.dart, ../models/daily_gyaan.dart, ../models/sacred_event.dart, ../models/daily_challenge.dart, dynamic_icon_service.dart, DynamicIconService, _ref (+95 more)
-
-### Community 77 - "Features Daily Motivation"
-Cohesion: 0.00
-Nodes (101): naamJapCounterProvider, ConsumerStatefulWidget, ConsumerState, SingleTickerProviderStateMixin, ContentDetailScreen, naam_jap_screen.dart, NaamJapScreen, _NaamJapScreenState (+93 more)
-
-### Community 22 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (80): theme.dart, AppTheme, SacredStyles, lowPerformanceMode, static const bool, primaryColor, primaryDark, primaryLight (+72 more)
-
-### Community 35 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (63): static final, content_provider.dart, SacredContent, CategoryInfo, id, title, category, sanskritText (+55 more)
-
-### Community 111 - "Services Stats Service"
-Cohesion: 0.00
-Nodes (51): ../core/auth_provider.dart, build, auth_provider.dart, ../core/stats_provider.dart, ../models/user_stats.dart, OnboardingNotifier, ../services/gamification_service.dart, stats_provider.dart (+43 more)
-
-### Community 45 - "Features Home Screen"
-Cohesion: 0.00
-Nodes (91): _ContentDetailScreenState, ContentDetailScreen, isFavoriteProvider, _buildFloatingHeader, _SearchScreenState, SearchScreen, searchedContentProvider, build (+83 more)
-
-### Community 128 - "Core Audio Service"
-Cohesion: 0.00
-Nodes (19): _audioPlayer, package:just_audio/just_audio.dart, audio_service.dart, SacredAudioService, _instance, static final SacredAudioService, _player, AudioPlayer get (+11 more)
-
-### Community 92 - "Core Audio Provider"
-Cohesion: 0.00
-Nodes (27): Duration, audio_provider.dart, AudioState, AudioNotifier, currentContent, isPlaying, isLoading, position (+19 more)
-
-### Community 17 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (59): search_screen.dart, main_navigation_screen.dart, MainNavigationScreen, _MainNavigationScreenState, MainNavigationScreen, _currentIndex, _screens, createState (+51 more)
-
-### Community 13 - "Features Journal Screen"
-Cohesion: 0.00
-Nodes (140): authStateProvider, Random, journal_provider.dart, journalServiceProvider, journalProvider, journalSearchProvider, readStoriesProvider, prefs (+132 more)
-
-### Community 134 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (16): firebase_options.dart, DefaultFirebaseOptions, android, static const FirebaseOptions, ios, web, macos, windows (+8 more)
-
-### Community 177 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (9): api_service.dart, ApiService, _supabase, static final SupabaseClient, fetchAllContent, fetchContentById, fetchCategories, searchContent (+1 more)
-
-### Community 47 - "Projects Vrindavaani Mobile"
-Cohesion: 0.00
-Nodes (58): animated_effects.dart, _FlowerOfLifePainter, CustomPainter, RadialMenuItem, child, onTap, onLongPress, scaleFactor (+50 more)
-
-### Community 72 - "Core Design System"
-Cohesion: 0.00
-Nodes (51): PressableScale, StatefulWidget, _PressableScaleState, PressableScale, AnimatedLoadItem, _AnimatedLoadItemState, AnimatedLoadItem, AnimatedSacredBackground (+43 more)
-
-### Community 60 - "Projects Vrindavaani"
-Cohesion: 0.00
-Nodes (41): Widget?, IconData?, sacred_card.dart, SacredCard, ContinueReadingCard, SectionHeader, title, subtitle (+33 more)
-
-### Community 342 - "Widgets Sacred Ritual"
-Cohesion: 0.00
-Nodes (20): VoidCallback, splash_screen.dart, SplashScreen, _SplashScreenState, onComplete, createState, initState, _startTransition (+12 more)
-
-### Community 108 - "Core Ambient Audio"
-Cohesion: 0.00
-Nodes (22): static const List, ambient_audio_provider.dart, AmbientSoundscape, AmbientAudioState, AmbientAudioNotifier, id, name, icon (+14 more)
-
-### Community 366 - "Services Realtime Service"
-Cohesion: 0.00
-Nodes (9): dart:async, realtime_service.dart, RealtimeService, instance, static final RealtimeService, _contentSubscription, StreamSubscription?, subscribeToContentChanges (+1 more)
-
-### Community 27 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (35): cache_service.dart, CacheService, _instance, _prefs, _contentCache, _categoryCache, _lastCacheTime, _contentCacheKey (+27 more)
-
-### Community 1 - "Core Design System"
-Cohesion: 0.00
-Nodes (245): design_system.dart, PremiumTokens, EmojiToIcon, PremiumUI, SacredMenuItem, _AtmosphericParticle, brightness, static Brightness (+237 more)
-
-### Community 84 - "Models Achievement"
-Cohesion: 0.00
-Nodes (25): static List, ../models/achievement.dart, achievement.dart, Achievement, UserAchievement, id, title, description (+17 more)
-
-### Community 119 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (13): firestore_service.dart, firestore, FirebaseFirestore get, package:cloud_firestore/cloud_firestore.dart, ../core/firestore_service.dart, api_service.dart, ApiService, fetchAllContent (+5 more)
-
-### Community 129 - "Services Journal Service"
-Cohesion: 0.00
-Nodes (9): ../models/journal_entry.dart, journal_service.dart, JournalService, fetchEntries, fetchPublicEntries, getPublicEntriesStream, createEntry, updateEntry (+1 more)
-
-### Community 29 - "Core Personalized Feed"
-Cohesion: 0.00
-Nodes (68): personalized_feed_provider.dart, UserAffinity, DwellTimeNotifier, _ScoredContent, PersonalizedFeedState, PersonalizedDiscoveryNotifier, categoryWeights, tagWeights (+60 more)
-
-### Community 33 - "Features Content Detail"
-Cohesion: 0.00
-Nodes (59): focusModeProvider, reading_providers.dart, ReadingTheme, readerThemeProvider, content_detail_screen.dart, _ReadingThemeData, content, title (+51 more)
-
-### Community 154 - "Core Spirituality Engine"
-Cohesion: 0.00
-Nodes (12): _, SpiritualityLevel, SpiritualityEngine, detectLevel, xpForLevel, xpMultiplier, getContextualMotivation, checkNewAchievements (+4 more)
-
-### Community 19 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (81): theme.dart, AppTheme, SacredStyles, lowPerformanceMode, primaryColor, primaryDark, primaryLight, accentColor (+73 more)
-
-### Community 3 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (212): DeleteContentVariablesBuilder, id, _dataConnect, FirebaseDataConnect, dataDeserializer, varsSerializer, Serializer, operator (+204 more)
-
-### Community 122 - "Dataconnect Generated Generated"
-Cohesion: 0.00
-Nodes (26): DeleteContentContentDelete, DeleteContentData, DeleteContentVariables, @immutable, EnumValue, Known, Unknown, Never (+18 more)
-
-### Community 21 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (5): Deserializer, AnnotationEditor, KeyboardManager, FreeTextEditor, InkEditor
-
-### Community 58 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (15): backgroundColor, LoopbackPort, PDFObjects, AnnotationStorage, PrintAnnotationStorage, ColorManager, LinkAnnotationElement, WidgetAnnotationElement (+7 more)
-
-### Community 71 - "Features Naam Jap"
-Cohesion: 0.00
-Nodes (25): naam_jap_screen.dart, _isImmersive, _ambiencePlayer, _isAudioPlaying, _selectedAmbiance, _ambianceTracks, _tabController, progress (+17 more)
-
-### Community 78 - "Features Onboarding Screen"
-Cohesion: 0.00
-Nodes (31): onboarding_screen.dart, OnboardingScreen, _OnboardingScreenState, _SlideData, _OnboardingSlide, _AssessmentSlide, _SectionLabel, _LevelOption (+23 more)
-
-### Community 91 - "Profile Find Friends"
-Cohesion: 0.00
-Nodes (29): find_friends_screen.dart, SeekerUser, id, displayName, username, avatarUrl, activeMood, japCount (+21 more)
-
-### Community 130 - "Models Daily Challenge"
-Cohesion: 0.00
-Nodes (18): daily_challenge.dart, DailyChallenge, id, title, description, type, targetValue, xpReward (+10 more)
-
-### Community 68 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (11): completedAt, InternalRenderTask, PDFDataTransportStreamReader, PDFDataTransportStreamRangeReader, BaseFullReader, BaseRangeReader, NetworkManager, PDFNetworkStreamFullRequestReader (+3 more)
-
-### Community 166 - "Models Journal Entry"
-Cohesion: 0.00
-Nodes (12): journal_entry.dart, JournalEntry, id, firebaseUid, title, content, createdAt, moonPhase (+4 more)
-
-### Community 362 - "Models Ritual"
-Cohesion: 0.00
-Nodes (12): ritual.dart, Ritual, id, title, time, subtitle, category, isCompleted (+4 more)
-
-### Community 363 - "Models Sacred Event"
-Cohesion: 0.00
-Nodes (12): sacred_event.dart, SacredEvent, id, title, description, date, type, isRecurring (+4 more)
-
-### Community 95 - "Models User Stats"
-Cohesion: 0.00
-Nodes (28): user_stats.dart, UserStats, ReadingHistoryItem, firebaseUid, level, experiencePoints, streakCount, lastActiveDate (+20 more)
-
-### Community 69 - "Services Notification Service"
-Cohesion: 0.00
-Nodes (22): notification_service.dart, NotificationService, _instance, _notifications, _japMorningMessages, _japEveningMessages, requestPermissions, init (+14 more)
-
-### Community 167 - "Scripts Generate Theme"
-Cohesion: 0.00
-Nodes (5): generate_theme_icons.py, bytes, int, Encode RGBA pixels as a PNG bytestring., Render a square icon of `size×size` pixels:       • Dark radial-gradient backgro
-
-### Community 251 - "Vrindavaani Start Demo"
-Cohesion: 0.00
-Nodes (4): start-demo.sh, start-demo.sh script, REACT_APP_BACKEND_URL, REACT_APP_DEMO_MODE
-
-### Community 39 - "Js About App"
-Cohesion: 0.00
-Nodes (7): animations.js, effects.js, mat4, TextScramble, about_app.js, Preloader, Cursor
-
-### Community 112 - "Lib Seohelper"
-Cohesion: 0.00
-Nodes (10): App.jsx, TESTIMONIALS, CartDrawer.jsx, CheckoutModal.jsx, Footer.jsx, Navbar.jsx, PopupModal.jsx, SearchOverlay.jsx (+2 more)
-
-### Community 183 - "Context Notificationcontext"
-Cohesion: 0.00
-Nodes (6): CollectionDetails.jsx, Hero.jsx, NotificationContext.jsx, NotificationContext, notifications.js, notificationSystem
-
-### Community 98 - "Advanced Custom Cursor"
-Cohesion: 0.00
-Nodes (5): CustomCursor.jsx, Advanced-cc.js, CustomCursor, custom-cursor.js, CustomCursor
-
-### Community 199 - "Js Auth"
-Cohesion: 0.00
-Nodes (10): databaseBridge.js, SacredCache, FIREBASE_CONFIG, supabase, auth.js, firebaseConfig, app, analytics (+2 more)
-
-### Community 30 - "Js Pic Simple"
-Cohesion: 0.00
-Nodes (5): pic-simple.js, allImages, imageCache, preloadQueue, imageObserver
-
-### Community 11 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (30): popup-collection.js, collectionsData, PDFDocumentLoadingTask, PDFDataRangeTransport, PDFWorker, RenderTask, FakeEditor, DOMCanvasFactory (+22 more)
-
-### Community 141 - "Temp Collection Details"
-Cohesion: 0.00
-Nodes (3): collection-details.js, collectionsData, collectionDetailsMap
-
-### Community 170 - "Js Data Loader"
-Cohesion: 0.00
-Nodes (3): data-loader.js, JSONDataLoader, EnhancedBookManager
-
-### Community 142 - "Js Image Optimizer"
-Cohesion: 0.00
-Nodes (3): image-optimizer.js, ImageConfig, ImageOptimizer
-
-### Community 40 - "Js Stack"
-Cohesion: 0.00
-Nodes (12): stack.js, bookGrid, searchInput, searchToggle, filterSidebar, filterToggle, filterClose, bookModal (+4 more)
-
-### Community 138 - "Js Audio"
-Cohesion: 0.00
-Nodes (4): BlockContent.js, BlockContent, audio.js, blockContent
-
-### Community 272 - "Js Content Loader"
-Cohesion: 0.00
-Nodes (3): content-loader.js, activeLoaders, ContentLoader
-
-### Community 268 - "Vrindopnishad Web Class"
-Cohesion: 0.00
-Nodes (3): content.db.js, contentDB, dbHelpers
-
-### Community 106 - "Cursors Hatom Cursor"
-Cohesion: 0.00
-Nodes (3): hatom-cursor-script.js, HatomCursor, CursorUtils
-
-### Community 120 - "Simple Stack Main"
-Cohesion: 0.00
-Nodes (3): main.js, data, selectedTags
-
-### Community 43 - "Js Universal Resourse"
-Cohesion: 0.00
-Nodes (3): universal resourse linker.js, UniversalLinker, PathUpdater
-
-### Community 133 - "Vrindopnishad Web Main"
-Cohesion: 0.00
-Nodes (3): main.js, data, selectedTags
-
-### Community 36 - "Js Pdf Viewer"
-Cohesion: 0.00
-Nodes (34): pdf-viewer.js, stars, constellationPoints, constellationLines, canvas, ctx, fileInput, openFileBtn (+26 more)
+## Communities (422 total, 81 thin omitted)
 
 ### Community 0 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (128): currentPageText, TextAnnotation, PopupAnnotation, HighlightAnnotation, Encryption, Message, Picture, Script (+120 more)
+Cohesion: 0.01
+Nodes (138): Acrobat, Acrobat7, ADBE_JSConsole, ADBE_JSDebugger, AddSilentPrint, AdjustData, AdobeExtensionLevel, Agent (+130 more)
 
-### Community 5 - "Js Three Min"
-Cohesion: 0.00
-Nodes (32): three.min.js, _t, Et, ge, an, on, ln, cn (+24 more)
-
-### Community 42 - "Js Three Min"
-Cohesion: 0.00
-Nodes (9): rt, yt, se, Ce, qn, Yl, eh, hh (+1 more)
-
-### Community 81 - "Js Three Min"
-Cohesion: 0.00
-Nodes (10): ei, ol, hl, ul, ic, rc, oc, uc (+2 more)
-
-### Community 32 - "Js Three Min"
-Cohesion: 0.00
-Nodes (3): vt, St, Lt
-
-### Community 31 - "Js Three Min"
-Cohesion: 0.00
-Nodes (4): re, Ne, je, rh
-
-### Community 10 - "Js Three Min"
-Cohesion: 0.00
-Nodes (19): ia, la, go, yo, _o, tl, el, nl (+11 more)
-
-### Community 53 - "Js Three Min"
-Cohesion: 0.00
-Nodes (24): bt, Tt, Wn, ni, ai, cs, hs, xs (+16 more)
-
-### Community 99 - "Js Three Min"
-Cohesion: 0.00
-Nodes (8): en, ti, ci, Pa, Da, Na, xo, fh
-
-### Community 339 - "Js Three Min"
-Cohesion: 0.00
-Nodes (4): wo, jo, qo, Ko
-
-### Community 9 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (14): pdf.min.js, IdManager, PixelsPerInch, DOMCMapReaderFactory, DOMStandardFontDataFactory, PageViewport, BaseCMapReaderFactory, BaseStandardFontDataFactory (+6 more)
-
-### Community 6 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (6): CanvasExtraState, CanvasGraphics, RadialAxialShadingPattern, MeshShadingPattern, TilingPattern, SVGExtraState
-
-### Community 44 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (3): PDFDocumentProxy, PDFPageProxy, WorkerTransport
-
-### Community 85 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (6): AnnotationEditorLayer, LineAnnotationElement, SquareAnnotationElement, CircleAnnotationElement, PolylineAnnotationElement, FileAttachmentAnnotationElement
-
-### Community 4 - "Libs Pdf Min"
-Cohesion: 0.00
-Nodes (5): CommandManager, AnnotationEditorUIManager, DOMFilterFactory, BaseFilterFactory, CachedCanvases
-
-### Community 7 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (22): WidgetAnnotation, TextWidgetAnnotation, ChoiceWidgetAnnotation, LinkAnnotation, StampAnnotation, OpenTypeFileBuilder, Type1CharString, PostScriptStack (+14 more)
+### Community 1 - "Core Design System"
+Cohesion: 0.01
+Nodes (245): class, accentButton, accentDark, accentSilver, _activeAccent, _activeAccentDark, _activeAccentLight, _activeGlow (+237 more)
 
 ### Community 2 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (29): OptionalContentGroup, Dict, RefSet, RefSetCache, Annotation, AnnotationBorderStyle, MarkupAnnotation, ButtonWidgetAnnotation (+21 more)
+Cohesion: 0.03
+Nodes (61): OptionalContentGroup, _addNamespacePrefix(), addNode(), addPdfFont(), addTopLevelNode(), adjustMapping(), B, build() (+53 more)
 
-### Community 59 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (55): PolygonAnnotationElement, pdf.worker.min.js, WorkerTask, MissingDataException, ParserEOFException, XRefEntryException, XRefParseException, Cmd (+47 more)
+### Community 3 - "Projects Vrindavaani Premium"
+Cohesion: 0.01
+Nodes (211): AnyValue?, connectorConfig, content_delete, content_upsert, ContentConnector, ContentStatus, contentStatusDeserializer, contentStatusSerializer (+203 more)
 
-### Community 227 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (21): WorkerMessageHandler, DefaultAppearanceEvaluator, AppearanceStreamEvaluator, ColorSpace, PatternCS, TimeSlotManager, PartialEvaluator, TranslatedFont (+13 more)
+### Community 4 - "Libs Pdf Min"
+Cohesion: 0.03
+Nodes (18): AnnotationEditorLayer, AnnotationEditorUIManager, CachedCanvases, clear(), CommandManager, destroy(), #Dt(), #$e() (+10 more)
 
-### Community 20 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (19): BaseStream, ChunkedStream, Stream, Parser, Lexer, Ascii85Stream, DecodeStream, AsciiHexStream (+11 more)
+### Community 5 - "Js Three Min"
+Cohesion: 0.02
+Nodes (107): _allocateTargets(), an, ao(), _applyPMREM(), Ba, bc, _blur(), br() (+99 more)
 
-### Community 28 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (57): Name, Ref, AppearanceFilter, Assist, Barcode, Bookend, Border, Break (+49 more)
+### Community 6 - "Libs Pdf Min"
+Cohesion: 0.04
+Nodes (72): addFontStyle(), appendText(), applyBoundingBox(), applyTransform(), beginText(), bezierBoundingBox(), CanvasExtraState, CanvasGraphics (+64 more)
 
-### Community 25 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (3): BasePdfManager, Page, GlobalImageCache
+### Community 7 - "Libs Pdf Worker"
+Cohesion: 0.02
+Nodes (87): accept(), addChildren(), AppearanceStreamEvaluator, AstArgument, AstBinaryOperation, AstLiteral, AstVariable, AstVariableDefinition (+79 more)
 
-### Community 117 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (4): AlternateCS, IndexedCS, DeviceGrayCS, DeviceRgbCS
+### Community 8 - "Projects Vrindavaani Frontend"
+Cohesion: 0.04
+Nodes (78): NotFound(), HomeRoute(), metadata, GLOSSARY_TERMS, getSaintMetadata(), SAINT_METADATA, GranthasListRoute(), HindiGranthasListRoute() (+70 more)
 
-### Community 55 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (9): ContextCache, DecodingContext, SimpleSegmentVisitor, HuffmanTreeNode, HuffmanTable, Reader, BitModel, MeshStreamReader (+1 more)
+### Community 9 - "Libs Pdf Min"
+Cohesion: 0.02
+Nodes (69): addNativeFontFace(), applyInverseTransform(), BaseCanvasFactory, BaseCMapReaderFactory, BaseException(), BaseStandardFontDataFactory, bind(), CMYK_HTML() (+61 more)
 
-### Community 132 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (36): Word64, Arc, BooleanElement, BreakBefore, Button, Caption, CheckButton, ChoiceList (+28 more)
+### Community 10 - "Js Three Min"
+Cohesion: 0.02
+Nodes (32): Al, cl, dl, el, fl, hl, i(), ic (+24 more)
 
-### Community 158 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (5): Glyph, TrueTypeCompiled, GlyphHeader, SimpleGlyph, CompositeGlyph
+### Community 11 - "Libs Pdf Min"
+Cohesion: 0.05
+Nodes (8): At, ds(), fe, mi(), mo(), nc, po, ps()
 
-### Community 51 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (9): CFFStrings, CFFIndex, CFFDict, CFFFDSelect, CFFOffsetTracker, CFFCompiler, CompiledFont, Type2Compiled (+1 more)
+### Community 12 - "Projects Vrindavaani Frontend"
+Cohesion: 0.09
+Nodes (33): ALL_SEO_PAGES, faqData, STATIC_SEO_PAGES, componentMap, componentMap, AboutPage(), BrajRasikHeritage(), ComparisonPage() (+25 more)
 
-### Community 83 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (8): ARCFourCipher, NullCipher, AESBaseCipher, AES128Cipher, AES256Cipher, PDF17, PDF20, Encrypt
+### Community 13 - "Features Journal Screen"
+Cohesion: 0.02
+Nodes (170): authStateProvider, addChatMessage, addEntry, addLivePost, addPost, addStory, build, deleteEntry (+162 more)
 
-### Community 242 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (4): Area, Color, ExclGroup, Variables
+### Community 14 - "Features Global Player"
+Cohesion: 0.02
+Nodes (115): content_detail_screen.dart, audioProvider, ../core/audio_provider.dart, contentByBookProvider, contentByRagaProvider, contentBySaintProvider, allGyaanProvider, dailyGyaanProvider (+107 more)
 
-### Community 343 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (3): Subform, SubformSet, Template
-
-### Community 358 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (3): ExData, Datasets, DatasetsNamespace
-
-### Community 90 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (25): Signature, Xdp, CalendarSymbols, CurrencySymbol, DatePattern, DateTimeSymbols, Day, DayNames (+17 more)
+### Community 15 - "Features Rituals Screen"
+Cohesion: 0.04
+Nodes (9): bind(), fh, getValue(), go, ia, jc, la, setValue() (+1 more)
 
 ### Community 16 - "Libs Pdf Worker"
-Cohesion: 0.00
-Nodes (11): FontSelector, Body, I, Li, Ol, P, Span, Sub (+3 more)
+Cohesion: 0.05
+Nodes (16): addPara(), addString(), Body, Br, FontSelector, I, Li, Ol (+8 more)
+
+### Community 17 - "Projects Vrindavaani"
+Cohesion: 0.04
+Nodes (59): ../core/notification_manager.dart, _animateToPage, _buildNavItem, _currentIndex, _decidedDirection, dispose, _isAnimatingToPage, _menuKey (+51 more)
+
+### Community 18 - "Core Spirituality Provider"
+Cohesion: 0.05
+Nodes (40): ../core/cache_service.dart, achievementsWithStatusProvider, dailyChallengesProvider, getAllGyaan, getDailyChallenges, getDailyGyaan, getDailyMotivation, getEventsForMonth (+32 more)
+
+### Community 19 - "Projects Vrindavaani Premium"
+Cohesion: 0.02
+Nodes (80): fromMood, hindiSacred, hindiSacredSmall, hindiUI, hindiUILabel, morningGradient, poppinsLabel, poppinsMuted (+72 more)
+
+### Community 20 - "Libs Pdf Worker"
+Cohesion: 0.03
+Nodes (52): adjustWidths(), Ascii85Stream, AsciiHexStream, BaseStream, CCITTFaxStream, checkAndRepair(), checkHeader(), ChunkedStream (+44 more)
+
+### Community 21 - "Libs Pdf Min"
+Cohesion: 0.04
+Nodes (4): Deserializer, AnnotationEditor, FreeTextEditor, InkEditor
+
+### Community 22 - "Projects Vrindavaani Mobile"
+Cohesion: 0.03
+Nodes (78): textPrimary, textSecondary, devanagariMain, devanagariPreview, outfitLabel, outfitMuted, outfitSubtitle, outfitTitle (+70 more)
+
+### Community 23 - "Projects Vrindavaani Premium"
+Cohesion: 0.02
+Nodes (90): GlassShimmerOverlay, _SacredNotification, EdgeInsetsGeometry?, AchievementProfileScreen, build, AnimatedGreeting, CategoryPill, GlassCard (+82 more)
+
+### Community 24 - "Projects Vrindavaani Frontend"
+Cohesion: 0.05
+Nodes (23): RootLoading(), ApiContext, writeBackupFile(), getSkeletonVariant(), useParams(), extractRelations(), getNormalizedBookName(), getNormalizedBookSlug() (+15 more)
+
+### Community 25 - "Libs Pdf Worker"
+Cohesion: 0.04
+Nodes (19): BasePdfManager, checkFirstPage(), checkLastPage(), cleanup(), clearUnicodeCaches(), ensure(), fontFallback(), getPage() (+11 more)
+
+### Community 26 - "Projects Vrindavaani Frontend"
+Cohesion: 0.07
+Nodes (38): CelestialParticles(), KnowledgeBaseLayout(), LayoutContext, LayoutInner(), PookizLayout(), ScrollToTop(), SettingsModal(), themeGradients (+30 more)
+
+### Community 27 - "Projects Vrindavaani Premium"
+Cohesion: 0.05
+Nodes (62): CacheService, content_provider.dart, cacheAllGyaan, cacheDailyChallenges, cacheDailyGyaan, cacheDailyMotivation, cacheDailyString, cacheMonthlyEvents (+54 more)
+
+### Community 28 - "Libs Pdf Worker"
+Cohesion: 0.01
+Nodes (42): AppearanceFilter, Barcode, Bookend, Break, BreakAfter, Certificate, Comb, Connect (+34 more)
+
+### Community 29 - "Core Personalized Feed"
+Cohesion: 0.04
+Nodes (59): addCategoryWeight, addTagWeight, affinity, allContent, authorMatch, bookMatch, calculateDwellWeight, calculateSimilarity (+51 more)
+
+### Community 30 - "Js Pic Simple"
+Cohesion: 0.08
+Nodes (35): addButtonClickFeedback(), allImages, applyImage(), attachLightboxEvents(), closeLightboxFunction(), createFloatingHeart(), createLightbox(), downloadCurrentLightboxImage() (+27 more)
+
+### Community 31 - "Js Three Min"
+Cohesion: 0.03
+Nodes (8): Ea(), ht(), jt(), Lt, Ne, parseObject(), re, intersect()
+
+### Community 32 - "Js Three Min"
+Cohesion: 0.02
+Nodes (12): ct(), es(), ft(), _halfBlur(), ls(), mt(), qr(), sn (+4 more)
+
+### Community 33 - "Features Content Detail"
+Cohesion: 0.02
+Nodes (98): ContentDetailScreen, ../core/favorites_provider.dart, dwellTimeProvider, similarContentProvider, focusModeProvider, accentColor, _baseScale, _buildAudioPlayer (+90 more)
+
+### Community 34 - "Projects Vrindavaani Mobile"
+Cohesion: 0.04
+Nodes (100): category_screen.dart, CategoryScreen, ../core/content_provider.dart, ../../core/localization.dart, core/providers.dart, _buildContentCard, _buildGlassIcon, _buildHeaderButton (+92 more)
+
+### Community 35 - "Projects Vrindavaani Premium"
+Cohesion: 0.03
+Nodes (61): _audioTags, author, book, books, _capitalizeRaga, categoriesMap, categoryImages, CategoryInfo (+53 more)
+
+### Community 36 - "Js Pdf Viewer"
+Cohesion: 0.05
+Nodes (64): addButtonGlowEffect(), animateSpace(), canvas, closeModalBtns, closeSidebarBtn, constellationLines, constellationPoints, createConstellation() (+56 more)
+
+### Community 37 - "Libs Pdf Worker"
+Cohesion: 0.02
+Nodes (91): achievement_profile_screen.dart, content_details_screen.dart, mock_test_screen.dart, package:syncfusion_flutter_gauges/gauges.dart, pdf_viewer_screen.dart, premium_effects.dart, BeginnerHomeScreen, build (+83 more)
+
+### Community 38 - "Core Mood Theme"
+Cohesion: 0.04
+Nodes (54): Brightness, AppMoodPalette, AppMoodTheme, AppMoodThemes, backgroundGradient, borderColor, brightness, cardColor (+46 more)
+
+### Community 39 - "Js About App"
+Cohesion: 0.05
+Nodes (40): Cursor, initCardTilt(), initCounters(), initGlidingCards(), initHeroAnimations(), initPageAnimations(), initParallax(), initScrollReveals() (+32 more)
+
+### Community 40 - "Js Stack"
+Cohesion: 0.05
+Nodes (54): updateReadingProgress(), resizeCanvas(), applyFilters(), bookGrid, bookModal, checkUrlParameters(), closeBookModal(), convertCollectionToBooks() (+46 more)
+
+### Community 41 - "Projects Vrindavaani Mobile"
+Cohesion: 0.05
+Nodes (38): AudioPlayer get, AmbientAudioNotifier, AmbientAudioState, AmbientSoundscape, audioUrl, copyWith, currentSoundscape, dispose (+30 more)
+
+### Community 42 - "Js Three Min"
+Cohesion: 0.03
+Nodes (19): as(), bindSkeletons(), Ce, ei, ni, pi(), rt, _sceneToCubeUV() (+11 more)
+
+### Community 44 - "Libs Pdf Min"
+Cohesion: 0.04
+Nodes (6): AnnotationStorage, getAll(), PDFDocumentProxy, PDFPageProxy, sendWithPromise(), WorkerTransport
+
+### Community 45 - "Features Home Screen"
+Cohesion: 0.03
+Nodes (121): cache_service.dart, ConsumerWidget, accent, accentDark, accentLight, AppColorPalette, AppColorTheme, AppColorThemes (+113 more)
+
+### Community 46 - "Js Three Min"
+Cohesion: 0.07
+Nodes (30): beginner_home_screen.dart, grade_selection_screen.dart, home_dashboard_screen.dart, HomeDashboardScreen, library_vault_screen.dart, modern_home_screen.dart, ModernHomeScreen, OnboardingScreen (+22 more)
+
+### Community 47 - "Projects Vrindavaani Mobile"
+Cohesion: 0.04
+Nodes (50): blur, borderColor, borderRadius, build, child, color, _controller, createState (+42 more)
+
+### Community 48 - "Api Seo Handler"
+Cohesion: 0.05
+Nodes (42): GLOSSARY_TERMS, getSaintMetadata(), SAINT_METADATA, Consonants, currentPath, DevanagariToHinglishMap, escapeHtml(), extractRelations() (+34 more)
+
+### Community 49 - "Services Api"
+Cohesion: 0.04
+Nodes (45): metadata, viewport, Navigation(), AuthContext, ClientProviders(), LenisScroll(), PersistentBackground(), metadata (+37 more)
+
+### Community 51 - "Libs Pdf Worker"
+Cohesion: 0.09
+Nodes (12): compileGlyf(), CompositeGlyph, getFloat214(), getInt16(), getInt8(), getSize(), Glyph, GlyphHeader (+4 more)
+
+### Community 52 - "Projects Vrindavaani"
+Cohesion: 0.04
+Nodes (73): AuthScreen, authServiceProvider, ../core/auth_provider.dart, OnboardingNotifier, build, ../core/stats_provider.dart, refresh, statsServiceProvider (+65 more)
+
+### Community 53 - "Js Three Min"
+Cohesion: 0.02
+Nodes (36): _a, Aa, ac, Ah, ai, bo, bt, ca (+28 more)
+
+### Community 54 - "Projects Vrindavaani"
+Cohesion: 0.03
+Nodes (98): AppLanguage, AsyncNotifier, bool get, ReadStoriesNotifier, addSearch, AppHapticFeedback, build, clear (+90 more)
+
+### Community 55 - "Libs Pdf Worker"
+Cohesion: 0.06
+Nodes (21): BitModel, byteIn(), ContextCache, copyCoefficients(), decode(), decodeIAID(), decodeInteger(), decodeRefinement() (+13 more)
+
+### Community 56 - "Projects Vrindavaani Admin"
+Cohesion: 0.09
+Nodes (32): AUTHORIZED_ADMINS, handleGoogleLogin(), deleteContent(), deleteContentRef(), allContent, animateValue(), cancelImportPreview(), categories (+24 more)
+
+### Community 57 - "Libs Pdf Worker"
+Cohesion: 0.05
+Nodes (35): addHex(), BinaryCMapStream, charCodeOf(), _charToGlyph(), CMap, convertCidString(), createBuiltInCMap(), expectInt() (+27 more)
+
+### Community 58 - "Libs Pdf Min"
+Cohesion: 0.03
+Nodes (41): backgroundColor, formatContent(), AnnotationElement, AnnotationElementFactory, BaseSVGFactory, CaretAnnotationElement, CheckboxWidgetAnnotationElement, ChoiceWidgetAnnotationElement (+33 more)
+
+### Community 59 - "Libs Pdf Worker"
+Cohesion: 0.01
+Nodes (176): A, abort(), _addPixels(), _addPixelsNeg(), AddViewerPreferences, adjustToRange(), amend(), amendFallbackToUnicode() (+168 more)
+
+### Community 60 - "Projects Vrindavaani"
+Cohesion: 0.03
+Nodes (63): animated_effects.dart, double?, IconData?, category, content, createdAt, DailyGyaan, difficulty (+55 more)
+
+### Community 62 - "Store New Js"
+Cohesion: 0.07
+Nodes (4): Update content (Admin only), Update content (Admin only), update_content(), ContentEditor
+
+### Community 63 - "Projects Vrindavaani"
+Cohesion: 0.06
+Nodes (37): supabaseClient, AuthService, deleteAccount, loginOrRegister, _supabase, FirebaseAuth, GoogleSignIn, package:google_sign_in/google_sign_in.dart (+29 more)
+
+### Community 65 - "Projects Vrindavaani Frontend"
+Cohesion: 0.10
+Nodes (32): allContent, animateValue(), cancelImportPreview(), categories, checkAuth(), closeEditModal(), confirmImport(), debounce() (+24 more)
+
+### Community 66 - "Models Daily Gyaan"
+Cohesion: 0.04
+Nodes (43): package:study_app/providers/user_prefs_provider.dart, package:study_app/screens/home_dashboard_screen.dart, package:study_app/screens/onboarding_screen.dart, package:study_app/theme/app_theme.dart, package:study_app/utils/sacred_styles.dart, package:study_app/widgets/premium_effects.dart, build, main (+35 more)
+
+### Community 68 - "Libs Pdf Min"
+Cohesion: 0.02
+Nodes (39): collectionsData, generateRelatedItems(), initializePopup(), BaseFullReader, BaseRangeReader, BaseShadingPattern, cancelAllRequests(), constructor() (+31 more)
+
+### Community 69 - "Services Notification Service"
+Cohesion: 0.06
+Nodes (43): AndroidFlutterLocalNotificationsPlugin, dart:io, FlutterLocalNotificationsPlugin, IOSFlutterLocalNotificationsPlugin, MacOSFlutterLocalNotificationsPlugin, NotificationService, package:firebase_messaging/firebase_messaging.dart, package:flutter/foundation.dart (+35 more)
+
+### Community 71 - "Features Naam Jap"
+Cohesion: 0.14
+Nodes (4): jo, Ko, qo, wo
+
+### Community 72 - "Core Design System"
+Cohesion: 0.06
+Nodes (67): AnimatedLoadItem, AnimatedSacredBackground, CosmicDriftParticles, _CosmicDriftParticlesState, _DesignSystemPressableScale, _DesignSystemPressableScaleState, DriftingClouds, _DriftingCloudsState (+59 more)
+
+### Community 73 - "Projects Vrindavaani Mobile"
+Cohesion: 0.06
+Nodes (33): _initializePreProcessed, sanskritPreview, _commentaryScale, addContent, allContent, audioUrl, _backgroundRefresh, _cache (+25 more)
+
+### Community 74 - "Js Book"
+Cohesion: 0.10
+Nodes (26): adjustTextareaHeight(), closeShareModal(), copyLinkToClipboard(), copyShareUrl(), enableResizablePanel(), handleIframeMessage(), initBookInterface(), initBookNavigation() (+18 more)
+
+### Community 75 - "Js Three Min"
+Cohesion: 0.04
+Nodes (3): Datasets, ExData, XFAObject
+
+### Community 76 - "Js Three Min"
+Cohesion: 0.05
+Nodes (7): eh, jn(), Mh, pt(), _s(), updateMatrixWorld(), ya
+
+### Community 77 - "Features Daily Motivation"
+Cohesion: 0.06
+Nodes (63): AutomaticKeepAliveClientMixin, ConsumerState, ConsumerStatefulWidget, ambientAudioProvider, ../core/ambient_audio_provider.dart, ../core/color_theme_provider.dart, ../core/journal_provider.dart, ../core/spirituality_engine.dart (+55 more)
+
+### Community 78 - "Features Onboarding Screen"
+Cohesion: 0.07
+Nodes (34): _AssessmentSlide, _buildJourneyButton, _buildNextButton, _buildSlideGraphic, createState, data, dispose, _DivineWisdomGraphic (+26 more)
+
+### Community 81 - "Js Three Min"
+Cohesion: 0.09
+Nodes (10): FreeTextAnnotationElement, charsToGlyphs(), ChoiceWidgetAnnotation, encodeString(), FreeTextAnnotation, getCharPositions(), SignatureWidgetAnnotation, StampAnnotation (+2 more)
+
+### Community 82 - "Backend Server"
+Cohesion: 0.08
+Nodes (35): AdminLogin, ContentCreate, ContentUpdate, create_access_token(), create_content(), delete_content(), generate_audio(), generate_image() (+27 more)
+
+### Community 83 - "Libs Pdf Worker"
+Cohesion: 0.09
+Nodes (12): AES128Cipher, AES256Cipher, AESBaseCipher, ARCFourCipher, calculateSHA384(), decrypt(), Encrypt, NullCipher (+4 more)
+
+### Community 84 - "Models Achievement"
+Cohesion: 0.11
+Nodes (22): Achievement, Achievement, achievementId, allAchievements, condition, ../models/achievement.dart, description, firebaseUid (+14 more)
+
+### Community 85 - "Libs Pdf Min"
+Cohesion: 0.08
+Nodes (24): BorderRadius?, _animation, Gradient?, blur, borderColor, borderRadius, boxShadow, build (+16 more)
+
+### Community 86 - "Backend Server Supabase"
+Cohesion: 0.08
+Nodes (34): AdminLogin, ContentCreate, ContentUpdate, create_access_token(), create_content(), delete_content(), get_all_content(), get_content_by_id() (+26 more)
+
+### Community 87 - "Projects Vrindavaani"
+Cohesion: 0.07
+Nodes (28): _databaseName, _databaseVersion, database_helper.dart, package:path/path.dart, package:sqflite/sqflite.dart, _createDB, _database, DatabaseHelper (+20 more)
+
+### Community 88 - "Dataconnect Index D"
+Cohesion: 0.07
+Nodes (27): Content_Key, ContentStatus, DateString, DeleteContentData, DeleteContentRef, DeleteContentVariables, GetContentByIdData, GetContentByIdRef (+19 more)
+
+### Community 90 - "Libs Pdf Worker"
+Cohesion: 0.06
+Nodes (8): Area, Caption, ExclGroup, Field, _setValue(), Subform, SubformSet, Template
+
+### Community 91 - "Profile Find Friends"
+Cohesion: 0.06
+Nodes (40): NotificationManager, notificationManagerProvider, notificationServiceProvider, ref, syncAllReminders, _syncEventReminders, _syncGyaanReminder, _syncStreakReminder (+32 more)
+
+### Community 92 - "Core Audio Provider"
+Cohesion: 0.07
+Nodes (7): getInitialReflections(), getStorageKey(), THEME_SWATCHES, supabase, DAILY_SHLOKAS, getInitials(), PreviewDrawer
+
+### Community 93 - "Book Content Book"
+Cohesion: 0.11
+Nodes (17): closeShareModal(), copyShareUrl(), initBookInterface(), initBookNavigation(), initHeaderShareButton(), initScroll(), initScrollSections(), loadSavedBookmarks() (+9 more)
+
+### Community 94 - "Js Three Min"
+Cohesion: 0.19
+Nodes (3): bl, dc, mc()
+
+### Community 95 - "Models User Stats"
+Cohesion: 0.07
+Nodes (26): category, contentId, copyWith, dailyMalaGoal, dynamicIconEnabled, experiencePoints, firebaseUid, fromJson (+18 more)
+
+### Community 96 - "Scripts Import All"
+Cohesion: 0.12
+Nodes (23): classifyCategory(), crypto, escapeBlockString(), { execSync }, formatValue(), fs, items, path (+15 more)
 
 ### Community 97 - "Js Load Json"
-Cohesion: 0.00
-Nodes (13): load-json.js, JSON_FILES, EMBEDDED_DATA, poems, allCollections, contentArea, fontDown, fontUp (+5 more)
+Cohesion: 0.10
+Nodes (22): allCollections, authorDisplay, contentArea, displayPoem(), dynamicTitle, EMBEDDED_DATA, fontDown, fontUp (+14 more)
 
-### Community 114 - "Js Read Me"
-Cohesion: 0.00
-Nodes (8): read-me.js, poems, contentArea, fontDown, fontUp, themeToggle, iconStyles, nebula
+### Community 98 - "Advanced Custom Cursor"
+Cohesion: 0.11
+Nodes (3): CustomCursor, initCustomCursor(), CustomCursor
 
-### Community 156 - "Scripts Automaticallypush Autopush"
-Cohesion: 0.00
-Nodes (5): AutoMaticallyPush.py, AutoPush, FileSystemEventHandler, autopushGit.py, AutoPush
+### Community 99 - "Js Three Min"
+Cohesion: 0.05
+Nodes (8): ci, Da, en, gn(), Pa, qc, xo, Yh()
 
-### Community 369 - "Github Onboarding"
-Cohesion: 0.00
-Nodes (7): onboarding.md, Team Onboarding Checklist, 1. Access & Security, 2. Environment Setup, 3. Local Repository Clone (Space Optimized), 4. Workflow Drill, 5. Final Confirmation
+### Community 101 - "Src App"
+Cohesion: 0.03
+Nodes (55): LoadingContext, LoadingProvider(), useLoading(), AboutPage, AdminDashboard, AdminLoginPage, ApiContext, AuthContext (+47 more)
 
-### Community 359 - "Contributing 3 Pull"
-Cohesion: 0.00
-Nodes (12): CONTRIBUTING.md, Contributing to Company, 💾 1. Local Setup (Storage Optimized), 🌿 2. Branching Strategy, 📑 3. Pull Request (PR) Policy, 🗒️ 4. Commit Convention, 👨‍💻 Onboarding Checklist, 5. Committing Changes (+4 more)
-
-### Community 337 - "Vrinda Tours Readme"
-Cohesion: 0.00
-Nodes (5): README.md, Vrinda Tours - Brij Pilgrimage Guide, 🌟 Features, 🛠️ Tech Stack, 📁 Key Files
-
-### Community 364 - "Vrindavaani Commands"
-Cohesion: 0.00
-Nodes (11): COMMANDS.md, Project Utilities & Commands, 📱 Mobile App (Flutter), Development, Building for Production, 🌐 Web Frontend (React), Development, Deployment (GitHub Pages) (+3 more)
-
-### Community 246 - "Vrindavaani Readme"
-Cohesion: 0.00
-Nodes (23): README.md, Vrindopnishad - Hindu Vaidik Sanskriti Content Management System, 🌟 Features, Public Features, Admin Features, 🛠️ Tech Stack, ⚡ Quick Start (Choose One), Option 1: Try Demo Mode (5 minutes) ⭐ **RECOMMENDED** (+15 more)
-
-### Community 221 - "Vrindavaani Supabase Setup"
-Cohesion: 0.00
-Nodes (25): SUPABASE_SETUP.md, VrindaVaani - Supabase Integration Setup, ✅ Setup Complete!, 📁 Files Created/Updated, Backend, Frontend, Startup Scripts, 🚀 How to Run (+17 more)
-
-### Community 243 - "Docs App Icon"
-Cohesion: 0.00
-Nodes (21): APP_ICON_IMPLEMENTATION.md, Vrindopnishad App Icon Implementation Summary, Changes Made, 1. **App Icon Generation** ✅, Android Icons Generated:, iOS Icons Generated:, 2. **App Name Updated** ✅, Android: (+13 more)
-
-### Community 375 - "Docs Connect Backend"
-Cohesion: 0.00
-Nodes (5): CONNECT_BACKEND.md, How to Connect Backend to "santvaanig" Firebase Project, Step 1: Get the Service Account Key, Step 2: Configure the Backend, Step 3: Restart the Backend
-
-### Community 232 - "Docs Firebase Setup"
-Cohesion: 0.00
-Nodes (22): FIREBASE_SETUP_GUIDE.md, Firebase Setup Guide for Vrindopnishad, Prerequisites, Step 1: Create a Firebase Project, Step 2: Enable Firestore Database, Set Firestore Security Rules, Step 3: Enable Firebase Storage, Set Storage Security Rules (+14 more)
-
-### Community 159 - "Docs Installation"
-Cohesion: 0.00
-Nodes (35): INSTALLATION.md, Installation Guide - Sant-Vaani, Table of Contents, Quick Demo (5 minutes), Zero Configuration - No Firebase Needed, macOS/Linux:, Windows (Command Prompt):, What You Get: (+27 more)
-
-### Community 367 - "Docs Mobile Signing"
-Cohesion: 0.00
-Nodes (8): MOBILE_SIGNING.md, Mobile App Signing Documentation, 1. Keystore Information, 2. Configuration (`key.properties`), Create the file:, 3. How it Works, 4. Building the Signed APK, 5. Removing "Play Protect" Warnings
-
-### Community 341 - "Docs Readme"
-Cohesion: 0.00
-Nodes (20): README.md, Vrindopnishad - Hindu Vaidik Sanskriti Content Management System, 🌟 Features, Public Features, Admin Features, 🛠️ Tech Stack, ⚡ Quick Start (Choose One), Option 1: Try Demo Mode (5 minutes) ⭐ **RECOMMENDED** (+12 more)
-
-### Community 348 - "Docs Ux Improvements"
-Cohesion: 0.00
-Nodes (15): UX_IMPROVEMENTS.md, Sant-Vaani UX/UI Improvements - Based on Advanced Design Tips, Implemented Design Principles (From YouTube Video), ✅ Tip #2: Smarter Search Design, ✅ Tip #4: Professional Category Screens, ✅ Fixed Critical Overflow Issues, Additional Improvements Ready to Implement, 🎯 Tip #1: Personalized Experience (Future Enhancement) (+7 more)
-
-### Community 351 - "Frontend Readme"
-Cohesion: 0.00
-Nodes (14): README.md, Getting Started with Create React App, Available Scripts, `npm start`, `npm test`, `npm run build`, `npm run eject`, Learn More (+6 more)
-
-### Community 185 - "Docs Loader Implementation"
-Cohesion: 0.00
-Nodes (27): LOADER_IMPLEMENTATION.md, ✅ Loader Animation Integration Complete, Summary, What Was Done, 1. Created Core Files, **Loader Component** (`src/components/Loader.js`), **Loader Styles** (`src/components/Loader.css`), **Loading Context** (`src/contexts/LoadingContext.js`) (+19 more)
-
-### Community 340 - "Docs Loader Multi"
-Cohesion: 0.00
-Nodes (20): LOADER_MULTI_PAGE_EXAMPLES.md, 🎯 Complete Loader Usage Examples, Multi-Page Usage Guide, Method 1: Local Loading (Component-Specific) ⭐ RECOMMENDED, Method 2: Global Loading (App-Wide), Method 3: Inline Section Loader, Common Page Patterns, Pattern 1: Simple Page Load (+12 more)
-
-### Community 346 - "Docs Loader Quick"
-Cohesion: 0.00
-Nodes (18): LOADER_QUICK_REFERENCE.md, 🚀 Loader Quick Reference, Import, Basic Usage, 1. Inline Loader (Component-Level), 2. Fullscreen Loader (Page-Level), 3. Global Loader (BEST for async operations), Props (+10 more)
-
-### Community 213 - "Docs Loader Update"
-Cohesion: 0.00
-Nodes (26): LOADER_UPDATE_SUMMARY.md, ✅ Loader Update Complete, Changes Made, 1. **Removed Outer Circle/Box** ✅, 2. **Made Multi-Page Ready** ✅, **Option 1: Local Loading Hook** (Recommended for most pages), **Option 2: Global Loading** (For app-wide operations), **Option 3: Direct Component** (For inline sections) (+18 more)
-
-### Community 345 - "Docs Loader Usage"
-Cohesion: 0.00
-Nodes (19): LOADER_USAGE.md, Loader Component Usage Guide, Files Created, Usage Methods, Method 1: Direct Component Usage (Local Loading State), Method 2: Fullscreen Loader, Method 3: Global Loading State (RECOMMENDED), Component Props (+11 more)
-
-### Community 378 - "Projects Vrindavaani Frontend"
-Cohesion: 0.00
-Nodes (3): usage.md, Basic Usage, Advanced Usage
-
-### Community 115 - "Dataconnect Readme"
-Cohesion: 0.00
-Nodes (42): README.md, Generated TypeScript README, Table of Contents, Accessing the connector, Connecting to the local Emulator, Queries, GetContentById, Variables (+34 more)
-
-### Community 380 - "Mobile App Readme"
-Cohesion: 0.00
-Nodes (3): README.md, sant_vaani, Getting Started
-
-### Community 365 - "Premium App Readme"
-Cohesion: 0.00
-Nodes (10): README.md, Sant-Vaani (Premium App), 🚀 Features, 🛠️ Technology Stack, 🏗️ Architecture & Workflows, 1. **Core Engines**, 2. **Key Workflows**, 📂 Project Structure (+2 more)
-
-### Community 379 - "Projects Vrindavaani Premium"
-Cohesion: 0.00
-Nodes (3): usage.md, Basic Usage, Optional Fields
-
-### Community 137 - "Dataconnect Generated Readme"
-Cohesion: 0.00
-Nodes (38): README.md, dataconnect_generated SDK, Installation, Data Connect instance, Connecting to the emulator, Queries, GetContentById, Required Arguments (+30 more)
-
-### Community 371 - "Readme Company Repository"
-Cohesion: 0.00
-Nodes (7): README.md, Company Repository, 🚀 Overview, 🛠 Tech Stack, 🤝 Contributing, Professional Workflow Summary:, 📄 License
-
-### Community 377 - "Gallery React Readme"
-Cohesion: 0.00
-Nodes (4): README.md, React + Vite, React Compiler, Expanding the ESLint configuration
-
-### Community 349 - "Notification Readme Notifications"
-Cohesion: 0.00
-Nodes (15): README-notifications.md, Modern Notification System, Features, Demo, How to Use, 1. Include the Files, 2. Add a Container (Optional), 3. Show Notifications (+7 more)
-
-### Community 374 - "Notification Readme"
-Cohesion: 0.00
-Nodes (6): README.md, Cards Stacking 🎨, Demo, Technologies Used, Tutorial, How to Use
-
-### Community 353 - "Notification Word Hover"
-Cohesion: 0.00
-Nodes (14): word-hover-README.md, Word Hover Effect, Features, Implementation, How It Works, Usage, Customization, Colors (+6 more)
+### Community 102 - "Js Three Min"
+Cohesion: 0.12
+Nodes (5): getFilter(), getOutput(), Lc, removeFilter(), setFilter()
 
 ### Community 105 - "Docs Ripple Documentation"
-Cohesion: 0.00
-Nodes (43): ripple-documentation.md, Ripple Effect Methods Documentation, File Structure, Method 1: CSS Custom Properties (Recommended), Features, Usage, CSS Variables, Method 2: Color Variants (+35 more)
+Cohesion: 0.05
+Nodes (42): Available Animations, Available Effects, Available Sizes, Available Themes, Available Variants, Browser Support, CSS Variables, Custom Animations (+34 more)
 
-### Community 253 - "Contributing Md"
-Cohesion: 0.00
-Nodes (3): Contributing Guide, Company Repository README, @ImBajrangi
+### Community 108 - "Core Ambient Audio"
+Cohesion: 0.17
+Nodes (11): static const double, static const int, static const List, dailyGoalProgress, libraryCategories, MockData, subjects, todayFocus (+3 more)
+
+### Community 109 - "Js Three Min"
+Cohesion: 0.04
+Nodes (12): dt(), $e(), Ke(), ms(), _o, Qe(), set(), ss() (+4 more)
+
+### Community 111 - "Services Stats Service"
+Cohesion: 0.05
+Nodes (45): auth_provider.dart, DwellTimeNotifier, _load, logDwellTime, sharedPreferencesProvider, _, checkNewAchievements, contentDifficulty (+37 more)
+
+### Community 112 - "Lib Seohelper"
+Cohesion: 0.11
+Nodes (13): searchOverlay, fetchSacredCollections(), fetchSacredConfig(), FIREBASE_CONFIG, getFirebaseDB(), processData(), SacredCache, injectSchema() (+5 more)
+
+### Community 113 - "Js Collection Page"
+Cohesion: 0.13
+Nodes (9): collectionsData, formatNumber(), generateCollectionItems(), getMyList(), initializeCollections(), initializeSliders(), openPopup(), refreshMyListUI() (+1 more)
+
+### Community 114 - "Js Read Me"
+Cohesion: 0.12
+Nodes (15): contentArea, displayPoem(), fontDown, fontUp, generateAudioPlayer(), generateImageGallery(), generateLinksSection(), generateRelevantLinks() (+7 more)
+
+### Community 115 - "Dataconnect Readme"
+Cohesion: 0.05
+Nodes (41): Accessing the connector, Connecting to the local Emulator, DeleteContent, Generated TypeScript README, GetContentById, GetContentBySlug, ListAllContent, ListContent (+33 more)
+
+### Community 116 - "Projects Vrindavaani Mobile"
+Cohesion: 0.09
+Nodes (21): deepGold, divineTeal, build, charcoal, divineDarkGradient, fastPulse, glassCard, glassDecoration (+13 more)
+
+### Community 117 - "Libs Pdf Worker"
+Cohesion: 0.13
+Nodes (7): AlternateCS, DeviceGrayCS, DeviceRgbCS, getOutputLength(), getRgbBuffer(), getRgbItem(), IndexedCS
+
+### Community 118 - "Backend Supabase Client"
+Cohesion: 0.16
+Nodes (12): Any, verify_token(), Upload file to Supabase Storage and return public URL, Database operations using Supabase, Update existing content, Get single content by ID, Get all content with optional filtering, SupabaseDB (+4 more)
+
+### Community 119 - "Projects Vrindavaani Premium"
+Cohesion: 0.09
+Nodes (19): ../core/firestore_service.dart, firestore, dart:async, FirebaseFirestore get, package:cloud_firestore/cloud_firestore.dart, ApiService, fetchAllContent, fetchCategories (+11 more)
+
+### Community 120 - "Simple Stack Main"
+Cohesion: 0.14
+Nodes (13): categorySections(), data, filterButtons(), getAllTags(), layoutButtons(), renderItems(), renderTagChips(), searchInput() (+5 more)
+
+### Community 121 - "Config Firebase"
+Cohesion: 0.15
+Nodes (9): app, firebaseConfig, firestore, CATEGORIES, locations, useFirebaseDrivers(), useFirebaseLocations(), useGeolocation() (+1 more)
+
+### Community 122 - "Dataconnect Generated Generated"
+Cohesion: 0.08
+Nodes (26): @immutable, DeleteContentContentDelete, DeleteContentData, DeleteContentVariables, EnumValue, GetContentByIdContent, GetContentByIdData, GetContentByIdVariables (+18 more)
+
+### Community 123 - "Book Content Book"
+Cohesion: 0.15
+Nodes (10): initBookNavigation(), initScroll(), initScrollSections(), loadSavedBookmarks(), loadSavedNotes(), navigateToPage(), playNotificationSound(), showNotification() (+2 more)
+
+### Community 124 - "Projects Vrindavaani Frontend"
+Cohesion: 0.07
+Nodes (29): accentOrange, accentPurple, AppColors, AppTheme, primary, surfaceDark, surfaceLight, textMainLight (+21 more)
+
+### Community 125 - "Content Media Book"
+Cohesion: 0.15
+Nodes (13): copyToClipboard(), enhanceScrollPerformance(), extractYouTubeVideoId(), initYouTubeAPI(), initYouTubePlayers(), onPlayerError(), onPlayerReady(), onPlayerStateChange() (+5 more)
+
+### Community 126 - "Projects Vrindavaani Premium"
+Cohesion: 0.11
+Nodes (17): _initAndLoad, _loadFromFirestore, _loadFromLocal, _saveToLocal, _storageKey, firestore_service.dart, addFavorite, contains (+9 more)
+
+### Community 127 - "Dataconnect Index Cjs"
+Cohesion: 0.11
+Nodes (9): connectorConfig, ContentStatus, { queryRef, executeQuery, validateArgsWithOptions, mutationRef, executeMutation, validateArgs }, app, dc, firebaseConfig, { getDataConnect }, { initializeApp } (+1 more)
+
+### Community 128 - "Core Audio Service"
+Cohesion: 0.08
+Nodes (6): MORPH_WORDS, PDFViewer(), Sidebar(), usePdfViewer(), App(), StitchPlayground
+
+### Community 129 - "Services Journal Service"
+Cohesion: 0.06
+Nodes (10): BooleanElement, DateElement, Decimal, Float, Integer, LockDocument, StringObject, SubjectDN (+2 more)
+
+### Community 130 - "Models Daily Challenge"
+Cohesion: 0.11
+Nodes (17): double get, copyWith, createdAt, currentValue, DailyChallenge, date, description, fromJson (+9 more)
+
+### Community 131 - "Js Pic Collection"
+Cohesion: 0.18
+Nodes (9): addCosmicStars(), blobDownload(), checkAllowedURL(), directDownload(), downloadImage(), fallbackDownload(), playNotificationSound(), proxyDownload() (+1 more)
+
+### Community 132 - "Libs Pdf Worker"
+Cohesion: 0.05
+Nodes (26): applyAssist(), Arc, ariaLabel(), Assist, Button, CheckButton, ChoiceList, ContentArea (+18 more)
+
+### Community 133 - "Vrindopnishad Web Main"
+Cohesion: 0.13
+Nodes (7): data, getAllTags(), performEnhancedSearch(), renderItems(), renderRecommendationPanel(), renderTagChips(), selectedTags
+
+### Community 134 - "Projects Vrindavaani"
+Cohesion: 0.13
+Nodes (14): package:firebase_core/firebase_core.dart, android, DefaultFirebaseOptions, ios, macos, web, windows, android (+6 more)
+
+### Community 135 - "Ui Menubar"
+Cohesion: 0.12
+Nodes (10): Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarLabel, MenubarRadioItem, MenubarSeparator, MenubarSubContent (+2 more)
+
+### Community 136 - "Visual Edits Babel"
+Cohesion: 0.13
+Nodes (14): BINDING_DYNAMIC_CACHE, DYNAMIC_COMP_CACHE, EXTENSIONS, FILE_AST_CACHE, fileExportHasPortals(), fs, parseFileAst(), path (+6 more)
+
+### Community 137 - "Dataconnect Generated Readme"
+Cohesion: 0.05
+Nodes (37): Connecting to the emulator, Data Connect instance, dataconnect_generated SDK, DeleteContent, GetContentById, GetContentBySlug, Getting the Ref, Getting the Ref (+29 more)
+
+### Community 138 - "Js Audio"
+Cohesion: 0.16
+Nodes (9): blockContent, initNotesAudioControls(), isUserTyping(), pauseAllAudio(), playBlockAudio(), setupGlobalAudioControls(), stopAllAudio(), stopAllBlockAudio() (+1 more)
+
+### Community 139 - "Js Collection Page"
+Cohesion: 0.17
+Nodes (9): collectionsData, formatNumber(), generateCollectionItems(), initializeCollections(), loadCollectionsData(), openPopup(), updateHeroSection(), updateNavigation() (+1 more)
+
+### Community 140 - "Js Settings"
+Cohesion: 0.22
+Nodes (11): addSettingsStyles(), closeToolsMenu(), createSettingsModal(), initSettings(), loadSettings(), openSettingsModal(), resetSettings(), setupSettingsEventListeners() (+3 more)
+
+### Community 141 - "Temp Collection Details"
+Cohesion: 0.15
+Nodes (10): collectionDetailsMap, collectionsData, formatNumber(), generateCollectionItems(), initializeCollections(), loadCollectionsData(), openPopup(), updateHeroSection() (+2 more)
+
+### Community 143 - "Page Write"
+Cohesion: 0.18
+Nodes (8): contentStructure, extractKeywords(), generateSlug(), getContentData(), initPreview(), saveContent(), saveToServer(), validateContent()
+
+### Community 144 - "Scratch Test Devanagari"
+Cohesion: 0.18
+Nodes (14): cacheData, cachePath, Consonants, DevanagariToHinglishMap, fs, generateSlug(), getVerseBySlug(), Matras (+6 more)
+
+### Community 145 - "Scratch Test Getversebyslug"
+Cohesion: 0.17
+Nodes (14): cacheData, cachePath, Consonants, DevanagariToHinglishMap, fs, generateSlug(), getVerseBySlug(), Matras (+6 more)
+
+### Community 147 - "Backend Supabase Client"
+Cohesion: 0.17
+Nodes (12): get_supabase_client(), Supabase Database Client for Vrindopnishad Backend Replaces Firebase Firestore w, Test Supabase connection, Get or create Supabase client, test_supabase_connection(), bool, Client, fetchContentFromSupabase() (+4 more)
+
+### Community 148 - "Scripts Test"
+Cohesion: 0.33
+Nodes (5): app, auth, credentials, db, firebaseConfig
+
+### Community 149 - "Gemini Made Gemini"
+Cohesion: 0.18
+Nodes (5): collectionsData, generateCollectionItems(), initializeCollections(), loadCollectionsData(), updateSiteConfig()
+
+### Community 150 - "Hooks Use Toast"
+Cohesion: 0.21
+Nodes (11): actionTypes, addToRemoveQueue(), dispatch(), genId(), listeners, memoryState, reducer(), toast() (+3 more)
+
+### Community 151 - "Page Content Manager"
+Cohesion: 0.17
+Nodes (8): clearAdminForm(), saveNewPage(), saveContent(), showNotification(), Alert, AlertDescription, AlertTitle, alertVariants
+
+### Community 152 - "Js Enhanced Audio"
+Cohesion: 0.24
+Nodes (5): playEnhancedAudio(), playTrackFromJson(), setupFloatingPlayer(), stopAllAudio(), updateFloatingPlayer()
+
+### Community 154 - "Core Spirituality Engine"
+Cohesion: 0.07
+Nodes (31): japHistoryProvider, accent, _ambianceTracks, _ambiencePlayer, _buildHistoryContent, _buildInteractionArea, _buildMiniBar, _buildProfessionalCounter (+23 more)
+
+### Community 156 - "Scripts Automaticallypush Autopush"
+Cohesion: 0.17
+Nodes (3): FileSystemEventHandler, AutoPush, AutoPush
+
+### Community 158 - "Libs Pdf Worker"
+Cohesion: 0.10
+Nodes (6): BaseFilterFactory, DOMFilterFactory, getRGB(), InternalRenderTask, #Wt(), completedAt
+
+### Community 159 - "Docs Installation"
+Cohesion: 0.06
+Nodes (34): 1. Add Content, 1. Port Already in Use, 2. Customize, 2. Firebase Credentials Error, 3. CORS Errors, 3. Deploy to Production, 4. Connection Refused, 5. Database Connection Issues (+26 more)
+
+### Community 160 - "Scratch Inspect Hindi"
+Cohesion: 0.20
+Nodes (11): Consonants, data, dataPath, DevanagariToHinglishMap, fourOhFourUrls, fs, generateSlug(), Matras (+3 more)
+
+### Community 161 - "Scratch Search Slugs"
+Cohesion: 0.20
+Nodes (11): Consonants, data, dataPath, DevanagariToHinglishMap, fs, generateSlug(), Matras, path (+3 more)
+
+### Community 162 - "Scratch Test Transliterate"
+Cohesion: 0.20
+Nodes (11): Consonants, data, dataPath, DevanagariToHinglishMap, fs, generateSlug(), keywords, Matras (+3 more)
+
+### Community 163 - "Scripts Migrate To"
+Cohesion: 0.17
+Nodes (7): crypto, { execSync }, fs, items, mapped, path, tempVarsFile
+
+### Community 164 - "Services Supabaseapi Supabaseapi"
+Cohesion: 0.13
+Nodes (8): get_all_content(), get_categories(), Get all content (Public), Get all content (Public), verify_token(), HTTPAuthorizationCredentials, int, SupabaseAPI
+
+### Community 165 - "Js Pdf Viewer"
+Cohesion: 0.12
+Nodes (30): AdminDashboard, AdminDashboard, _AdminDashboardState, build, _buildBackButton, _buildBulkUploadTab, _buildContentCard, _buildGuideSection (+22 more)
+
+### Community 166 - "Models Journal Entry"
+Cohesion: 0.08
+Nodes (24): package:study_app/screens/achievement_profile_screen.dart, package:study_app/screens/beginner_home_screen.dart, package:study_app/screens/grade_selection_screen.dart, package:study_app/screens/modern_home_screen.dart, package:study_app/screens/subscription_plans_screen.dart, BeginnerHomeScreen, build, _buildBigFocusCard (+16 more)
+
+### Community 167 - "Scripts Generate Theme"
+Cohesion: 0.33
+Nodes (10): bytes, int, _chunk(), _draw_icon(), ensure(), _lerp(), _png(), Encode RGBA pixels as a PNG bytestring. (+2 more)
+
+### Community 168 - "Scratch Fetch Firebase"
+Cohesion: 0.22
+Nodes (10): app, checkFirestore(), checkRTDB(), firebaseConfig, firestore, { getDatabase, ref, get, child }, { getFirestore, collection, getDocs, limit, query }, { initializeApp } (+2 more)
+
+### Community 169 - "Security Screenshot Protection"
+Cohesion: 0.35
+Nodes (8): addProtectionStyles(), createWatermark(), handleScreenshot(), init(), initScreenshotDetection(), removeWatermark(), showNotification(), toggleProtection()
+
+### Community 170 - "Js Data Loader"
+Cohesion: 0.15
+Nodes (4): EnhancedBookManager, initializeEnhancedDataSystem(), JSONDataLoader, updateCategoryFilters()
+
+### Community 171 - "Ui Pagination"
+Cohesion: 0.17
+Nodes (7): Button, buttonVariants, Calendar(), Pagination(), PaginationContent, PaginationItem, PaginationLink()
+
+### Community 172 - "Projects Vrindavaani Frontend"
+Cohesion: 0.12
+Nodes (23): package:app_links_web/app_links_web.dart, package:audio_service_web/audio_service_web.dart, package:audio_session/audio_session_web.dart, package:cloud_firestore_web/cloud_firestore_web.dart, package:file_picker/_internal/file_picker_web.dart, package:file_picker/src/platform/web/file_picker_web.dart, package:firebase_auth_web/firebase_auth_web.dart, package:firebase_core_web/firebase_core_web.dart (+15 more)
+
+### Community 173 - "Js Three Min"
+Cohesion: 0.04
+Nodes (60): Color?, ../core/mood_theme_provider.dart, naamJapCounterProvider, dart:typed_data, _shareContent, _buildStatCard, _canTap, _cooldownMs (+52 more)
+
+### Community 174 - "Js Book Integration"
+Cohesion: 0.27
+Nodes (8): initLinkPanel(), bindAdminEvents(), createAdminPanel(), enhanceBookFunctions(), initializeBookFunctionality(), loadDynamicPanelContent(), showNoContentMessage(), updateLinkIcons()
+
+### Community 175 - "Notification Word Hover"
+Cohesion: 0.29
+Nodes (8): removeWordHoverEffects(), initVoiceControls(), initWordHoverEffects(), processBatch(), processElement(), processHeadings(), refreshScrollTrigger, speakWord()
+
+### Community 176 - "Api Semantic Search"
+Cohesion: 0.12
+Nodes (19): fetchContent(), getEmbeddings(), handler(), meanPool(), ContentListRoute(), HindiContentListRoute(), getAllVersesLightweight(), useSearchParams() (+11 more)
+
+### Community 177 - "Projects Vrindavaani Mobile"
+Cohesion: 0.07
+Nodes (9): Color, Corner, Edge, Linear, Margin, Para, Pattern, Radial (+1 more)
+
+### Community 178 - "Scrapping Scraper"
+Cohesion: 0.29
+Nodes (9): get_article_urls_from_sitemap(), insert_to_supabase(), main(), Parses sitemap.xml to get all article URLs., Scrapes both Hindi and English versions of an article and merges them., Inserts a batch of articles into Supabase via REST API., Scrapes a single article page and extracts metadata from meta tags or HTML., scrape_article() (+1 more)
+
+### Community 179 - "Ui Command"
+Cohesion: 0.20
+Nodes (7): Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator
+
+### Community 180 - "Ui Context Menu"
+Cohesion: 0.20
+Nodes (8): ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuSubContent, ContextMenuSubTrigger
+
+### Community 181 - "Ui Dropdown Menu"
+Cohesion: 0.20
+Nodes (8): DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuSubContent, DropdownMenuSubTrigger
+
+### Community 182 - "Ui Form"
+Cohesion: 0.20
+Nodes (7): FormControl, FormDescription, FormFieldContext, FormItem, FormItemContext, FormLabel, FormMessage
+
+### Community 183 - "Context Notificationcontext"
+Cohesion: 0.22
+Nodes (8): CollectionDetails(), Hero(), NotificationContext, NotificationProvider(), useNotifications(), notificationSystem, playNotificationSound(), showNotification()
+
+### Community 184 - "Ui Navigation Menu"
+Cohesion: 0.08
+Nodes (23): static final List, static final TextStyle, display32Bold, headline24SemiBold, inter10, inter10Bold, inter12, inter12Bold (+15 more)
+
+### Community 185 - "Docs Loader Implementation"
+Cohesion: 0.07
+Nodes (26): 1. Created Core Files, 2. Updated Files, 3. Created Documentation, Animation Details, **App.js**, Benefits, Code Quality, **ContentDetailPage.js** (+18 more)
+
+### Community 187 - "Scripts Migrate From"
+Cohesion: 0.22
+Nodes (5): { createClient }, { execSync }, fs, path, supabase
+
+### Community 188 - "Security Disable Right"
+Cohesion: 0.36
+Nodes (5): handleContextMenu(), handleKeyDown(), handleSelectStart(), isExceptedElement(), showProtectionNotification()
+
+### Community 190 - "Ui Alert Dialog"
+Cohesion: 0.22
+Nodes (6): AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogOverlay, AlertDialogTitle
+
+### Community 191 - "Ui Table"
+Cohesion: 0.22
+Nodes (8): Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow
+
+### Community 192 - "Utils Whatsapp"
+Cohesion: 0.31
+Nodes (4): cleanPhone(), generateHotelMessage(), generateRestaurantMessage(), openWhatsApp()
+
+### Community 193 - "Ui Toast"
+Cohesion: 0.25
+Nodes (7): Toast, ToastAction, ToastClose, ToastDescription, ToastTitle, toastVariants, ToastViewport
+
+### Community 194 - "Scripts Test Auth"
+Cohesion: 0.25
+Nodes (6): app, auth, credentials, firebaseConfig, firestoreDb, rtdb
+
+### Community 195 - "Ui Drawer"
+Cohesion: 0.25
+Nodes (4): DrawerContent, DrawerDescription, DrawerOverlay, DrawerTitle
+
+### Community 196 - "Ui Select"
+Cohesion: 0.25
+Nodes (7): SelectContent, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger
+
+### Community 197 - "Ui Sheet"
+Cohesion: 0.25
+Nodes (5): SheetContent, SheetDescription, SheetOverlay, SheetTitle, sheetVariants
+
+### Community 198 - "Visual Edits Dev"
+Cohesion: 0.25
+Nodes (5): { execSync }, express, fs, path, SUP_PASS
+
+### Community 199 - "Js Auth"
+Cohesion: 0.29
+Nodes (5): analytics, app, auth, AuthService, firebaseConfig
+
+### Community 200 - "Scratch Check Akbar"
+Cohesion: 0.29
+Nodes (5): cacheData, cachePath, fs, item, path
+
+### Community 201 - "Scratch Search Author"
+Cohesion: 0.29
+Nodes (6): authors, data, dataPath, fs, matchedAuthors, path
+
+### Community 202 - "Ui Card"
+Cohesion: 0.29
+Nodes (6): Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
+
+### Community 203 - "Ui Carousel"
+Cohesion: 0.25
+Nodes (6): Carousel, CarouselContent, CarouselContext, CarouselItem, CarouselNext, CarouselPrevious
+
+### Community 204 - "Ui Dialog"
+Cohesion: 0.29
+Nodes (4): DialogContent, DialogDescription, DialogOverlay, DialogTitle
 
 ### Community 205 - "Vrinda Tours Html"
-Cohesion: 0.00
-Nodes (6): Vrindopnishad Home Page, Login Page, Authentication Service, Vrinda Tours Map Interface, Vrinda Tours Driver App, Firebase
+Cohesion: 0.40
+Nodes (6): Authentication Service, Vrinda Tours Driver App, Firebase, Vrindopnishad Home Page, Login Page, Vrinda Tours Map Interface
+
+### Community 206 - "Scripts Test Admin"
+Cohesion: 0.43
+Nodes (5): run(), test_project(), admin, run(), testProject()
+
+### Community 207 - "Utils Distance"
+Cohesion: 0.46
+Nodes (3): calculateDistance(), calculateETA(), formatDistance()
+
+### Community 208 - "Frontend Check Data"
+Cohesion: 0.33
+Nodes (5): data, dataPath, fs, path, testItems
+
+### Community 209 - "Git Sync Print"
+Cohesion: 0.60
+Nodes (5): print_error(), print_step(), print_success(), print_warn(), git-sync.sh script
+
+### Community 213 - "Docs Loader Update"
+Cohesion: 0.08
+Nodes (25): 1. **Removed Outer Circle/Box** ✅, 2. **Made Multi-Page Ready** ✅, Already Integrated Pages, Changes Made, Example 1: New Page with Loading, Example 2: Section Loading, Example 3: Button Action, Existing Files (Already Created): (+17 more)
+
+### Community 214 - "Scratch Analyze Slugs"
+Cohesion: 0.33
+Nodes (5): data, dataPath, fs, path, sampleHindiSlugs
+
+### Community 215 - "Scratch Find Sambhu"
+Cohesion: 0.33
+Nodes (5): data, dataPath, fs, matches, path
+
+### Community 216 - "Scratch Inspect Data"
+Cohesion: 0.33
+Nodes (5): data, dataPath, fs, path, searchWords
+
+### Community 217 - "Scratch Inspect Exact"
+Cohesion: 0.33
+Nodes (5): cacheData, cachePath, fs, item, path
+
+### Community 218 - "Scratch Inspect Processed"
+Cohesion: 0.33
+Nodes (5): cacheData, cachePath, fs, path, testSlugs
+
+### Community 219 - "Scratch List Authors"
+Cohesion: 0.33
+Nodes (5): authors, data, dataPath, fs, path
+
+### Community 220 - "Scratch List Hati"
+Cohesion: 0.33
+Nodes (5): data, dataPath, fs, matches, path
+
+### Community 221 - "Vrindavaani Supabase Setup"
+Cohesion: 0.08
+Nodes (24): 🔐 Admin Access, Admin (Requires JWT Token), 📱 API Endpoints, Backend, Backend (`.env` in `backend/` directory), 📊 Database Info, 🌐 Deployment, 🔑 Environment Variables (+16 more)
+
+### Community 222 - "Scripts Test Register"
+Cohesion: 0.33
+Nodes (4): app, auth, db, firebaseConfig
+
+### Community 223 - "Ui Breadcrumb"
+Cohesion: 0.25
+Nodes (5): Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage
+
+### Community 226 - "Libs Pdf Worker"
+Cohesion: 0.17
+Nodes (5): createImageCard(), decodeAndClamp(), Fill, PDFImage, resizeImageMask()
+
+### Community 227 - "Libs Pdf Worker"
+Cohesion: 0.05
+Nodes (24): add(), buildAddOperation(), buildMinOperation(), buildMulOperation(), buildSubOperation(), CFFCompiler, CFFDict, CFFFDSelect (+16 more)
+
+### Community 229 - "Scratch Inspect Hati"
+Cohesion: 0.40
+Nodes (4): data, dataPath, fs, path
+
+### Community 230 - "Scripts Scrape Brajrasik"
+Cohesion: 0.80
+Nodes (4): fetch_url(), main(), scrape_list_endpoint(), scrape_paged_endpoint()
+
+### Community 231 - "Cookie Consent Cookie"
+Cohesion: 0.53
+Nodes (3): getCookie(), initCookieConsent(), setCookie()
+
+### Community 232 - "Docs Firebase Setup"
+Cohesion: 0.09
+Nodes (21): Cost Estimates, Error: "Firebase not initialized", Error: "Permission denied" on Firestore/Storage, Error: "Storage bucket not found", Firebase Setup Guide for Vrindopnishad, Firestore Collections Structure, Next Steps, Prerequisites (+13 more)
+
+### Community 234 - "Js Offline Handler"
+Cohesion: 0.83
+Nodes (3): checkStatus(), createOfflineExperience(), removeOfflineExperience()
+
+### Community 235 - "Js Popup Checker"
+Cohesion: 0.83
+Nodes (3): hidePopupWarning(), openWindowAndCheck(), showPopupWarning()
+
+### Community 238 - "Scrapping Scrape Extra"
+Cohesion: 0.83
+Nodes (3): main(), scrape_dham(), scrape_saints()
+
+### Community 239 - "Scratch Check Backup"
+Cohesion: 0.50
+Nodes (3): fs, items, matches
+
+### Community 241 - "Scripts Brajrasik Scraper"
+Cohesion: 0.09
+Nodes (21): DateTime, category, copyWith, fromJson, id, isCompleted, Ritual, subtitle (+13 more)
+
+### Community 242 - "Libs Pdf Worker"
+Cohesion: 0.08
+Nodes (15): Attributes, buildRoot(), Data, DatasetsNamespace, DatasetXMLParser, isNsAgnostic(), isWhitespace(), onBeginElement() (+7 more)
+
+### Community 243 - "Docs App Icon"
+Cohesion: 0.10
+Nodes (20): 1. **App Icon Generation** ✅, 2. **App Name Updated** ✅, 3. **Configuration Files Updated** ✅, Android:, Android Icons Generated:, Available Logo Files:, Before Deployment:, Build Commands: (+12 more)
+
+### Community 244 - "Scripts Test Auth"
+Cohesion: 0.67
+Nodes (3): configs, run(), testConfig()
+
+### Community 245 - "Scripts Test Rtdb"
+Cohesion: 0.67
+Nodes (3): configs, run(), testConfig()
+
+### Community 246 - "Vrindavaani Readme"
+Cohesion: 0.09
+Nodes (22): Supabase, VrindaVaani FastAPI Backend, VrindaVaani React Frontend, 1. Demo Mode (Fastest), 2. Full Setup, 3. Create Content, Admin Features, 🙏 Built With (+14 more)
+
+### Community 247 - "Ui Accordion"
+Cohesion: 0.50
+Nodes (3): AccordionContent, AccordionItem, AccordionTrigger
+
+### Community 248 - "Ui Avatar"
+Cohesion: 0.50
+Nodes (3): Avatar, AvatarFallback, AvatarImage
+
+### Community 249 - "Ui Input Otp"
+Cohesion: 0.40
+Nodes (4): InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot
+
+### Community 250 - "Ui Tabs"
+Cohesion: 0.50
+Nodes (3): TabsContent, TabsList, TabsTrigger
+
+### Community 251 - "Vrindavaani Start Demo"
+Cohesion: 0.50
+Nodes (3): start-demo.sh script, REACT_APP_BACKEND_URL, REACT_APP_DEMO_MODE
+
+### Community 253 - "Contributing Md"
+Cohesion: 0.67
+Nodes (3): Contributing Guide, @ImBajrangi, Company Repository README
+
+### Community 254 - "Frontend Next Config"
+Cohesion: 0.50
+Nodes (3): __dirname, __filename, nextConfig
+
+### Community 270 - "Core Design System"
+Cohesion: 0.13
+Nodes (14): color_theme_provider.dart, _cachedIconName, _checkAndUpdateIcon, _checkMidnightReset, DynamicIconService, forceSetIcon, _getCurrentIcon, _getThemeIcon (+6 more)
+
+### Community 297 - "Ui Toggle Group"
+Cohesion: 0.50
+Nodes (3): ToggleGroup, ToggleGroupContext, ToggleGroupItem
+
+### Community 337 - "Vrinda Tours Readme"
+Cohesion: 0.40
+Nodes (4): 🌟 Features, 📁 Key Files, 🛠️ Tech Stack, Vrinda Tours - Brij Pilgrimage Guide
+
+### Community 339 - "Js Three Min"
+Cohesion: 0.11
+Nodes (18): accentOrange, accentPurple, AppColors, AppTheme, primary, surfaceDark, surfaceLight, textMainLight (+10 more)
+
+### Community 340 - "Docs Loader Multi"
+Cohesion: 0.10
+Nodes (19): Best Practices, Common Page Patterns, Complete Example: Blog Page, 🎯 Complete Loader Usage Examples, Default Size (Standard), Files You Need, Fullscreen (Page loads), Import Examples (+11 more)
+
+### Community 341 - "Docs Readme"
+Cohesion: 0.10
+Nodes (19): 1. Demo Mode (Fastest), 2. Full Setup, 3. Create Content, Admin Features, 🙏 Built With, 🎨 Design Highlights, 📖 Documentation, 📖 Documentation (+11 more)
+
+### Community 342 - "Widgets Sacred Ritual"
+Cohesion: 0.08
+Nodes (26): audio_service.dart, AudioNotifier, AudioState, copyWith, currentContent, currentIndex, duration, _init (+18 more)
+
+### Community 343 - "Libs Pdf Worker"
+Cohesion: 0.06
+Nodes (44): core/dynamic_icon_service.dart, _loadFavorites, _supabase, asyncSacredContentProvider, getSacredContent, _ref, SacredDataRepository, sacredRepositoryProvider (+36 more)
+
+### Community 344 - "Libs Pdf Worker"
+Cohesion: 0.12
+Nodes (17): package:flutter_pdfview/flutter_pdfview.dart, package:path_provider/path_provider.dart, build, _buildToolIcon, createState, _currentPage, _downloadAndLoadPDF, _errorMessage (+9 more)
+
+### Community 345 - "Docs Loader Usage"
+Cohesion: 0.11
+Nodes (18): Best Practices, Component Props, Example 1: Page-Level Loading, Example 2: Inline Loader (Within a Section), Example 3: Form Submission with Global Loader, Example 4: Multiple Async Operations, Examples, Files Created (+10 more)
+
+### Community 346 - "Docs Loader Quick"
+Cohesion: 0.11
+Nodes (17): 1. Inline Loader (Component-Level), 2. Fullscreen Loader (Page-Level), 3. Global Loader (BEST for async operations), API Call, Basic Usage, Common Patterns, Demo, ✅ Do's (+9 more)
+
+### Community 347 - "Libs Pdf Worker"
+Cohesion: 0.03
+Nodes (33): BaseLocalCache, BaseShading, DefaultAppearanceEvaluator, destroy(), DummyShading, EvalState, EvaluatorPreprocessor, exportData() (+25 more)
+
+### Community 348 - "Docs Ux Improvements"
+Cohesion: 0.13
+Nodes (14): Additional Improvements Ready to Implement, Design Philosophy Applied, ✅ Fixed Critical Overflow Issues, From the Video:, Implemented Design Principles (From YouTube Video), In Sant-Vaani:, Next Steps for Even Better UX, Performance Metrics (+6 more)
+
+### Community 349 - "Notification Readme Notifications"
+Cohesion: 0.13
+Nodes (14): 1. Include the Files, 2. Add a Container (Optional), 3. Show Notifications, API Reference, Browser Support, Configuration Options:, Demo, Features (+6 more)
+
+### Community 350 - "Projects Vrindavaani Mobile"
+Cohesion: 0.14
+Nodes (3): Jl, Kn, vl()
+
+### Community 351 - "Frontend Readme"
+Cohesion: 0.14
+Nodes (13): Advanced Configuration, Analyzing the Bundle Size, Available Scripts, Code Splitting, Deployment, Getting Started with Create React App, Learn More, Making a Progressive Web App (+5 more)
+
+### Community 352 - "Libs Pdf Worker"
+Cohesion: 0.19
+Nodes (4): cancelAllRequests(), PDFWorkerStreamRangeReader, PDFWorkerStreamReader, sendWithStream()
+
+### Community 353 - "Notification Word Hover"
+Cohesion: 0.14
+Nodes (13): Animations, Browser Compatibility, Colors, Customization, Features, How It Works, Implementation, Performance Notes (+5 more)
+
+### Community 354 - "Contexts Audiocontext"
+Cohesion: 0.27
+Nodes (6): GlobalAudioPlayer(), AudioContext, AudioProvider(), useAudio(), formatTime(), AudioPlayButton()
+
+### Community 355 - "Esm Index Esm"
+Cohesion: 0.11
+Nodes (22): connectorConfig, ContentStatus, getContentBySlug(), getContentBySlugRef(), listAllContent(), listAllContentRef(), listContent(), listContentRef() (+14 more)
+
+### Community 357 - "Libs Pdf Worker"
+Cohesion: 0.15
+Nodes (16): cacheData, cachePath, Consonants, csvLines, csvPath, DevanagariToHinglishMap, fs, generateSlug() (+8 more)
+
+### Community 358 - "Libs Pdf Worker"
+Cohesion: 0.14
+Nodes (14): cacheData, cachePath, Consonants, csvLines, csvPath, DevanagariToHinglishMap, fs, generateSlug() (+6 more)
+
+### Community 359 - "Contributing 3 Pull"
+Cohesion: 0.17
+Nodes (11): 💾 1. Local Setup (Storage Optimized), 1. Make your changes to files, 🌿 2. Branching Strategy, 2. Stage and commit, 3. Pull any remote changes (will auto-merge now), 📑 3. Pull Request (PR) Policy, 🗒️ 4. Commit Convention, 4. Push your changes (+3 more)
+
+### Community 360 - "Libs Pdf Worker"
+Cohesion: 0.03
+Nodes (107): book_detail_screen.dart, category_list_screen.dart, booksProvider, ragasProvider, saintsProvider, ../core/design_system.dart, categoryRecommendationsProvider, continueReadingProvider (+99 more)
+
+### Community 361 - "Libs Pdf Worker"
+Cohesion: 0.10
+Nodes (5): ContentObject, Overflow, Text, Ui, XhtmlObject
+
+### Community 362 - "Models Ritual"
+Cohesion: 0.18
+Nodes (8): ch(), littleSigma(), littleSigmaPrime(), maj(), rotr(), sigma(), sigmaPrime(), Word64
+
+### Community 363 - "Models Sacred Event"
+Cohesion: 0.17
+Nodes (11): createdAt, date, description, fromJson, id, imageUrl, isRecurring, SacredEvent (+3 more)
+
+### Community 364 - "Vrindavaani Commands"
+Cohesion: 0.18
+Nodes (10): 🔥 Backend (Python/FastAPI), Building for Production, 🛠 Combined Scripts, Deployment (GitHub Pages), Development, Development, 📱 Mobile App (Flutter), Project Utilities & Commands (+2 more)
+
+### Community 365 - "Premium App Readme"
+Cohesion: 0.20
+Nodes (9): 1. **Core Engines**, 2. **Key Workflows**, 🏗️ Architecture & Workflows, 📜 Dependencies, 🚀 Features, 🚀 Getting Started, 📂 Project Structure, Sant-Vaani (Premium App) (+1 more)
+
+### Community 366 - "Services Realtime Service"
+Cohesion: 0.12
+Nodes (5): clean(), Font, IntegerObject, Occur, OptionObject
+
+### Community 367 - "Docs Mobile Signing"
+Cohesion: 0.25
+Nodes (7): 1. Keystore Information, 2. Configuration (`key.properties`), 3. How it Works, 4. Building the Signed APK, 5. Removing "Play Protect" Warnings, Create the file:, Mobile App Signing Documentation
+
+### Community 369 - "Github Onboarding"
+Cohesion: 0.29
+Nodes (6): 1. Access & Security, 2. Environment Setup, 3. Local Repository Clone (Space Optimized), 4. Workflow Drill, 5. Final Confirmation, Team Onboarding Checklist
+
+### Community 371 - "Readme Company Repository"
+Cohesion: 0.29
+Nodes (6): Company Repository, 🤝 Contributing, 📄 License, 🚀 Overview, Professional Workflow Summary:, 🛠 Tech Stack
+
+### Community 374 - "Notification Readme"
+Cohesion: 0.33
+Nodes (5): Cards Stacking 🎨, Demo, How to Use, Technologies Used, Tutorial
+
+### Community 375 - "Docs Connect Backend"
+Cohesion: 0.40
+Nodes (4): How to Connect Backend to "santvaanig" Firebase Project, Step 1: Get the Service Account Key, Step 2: Configure the Backend, Step 3: Restart the Backend
+
+### Community 376 - "Scripts Test Register"
+Cohesion: 0.40
+Nodes (4): app, auth, db, firebaseConfig
+
+### Community 377 - "Gallery React Readme"
+Cohesion: 0.50
+Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
+
+### Community 384 - "Community 384"
+Cohesion: 0.17
+Nodes (12): content, fs, handler, originalPath, path, reqBook, reqContent, reqContentList (+4 more)
+
+### Community 385 - "Community 385"
+Cohesion: 0.15
+Nodes (4): ColorSpace, isDefaultDecode(), PatternCS, usesZeroToOneRange()
+
+### Community 387 - "Community 387"
+Cohesion: 0.39
+Nodes (7): downloadFile(), getIconForType(), showNotification(), downloadBackup(), downloadCSVTemplate(), downloadFile(), downloadJSONTemplate()
+
+### Community 388 - "Community 388"
+Cohesion: 0.25
+Nodes (7): FixedExtentScrollController, build, createState, GradeSelectionScreen, _selectedGrade, _buildPageIndicator, _controller
+
+### Community 391 - "Community 391"
+Cohesion: 0.20
+Nodes (10): _AtmosphericParticlePainter, _CrescentMoonPainter, MountainPainter, _NaamJapProgressPainter, CustomPainter, StardustPainter, _ChantArcPainter, _FlowerOfLifePainter (+2 more)
+
+### Community 392 - "Community 392"
+Cohesion: 0.25
+Nodes (7): build, SubscriptionPlansScreen, _buildAnnualHeroCard, _buildBenefitItem, _buildFooterLink, _buildSmallAvatar, _buildSocialProofBanner
+
+### Community 393 - "Community 393"
+Cohesion: 0.25
+Nodes (6): package:flutter_test/flutter_test.dart, package:sant_vaani/main.dart, package:study_app/main.dart, main, main, main
+
+### Community 394 - "Community 394"
+Cohesion: 0.22
+Nodes (8): build, _buildHeader, ModernHomeScreen, _buildActivityItem, _buildDayColumn, _buildFeaturedCard, _buildRecentActivityHeader, _buildStatsRow
+
+### Community 395 - "Community 395"
+Cohesion: 0.22
+Nodes (8): build, _buildBar, _buildTag, ResourceDetailScreen, _buildCircleAvatar, _buildCircularButton, _buildSocialProofCard, _buildStatCard
+
+### Community 397 - "Community 397"
+Cohesion: 0.22
+Nodes (8): content, fs, handler, originalPath, path, reqContent, res, tempPath
+
+### Community 398 - "Community 398"
+Cohesion: 0.07
+Nodes (16): Annotation, AnnotationBorderStyle, CircleAnnotation, getPdfColorArray(), getRgbColor(), InkAnnotation, intersect(), LineAnnotation (+8 more)
+
+### Community 400 - "Community 400"
+Cohesion: 0.50
+Nodes (3): app, db, firebaseConfig
+
+### Community 401 - "Community 401"
+Cohesion: 0.29
+Nodes (6): content, filePath, fs, lines, path, stack
+
+### Community 402 - "Community 402"
+Cohesion: 0.06
+Nodes (11): ColorManager, get(), getGroup(), getPathGenerator(), isVisible(), KeyboardManager, layout(), PDFObjects (+3 more)
+
+### Community 403 - "Community 403"
+Cohesion: 0.33
+Nodes (5): content, filePath, fs, lines, path
+
+### Community 404 - "Community 404"
+Cohesion: 0.33
+Nodes (5): backupPath, data, fs, matchBySlug, path
+
+### Community 405 - "Community 405"
+Cohesion: 0.33
+Nodes (5): cacheData, cachePath, fs, matchBySlug, path
+
+### Community 406 - "Community 406"
+Cohesion: 0.33
+Nodes (5): data, fs, matchBySlug, path, rawPath
+
+### Community 408 - "Community 408"
+Cohesion: 0.40
+Nodes (3): appDir, fs, path
+
+### Community 412 - "Community 412"
+Cohesion: 0.50
+Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 
 ## Knowledge Gaps
-- **145 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **3255 isolated node(s):** `StitchPlayground`, `COLORS`, `WORDS`, `SUBJECTS`, `MORPH_WORDS` (+3250 more)
+  These have ≤1 connection - possible missing edges or undocumented components.
+- **81 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Should `Config Firebase` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Utils Whatsapp` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Utils Distance` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Backend Supabase Client` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Projects Vrindavaani Admin` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Scrapping Scraper` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Scripts Brajrasik Scraper` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
+- **Why does `DateTime` connect `Scripts Brajrasik Scraper` to `Libs Pdf Worker`, `Services Journal Service`, `Models Daily Challenge`, `Libs Pdf Worker`, `Core Design System`, `Backend Supabase Client`, `Projects Vrindavaani Premium`, `Libs Pdf Worker`, `Features Content Detail`, `Projects Vrindavaani`, `Libs Pdf Worker`, `Projects Vrindavaani`, `Features Daily Motivation`, `Backend Server`, `Models Achievement`, `Backend Server Supabase`, `Models User Stats`, `Scripts Import All`, `Models Sacred Event`?**
+  _High betweenness centrality (0.181) - this node is a cross-community bridge._
+- **Why does `constructor()` connect `Libs Pdf Worker` to `Services Journal Service`, `Libs Pdf Worker`, `Community 385`, `Libs Pdf Worker`, `Community 386`, `Libs Pdf Worker`, `Community 398`, `Community 399`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Community 407`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Js Pdf Viewer`, `Projects Vrindavaani Mobile`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Min`, `Libs Pdf Worker`, `Projects Vrindavaani Mobile`, `Libs Pdf Min`, `Js Three Min`, `Utils Distance`, `Js Three Min`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Models Ritual`, `Services Realtime Service`, `Scripts Brajrasik Scraper`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Libs Pdf Worker`, `Community 383`?**
+  _High betweenness centrality (0.114) - this node is a cross-community bridge._
+- **Why does `_t` connect `Js Three Min` to `Dataconnect Generated Generated`, `Projects Vrindavaani Premium`, `Js Three Min`?**
+  _High betweenness centrality (0.043) - this node is a cross-community bridge._
+- **What connects `StitchPlayground`, `COLORS`, `WORDS` to the rest of the system?**
+  _3296 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Libs Pdf Worker` be split into smaller, more focused modules?**
+  _Cohesion score 0.006437487745898961 - nodes in this community are weakly interconnected._
+- **Should `Core Design System` be split into smaller, more focused modules?**
+  _Cohesion score 0.008130081300813009 - nodes in this community are weakly interconnected._
+- **Should `Libs Pdf Worker` be split into smaller, more focused modules?**
+  _Cohesion score 0.029317310680617426 - nodes in this community are weakly interconnected._

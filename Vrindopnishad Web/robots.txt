@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+Allow: /Vrindopnishad%20Web/
+Allow: /Vrindopnishad%20Web/Pictures/
+Disallow: /Vrindopnishad%20Web/Security/
+Disallow: /temp/
+
+# Dedicated rules for AI search engines & answer engines
+User-agent: GPTBot
+Allow: /
+Allow: /Vrindopnishad%20Web/Pictures/
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /Vrindopnishad%20Web/Pictures/
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /Vrindopnishad%20Web/Pictures/
+
+User-agent: Google-Extended
+Allow: /
+Allow: /Vrindopnishad%20Web/Pictures/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /Vrindopnishad%20Web/Pictures/
+
+Sitemap: https://vrindopnishad.in/sitemap.xml
+Sitemap: https://vrindopnishad.in/sitemap-images.xml

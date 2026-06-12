@@ -86,7 +86,53 @@
                 "@id": "https://vrindopnishad.in/#organization",
                 "name": "Vrindopnishad",
                 "url": "https://vrindopnishad.in/",
-                "logo": "https://vrindopnishad.in/android-chrome-512x512.png"
+                "logo": "https://vrindopnishad.in/android-chrome-512x512.png",
+                "founder": [
+                    {
+                        "@type": "Person",
+                        "name": "Yash Chaudhary",
+                        "jobTitle": "Co-Founder & Lead Developer",
+                        "image": "https://i.postimg.cc/sD9xzDgx/temp-Image2n-Gxqd.avif",
+                        "sameAs": [
+                            "https://github.com",
+                            "https://linkedin.com",
+                            "https://instagram.com/vrindopnishad"
+                        ]
+                    },
+                    {
+                        "@type": "Person",
+                        "name": "Hariom",
+                        "jobTitle": "Co-Founder & Creative Director",
+                        "image": "https://i.postimg.cc/pXtr3nR9/temp-Image4co-QDC.avif",
+                        "sameAs": [
+                            "https://behance.net",
+                            "https://instagram.com/vrindopnishad"
+                        ]
+                    }
+                ],
+                "member": [
+                    {
+                        "@type": "Person",
+                        "name": "Hemraj Singh",
+                        "jobTitle": "Content & Operations Manager",
+                        "image": "https://i.postimg.cc/3JHNzDY0/temp-Images-SCS61.avif",
+                        "sameAs": [
+                            "https://linkedin.com",
+                            "https://instagram.com/vrindopnishad"
+                        ]
+                    },
+                    {
+                        "@type": "Person",
+                        "name": "Punit Khandelwal",
+                        "jobTitle": "Community Lead",
+                        "image": "https://i.postimg.cc/HsCnF7dC/temp-Image-Cs7ehf.avif",
+                        "sameAs": [
+                            "https://twitter.com/vrindopnishad",
+                            "https://facebook.com/vrindopnishad",
+                            "https://instagram.com/vrindopnishad"
+                        ]
+                    }
+                ]
             }
         ]
     }
@@ -446,7 +492,7 @@
             }
         }
 
-        /* Philosophy Section */
+        /* Philosophy Section - Bento Grid Layout */
         .philosophy-section {
             padding: clamp(4rem, 10vw, 8rem) 2rem;
             position: relative;
@@ -480,27 +526,53 @@
 
         .philosophy-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: rgba(var(--text-color-rgb), 0.1);
-            border-radius: var(--border-radius-xl);
-            overflow: hidden;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .philosophy-card {
             background: var(--bg-color);
+            border: 1px solid rgba(var(--text-color-rgb), 0.1);
+            border-radius: var(--border-radius-xl);
             padding: 3rem 2rem;
             text-align: center;
             transition: all 0.5s var(--transition-smooth);
             position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .philosophy-card.wide {
+            grid-column: span 2;
+            flex-direction: row;
+            text-align: left;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3rem 4rem;
+            gap: 2rem;
+        }
+
+        .philosophy-card.wide .card-content {
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .philosophy-card.wide .card-icon {
+            margin: 0 0 1.25rem 0;
         }
 
         .philosophy-card:hover {
             background: var(--card-bg);
-            transform: scale(1.02);
-            z-index: 2;
+            border-color: var(--text-color);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
         .card-icon {
@@ -513,6 +585,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.4s var(--transition-smooth);
+            flex-shrink: 0;
         }
 
         .philosophy-card:hover .card-icon {
@@ -544,6 +617,74 @@
             font-size: 0.95rem;
             color: var(--secondary-color);
             line-height: 1.6;
+        }
+
+        /* Floating Collage animation inside Wide Bento card */
+        .collage-container {
+            position: relative;
+            width: 200px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            flex-shrink: 0;
+            z-index: 2;
+        }
+
+        .collage-frame {
+            position: absolute;
+            width: 90px;
+            height: 110px;
+            background: var(--bg-color);
+            border: 1px solid rgba(var(--text-color-rgb), 0.1);
+            border-radius: 8px;
+            padding: 6px 6px 16px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.5s var(--transition-smooth);
+        }
+
+        .collage-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .frame-1 {
+            transform: rotate(-10deg) translate(-25px, -10px);
+            z-index: 1;
+        }
+
+        .frame-2 {
+            transform: rotate(5deg) translate(0px, 0px);
+            z-index: 2;
+        }
+
+        .frame-3 {
+            transform: rotate(15deg) translate(25px, 10px);
+            z-index: 3;
+        }
+
+        .philosophy-card:hover .frame-1 {
+            transform: rotate(-18deg) translate(-45px, -15px) scale(1.05);
+        }
+
+        .philosophy-card:hover .frame-2 {
+            transform: rotate(0deg) translate(0px, -8px) scale(1.08);
+        }
+
+        .philosophy-card:hover .frame-3 {
+            transform: rotate(22deg) translate(45px, 15px) scale(1.05);
+        }
+
+        #network-mesh {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Work Section */
@@ -689,7 +830,6 @@
             from {
                 transform: translate(-50%, -50%) rotate(0deg);
             }
-
             to {
                 transform: translate(-50%, -50%) rotate(360deg);
             }
@@ -698,14 +838,14 @@
         .team-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 2.5rem;
             position: relative;
             z-index: 1;
         }
 
         .team-card {
             position: relative;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius-xl);
@@ -713,24 +853,33 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            transition: all 0.5s var(--transition-smooth);
-            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
         }
 
         .team-card:hover {
-            transform: translateY(-10px) scale(1.02);
             border-color: var(--text-color);
-            box-shadow: var(--shadow-lg);
+            background: rgba(var(--text-color-rgb), 0.02);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
         }
 
         .team-avatar {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 115px;
+            height: 115px;
             margin-bottom: 1.5rem;
+            transform: translateZ(40px);
+            transition: transform 0.4s var(--transition-smooth);
+        }
+
+        .team-card:hover .team-avatar {
+            transform: translateZ(60px) scale(1.05);
         }
 
         .team-avatar img {
@@ -738,7 +887,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            border: 3px solid var(--text-color);
+            border: 2px solid var(--text-color);
         }
 
         .avatar-glow {
@@ -753,32 +902,57 @@
         }
 
         .team-card:hover .avatar-glow {
-            opacity: 0.2;
+            opacity: 0.12;
         }
 
         .team-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
+            transform: translateZ(30px);
         }
 
         .team-role {
             font-size: 0.85rem;
             color: var(--tertiary-color);
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            transform: translateZ(20px);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .team-bio {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--secondary-color);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s;
+            line-height: 1.6;
+            transform: translateZ(15px);
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
         }
 
-        .team-card:hover .team-bio {
+        .team-social-mini {
+            display: flex;
+            gap: 1.25rem;
+            justify-content: center;
+            transform: translateZ(25px);
+            opacity: 0;
+            transition: opacity 0.4s var(--transition-smooth), transform 0.4s var(--transition-smooth);
+            margin-top: auto;
+        }
+
+        .team-card:hover .team-social-mini {
             opacity: 1;
-            transform: translateY(0);
+        }
+
+        .team-social-mini i {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .team-social-mini i:hover {
+            color: var(--text-color);
+            transform: scale(1.15);
         }
 
         .card-number {
@@ -1072,7 +1246,22 @@
         /* ========== Mobile Responsiveness ========== */
         @media (max-width: 992px) {
             .philosophy-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
+            }
+
+            .philosophy-card.wide {
+                grid-column: span 1;
+                flex-direction: column;
+                text-align: center;
+                padding: 3rem 2rem;
+            }
+
+            .philosophy-card.wide .card-content {
+                max-width: 100%;
+            }
+
+            .collage-container {
+                display: none !important;
             }
 
             .work-grid {
@@ -1120,6 +1309,21 @@
 
             .team-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .team-card {
+                padding: 2rem 1.5rem;
+                transform: none !important; /* Disable 3D tilt on mobile */
+            }
+
+            .team-card:hover .team-avatar {
+                transform: none !important;
+            }
+
+            .team-social-mini {
+                opacity: 1;
+                margin-top: 1rem;
             }
 
             .team-orbit {
@@ -1135,7 +1339,7 @@
             }
 
             .team-bio {
-                opacity: 1;
+                opacity: 0.9;
                 transform: none;
             }
 
@@ -1248,6 +1452,7 @@
     <main>
         <!-- Hero Section -->
         <section class="about-hero">
+            <canvas id="ambient-particles"></canvas>
             <div class="hero-bg-text">VRINDO</div>
             <div class="about-hero-content">
                 <div class="hero-badge">
@@ -1300,30 +1505,37 @@
 
         <!-- Philosophy Section -->
         <section class="philosophy-section" id="philosophy">
-            <div class="section-header">
+            <div class="section-header reveal-on-scroll">
                 <span class="section-tag">01 — Philosophy</span>
                 <h2 class="section-title">What Drives Us</h2>
                 <p class="section-subtitle">Four pillars that define our mission</p>
             </div>
 
-            <div class="philosophy-grid">
-                <div class="philosophy-card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+            <div class="philosophy-grid reveal-on-scroll">
+                <!-- Card 1 (Wide Bento Card) -->
+                <div class="philosophy-card wide">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <span class="card-num">01</span>
+                        <h3>Preserve Art</h3>
+                        <p>Documenting the rich artistic heritage through cutting-edge digital mediums.</p>
                     </div>
-                    <span class="card-num">01</span>
-                    <h3>Preserve Art</h3>
-                    <p>Documenting the rich artistic heritage through cutting-edge digital mediums.</p>
+                    <div class="collage-container">
+                        <div class="collage-frame frame-1"><img src="https://i.postimg.cc/y6nMpbfG/1.avif" alt="Divine Art Detail 1"></div>
+                        <div class="collage-frame frame-2"><img src="https://i.postimg.cc/D0CRWSJh/2.avif" alt="Divine Art Detail 2"></div>
+                        <div class="collage-frame frame-3"><img src="https://i.postimg.cc/d3Qzt20n/4.avif" alt="Divine Art Detail 3"></div>
+                    </div>
                 </div>
 
+                <!-- Card 2 (Standard Bento Card) -->
                 <div class="philosophy-card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
                     </div>
                     <span class="card-num">02</span>
@@ -1331,11 +1543,11 @@
                     <p>Making ancient Vedic knowledge accessible to seekers worldwide.</p>
                 </div>
 
+                <!-- Card 3 (Standard Bento Card) -->
                 <div class="philosophy-card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path
-                                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                         </svg>
                     </div>
                     <span class="card-num">03</span>
@@ -1343,28 +1555,31 @@
                     <p>Producing devotional content that inspires spiritual growth.</p>
                 </div>
 
-                <div class="philosophy-card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path
-                                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                        </svg>
+                <!-- Card 4 (Wide Bento Card with Canvas Mesh) -->
+                <div class="philosophy-card wide" style="position: relative;">
+                    <canvas id="network-mesh"></canvas>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                        </div>
+                        <span class="card-num">04</span>
+                        <h3>Connect Global</h3>
+                        <p>Building bridges between cultures through shared spiritual heritage.</p>
                     </div>
-                    <span class="card-num">04</span>
-                    <h3>Connect Global</h3>
-                    <p>Building bridges between cultures through shared spiritual heritage.</p>
                 </div>
             </div>
         </section>
 
         <!-- Work Section -->
         <section class="work-section" id="work">
-            <div class="section-header">
+            <div class="section-header reveal-on-scroll">
                 <span class="section-tag">02 — Work</span>
                 <h2 class="section-title">Selected Projects</h2>
             </div>
 
-            <div class="work-grid">
+            <div class="work-grid reveal-on-scroll">
                 <a href="/Vrindopnishad%20Web/Pictures/main/photos.html" class="work-card featured">
                     <div class="work-placeholder"><i class="fas fa-camera"></i></div>
                     <div class="work-overlay">
@@ -1396,12 +1611,12 @@
 
         <!-- Team Section -->
         <section class="team-section" id="team">
-            <div class="section-header">
+            <div class="section-header reveal-on-scroll">
                 <span class="section-tag">03 — Team</span>
                 <h2 class="section-title">The Creators</h2>
             </div>
 
-            <div class="team-container">
+            <div class="team-container reveal-on-scroll">
                 <div class="team-orbit">
                     <div class="orbit-ring"></div>
                     <div class="orbit-ring orbit-ring-2"></div>
@@ -1421,6 +1636,11 @@
                         <h3>Hariom</h3>
                         <span class="team-role">Co-Founder & Creative</span>
                         <p class="team-bio">Crafting visual stories that inspire</p>
+                        <div class="team-social-mini">
+                            <i class="fab fa-instagram"></i>
+                            <i class="fab fa-behance"></i>
+                            <i class="fas fa-globe"></i>
+                        </div>
                         <span class="card-number">01</span>
                     </a>
 
@@ -1432,6 +1652,11 @@
                         <h3>Yash</h3>
                         <span class="team-role">Lead Dev</span>
                         <p class="team-bio">Architecting digital experiences with code</p>
+                        <div class="team-social-mini">
+                            <i class="fab fa-github"></i>
+                            <i class="fab fa-linkedin"></i>
+                            <i class="fab fa-instagram"></i>
+                        </div>
                         <span class="card-number">02</span>
                     </a>
 
@@ -1443,6 +1668,11 @@
                         <h3>Hemraj</h3>
                         <span class="team-role">Content & Operations</span>
                         <p class="team-bio">Weaving words with wisdom</p>
+                        <div class="team-social-mini">
+                            <i class="fab fa-instagram"></i>
+                            <i class="fab fa-linkedin"></i>
+                            <i class="fas fa-envelope"></i>
+                        </div>
                         <span class="card-number">03</span>
                     </a>
 
@@ -1454,6 +1684,11 @@
                         <h3>Punit</h3>
                         <span class="team-role">Community Lead</span>
                         <p class="team-bio">Building bonds across boundaries</p>
+                        <div class="team-social-mini">
+                            <i class="fab fa-instagram"></i>
+                            <i class="fab fa-twitter"></i>
+                            <i class="fab fa-facebook"></i>
+                        </div>
                         <span class="card-number">04</span>
                     </a>
                 </div>
@@ -1462,11 +1697,11 @@
 
         <!-- Contact Section -->
         <section class="contact-section" id="contact">
-            <div class="contact-layout">
+            <div class="contact-layout reveal-on-scroll">
                 <div class="contact-info">
                     <span class="section-tag">04 — Contact</span>
                     <h2>Let's create<br>something <em>amazing</em></h2>
-                    <a href="mailto:vrinda.connect.us@gmail.com" class="contact-email">vrinda.connect.us@gmail.com</a>
+                    <a href="#" class="contact-email contact-email-link">Email Loading...</a>
                     <div class="contact-social">
                         <a href="https://instagram.com/vrindopnishad" target="_blank">Instagram</a>
                         <a href="https://youtube.com/@vrindopnishad" target="_blank">YouTube</a>
@@ -1540,6 +1775,16 @@
     </footer>
 
     <script>
+        // Obfuscate email from simple crawler bots
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.contact-email-link').forEach(link => {
+                const user = 'vrinda.connect.us';
+                const domain = 'gmail.com';
+                link.href = 'mailto:' + user + '@' + domain;
+                link.textContent = user + '@' + domain;
+            });
+        });
+
         // Header scroll effect
         const header = document.querySelector('header');
         window.addEventListener('scroll', () => {
@@ -1621,6 +1866,219 @@
         toolsIcon?.addEventListener('click', openToolsMenu);
         toolsClose?.addEventListener('click', closeToolsMenu);
         toolsOverlay?.addEventListener('click', closeToolsMenu);
+
+        // Modern Animations & Interactive Features Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Ambient Particles Canvas in Hero
+            const initParticles = () => {
+                const canvas = document.getElementById('ambient-particles');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                let width = canvas.width = canvas.offsetWidth;
+                let height = canvas.height = canvas.offsetHeight;
+
+                window.addEventListener('resize', () => {
+                    if (canvas.offsetWidth && canvas.offsetHeight) {
+                        width = canvas.width = canvas.offsetWidth;
+                        height = canvas.height = canvas.offsetHeight;
+                    }
+                });
+
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() * height + height;
+                        this.size = Math.random() * 2 + 0.6;
+                        this.speedY = -(Math.random() * 0.7 + 0.15);
+                        this.speedX = Math.random() * 0.4 - 0.2;
+                        this.opacity = Math.random() * 0.45 + 0.05;
+                    }
+                    update(mouseX, mouseY) {
+                        this.y += this.speedY;
+                        this.x += this.speedX;
+
+                        if (this.y < -10) {
+                            this.y = height + 10;
+                            this.x = Math.random() * width;
+                        }
+                        if (this.x < -10 || this.x > width + 10) {
+                            this.x = Math.random() * width;
+                        }
+
+                        if (mouseX && mouseY) {
+                            const dx = this.x - mouseX;
+                            const dy = this.y - mouseY;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            if (dist < 120) {
+                                const force = (120 - dist) / 120;
+                                this.x += (dx / dist) * force * 1.5;
+                                this.y += (dy / dist) * force * 1.5;
+                            }
+                        }
+                    }
+                    draw() {
+                        ctx.fillStyle = `rgba(142, 127, 127, ${this.opacity})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                for (let i = 0; i < 70; i++) {
+                    particles.push(new Particle());
+                }
+
+                let mouseX = null;
+                let mouseY = null;
+                const heroSection = document.querySelector('.about-hero');
+                heroSection?.addEventListener('mousemove', (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.clientX - rect.left;
+                    mouseY = e.clientY - rect.top;
+                });
+                heroSection?.addEventListener('mouseleave', () => {
+                    mouseX = null;
+                    mouseY = null;
+                });
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, width, height);
+                    particles.forEach(p => {
+                        p.update(mouseX, mouseY);
+                        p.draw();
+                    });
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            };
+
+            // 2. Network Mesh Animation for Connect Global Card
+            const initNetworkMesh = () => {
+                const canvas = document.getElementById('network-mesh');
+                if (!canvas) return;
+                const parent = canvas.parentElement;
+                const ctx = canvas.getContext('2d');
+                let points = [];
+                let width = canvas.width = parent.offsetWidth;
+                let height = canvas.height = parent.offsetHeight;
+
+                const resizeObserver = new ResizeObserver(() => {
+                    if (parent.offsetWidth && parent.offsetHeight) {
+                        width = canvas.width = parent.offsetWidth;
+                        height = canvas.height = parent.offsetHeight;
+                        initPoints();
+                    }
+                });
+                resizeObserver.observe(parent);
+
+                const initPoints = () => {
+                    points = [];
+                    const count = Math.min(Math.floor((width * height) / 3500), 20);
+                    for (let i = 0; i < count; i++) {
+                        points.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            vx: (Math.random() * 0.3 - 0.15),
+                            vy: (Math.random() * 0.3 - 0.15),
+                            radius: Math.random() * 1.5 + 0.5
+                        });
+                    }
+                };
+
+                initPoints();
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    points.forEach((p, idx) => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        if (p.x < 0 || p.x > width) p.vx *= -1;
+                        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+                        if (document.body.classList.contains('dark-mode') || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                        }
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        for (let j = idx + 1; j < points.length; j++) {
+                            const p2 = points[j];
+                            const dx = p.x - p2.x;
+                            const dy = p.y - p2.y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            if (dist < 80) {
+                                let strokeColor = `rgba(0, 0, 0, ${0.06 * (1 - dist/80)})`;
+                                if (document.body.classList.contains('dark-mode') || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                                    strokeColor = `rgba(255, 255, 255, ${0.06 * (1 - dist/80)})`;
+                                }
+                                ctx.strokeStyle = strokeColor;
+                                ctx.lineWidth = 0.5;
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.stroke();
+                            }
+                        }
+                    });
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            };
+
+            // 3. 3D Tilt Effect for Team Cards
+            const initTeamTilt = () => {
+                if (window.innerWidth <= 768) return; // Skip on mobile
+                const cards = document.querySelectorAll('.team-card');
+                cards.forEach(card => {
+                    card.style.willChange = 'transform';
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const rotateX = ((centerY - y) / centerY) * 7;
+                        const rotateY = ((x - centerX) / centerX) * 7;
+
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                    });
+                });
+            };
+
+            // 4. Scroll Reveal via Intersection Observer
+            const initScrollReveal = () => {
+                const revealElements = document.querySelectorAll('.reveal-on-scroll');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -40px 0px'
+                });
+
+                revealElements.forEach(el => observer.observe(el));
+            };
+
+            // Initialize all features
+            initParticles();
+            initNetworkMesh();
+            initTeamTilt();
+            initScrollReveal();
+        });
     </script>
 
     <!-- Custom Cursor JS -->

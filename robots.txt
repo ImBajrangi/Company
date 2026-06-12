@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /Projects/VrindaVaani/admin/
+Disallow: /admin/
 
 Sitemap: https://vrindopnishad.in/sitemap.xml

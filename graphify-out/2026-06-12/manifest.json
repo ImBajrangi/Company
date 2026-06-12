@@ -1,0 +1,3852 @@
+{
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/App.jsx": {
+    "mtime": 1778252707.8983698,
+    "ast_hash": "730b9a2e2b6131eec1cb668137195f82",
+    "semantic_hash": "730b9a2e2b6131eec1cb668137195f82"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/Admin/AdminPanel.jsx": {
+    "mtime": 1778253629.2377813,
+    "ast_hash": "e2bfe6c3ccdd1ca4e81b5adbc12f47cb",
+    "semantic_hash": "e2bfe6c3ccdd1ca4e81b5adbc12f47cb"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/Admin/DriversPanel.jsx": {
+    "mtime": 1778253569.0012934,
+    "ast_hash": "c34dbc2e0c0ec0fc87c8b043b3c68241",
+    "semantic_hash": "c34dbc2e0c0ec0fc87c8b043b3c68241"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/BookingSheets/HotelBooking.jsx": {
+    "mtime": 1778251317.9401817,
+    "ast_hash": "8f200ecd1c27619cbb1b06373345dd57",
+    "semantic_hash": "8f200ecd1c27619cbb1b06373345dd57"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/BookingSheets/RestaurantBooking.jsx": {
+    "mtime": 1778251328.9847388,
+    "ast_hash": "102c065a839ccd1bea2a76e93334b0f3",
+    "semantic_hash": "102c065a839ccd1bea2a76e93334b0f3"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/BookingSheets/RideSheet.jsx": {
+    "mtime": 1778251306.451604,
+    "ast_hash": "dbac1a563e76a7bcccd6d400aef877b7",
+    "semantic_hash": "dbac1a563e76a7bcccd6d400aef877b7"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/CategoryPills/CategoryPills.jsx": {
+    "mtime": 1778250993.1526794,
+    "ast_hash": "22ea2a6f2f1112bd5775af7b106ea060",
+    "semantic_hash": "22ea2a6f2f1112bd5775af7b106ea060"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/Header/Header.jsx": {
+    "mtime": 1778249887.7083073,
+    "ast_hash": "f5ff0424b04536cf510e3f7ad4463876",
+    "semantic_hash": "f5ff0424b04536cf510e3f7ad4463876"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/LocationCard/LocationCard.jsx": {
+    "mtime": 1778250628.75421,
+    "ast_hash": "9c168663578acc0d7cefa9da8f1cd6d1",
+    "semantic_hash": "9c168663578acc0d7cefa9da8f1cd6d1"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/Map/MapView.jsx": {
+    "mtime": 1778252587.2962444,
+    "ast_hash": "2c33c4b39591cf5f394ec0d8434c6e32",
+    "semantic_hash": "2c33c4b39591cf5f394ec0d8434c6e32"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/UI/RideStatusBanner.jsx": {
+    "mtime": 1778250872.676658,
+    "ast_hash": "83b4a6327d59be29c1ac1b6057755c25",
+    "semantic_hash": "83b4a6327d59be29c1ac1b6057755c25"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/components/UI/Toast.jsx": {
+    "mtime": 1778249999.4232044,
+    "ast_hash": "0bda069a4720fb2fe09259e5d6bd4bb8",
+    "semantic_hash": "0bda069a4720fb2fe09259e5d6bd4bb8"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/config/firebase.js": {
+    "mtime": 1778252094.1126776,
+    "ast_hash": "75c11a9c218c0ca570fe8736bc846c03",
+    "semantic_hash": "75c11a9c218c0ca570fe8736bc846c03"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/data/locations.js": {
+    "mtime": 1778249817.0951521,
+    "ast_hash": "0e4f28542f25f3463423c1de4dd69607",
+    "semantic_hash": "0e4f28542f25f3463423c1de4dd69607"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/hooks/useFirebaseDrivers.js": {
+    "mtime": 1778249853.165119,
+    "ast_hash": "0e19230470d29284560bca1149a81a22",
+    "semantic_hash": "0e19230470d29284560bca1149a81a22"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/hooks/useFirebaseLocations.js": {
+    "mtime": 1778251692.4357018,
+    "ast_hash": "d719bcc7477854b7583499362901a1b2",
+    "semantic_hash": "d719bcc7477854b7583499362901a1b2"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/hooks/useGeolocation.js": {
+    "mtime": 1778252613.6029255,
+    "ast_hash": "ab320483969af51cc16ce9bc04313b0f",
+    "semantic_hash": "ab320483969af51cc16ce9bc04313b0f"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/main.jsx": {
+    "mtime": 1778249809.7832918,
+    "ast_hash": "d8bc74f55bba87d65b304e0b344ae1c8",
+    "semantic_hash": "d8bc74f55bba87d65b304e0b344ae1c8"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/utils/distance.js": {
+    "mtime": 1778249841.3235154,
+    "ast_hash": "d247e43dbe9d12a8ffd520b55d1ada57",
+    "semantic_hash": "d247e43dbe9d12a8ffd520b55d1ada57"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/src/utils/whatsapp.js": {
+    "mtime": 1778249845.7202585,
+    "ast_hash": "1a163fc192038f1f87efaf2f43ae869a",
+    "semantic_hash": "1a163fc192038f1f87efaf2f43ae869a"
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/vite.config.js": {
+    "mtime": 1778249754.531436,
+    "ast_hash": "f91d7aeb5dc02866ecbdf98f6589df5d",
+    "semantic_hash": "f91d7aeb5dc02866ecbdf98f6589df5d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/app.js": {
+    "mtime": 1781276103.4361649,
+    "ast_hash": "873a85da77c2eaa6dddb304cff0909be",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/extract_dhams_complete.py": {
+    "mtime": 1777119681.693914,
+    "ast_hash": "74df91b034a1becf62945af9d22fbb49",
+    "semantic_hash": "74df91b034a1becf62945af9d22fbb49"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/extract_local_data.py": {
+    "mtime": 1777119681.6940365,
+    "ast_hash": "9cb2f31efc552741e21628422418959b",
+    "semantic_hash": "9cb2f31efc552741e21628422418959b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/format_saints.py": {
+    "mtime": 1777119681.6941485,
+    "ast_hash": "6e34f302e93a33f1c3b6618f412099c5",
+    "semantic_hash": "6e34f302e93a33f1c3b6618f412099c5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/run_scrape.sh": {
+    "mtime": 1777119681.6942837,
+    "ast_hash": "a00d112820597bc0cc7e57d699845a9f",
+    "semantic_hash": "a00d112820597bc0cc7e57d699845a9f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/scrape_extra.py": {
+    "mtime": 1777119681.6944103,
+    "ast_hash": "85fdc249390cf74c7550d94af0ad2e55",
+    "semantic_hash": "85fdc249390cf74c7550d94af0ad2e55"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/scraper.py": {
+    "mtime": 1777119681.6946082,
+    "ast_hash": "f5219a3f124ad433c90b4b7c50fc5e54",
+    "semantic_hash": "f5219a3f124ad433c90b4b7c50fc5e54"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/test_parse.py": {
+    "mtime": 1777119681.6947327,
+    "ast_hash": "c960981e3e145b447982ebd66d6abc9e",
+    "semantic_hash": "c960981e3e145b447982ebd66d6abc9e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/scrapping/uploader.py": {
+    "mtime": 1777119681.694849,
+    "ast_hash": "9d87395d2aef0dd00fdff8b26c51033f",
+    "semantic_hash": "9d87395d2aef0dd00fdff8b26c51033f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/migrations/001_favorites.sql": {
+    "mtime": 1777119681.6983974,
+    "ast_hash": "e4922c48aa653c91e8380f154e7b9642",
+    "semantic_hash": "e4922c48aa653c91e8380f154e7b9642"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/migrations/002_users_sadhana.sql": {
+    "mtime": 1780295096.6487286,
+    "ast_hash": "14e64935f0b78d93f737f1fbd9c488b5",
+    "semantic_hash": "14e64935f0b78d93f737f1fbd9c488b5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/brajrasik_scraper.py": {
+    "mtime": 1780295096.7304277,
+    "ast_hash": "31434abf61dc6c753da5740256b59f58",
+    "semantic_hash": "31434abf61dc6c753da5740256b59f58"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/bulk_migrate.js": {
+    "mtime": 1780295096.7315907,
+    "ast_hash": "a3608186fe57b46a8c8cae0a72b50838",
+    "semantic_hash": "a3608186fe57b46a8c8cae0a72b50838"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/create_relational_schema.sql": {
+    "mtime": 1780295096.7326682,
+    "ast_hash": "71713c175c0b76ef13005035dae6c8ed",
+    "semantic_hash": "71713c175c0b76ef13005035dae6c8ed"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/disable_rls.sql": {
+    "mtime": 1780295096.7334294,
+    "ast_hash": "dda82553ccb514a71a61598fe4fcfb53",
+    "semantic_hash": "dda82553ccb514a71a61598fe4fcfb53"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/enable_rls.sql": {
+    "mtime": 1780295096.7339203,
+    "ast_hash": "97596fc543134c588b79345919e145b4",
+    "semantic_hash": "97596fc543134c588b79345919e145b4"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/import_all_brajrasik_data.py": {
+    "mtime": 1780295096.7354605,
+    "ast_hash": "bc7ff7773e015cc52916b9e8c6bdace0",
+    "semantic_hash": "bc7ff7773e015cc52916b9e8c6bdace0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/import_scraped_data.py": {
+    "mtime": 1780295096.7365868,
+    "ast_hash": "5b8671f160709906b1bab068c345cef7",
+    "semantic_hash": "5b8671f160709906b1bab068c345cef7"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/migrate_data.py": {
+    "mtime": 1777119681.6987295,
+    "ast_hash": "57968b4534aeb1f354a8456730852a6c",
+    "semantic_hash": "57968b4534aeb1f354a8456730852a6c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/migrate_to_dataconnect.js": {
+    "mtime": 1780295096.7414896,
+    "ast_hash": "04462d7635a42ffcb1eebb8c6c1ef29e",
+    "semantic_hash": "04462d7635a42ffcb1eebb8c6c1ef29e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/scrape_brajrasik_all.py": {
+    "mtime": 1780295096.744343,
+    "ast_hash": "29fcedc351a743d54fde6b82714a9673",
+    "semantic_hash": "29fcedc351a743d54fde6b82714a9673"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/scripts/update_schema.sql": {
+    "mtime": 1780295096.8136084,
+    "ast_hash": "1d42f52712491428df3013057c799a94",
+    "semantic_hash": "1d42f52712491428df3013057c799a94"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/server.py": {
+    "mtime": 1777119681.6990123,
+    "ast_hash": "2228ab5fd6a34fb66e352f9facc8460f",
+    "semantic_hash": "2228ab5fd6a34fb66e352f9facc8460f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/server_supabase.py": {
+    "mtime": 1780295096.8140533,
+    "ast_hash": "c8042c209c004567a5d016e46f9c976f",
+    "semantic_hash": "c8042c209c004567a5d016e46f9c976f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/supabase_client.py": {
+    "mtime": 1777119681.6994452,
+    "ast_hash": "770a87e95a7ecfb0c5cb732696df7959",
+    "semantic_hash": "770a87e95a7ecfb0c5cb732696df7959"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/test_admin_sdk.py": {
+    "mtime": 1780313128.8535812,
+    "ast_hash": "2f2370203cf29c59b1d047573ac29680",
+    "semantic_hash": "2f2370203cf29c59b1d047573ac29680"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/test_firebase.py": {
+    "mtime": 1777119681.6995852,
+    "ast_hash": "3b25526d770918cbc5da546098c0b2ec",
+    "semantic_hash": "3b25526d770918cbc5da546098c0b2ec"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/test_supabase_columns.py": {
+    "mtime": 1777119681.6998,
+    "ast_hash": "4693e2b355aaaed552f306ee0e903f18",
+    "semantic_hash": "4693e2b355aaaed552f306ee0e903f18"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/api/content/[slug].js": {
+    "mtime": 1780295096.8153214,
+    "ast_hash": "a62425062ae0d75550416f72b8d71d70",
+    "semantic_hash": "a62425062ae0d75550416f72b8d71d70"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/api/glossaryTerms.js": {
+    "mtime": 1780295096.8156915,
+    "ast_hash": "abd497e1fd03cd7e47c1bafc4b97854d",
+    "semantic_hash": "abd497e1fd03cd7e47c1bafc4b97854d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/api/saintMetadata.js": {
+    "mtime": 1780295096.816188,
+    "ast_hash": "86baf19a9d4eecd740b395d539bfdf1c",
+    "semantic_hash": "86baf19a9d4eecd740b395d539bfdf1c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/api/semantic-search.js": {
+    "mtime": 1780393517.4618955,
+    "ast_hash": "532ad378da4aff6ab6aa3f3509f8eed1",
+    "semantic_hash": "532ad378da4aff6ab6aa3f3509f8eed1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/api/seo-handler.js": {
+    "mtime": 1780645037.4086263,
+    "ast_hash": "c7b5226288e8823457f9b7d79005dab8",
+    "semantic_hash": "c7b5226288e8823457f9b7d79005dab8"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/api/sitemap.js": {
+    "mtime": 1780645037.4090416,
+    "ast_hash": "d9e9b93f8500a4f424fd4a9a8b6cb2dd",
+    "semantic_hash": "d9e9b93f8500a4f424fd4a9a8b6cb2dd"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/[staticSlug]/page.js": {
+    "mtime": 1780645037.410438,
+    "ast_hash": "05c063d2d743fc7ddbcd79742f2ff00c",
+    "semantic_hash": "05c063d2d743fc7ddbcd79742f2ff00c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/api/semantic-search/route.js": {
+    "mtime": 1780903254.5236673,
+    "ast_hash": "828ae1c43d79c75abb9ebcc23bbca0f5",
+    "semantic_hash": "828ae1c43d79c75abb9ebcc23bbca0f5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/bookmarks/page.js": {
+    "mtime": 1780308726.0932326,
+    "ast_hash": "15ecadf8c89a3d2d608b4afbbb191b6c",
+    "semantic_hash": "15ecadf8c89a3d2d608b4afbbb191b6c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/category/[category]/page.js": {
+    "mtime": 1780645037.4110603,
+    "ast_hash": "ab528ec23bba0cc1d623ea31ad6982b4",
+    "semantic_hash": "ab528ec23bba0cc1d623ea31ad6982b4"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/content/[slug]/loading.js": {
+    "mtime": 1780393517.4630733,
+    "ast_hash": "3e6dcacbadebf941024b11edeecf5249",
+    "semantic_hash": "3e6dcacbadebf941024b11edeecf5249"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/content/[slug]/page.js": {
+    "mtime": 1781058583.8082387,
+    "ast_hash": "4798907bb47b50dcb6a7df06f7ef4f85",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/content/page.js": {
+    "mtime": 1781058641.5908062,
+    "ast_hash": "e094035974ea0af5c1fb8bb562fac12f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/glossary/[slug]/page.js": {
+    "mtime": 1781058614.0278544,
+    "ast_hash": "60d44f6a6ad694fd8964344892207d5c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/granthas/[slug]/loading.js": {
+    "mtime": 1780393517.4636545,
+    "ast_hash": "a78814cc08b9ef85bbe1be184e46a035",
+    "semantic_hash": "a78814cc08b9ef85bbe1be184e46a035"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/granthas/[slug]/page.js": {
+    "mtime": 1781058595.0973654,
+    "ast_hash": "81fad9a79fbf1f6d10d048b5cdad91dd",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/granthas/page.js": {
+    "mtime": 1780645037.4135594,
+    "ast_hash": "5062e5d858d5e41560d9b4dcec79b466",
+    "semantic_hash": "5062e5d858d5e41560d9b4dcec79b466"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/[staticSlug]/page.js": {
+    "mtime": 1780645037.4138618,
+    "ast_hash": "82d3cddd599e60b4568a96e5089763b6",
+    "semantic_hash": "82d3cddd599e60b4568a96e5089763b6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/bookmarks/page.js": {
+    "mtime": 1780308729.6880257,
+    "ast_hash": "9de49f94417eae417090a3d7d97a375b",
+    "semantic_hash": "9de49f94417eae417090a3d7d97a375b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/category/[category]/page.js": {
+    "mtime": 1780645037.4155607,
+    "ast_hash": "f8996e1ba232ac03f03dadc09530766b",
+    "semantic_hash": "f8996e1ba232ac03f03dadc09530766b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/content/[slug]/loading.js": {
+    "mtime": 1780393517.4640996,
+    "ast_hash": "3d6e64905859b65cbe3b0bf2afe37418",
+    "semantic_hash": "3d6e64905859b65cbe3b0bf2afe37418"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/content/[slug]/page.js": {
+    "mtime": 1781058587.3579757,
+    "ast_hash": "9bd720cad21a349a8f294e53c2aa058a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/content/page.js": {
+    "mtime": 1781058642.994476,
+    "ast_hash": "26b6f6ed883654d81cdd64db81cab445",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/glossary/[slug]/page.js": {
+    "mtime": 1781058629.1299486,
+    "ast_hash": "24f43f9ffdb20356f598ad5108e9286a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/granthas/[slug]/loading.js": {
+    "mtime": 1780393517.4644403,
+    "ast_hash": "8fd59d49ce3c2f88e03f83ff0b278164",
+    "semantic_hash": "8fd59d49ce3c2f88e03f83ff0b278164"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/granthas/[slug]/page.js": {
+    "mtime": 1781058601.8377154,
+    "ast_hash": "52054441e19ef37ba4e178f7b344616a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/granthas/page.js": {
+    "mtime": 1780645037.4178982,
+    "ast_hash": "3610039544bcfbb16ff65ee2b1d07c6b",
+    "semantic_hash": "3610039544bcfbb16ff65ee2b1d07c6b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/knowledge-base/page.js": {
+    "mtime": 1780645037.4180965,
+    "ast_hash": "1a966cd060180190b280c93ebc8069db",
+    "semantic_hash": "1a966cd060180190b280c93ebc8069db"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/layout.js": {
+    "mtime": 1780305898.1757312,
+    "ast_hash": "74ed9b8fd6356d85ba6cd44527576247",
+    "semantic_hash": "74ed9b8fd6356d85ba6cd44527576247"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/page.js": {
+    "mtime": 1780645037.4186082,
+    "ast_hash": "5aa31ae667dd8f5854bb9831f72852cb",
+    "semantic_hash": "5aa31ae667dd8f5854bb9831f72852cb"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/ragas/[slug]/loading.js": {
+    "mtime": 1780393517.46489,
+    "ast_hash": "10e0ce40427ba60d2b241cca411b7791",
+    "semantic_hash": "10e0ce40427ba60d2b241cca411b7791"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/ragas/[slug]/page.js": {
+    "mtime": 1781058609.7294831,
+    "ast_hash": "5b660210525f4a43999886dd85b699d7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/ragas/page.js": {
+    "mtime": 1780645037.4193149,
+    "ast_hash": "e9609e32a0599cc224220d8eab847984",
+    "semantic_hash": "e9609e32a0599cc224220d8eab847984"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/saints/[slug]/loading.js": {
+    "mtime": 1780393517.4656425,
+    "ast_hash": "dd47a97400feb4476e782e6f9061c2da",
+    "semantic_hash": "dd47a97400feb4476e782e6f9061c2da"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/saints/[slug]/page.js": {
+    "mtime": 1781058592.6460068,
+    "ast_hash": "08275eb10e231a8ee55a366163f7a7b5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/hi/saints/page.js": {
+    "mtime": 1780645037.4202385,
+    "ast_hash": "03ade610bf5424c850f7787b0b7a418c",
+    "semantic_hash": "03ade610bf5424c850f7787b0b7a418c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/knowledge-base/page.js": {
+    "mtime": 1780645037.420441,
+    "ast_hash": "b95e2990dc785b6b99bcba6b967b283a",
+    "semantic_hash": "b95e2990dc785b6b99bcba6b967b283a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/layout.js": {
+    "mtime": 1780728895.419999,
+    "ast_hash": "d2ba6c662c4024b7a3ebca638b4f5d91",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/loading.js": {
+    "mtime": 1780393547.2480729,
+    "ast_hash": "5c20a3e022017e76aec18ab4d3900fd9",
+    "semantic_hash": "5c20a3e022017e76aec18ab4d3900fd9"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/not-found.js": {
+    "mtime": 1780393517.4662848,
+    "ast_hash": "ed96d521f6a0dbeb3cd680605d123319",
+    "semantic_hash": "ed96d521f6a0dbeb3cd680605d123319"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/page.js": {
+    "mtime": 1780645037.4211328,
+    "ast_hash": "fc7b12256f43be9b630e9c36cec071b2",
+    "semantic_hash": "fc7b12256f43be9b630e9c36cec071b2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/ragas/[slug]/loading.js": {
+    "mtime": 1780393517.4667146,
+    "ast_hash": "6f8be9287a4cee6bdad7c5716daeb12c",
+    "semantic_hash": "6f8be9287a4cee6bdad7c5716daeb12c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/ragas/[slug]/page.js": {
+    "mtime": 1781058604.3661113,
+    "ast_hash": "4796b0fc7a4b892fc12ecd8145d97f44",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/ragas/page.js": {
+    "mtime": 1780645037.421909,
+    "ast_hash": "474496fa7346d058ad5ee8a563cf4677",
+    "semantic_hash": "474496fa7346d058ad5ee8a563cf4677"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/robots.js": {
+    "mtime": 1780306214.064099,
+    "ast_hash": "e6dd0a61e25d7054c7b88bb6b80379ed",
+    "semantic_hash": "e6dd0a61e25d7054c7b88bb6b80379ed"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/saints/[slug]/loading.js": {
+    "mtime": 1780393517.4676313,
+    "ast_hash": "97c3c9776ea8e2527811c1cccd27704c",
+    "semantic_hash": "97c3c9776ea8e2527811c1cccd27704c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/saints/[slug]/page.js": {
+    "mtime": 1781058590.276992,
+    "ast_hash": "1d9383af0f6309b3170de01f22966bbf",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/saints/page.js": {
+    "mtime": 1780645037.4227824,
+    "ast_hash": "22225c142db119effbf57acffaeddbd5",
+    "semantic_hash": "22225c142db119effbf57acffaeddbd5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/sitemap.xml/route.js": {
+    "mtime": 1780306207.1854494,
+    "ast_hash": "f9b64d33b1656a32560d24ed5f89e65e",
+    "semantic_hash": "f9b64d33b1656a32560d24ed5f89e65e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/app/sitemaps/[sub]/route.js": {
+    "mtime": 1780380314.1629927,
+    "ast_hash": "d7c044666e2e49f61c8010442b19bce0",
+    "semantic_hash": "d7c044666e2e49f61c8010442b19bce0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/capacitor.config.ts": {
+    "mtime": 1777119681.713203,
+    "ast_hash": "7161b4a0c1e03ababfcfe007de65898c",
+    "semantic_hash": "7161b4a0c1e03ababfcfe007de65898c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/check_data.js": {
+    "mtime": 1780331404.6343756,
+    "ast_hash": "2a25452b69d026ecf2d6d41f3058d523",
+    "semantic_hash": "2a25452b69d026ecf2d6d41f3058d523"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/next.config.mjs": {
+    "mtime": 1780903254.5968716,
+    "ast_hash": "055d60308333bd1f395e03ea0408c026",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/plugins/health-check/health-endpoints.js": {
+    "mtime": 1780295096.827541,
+    "ast_hash": "40b11630b48f94af4fb95102dd8d0c00",
+    "semantic_hash": "40b11630b48f94af4fb95102dd8d0c00"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/plugins/health-check/webpack-health-plugin.js": {
+    "mtime": 1780295096.8278623,
+    "ast_hash": "2986baa1ba2fe2588afa7696af52a5ea",
+    "semantic_hash": "2986baa1ba2fe2588afa7696af52a5ea"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/plugins/visual-edits/babel-metadata-plugin.js": {
+    "mtime": 1780295096.8283644,
+    "ast_hash": "2240f60e9e9c3406d5071083d71b68fd",
+    "semantic_hash": "2240f60e9e9c3406d5071083d71b68fd"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/plugins/visual-edits/dev-server-setup.js": {
+    "mtime": 1780295096.828755,
+    "ast_hash": "58fb9df55f0bde67b49a4d1d79f15825",
+    "semantic_hash": "58fb9df55f0bde67b49a4d1d79f15825"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/postcss.config.js": {
+    "mtime": 1780060215.6244845,
+    "ast_hash": "854b38759e7a8b4b82306ae2d9a3a833",
+    "semantic_hash": "854b38759e7a8b4b82306ae2d9a3a833"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/public/admin/app.js": {
+    "mtime": 1780295096.829176,
+    "ast_hash": "fb2cff904de9bb92b18e005506c0b714",
+    "semantic_hash": "fb2cff904de9bb92b18e005506c0b714"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/public/service-worker.js": {
+    "mtime": 1780295096.8410175,
+    "ast_hash": "656d42cbec769862eacdefd4bf89b949",
+    "semantic_hash": "656d42cbec769862eacdefd4bf89b949"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/analyze_slugs.js": {
+    "mtime": 1780455224.5204256,
+    "ast_hash": "2c6688e42fb11c9b0b91408f77b6485e",
+    "semantic_hash": "2c6688e42fb11c9b0b91408f77b6485e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/check_akbar.js": {
+    "mtime": 1780455397.1268506,
+    "ast_hash": "fe50cf3fa8a81f514e1a535730c94ec7",
+    "semantic_hash": "fe50cf3fa8a81f514e1a535730c94ec7"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/check_backup_slugs.js": {
+    "mtime": 1780393517.7277827,
+    "ast_hash": "8bd48df7dd52679b9d80ddc79dc98db8",
+    "semantic_hash": "8bd48df7dd52679b9d80ddc79dc98db8"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/check_slugs.js": {
+    "mtime": 1780393517.7287195,
+    "ast_hash": "630b9657d82b7e3a2ace44fee5b7eee8",
+    "semantic_hash": "630b9657d82b7e3a2ace44fee5b7eee8"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/count_supabase.js": {
+    "mtime": 1780374967.175826,
+    "ast_hash": "10d0f41c25db6751a0d0080db515871a",
+    "semantic_hash": "10d0f41c25db6751a0d0080db515871a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/fetch_dataconnect.js": {
+    "mtime": 1780374997.695639,
+    "ast_hash": "4166ab9e908d43d574d22c3e1a9779e9",
+    "semantic_hash": "4166ab9e908d43d574d22c3e1a9779e9"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/fetch_firebase.js": {
+    "mtime": 1780374615.2960238,
+    "ast_hash": "6bffb04d98c11be423c12775900317a8",
+    "semantic_hash": "6bffb04d98c11be423c12775900317a8"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/find_sambhu.js": {
+    "mtime": 1780455285.253871,
+    "ast_hash": "51d40eaa9e7f04607019210579ec1ffd",
+    "semantic_hash": "51d40eaa9e7f04607019210579ec1ffd"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/find_verse.js": {
+    "mtime": 1780393517.729275,
+    "ast_hash": "721fe21cfcb5d190faca09dbdaf984a0",
+    "semantic_hash": "721fe21cfcb5d190faca09dbdaf984a0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_data.js": {
+    "mtime": 1780455255.8689878,
+    "ast_hash": "1454b4ad60a498981f3ab31a633d6e1f",
+    "semantic_hash": "1454b4ad60a498981f3ab31a633d6e1f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_exact_item.js": {
+    "mtime": 1780455347.83841,
+    "ast_hash": "8fd4159471657aaf7c2e1d19b9d66cef",
+    "semantic_hash": "8fd4159471657aaf7c2e1d19b9d66cef"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_hati_text.js": {
+    "mtime": 1780455309.470149,
+    "ast_hash": "9504d7001f0443c8a7e12b8676018e39",
+    "semantic_hash": "9504d7001f0443c8a7e12b8676018e39"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_hindi.js": {
+    "mtime": 1780455266.9982247,
+    "ast_hash": "28442b895549bb795937d10e30dc2650",
+    "semantic_hash": "28442b895549bb795937d10e30dc2650"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_processed_cache.js": {
+    "mtime": 1780455315.0545375,
+    "ast_hash": "8aeaddd1038e609c263a08e19efdd455",
+    "semantic_hash": "8aeaddd1038e609c263a08e19efdd455"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/list_authors.js": {
+    "mtime": 1780455293.141562,
+    "ast_hash": "5aabf2b8876a15d88b20283665b7387c",
+    "semantic_hash": "5aabf2b8876a15d88b20283665b7387c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/list_hati_verses.js": {
+    "mtime": 1780455304.0875697,
+    "ast_hash": "45a2b480064e6f97a31c3950e74ebdd3",
+    "semantic_hash": "45a2b480064e6f97a31c3950e74ebdd3"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/search_author.js": {
+    "mtime": 1780455298.5913124,
+    "ast_hash": "cfed4d9ee7b44f33aa3ec85c52af6815",
+    "semantic_hash": "cfed4d9ee7b44f33aa3ec85c52af6815"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/search_slugs.js": {
+    "mtime": 1780455250.241709,
+    "ast_hash": "62b9588caa49e520af56ec4661c18c64",
+    "semantic_hash": "62b9588caa49e520af56ec4661c18c64"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test_devanagari_transliterated.js": {
+    "mtime": 1780455407.9438288,
+    "ast_hash": "f128157ccdacc140ae66d24a70c54473",
+    "semantic_hash": "f128157ccdacc140ae66d24a70c54473"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test_getVerseBySlug.js": {
+    "mtime": 1780455323.1029866,
+    "ast_hash": "1c71ef94b8db67f832a16c5e8f333ad2",
+    "semantic_hash": "1c71ef94b8db67f832a16c5e8f333ad2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test_resolver.js": {
+    "mtime": 1780393517.7301004,
+    "ast_hash": "a5bafefd875a2da55cfc4143159a103c",
+    "semantic_hash": "a5bafefd875a2da55cfc4143159a103c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test_transliterate.js": {
+    "mtime": 1780455274.6211941,
+    "ast_hash": "dae81c985c593a2ae096ba8fea9f1848",
+    "semantic_hash": "dae81c985c593a2ae096ba8fea9f1848"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/validate_fixed_slugs.mjs": {
+    "mtime": 1780455497.3901222,
+    "ast_hash": "a803f77dc41952d387cb14444ed89303",
+    "semantic_hash": "a803f77dc41952d387cb14444ed89303"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/generate-sitemap.mjs": {
+    "mtime": 1780295096.843059,
+    "ast_hash": "91547f60baa1fad3220cc73afe52fc22",
+    "semantic_hash": "91547f60baa1fad3220cc73afe52fc22"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/generate_favicons.py": {
+    "mtime": 1780295096.8433332,
+    "ast_hash": "acc410930e8ad4fa22cc137cf9fcda88",
+    "semantic_hash": "acc410930e8ad4fa22cc137cf9fcda88"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/migrate_from_supabase_to_dataconnect.js": {
+    "mtime": 1780295096.8435435,
+    "ast_hash": "02aaadf93e4115c2e6f682e535127c80",
+    "semantic_hash": "02aaadf93e4115c2e6f682e535127c80"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_admin_sdk.js": {
+    "mtime": 1780313125.5984743,
+    "ast_hash": "a003c03afe1493474270312da195972d",
+    "semantic_hash": "a003c03afe1493474270312da195972d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_auth_firestore.mjs": {
+    "mtime": 1780312781.1661036,
+    "ast_hash": "891501f64d87e6b7797fc5b690b01045",
+    "semantic_hash": "891501f64d87e6b7797fc5b690b01045"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_auth_rtdb.mjs": {
+    "mtime": 1780312841.3721983,
+    "ast_hash": "776546a0c7c0c85ff9e5237f905bbf5b",
+    "semantic_hash": "776546a0c7c0c85ff9e5237f905bbf5b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_auth_santvaanig.mjs": {
+    "mtime": 1780313060.4108117,
+    "ast_hash": "deefd37204afd89838bd691c8b08f4d1",
+    "semantic_hash": "deefd37204afd89838bd691c8b08f4d1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_firestore.mjs": {
+    "mtime": 1780313001.482213,
+    "ast_hash": "2005a645060062995a310914a690a922",
+    "semantic_hash": "2005a645060062995a310914a690a922"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_register_and_read.mjs": {
+    "mtime": 1780312944.9748385,
+    "ast_hash": "eabbfef445b3c057b8eba62cb6bedc4f",
+    "semantic_hash": "eabbfef445b3c057b8eba62cb6bedc4f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_register_rtdb.mjs": {
+    "mtime": 1780313163.8576968,
+    "ast_hash": "ef68bb56281e68d513d07492bf562344",
+    "semantic_hash": "ef68bb56281e68d513d07492bf562344"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_rtdb.mjs": {
+    "mtime": 1780312795.885962,
+    "ast_hash": "21482f6bc3a0054141b6203bc9e765d2",
+    "semantic_hash": "21482f6bc3a0054141b6203bc9e765d2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/test_shriji_garden.mjs": {
+    "mtime": 1780313176.612572,
+    "ast_hash": "7697ae510801faf14b7ecb7565a34782",
+    "semantic_hash": "7697ae510801faf14b7ecb7565a34782"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/App.js": {
+    "mtime": 1780645037.6849258,
+    "ast_hash": "cc2c2da46d87376a9a624f93668774e2",
+    "semantic_hash": "cc2c2da46d87376a9a624f93668774e2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/CelestialParticles.js": {
+    "mtime": 1780393547.351344,
+    "ast_hash": "1d756c81e7389d4f7fe65392ba6924e7",
+    "semantic_hash": "1d756c81e7389d4f7fe65392ba6924e7"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/FontWheel.js": {
+    "mtime": 1780295096.8448606,
+    "ast_hash": "c9c2ab9ac1fcf519728f3ebbc2b2a9f0",
+    "semantic_hash": "c9c2ab9ac1fcf519728f3ebbc2b2a9f0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/GlobalAudioPlayer.js": {
+    "mtime": 1780295096.8453054,
+    "ast_hash": "4ab40a96946d7d6cd3aab46ba4e44f1a",
+    "semantic_hash": "4ab40a96946d7d6cd3aab46ba4e44f1a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/InstallApp.js": {
+    "mtime": 1780295096.8457122,
+    "ast_hash": "279f95beeeb88248472322986501f191",
+    "semantic_hash": "279f95beeeb88248472322986501f191"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/InternalLinks.js": {
+    "mtime": 1780395152.258281,
+    "ast_hash": "1a43be068a48447a7e9b8d4213301abd",
+    "semantic_hash": "1a43be068a48447a7e9b8d4213301abd"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/KnowledgeBaseLayout.js": {
+    "mtime": 1780311330.0316837,
+    "ast_hash": "2c91eab6271095abc04b82190d68e442",
+    "semantic_hash": "2c91eab6271095abc04b82190d68e442"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/Layout.js": {
+    "mtime": 1780396266.5253341,
+    "ast_hash": "a1e46ce20d00b8cc860f8c3c4ed9556d",
+    "semantic_hash": "a1e46ce20d00b8cc860f8c3c4ed9556d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/Loader.js": {
+    "mtime": 1780295096.847348,
+    "ast_hash": "14568efcef3972b0903c86f9a27ebb0f",
+    "semantic_hash": "14568efcef3972b0903c86f9a27ebb0f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/Navigation.js": {
+    "mtime": 1780306385.5266218,
+    "ast_hash": "25e1b614d10c6d7d38a4caafd9599868",
+    "semantic_hash": "25e1b614d10c6d7d38a4caafd9599868"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/PookizDashboardView.js": {
+    "mtime": 1780308821.5573754,
+    "ast_hash": "2d1bc721abade444e3e9791360235e1b",
+    "semantic_hash": "2d1bc721abade444e3e9791360235e1b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/PookizLayout.js": {
+    "mtime": 1780311318.5126805,
+    "ast_hash": "c6183dc26dda9b3fd6e3f62ece8b382d",
+    "semantic_hash": "c6183dc26dda9b3fd6e3f62ece8b382d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/SEOFooter.js": {
+    "mtime": 1780374246.1374955,
+    "ast_hash": "e38a6e0f844c095e1fde54f9fdb7f9a5",
+    "semantic_hash": "e38a6e0f844c095e1fde54f9fdb7f9a5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ScrollToTop.js": {
+    "mtime": 1780295096.8492875,
+    "ast_hash": "965bcc3aa35ddbac70e0ec3297b7e02d",
+    "semantic_hash": "965bcc3aa35ddbac70e0ec3297b7e02d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/SettingsModal.js": {
+    "mtime": 1780306385.5277753,
+    "ast_hash": "3e1e1f16a2c544541e2b38d0b4f1b8a6",
+    "semantic_hash": "3e1e1f16a2c544541e2b38d0b4f1b8a6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ThemeIcon.js": {
+    "mtime": 1780295096.8499327,
+    "ast_hash": "575c5ae393c874b625c70ba374172ff6",
+    "semantic_hash": "575c5ae393c874b625c70ba374172ff6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ThemeOnboardingModal.js": {
+    "mtime": 1780295096.850073,
+    "ast_hash": "cc45b6e998c2714ce5833996ad455284",
+    "semantic_hash": "cc45b6e998c2714ce5833996ad455284"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ThemeToggle.js": {
+    "mtime": 1780737392.7078757,
+    "ast_hash": "f591342696795521db325f3d5c1c04aa",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/AtmosphereCustomizer.js": {
+    "mtime": 1780295096.8506703,
+    "ast_hash": "6a1414570cb9e13185c15876c4aa09af",
+    "semantic_hash": "6a1414570cb9e13185c15876c4aa09af"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/BrajCalendar.js": {
+    "mtime": 1780295096.8508298,
+    "ast_hash": "3a7abc5ae4b05bdd2df6bd36a554db4d",
+    "semantic_hash": "3a7abc5ae4b05bdd2df6bd36a554db4d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/ChantSanctuary.js": {
+    "mtime": 1780295096.8509634,
+    "ast_hash": "efd7fa59bb2f38426b72ffbb9427c4d6",
+    "semantic_hash": "efd7fa59bb2f38426b72ffbb9427c4d6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/DailySwadhyaya.js": {
+    "mtime": 1780295096.8511202,
+    "ast_hash": "3cc0cb8574e465378ac0f6f168ada735",
+    "semantic_hash": "3cc0cb8574e465378ac0f6f168ada735"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/LatestVersesFeed.js": {
+    "mtime": 1780295096.8513908,
+    "ast_hash": "3e39fb85769d9c7b9f4957a6d99be67d",
+    "semantic_hash": "3e39fb85769d9c7b9f4957a6d99be67d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/LibraryShowcase.js": {
+    "mtime": 1780402538.9786203,
+    "ast_hash": "7b2db93d671390265d869162df06c997",
+    "semantic_hash": "7b2db93d671390265d869162df06c997"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/PilgrimageHub.js": {
+    "mtime": 1780295096.8518755,
+    "ast_hash": "fe603d4dbda0e030b1d0244116138378",
+    "semantic_hash": "fe603d4dbda0e030b1d0244116138378"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/PreviewDrawer.js": {
+    "mtime": 1780402559.9056542,
+    "ast_hash": "071e682aafde66460a597ea20cbc6a6e",
+    "semantic_hash": "071e682aafde66460a597ea20cbc6a6e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/RagasIndex.js": {
+    "mtime": 1780402534.3132083,
+    "ast_hash": "b8d8021d10ba4d841574eefe20139e1a",
+    "semantic_hash": "b8d8021d10ba4d841574eefe20139e1a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/home/SaintsSpotlight.js": {
+    "mtime": 1780402542.9626675,
+    "ast_hash": "b8f0f545f092e6702a880e2371bfbe88",
+    "semantic_hash": "b8f0f545f092e6702a880e2371bfbe88"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/AudioPlayButton.js": {
+    "mtime": 1777119681.728463,
+    "ast_hash": "81e19f1231b4a247b1db8b0e62a6c146",
+    "semantic_hash": "81e19f1231b4a247b1db8b0e62a6c146"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/PageSkeleton.js": {
+    "mtime": 1780393547.3519378,
+    "ast_hash": "37a0ff4859be8a21e37e879d3bde4865",
+    "semantic_hash": "37a0ff4859be8a21e37e879d3bde4865"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/accordion.jsx": {
+    "mtime": 1777119681.7285805,
+    "ast_hash": "777d1d2fb09ca9fce821db1a5805b574",
+    "semantic_hash": "777d1d2fb09ca9fce821db1a5805b574"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/alert-dialog.jsx": {
+    "mtime": 1777119681.7287018,
+    "ast_hash": "55a45548dd7058810f0afcb588c767c9",
+    "semantic_hash": "55a45548dd7058810f0afcb588c767c9"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/alert.jsx": {
+    "mtime": 1777119681.7288203,
+    "ast_hash": "40ba651ed8db0d491c8cc3b71b67d018",
+    "semantic_hash": "40ba651ed8db0d491c8cc3b71b67d018"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/aspect-ratio.jsx": {
+    "mtime": 1777119681.7289302,
+    "ast_hash": "ea9c6ff6c2931b5089972bfba3fa5c1f",
+    "semantic_hash": "ea9c6ff6c2931b5089972bfba3fa5c1f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/avatar.jsx": {
+    "mtime": 1777119681.7290373,
+    "ast_hash": "6942dcddc4ed7fc0a3edd8292802ff1a",
+    "semantic_hash": "6942dcddc4ed7fc0a3edd8292802ff1a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/badge.jsx": {
+    "mtime": 1777119681.7291539,
+    "ast_hash": "afe71078256d1422c4c32828f741d371",
+    "semantic_hash": "afe71078256d1422c4c32828f741d371"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/breadcrumb.jsx": {
+    "mtime": 1777119681.72927,
+    "ast_hash": "8d52bb207a0c22a848f3e673bc2e4bef",
+    "semantic_hash": "8d52bb207a0c22a848f3e673bc2e4bef"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/button.jsx": {
+    "mtime": 1777119681.729379,
+    "ast_hash": "387004a6f0f093b18baec2bccc07c394",
+    "semantic_hash": "387004a6f0f093b18baec2bccc07c394"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/calendar.jsx": {
+    "mtime": 1777119681.7294886,
+    "ast_hash": "f0c3446bc43ba202dde8e53d3ff42ed2",
+    "semantic_hash": "f0c3446bc43ba202dde8e53d3ff42ed2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/card.jsx": {
+    "mtime": 1777119681.729586,
+    "ast_hash": "c4ab037e78fd913416348b87e1d39e84",
+    "semantic_hash": "c4ab037e78fd913416348b87e1d39e84"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/carousel.jsx": {
+    "mtime": 1777119681.7297277,
+    "ast_hash": "73097c01891da2443bfa35ca82f0368c",
+    "semantic_hash": "73097c01891da2443bfa35ca82f0368c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/checkbox.jsx": {
+    "mtime": 1777119681.7298422,
+    "ast_hash": "33b0ff952b4c2094fa962bf5cab913ae",
+    "semantic_hash": "33b0ff952b4c2094fa962bf5cab913ae"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/collapsible.jsx": {
+    "mtime": 1777119681.7299402,
+    "ast_hash": "8bcc61ee503a05663fb77ad9b7ec064a",
+    "semantic_hash": "8bcc61ee503a05663fb77ad9b7ec064a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/command.jsx": {
+    "mtime": 1777119681.7300515,
+    "ast_hash": "a7b24b38bb14e05323854414d0a3ccc0",
+    "semantic_hash": "a7b24b38bb14e05323854414d0a3ccc0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/context-menu.jsx": {
+    "mtime": 1777119681.73019,
+    "ast_hash": "3ee728bb62494a4f541423ee660ba865",
+    "semantic_hash": "3ee728bb62494a4f541423ee660ba865"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/dialog.jsx": {
+    "mtime": 1777119681.7303185,
+    "ast_hash": "7526e69363d71ed8e4741a59abfa774f",
+    "semantic_hash": "7526e69363d71ed8e4741a59abfa774f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/drawer.jsx": {
+    "mtime": 1777119681.7304335,
+    "ast_hash": "bdab7d540f51fba632b2848d663cc230",
+    "semantic_hash": "bdab7d540f51fba632b2848d663cc230"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/dropdown-menu.jsx": {
+    "mtime": 1777119681.7305968,
+    "ast_hash": "a650bd37dfa6f601952b41bddf2a4f95",
+    "semantic_hash": "a650bd37dfa6f601952b41bddf2a4f95"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/form.jsx": {
+    "mtime": 1780060215.6412904,
+    "ast_hash": "ef4515f7808e65651967ad30f04b441d",
+    "semantic_hash": "ef4515f7808e65651967ad30f04b441d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/hover-card.jsx": {
+    "mtime": 1777119681.730826,
+    "ast_hash": "44c495d1a642df8997885e3478a26eda",
+    "semantic_hash": "44c495d1a642df8997885e3478a26eda"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/input-otp.jsx": {
+    "mtime": 1777119681.730944,
+    "ast_hash": "008713487d735427a12b40ce56b6076c",
+    "semantic_hash": "008713487d735427a12b40ce56b6076c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/input.jsx": {
+    "mtime": 1777119681.7310462,
+    "ast_hash": "b0c39fba1fc918e09d0744ee8e9036fc",
+    "semantic_hash": "b0c39fba1fc918e09d0744ee8e9036fc"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/label.jsx": {
+    "mtime": 1777119681.7311568,
+    "ast_hash": "d838ab50ba0e7c81fbe9f108a75c8960",
+    "semantic_hash": "d838ab50ba0e7c81fbe9f108a75c8960"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/menubar.jsx": {
+    "mtime": 1777119681.7313056,
+    "ast_hash": "76de0fdc258c69233bb9dad1b2ead685",
+    "semantic_hash": "76de0fdc258c69233bb9dad1b2ead685"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/navigation-menu.jsx": {
+    "mtime": 1777119681.73144,
+    "ast_hash": "a84c0973375b097c8f0a006cbb3291b4",
+    "semantic_hash": "a84c0973375b097c8f0a006cbb3291b4"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/pagination.jsx": {
+    "mtime": 1777119681.731542,
+    "ast_hash": "a3f6f84586fc39df42bbdf9917217518",
+    "semantic_hash": "a3f6f84586fc39df42bbdf9917217518"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/popover.jsx": {
+    "mtime": 1777119681.7316527,
+    "ast_hash": "e042654021f7d92a37308604404a39d2",
+    "semantic_hash": "e042654021f7d92a37308604404a39d2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/progress.jsx": {
+    "mtime": 1777119681.731759,
+    "ast_hash": "0b9e4a21587b5dc12948e088e23d294b",
+    "semantic_hash": "0b9e4a21587b5dc12948e088e23d294b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/radio-group.jsx": {
+    "mtime": 1777119681.7318702,
+    "ast_hash": "8cac0146cc583c688bdf9033ca63df38",
+    "semantic_hash": "8cac0146cc583c688bdf9033ca63df38"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/resizable.jsx": {
+    "mtime": 1777119681.731978,
+    "ast_hash": "61525f84a1a2eda188f4acbad939b5cb",
+    "semantic_hash": "61525f84a1a2eda188f4acbad939b5cb"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/scroll-area.jsx": {
+    "mtime": 1777119681.7320828,
+    "ast_hash": "7b0ef0c618bed094716902c5e45de1bb",
+    "semantic_hash": "7b0ef0c618bed094716902c5e45de1bb"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/select.jsx": {
+    "mtime": 1777119681.732214,
+    "ast_hash": "32ed30930ef17ac6b8355ba15015ce38",
+    "semantic_hash": "32ed30930ef17ac6b8355ba15015ce38"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/separator.jsx": {
+    "mtime": 1777119681.7323222,
+    "ast_hash": "4a4fc06502b6519f8501596e18f484c9",
+    "semantic_hash": "4a4fc06502b6519f8501596e18f484c9"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/sheet.jsx": {
+    "mtime": 1777119681.7324345,
+    "ast_hash": "bb54bf331f59fcab43dcf869bdb34735",
+    "semantic_hash": "bb54bf331f59fcab43dcf869bdb34735"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/skeleton.jsx": {
+    "mtime": 1777119681.732544,
+    "ast_hash": "87846ae3c6cd0144bcfbfd71410e8314",
+    "semantic_hash": "87846ae3c6cd0144bcfbfd71410e8314"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/slider.jsx": {
+    "mtime": 1777119681.7326436,
+    "ast_hash": "cc26259918376289640630884d607c7f",
+    "semantic_hash": "cc26259918376289640630884d607c7f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/sonner.jsx": {
+    "mtime": 1777119681.7327516,
+    "ast_hash": "ea08c6605c1d7f709c0c5b9dcc259ad2",
+    "semantic_hash": "ea08c6605c1d7f709c0c5b9dcc259ad2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/switch.jsx": {
+    "mtime": 1777119681.7328696,
+    "ast_hash": "0c565401f63acad7b14f0ec6e13290c0",
+    "semantic_hash": "0c565401f63acad7b14f0ec6e13290c0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/table.jsx": {
+    "mtime": 1777119681.7329848,
+    "ast_hash": "3304001746391d713a8ef283e093f7cf",
+    "semantic_hash": "3304001746391d713a8ef283e093f7cf"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/tabs.jsx": {
+    "mtime": 1777119681.7330918,
+    "ast_hash": "443ed89ab0103f18accad1c7952707d5",
+    "semantic_hash": "443ed89ab0103f18accad1c7952707d5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/textarea.jsx": {
+    "mtime": 1777119681.7332182,
+    "ast_hash": "113fe695e1934fbfa176125cd0c95347",
+    "semantic_hash": "113fe695e1934fbfa176125cd0c95347"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/toast.jsx": {
+    "mtime": 1777119681.7333355,
+    "ast_hash": "4fa38eeff1a6e4cd3d364db78c0e2c42",
+    "semantic_hash": "4fa38eeff1a6e4cd3d364db78c0e2c42"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/toaster.jsx": {
+    "mtime": 1777119681.7334466,
+    "ast_hash": "661eae99885514725f4ecc3fbfa5e506",
+    "semantic_hash": "661eae99885514725f4ecc3fbfa5e506"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/toggle-group.jsx": {
+    "mtime": 1777119681.7335627,
+    "ast_hash": "412d4d6584ecc4d83bfd932264cc920f",
+    "semantic_hash": "412d4d6584ecc4d83bfd932264cc920f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/toggle.jsx": {
+    "mtime": 1777119681.7336762,
+    "ast_hash": "ab16fd10c5e2847b4aa721c533de12ab",
+    "semantic_hash": "ab16fd10c5e2847b4aa721c533de12ab"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/components/ui/tooltip.jsx": {
+    "mtime": 1777119681.7337873,
+    "ast_hash": "793f6e39c07eb115695812df1ce04fa4",
+    "semantic_hash": "793f6e39c07eb115695812df1ce04fa4"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/contexts/AudioContext.js": {
+    "mtime": 1780305853.1496527,
+    "ast_hash": "8b1359f35cc50de840020c2ae302351b",
+    "semantic_hash": "8b1359f35cc50de840020c2ae302351b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/contexts/ClientProviders.js": {
+    "mtime": 1780645037.6879344,
+    "ast_hash": "0d71e220b04506e57ea51744ce55560e",
+    "semantic_hash": "0d71e220b04506e57ea51744ce55560e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/contexts/LoadingContext.js": {
+    "mtime": 1780305863.664611,
+    "ast_hash": "62bb010457ce932329ccb1180eead9f1",
+    "semantic_hash": "62bb010457ce932329ccb1180eead9f1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/contexts/SettingsContext.js": {
+    "mtime": 1780305847.6203518,
+    "ast_hash": "28f56ee069cb5058d77bfc28ed6102b5",
+    "semantic_hash": "28f56ee069cb5058d77bfc28ed6102b5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/contexts/ThemeContext.js": {
+    "mtime": 1780305857.6783662,
+    "ast_hash": "643292128789d8fe7fc5cbc96d0830b6",
+    "semantic_hash": "643292128789d8fe7fc5cbc96d0830b6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/data/faqData.js": {
+    "mtime": 1780394785.2496085,
+    "ast_hash": "168120b4513f78d8c1d1cee7b158673e",
+    "semantic_hash": "168120b4513f78d8c1d1cee7b158673e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/data/glossaryTerms.js": {
+    "mtime": 1780297452.6070745,
+    "ast_hash": "6cb43d539fa9cc33a4a27bf82f6d5d7b",
+    "semantic_hash": "6cb43d539fa9cc33a4a27bf82f6d5d7b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/data/saintMetadata.js": {
+    "mtime": 1780297445.1316214,
+    "ast_hash": "425c76c3f9c4950715a9b3ab7eee8b3e",
+    "semantic_hash": "425c76c3f9c4950715a9b3ab7eee8b3e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/data/staticPagesData.js": {
+    "mtime": 1780395190.292528,
+    "ast_hash": "b60b54588aeeed8353e3205050e4dad5",
+    "semantic_hash": "b60b54588aeeed8353e3205050e4dad5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/firebase.js": {
+    "mtime": 1780986596.2025027,
+    "ast_hash": "d50a91f05f998c614c14f6ccafcc0234",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/hooks/use-toast.js": {
+    "mtime": 1780295096.8534248,
+    "ast_hash": "b2979b616e5e67065476a5cef1eba01f",
+    "semantic_hash": "b2979b616e5e67065476a5cef1eba01f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/hooks/useLocalLoading.js": {
+    "mtime": 1780295096.8536649,
+    "ast_hash": "4711def711ccf3b50d03fe3ee855c5ea",
+    "semantic_hash": "4711def711ccf3b50d03fe3ee855c5ea"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/contentData.js": {
+    "mtime": 1781058722.2094848,
+    "ast_hash": "afd1c8473267797d710d7dfb93ad6d65",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/dataconnect/esm/index.esm.js": {
+    "mtime": 1780295096.8560917,
+    "ast_hash": "60ff2ad12a933a4c2f61763ddf0f2f6e",
+    "semantic_hash": "60ff2ad12a933a4c2f61763ddf0f2f6e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/dataconnect/index.cjs.js": {
+    "mtime": 1780295096.856472,
+    "ast_hash": "55368d2da7b61b43a85fd86482c674b6",
+    "semantic_hash": "55368d2da7b61b43a85fd86482c674b6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/dataconnect/index.d.ts": {
+    "mtime": 1780295096.856718,
+    "ast_hash": "c6a5c3099a0d2fc6039d4b7afe9aa0dd",
+    "semantic_hash": "c6a5c3099a0d2fc6039d4b7afe9aa0dd"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/helmet-compat.js": {
+    "mtime": 1780305931.608524,
+    "ast_hash": "65a26c48341f9a0dcefb6241ddd5a0ff",
+    "semantic_hash": "65a26c48341f9a0dcefb6241ddd5a0ff"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/router-compat.js": {
+    "mtime": 1780393547.3545191,
+    "ast_hash": "1e688f533980af7fec1cf24f3067257c",
+    "semantic_hash": "1e688f533980af7fec1cf24f3067257c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/supabase.js": {
+    "mtime": 1780295096.857206,
+    "ast_hash": "cb88a35be2255ea1f5e7323169b9c39b",
+    "semantic_hash": "cb88a35be2255ea1f5e7323169b9c39b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/utils.js": {
+    "mtime": 1777119681.73542,
+    "ast_hash": "83545aa57e5a38a104b53d08868db698",
+    "semantic_hash": "83545aa57e5a38a104b53d08868db698"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/services/api.js": {
+    "mtime": 1780402239.205017,
+    "ast_hash": "d855842c4405863ed57b556ddc4ee980",
+    "semantic_hash": "d855842c4405863ed57b556ddc4ee980"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/services/mockData.js": {
+    "mtime": 1780295096.870035,
+    "ast_hash": "4922fe24ea571e50bbd1858b0cf277b5",
+    "semantic_hash": "4922fe24ea571e50bbd1858b0cf277b5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/services/supabaseApi.js": {
+    "mtime": 1780295096.8702095,
+    "ast_hash": "9d255ec5a736166ccf205b68f4bce2eb",
+    "semantic_hash": "9d255ec5a736166ccf205b68f4bce2eb"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/glossaryTerms.js": {
+    "mtime": 1780295096.8704798,
+    "ast_hash": "532ccf173f5cc8aaa15a1678f92ab3a5",
+    "semantic_hash": "532ccf173f5cc8aaa15a1678f92ab3a5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/hinglishSearch.js": {
+    "mtime": 1780395515.3093803,
+    "ast_hash": "38a399a74e6393b20d6be82ed794883a",
+    "semantic_hash": "38a399a74e6393b20d6be82ed794883a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/kbArticles.js": {
+    "mtime": 1780395155.5701559,
+    "ast_hash": "d17b3bd6da322b0a40a2e7f238d73248",
+    "semantic_hash": "d17b3bd6da322b0a40a2e7f238d73248"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/loaderUtils.js": {
+    "mtime": 1780295096.8713062,
+    "ast_hash": "c70ce2fb024aad262e94cbbe8489fd39",
+    "semantic_hash": "c70ce2fb024aad262e94cbbe8489fd39"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/relations.js": {
+    "mtime": 1780402455.5980692,
+    "ast_hash": "18cb08dbf5974418a71678e72af7d546",
+    "semantic_hash": "18cb08dbf5974418a71678e72af7d546"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/saintMetadata.js": {
+    "mtime": 1780295096.871702,
+    "ast_hash": "40a4a759c053568ea108010a73a8afad",
+    "semantic_hash": "40a4a759c053568ea108010a73a8afad"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/semanticSearch.js": {
+    "mtime": 1780295096.8718472,
+    "ast_hash": "0e0c96f0bbe6c5d362e639a3e096eb74",
+    "semantic_hash": "0e0c96f0bbe6c5d362e639a3e096eb74"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/seoSchemas.js": {
+    "mtime": 1780395150.2013924,
+    "ast_hash": "3968e38e4f13eae129550838acaf2c41",
+    "semantic_hash": "3968e38e4f13eae129550838acaf2c41"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/shareCard.js": {
+    "mtime": 1780295096.8721924,
+    "ast_hash": "8e22c40a4ebaa7004383a078a6608681",
+    "semantic_hash": "8e22c40a4ebaa7004383a078a6608681"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/utils/transliterate.js": {
+    "mtime": 1780295096.8723195,
+    "ast_hash": "738d6bba2f107a2a0319021ece86b23d",
+    "semantic_hash": "738d6bba2f107a2a0319021ece86b23d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/AdminDashboard.js": {
+    "mtime": 1780306385.5310602,
+    "ast_hash": "05da1045148c0c8ab9cdbe5cd764ba92",
+    "semantic_hash": "05da1045148c0c8ab9cdbe5cd764ba92"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/AdminLoginPage.js": {
+    "mtime": 1780306385.5314224,
+    "ast_hash": "54d1460ba81dceded967419c04121484",
+    "semantic_hash": "54d1460ba81dceded967419c04121484"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/BookDetailPage.js": {
+    "mtime": 1780645037.6950455,
+    "ast_hash": "c49611f0c9907e756e9630ac67c403f7",
+    "semantic_hash": "c49611f0c9907e756e9630ac67c403f7"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/BookmarksPage.js": {
+    "mtime": 1780308867.1398838,
+    "ast_hash": "4740850e93842c56fdd9b427b75ee802",
+    "semantic_hash": "4740850e93842c56fdd9b427b75ee802"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/BooksListPage.js": {
+    "mtime": 1780402484.3744414,
+    "ast_hash": "fb4b64016c0e3bf34f43bef0cd13b645",
+    "semantic_hash": "fb4b64016c0e3bf34f43bef0cd13b645"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/CategoryPage.js": {
+    "mtime": 1780645037.6962395,
+    "ast_hash": "808bfab90f4e81073e93188772f5d694",
+    "semantic_hash": "808bfab90f4e81073e93188772f5d694"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/ContentDetailPage.js": {
+    "mtime": 1780645037.6978774,
+    "ast_hash": "bc4e9fdd6438f305b42d3d8cd6f57816",
+    "semantic_hash": "bc4e9fdd6438f305b42d3d8cd6f57816"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/ContentListPage.js": {
+    "mtime": 1780393547.3572655,
+    "ast_hash": "febcbd915db22c56711ec78e3fbc6a41",
+    "semantic_hash": "febcbd915db22c56711ec78e3fbc6a41"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/HomePage.js": {
+    "mtime": 1780402255.688326,
+    "ast_hash": "ef5dfd51ecf40d26561bcc8e5e51ceff",
+    "semantic_hash": "ef5dfd51ecf40d26561bcc8e5e51ceff"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/KnowledgeBasePage.js": {
+    "mtime": 1780306253.269931,
+    "ast_hash": "c348c7d410d30e24a2adfbc7e839c11e",
+    "semantic_hash": "c348c7d410d30e24a2adfbc7e839c11e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/LoaderDemo.js": {
+    "mtime": 1780306253.270182,
+    "ast_hash": "7b77dabb9f620e3f7bdc5e1345877a2a",
+    "semantic_hash": "7b77dabb9f620e3f7bdc5e1345877a2a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/LoginPage.js": {
+    "mtime": 1780311822.3928692,
+    "ast_hash": "7ed0cf0a618488a2ec093e9d0e7b1c2f",
+    "semantic_hash": "7ed0cf0a618488a2ec093e9d0e7b1c2f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/PromoLanding.js": {
+    "mtime": 1780311832.3705559,
+    "ast_hash": "93351efe30049e6f420c39e1c7f56985",
+    "semantic_hash": "93351efe30049e6f420c39e1c7f56985"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/RagaDetailPage.js": {
+    "mtime": 1780402513.7839034,
+    "ast_hash": "94a67753785c439af211a3df21f1af20",
+    "semantic_hash": "94a67753785c439af211a3df21f1af20"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/RagasListPage.js": {
+    "mtime": 1780402486.029401,
+    "ast_hash": "f1817452b7ebfed4bd0cfbc50688d4f4",
+    "semantic_hash": "f1817452b7ebfed4bd0cfbc50688d4f4"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/SaintDetailPage.js": {
+    "mtime": 1780645037.7015843,
+    "ast_hash": "94fbf62ed2951ddfff5428fb5ad751c1",
+    "semantic_hash": "94fbf62ed2951ddfff5428fb5ad751c1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/SaintsListPage.js": {
+    "mtime": 1780402481.876342,
+    "ast_hash": "cb573e894d22bf20272d19f937a791fe",
+    "semantic_hash": "cb573e894d22bf20272d19f937a791fe"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/AboutPage.js": {
+    "mtime": 1780306253.2730827,
+    "ast_hash": "eed643f8599bc11401e3ebb475df0682",
+    "semantic_hash": "eed643f8599bc11401e3ebb475df0682"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/AuthorPage.js": {
+    "mtime": 1780395171.8426626,
+    "ast_hash": "2822e4211f937657682604fdbdf32281",
+    "semantic_hash": "2822e4211f937657682604fdbdf32281"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/Barsana.js": {
+    "mtime": 1780394582.6015825,
+    "ast_hash": "21130efbe98fa149b598a4ebe626fe43",
+    "semantic_hash": "21130efbe98fa149b598a4ebe626fe43"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/BrajRasikHeritage.js": {
+    "mtime": 1780306253.2733622,
+    "ast_hash": "a680c8d535093a006ef487c49ef33f20",
+    "semantic_hash": "a680c8d535093a006ef487c49ef33f20"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/ComparisonPage.js": {
+    "mtime": 1780306253.273595,
+    "ast_hash": "50638616a5fe3c0356ebc6a2a3eed685",
+    "semantic_hash": "50638616a5fe3c0356ebc6a2a3eed685"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/ContactPage.js": {
+    "mtime": 1780306253.274013,
+    "ast_hash": "fca521c7359c40f29fbee13dcd226a05",
+    "semantic_hash": "fca521c7359c40f29fbee13dcd226a05"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/DevotionalPage.js": {
+    "mtime": 1780306253.274242,
+    "ast_hash": "a97f0c0bc582a0c1dafa4106f594f2ad",
+    "semantic_hash": "a97f0c0bc582a0c1dafa4106f594f2ad"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/EditorialPolicyPage.js": {
+    "mtime": 1780306253.2744644,
+    "ast_hash": "fc37fee6330a1b8138df3cbef63c81bf",
+    "semantic_hash": "fc37fee6330a1b8138df3cbef63c81bf"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/FAQPage.js": {
+    "mtime": 1780394787.830894,
+    "ast_hash": "7ee322f7d8a26818c4497c2dbeadb33a",
+    "semantic_hash": "7ee322f7d8a26818c4497c2dbeadb33a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/GlossaryDetailPage.js": {
+    "mtime": 1780308891.8001904,
+    "ast_hash": "84f886a3978fe7139ce5d9c5e4584098",
+    "semantic_hash": "84f886a3978fe7139ce5d9c5e4584098"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/GlossaryPage.js": {
+    "mtime": 1780306253.2756598,
+    "ast_hash": "ffdc78ded0d2d5c04b26c1ff11c134aa",
+    "semantic_hash": "ffdc78ded0d2d5c04b26c1ff11c134aa"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/GuidePage.js": {
+    "mtime": 1780306253.2758853,
+    "ast_hash": "78c09cec1a743f9b31868d9b18c39269",
+    "semantic_hash": "78c09cec1a743f9b31868d9b18c39269"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/HariraeJiPage.js": {
+    "mtime": 1780306253.2761946,
+    "ast_hash": "b4c6909b62b7110cfedd4eb319d035ce",
+    "semantic_hash": "b4c6909b62b7110cfedd4eb319d035ce"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/HistoryOfRadhavallabh.js": {
+    "mtime": 1780306253.2765577,
+    "ast_hash": "07c617e93eabfac5d852897fe6de148a",
+    "semantic_hash": "07c617e93eabfac5d852897fe6de148a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/HitChaurasi.js": {
+    "mtime": 1780394584.989067,
+    "ast_hash": "933d9d53fd0438280ccea3dc7d452455",
+    "semantic_hash": "933d9d53fd0438280ccea3dc7d452455"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/ImportancePage.js": {
+    "mtime": 1780394689.827371,
+    "ast_hash": "507dbda1f245c612f673150129baa153",
+    "semantic_hash": "507dbda1f245c612f673150129baa153"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/MadhuryaBhavaPage.js": {
+    "mtime": 1780306253.2779045,
+    "ast_hash": "eb234800f1f5de823d3470182cb92754",
+    "semantic_hash": "eb234800f1f5de823d3470182cb92754"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/MajorRasikSaints.js": {
+    "mtime": 1780306253.2782848,
+    "ast_hash": "ef371d44c6759d45bd985eb80168e459",
+    "semantic_hash": "ef371d44c6759d45bd985eb80168e459"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/MeaningPage.js": {
+    "mtime": 1780306253.2785425,
+    "ast_hash": "b223aac5d4fe458838ab233d2ddcda78",
+    "semantic_hash": "b223aac5d4fe458838ab233d2ddcda78"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/NityaViharPage.js": {
+    "mtime": 1780308900.2329915,
+    "ast_hash": "1ad89a56271f6bb2e6b1c2637f10355c",
+    "semantic_hash": "1ad89a56271f6bb2e6b1c2637f10355c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/OriginPage.js": {
+    "mtime": 1780306253.2791922,
+    "ast_hash": "59391865bc32a3a06fb9bc68c9efb969",
+    "semantic_hash": "59391865bc32a3a06fb9bc68c9efb969"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/ParikramaGuide.js": {
+    "mtime": 1780306253.2798567,
+    "ast_hash": "6817e82dc91ac90dd1da28d3117fe825",
+    "semantic_hash": "6817e82dc91ac90dd1da28d3117fe825"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/PhilosophyPage.js": {
+    "mtime": 1780306253.2803533,
+    "ast_hash": "ec4696a528b9c2084e01c4104693a4b1",
+    "semantic_hash": "ec4696a528b9c2084e01c4104693a4b1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/PlacesPage.js": {
+    "mtime": 1780374242.6366286,
+    "ast_hash": "f89e1de47d53237737310f9975e20db2",
+    "semantic_hash": "f89e1de47d53237737310f9975e20db2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/RadhaSnataPage.js": {
+    "mtime": 1780306253.2808554,
+    "ast_hash": "6d9d170b75fe16255c902a06cd1fdc96",
+    "semantic_hash": "6d9d170b75fe16255c902a06cd1fdc96"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/RadhavallabhVsGaudiya.js": {
+    "mtime": 1780306253.2811995,
+    "ast_hash": "aea0ad31a8b71ba5698a27d04a0bee60",
+    "semantic_hash": "aea0ad31a8b71ba5698a27d04a0bee60"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/ShriHariraeJi.js": {
+    "mtime": 1780394577.5804138,
+    "ast_hash": "e5f169428439e7449d6e366e7e212630",
+    "semantic_hash": "e5f169428439e7449d6e366e7e212630"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/ShriHitHarivansh.js": {
+    "mtime": 1780394575.318587,
+    "ast_hash": "270052c9b8a3f03a14141ccc1e4d023e",
+    "semantic_hash": "270052c9b8a3f03a14141ccc1e4d023e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/SourcesPage.js": {
+    "mtime": 1780306253.2815633,
+    "ast_hash": "334d28f8e64d8b66ae5d66d0210a99dd",
+    "semantic_hash": "334d28f8e64d8b66ae5d66d0210a99dd"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/TeachingsPage.js": {
+    "mtime": 1780394693.283404,
+    "ast_hash": "01e425835427ed53d8e407b6ec8ead38",
+    "semantic_hash": "01e425835427ed53d8e407b6ec8ead38"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/Vrindavan.js": {
+    "mtime": 1780394580.2531111,
+    "ast_hash": "23011d7fd10078207c2aab0a33d5778d",
+    "semantic_hash": "23011d7fd10078207c2aab0a33d5778d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/views/seo/WhatIsVrindopnishad.js": {
+    "mtime": 1780394685.0062952,
+    "ast_hash": "4f43d18a2833878d786383b2cc633708",
+    "semantic_hash": "4f43d18a2833878d786383b2cc633708"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/tailwind.config.js": {
+    "mtime": 1780297302.1571229,
+    "ast_hash": "5862c88582e2ac9fefbbf8ad008ff73e",
+    "semantic_hash": "5862c88582e2ac9fefbbf8ad008ff73e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/auth_provider.dart": {
+    "mtime": 1780295096.8736212,
+    "ast_hash": "2642e477c5d0214492e4f76009b5730d",
+    "semantic_hash": "2642e477c5d0214492e4f76009b5730d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/cache_service.dart": {
+    "mtime": 1777119681.7640104,
+    "ast_hash": "f3f1e27287be98548ae138b600df2a68",
+    "semantic_hash": "f3f1e27287be98548ae138b600df2a68"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/content_provider.dart": {
+    "mtime": 1777119681.7641964,
+    "ast_hash": "2f128569ee51b2119334d608d887dace",
+    "semantic_hash": "2f128569ee51b2119334d608d887dace"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/database_helper.dart": {
+    "mtime": 1777119681.764317,
+    "ast_hash": "d6e8979e30bfff5005b4949ba07e4a15",
+    "semantic_hash": "d6e8979e30bfff5005b4949ba07e4a15"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/design_system.dart": {
+    "mtime": 1777119681.7649426,
+    "ast_hash": "29091ca5edb5f5c42676c94aee9ea741",
+    "semantic_hash": "29091ca5edb5f5c42676c94aee9ea741"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/favorites_provider.dart": {
+    "mtime": 1777119681.7650769,
+    "ast_hash": "83e0cfbbbb67c8216fc1429ce2bcbd71",
+    "semantic_hash": "83e0cfbbbb67c8216fc1429ce2bcbd71"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/localization.dart": {
+    "mtime": 1777119681.7652755,
+    "ast_hash": "ee27fc73e891d96ff7c895b09b3366b1",
+    "semantic_hash": "ee27fc73e891d96ff7c895b09b3366b1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/providers.dart": {
+    "mtime": 1777119681.7654276,
+    "ast_hash": "bf3cf7ba2bf578b3b9a9324ea5a0f340",
+    "semantic_hash": "bf3cf7ba2bf578b3b9a9324ea5a0f340"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/core/theme.dart": {
+    "mtime": 1777119681.765636,
+    "ast_hash": "92c457605710acd2d360f083190bb772",
+    "semantic_hash": "92c457605710acd2d360f083190bb772"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/admin_dashboard.dart": {
+    "mtime": 1777119681.7660296,
+    "ast_hash": "9cbad1f3eab157e586a717ad62589bc6",
+    "semantic_hash": "9cbad1f3eab157e586a717ad62589bc6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/auth_screen.dart": {
+    "mtime": 1780295096.8738577,
+    "ast_hash": "e821f52bcf44d1c6fb482893b89f57ec",
+    "semantic_hash": "e821f52bcf44d1c6fb482893b89f57ec"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/category_screen.dart": {
+    "mtime": 1777119681.7666583,
+    "ast_hash": "f6583cd3448f642d7aa4f085bf0104c2",
+    "semantic_hash": "f6583cd3448f642d7aa4f085bf0104c2"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/content_detail_screen.dart": {
+    "mtime": 1777119681.7669337,
+    "ast_hash": "2be78aa3d32af50aafaf22f97a12f7b6",
+    "semantic_hash": "2be78aa3d32af50aafaf22f97a12f7b6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/home_screen.dart": {
+    "mtime": 1777119681.7670984,
+    "ast_hash": "5bbe46af016a716681a1b1020e022f35",
+    "semantic_hash": "5bbe46af016a716681a1b1020e022f35"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/library_screen.dart": {
+    "mtime": 1777119681.7673423,
+    "ast_hash": "a038c05c4af031b3b0d6cdd0bbde4386",
+    "semantic_hash": "a038c05c4af031b3b0d6cdd0bbde4386"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/main_navigation_screen.dart": {
+    "mtime": 1777119681.7675145,
+    "ast_hash": "942435227801c90cf73915746aa31095",
+    "semantic_hash": "942435227801c90cf73915746aa31095"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/naam_jap_screen.dart": {
+    "mtime": 1777119681.7678282,
+    "ast_hash": "8d4a793b43aca7dd8d16652c96179a20",
+    "semantic_hash": "8d4a793b43aca7dd8d16652c96179a20"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/profile/about_screen.dart": {
+    "mtime": 1777119681.7681775,
+    "ast_hash": "974413e713fda6981daa1393d9a60184",
+    "semantic_hash": "974413e713fda6981daa1393d9a60184"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/profile/reading_history_screen.dart": {
+    "mtime": 1777119681.7684057,
+    "ast_hash": "2a0c54b22b0da1fa14ff7813af0169f4",
+    "semantic_hash": "2a0c54b22b0da1fa14ff7813af0169f4"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/profile/saved_items_screen.dart": {
+    "mtime": 1777119681.7685993,
+    "ast_hash": "cb1644ab59b2758eedba907945d50d94",
+    "semantic_hash": "cb1644ab59b2758eedba907945d50d94"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/profile/settings_screen.dart": {
+    "mtime": 1777119681.768804,
+    "ast_hash": "48afda415ac2266051f72cd9f8ca431c",
+    "semantic_hash": "48afda415ac2266051f72cd9f8ca431c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/profile_screen.dart": {
+    "mtime": 1777119681.7690175,
+    "ast_hash": "4a76afbffa8251b8e3ff871f802dfed3",
+    "semantic_hash": "4a76afbffa8251b8e3ff871f802dfed3"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/features/search_screen.dart": {
+    "mtime": 1777119681.7692158,
+    "ast_hash": "ab554ccc641074dd6c5b161a65f027a6",
+    "semantic_hash": "ab554ccc641074dd6c5b161a65f027a6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/firebase_options.dart": {
+    "mtime": 1777119681.769364,
+    "ast_hash": "9c0878fff79ab59eebd550e89403d399",
+    "semantic_hash": "9c0878fff79ab59eebd550e89403d399"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/main.dart": {
+    "mtime": 1780295096.8740313,
+    "ast_hash": "9d8addc48468ef117f18310d7836f9b8",
+    "semantic_hash": "9d8addc48468ef117f18310d7836f9b8"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/services/api_service.dart": {
+    "mtime": 1777119681.7699385,
+    "ast_hash": "4722fa6243d8f3e2dc99d63a577b353b",
+    "semantic_hash": "4722fa6243d8f3e2dc99d63a577b353b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/services/notification_service.dart": {
+    "mtime": 1780295096.8741195,
+    "ast_hash": "6b70d1700b04a9b51f918eebe9af3563",
+    "semantic_hash": "6b70d1700b04a9b51f918eebe9af3563"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/widgets/animated_effects.dart": {
+    "mtime": 1777119681.7703633,
+    "ast_hash": "af41413db5f2c5d5883415bcdcc6bdd9",
+    "semantic_hash": "af41413db5f2c5d5883415bcdcc6bdd9"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/widgets/sacred_card.dart": {
+    "mtime": 1777119681.7705762,
+    "ast_hash": "10ecd4f9b653e53434f10b0cb9316adc",
+    "semantic_hash": "10ecd4f9b653e53434f10b0cb9316adc"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/widgets/sacred_morph_widget.dart": {
+    "mtime": 1777119681.770694,
+    "ast_hash": "ad7a33775f5a50e732ac66fc27f340e0",
+    "semantic_hash": "ad7a33775f5a50e732ac66fc27f340e0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/lib/widgets/share_content_widget.dart": {
+    "mtime": 1777119681.7708976,
+    "ast_hash": "a9a225475dfb832e22bc5619193c9a1b",
+    "semantic_hash": "a9a225475dfb832e22bc5619193c9a1b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/test/widget_test.dart": {
+    "mtime": 1777119681.7802722,
+    "ast_hash": "b8c83095c4989d26ef2455720266f0ba",
+    "semantic_hash": "b8c83095c4989d26ef2455720266f0ba"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/ambient_audio_provider.dart": {
+    "mtime": 1780645037.9457877,
+    "ast_hash": "a7cdefade258dab9a35a30c31edba950",
+    "semantic_hash": "a7cdefade258dab9a35a30c31edba950"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/audio_provider.dart": {
+    "mtime": 1780645037.9459767,
+    "ast_hash": "7ae8110378609ae6fca25f42a245ef59",
+    "semantic_hash": "7ae8110378609ae6fca25f42a245ef59"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/audio_service.dart": {
+    "mtime": 1780645037.9461799,
+    "ast_hash": "99c021befe36956b328c4d1ccb3b5f2c",
+    "semantic_hash": "99c021befe36956b328c4d1ccb3b5f2c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/auth_provider.dart": {
+    "mtime": 1780645037.9463708,
+    "ast_hash": "76d574c4a861d2f12c79fedd0bf6d1cb",
+    "semantic_hash": "76d574c4a861d2f12c79fedd0bf6d1cb"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/cache_service.dart": {
+    "mtime": 1780645037.9468834,
+    "ast_hash": "1dfc66efafe0f6029ca95ebc2b385e6e",
+    "semantic_hash": "1dfc66efafe0f6029ca95ebc2b385e6e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/color_theme_provider.dart": {
+    "mtime": 1780645037.947342,
+    "ast_hash": "382a985ef9fe3c7e2661c47801e19a68",
+    "semantic_hash": "382a985ef9fe3c7e2661c47801e19a68"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/content_provider.dart": {
+    "mtime": 1780645037.9479408,
+    "ast_hash": "185d24f8fb21921038b2c84a199c649e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/database_helper.dart": {
+    "mtime": 1780645037.9483082,
+    "ast_hash": "68d7f3de81a08d92f38f7219849e89ca",
+    "semantic_hash": "68d7f3de81a08d92f38f7219849e89ca"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/design_system.dart": {
+    "mtime": 1780737791.7636123,
+    "ast_hash": "7c6a73d890ab2d8220b1396507d2a7ca",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/dynamic_icon_service.dart": {
+    "mtime": 1780645037.9500468,
+    "ast_hash": "dfd18fb2d3aac3b53de15b91af02792d",
+    "semantic_hash": "dfd18fb2d3aac3b53de15b91af02792d"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/favorites_provider.dart": {
+    "mtime": 1780645037.95092,
+    "ast_hash": "f6c9cb5a3e552166bfb628c706096032",
+    "semantic_hash": "f6c9cb5a3e552166bfb628c706096032"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/firestore_service.dart": {
+    "mtime": 1780645037.951426,
+    "ast_hash": "30071db0b3f69bee2de560c605996371",
+    "semantic_hash": "30071db0b3f69bee2de560c605996371"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/journal_provider.dart": {
+    "mtime": 1780645037.9518995,
+    "ast_hash": "9cb2c2e65b66133df691846b211039b7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/localization.dart": {
+    "mtime": 1780645037.952772,
+    "ast_hash": "4437f9ee737775944d0c4d395cf53de5",
+    "semantic_hash": "4437f9ee737775944d0c4d395cf53de5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/mood_theme_provider.dart": {
+    "mtime": 1780646662.6750715,
+    "ast_hash": "e356f89d0d378ca2cb739a02d95bd881",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/notification_manager.dart": {
+    "mtime": 1780645037.9538608,
+    "ast_hash": "94661268f01d8f17678ba19788dbff47",
+    "semantic_hash": "94661268f01d8f17678ba19788dbff47"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/personalized_feed_provider.dart": {
+    "mtime": 1780645037.9547565,
+    "ast_hash": "8490bc55953afd0b979bb075800468ca",
+    "semantic_hash": "8490bc55953afd0b979bb075800468ca"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/providers.dart": {
+    "mtime": 1780646662.6782825,
+    "ast_hash": "d3c0418dbd8d6fd919ce0900dee0420f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/providers/reading_providers.dart": {
+    "mtime": 1780645037.9559672,
+    "ast_hash": "69a54b9cdf98b3a0361d5341c25d3c6f",
+    "semantic_hash": "69a54b9cdf98b3a0361d5341c25d3c6f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/rituals_provider.dart": {
+    "mtime": 1780645037.956227,
+    "ast_hash": "10aafb74478ee3ca21d724d590929b8e",
+    "semantic_hash": "10aafb74478ee3ca21d724d590929b8e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/sacred_data_repository.dart": {
+    "mtime": 1780645037.9565623,
+    "ast_hash": "e9c26a1b5c4c79909192cf4f9ea44888",
+    "semantic_hash": "e9c26a1b5c4c79909192cf4f9ea44888"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/spirituality_engine.dart": {
+    "mtime": 1780645037.95736,
+    "ast_hash": "f61fdd0bd731b7381c20e5b47c4113bd",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/spirituality_provider.dart": {
+    "mtime": 1780645037.958317,
+    "ast_hash": "d3e612186e12130a19e9879390626488",
+    "semantic_hash": "d3e612186e12130a19e9879390626488"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/stats_provider.dart": {
+    "mtime": 1780646662.6795106,
+    "ast_hash": "fde8e87ae7a20caccd38126672eac6da",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/core/theme.dart": {
+    "mtime": 1780646662.6807957,
+    "ast_hash": "b710b97f2100ace5c4fa0075e4955cef",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/delete_content.dart": {
+    "mtime": 1780645037.9603546,
+    "ast_hash": "cccb52d7c5014c46b6a706c0dd7afb3f",
+    "semantic_hash": "cccb52d7c5014c46b6a706c0dd7afb3f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/generated.dart": {
+    "mtime": 1780645037.9605312,
+    "ast_hash": "b6c78e8578b50325f03323cd5156cc8e",
+    "semantic_hash": "b6c78e8578b50325f03323cd5156cc8e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/get_content_by_id.dart": {
+    "mtime": 1780645037.9610958,
+    "ast_hash": "e6e3a432a18dfe5cc057d47a47b140f5",
+    "semantic_hash": "e6e3a432a18dfe5cc057d47a47b140f5"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/get_content_by_slug.dart": {
+    "mtime": 1780645037.9613452,
+    "ast_hash": "bb88d9fc6d15aea80475549a50dd4d28",
+    "semantic_hash": "bb88d9fc6d15aea80475549a50dd4d28"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/list_all_content.dart": {
+    "mtime": 1780645037.9616148,
+    "ast_hash": "ec701a72c242ddc42b094a69c3fd8d91",
+    "semantic_hash": "ec701a72c242ddc42b094a69c3fd8d91"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/list_content.dart": {
+    "mtime": 1780645037.9618556,
+    "ast_hash": "10821c40d3923d253a8e7a8aea36d48b",
+    "semantic_hash": "10821c40d3923d253a8e7a8aea36d48b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/sync_content_updates.dart": {
+    "mtime": 1780645037.9622111,
+    "ast_hash": "9cbc2f9039d079c194c8288d155f969f",
+    "semantic_hash": "9cbc2f9039d079c194c8288d155f969f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/upsert_content.dart": {
+    "mtime": 1780645037.9624503,
+    "ast_hash": "d65d9764e2a77f478d06941ddef378ef",
+    "semantic_hash": "d65d9764e2a77f478d06941ddef378ef"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/auth_screen.dart": {
+    "mtime": 1780645037.9628506,
+    "ast_hash": "0f509a90eae11c5816d4c06dc5715648",
+    "semantic_hash": "0f509a90eae11c5816d4c06dc5715648"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/book_detail_screen.dart": {
+    "mtime": 1780646662.6827228,
+    "ast_hash": "f06bd85ffd0205e061a773a165be0a1b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/category_list_screen.dart": {
+    "mtime": 1780646662.686371,
+    "ast_hash": "4bf8578a278f077d9adbaee76d1b1636",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/category_screen.dart": {
+    "mtime": 1780646662.6877825,
+    "ast_hash": "5485abcb95c28522c13915a17ac567cf",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/content_detail_screen.dart": {
+    "mtime": 1780646662.6887345,
+    "ast_hash": "94cfe057fd88c9e0a1546e47d1319f6f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/daily_gyaan_screen.dart": {
+    "mtime": 1780646662.6896338,
+    "ast_hash": "a7d309debebbf66d99f2cb7bfeac0664",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/daily_motivation_screen.dart": {
+    "mtime": 1780646662.6909156,
+    "ast_hash": "f194e619cdfc9070515e41c2244587f2",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/global_player_screen.dart": {
+    "mtime": 1780646662.6921687,
+    "ast_hash": "06d50dfe69f29ced72062f6d40ba582e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/home_screen.dart": {
+    "mtime": 1780646662.693296,
+    "ast_hash": "6663f91349ab1374010682a6a7ecb794",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/journal_screen.dart": {
+    "mtime": 1780646662.7024019,
+    "ast_hash": "edf2037099e95531e7b5696d0f0b5003",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/library_screen.dart": {
+    "mtime": 1780646662.7039118,
+    "ast_hash": "a5b32404cc54d73a143732d031908f0c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/main_navigation_screen.dart": {
+    "mtime": 1780646662.706577,
+    "ast_hash": "135464893022c79df445604af0c396ce",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/naam_jap_screen.dart": {
+    "mtime": 1780646662.7081618,
+    "ast_hash": "b5417987641d99c9dbb954c9e145dbc3",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/onboarding_screen.dart": {
+    "mtime": 1780737850.4977052,
+    "ast_hash": "08572686021c63108b1ea25d376f7193",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile/about_screen.dart": {
+    "mtime": 1780646662.7287295,
+    "ast_hash": "bf3e38b0a1ccac21e1e6ae5463659baa",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile/find_friends_screen.dart": {
+    "mtime": 1780646662.7324598,
+    "ast_hash": "ef81b78b51476079e12cd8358f2f3d2f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile/reading_history_screen.dart": {
+    "mtime": 1780646662.7539144,
+    "ast_hash": "a031790dd6bee268d7fb1f69941b1952",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile/sacred_goal_screen.dart": {
+    "mtime": 1780646662.7636952,
+    "ast_hash": "8e93862b56dd187a14631fbaab14af3b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile/saved_items_screen.dart": {
+    "mtime": 1780646662.7741008,
+    "ast_hash": "40a2276c240ecae8481a33c6a849723e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile/settings_screen.dart": {
+    "mtime": 1780739261.957572,
+    "ast_hash": "ca994628c04cf6d6b62d041e17e39cfd",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/profile_screen.dart": {
+    "mtime": 1780646662.7820241,
+    "ast_hash": "49dade5d9384839186ceb21e703777fb",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/raga_detail_screen.dart": {
+    "mtime": 1780646662.867851,
+    "ast_hash": "ba1fcc326d7e44bc24643579bbc169ad",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/rituals_screen.dart": {
+    "mtime": 1780646662.877545,
+    "ast_hash": "6945b61dea59a941b1bb204c9f4a2c7c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/sacred_calendar_screen.dart": {
+    "mtime": 1780646662.8893118,
+    "ast_hash": "a16a1a27e783389598a81030ca22840f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/saint_detail_screen.dart": {
+    "mtime": 1780646662.917768,
+    "ast_hash": "857a54b7f83e1721cf8e688caf17c9c1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/search_screen.dart": {
+    "mtime": 1780646662.9520357,
+    "ast_hash": "f15d2530cd7aa3c3d047b6503fb87916",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/features/splash_screen.dart": {
+    "mtime": 1780645037.9816206,
+    "ast_hash": "7c0368b22f50a90f72e2e85478d62859",
+    "semantic_hash": "7c0368b22f50a90f72e2e85478d62859"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/firebase_options.dart": {
+    "mtime": 1780645037.9819934,
+    "ast_hash": "ba344185d379b0ad9b68a5486cd6910b",
+    "semantic_hash": "ba344185d379b0ad9b68a5486cd6910b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/main.dart": {
+    "mtime": 1780646662.956451,
+    "ast_hash": "c02de54c78756930efb50facf2d0be28",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/achievement.dart": {
+    "mtime": 1780645037.9828668,
+    "ast_hash": "007925dcced5b0b5fb685ea6a3dc4a6f",
+    "semantic_hash": "007925dcced5b0b5fb685ea6a3dc4a6f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/daily_challenge.dart": {
+    "mtime": 1780645037.9832926,
+    "ast_hash": "b0dff121563eb05ffa7221cef6d05d55",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/daily_gyaan.dart": {
+    "mtime": 1780645037.983586,
+    "ast_hash": "be70be56c35be41b55e894522aa7543c",
+    "semantic_hash": "be70be56c35be41b55e894522aa7543c"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/daily_motivation.dart": {
+    "mtime": 1780645037.983861,
+    "ast_hash": "0653f4c7bc591da77e47a713eb51de4e",
+    "semantic_hash": "0653f4c7bc591da77e47a713eb51de4e"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/journal_entry.dart": {
+    "mtime": 1780645037.9842925,
+    "ast_hash": "80222a18b4426920e8924272ff59065b",
+    "semantic_hash": "80222a18b4426920e8924272ff59065b"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/ritual.dart": {
+    "mtime": 1780645037.9846234,
+    "ast_hash": "146317d62e77da2921b7fc3bb412e8d6",
+    "semantic_hash": "146317d62e77da2921b7fc3bb412e8d6"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/sacred_event.dart": {
+    "mtime": 1780645037.9850147,
+    "ast_hash": "e6f2ada6d4effaf03f1d018f30cc7923",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/models/user_stats.dart": {
+    "mtime": 1780645037.9853354,
+    "ast_hash": "75c5d5525e4bdca5026e675ac2b86b04",
+    "semantic_hash": "75c5d5525e4bdca5026e675ac2b86b04"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/api_service.dart": {
+    "mtime": 1780645037.9856975,
+    "ast_hash": "a9350ee60589f22b540c20fd92c1a217",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/gamification_service.dart": {
+    "mtime": 1780645037.9858708,
+    "ast_hash": "583b02f0081875b7fc51f4124037da8f",
+    "semantic_hash": "583b02f0081875b7fc51f4124037da8f"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/journal_service.dart": {
+    "mtime": 1780645037.9862063,
+    "ast_hash": "9375e97d0c4e8fdefea83aac3600d412",
+    "semantic_hash": "9375e97d0c4e8fdefea83aac3600d412"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/notification_service.dart": {
+    "mtime": 1780645037.9864674,
+    "ast_hash": "2939bb6f152894d2edeba4a44f45a2be",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/realtime_service.dart": {
+    "mtime": 1780645037.986823,
+    "ast_hash": "1e2239452b9ccaeb99c7b0e82c494033",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/spiritual_content_service.dart": {
+    "mtime": 1780645037.987453,
+    "ast_hash": "46e24d67c79adeb62d6669ef2cca2e77",
+    "semantic_hash": "46e24d67c79adeb62d6669ef2cca2e77"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/services/stats_service.dart": {
+    "mtime": 1780645037.9880233,
+    "ast_hash": "aa5cfbce2ab3ec1013860c45bf915288",
+    "semantic_hash": "aa5cfbce2ab3ec1013860c45bf915288"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/achievement_dialog.dart": {
+    "mtime": 1780646662.9628801,
+    "ast_hash": "c389b2b28e6f6af0d89dfc4c8a40acb0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/animated_effects.dart": {
+    "mtime": 1780646662.9751406,
+    "ast_hash": "230438b06c0537f46fdf3cfa0767c8c9",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/ethereal_orb_player.dart": {
+    "mtime": 1780645037.990478,
+    "ast_hash": "ee780392a958d99a5b59ab0e11f8e6db",
+    "semantic_hash": "ee780392a958d99a5b59ab0e11f8e6db"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/mini_player.dart": {
+    "mtime": 1780646662.9801452,
+    "ast_hash": "6e7ba19df96df6e10cf8a496d7248d54",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/sacred_card.dart": {
+    "mtime": 1780645037.9913018,
+    "ast_hash": "409baa9399962c4320a2d89b221f6aa0",
+    "semantic_hash": "409baa9399962c4320a2d89b221f6aa0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/sacred_delete_account_dialog.dart": {
+    "mtime": 1780646662.9867792,
+    "ast_hash": "c839d2bcc22016e41c299636099188d2",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/sacred_logout_dialog.dart": {
+    "mtime": 1780646663.0193894,
+    "ast_hash": "f62656255ce47cc92b4746312067b0b0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/sacred_morph_widget.dart": {
+    "mtime": 1780645037.9918742,
+    "ast_hash": "0079b46f49ecf63399c0662c8d1d2855",
+    "semantic_hash": "0079b46f49ecf63399c0662c8d1d2855"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/sacred_ritual_alert.dart": {
+    "mtime": 1780645037.9923804,
+    "ast_hash": "eb32704fcf439bbe9f6db3376f350073",
+    "semantic_hash": "eb32704fcf439bbe9f6db3376f350073"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/share_content_widget.dart": {
+    "mtime": 1780645037.9929137,
+    "ast_hash": "ce1530b62915dcce830d5ad9b8efb6df",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/streak_fire_animation.dart": {
+    "mtime": 1780645037.99313,
+    "ast_hash": "041c3f4b4ca9dc0d3acc0fde7a330af1",
+    "semantic_hash": "041c3f4b4ca9dc0d3acc0fde7a330af1"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/xp_progress_bar.dart": {
+    "mtime": 1780645037.9933014,
+    "ast_hash": "776ce4cf0d10b191bad44f9336582d24",
+    "semantic_hash": "776ce4cf0d10b191bad44f9336582d24"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/xp_toast.dart": {
+    "mtime": 1780645037.9936597,
+    "ast_hash": "4484d748fdcdacac9da56c0335debf7f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/scripts/generate_theme_icons.py": {
+    "mtime": 1780645038.0053236,
+    "ast_hash": "b7da68f88fb26825f04c92edc3465345",
+    "semantic_hash": "b7da68f88fb26825f04c92edc3465345"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/search_script.py": {
+    "mtime": 1780645038.005503,
+    "ast_hash": "facf2e8865edd2c2c149849d7dc487a0",
+    "semantic_hash": "facf2e8865edd2c2c149849d7dc487a0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/supabase_migration.sql": {
+    "mtime": 1780645038.0060189,
+    "ast_hash": "e23f02d85961ba3ba0f461b8c481b629",
+    "semantic_hash": "e23f02d85961ba3ba0f461b8c481b629"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/test/widget_test.dart": {
+    "mtime": 1780645038.0063114,
+    "ast_hash": "24b7674d0a40a597b6eb4216a35c6731",
+    "semantic_hash": "24b7674d0a40a597b6eb4216a35c6731"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/setup.sh": {
+    "mtime": 1777119681.8631926,
+    "ast_hash": "cd1e72143521a13851378062d70616c9",
+    "semantic_hash": "cd1e72143521a13851378062d70616c9"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/start-backend-supabase.sh": {
+    "mtime": 1777119681.8633032,
+    "ast_hash": "92d79f2538efd44fffb5f12543536c00",
+    "semantic_hash": "92d79f2538efd44fffb5f12543536c00"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/start-demo.sh": {
+    "mtime": 1777119681.863405,
+    "ast_hash": "21456035fdb6a377e645ed796b5f34a0",
+    "semantic_hash": "21456035fdb6a377e645ed796b5f34a0"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/start-full.sh": {
+    "mtime": 1777119681.8635402,
+    "ast_hash": "bceb809fe84d98271cc17f506e17d57a",
+    "semantic_hash": "bceb809fe84d98271cc17f506e17d57a"
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/start-supabase.sh": {
+    "mtime": 1777119681.8636532,
+    "ast_hash": "d84f70a6dfbfaad8dd6d7282b1c7f672",
+    "semantic_hash": "d84f70a6dfbfaad8dd6d7282b1c7f672"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Home/js/animations.js": {
+    "mtime": 1779359855.1263938,
+    "ast_hash": "4263f476e5c5034f8822a0022e5c69bb",
+    "semantic_hash": "4263f476e5c5034f8822a0022e5c69bb"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Home/js/effects.js": {
+    "mtime": 1774853087.5907285,
+    "ast_hash": "dc49516c8a7e4eb59a0f706aebfededa",
+    "semantic_hash": "dc49516c8a7e4eb59a0f706aebfededa"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Home/js/image-hover.js": {
+    "mtime": 1774853087.590852,
+    "ast_hash": "268d39f2262e39c2cd061aa5b8012e7d",
+    "semantic_hash": "268d39f2262e39c2cd061aa5b8012e7d"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Home/js/main-interactive.js": {
+    "mtime": 1779359855.1268308,
+    "ast_hash": "082ed918e4fd68f09722ead8eea258ff",
+    "semantic_hash": "082ed918e4fd68f09722ead8eea258ff"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Home/js/main.js": {
+    "mtime": 1774853087.5911279,
+    "ast_hash": "9c3c0fdce6e3737ad92179992f02be75",
+    "semantic_hash": "9c3c0fdce6e3737ad92179992f02be75"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/eslint.config.js": {
+    "mtime": 1774853087.6162963,
+    "ast_hash": "49c8473bcfcec3aef596a5fb04a6df06",
+    "semantic_hash": "49c8473bcfcec3aef596a5fb04a6df06"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/public/class/data/content.db.js": {
+    "mtime": 1774853087.676857,
+    "ast_hash": "88442dece628d3c592da116c24f167e5",
+    "semantic_hash": "88442dece628d3c592da116c24f167e5"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/App.jsx": {
+    "mtime": 1780144610.3186595,
+    "ast_hash": "78cfca84043bc4b53f496c7ff9abbcbc",
+    "semantic_hash": "78cfca84043bc4b53f496c7ff9abbcbc"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/CartDrawer.jsx": {
+    "mtime": 1780131035.503229,
+    "ast_hash": "2db2125049a7db53503a699e1281b62e",
+    "semantic_hash": "2db2125049a7db53503a699e1281b62e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/CheckoutModal.jsx": {
+    "mtime": 1780131041.5129023,
+    "ast_hash": "97319c7a5915946491b1678229c76854",
+    "semantic_hash": "97319c7a5915946491b1678229c76854"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/CollectionDetails.jsx": {
+    "mtime": 1780143427.1195111,
+    "ast_hash": "e21d07389eb9f489bdbf19316fe094e2",
+    "semantic_hash": "e21d07389eb9f489bdbf19316fe094e2"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/CollectionRow.jsx": {
+    "mtime": 1780199385.17181,
+    "ast_hash": "a0a5486839e2173b9433c30a44f08799",
+    "semantic_hash": "a0a5486839e2173b9433c30a44f08799"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/CookieConsent.jsx": {
+    "mtime": 1774853088.0975144,
+    "ast_hash": "5791de0ab8077927cd16fcabe9452f9f",
+    "semantic_hash": "5791de0ab8077927cd16fcabe9452f9f"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/CustomCursor.jsx": {
+    "mtime": 1780142027.7245355,
+    "ast_hash": "e461ef01a805ae5cff8776742471715c",
+    "semantic_hash": "e461ef01a805ae5cff8776742471715c"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/Footer.jsx": {
+    "mtime": 1780199385.4500585,
+    "ast_hash": "fd252bdde617f2761709648d566d3e76",
+    "semantic_hash": "fd252bdde617f2761709648d566d3e76"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/Hero.jsx": {
+    "mtime": 1780144617.9020936,
+    "ast_hash": "69145ff174b30a351881508b6db6db2e",
+    "semantic_hash": "69145ff174b30a351881508b6db6db2e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/Navbar.jsx": {
+    "mtime": 1780199898.4536457,
+    "ast_hash": "7eefaae3e22665d4ff1c013f85e7a3f4",
+    "semantic_hash": "7eefaae3e22665d4ff1c013f85e7a3f4"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/PopupModal.jsx": {
+    "mtime": 1780145407.6514885,
+    "ast_hash": "19c2246b66b838d56dabe666fe911068",
+    "semantic_hash": "19c2246b66b838d56dabe666fe911068"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/components/SearchOverlay.jsx": {
+    "mtime": 1774853088.0981667,
+    "ast_hash": "08cc1d06cbd4e4adfeddb6e8e78f587b",
+    "semantic_hash": "08cc1d06cbd4e4adfeddb6e8e78f587b"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/context/NotificationContext.jsx": {
+    "mtime": 1780199982.901736,
+    "ast_hash": "575dc68786d66252906dc1d053119279",
+    "semantic_hash": "575dc68786d66252906dc1d053119279"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/lib/databaseBridge.js": {
+    "mtime": 1780131720.2481134,
+    "ast_hash": "bfcc8dc0b93752e54ce99f3798bd5cd1",
+    "semantic_hash": "bfcc8dc0b93752e54ce99f3798bd5cd1"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/lib/seoHelper.js": {
+    "mtime": 1780145464.9988842,
+    "ast_hash": "0d95dd38978362c0ce979fd93307011b",
+    "semantic_hash": "0d95dd38978362c0ce979fd93307011b"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/lib/supabaseClient.js": {
+    "mtime": 1774853088.0988126,
+    "ast_hash": "cda007429d11f8b39458395d47c9be20",
+    "semantic_hash": "cda007429d11f8b39458395d47c9be20"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/src/main.jsx": {
+    "mtime": 1774853088.09893,
+    "ast_hash": "e13723e2574429d9a6d849727e3ff695",
+    "semantic_hash": "e13723e2574429d9a6d849727e3ff695"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/vite.config.js": {
+    "mtime": 1780131346.1694083,
+    "ast_hash": "9acd83cca5952d0d7858f0dc2103f982",
+    "semantic_hash": "9acd83cca5952d0d7858f0dc2103f982"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/cart-logic.js": {
+    "mtime": 1774853088.1003795,
+    "ast_hash": "51589c7b89b49d56d7f0a01d71cccebe",
+    "semantic_hash": "51589c7b89b49d56d7f0a01d71cccebe"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/collection-page-fix.js": {
+    "mtime": 1776506340.330911,
+    "ast_hash": "dd257fc099a25bc8ab66caed0b9076a6",
+    "semantic_hash": "dd257fc099a25bc8ab66caed0b9076a6"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/collection-page.js": {
+    "mtime": 1774853088.1008806,
+    "ast_hash": "94a2c6f292fb86d1d7601cfc42d903fa",
+    "semantic_hash": "94a2c6f292fb86d1d7601cfc42d903fa"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/gallery-data.js": {
+    "mtime": 1776503854.7530043,
+    "ast_hash": "9d5f491eb87f2131ffed8cde47420cdb",
+    "semantic_hash": "9d5f491eb87f2131ffed8cde47420cdb"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/gemini made/gemini-collection-fix.js": {
+    "mtime": 1774853088.101297,
+    "ast_hash": "f6b6e1de23d0dde4f72bc066a6fe22e7",
+    "semantic_hash": "f6b6e1de23d0dde4f72bc066a6fe22e7"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/immediate-loader.js": {
+    "mtime": 1774853088.101411,
+    "ast_hash": "c4d2f0f38e999d2cb78aec7b33acccc6",
+    "semantic_hash": "c4d2f0f38e999d2cb78aec7b33acccc6"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/notifications.js": {
+    "mtime": 1774853088.1015294,
+    "ast_hash": "d05c32b0a4c1fa897485c80340c70c06",
+    "semantic_hash": "d05c32b0a4c1fa897485c80340c70c06"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/pic-collection.js": {
+    "mtime": 1774853088.1017048,
+    "ast_hash": "c313daea08524684da243ecbd94df9bc",
+    "semantic_hash": "c313daea08524684da243ecbd94df9bc"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/pic-simple.js": {
+    "mtime": 1774853088.1019387,
+    "ast_hash": "dd234a4a7363820a7d37350cf7b40624",
+    "semantic_hash": "dd234a4a7363820a7d37350cf7b40624"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/popup-collection.js": {
+    "mtime": 1774853088.1020794,
+    "ast_hash": "930c306b085239be066253442884d966",
+    "semantic_hash": "930c306b085239be066253442884d966"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/js/supabase-client.js": {
+    "mtime": 1774853088.1021895,
+    "ast_hash": "3d7b01d3346e762f9374662cdbfebe40",
+    "semantic_hash": "3d7b01d3346e762f9374662cdbfebe40"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/temp/collection-details.js": {
+    "mtime": 1774853088.1032922,
+    "ast_hash": "15f030e6899dc38d3998dad5ed443a9e",
+    "semantic_hash": "15f030e6899dc38d3998dad5ed443a9e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Security/disable-right-click.js": {
+    "mtime": 1774853088.1035006,
+    "ast_hash": "962a98e6ef10447517716af06dbec4e8",
+    "semantic_hash": "962a98e6ef10447517716af06dbec4e8"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Security/image-protection.js": {
+    "mtime": 1774853088.103621,
+    "ast_hash": "7f1cf05e154075a89358f808a2d06fa7",
+    "semantic_hash": "7f1cf05e154075a89358f808a2d06fa7"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Security/screenshot-protection.js": {
+    "mtime": 1774853088.103746,
+    "ast_hash": "ebbaa63c4bfe33f81d7216d3e60e14fe",
+    "semantic_hash": "ebbaa63c4bfe33f81d7216d3e60e14fe"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Security/watermark.js": {
+    "mtime": 1774853088.1038575,
+    "ast_hash": "bbd73d386862a3df502d653d4344df71",
+    "semantic_hash": "bbd73d386862a3df502d653d4344df71"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/api-service.js": {
+    "mtime": 1774853088.1046755,
+    "ast_hash": "4e570de1da649c2a799f16d883fa0f8d",
+    "semantic_hash": "4e570de1da649c2a799f16d883fa0f8d"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/app.js": {
+    "mtime": 1774853088.104734,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/data-loader.js": {
+    "mtime": 1774853088.1049886,
+    "ast_hash": "f9fcfa62343242b55cff7dd41282887e",
+    "semantic_hash": "f9fcfa62343242b55cff7dd41282887e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/image-optimizer.js": {
+    "mtime": 1774853088.1051974,
+    "ast_hash": "a66067c5ddfb2d1b0cfd908610aaad32",
+    "semantic_hash": "a66067c5ddfb2d1b0cfd908610aaad32"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/init-module.js": {
+    "mtime": 1774853088.1052473,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/loader.js": {
+    "mtime": 1774853088.105408,
+    "ast_hash": "70e412bea53855d21089282728084eda",
+    "semantic_hash": "70e412bea53855d21089282728084eda"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/js/stack.js": {
+    "mtime": 1774853088.1057017,
+    "ast_hash": "79bdf2be6e09499e1a590fcaff482711",
+    "semantic_hash": "79bdf2be6e09499e1a590fcaff482711"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/about code/js/about_app.js": {
+    "mtime": 1774853088.1078393,
+    "ast_hash": "6bf38343480b7fd86ce0d4be7d946a08",
+    "semantic_hash": "6bf38343480b7fd86ce0d4be7d946a08"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/about code/js/button-fixes.js": {
+    "mtime": 1774853088.1080256,
+    "ast_hash": "1eb8bbfd4e36e03624c0f3d6466833be",
+    "semantic_hash": "1eb8bbfd4e36e03624c0f3d6466833be"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/about code/js/settings.js": {
+    "mtime": 1774853088.1081643,
+    "ast_hash": "4c5c957bfd768fdb8849bc5d22de87cf",
+    "semantic_hash": "4c5c957bfd768fdb8849bc5d22de87cf"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/BlockContent.js": {
+    "mtime": 1774853088.1094737,
+    "ast_hash": "8c4c3f7916c809479b2bccdedd538b13",
+    "semantic_hash": "8c4c3f7916c809479b2bccdedd538b13"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/audio.js": {
+    "mtime": 1774853088.1096857,
+    "ast_hash": "dc3569643c5853b3e6755028cf6efa47",
+    "semantic_hash": "dc3569643c5853b3e6755028cf6efa47"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/book-integration.js": {
+    "mtime": 1774853088.1100605,
+    "ast_hash": "8ca1013dc9d4ab0534872173bdb7c867",
+    "semantic_hash": "8ca1013dc9d4ab0534872173bdb7c867"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/book.js": {
+    "mtime": 1774853088.1103926,
+    "ast_hash": "2553785765f932cae07f7a1d3ab52892",
+    "semantic_hash": "2553785765f932cae07f7a1d3ab52892"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/content-loader.js": {
+    "mtime": 1774853088.1105282,
+    "ast_hash": "6e5e8355fe7e19482246132bf8a914fb",
+    "semantic_hash": "6e5e8355fe7e19482246132bf8a914fb"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/dynamic-book-fixed.js": {
+    "mtime": 1774853088.110683,
+    "ast_hash": "f00ee5dde30fd053463591e30ee4b05d",
+    "semantic_hash": "f00ee5dde30fd053463591e30ee4b05d"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/dynamic-book.js": {
+    "mtime": 1774853088.1108444,
+    "ast_hash": "1907412fb90764a80e9739619206d219",
+    "semantic_hash": "1907412fb90764a80e9739619206d219"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/enhanced-audio.js": {
+    "mtime": 1774853088.111178,
+    "ast_hash": "6e111713d26e69ab63b0e55b17d9f59e",
+    "semantic_hash": "6e111713d26e69ab63b0e55b17d9f59e"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/js/notification-manager.js": {
+    "mtime": 1774853088.1113396,
+    "ast_hash": "fdf10bcd59e7b0fcc7bb0d7c071ca928",
+    "semantic_hash": "fdf10bcd59e7b0fcc7bb0d7c071ca928"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/class/data/content.db.js": {
+    "mtime": 1774853088.1529484,
+    "ast_hash": "88442dece628d3c592da116c24f167e5",
+    "semantic_hash": "88442dece628d3c592da116c24f167e5"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/book-content/book copy.js": {
+    "mtime": 1774853088.4320123,
+    "ast_hash": "31f04d32caf252d6dfce034652e4c3ad",
+    "semantic_hash": "31f04d32caf252d6dfce034652e4c3ad"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/book-content/book.js": {
+    "mtime": 1774853088.4324954,
+    "ast_hash": "f5ab34140870f55beba6955b1a6a281d",
+    "semantic_hash": "f5ab34140870f55beba6955b1a6a281d"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/content/media-book.js": {
+    "mtime": 1774853088.4332356,
+    "ast_hash": "7484c1df6c63522df55587f1a6eb2f59",
+    "semantic_hash": "7484c1df6c63522df55587f1a6eb2f59"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/enhanced-script.js": {
+    "mtime": 1774853088.4343526,
+    "ast_hash": "6fc00bfa03a06554d157c9f616a9e500",
+    "semantic_hash": "6fc00bfa03a06554d157c9f616a9e500"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/hatom-cursor-script.js": {
+    "mtime": 1774853088.4347503,
+    "ast_hash": "e18a4f71260414bd8ac89d6251068db9",
+    "semantic_hash": "e18a4f71260414bd8ac89d6251068db9"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/src/scripts/cursor.js": {
+    "mtime": 1774853088.4354482,
+    "ast_hash": "000895bfbe812b9cc5c833648992668a",
+    "semantic_hash": "000895bfbe812b9cc5c833648992668a"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/iframe-bridge.js": {
+    "mtime": 1774853088.4381204,
+    "ast_hash": "17c9852edd16af45fae47ec7156b8bbb",
+    "semantic_hash": "17c9852edd16af45fae47ec7156b8bbb"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/modern-notifications.js": {
+    "mtime": 1774853088.4386423,
+    "ast_hash": "f448b4b26ac17a6ca13c16f02e0c4fcc",
+    "semantic_hash": "f448b4b26ac17a6ca13c16f02e0c4fcc"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/word-hover.js": {
+    "mtime": 1774853088.439522,
+    "ast_hash": "e3f58e661261bf4df566ba7fa08874ea",
+    "semantic_hash": "e3f58e661261bf4df566ba7fa08874ea"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/content-manager.js": {
+    "mtime": 1774853088.4398155,
+    "ast_hash": "d81e7831f0475d6c1f95180aa0673610",
+    "semantic_hash": "d81e7831f0475d6c1f95180aa0673610"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/content.js": {
+    "mtime": 1774853088.4403126,
+    "ast_hash": "80da47615c48dd8e070b8a8d9b39dd2f",
+    "semantic_hash": "80da47615c48dd8e070b8a8d9b39dd2f"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/login.js": {
+    "mtime": 1774853088.4404464,
+    "ast_hash": "5de370db7a57edc0c140a60b07745365",
+    "semantic_hash": "5de370db7a57edc0c140a60b07745365"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/notification-manager.js": {
+    "mtime": 1774853088.4405572,
+    "ast_hash": "7215ee9c7d9dc229d2921a40e899ec5f",
+    "semantic_hash": "7215ee9c7d9dc229d2921a40e899ec5f"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/ui-manager.js": {
+    "mtime": 1774853088.4406707,
+    "ast_hash": "9c63b010f22a27cf8e7e39848e388471",
+    "semantic_hash": "9c63b010f22a27cf8e7e39848e388471"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/write.js": {
+    "mtime": 1774853088.4413002,
+    "ast_hash": "f1dd0ee8c12d40177ad466568e0f2753",
+    "semantic_hash": "f1dd0ee8c12d40177ad466568e0f2753"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/simple-stack/main.js": {
+    "mtime": 1774853088.4418192,
+    "ast_hash": "2d74d07def9d918726e47e3d4016f8e5",
+    "semantic_hash": "2d74d07def9d918726e47e3d4016f8e5"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/complete_updated_script.js": {
+    "mtime": 1774853088.4422066,
+    "ast_hash": "22bb7667e1541abac0e982ec5e4d4fed",
+    "semantic_hash": "22bb7667e1541abac0e982ec5e4d4fed"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/error-handling.js": {
+    "mtime": 1774853088.4432354,
+    "ast_hash": "5b71be17749359f042c0f6aee7fb33b5",
+    "semantic_hash": "5b71be17749359f042c0f6aee7fb33b5"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/export-fixes.js": {
+    "mtime": 1774853088.4434147,
+    "ast_hash": "ca3dcad8c4d95131377439acc72630a3",
+    "semantic_hash": "ca3dcad8c4d95131377439acc72630a3"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/exportTemplate.js": {
+    "mtime": 1774853088.4435973,
+    "ast_hash": "31e2440d1d2bf5c0e7feca1aa1c960f9",
+    "semantic_hash": "31e2440d1d2bf5c0e7feca1aa1c960f9"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/new-js.js": {
+    "mtime": 1774853088.4445004,
+    "ast_hash": "b83fd696b5f2e9fae361528a012316f4",
+    "semantic_hash": "b83fd696b5f2e9fae361528a012316f4"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/ui-enhancements.js": {
+    "mtime": 1774853088.4459279,
+    "ast_hash": "99a3dff59f00cd3f92cdb3ff80638a89",
+    "semantic_hash": "99a3dff59f00cd3f92cdb3ff80638a89"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/video-fixes.js": {
+    "mtime": 1774853088.4460726,
+    "ast_hash": "2510062fd8f416921e1d5a372a5e2924",
+    "semantic_hash": "2510062fd8f416921e1d5a372a5e2924"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/js/Download/utils.js": {
+    "mtime": 1774853088.4467592,
+    "ast_hash": "154f902c166993963636c14178e11e9c",
+    "semantic_hash": "154f902c166993963636c14178e11e9c"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/js/hit_soochi_client.js": {
+    "mtime": 1774853088.4469006,
+    "ast_hash": "8ff866ed95c7e73dfbba9261929bab72",
+    "semantic_hash": "8ff866ed95c7e73dfbba9261929bab72"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/js/popup-checker.js": {
+    "mtime": 1774853088.4470115,
+    "ast_hash": "1f19b2b2852609573fa6a1cd6d43955f",
+    "semantic_hash": "1f19b2b2852609573fa6a1cd6d43955f"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/js/theme-detector.js": {
+    "mtime": 1774853088.4471123,
+    "ast_hash": "f666fac7bf03b25374dd8f79a68fa6cc",
+    "semantic_hash": "f666fac7bf03b25374dd8f79a68fa6cc"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/js/universal resourse linker.js": {
+    "mtime": 1774853088.447271,
+    "ast_hash": "5c5e8ab7dd2b4c15e9b76570d359ee57",
+    "semantic_hash": "5c5e8ab7dd2b4c15e9b76570d359ee57"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/main.js": {
+    "mtime": 1774853088.4494233,
+    "ast_hash": "79c365e7cfd6936363ee856b82f16079",
+    "semantic_hash": "79c365e7cfd6936363ee856b82f16079"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/js/pdf-viewer.js": {
+    "mtime": 1781275828.1844995,
+    "ast_hash": "04626bd404b96ddf6e23446308fe00c4",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/js/three.min.js": {
+    "mtime": 1774853088.451785,
+    "ast_hash": "eb8549863a97355411c3259a3f93b8e1",
+    "semantic_hash": "eb8549863a97355411c3259a3f93b8e1"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/libs/pdf.min.js": {
+    "mtime": 1774853088.4529982,
+    "ast_hash": "1ff2cc14ee699625f9135caa3d405187",
+    "semantic_hash": "1ff2cc14ee699625f9135caa3d405187"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/libs/pdf.worker.min.js": {
+    "mtime": 1774853088.4563653,
+    "ast_hash": "cd3b703134142bb7fc6d59d00edd0309",
+    "semantic_hash": "cd3b703134142bb7fc6d59d00edd0309"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/js/complete_updated_script.js": {
+    "mtime": 1774853088.4582741,
+    "ast_hash": "20bcea9dd6ee72856dae3ab5c64afdc4",
+    "semantic_hash": "20bcea9dd6ee72856dae3ab5c64afdc4"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/js/content_connector.js": {
+    "mtime": 1774853088.4584227,
+    "ast_hash": "4038108767c11cde462d780ebbd4312a",
+    "semantic_hash": "4038108767c11cde462d780ebbd4312a"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/js/load-json.js": {
+    "mtime": 1774853088.4585707,
+    "ast_hash": "1fbf4c1b112b2ac3e441da3ee4c04575",
+    "semantic_hash": "1fbf4c1b112b2ac3e441da3ee4c04575"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/js/new-js.js": {
+    "mtime": 1774853088.4587286,
+    "ast_hash": "b6ad2420cb871f391cfe71f68a89af11",
+    "semantic_hash": "b6ad2420cb871f391cfe71f68a89af11"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/js/read-me.js": {
+    "mtime": 1774853088.458885,
+    "ast_hash": "94a372cc0c5c1362e7dfae63e5920800",
+    "semantic_hash": "94a372cc0c5c1362e7dfae63e5920800"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/js/unified-data-manager.js": {
+    "mtime": 1774853088.4590328,
+    "ast_hash": "8ec14f9e98271270a4f4a146078c62a2",
+    "semantic_hash": "8ec14f9e98271270a4f4a146078c62a2"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/utilities/image-loader.js": {
+    "mtime": 1774853088.4600947,
+    "ast_hash": "cd2cd68b48254544d5e1522656a20bf3",
+    "semantic_hash": "cd2cd68b48254544d5e1522656a20bf3"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/backend/enhanced_dark.js": {
+    "mtime": 1774853088.4605966,
+    "ast_hash": "8e1280afd5c7f3e1b9f8f02a9158543d",
+    "semantic_hash": "8e1280afd5c7f3e1b9f8f02a9158543d"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/js/exportTemplate.js": {
+    "mtime": 1774853088.4619327,
+    "ast_hash": "31e2440d1d2bf5c0e7feca1aa1c960f9",
+    "semantic_hash": "31e2440d1d2bf5c0e7feca1aa1c960f9"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/js/unified-data-api.js": {
+    "mtime": 1774853088.462092,
+    "ast_hash": "d55b6d65716bdbde44499cef935bc250",
+    "semantic_hash": "d55b6d65716bdbde44499cef935bc250"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/js/unified-data-manager.js": {
+    "mtime": 1774853088.462239,
+    "ast_hash": "eb6d9851f1ca16aa09aae895d09b3337",
+    "semantic_hash": "eb6d9851f1ca16aa09aae895d09b3337"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Cookie Consent/cookie-consent.js": {
+    "mtime": 1774853088.4641814,
+    "ast_hash": "06aef8b3cdc94aa8e33cf02b687584ef",
+    "semantic_hash": "06aef8b3cdc94aa8e33cf02b687584ef"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Custom Cursor/Advanced Custom Cursor/Advanced-cc.js": {
+    "mtime": 1774853088.464656,
+    "ast_hash": "bb10f72352ba465f0a5b65ca6e4e7a94",
+    "semantic_hash": "bb10f72352ba465f0a5b65ca6e4e7a94"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.js": {
+    "mtime": 1774853088.4649901,
+    "ast_hash": "d00195d77b9da50dd27e93893b4d2965",
+    "semantic_hash": "d00195d77b9da50dd27e93893b4d2965"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Ripple btn/btn-ripple.js": {
+    "mtime": 1774853088.4652703,
+    "ast_hash": "fa0c3c171867d5c4335b46545d334ea4",
+    "semantic_hash": "fa0c3c171867d5c4335b46545d334ea4"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/links/link-handler.js": {
+    "mtime": 1774853088.4657032,
+    "ast_hash": "651f9fd0bb642763ee5ce7805d1cde10",
+    "semantic_hash": "651f9fd0bb642763ee5ce7805d1cde10"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/links/linkme.js": {
+    "mtime": 1774853088.4659534,
+    "ast_hash": "aecb7ca4420ff8347eb12a1907d5118d",
+    "semantic_hash": "aecb7ca4420ff8347eb12a1907d5118d"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/loader/loader.js": {
+    "mtime": 1774853088.4663837,
+    "ast_hash": "616bb9b83d89ca1ba62bfba25bd16baf",
+    "semantic_hash": "616bb9b83d89ca1ba62bfba25bd16baf"
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/loader/random-loader.js": {
+    "mtime": 1774853088.4665112,
+    "ast_hash": "26b44899a7546600323be38e6585c9ea",
+    "semantic_hash": "26b44899a7546600323be38e6585c9ea"
+  },
+  "/Users/sakhi/Code/Company/git-sync.sh": {
+    "mtime": 1779291655.1158018,
+    "ast_hash": "2250ca2e05822f09243cc8aa28b20fe2",
+    "semantic_hash": "2250ca2e05822f09243cc8aa28b20fe2"
+  },
+  "/Users/sakhi/Code/Company/js/auth.js": {
+    "mtime": 1776521177.326701,
+    "ast_hash": "b2980a7eb25c3a1e7c987507e9740898",
+    "semantic_hash": "b2980a7eb25c3a1e7c987507e9740898"
+  },
+  "/Users/sakhi/Code/Company/js/image-helper.js": {
+    "mtime": 1774853088.4894965,
+    "ast_hash": "00ed5ffc203a7ef244c98ce6f4eec88d",
+    "semantic_hash": "00ed5ffc203a7ef244c98ce6f4eec88d"
+  },
+  "/Users/sakhi/Code/Company/js/offline-handler.js": {
+    "mtime": 1774853088.4896073,
+    "ast_hash": "e5d73cceb4515b019903a91edf0d69a5",
+    "semantic_hash": "e5d73cceb4515b019903a91edf0d69a5"
+  },
+  "/Users/sakhi/Code/Company/scripts/AutoMaticallyPush.py": {
+    "mtime": 1774853088.4900277,
+    "ast_hash": "10438b7db8a64d7cb18d517d5aa9cbb6",
+    "semantic_hash": "10438b7db8a64d7cb18d517d5aa9cbb6"
+  },
+  "/Users/sakhi/Code/Company/scripts/autopushGit.py": {
+    "mtime": 1774853088.490119,
+    "ast_hash": "30db3514dcf7c8a22936f772db57f6db",
+    "semantic_hash": "30db3514dcf7c8a22936f772db57f6db"
+  },
+  "/Users/sakhi/Code/Company/scripts/fix_gmc_images.py": {
+    "mtime": 1774853088.4902318,
+    "ast_hash": "41025b3a7e5ca309763b0e838b51e023",
+    "semantic_hash": "41025b3a7e5ca309763b0e838b51e023"
+  },
+  "/Users/sakhi/Code/Company/scripts/generate_feed.py": {
+    "mtime": 1774853088.49034,
+    "ast_hash": "f00a3ad54a0609079fe7a6305bf8b223",
+    "semantic_hash": "f00a3ad54a0609079fe7a6305bf8b223"
+  },
+  "/Users/sakhi/Code/Company/.github/onboarding.md": {
+    "mtime": 1774853087.583564,
+    "ast_hash": "66f2bc29afc63bbbf4771385dc6cc211",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/.github/workflows/codeql.yml": {
+    "mtime": 1774853087.5837283,
+    "ast_hash": "94451365ca95741e71524e3f3266653e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/.github/workflows/defender-for-devops.yml": {
+    "mtime": 1774853087.5838325,
+    "ast_hash": "38ac526151e39bf0ea6cacdb6c8e0822",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/.github/workflows/deploy-pages.yml": {
+    "mtime": 1780501809.1694098,
+    "ast_hash": "0e682df315885ca793e11540d34b783b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/.github/workflows/sonarcloud.yml": {
+    "mtime": 1774853087.5839477,
+    "ast_hash": "92115a9cb14c43ddd6f19384a1e93c08",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/404.html": {
+    "mtime": 1779538160.0171802,
+    "ast_hash": "a3defc4bf76f5ded3ff388a1bfc40ff0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/CONTRIBUTING.md": {
+    "mtime": 1774853087.5858254,
+    "ast_hash": "57b310926778a373ed846f45da0f0657",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/README.md": {
+    "mtime": 1776404116.2890995,
+    "ast_hash": "8449307287944b25186a5f40bb852071",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/Vrinda-Tours-React/index.html": {
+    "mtime": 1778250590.9330506,
+    "ast_hash": "b919ea9c5a0c51fa5360a311c95e051c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/driver-app.html": {
+    "mtime": 1776510803.3346472,
+    "ast_hash": "1c96292be35c815734cab76a88c2949a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/old map.html": {
+    "mtime": 1776502582.1716118,
+    "ast_hash": "4a483b213f629af16d253c33f9a6954d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/Vrinda-Tours/vrinda-tours.html": {
+    "mtime": 1779906526.0172036,
+    "ast_hash": "e01651b4782bc1201f1dc35e9f3d9a82",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/COMMANDS.md": {
+    "mtime": 1777119681.679982,
+    "ast_hash": "4ee32f609592ff7cbf3b4c2732ac1dab",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/README.md": {
+    "mtime": 1777119681.680137,
+    "ast_hash": "fcde4ba0cfd4eb6a3d7ce10d1a741b6c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/SUPABASE_SETUP.md": {
+    "mtime": 1777119681.680277,
+    "ast_hash": "9a892ab32f920be6f94cc4a783c6ee56",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/admin/index.html": {
+    "mtime": 1777119681.693558,
+    "ast_hash": "a95f1fc5ed87b9beb4b933a455b275dd",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/backend/requirements.txt": {
+    "mtime": 1777119681.6985152,
+    "ast_hash": "6be3df3368f3a411b4735a022ce167ad",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/APP_ICON_IMPLEMENTATION.md": {
+    "mtime": 1777119681.7000327,
+    "ast_hash": "6cd0de59e0b5f321abfe29dae0c47385",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/CONNECT_BACKEND.md": {
+    "mtime": 1777119681.7001557,
+    "ast_hash": "ad34f7cbb0feaa92cdcd4ae9bcd6687e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/FIREBASE_SETUP_GUIDE.md": {
+    "mtime": 1777119681.700309,
+    "ast_hash": "7159fe64194e3ae6f8ea502ace452620",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/INSTALLATION.md": {
+    "mtime": 1777119681.7005143,
+    "ast_hash": "cf4f3b9ce60784b90228351c95913686",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/MOBILE_SIGNING.md": {
+    "mtime": 1777119681.7006462,
+    "ast_hash": "14aeeff81f2dcc5b348d163d8aaa14bc",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/README.md": {
+    "mtime": 1777119681.700782,
+    "ast_hash": "fcde4ba0cfd4eb6a3d7ce10d1a741b6c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/docs/UX_IMPROVEMENTS.md": {
+    "mtime": 1777119681.7008998,
+    "ast_hash": "18f1df2d0a8b68822f3d7cc8207ef91d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/.vercel/README.txt": {
+    "mtime": 1780295364.7760823,
+    "ast_hash": "2b13c79d37d6ed82a3255b83b6815034",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/README.md": {
+    "mtime": 1777119681.7012715,
+    "ast_hash": "33822368bfb3ad3de6fceb9cd76aa0dd",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/docs/LOADER_IMPLEMENTATION.md": {
+    "mtime": 1777119681.7136874,
+    "ast_hash": "2d5fed56af9d4c6f788a386e7c881381",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/docs/LOADER_MULTI_PAGE_EXAMPLES.md": {
+    "mtime": 1777119681.7138789,
+    "ast_hash": "d7d6bd3f8a6da39470aa94d127dfa644",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/docs/LOADER_QUICK_REFERENCE.md": {
+    "mtime": 1777119681.714005,
+    "ast_hash": "36d1106547baba0c11e201e6f32f87e1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/docs/LOADER_UPDATE_SUMMARY.md": {
+    "mtime": 1777119681.7141502,
+    "ast_hash": "28a77bb9224f0163304aedd55b789798",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/docs/LOADER_USAGE.md": {
+    "mtime": 1777119681.714296,
+    "ast_hash": "b99784d9a28ea17f91a6935f740ec8b1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/public/admin/index.html": {
+    "mtime": 1777119681.7185988,
+    "ast_hash": "91a69d09325d841dc60835a524d15ce7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/public/google27b1a7fc60901288.html": {
+    "mtime": 1780295096.838077,
+    "ast_hash": "05df93bae0c907f344a33648c44d1f6e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/public/robots.txt": {
+    "mtime": 1780295096.8406818,
+    "ast_hash": "13eb7c2bc08071f48b1c625b253cc529",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/dataconnect/.guides/setup.md": {
+    "mtime": 1780295096.8550954,
+    "ast_hash": "34bff525f3f9f07e747b3d9b46677d2a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/dataconnect/.guides/usage.md": {
+    "mtime": 1780295096.8555667,
+    "ast_hash": "a4819aa9d097cf21842188f0b46f5c2e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/src/lib/dataconnect/README.md": {
+    "mtime": 1780295096.8558638,
+    "ast_hash": "4b7bffbfe47038135231edf7f4879323",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/README.md": {
+    "mtime": 1777119681.7469692,
+    "ast_hash": "8e83c38e5511524b54fa02a1d249f73d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/analysis.txt": {
+    "mtime": 1777119681.7471561,
+    "ast_hash": "b91b66f2722580eb1889d9242395e32b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/analysis_cleanup.txt": {
+    "mtime": 1777119681.7475936,
+    "ast_hash": "dbd446997ff1d70de6c533b80c599422",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/analysis_final.txt": {
+    "mtime": 1777119681.7477224,
+    "ast_hash": "657eaa1a047a13762bb347e1c3147b2d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/analysis_options.yaml": {
+    "mtime": 1777119681.7478456,
+    "ast_hash": "8062c5b13cf7e66ab1d3f68e2db95acd",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/devtools_options.yaml": {
+    "mtime": 1777119681.7561233,
+    "ast_hash": "d1ff5187b1b67653e7357395895e8449",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/pubspec.yaml": {
+    "mtime": 1780295096.8746207,
+    "ast_hash": "f6cc596296b6534ba9d099055c921261",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/README.md": {
+    "mtime": 1780645037.7177165,
+    "ast_hash": "72108b75de4eebcc6ba7fa4a7a89fd87",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/analysis_options.yaml": {
+    "mtime": 1780645037.7182484,
+    "ast_hash": "2691acca6a7149b3e6f33bfd7f9d265f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/analyze_output.txt": {
+    "mtime": 1780645037.7187304,
+    "ast_hash": "ebd8a81413b43555e41afa839b78d49a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/.guides/setup.md": {
+    "mtime": 1780645037.9596472,
+    "ast_hash": "41b9fb217443062a8e2fe97a383e0444",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/.guides/usage.md": {
+    "mtime": 1780645037.9598162,
+    "ast_hash": "83b7a9af6d3f15ede7325e9285393e74",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/dataconnect_generated/README.md": {
+    "mtime": 1780645037.960033,
+    "ast_hash": "38e8b3c87815d8c579951d1dbac061c8",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/pubspec.yaml": {
+    "mtime": 1780645038.004602,
+    "ast_hash": "4bf36a452f3ca7603cb47fdcd31f6844",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/README.md": {
+    "mtime": 1774853087.587444,
+    "ast_hash": "2b2bc975e437899f3f48364f91cd262e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/404/404.html": {
+    "mtime": 1779906566.159123,
+    "ast_hash": "6a24e4e204fa1ae87846b20549d6a615",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/404/particle-morph.html": {
+    "mtime": 1774853087.587862,
+    "ast_hash": "fb74ecb207fcd46139a199ea58a3685f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Home/main/BigIndex.html": {
+    "mtime": 1779906369.8851707,
+    "ast_hash": "9a675aebdcd3ed5f604fe6d214214d38",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/README.md": {
+    "mtime": 1774853087.6161792,
+    "ast_hash": "3f01850e9fce601d04d6dba39204c1d8",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/gallery-react/index.html": {
+    "mtime": 1780145699.1335835,
+    "ast_hash": "1e96a56e3297e6f49b1fd8108a737a8d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/main/Gallery.html": {
+    "mtime": 1779906601.2119932,
+    "ast_hash": "fb6afaf24b65d0dccba1ed9fe51577eb",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/main/collection-details.html": {
+    "mtime": 1781275844.9974377,
+    "ast_hash": "af4377d7ab9216f49d529a6f48e77aa5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Pictures/main/photos.html": {
+    "mtime": 1779906385.1923118,
+    "ast_hash": "438b793b0cd57e53f259d666e1473a27",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/main/chosen-stack.html": {
+    "mtime": 1774853088.1060174,
+    "ast_hash": "1ae6a0b2d348535bee5327b1b101b57b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/main/devotional-stack.html": {
+    "mtime": 1774853088.106349,
+    "ast_hash": "181233a1e151aa280f873332971600d5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/main/new-scrolling-stack.html": {
+    "mtime": 1774853088.1065247,
+    "ast_hash": "14563cac9b71ad71fed309e297819acf",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/Stack/main/stack.html": {
+    "mtime": 1774853088.1067026,
+    "ast_hash": "efba6468734a73b8ce58a6787183f819",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/about code/main/about.html": {
+    "mtime": 1781275807.034544,
+    "ast_hash": "052e0dd893ce18e719b01de3dc250dd2",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/about code/main/team-portfolio.html": {
+    "mtime": 1781275811.9531195,
+    "ast_hash": "6167390ea9b9769155cf473e4d1607b5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/book/main/book.html": {
+    "mtime": 1774853088.1115983,
+    "ast_hash": "18a15e8f1e875d85b17c0b334afa260d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/feedback/feedback.html": {
+    "mtime": 1779906521.1392677,
+    "ast_hash": "e31e8d2e3d44d4c51a389ed18f74210f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/Assistant/index.html": {
+    "mtime": 1774853088.430961,
+    "ast_hash": "44702247e6ae2d94a3ce77b517b652d0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/advanced_books_web.html": {
+    "mtime": 1774853088.4313,
+    "ast_hash": "e73089b83c406d2f66f757183f12097a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/book-content/book copy.html": {
+    "mtime": 1774853088.4318082,
+    "ast_hash": "292a549ab4093f4d0f482e086cd61fba",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/book-content/book.html": {
+    "mtime": 1774853088.432323,
+    "ast_hash": "cc7efc681d9185a1d386fa72827d1b78",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/content/media-book.html": {
+    "mtime": 1774853088.433075,
+    "ast_hash": "e42fe0f14ddb57756ba066139bb880da",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/claude-new.html": {
+    "mtime": 1774853088.4338875,
+    "ast_hash": "02adc741dd166eea1a75a05a873df6df",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/claude.html": {
+    "mtime": 1774853088.434041,
+    "ast_hash": "408c3df34003290a56fe2af649ac5aff",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/enhanced-index.html": {
+    "mtime": 1774853088.4342062,
+    "ast_hash": "ca60020e650ae8802b676e8d6dc393bf",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/cursors/index.html": {
+    "mtime": 1774853088.4349046,
+    "ast_hash": "1fe3653d2e3298da847f068e0bfbf898",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/menu bar/menubar.html": {
+    "mtime": 1774853088.4362848,
+    "ast_hash": "c0da7f6cfa98870b708a3b2eb0bb2d1f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/README-notifications.md": {
+    "mtime": 1774853088.436761,
+    "ast_hash": "08f356c871508fc7f42950fa4da91537",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/README.md": {
+    "mtime": 1774853088.436875,
+    "ast_hash": "a25e805ad92b868b6f85764f699e6bdb",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/iframe-demo.html": {
+    "mtime": 1774853088.438268,
+    "ast_hash": "51652389d98b4426af95d859e9a06a1d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/notification-demo.html": {
+    "mtime": 1774853088.4388351,
+    "ast_hash": "fae68b257656247efc9ced3f562b5c05",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/word-hover-README.md": {
+    "mtime": 1774853088.4389873,
+    "ast_hash": "8e68a8e42cd2cc1d4d61af1ec8cdde96",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/notification/word-hover-test.html": {
+    "mtime": 1774853088.439195,
+    "ast_hash": "c82bedb704979f55cb5f25b208dc1cb9",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/content.html": {
+    "mtime": 1774853088.440119,
+    "ast_hash": "2cc878c22426681bc7bd141649e8e055",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/page/write.html": {
+    "mtime": 1774853088.4411318,
+    "ast_hash": "dc612383c4c2a223b73fd41b6dd25bee",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/protection.html": {
+    "mtime": 1774853088.4414642,
+    "ast_hash": "e8db7a25b85633500774837d4bb0ffa2",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/simple-stack/index.html": {
+    "mtime": 1774853088.4416718,
+    "ast_hash": "15a83dfc3c7636e026a7390fceb1e3d1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/dynamic-poetry-reader-3.html": {
+    "mtime": 1774853088.4424307,
+    "ast_hash": "1e87f2bfe2326a3a94d61e47db0295a4",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/dynamic-poetry-reader-4.html": {
+    "mtime": 1774853088.44259,
+    "ast_hash": "668caebcf6b9b2eea7b31d2a2f36a07f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/enhanced_cms_complete.html": {
+    "mtime": 1774853088.4430256,
+    "ast_hash": "5c21d1e39092a4351a7c5f31579fe300",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/fixed_poetry_reader.html": {
+    "mtime": 1774853088.4437892,
+    "ast_hash": "ab6010859743e7fb901f4442e9692698",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/modern_poetry_reader.html": {
+    "mtime": 1774853088.444038,
+    "ast_hash": "7c0b566b6c7a8e2128968cbeb8c9fd0d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/poetry-reader-with-menu-2.html": {
+    "mtime": 1774853088.4446638,
+    "ast_hash": "d40edc8c4dcd6cae89579d2d877d0151",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/poetry-reader-with-menu.html": {
+    "mtime": 1774853088.4448543,
+    "ast_hash": "bfa63d49db75c2a082cc04972452c3a5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/poetry.html": {
+    "mtime": 1774853088.445041,
+    "ast_hash": "861cffa70f172189e9512d5fbd969974",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/poetry_reader.html": {
+    "mtime": 1774853088.4453614,
+    "ast_hash": "44b411541ca32490aec2dee008d9ff1e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/poetry_reader_fixed.html": {
+    "mtime": 1774853088.4455838,
+    "ast_hash": "f1cd7c67864f8d4d40ac734306105733",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/template_literal_fixes.txt": {
+    "mtime": 1774853088.44573,
+    "ast_hash": "543fe23f92763ef24d48c0b7d7628e0d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/store/web_content_manager.html": {
+    "mtime": 1774853088.4462528,
+    "ast_hash": "d9c2d6a53ec76aa1d53b40e95c08ab3c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/integrated Folders/trial/animal-trial.html": {
+    "mtime": 1774853088.4464915,
+    "ast_hash": "bce1182ec1d9499fb7baa7781433c239",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/main/liquid-glass-card.html": {
+    "mtime": 1774853088.4566488,
+    "ast_hash": "5fce98699a8c29872e3e715570d57c14",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/main/pdf-linked.html": {
+    "mtime": 1774853088.4568448,
+    "ast_hash": "8ea49b25766770205b4f89832db3ba58",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/pdf/main/pdf-viewer.html": {
+    "mtime": 1779906507.0343676,
+    "ast_hash": "16788450366dfcaf05f96b63716467d9",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/policies/policies.html": {
+    "mtime": 1779906518.198722,
+    "ast_hash": "415c844c4a38cc3d11e659f45e9a3cfa",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/main/new-read-me.html": {
+    "mtime": 1776521729.1558325,
+    "ast_hash": "615607bf27a6bb139af63203075fdf45",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/sketch/reject/fixed_poetry_reader.html": {
+    "mtime": 1774853088.4597864,
+    "ast_hash": "dea8e873480409f813345ae7d8753ea1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/backend/enhanced_dark_cms.html": {
+    "mtime": 1774853088.4607925,
+    "ast_hash": "cf4f40e0702a3f14ae1360b515bd1f01",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/enhanced_cms_complete.html": {
+    "mtime": 1774853088.4614248,
+    "ast_hash": "4dff2b28ce64d433edc7559ef9b994f7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/extra-unified-unified-collection.html": {
+    "mtime": 1774853088.4617052,
+    "ast_hash": "e92a76adc7d532f20fdc50acb050258f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/modified-unified.html": {
+    "mtime": 1774853088.4626415,
+    "ast_hash": "eecd17b95fc7f4c7f36c353fe6dc253a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/more-modified-unified.html": {
+    "mtime": 1774853088.4628565,
+    "ast_hash": "807c3222bddcefcb1ed480f1eb3111fc",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/new simple content.html": {
+    "mtime": 1774853088.4629896,
+    "ast_hash": "1aca76a354488d2c801259e0d888f7f5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/pictures-management.html": {
+    "mtime": 1774853088.4632192,
+    "ast_hash": "5a850d200d2c7f513f8d042c2250a576",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/simple-content-multi-collection-data-manager.html": {
+    "mtime": 1774853088.463356,
+    "ast_hash": "f81391214467a83a0ff6f778fa1a320c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/unified-data-collection.html": {
+    "mtime": 1774853088.4636917,
+    "ast_hash": "c63bf2debd90856e35ace02e93b2cc74",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web content manager/web_content_manager.html": {
+    "mtime": 1774853088.4638216,
+    "ast_hash": "5f338907414878de608da19b881a7b1e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Custom Cursor/Advanced Custom Cursor/Advanced-cc.html": {
+    "mtime": 1774853088.4645362,
+    "ast_hash": "df19206986c59753cba15a00891cf378",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Custom Cursor/custom-cursor.html": {
+    "mtime": 1774853088.4648738,
+    "ast_hash": "f9eff8061521f6d8c788bd603757431a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Ripple btn/docs/ripple-documentation.md": {
+    "mtime": 1774853088.4654388,
+    "ast_hash": "97b55b813829db1ec1bde5ddbbf6681f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/Ripple btn/ripple.html": {
+    "mtime": 1774853088.4655464,
+    "ast_hash": "653d4b29dc98ddc92fd04eab68493c5c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/links/linking.html": {
+    "mtime": 1774853088.4658365,
+    "ast_hash": "6525250d4fff6d651968f320b79f6b87",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/web-extentions/loader/loader.html": {
+    "mtime": 1774853088.46627,
+    "ast_hash": "ede26bd91eb5fcf9c633395a61be0568",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Vrindopnishad Web/\u0936\u094d\u0930\u0940_\u0939\u0930\u093f\u0935\u0902\u0936.html": {
+    "mtime": 1779376339.2874992,
+    "ast_hash": "1df3a0bfcd8fdb337275ace5fbb79515",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/dataconnect/content/connector.yaml": {
+    "mtime": 1780025380.7710412,
+    "ast_hash": "8101c4dd1a62efc7d2b01b648f896999",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/dataconnect/dataconnect.yaml": {
+    "mtime": 1780025370.0485194,
+    "ast_hash": "f397edf5f794b20ee353ee0d63732e23",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/index.html": {
+    "mtime": 1781275821.7965,
+    "ast_hash": "f31fcb4c14ce7cc7aa60b0fb2295b9ea",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/login.html": {
+    "mtime": 1779538173.624396,
+    "ast_hash": "a63625b75521aa9d887d08e44c3f8f05",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/robots.txt": {
+    "mtime": 1781275824.1914334,
+    "ast_hash": "b8662d8f2591fd8dbc05967140482776",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/eslint.config.js": {
+    "mtime": 1780735619.6998312,
+    "ast_hash": "49c8473bcfcec3aef596a5fb04a6df06",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/App.jsx": {
+    "mtime": 1780852541.6761293,
+    "ast_hash": "75315a0fe05e16363d396577ee37de58",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/About.jsx": {
+    "mtime": 1780851746.0088975,
+    "ast_hash": "4f5ae771d5d9ec23f718df1226912b4b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Background.jsx": {
+    "mtime": 1780850650.8049128,
+    "ast_hash": "54ce01ce2d0a9f120246d262c13d74f6",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Confetti.jsx": {
+    "mtime": 1780845285.6832857,
+    "ast_hash": "1bf81fe66b457046d4c213589fc7f627",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/DropZone.jsx": {
+    "mtime": 1780735619.7355173,
+    "ast_hash": "cdf4db9bc2d3b6e27d9c8db8f59543b2",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/ErrorModal.jsx": {
+    "mtime": 1780735619.7356715,
+    "ast_hash": "5c09eaad11540f01d2f33461bebdc2e7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Footer.jsx": {
+    "mtime": 1780852545.6501667,
+    "ast_hash": "49cfe2d96a3413af04a11dcc5672f0cb",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Header.jsx": {
+    "mtime": 1780852191.9730468,
+    "ast_hash": "5b2af5f6892d8c5964c246b0891d742b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/LandingPage.jsx": {
+    "mtime": 1780852046.0226068,
+    "ast_hash": "65b696132ff8ec1a0ceb05a08bdfa7c4",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Loader.jsx": {
+    "mtime": 1780762803.00753,
+    "ast_hash": "9fc71ce90e703e29834035d38f5f8123",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Marketplace.jsx": {
+    "mtime": 1780852233.0578644,
+    "ast_hash": "74e59032383824fca39d724d7ca815da",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/NotFound.jsx": {
+    "mtime": 1780852400.9372723,
+    "ast_hash": "0e33dd7cf7b5b12d1fb6b88e29eda78e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/PDFCanvas.jsx": {
+    "mtime": 1780847977.6719246,
+    "ast_hash": "6a8b95e6608c29c82aa2053412ae7f2a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/PDFPage.jsx": {
+    "mtime": 1780848004.4017406,
+    "ast_hash": "567724862768e7cf7f44d6f339dd7bd1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/PDFViewer.jsx": {
+    "mtime": 1780848015.6479516,
+    "ast_hash": "869d6d2826bbdc051531fe858b85715b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Sidebar.jsx": {
+    "mtime": 1780848300.1318395,
+    "ast_hash": "1f4f5be048f612b3d79556dd42c64b1f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/StitchPlayground.jsx": {
+    "mtime": 1780853106.647813,
+    "ast_hash": "358e48d548ce78b69e7cb2e2677a5cf5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/components/Toolbar.jsx": {
+    "mtime": 1780847885.4628446,
+    "ast_hash": "4fc4f1f1c31fde4c93c80a416d512c81",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/hooks/usePdfViewer.js": {
+    "mtime": 1780848013.319518,
+    "ast_hash": "1520754e2dd2ea14fa635e293dce43f0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/src/main.jsx": {
+    "mtime": 1780846155.2350078,
+    "ast_hash": "e13723e2574429d9a6d849727e3ff695",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/.dart_tool/dartpad/web_plugin_registrant.dart": {
+    "mtime": 1780761862.8398705,
+    "ast_hash": "7ed35bc85b7658d113371ffc24d07117",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/main.dart": {
+    "mtime": 1780735619.7515848,
+    "ast_hash": "ee660e19b5005fb56f8503ca8a2f1e9c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/providers/user_prefs_provider.dart": {
+    "mtime": 1780735619.751742,
+    "ast_hash": "36bfe20baaefb3a9483ccbbad06d32ab",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/achievement_profile_screen.dart": {
+    "mtime": 1780735619.7521255,
+    "ast_hash": "cf0668a36b2343022f807f5b06a09f9e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/beginner_home_screen.dart": {
+    "mtime": 1780735619.7522562,
+    "ast_hash": "bff52c6de9d995178a9fab9f76da59c0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/content_details_screen.dart": {
+    "mtime": 1780735619.752471,
+    "ast_hash": "9822a7fcbb622c64c62c9dacf132ad04",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/grade_selection_screen.dart": {
+    "mtime": 1780735619.7526712,
+    "ast_hash": "ee7f3b33dab217b8eaa06ce938592ff0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/home_dashboard_screen.dart": {
+    "mtime": 1780735619.752857,
+    "ast_hash": "06b9fd1a79764c97540c19ea333a7f1c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/library_vault_screen.dart": {
+    "mtime": 1780735619.7530239,
+    "ast_hash": "e0914249d9a34e2e4f606c98b0157a76",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/mock_test_screen.dart": {
+    "mtime": 1780762167.8778613,
+    "ast_hash": "9718c7f9635c73ce0817be9a739615f5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/modern_home_screen.dart": {
+    "mtime": 1780735619.753405,
+    "ast_hash": "a3827ec07c20a3c7cb528f75884558e4",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/onboarding_screen.dart": {
+    "mtime": 1780735619.7535317,
+    "ast_hash": "ae8d8bca3dfc30740da863f17d6d6ac0",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/pdf_viewer_screen.dart": {
+    "mtime": 1780762148.5219173,
+    "ast_hash": "3ed4a72321de0884d12433537dee7ae7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/profile_screen.dart": {
+    "mtime": 1780735619.753837,
+    "ast_hash": "4008a96a89c007ef09a33002f69188ec",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/resource_detail_screen.dart": {
+    "mtime": 1780762159.8273478,
+    "ast_hash": "01474ab9fcd55ef7269230c7df7f53c5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/statistics_screen.dart": {
+    "mtime": 1780735619.7543125,
+    "ast_hash": "ee3c341c53330df50372aae54c04191d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/subscription_plans_screen.dart": {
+    "mtime": 1780735619.7545407,
+    "ast_hash": "d93616a9a3764472cc675f7bfb193c37",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/screens/tutor_chat_screen.dart": {
+    "mtime": 1780762174.473285,
+    "ast_hash": "8376da28ad13561e65134b98a64f8a7c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/theme/app_theme.dart": {
+    "mtime": 1780735619.7552814,
+    "ast_hash": "06e56498b64549cc5c20717ef6177b9c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/utils/mock_data.dart": {
+    "mtime": 1780735619.7554853,
+    "ast_hash": "ac3b5d7c3f0ae37a47af12c548025876",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/utils/sacred_styles.dart": {
+    "mtime": 1780735619.755625,
+    "ast_hash": "7c3ea104cd400465c77c6010dd7e8a21",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/widgets/bento_card.dart": {
+    "mtime": 1780735619.7558289,
+    "ast_hash": "0d7003efc3ad2fccf56bec3decae6d2f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/widgets/glass_bottom_bar.dart": {
+    "mtime": 1780735619.7559502,
+    "ast_hash": "5df14f95142f76dd915a34508eb0f649",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/widgets/premium_effects.dart": {
+    "mtime": 1780735619.756102,
+    "ast_hash": "cd3890ca962ed09c17313bd6131925bc",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/lib/widgets/premium_search_bar.dart": {
+    "mtime": 1780735619.7562282,
+    "ast_hash": "ceda97cba285bf644d231e553b4e8150",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/test/widget_test.dart": {
+    "mtime": 1780735619.7635086,
+    "ast_hash": "77c11554b4ce45a3c411cb4bc2fcc5c1",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/main.dart": {
+    "mtime": 1780735619.7784219,
+    "ast_hash": "98f76d9775d21c1aea103e53f843e1d5",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/achievement_profile_screen.dart": {
+    "mtime": 1780735619.7787797,
+    "ast_hash": "6c8318b9a0cdf0897a33036e41d6594b",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/beginner_home_screen.dart": {
+    "mtime": 1780735619.77889,
+    "ast_hash": "63c1be3f6e3089dc0e29f2710259a70f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/grade_selection_screen.dart": {
+    "mtime": 1780735619.77904,
+    "ast_hash": "c11d3e2753c745a7112fbaea0b2eed15",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/home_dashboard_screen.dart": {
+    "mtime": 1780735619.779162,
+    "ast_hash": "2800cbfbfa7a32d246bec570d244ea01",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/modern_home_screen.dart": {
+    "mtime": 1780735619.7793658,
+    "ast_hash": "863e4c65135b37a8c45d2f402cac9a17",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/resource_detail_screen.dart": {
+    "mtime": 1780735619.7795525,
+    "ast_hash": "c353d521224d4aa9ef25095cd1dcc46a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/screens/subscription_plans_screen.dart": {
+    "mtime": 1780735619.7797081,
+    "ast_hash": "6698419844ed10dafe8f381bf47bffbf",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/lib/theme/app_theme.dart": {
+    "mtime": 1780735619.7798803,
+    "ast_hash": "f068fd85c229fd4e4a19a91455fab879",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/test/widget_test.dart": {
+    "mtime": 1780735619.78911,
+    "ast_hash": "3eb83a674ab3eb417405e5437f007929",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/vite.config.js": {
+    "mtime": 1780735619.7938936,
+    "ast_hash": "820e666d3437dd8b8f8899cc1744e45f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/analyze-braces.js": {
+    "mtime": 1780633826.615352,
+    "ast_hash": "f65bcbaf6fe899ce2f6937cd98073d9a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/check_404_correctly.js": {
+    "mtime": 1781058502.1200027,
+    "ast_hash": "3677d14ebcd17ca9950f511772b8fa58",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/check_404_details.js": {
+    "mtime": 1781058469.7772305,
+    "ast_hash": "40d2e1ee32abcc0bb26d25032ba5c88a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/find-mismatch.js": {
+    "mtime": 1780633845.0169966,
+    "ast_hash": "8978b38a6d2b3ba746682eb0ec138cef",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_backup.js": {
+    "mtime": 1780643635.102127,
+    "ast_hash": "5feea41aae455cb2985ce787b89fc44f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/inspect_our_slug.js": {
+    "mtime": 1780643562.0895686,
+    "ast_hash": "5894e10f83219c46f1c4136d59febad2",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/query_slug.mjs": {
+    "mtime": 1780643875.528692,
+    "ast_hash": "4f8c0e10366d4e496db67096256b1474",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/search_in_raw.js": {
+    "mtime": 1780643609.009459,
+    "ast_hash": "66d62f71fa414c8afecc0142f06826af",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test-seo.js": {
+    "mtime": 1780633968.7191544,
+    "ast_hash": "44d80d996a3a5d7668d3904d83480dc8",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test_content.js": {
+    "mtime": 1780635589.6938114,
+    "ast_hash": "bf74aa4914ebed9770122294a62df71a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/test_redirects.js": {
+    "mtime": 1781058726.9717536,
+    "ast_hash": "43e76a05a29cdbe86c50d0f7a179bb9d",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scratch/update_revalidate.js": {
+    "mtime": 1780631651.2936037,
+    "ast_hash": "db72bea2ee74c9380eb3963975c1b6fe",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/frontend/scripts/fetch-db.mjs": {
+    "mtime": 1780644484.0888717,
+    "ast_hash": "b673a7a505b1d58449a07f0cbdc7b57c",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/mobile_app/.dart_tool/dartpad/web_plugin_registrant.dart": {
+    "mtime": 1780728044.361019,
+    "ast_hash": "dfe2d233d52e82cb60e7b01a8ab91d11",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/.dart_tool/dartpad/web_plugin_registrant.dart": {
+    "mtime": 1780738234.465408,
+    "ast_hash": "6ee7faac25ab3f40d39d3093515e66e9",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/lib/widgets/divine_ruler_picker.dart": {
+    "mtime": 1780646662.9762318,
+    "ast_hash": "b7d49eb93f58601e32bbd89d5720eba3",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/README.md": {
+    "mtime": 1780735619.699713,
+    "ast_hash": "3f01850e9fce601d04d6dba39204c1d8",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/index.html": {
+    "mtime": 1780845958.8551662,
+    "ast_hash": "24d9702ddfe7518d56e305361af75d42",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/public/robots.txt": {
+    "mtime": 1780845952.187835,
+    "ast_hash": "432b775ceaef2293676aa5ea2cf82e75",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/README.md": {
+    "mtime": 1780735619.7382479,
+    "ast_hash": "8e2a9f490e203464c2f67faad3de86b3",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/analysis_options.yaml": {
+    "mtime": 1780735619.7383623,
+    "ast_hash": "66d03d7647c8e438164feaf5b922d44a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_v2/pubspec.yaml": {
+    "mtime": 1780761933.6124208,
+    "ast_hash": "f7af182f0df0991ce5d90c23b6986ff7",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/README.md": {
+    "mtime": 1780735619.767259,
+    "ast_hash": "8e2a9f490e203464c2f67faad3de86b3",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/analysis_options.yaml": {
+    "mtime": 1780735619.767354,
+    "ast_hash": "66d03d7647c8e438164feaf5b922d44a",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/study_app_yellowish/pubspec.yaml": {
+    "mtime": 1780735619.7888184,
+    "ast_hash": "339a89b2efe7a5d0cba79f6b0d1fb193",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/.dart_tool/hooks_runner/objective_c/337ce265dc/stderr.txt": {
+    "mtime": 1780738317.8095794,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/VrindaVaani/premium_app/.dart_tool/hooks_runner/objective_c/337ce265dc/stdout.txt": {
+    "mtime": 1780738317.8110392,
+    "ast_hash": "3a0e7540a6d43d565a21e6f87ef0e67f",
+    "semantic_hash": ""
+  },
+  "/Users/sakhi/Code/Company/Projects/SkillTadka/public/sample.pdf": {
+    "mtime": 1780762905.4118674,
+    "ast_hash": "2942bfabb3d05332b66eb128e0842cff",
+    "semantic_hash": ""
+  }
+}

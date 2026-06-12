@@ -193,8 +193,27 @@ async function loadBookById(bookId) {
 async function loadPdf(path) {
     try {
         showLoader();
+
+        // Validate URL origin to prevent loading from arbitrary external domains
+        if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('//')) {
+            try {
+                const targetUrl = new URL(path, window.location.origin);
+                if (targetUrl.origin !== window.location.origin) {
+                    throw new Error('Loading PDFs from external domains is not allowed for security reasons.');
+                }
+            } catch (e) {
+                throw new Error('Invalid PDF URL or external domain blocked.');
+            }
+        }
+
         const response = await fetch(path);
         if (!response.ok) throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+
+        // Validate MIME type to ensure it's a PDF
+        const contentType = response.headers.get('content-type');
+        if (contentType && !contentType.includes('application/pdf')) {
+            throw new Error('Invalid file type. Only PDF files are allowed.');
+        }
 
         const arrayBuffer = await response.arrayBuffer();
         const typedArray = new Uint8Array(arrayBuffer);
@@ -210,7 +229,7 @@ async function loadPdf(path) {
 
     } catch (error) {
         console.error('Error loading PDF from path:', error);
-        showError('Could not load the PDF file. Please check the file path.');
+        showError(error.message || 'Could not load the PDF file. Please check the file path.');
         hideLoader();
     }
 }
