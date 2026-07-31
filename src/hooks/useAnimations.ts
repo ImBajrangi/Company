@@ -81,7 +81,7 @@ export const useAnimations = () => {
 
     initParticleCanvas();
 
-    // GSAP ScrollTrigger Typography Animations
+    // GSAP ScrollTrigger Typography Animations (ScrollBlurTypography & OnScrollTypographyAnimations)
     const initTypography = () => {
       const windowSplitting = (window as any).Splitting;
       if (windowSplitting) {
@@ -89,7 +89,29 @@ export const useAnimations = () => {
       }
 
       requestAnimationFrame(() => {
-        // FX1: Hero Title (Vrindopnishad)
+        // 1. ScrollBlurTypography Animation: Smooth blur-to-focus reveal for labels & subtitles
+        const blurElements = document.querySelectorAll('.fade-up-off, .showcase-subtitle, .bento-label, .universe-quote, .values-label');
+        blurElements.forEach((el: Element) => {
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 30, filter: 'blur(12px)' },
+            {
+              opacity: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top bottom-=15%',
+                end: 'top center+=20%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+
+        // 2. OnScrollTypographyAnimations (OnScrollHeading FX1: Hero Title)
         const fx1Titles = document.querySelectorAll('.content__title[data-splitting][data-effect1]');
         fx1Titles.forEach((title: Element) => {
           const chars = title.querySelectorAll('.char');
@@ -113,7 +135,7 @@ export const useAnimations = () => {
           );
         });
 
-        // FX2: Projects Title
+        // OnScrollTypographyAnimations (OnScrollHeading FX2: Projects Title)
         const fx2Titles = document.querySelectorAll('.content__title[data-splitting][data-effect2]');
         fx2Titles.forEach((title: Element) => {
           const chars = title.querySelectorAll('.char');
@@ -139,7 +161,7 @@ export const useAnimations = () => {
           );
         });
 
-        // FX5: Core Values Title
+        // OnScrollTypographyAnimations (OnScrollHeading FX5: Core Values Title)
         const fx5Titles = document.querySelectorAll('.content__title[data-splitting][data-effect5]');
         fx5Titles.forEach((title: Element) => {
           const chars = title.querySelectorAll('.char');
@@ -163,7 +185,7 @@ export const useAnimations = () => {
           );
         });
 
-        // FX6: Our Story & Get Apps Titles
+        // OnScrollTypographyAnimations (OnScrollHeading FX6: Our Story & Get Apps 3D Perspective Flip)
         const fx6Titles = document.querySelectorAll('.content__title[data-splitting][data-effect6]');
         fx6Titles.forEach((title: Element) => {
           const words = title.querySelectorAll('.word');
@@ -195,7 +217,7 @@ export const useAnimations = () => {
           });
         });
 
-        // FX8: Digital Universe Title
+        // OnScrollTypographyAnimations (OnScrollHeading FX8: Digital Universe Hacker Decode)
         const lettersAndSymbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*', '-', '_', '+', '=', ';', ':', '<', '>', ','];
         const fx8Titles = document.querySelectorAll('.content__title[data-splitting][data-effect8]');
         fx8Titles.forEach((title: Element) => {
@@ -229,7 +251,7 @@ export const useAnimations = () => {
           });
         });
 
-        // FX10: Bento Grid Title (For You)
+        // OnScrollTypographyAnimations (OnScrollHeading FX10 & ScrollBlurTypography: Bento Grid "For You")
         const fx10Titles = document.querySelectorAll('.content__title[data-splitting][data-effect10]');
         fx10Titles.forEach((title: Element) => {
           const chars = title.querySelectorAll('.char');
