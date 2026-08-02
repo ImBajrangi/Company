@@ -10,17 +10,17 @@ export const AppsSection: React.FC = () => {
         </div>
 
         <div className="apps-bento staggered-list">
-          <a 
+          <a
             href="Projects/VrindopnishadApps/foodyVrindaApp/foodyVrinda.apk"
-            className="apps-card apps-featured staggered-item" 
+            className="apps-card apps-featured staggered-item"
             download
           >
             <div className="apps-tag">★ FEATURED</div>
             <div className="apps-icon">
-              <img 
-                src="Vrindopnishad%20Web/class/logo/foodyVrinda-logo.svg" 
+              <img
+                src="Vrindopnishad%20Web/class/logo/foodyVrinda-logo.svg"
                 alt="Foody Vrinda"
-                loading="lazy" 
+                loading="lazy"
               />
             </div>
             <div className="apps-info">
@@ -36,16 +36,16 @@ export const AppsSection: React.FC = () => {
             </div>
           </a>
 
-          <a 
-            href="Projects/VrindopnishadApps/santVaani/vrindopnishad.apk" 
+          <a
+            href="Projects/VrindopnishadApps/santVaani/vrindopnishad.apk"
             className="apps-card staggered-item"
             download
           >
             <div className="apps-icon">
-              <img 
-                src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg" 
+              <img
+                src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg"
                 alt="Vrindopnishad App"
-                loading="lazy" 
+                loading="lazy"
               />
             </div>
             <div className="apps-info">
@@ -61,10 +61,10 @@ export const AppsSection: React.FC = () => {
 
           <a href="Projects/Vrinda-Tours/vrinda-tours.html" className="apps-card staggered-item">
             <div className="apps-icon">
-              <img 
-                src="Vrindopnishad%20Web/class/logo/vrindaTours-logo.svg" 
+              <img
+                src="Vrindopnishad%20Web/class/logo/vrindaTours-logo.svg"
                 alt="Vrinda Tours"
-                loading="lazy" 
+                loading="lazy"
               />
             </div>
             <div className="apps-info">
@@ -79,10 +79,10 @@ export const AppsSection: React.FC = () => {
 
           <a href="Vrindopnishad%20Web/Pictures/main/photos.html" className="apps-card staggered-item">
             <div className="apps-icon">
-              <img 
-                src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg" 
+              <img
+                src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg"
                 alt="Photo Gallery"
-                loading="lazy" 
+                loading="lazy"
               />
             </div>
             <div className="apps-info">
