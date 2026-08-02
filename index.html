@@ -1,33 +1,1883 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#8E7F7F" />
+<html lang="en" data-load-bundle="home">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#8E7F7F">
     <title>Vrindopnishad — Authentic Spiritual & Vedic Knowledge</title>
-    <meta name="description" content="Vrindopnishad is the official digital sanctuary for authentic spiritual and Vedic knowledge. Explore a curated collection of sacred art, divine wisdom, and interactive pilgrimage guides." />
-    <meta name="keywords" content="Vrindopnishad, Vedic Knowledge, Spiritual Wisdom, Indian Culture, Sacred Art, Hindu Philosophy, Meditation, Yoga, Vrindavan, Bhagavad Gita, Upanishads, BhaktiPath, premanand ji maharaj, radha keli kunj, barsana, nandgaav, govardhan, Sant-Vaani" />
-    <link rel="canonical" href="https://vrindopnishad.in/" />
+    <meta name="description"
+        content="Vrindopnishad is the official digital sanctuary for authentic spiritual and Vedic knowledge. Explore a curated collection of sacred art, divine wisdom, and interactive pilgrimage guides.">
+    <meta name="keywords"
+        content="Vrindopnishad, Vedic Knowledge, Spiritual Wisdom, Indian Culture, Sacred Art, Hindu Philosophy, Meditation, Yoga, Vrindavan, Bhagavad Gita, Upanishads, Vrindavan, BhaktiPath, premanand ji maharaj, radha keli kunj, barsana, nandgaav, govardhan, Sant-Vaani, vrindopnishad">
+    <link rel="canonical" href="https://vrindopnishad.in/">
 
-    <!-- Favicon Configuration -->
-    <link rel="icon" href="https://vrindopnishad.in/favicon.ico?v=4" sizes="48x48" />
-    <link rel="icon" href="https://vrindopnishad.in/favicon.svg?v=4" type="image/svg+xml" />
-    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png?v=4" />
+    <!-- Favicon Configuration - Absolute URLs for Google Search Reliability -->
+    <link rel="manifest" href="https://vrindopnishad.in/site.webmanifest?v=4">
 
-    <!-- External Animation & Splitting Libraries -->
+    <!-- Firebase Import Map for ES Modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+          "firebase/analytics": "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js",
+            "firebase/database": "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js",
+            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"
+        }
+      }
+    </script>
+    <script type="module" src="./js/auth.js"></script>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vrindopnishad.in/">
+    <meta property="og:title" content="Vrindopnishad — Authentic Spiritual & Vedic Knowledge">
+    <meta property="og:description"
+        content="Explore a digital sanctuary of ancient wisdom and modern creativity at Vrindopnishad.">
+    <meta property="og:image" content="https://vrindopnishad.in/android-chrome-512x512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vrindopnishad.in/">
+    <meta property="twitter:title" content="Vrindopnishad — Authentic Spiritual & Vedic Knowledge">
+    <meta property="twitter:description"
+        content="Explore a digital sanctuary of ancient wisdom and modern creativity at Vrindopnishad.">
+    <meta property="twitter:image" content="https://vrindopnishad.in/android-chrome-512x512.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Vrindopnishad",
+          "url": "https://vrindopnishad.in/",
+          "@id": "https://vrindopnishad.in/#organization",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://vrindopnishad.in/android-chrome-512x512.png",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": [
+            "https://www.instagram.com/vrindopnishad",
+            "https://www.facebook.com/vrindopnishad",
+            "https://www.youtube.com/@vrindopnishad"
+          ],
+          "description": "Vrindopnishad is a digital sanctuary for authentic spiritual and Vedic knowledge, connecting tradition with modern innovation.",
+          "subOrganization": [
+            { "@type": "FoodEstablishment", "@id": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html#organization" },
+            { "@type": "TravelAgency", "@id": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html#organization" },
+            { "@type": "ArtGallery", "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html#organization" },
+            { "@type": "EducationalOrganization", "@id": "https://vrindopnishad.in/Projects/SkillTadka/index.html#organization" }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://vrindopnishad.in/#website",
+          "name": "Vrindopnishad",
+          "url": "https://vrindopnishad.in/",
+          "publisher": { "@id": "https://vrindopnishad.in/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://vrindopnishad.in/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "hasPart": [
+            { "@id": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html" },
+            { "@id": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html" },
+            { "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html" },
+            { "@id": "https://edu.vrindopnishad.in/" },
+            { "@id": "https://path.vrindopnishad.in/" },
+            { "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/about%20code/main/about.html" },
+            { "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/pdf/main/pdf-viewer.html" }
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html",
+          "name": "Foody Vrinda",
+          "url": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html",
+          "isPartOf": { "@id": "https://vrindopnishad.in/#website" },
+          "description": "Authentic Satvik Cloud Kitchen delivering pure vegetarian meals."
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html",
+          "name": "Brij Yatra",
+          "url": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html",
+          "isPartOf": { "@id": "https://vrindopnishad.in/#website" },
+          "description": "Interactive map and guide for the sacred Brij 84 Kos Yatra."
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html",
+          "name": "Chitra Vrinda",
+          "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html",
+          "isPartOf": { "@id": "https://vrindopnishad.in/#website" },
+          "description": "Divine spiritual art gallery showcasing sacred photography and Vedic imagery."
+        },
+        {
+          "@type": "ItemList",
+          "name": "Our Ecosystem",
+          "description": "The primary services and projects of Vrindopnishad",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Foody Vrinda",
+              "url": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Brij Yatra",
+              "url": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Chitra Vrinda",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "skillTadka",
+              "url": "https://edu.vrindopnishad.in/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Vrindopnishad Assistant",
+              "url": "https://vrindopnishad.in/Projects/complaintService/chatbot.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Bhajan Path",
+              "url": "https://path.vrindopnishad.in/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "About Vrindopnishad",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/about%20code/main/about.html"
+            }
+          ]
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "url": "https://vrindopnishad.in/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Foody Vrinda",
+              "url": "https://vrindopnishad.in/Projects/Cloud-Kitchen/kitchen.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Brij Yatra",
+              "url": "https://vrindopnishad.in/Projects/Vrinda-Tours/vrinda-tours.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Chitra Vrinda",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/Pictures/main/Gallery.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "SkillTadka",
+              "url": "https://edu.vrindopnishad.in/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "About",
+              "url": "https://vrindopnishad.in/Vrindopnishad%20Web/about%20code/main/about.html"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- PERFORMANCE OPTIMIZATION: Preload Critical Resources -->
+    <!-- Preload LCP image (optimized logo) for faster First Contentful Paint -->
+    <link rel="preload" as="image" href="Vrindopnishad%20Web/class/logo/v-logo-transparent-small.png"
+        fetchpriority="high">
+
+    <!-- Preconnect Hints for Third-Party Origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Preload Primary Font for faster text rendering -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    </noscript>
+
+    <!-- Google Fonts (Async loading with swap) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Laila:wght@300;400;600;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Laila:wght@300;400;600;700&display=swap"
+            rel="stylesheet">
+    </noscript>
+
+    <!-- Font Awesome (Deferred - Non-Critical) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    </noscript>
+
+    <!-- Critical CSS (Render-Blocking - Minimized) -->
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/hamburger.css">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/styles.css">
+
+    <!-- Non-Critical CSS (Deferred for performance) -->
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/menu.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/cloude.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/Home/css/image-hover.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.css" media="print"
+        onload="this.media='all'">
+    <link rel="stylesheet" href="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.css" media="print"
+        onload="this.media='all'">
+
+    <!-- Splitting.js CSS (Deferred) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting.css" media="print"
+        onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting-cells.css" media="print"
+        onload="this.media='all'">
+
+
+    <!-- Deferred Scripts -->
+    <script src="js/image-helper.js" defer></script>
+    <script src="js/offline-handler.js" defer></script>
+    <!-- Global Vrindopnishad Favicon -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon.ico?v=4" sizes="48x48">
+    <link rel="icon" href="https://vrindopnishad.in/favicon.svg?v=4" type="image/svg+xml">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon.png?v=4">
+    
+    <!-- Light Theme Favicon (Dark Pixels) -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon-light-theme.ico?v=4" sizes="48x48" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon-32x32-light-theme.png?v=4" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://vrindopnishad.in/favicon-16x16-light-theme.png?v=4" media="(prefers-color-scheme: light)">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon-light-theme.png?v=4" media="(prefers-color-scheme: light)">
+    
+    <!-- Dark Theme Favicon (Light Pixels) -->
+    <link rel="icon" href="https://vrindopnishad.in/favicon-dark-theme.ico?v=4" sizes="48x48" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://vrindopnishad.in/favicon-32x32-dark-theme.png?v=4" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://vrindopnishad.in/favicon-16x16-dark-theme.png?v=4" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://vrindopnishad.in/apple-touch-icon-dark-theme.png?v=4" media="(prefers-color-scheme: dark)">
+    <!-- Selective Animation Disabling: Force all scroll-triggered elements to be static and visible -->
+    <style>
+        .fade-up-off,
+        .staggered-item,
+        .reveal-element,
+        .text-mask span,
+        .for-you-card.staggered-item {
+            transform: none !important;
+            opacity: 1 !important;
+            transition: none !important;
+            animation: none !important;
+            visibility: visible !important;
+            filter: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu-overlay"></div>
+
+    <!-- Vrindopnishad Random Loader -->
+    <!-- <script
+        src="Vrindopnishad%20Web/web-extentions/loader/random-loader.js"></script> -->
+
+    <!-- Add noise element for texture -->
+    <!-- <div class="noise"></div> -->
+
+    <!-- Background elements --
+    <div class="bg-element bg-element-1" data-speed="0.05" data-scroll-speed="0.02"></div>
+    <div class="bg-element bg-element-2" data-speed="0.03" data-scroll-speed="0.05"></div>
+    <div class="bg-element bg-element-3" data-speed="0.07" data-scroll-speed="0.03"></div>-->
+    <!-- Floating background elements (disabled)
+    <div class="floating-elements">
+        <div class="float-item float-1"></div>
+        <div class="float-item float-2"></div>
+        <div class="float-item float-3"></div>
+    </div>
+    -->
+
+    <!-- Scroll progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-text">
+            <span>Vrindopnishad</span>
+        </div>
+        <div class="counter">0%</div>
+    </div>
+
+    <!-- Custom cursor -->
+    <!-- <div class="cursor"></div>
+    <div class="cursor-follower"></div> -->
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <!-- Notifications container -->
+    <div id="notifications" class="notifications"></div>
+
+    <!-- Notification Sounds (Lazy-loaded) -->
+    <audio id="notification-success" preload="none">
+        <source src="Vrindopnishad%20Web/Home/sounds/alert4.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="notification-error" preload="none">
+        <source src="Vrindopnishad%20Web/Home/sounds/alert3.wav" type="audio/mpeg">
+    </audio>
+    <audio id="notification-info" preload="none">
+        <source src="Vrindopnishad%20Web/Home/sounds/alert1.wav" type="audio/mpeg">
+    </audio>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <img src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg"
+                alt="Vrindopnishad — Official Brand Logo" class="header-logo-img logo-light-theme" width="70" height="70">
+            <img src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo-dark.svg"
+                alt="Vrindopnishad — Official Brand Logo" class="header-logo-img logo-dark-theme" width="70" height="70">
+            <!-- <span>Vrindopnishad</span> -->
+        </a>
+
+        <div class="main-nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="Vrindopnishad%20Web/about%20code/main/about.html">About</a></li>
+                <li><a href="Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
+            </ul>
+        </div>
+
+        <!-- Right side icons container -->
+        <div class="header-right">
+            <!-- User Auth Icon -->
+            <div id="user-auth-btn" class="header-icon" aria-label="User Account" role="button" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+
+            <button class="menu" aria-label="Toggle menu" role="button" tabindex="0">
+                <svg viewBox="1 1 64 48">
+                    <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
+                    <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
+                    <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <nav aria-hidden="true">
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="Vrindopnishad%20Web/Pictures/main/Gallery.html">Gallery</a></li>
+            <li><a href="Vrindopnishad%20Web/Pictures/main/photos.html">Photos</a></li>
+            <li><a href="Vrindopnishad%20Web/about%20code/main/about.html">About</a></li>
+            <li><a href="Vrindopnishad%20Web/pdf/main/pdf-viewer.html">PDF Library</a></li>
+            <li><a href="Projects/Cloud-Kitchen/kitchen.html">Cloud Kitchen</a></li>
+        </ul>
+    </nav>
+
+
+
+    <!-- Main content -->
+    <main>
+        <section id="home" class="hero-section">
+            <div class="hero-container">
+                <!-- Decorative Elements -->
+                <div class="v-hero-decor">
+                    <span class="v-decor-line"></span>
+                    <span class="v-decor-dot"></span>
+                </div>
+
+                <!-- Hero Badge -->
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>Digital Sanctuary • Est. 2026</span>
+                </div>
+
+                <!-- Main Title -->
+                <h1 class="hero-title">
+                    <div class="title-row">
+                        <span class="title-small">Welcome to</span>
+                    </div>
+                    <div class="title-row">
+                        <span class="title-main content__title" data-splitting data-effect1>Vrindopnishad</span>
+                    </div>
+                </h1>
+
+                <!-- Tagline -->
+                <div class="hero-tagline">
+                    <p>Where <strong>ancient wisdom</strong> meets <strong>modern innovation</strong></p>
+                </div>
+
+                <!-- Description -->
+                <div class="hero-description fade-up-off">
+                    <p>We craft digital experiences that connect food, art, travel, and spirituality under one purpose —
+                        serving you better.</p>
+                </div>
+
+                <!-- CTA Group -->
+                <div class="hero-cta-group">
+                    <a href="#our-story" class="hero-btn hero-btn-primary">
+                        <span>Discover Our Story</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="#projects" class="hero-btn hero-btn-secondary">
+                        <span>View Projects</span>
+                    </a>
+                </div>
+
+                <!-- Stats Strip -->
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-num">4+</span>
+                        <span class="stat-text">Projects</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-text">Creativity</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-num">1</span>
+                        <span class="stat-text">Mission</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <!-- <div class="hero-scroll">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </div> -->
+        </section>
+
+        <!-- Our Story Section - Modern Design -->
+        <section id="our-story" class="story-section">
+            <div class="story-container staggered-list">
+                <!-- Left: Image -->
+                <div class="story-visual staggered-item">
+                    <div class="story-image-wrapper">
+                        <img src="Vrindopnishad%20Web/class/image/KRSHN/optimized/vrindopnishad-story.jpg"
+                            alt="Vrindopnishad Story" loading="lazy">
+                        <div class="story-image-overlay"></div>
+                    </div>
+                    <div class="story-year-badge">
+                        <span class="year-label">SINCE</span>
+                        <span class="year-num">2026</span>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="story-content">
+                    <span class="story-label">THE JOURNEY</span>
+                    <h2 class="story-title content__title" data-splitting data-effect6>Our Story</h2>
+
+                    <div class="story-blocks">
+                        <div class="story-block">
+                            <span class="block-marker">01</span>
+                            <div class="block-text">
+                                <h4>The Beginning</h4>
+                                <p><strong>Vrindopnishad</strong> was born from a simple belief — that the wisdom of our
+                                    ancestors can thrive in the digital age.</p>
+                            </div>
+                        </div>
+
+                        <div class="story-block">
+                            <span class="block-marker">02</span>
+                            <div class="block-text">
+                                <h4>The Vision</h4>
+                                <p>We started as a dream to connect people with authentic experiences through food, art,
+                                    and sacred journeys.</p>
+                            </div>
+                        </div>
+
+                        <div class="story-block">
+                            <span class="block-marker">03</span>
+                            <div class="block-text">
+                                <h4>Today</h4>
+                                <p>From <strong>Foody Vrinda</strong> to <strong>Chitra Vrinda</strong> to
+                                    <strong>Vrinda Tours</strong> — we're here for every moment that matters.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#projects" class="story-cta">
+                        <span>Explore Our Work</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Showcase Section - Modern Design -->
+        <section id="projects" class="showcase-section">
+            <div class="showcase-container">
+                <div class="showcase-header">
+                    <span class="showcase-label fade-up-off">EXPLORE</span>
+                    <h2 class="showcase-title content__title" data-splitting data-effect2>Projects</h2>
+                    <p class="showcase-subtitle fade-up-off">The Vrinda family of services crafted for you</p>
+                </div>
+
+                <div class="showcase-grid staggered-list">
+                    <!-- Featured Project: Foody Vrinda -->
+                    <a href="Projects/Cloud-Kitchen/kitchen.html"
+                        class="showcase-card showcase-featured staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/optimized/foody_vrinda_hero.jpg"
+                                alt="Foody Vrinda" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">01</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Cloud Kitchen</span>
+                                <h3>Foody Vrinda</h3>
+                                <p>Delicious homemade meals delivered fresh to your doorstep</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Order Now</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Chitra Vrinda -->
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="showcase-card staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/optimized/chitra_vrinda_hero.jpg"
+                                alt="Chitra Vrinda" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">02</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Digital Art</span>
+                                <h3>Chitra Vrinda</h3>
+                                <p>Artistic photography & digital creations</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>View Gallery</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Vrinda Tours -->
+                    <a href="Projects/Vrinda-Tours/vrinda-tours.html" class="showcase-card staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/optimized/vrinda_tours_hero.jpg"
+                                alt="Vrinda Tours" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">03</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Pilgrimage</span>
+                                <h3>Vrinda Tours</h3>
+                                <p>Sacred journeys to holy destinations</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Plan Yatra</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- skillTadka PDF Viewer -->
+                    <!-- <a href="https://edu.vrindopnishad.in/" class="showcase-card staggered-item">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/Home/main/image/vrinda-projects/optimized/chitra_vrinda_hero.jpg"
+                                alt="skillTadka PDF Viewer" loading="lazy">
+                            <div class="showcase-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <span class="showcase-num">04</span>
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Utility</span>
+                                <h3>skillTadka</h3>
+                                <p>Modern, elegant PDF reading experience</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Open Reader</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a> -->
+                </div>
+            </div>
+        </section>
+
+        <!-- "For You" Discovery Section - Dynamic Design -->
+        <!-- <section id="for-you" class="for-you-section">
+            <div class="showcase-container">
+                <div class="for-you-header">
+                    <span class="showcase-label fade-up-off">DISCOVER</span>
+                    <h2 class="showcase-title fade-up-off content__title" data-splitting data-effect6>For You</h2>
+                    <p class="showcase-subtitle fade-up-off">Personalized spiritual highlights and daily insights</p>
+                </div>
+
+                <div class="showcase-grid staggered-list">
+                    <!- Item 1 --
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html"
+                        class="showcase-card staggered-item for-you-card">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/class/image/Home%20Pics/img4.jpg" alt="Sacred Art"
+                                loading="lazy">
+                            <div class="showcase-overlay for-you-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Discovery</span>
+                                <h3>Sacred Art</h3>
+                                <p>Immerse yourself in divine visual storytelling.</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Open Gallery</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    < Item 2 --
+                    <a href="Vrindopnishad%20Web/sketch/main/new-read-me.html"
+                        class="showcase-card staggered-item for-you-card">
+                        <div class="showcase-image">
+                            <img src="Vrindopnishad%20Web/class/image/Home%20Pics/img5.jpg" alt="Daily Wisdom"
+                                loading="lazy">
+                            <div class="showcase-overlay for-you-overlay"></div>
+                        </div>
+                        <div class="showcase-content">
+                            <div class="showcase-info">
+                                <span class="showcase-tag">Inspiration</span>
+                                <h3>Vedic Wisdom</h3>
+                                <p>Timeless teachings adapted for modern living.</p>
+                            </div>
+                            <div class="showcase-cta">
+                                <span>Read More</span>
+                                <span class="cta-icon">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Legacy Projects Section -->
+        <!-- More Creations - Minimal List -->
+        <section class="more-section">
+            <div class="more-container">
+                <h3 class="more-title content__title fade-up-off" data-splitting data-effect5>More Creations</h3>
+                <div class="more-grid staggered-list">
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="more-item staggered-item">
+                        <span class="more-num">04</span>
+                        <div class="more-info">
+                            <span class="more-name">Photo Gallery</span>
+                            <span class="more-cat">Digital Art Collection</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="Vrindopnishad%20Web/sketch/main/new-read-me.html" class="more-item staggered-item">
+                        <span class="more-num">05</span>
+                        <div class="more-info">
+                            <span class="more-name">Vrindopnishad App</span>
+                            <span class="more-cat">Spiritual Wisdom & App</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="Vrindopnishad%20Web/pdf/main/pdf-viewer.html" class="more-item staggered-item">
+                        <span class="more-num">06</span>
+                        <div class="more-info">
+                            <span class="more-name">PDF Library</span>
+                            <span class="more-cat">Document Archive</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="Projects/Web%20dev/vrinda%20web%20dev.html" class="more-item staggered-item">
+                        <span class="more-num">07</span>
+                        <div class="more-info">
+                            <span class="more-name">Web Development</span>
+                            <span class="more-cat">Custom Digital Solutions</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="https://path.vrindopnishad.in" class="more-item staggered-item" target="_blank">
+                        <span class="more-num">08</span>
+                        <div class="more-info">
+                            <span class="more-name">Sant-Vaani</span>
+                            <span class="more-cat">Sacred Shlokas & Spiritual Content</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                    <a href="https://path.vrindopnishad.in/" class="more-item staggered-item" target="_blank">
+                        <span class="more-num">09</span>
+                        <div class="more-info">
+                            <span class="more-name">Bhajan Path</span>
+                            <span class="more-cat">Vedic Path & Spiritual Guidance</span>
+                        </div>
+                        <span class="more-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Info Panel - Modern Design -->
+        <div class="project-info-panel" id="projectInfoPanel">
+            <div class="project-info-overlay"></div>
+            <div class="project-info-content">
+                <button class="project-info-close" aria-label="Close project info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="project-info-image-container">
+                    <img src="" alt="Project" class="project-info-image">
+                </div>
+                <div class="project-info-details">
+                    <span class="project-info-label">PROJECT</span>
+                    <h3 class="project-info-title"></h3>
+                    <p class="project-info-category"></p>
+                    <p class="project-info-description"></p>
+                    <a href="#" class="project-info-link">
+                        <span>View Project</span>
+                        <span class="link-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Values Section - Modern Design -->
+        <section class="values-section">
+            <div class="values-container">
+                <div class="values-header">
+                    <span class="values-label fade-up-off">OUR PILLARS</span>
+                    <h2 class="values-title content__title" data-splitting data-effect5>Core Values</h2>
+                </div>
+
+                <div class="values-grid staggered-list">
+                    <!-- Innovation -->
+                    <div class="value-card value-featured staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                        </div>
+                        <div class="value-num">01</div>
+                        <h3>Innovation</h3>
+                        <p>We embrace modern technology to create seamless digital experiences. From mobile apps to web
+                            platforms, we build solutions that make life easier.</p>
+                    </div>
+
+                    <!-- Tradition -->
+                    <div class="value-card staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="value-num">02</div>
+                        <h3>Tradition</h3>
+                        <p>Rooted in timeless wisdom of Vrindavan's sacred heritage.</p>
+                    </div>
+
+                    <!-- Community -->
+                    <div class="value-card staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="value-num">03</div>
+                        <h3>Community</h3>
+                        <p>Every project is designed to bring value to our people.</p>
+                    </div>
+
+                    <!-- Spirituality -->
+                    <div class="value-card value-wide staggered-item">
+                        <div class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                </path>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="value-num">04</div>
+                        <h3>Spirituality</h3>
+                        <p>At our core, we're a spiritual endeavor. Everything we create is infused with devotion and a
+                            desire to uplift souls on their journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section - Modern Unique Design -->
+        <section id="about" class="universe-section">
+            <div class="universe-container staggered-list">
+                <!-- Left: Visual -->
+                <div class="universe-visual staggered-item">
+                    <div class="universe-image-wrapper">
+                        <img src="Vrindopnishad%20Web/class/image/KRSHN/vrindopnishad-digital-universe.jpg"
+                            alt="Vrindopnishad" loading="lazy">
+                        <div class="universe-overlay"></div>
+                    </div>
+                    <div class="universe-badge">
+                        <span class="universe-year">EST.</span>
+                        <span class="universe-year-num">2024</span>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="universe-content">
+                    <span class="universe-label fade-up-off">ABOUT US</span>
+                    <h2 class="universe-title content__title" data-splitting data-effect8>Digital Universe</h2>
+
+                    <div class="universe-quote fade-up-off">
+                        <span class="quote-mark">"</span>
+                        <p>Where ancient wisdom meets modern creativity</p>
+                    </div>
+
+                    <div class="universe-text fade-up-off">
+                        <p>Vrindopnishad is more than a website—it's a digital sanctuary. Our platform bridges
+                            traditional artistic expressions with contemporary digital innovations, offering a unique
+                            space for spiritual and creative exploration.</p>
+                    </div>
+
+                    <div class="universe-stats staggered-list">
+                        <div class="stat-item staggered-item">
+                            <span class="stat-num">4+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-item staggered-item">
+                            <span class="stat-num">∞</span>
+                            <span class="stat-label">Creativity</span>
+                        </div>
+                        <div class="stat-item staggered-item">
+                            <span class="stat-num">1</span>
+                            <span class="stat-label">Mission</span>
+                        </div>
+                    </div>
+
+                    <a data-link="about" class="universe-cta fade-up-off">
+                        <span>Explore More</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services For You Section - Modern Bento Grid -->
+        <section id="services" class="bento-section">
+            <div class="bento-container">
+                <div class="bento-header">
+                    <span class="bento-label fade-up-off">EXPLORE</span>
+                    <h2 class="bento-title content__title" data-splitting data-effect10>For You</h2>
+                </div>
+
+                <div class="bento-grid staggered-list">
+                    <!-- Hero Card - Order Food -->
+                    <a href="Projects/Cloud-Kitchen/kitchen.html" class="bento-card bento-hero staggered-item">
+                        <div class="bento-number">01</div>
+                        <div class="bento-content">
+                            <h3>Order Food</h3>
+                            <p>Foody Vrinda — Delicious homemade meals delivered fresh</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Photo Gallery -->
+                    <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="bento-card staggered-item">
+                        <div class="bento-number">02</div>
+                        <div class="bento-content">
+                            <h3>Gallery</h3>
+                            <p>Divine art collection</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Plan a Yatra -->
+                    <a href="Projects/Vrinda-Tours/vrinda-tours.html" class="bento-card staggered-item">
+                        <div class="bento-number">03</div>
+                        <div class="bento-content">
+                            <h3>Vrinda Tours</h3>
+                            <p>Sacred pilgrimages</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- skillTadka Reader -->
+                    <!-- <a href="https://edu.vrindopnishad.in/" class="bento-card staggered-item">
+                        <div class="bento-number">04</div>
+                        <div class="bento-content">
+                            <h3>skillTadka</h3>
+                            <p>Focused PDF reading</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a> -->
+
+                    <!-- Spiritual Texts - Wide Card -->
+                    <a href="Vrindopnishad%20Web/sketch/main/new-read-me.html"
+                        class="bento-card bento-wide staggered-item">
+                        <div class="bento-number">04</div>
+                        <div class="bento-content">
+                            <h3>Sacred Texts</h3>
+                            <p>Ancient wisdom and spiritual teachings from timeless traditions</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- PDF Library -->
+                    <a href="Vrindopnishad%20Web/pdf/main/pdf-viewer.html" class="bento-card staggered-item">
+                        <div class="bento-number">05</div>
+                        <div class="bento-content">
+                            <h3>PDF Library</h3>
+                            <p>Digital resources</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+
+                    <!-- Web Development -->
+                    <a href="Projects/Web%20dev/vrinda%20web%20dev.html" class="bento-card staggered-item">
+                        <div class="bento-number">06</div>
+                        <div class="bento-content">
+                            <h3>Web Dev</h3>
+                            <p>Custom websites</p>
+                        </div>
+                        <div class="bento-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Download Section - Modern Bento Style -->
+        <section id="download-apps" class="apps-section">
+            <div class="apps-container">
+                <div class="apps-header">
+                    <span class="apps-label fade-up-off">DOWNLOAD</span>
+                    <h2 class="apps-title content__title" data-splitting data-effect6>Get Apps</h2>
+                </div>
+
+                <div class="apps-bento staggered-list">
+                    <!-- Featured App - Foody Vrinda -->
+                    <a href="Projects/VrindopnishadApps/foodyVrindaApp/foodyVrinda.apk"
+                        class="apps-card apps-featured staggered-item" download>
+                        <div class="apps-tag">★ FEATURED</div>
+                        <div class="apps-icon">
+                            <img src="Vrindopnishad%20Web/class/logo/foodyVrinda-logo.svg" alt="Foody Vrinda"
+                                loading="lazy">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Foody Vrinda</h3>
+                            <p>Cloud kitchen • Food ordering & delivery</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform">Android</span>
+                            <span class="apps-size">73 MB</span>
+                        </div>
+                        <div class="apps-cta">
+                            <span>↓ Download APK</span>
+                        </div>
+                    </a>
+
+                    <!-- Vrindopnishad App -->
+                    <a href="Projects/VrindopnishadApps/santVaani/vrindopnishad.apk" class="apps-card staggered-item"
+                        download>
+                        <div class="apps-icon">
+                            <img src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg" alt="Vrindopnishad App"
+                                loading="lazy">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Vrindopnishad App</h3>
+                            <p>Spiritual scriptures & mantras</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform">Android</span>
+                            <span class="apps-size">55 MB</span>
+                        </div>
+                        <div class="apps-cta"><span>↓</span></div>
+                    </a>
+
+                    <!-- admin panel - hidden from public view for security
+                    <a href="Projects/VrindaVaani/admin/index.html" class="apps-card staggered-item">
+                        <div class="apps-icon"
+                            style="background: var(--accent-gradient); display: flex; align-items: center; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                                fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                        </div>
+                        <div class="apps-info">
+                            <h3>Admin Panel</h3>
+                            <p>Content Management System</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform apps-web">Web / Secure</span>
+                        </div>
+                        <div class="apps-cta"><span>→</span></div>
+                    </a>
+                    -->
+
+                    <!-- Vrinda Tours -->
+                    <a href="Projects/Vrinda-Tours/vrinda-tours.html" class="apps-card staggered-item">
+                        <div class="apps-icon">
+                            <img src="Vrindopnishad%20Web/class/logo/vrindaTours-logo.svg" alt="Vrinda Tours"
+                                loading="lazy">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Vrinda Tours</h3>
+                            <p>Pilgrimage map & guide</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform apps-web">Web</span>
+                        </div>
+                        <div class="apps-cta"><span>→</span></div>
+                    </a>
+
+                    <!-- Photo Gallery -->
+                    <a href="Vrindopnishad%20Web/Pictures/main/photos.html" class="apps-card staggered-item">
+                        <div class="apps-icon">
+                            <img src="Vrindopnishad%20Web/class/v-logo-rounded/official-logo.svg" alt="Photo Gallery"
+                                loading="lazy">
+                        </div>
+                        <div class="apps-info">
+                            <h3>Gallery</h3>
+                            <p>Divine art collection</p>
+                        </div>
+                        <div class="apps-meta">
+                            <span class="apps-platform apps-web">Web</span>
+                        </div>
+                        <div class="apps-cta"><span>→</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Showcase (Cloned Effects 1-15) -->
+        <!-- <section id="typography-showcase">
+            <div class="content">
+                <h2 class="content__title content__title--small" data-splitting data-effect1><span>Beyond</span><span
+                        class="font-6">meaning</span></h2>
+                <p>Studying texts and stiff meditation can make you lose your Original Mind.</p>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect2><span class="font-2">Heavenly</span><span
+                        class="font-4">pleasure</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title content__title--sides" data-splitting data-effect3><span class="font-7">The
+                        blossoms</span><span class="font-1">have fallen</span></h2>
+            </div>
+            <div class="content content--full">
+                <h2 class="content__title" data-splitting data-effect4><span class="font-larger">Human</span><span
+                        class="font-upper font-sub font-7">gratitude</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect5><span class="font-7">Intentionally</span><span
+                        class="font-6">dramatic</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title content__title--small" data-splitting data-effect6><span
+                        class="font-3">Blooming</span><span class="font-6">flowers</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect7><span class="font-3">Unfolding</span><span
+                        class="font-4">Elegantly</span><span class="font-7">Naturally</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect8><span class="font-8">Midnight</span></h2>
+            </div>
+            <div class="content content--full">
+                <h2 class="content__title" data-splitting data-effect9><span
+                        class="font-larger font-12">Moon</span><span
+                        class="font-upper font-sub font-1">Transportation</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect10><span class="font-7">Lucid</span><span
+                        class="font-4">Dreaming</span><span class="font-medium font-1">Diaries</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect11><span class="font-3 font-height">The
+                        Routine</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect12><span class="font-9 font-height">Night
+                        Time</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect13><span class="font-5">Megascrapers</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect14><span class="font-11">Futuristic</span></h2>
+            </div>
+            <div class="content">
+                <h2 class="content__title" data-splitting data-effect15><span class="font-10">Unintelligible</span></h2>
+            </div>
+        </section> -->
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo text-gradient">Vrindopnishad</div>
+                    <p class="fade-up-off">A digital sanctuary where art, technology, and spirituality converge in
+                        harmonic resonance.</p>
+                    <p class="fade-up-off" style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">A digital
+                        sanctuary where ancient wisdom meets modern creativity, offering a unique space for
+                        spiritual and creative exploration.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Navigate</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a data-link="home" class="text-hover">Home</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="gallery" class="text-hover">Gallery</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="collection" class="text-hover">Collection</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="pictures" class="text-hover">Photos</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="about" class="text-hover">About</a>
+                        </li>
+                        <!-- <li class="staggered-item">
+                            <a href="Projects/VrindaVaani/admin/index.html" class="text-hover">Admin Panel</a>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Our Projects</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a href="https://path.vrindopnishad.in/" class="text-hover" target="_blank">Bhajan Path</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="Projects/Cloud-Kitchen/kitchen.html" class="text-hover">Foody Vrinda</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="Vrindopnishad%20Web/Pictures/main/Gallery.html" class="text-hover">Chitra
+                                Vrinda</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="Projects/Vrinda-Tours/vrinda-tours.html" class="footer-link">Vrinda Tours</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="Projects/Web%20dev/vrinda%20web%20dev.html" class="text-hover">Web Development</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="Projects/3DWeb/index.html" class="footer-link">3D Web</a>
+                        </li>
+                    </ul>
+                    <h3 style="margin-top: 1.5rem;">E-commerce</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a href="https://edu.vrindopnishad.in/" class="text-hover" target="_blank">skillTadka</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Connect</h3>
+                    <ul class="staggered-list">
+                        <li class="staggered-item">
+                            <a data-link="instagram" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Instagram</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="facebook" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Facebook</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="youtube" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">YouTube</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a data-link="whatsapp_channel" class="text-hover" target="_blank"
+                                rel="noopener noreferrer">Whatsapp</a>
+                        </li>
+                        <li class="staggered-item">
+                            <a href="https://chat.whatsapp.com/LUMjP73wwyY9C1DNYeyoGu" class="text-hover"
+                                target="_blank" rel="noopener noreferrer">Barsana Daily Darshan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vrindopnishad. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Loader
+        const loader = document.querySelector('.loader');
+        const counter = document.querySelector('.counter');
+        let count = 10;
+
+        const updateCounter = () => {
+            if (count < 100) {
+                count++;
+                counter.textContent = count + '%';
+                setTimeout(updateCounter, Math.floor(Math.random() * 30));
+            } else {
+                counter.textContent = '100%';
+                setTimeout(() => {
+                    loader.classList.add('hide');
+                }, 50);
+            }
+        };
+
+        updateCounter();
+    </script>
+
+    <script>
+        // Header scroll effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector('header');
+
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // Add IntersectionObserver for animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle fade-up-off animations - DISABLED as per user request
+            /*
+            const fadeElements = document.querySelectorAll('.fade-up-off');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(element => {
+                fadeObserver.observe(element);
+            });
+            */
+
+            /*
+            // Handle staggered animations
+            const staggeredLists = document.querySelectorAll('.staggered-list');
+            staggeredLists.forEach(list => {
+                const items = list.querySelectorAll('.staggered-item');
+                const staggerObserver = new IntersectionObserver((entries) => {
+                    let delay = 0;
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                            delay += 100;
+                            staggerObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                items.forEach(item => {
+                    staggerObserver.observe(item);
+                });
+            });
+
+            // Handle reveal elements
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+            */
+        });
+    </script>
+
+    <script>
+        // Fix for mobile viewport height issues
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // Set the value on initial load
+        setVH();
+
+        // Reset on resize and orientation change
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+    </script>
+
+    <script>
+        // Store language preference when a language is selected
+        document.addEventListener('DOMContentLoaded', () => {
+            const englishBtn = document.querySelector('.language-btn-nav[href="Vrindopnishad%20Web/Home/Home/home.html"]');
+            const hindiBtn = document.querySelector('.language-btn-nav[href="Vrindopnishad%20Web/Home/Home/home_hindi.html"]');
+
+            if (englishBtn) {
+                englishBtn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLanguage', 'english');
+                });
+            }
+
+            if (hindiBtn) {
+                hindiBtn.addEventListener('click', () => {
+                    localStorage.setItem('preferredLanguage', 'hindi');
+                });
+            }
+        });
+    </script>
+
+    <!-- Backend Connection Script -->
+    <script>
+        // API Configuration - Disabled until backend is deployed
+        // Note: api.vrindopnishad.in is not currently active
+        const API_ENABLED = false;
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000/api'
+            : 'https://api.vrindopnishad.in/api';
+
+        // Check if user is logged in
+        function checkAuthStatus() {
+            if (!API_ENABLED) return; // Skip if API is disabled
+            const token = localStorage.getItem('vrindopnishad_token');
+            if (token) {
+                // Add admin panel link if user is authenticated
+                const navUl = document.querySelector('nav ul');
+                if (navUl) {
+                    const adminLi = document.createElement('li');
+                    const adminLink = document.createElement('a');
+                    adminLink.href = 'Projects/VrindaVaani/admin/index.html';
+                    adminLink.className = 'text-hover';
+                    adminLink.textContent = 'Admin Panel';
+                    adminLi.appendChild(adminLink);
+                    navUl.insertBefore(adminLi, document.querySelector('.nav-divider'));
+                }
+            }
+        }
+
+        // Fetch content from API - Only runs if API is enabled
+        async function fetchContent() {
+            if (!API_ENABLED) return; // Skip API calls if backend is not deployed
+            try {
+                // Fetch featured content for homepage
+                const response = await fetch(`${API_BASE_URL}/collections/featured`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.data.length > 0) {
+                        updateFeaturedContent(data.data);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching content:', error);
+            }
+        }
+
+        // Update featured content on the page
+        function updateFeaturedContent(items) {
+            const projectList = document.querySelector('.project-list');
+            if (!projectList || !items.length) return;
+
+            // Keep only the first 6 items or less
+            const displayItems = items.slice(0, 6);
+
+            // Clear existing items
+            projectList.innerHTML = '';
+
+            // Add new items
+            displayItems.forEach(item => {
+                const projectItem = document.createElement('div');
+                projectItem.className = 'project-item staggered-item';
+                projectItem.setAttribute('data-image', item.imageUrl || './image/Home Pics/img2.jpg');
+
+                projectItem.innerHTML = `
+                    <div class="project-title">${item.title}</div>
+                    <div class="project-category">${item.category}</div>
+                `;
+
+                projectList.appendChild(projectItem);
+            });
+
+            // Re-initialize staggered animations
+            initStaggeredAnimations();
+        }
+
+        // Initialize staggered animations
+        function initStaggeredAnimations() {
+            const staggeredItems = document.querySelectorAll('.staggered-item');
+            const staggerObserver = new IntersectionObserver((entries) => {
+                let delay = 0;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, delay);
+                        delay += 100;
+                        staggerObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            staggeredItems.forEach(item => {
+                staggerObserver.observe(item);
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthStatus();
+            fetchContent();
+        });
+    </script>
+
+    <!-- Project Image Hover Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const imageHover = document.querySelector('.image-hover');
+            const projectItems = document.querySelectorAll('.project-item');
+
+            projectItems.forEach(item => {
+                const imageUrl = item.getAttribute('data-image');
+
+                item.addEventListener('mouseenter', () => {
+                    if (imageUrl) {
+                        const img = imageHover.querySelector('img');
+                        img.src = imageUrl;
+                        imageHover.style.opacity = '1';
+                        imageHover.style.visibility = 'visible';
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    imageHover.style.opacity = '0';
+                    imageHover.style.visibility = 'hidden';
+                });
+
+                item.addEventListener('mousemove', (e) => {
+                    const rect = imageHover.getBoundingClientRect();
+                    const x = e.clientX - (rect.width / 2);
+                    const y = e.clientY - (rect.height / 2);
+
+                    imageHover.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        });
+    </script>
+
+    <!-- Resource and Link Management Scripts -->
+    <!-- Resource and Link Management Scripts -->
+    <!-- Missing or unnecessary scripts commented out -->
+    <!-- <script src="Vrindopnishad%20Web/web-extentions/links/paths.js"></script> -->
+    <!-- <script src="Vrindopnishad%20Web/web-extentions/links/image path manager.js"></script> -->
+    <script src="Vrindopnishad%20Web/web-extentions/links/link-handler.js" defer></script>
+
+    <!-- Developer Guide Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize developer guide in hidden state
+            const devGuide = document.querySelector('.developer-guide');
+            const devToggleBtn = document.querySelector('.dev-toggle-btn');
+
+            if (devGuide && devToggleBtn) {
+                // Check if developer mode was previously enabled
+                const devModeEnabled = localStorage.getItem('devModeEnabled') === 'true';
+
+                // Set initial state
+                if (!devModeEnabled) {
+                    devGuide.classList.add('hidden');
+                }
+
+                // Toggle developer guide visibility
+                devToggleBtn.addEventListener('click', () => {
+                    devGuide.classList.toggle('hidden');
+
+                    // Store preference
+                    const isHidden = devGuide.classList.contains('hidden');
+                    localStorage.setItem('devModeEnabled', !isHidden);
+
+                    // Update button text
+                    devToggleBtn.querySelector('span').textContent = isHidden
+                        ? 'Show Developer Details'
+                        : 'Hide Developer Details';
+                });
+
+                // Set initial button text
+                devToggleBtn.querySelector('span').textContent = devGuide.classList.contains('hidden')
+                    ? 'Show Developer Details'
+                    : 'Hide Developer Details';
+
+                // Add keyboard shortcut (Ctrl+Shift+D) to toggle developer mode
+                document.addEventListener('keydown', (event) => {
+                    if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+                        event.preventDefault();
+                        devToggleBtn.click();
+                    }
+                });
+
+                // Add interactive features to the developer blocks
+                const treeNodes = document.querySelectorAll('.tree-node');
+                treeNodes.forEach(node => {
+                    node.addEventListener('click', () => {
+                        // Highlight corresponding section in the page if it exists
+                        const nodeName = node.textContent.trim();
+                        let targetElement;
+
+                        switch (nodeName) {
+                            case 'hero section':
+                                targetElement = document.querySelector('.hero');
+                                break;
+                            case 'projects section':
+                                targetElement = document.querySelector('.projects');
+                                break;
+                            case 'horizontal section':
+                                targetElement = document.querySelector('.horizontal-section');
+                                break;
+                            case 'about section':
+                                targetElement = document.querySelector('.about');
+                                break;
+                            case 'footer':
+                                targetElement = document.querySelector('footer');
+                                break;
+                            case 'header':
+                                targetElement = document.querySelector('header');
+                                break;
+                            default:
+                                // Try to find by class name
+                                targetElement = document.querySelector(`.${nodeName}`);
+                        }
+
+                        if (targetElement) {
+                            // Remove previous highlights
+                            document.querySelectorAll('.dev-highlight').forEach(el => {
+                                el.classList.remove('dev-highlight');
+                            });
+
+                            // Add highlight
+                            targetElement.classList.add('dev-highlight');
+
+                            // Scroll to element
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                            // Remove highlight after 2 seconds
+                            setTimeout(() => {
+                                targetElement.classList.remove('dev-highlight');
+                            }, 2000);
+                        }
+                    });
+                });
+
+                // Add copy functionality to code snippets
+                document.querySelectorAll('.api-endpoint code').forEach(codeBlock => {
+                    codeBlock.addEventListener('click', () => {
+                        const code = codeBlock.textContent;
+                        navigator.clipboard.writeText(code).then(() => {
+                            // Show copied notification
+                            const notification = document.createElement('div');
+                            notification.className = 'copy-notification';
+                            notification.textContent = 'Code copied!';
+                            document.body.appendChild(notification);
+
+                            // Remove notification after 2 seconds
+                            setTimeout(() => {
+                                notification.classList.add('fade-out');
+                                setTimeout(() => {
+                                    document.body.removeChild(notification);
+                                }, 300);
+                            }, 1700);
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+
+    <!-- Tools Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tools menu elements
+            const toolsIcon = document.getElementById('tools-menu-btn');
+            const toolsMenu = document.querySelector('.tools-menu');
+            const toolsMenuClose = document.querySelector('.tools-menu-close');
+            const toolItems = document.querySelectorAll('.tool-item');
+
+            // Track menu state
+            let isToolsMenuOpen = false;
+
+            // Function to open tools menu
+            function openToolsMenu() {
+                if (isToolsMenuOpen) return;
+
+                isToolsMenuOpen = true;
+
+                // Add animation before opening the menu
+                const iconSvg = toolsIcon?.querySelector('svg');
+                if (iconSvg) {
+                    iconSvg.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+                    iconSvg.style.color = 'var(--accent-color)';
+
+                    // Add pulse effect to the icon
+                    toolsIcon.classList.add('pulse-animation');
+                }
+
+                // Delay opening the menu slightly for better UX
+                setTimeout(() => {
+                    toolsMenu.classList.add('active');
+                    document.body.classList.add('tools-menu-open'); // Use class-based approach
+                }, 200);
+            }
+
+            // Function to close tools menu
+            function closeToolsMenu() {
+                if (!isToolsMenuOpen) return;
+
+                isToolsMenuOpen = false;
+                toolsMenu.classList.remove('active');
+                document.body.classList.remove('tools-menu-open'); // Use class-based approach
+
+                // Reset icon state
+                const iconSvg = toolsIcon?.querySelector('svg');
+                if (iconSvg) {
+                    setTimeout(() => {
+                        iconSvg.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                        iconSvg.style.color = '';
+                        toolsIcon.classList.remove('pulse-animation');
+                    }, 300);
+                }
+            }
+
+            // Open tools menu with animation
+            if (toolsIcon) {
+                toolsIcon.addEventListener('click', openToolsMenu);
+            }
+
+            // Close tools menu
+            if (toolsMenuClose) {
+                toolsMenuClose.addEventListener('click', closeToolsMenu);
+            }
+
+            // Add click event to all tool links to close the menu when clicked
+            document.querySelectorAll('.tool-item .tool-link').forEach(link => {
+                link.addEventListener('click', closeToolsMenu);
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isToolsMenuOpen) {
+                    closeToolsMenu();
+                }
+            });
+
+            // Handle tool item hover effects
+            toolItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const bgColor = item.getAttribute('data-bg-color');
+                    const textColor = item.getAttribute('data-text-color');
+
+                    if (bgColor && textColor) {
+                        item.style.backgroundColor = bgColor;
+                        item.style.color = textColor;
+
+                        // Change icon color
+                        const icon = item.querySelector('.tool-icon svg');
+                        if (icon) {
+                            icon.style.color = textColor;
+                        }
+
+                        // Apply styles to child elements
+                        const h3 = item.querySelector('h3');
+                        const p = item.querySelector('p');
+
+                        if (h3) h3.style.color = textColor;
+                        if (p) p.style.color = textColor;
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    item.style.backgroundColor = '';
+                    item.style.color = '';
+
+                    // Reset icon color
+                    const icon = item.querySelector('.tool-icon svg');
+                    if (icon) {
+                        icon.style.color = '';
+                    }
+
+                    // Reset styles for child elements
+                    const h3 = item.querySelector('h3');
+                    const p = item.querySelector('p');
+
+                    if (h3) h3.style.color = '';
+                    if (p) p.style.color = '';
+                });
+            });
+
+            // Add subtle parallax effect to tool items
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                if (isToolsMenuOpen) {
+                    toolItems.forEach(item => {
+                        const rect = item.getBoundingClientRect();
+                        const itemX = rect.left + rect.width / 2;
+                        const itemY = rect.top + rect.height / 2;
+
+                        const diffX = mouseX - itemX;
+                        const diffY = mouseY - itemY;
+
+                        // Calculate distance from mouse to item center
+                        const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+                        const maxDistance = Math.max(window.innerWidth, window.innerHeight) / 2;
+
+                        // Calculate movement factor based on distance (closer = more movement)
+                        const factor = 1 - Math.min(distance / maxDistance, 1);
+                        const moveX = diffX * factor * 0.03;
+                        const moveY = diffY * factor * 0.03;
+
+                        // Apply subtle transform
+                        item.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                    });
+                }
+            });
+
+            // Fix for page navigation: ensure body scrolling is restored when navigating away
+            window.addEventListener('beforeunload', () => {
+                document.body.classList.remove('tools-menu-open');
+            });
+
+            // Close tools menu when clicking anywhere outside the menu
+            document.addEventListener('click', (e) => {
+                if (isToolsMenuOpen &&
+                    !toolsMenu.contains(e.target) &&
+                    !toolsIcon.contains(e.target)) {
+                    closeToolsMenu();
+                }
+            });
+
+            // Handle popstate event (back/forward navigation)
+            window.addEventListener('popstate', () => {
+                if (isToolsMenuOpen) {
+                    closeToolsMenu();
+                }
+            });
+        });
+    </script>
+    <!-- Backend Connection Script -->
+    <script>
+        // Load books data from JSON
+        async function loadBooksData() {
+            try {
+                const response = await fetch('Vrindopnishad%20Web/class/json/books-data.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load books data');
+                }
+                const data = await response.json();
+                return data.books;
+            } catch (error) {
+                console.error('Error loading books:', error);
+                return [];
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            const books = await loadBooksData();
+
+            // Update featured content if available
+            if (books.length > 0) {
+                updateFeaturedContent(books);
+            }
+        });
+
+        // ... rest of your existing script ...
+    </script>
+
+    <!-- Notification Sound Script -->
+    <!-- GSAP Animation Library (Must load first - dependencies) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-    <!-- Fallback CSS Rule to Ensure Card Visibility -->
-    <style>
-      .staggered-item {
-        opacity: 1 !important;
-        transform: none !important;
-        visibility: visible !important;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/splitting@1.0.6/dist/splitting.min.js" defer></script>
+
+    <!-- Main Interactive Logic (after GSAP) -->
+    <script src="Vrindopnishad%20Web/Home/js/main-interactive.js?v=1.0.1" defer></script>
+
+    <!-- Core Scripts (All Deferred - after dependencies) -->
+    <script src="Vrindopnishad%20Web/Home/js/animations.js?v=1.0.1" defer></script>
+    <script src="Vrindopnishad%20Web/Home/js/effects.js?v=1.0.1" defer></script>
+    <script src="Vrindopnishad%20Web/Home/js/image-hover.js?v=1.0.1" defer></script>
+    <script src="Vrindopnishad%20Web/web-extentions/Custom%20Cursor/custom-cursor.js?v=1.0.1" defer></script>
+    <script src="Vrindopnishad%20Web/web-extentions/Cookie%20Consent/cookie-consent.js?v=1.0.1" defer></script>
+
+
+</body>
+
 </html>

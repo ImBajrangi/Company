@@ -1,0 +1,547 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body,
+  html {
+    background-color: #FAFAFC;
+    color: #0F172A;
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.015em;
+  }
+
+  /* Accessible Focus Rings for Keyboard Navigation (WCAG SC 2.4.7) */
+  *:focus-visible {
+    outline: 2.5px solid #E74F9C !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 4px rgba(231, 79, 156, 0.25) !important;
+  }
+}
+
+/* Accessible Screen Reader Only Utility */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+.focus\:not-sr-only:focus {
+  position: fixed !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.75rem 1.5rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Reduced Motion Support for Vestibular Sensitivity (WCAG SC 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dynamic Text Shimmer & Animated Tag Highlights */
+@keyframes textShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-text-shimmer {
+  background-size: 200% auto;
+  animation: textShimmer 4s ease infinite;
+}
+
+.animated-tag-glow {
+  box-shadow: 0 0 20px -3px rgba(231, 79, 156, 0.35);
+}
+
+.marker-highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.marker-highlight::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: 2px;
+  height: 38%;
+  background: linear-gradient(120deg, rgba(231, 79, 156, 0.22), rgba(251, 146, 60, 0.22));
+  z-index: -1;
+  border-radius: 6px;
+  transform: rotate(-0.5deg);
+}
+
+/* Hyper-Interactive Hero 3D CTA Button with Floating Icons & Depth */
+.interactive-hero-btn {
+  position: relative;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #E74F9C 0%, #d43f8a 100%);
+  font-size: 15px;
+  font-weight: 800;
+  color: #FFFFFF;
+  cursor: pointer;
+  border: 1px solid #E74F9C;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(231, 79, 156, 0.35), 0 2px 6px rgba(15, 23, 42, 0.08);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.interactive-hero-btn:hover {
+  background: linear-gradient(135deg, #f05cb0 0%, #E74F9C 100%);
+  transform: scale(1.02);
+  box-shadow: 0 12px 30px rgba(231, 79, 156, 0.5), 0 4px 12px rgba(15, 23, 42, 0.12);
+}
+
+.interactive-hero-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px rgba(231, 79, 156, 0.3);
+}
+
+.interactive-hero-btn .hero-heart-icon {
+  width: 18px;
+  height: 18px;
+  fill: #FFFFFF;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.interactive-hero-btn:hover .hero-heart-icon {
+  animation: heart-slay 1.8s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+}
+
+@keyframes heart-slay {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: rotate(12deg) scale(1.25);
+  }
+
+  50% {
+    transform: rotate(-10deg) scale(1.15);
+  }
+
+  75% {
+    transform: rotate(6deg) scale(1.2);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.interactive-hero-btn .hero-arrow-icon {
+  width: 18px;
+  height: 18px;
+  stroke: #FFFFFF;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.interactive-hero-btn:hover .hero-arrow-icon {
+  transform: scale(1.15);
+}
+
+/* Circle-to-Pill Morphing Expand Button */
+.morph-pill-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: none;
+  font-weight: 800;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.morph-pill-btn .morph-icon {
+  width: 18px;
+  height: 18px;
+  stroke: #FFFFFF;
+  fill: none;
+  stroke-width: 2.2;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+  flex-shrink: 0;
+}
+
+.morph-pill-btn .morph-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(20px);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.morph-pill-btn:hover {
+  width: 125px;
+  border-radius: 9999px;
+  background-color: #E74F9C;
+  box-shadow: 0 6px 20px rgba(231, 79, 156, 0.4);
+}
+
+.morph-pill-btn:hover .morph-icon {
+  transform: translateX(-36px);
+  opacity: 0.9;
+}
+
+.morph-pill-btn:hover .morph-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(16px);
+}
+
+.morph-pill-btn:active {
+  transform: scale(0.92);
+}
+
+/* Paper Plane Hover Flying Animation Button */
+.fly-plane-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  background: #E74F9C;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  padding-left: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(231, 79, 156, 0.3);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fly-plane-btn span {
+  display: block;
+  margin-left: 0.4em;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+}
+
+.fly-plane-btn .plane-svg-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s ease;
+}
+
+.fly-plane-btn svg {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fly-plane-btn:hover {
+  background: #d43f8a;
+  box-shadow: 0 8px 24px rgba(231, 79, 156, 0.4);
+}
+
+.fly-plane-btn:hover .plane-svg-wrapper {
+  animation: fly-plane-hover 0.6s ease-in-out infinite alternate;
+}
+
+.fly-plane-btn:hover svg {
+  transform: translateX(1.2em) rotate(45deg) scale(1.1);
+  fill: #FFFFFF;
+}
+
+.fly-plane-btn:hover span {
+  transform: translateX(3em);
+  opacity: 0;
+}
+
+.fly-plane-btn:active {
+  transform: scale(0.95);
+}
+
+@keyframes fly-plane-hover {
+  from {
+    transform: translateY(0.1em);
+  }
+
+  to {
+    transform: translateY(-0.25em);
+  }
+}
+
+/* Thin & Elegant 3D Plus-Minus Switch */
+.plus-minus-switch {
+  --primary: #E74F9C;
+  --secondary: #FAFBFF;
+  --duration: .45s;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 240px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--primary);
+  background-size: 300% 300%;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease;
+  transform: scale(var(--scale, 1));
+  -webkit-animation: var(--name, unchecked) var(--duration) ease forwards;
+  animation: var(--name, unchecked) var(--duration) ease forwards;
+  flex-shrink: 0;
+}
+
+.plus-minus-switch:before,
+.plus-minus-switch:after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: var(--height, 14px);
+  left: 7px;
+  top: var(--top, 7px);
+  background: var(--background, var(--primary));
+  -webkit-animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
+  animation: var(--name-icon-b, var(--name-icon, unchecked-icon)) var(--duration) ease forwards;
+}
+
+.plus-minus-switch:before {
+  -webkit-clip-path: polygon(0 6px, 6px 6px, 6px 0, 8px 0, 8px 6px, 14px 6px, 14px 8px, 8px 8px, 8px 14px, 6px 14px, 6px 8px, 0 8px);
+  clip-path: polygon(0 6px, 6px 6px, 6px 0, 8px 0, 8px 6px, 14px 6px, 14px 8px, 8px 8px, 8px 14px, 6px 14px, 6px 8px, 0 8px);
+}
+
+.plus-minus-switch:after {
+  --height: 2px;
+  --top: 13px;
+  --background: var(--secondary);
+  --name-icon-b: var(--name-icon-a, checked-icon);
+}
+
+.plus-minus-switch:active {
+  --scale: .92;
+}
+
+.plus-minus-switch:checked {
+  --name: checked;
+  --name-icon-b: checked-icon;
+  --name-icon-a: unchecked-icon;
+}
+
+@keyframes checked-icon {
+  from {
+    transform: translateZ(10px);
+  }
+
+  to {
+    transform: translateX(14px) rotateY(90deg) translateZ(10px);
+  }
+}
+
+@keyframes unchecked-icon {
+  from {
+    transform: translateX(-14px) rotateY(-90deg) translateZ(10px);
+  }
+
+  to {
+    transform: translateZ(10px);
+  }
+}
+
+@keyframes checked {
+  from {
+    background-image: radial-gradient(ellipse at center, var(--primary) 0%, var(--primary) 25%, var(--secondary) 25.1%, var(--secondary) 100%);
+    background-position: 100% 50%;
+  }
+
+  to {
+    background-image: radial-gradient(ellipse at center, var(--primary) 0%, var(--primary) 25%, var(--secondary) 25.1%, var(--secondary) 100%);
+    background-position: 50% 50%;
+  }
+}
+
+@keyframes unchecked {
+  from {
+    background-image: radial-gradient(ellipse at center, var(--secondary) 0%, var(--secondary) 25%, var(--primary) 25.1%, var(--primary) 100%);
+    background-position: 100% 50%;
+  }
+
+  to {
+    background-image: radial-gradient(ellipse at center, var(--secondary) 0%, var(--secondary) 25%, var(--primary) 25.1%, var(--primary) 100%);
+    background-position: 50% 50%;
+  }
+}
+
+/* User's Theme-Matched Interactive Slide Button */
+.theme-slide-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  background: #E74F9C;
+  color: #FFFFFF;
+  fill: #FFFFFF;
+  padding: 12px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(231, 79, 156, 0.3);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-slide-btn span {
+  display: block;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.theme-slide-btn .theme-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-slide-btn svg {
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.theme-slide-btn:hover {
+  background: #d43f8a;
+  box-shadow: 0 8px 24px rgba(231, 79, 156, 0.4);
+}
+
+.theme-slide-btn:hover .theme-icon-wrapper {
+  transform: scale(1.2);
+}
+
+.theme-slide-btn:hover svg {
+  transform: translateX(6px);
+}
+
+.theme-slide-btn:active {
+  transform: scale(0.95);
+}
+
+/* Bouncy Spring Physics Utilities */
+.spring-bouncy {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.spring-bounce-active:active {
+  transform: scale(0.92);
+}
+
+/* Crisp Pure Light Mode Surfaces */
+.glass-island {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+.bento-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bento-card:hover {
+  border-color: #E74F9C;
+  box-shadow: 0 16px 36px -6px rgba(231, 79, 156, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  transform: scale(1.01);
+}
+
+.glass-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.05);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+}
+
+.glass-input {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  border-color: #E74F9C;
+  box-shadow: 0 0 0 3px rgba(231, 79, 156, 0.18);
+}
+
+.text-accent {
+  color: #E74F9C;
+}
+
+.gpu-accelerated {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}

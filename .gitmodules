@@ -92,3 +92,6 @@
 [submodule "Vrindopnishad Web/Pictures"]
 	path = Vrindopnishad Web/Pictures
 	url = https://github.com/ImBajrangi/ChitraVrinda.git
+[submodule "Projects/Vrindopnishad"]
+	path = Projects/Vrindopnishad
+	url = https://github.com/ImBajrangi/Vrindopnishad.git
